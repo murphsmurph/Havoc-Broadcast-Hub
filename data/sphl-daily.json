@@ -1,0 +1,3776 @@
+{
+ "fetchedAt": "2026-08-04T21:44:49.568Z",
+ "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
+ "generatedDate": "",
+ "standings": [
+  {
+   "team": "Birmingham",
+   "gp": 2,
+   "w": 0,
+   "l": 1,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 1,
+   "ga": 7
+  },
+  {
+   "team": "Evansville",
+   "gp": 12,
+   "w": 6,
+   "l": 0,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 21,
+   "ga": 8
+  },
+  {
+   "team": "Huntsville",
+   "gp": 2,
+   "w": 0,
+   "l": 1,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 2,
+   "ga": 4
+  },
+  {
+   "team": "Knoxville",
+   "gp": 7,
+   "w": 2,
+   "l": 1,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 9,
+   "ga": 11
+  },
+  {
+   "team": "Macon",
+   "gp": 2,
+   "w": 0,
+   "l": 1,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 0,
+   "ga": 2
+  },
+  {
+   "team": "Pensacola",
+   "gp": 3,
+   "w": 1,
+   "l": 0,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 3,
+   "ga": 1
+  },
+  {
+   "team": "Peoria",
+   "gp": 12,
+   "w": 5,
+   "l": 2,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 23,
+   "ga": 15
+  },
+  {
+   "team": "Roanoke",
+   "gp": 6,
+   "w": 2,
+   "l": 1,
+   "otl": 0,
+   "sol": 0,
+   "pts": 0,
+   "gf": 11,
+   "ga": 6
+  }
+ ],
+ "skaters": [
+  {
+   "name": "Drake Glover",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 2
+  },
+  {
+   "name": "Kolten Olynek",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Kenny Britton",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "x Scott Cremen",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Filimon Ledziankou",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Hayden Stewart",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Danny Weight",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Tyler Braccini",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Logan Dapprich",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Jordan Gagnon",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Kyren Gronick",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 10
+  },
+  {
+   "name": "Talor Joseph",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Cole Jungwirth",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Arkhip Ledziankou",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Kevin Sadovski",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Parker Saretsky",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Connor Scahill",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Doug Scott",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Macgregor Sinclair",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "CJ Walker",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Matt Wood",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "BENCH",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "TOTALS",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 26
+  },
+  {
+   "name": "Aaron Huffnagle",
+   "team": "",
+   "gp": 12,
+   "g": 2,
+   "a": 8,
+   "pts": 10,
+   "pim": 4
+  },
+  {
+   "name": "Evan Miller",
+   "team": "",
+   "gp": 12,
+   "g": 6,
+   "a": 3,
+   "pts": 9,
+   "pim": 0
+  },
+  {
+   "name": "Scott Kirton",
+   "team": "",
+   "gp": 12,
+   "g": 3,
+   "a": 6,
+   "pts": 9,
+   "pim": 0
+  },
+  {
+   "name": "Matthew Hobbs",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 8,
+   "pts": 9,
+   "pim": 14
+  },
+  {
+   "name": "Myles Abbate",
+   "team": "",
+   "gp": 12,
+   "g": 5,
+   "a": 3,
+   "pts": 8,
+   "pim": 2
+  },
+  {
+   "name": "Isaac Chapman",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 4,
+   "pts": 8,
+   "pim": 2
+  },
+  {
+   "name": "Tyson Gilmour",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 2,
+   "pts": 6,
+   "pim": 6
+  },
+  {
+   "name": "Jordan Simoneau",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 2,
+   "pts": 6,
+   "pim": 16
+  },
+  {
+   "name": "Anthony Mollica",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 4,
+   "pts": 5,
+   "pim": 6
+  },
+  {
+   "name": "Caleb Huffman",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 3,
+   "pts": 4,
+   "pim": 12
+  },
+  {
+   "name": "Aiden MacIntosh",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 3,
+   "pts": 4,
+   "pim": 0
+  },
+  {
+   "name": "Derek Contessa",
+   "team": "",
+   "gp": 12,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pim": 4
+  },
+  {
+   "name": "Ethan Lund",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 0
+  },
+  {
+   "name": "Cameron MacPhee",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 19
+  },
+  {
+   "name": "Will van der Veen",
+   "team": "",
+   "gp": 12,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 20
+  },
+  {
+   "name": "Joey Berkopec",
+   "team": "",
+   "gp": 12,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 10
+  },
+  {
+   "name": "Seth Bernard",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Eelis Laaksonen",
+   "team": "",
+   "gp": 9,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 4
+  },
+  {
+   "name": "Kristian Stead",
+   "team": "",
+   "gp": 12,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Josh Kestner",
+   "team": "",
+   "gp": 2,
+   "g": 3,
+   "a": 0,
+   "pts": 3,
+   "pim": 4
+  },
+  {
+   "name": "Jack Jaunich",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 2
+  },
+  {
+   "name": "Cole Reginato",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 9
+  },
+  {
+   "name": "Cole Golka",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "x Phil Elgstam",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Dawson Sciarrino",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 8
+  },
+  {
+   "name": "Connor Galloway",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Austin Alger",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 4
+  },
+  {
+   "name": "Cameron Cook",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Lincoln Erne",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Connor Fries",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Craig McCabe",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Giovanni Procopio",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 9
+  },
+  {
+   "name": "Dominick Procopio",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Charlie Risk",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Ben Schultheis",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Frank Trazzera",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Kevin Weaver-Vitale",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Brian Wilson",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Jimmy Soper",
+   "team": "",
+   "gp": 7,
+   "g": 4,
+   "a": 6,
+   "pts": 10,
+   "pim": 0
+  },
+  {
+   "name": "Dawson McKinney",
+   "team": "",
+   "gp": 7,
+   "g": 2,
+   "a": 4,
+   "pts": 6,
+   "pim": 8
+  },
+  {
+   "name": "Tim Kent",
+   "team": "",
+   "gp": 7,
+   "g": 3,
+   "a": 2,
+   "pts": 5,
+   "pim": 11
+  },
+  {
+   "name": "x Jared Westcott",
+   "team": "",
+   "gp": 5,
+   "g": 2,
+   "a": 3,
+   "pts": 5,
+   "pim": 6
+  },
+  {
+   "name": "Kyle Soper",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 5,
+   "pts": 5,
+   "pim": 13
+  },
+  {
+   "name": "Blake Tosto",
+   "team": "",
+   "gp": 7,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pim": 0
+  },
+  {
+   "name": "Mitch Atkins",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "Troy Button",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "Carson Vance",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "Derek Osik",
+   "team": "",
+   "gp": 6,
+   "g": 2,
+   "a": 0,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "Ryan Kuzmich",
+   "team": "",
+   "gp": 7,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "Brendan Dowler",
+   "team": "",
+   "gp": 5,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 2
+  },
+  {
+   "name": "Jason Brancheau",
+   "team": "",
+   "gp": 7,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 4
+  },
+  {
+   "name": "Robin Liljekvist",
+   "team": "",
+   "gp": 7,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 4
+  },
+  {
+   "name": "Eric Olson",
+   "team": "",
+   "gp": 7,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 2
+  },
+  {
+   "name": "Jarret Kup",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Lucas Helland",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 4
+  },
+  {
+   "name": "Logan Flodell",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "x Tyler Williams",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Billy Roche",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Tim Faulkner",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 4
+  },
+  {
+   "name": "Stephen Mundinger",
+   "team": "",
+   "gp": 7,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Khaden Henry",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Josh Burke",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 2
+  },
+  {
+   "name": "Conor Witherspoon",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Parker Allison",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Evan Beers",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Josh Boyko",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Alex Cohen",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Nick Dineen",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Cooper Fensterstock",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Hayden Ford",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Jake Goldowski",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Michael Herrera",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Justin Kelley",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Michael Krupinski",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Connor May",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Stefan Miklakos",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Noah Roitman",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 6
+  },
+  {
+   "name": "Tyler Stewart",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Tyler Burnie",
+   "team": "",
+   "gp": 3,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "Laudon Poellinger",
+   "team": "",
+   "gp": 3,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 9
+  },
+  {
+   "name": "Matt Allen",
+   "team": "",
+   "gp": 3,
+   "g": 2,
+   "a": 0,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "Jack Suchy",
+   "team": "",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "Andrew Kurapov",
+   "team": "",
+   "gp": 3,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "Tyler German",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "Sam Rhodes",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "Shane Bull",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Cooper Jones",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Amedeo Mastrangeli",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 2
+  },
+  {
+   "name": "Andrew Poulias",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Samson Mouland",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Nicholas Aromatario",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Tyrone Bronte",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Zack Bross",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "Ethan Price",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Christian Propp",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Porter Schachle",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Jonathan Ziskie",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Mike Gelatt",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 8,
+   "pts": 12,
+   "pim": 10
+  },
+  {
+   "name": "Garrett Devine",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 4,
+   "pts": 8,
+   "pim": 12
+  },
+  {
+   "name": "Kullan Daikawa",
+   "team": "",
+   "gp": 11,
+   "g": 1,
+   "a": 7,
+   "pts": 8,
+   "pim": 4
+  },
+  {
+   "name": "JM Piotrowski",
+   "team": "",
+   "gp": 12,
+   "g": 5,
+   "a": 2,
+   "pts": 7,
+   "pim": 0
+  },
+  {
+   "name": "Alec Baer",
+   "team": "",
+   "gp": 12,
+   "g": 3,
+   "a": 4,
+   "pts": 7,
+   "pim": 0
+  },
+  {
+   "name": "Jordan Ernst",
+   "team": "",
+   "gp": 12,
+   "g": 3,
+   "a": 3,
+   "pts": 6,
+   "pim": 4
+  },
+  {
+   "name": "Griffen Fox",
+   "team": "",
+   "gp": 12,
+   "g": 3,
+   "a": 3,
+   "pts": 6,
+   "pim": 10
+  },
+  {
+   "name": "Matt Wiesner",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 5,
+   "pts": 6,
+   "pim": 2
+  },
+  {
+   "name": "Michael McChesney",
+   "team": "",
+   "gp": 12,
+   "g": 4,
+   "a": 1,
+   "pts": 5,
+   "pim": 0
+  },
+  {
+   "name": "Cory Dennis",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 4,
+   "pts": 5,
+   "pim": 4
+  },
+  {
+   "name": "Kylar Fenton",
+   "team": "",
+   "gp": 12,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pim": 4
+  },
+  {
+   "name": "Tyler Ryder",
+   "team": "",
+   "gp": 9,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "Braydon Barker",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 6
+  },
+  {
+   "name": "Connor Szmul",
+   "team": "",
+   "gp": 12,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "Josh Martin",
+   "team": "",
+   "gp": 12,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "x Trenten Heyde",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 2
+  },
+  {
+   "name": "Gunner Moore",
+   "team": "",
+   "gp": 4,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Daniel Chartrand",
+   "team": "",
+   "gp": 10,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pim": 6
+  },
+  {
+   "name": "x Carson Riddle",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Jack Bostedt",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Terry Ryder",
+   "team": "",
+   "gp": 10,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 4
+  },
+  {
+   "name": "Nick Latinovich",
+   "team": "",
+   "gp": 11,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Gustav Muller",
+   "team": "",
+   "gp": 6,
+   "g": 6,
+   "a": 4,
+   "pts": 10,
+   "pim": 0
+  },
+  {
+   "name": "Travis Broughman",
+   "team": "",
+   "gp": 5,
+   "g": 1,
+   "a": 4,
+   "pts": 5,
+   "pim": 2
+  },
+  {
+   "name": "Joe Widmar",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 4,
+   "pts": 5,
+   "pim": 8
+  },
+  {
+   "name": "Ryan Reifler",
+   "team": "",
+   "gp": 6,
+   "g": 2,
+   "a": 2,
+   "pts": 4,
+   "pim": 0
+  },
+  {
+   "name": "Bryce Martin",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 3,
+   "pts": 4,
+   "pim": 6
+  },
+  {
+   "name": "Noah Finstrom",
+   "team": "",
+   "gp": 6,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pim": 2
+  },
+  {
+   "name": "x Sebastian Smith",
+   "team": "",
+   "gp": 3,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 12
+  },
+  {
+   "name": "David Novotny",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 4
+  },
+  {
+   "name": "Matt O'Dea",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pim": 4
+  },
+  {
+   "name": "Khristian Acosta",
+   "team": "",
+   "gp": 5,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pim": 8
+  },
+  {
+   "name": "Tim Manning",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "Dominiks Marcinkevics",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "Alex Wilkins",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pim": 4
+  },
+  {
+   "name": "John Aonso",
+   "team": "",
+   "gp": 6,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 0
+  },
+  {
+   "name": "CJ Valerian",
+   "team": "",
+   "gp": 6,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pim": 16
+  },
+  {
+   "name": "Matt Dorsey",
+   "team": "",
+   "gp": 6,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pim": 0
+  },
+  {
+   "name": "Gabe Rosek",
+   "team": "",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Caden Pattison",
+   "team": "",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 0
+  },
+  {
+   "name": "Andrew Stacey",
+   "team": "",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  },
+  {
+   "name": "True Crowe",
+   "team": "",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 6
+  },
+  {
+   "name": "Austyn Roudebush",
+   "team": "",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pim": 2
+  }
+ ],
+ "goalies": [
+  {
+   "name": "Talor Joseph",
+   "team": "",
+   "gp": 2,
+   "w": 0,
+   "l": 1,
+   "otl": 0,
+   "so": 0,
+   "ga": 8,
+   "gaa": "6.01",
+   "svpct": "0.810"
+  },
+  {
+   "name": "Hayden Stewart",
+   "team": "",
+   "gp": 1,
+   "w": 0,
+   "l": 1,
+   "otl": 0,
+   "so": 0,
+   "ga": 5,
+   "gaa": "7.50",
+   "svpct": "0.773"
+  },
+  {
+   "name": "Empty Net",
+   "team": "",
+   "gp": 0,
+   "w": 0,
+   "l": 0,
+   "otl": 0,
+   "so": 0,
+   "ga": 0,
+   "gaa": "",
+   "svpct": ""
+  },
+  {
+   "name": "Totals",
+   "team": "",
+   "gp": 2,
+   "w": 0,
+   "l": 2,
+   "otl": 0,
+   "so": 0,
+   "ga": 13,
+   "gaa": "6.50",
+   "svpct": "0.797"
+  },
+  {
+   "name": "Kristian Stead",
+   "team": "",
+   "gp": 12,
+   "w": 8,
+   "l": 3,
+   "otl": 1,
+   "so": 0,
+   "ga": 25,
+   "gaa": "2.09",
+   "svpct": "0.933"
+  },
+  {
+   "name": "Brian Wilson",
+   "team": "",
+   "gp": 2,
+   "w": 0,
+   "l": 1,
+   "otl": 1,
+   "so": 0,
+   "ga": 8,
+   "gaa": "3.40",
+   "svpct": "0.899"
+  },
+  {
+   "name": "Logan Flodell",
+   "team": "",
+   "gp": 1,
+   "w": 0,
+   "l": 0,
+   "otl": 0,
+   "so": 0,
+   "ga": 0,
+   "gaa": "0.00",
+   "svpct": "1.000"
+  },
+  {
+   "name": "Stephen Mundinger",
+   "team": "",
+   "gp": 7,
+   "w": 4,
+   "l": 3,
+   "otl": 0,
+   "so": 0,
+   "ga": 19,
+   "gaa": "2.72",
+   "svpct": "0.928"
+  },
+  {
+   "name": "Josh Boyko",
+   "team": "",
+   "gp": 2,
+   "w": 0,
+   "l": 2,
+   "otl": 0,
+   "so": 0,
+   "ga": 5,
+   "gaa": "2.61",
+   "svpct": "0.911"
+  },
+  {
+   "name": "Christian Propp",
+   "team": "",
+   "gp": 3,
+   "w": 1,
+   "l": 1,
+   "otl": 1,
+   "so": 0,
+   "ga": 9,
+   "gaa": "2.98",
+   "svpct": "0.913"
+  },
+  {
+   "name": "Nick Latinovich",
+   "team": "",
+   "gp": 11,
+   "w": 7,
+   "l": 3,
+   "otl": 0,
+   "so": 3,
+   "ga": 16,
+   "gaa": "1.55",
+   "svpct": "0.938"
+  },
+  {
+   "name": "Jack Bostedt",
+   "team": "",
+   "gp": 2,
+   "w": 0,
+   "l": 2,
+   "otl": 0,
+   "so": 0,
+   "ga": 6,
+   "gaa": "3.96",
+   "svpct": "0.860"
+  },
+  {
+   "name": "Gabe Rosek",
+   "team": "",
+   "gp": 1,
+   "w": 1,
+   "l": 0,
+   "otl": 0,
+   "so": 0,
+   "ga": 0,
+   "gaa": "0.00",
+   "svpct": "1.000"
+  },
+  {
+   "name": "Austyn Roudebush",
+   "team": "",
+   "gp": 6,
+   "w": 2,
+   "l": 3,
+   "otl": 0,
+   "so": 1,
+   "ga": 12,
+   "gaa": "2.13",
+   "svpct": "0.917"
+  }
+ ],
+ "specialTeams": {
+  "pp": [],
+  "pk": []
+ },
+ "leaders": {
+  "points": [],
+  "goals": [],
+  "assists": []
+ },
+ "sections": [
+  {
+   "title": "Attendance Report",
+   "headers": [
+    "TEAM",
+    "YESTERDAY",
+    "TOTAL",
+    "GAMES",
+    "AVERAGE"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Conference Standings",
+   "headers": [
+    "SPHL",
+    "GP",
+    "GR",
+    "W",
+    "L",
+    "OTL",
+    "PTS",
+    "PCT",
+    "GF",
+    "GA",
+    "PIM",
+    "HOME",
+    "ROAD",
+    "LAST TEN"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "League Standings",
+   "headers": [
+    "",
+    "GP",
+    "GR",
+    "W",
+    "L",
+    "OTL",
+    "PTS",
+    "PCT",
+    "GF",
+    "GA",
+    "PIM",
+    "HOME",
+    "ROAD",
+    "LAST TEN"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Overall Leaders",
+   "headers": [
+    "#",
+    "POINTS",
+    "TEAM",
+    "GP",
+    "G",
+    "A",
+    "PTS"
+   ],
+   "rows": 20
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GOALS",
+    "TEAM",
+    "GP",
+    "G"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "A"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PENALTY MINUTES",
+    "TEAM",
+    "GP",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MINOR PENALTIES",
+    "TEAM",
+    "MINORS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MAJOR PENALTIES",
+    "TEAM",
+    "MAJORS"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY GOALS",
+    "TEAM",
+    "PPG"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED GOALS",
+    "TEAM",
+    "SHG"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY ASSISTS",
+    "TEAM",
+    "PPA"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED ASSISTS",
+    "TEAM",
+    "SHA"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY POINTS",
+    "TEAM",
+    "PP PTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED POINTS",
+    "TEAM",
+    "SH PTS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOTS",
+    "TEAM",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOOTING %",
+    "TEAM",
+    "GOALS",
+    "SHOTS",
+    "PCT"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GAME-WINNING GOALS",
+    "TEAM",
+    "GWG"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PLUS-MINUS",
+    "TEAM",
+    "+/-"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Goaltending Leaders",
+   "headers": [
+    "#",
+    "",
+    "TEAM",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "EN",
+    "SO",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "WINS",
+    "TEAM",
+    "WINS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "LOSSES",
+    "TEAM",
+    "LOSSES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MINUTES",
+    "TEAM",
+    "MIN"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHUTOUTS",
+    "TEAM",
+    "SHUTOUTS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SAVES",
+    "TEAM",
+    "SAVES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SAVE %",
+    "TEAM",
+    "GOALS",
+    "SAVES",
+    "SV%"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Rookie Leaders",
+   "headers": [
+    "#",
+    "POINTS",
+    "TEAM",
+    "GP",
+    "G",
+    "A",
+    "PTS"
+   ],
+   "rows": 20
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GOALS",
+    "TEAM",
+    "GP",
+    "G"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "A"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PENALTY MINUTES",
+    "TEAM",
+    "GP",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MINOR PENALTIES",
+    "TEAM",
+    "MINORS"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MAJOR PENALTIES",
+    "TEAM",
+    "MAJORS"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY GOALS",
+    "TEAM",
+    "PPG"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED GOALS",
+    "TEAM",
+    "SHG"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY ASSISTS",
+    "TEAM",
+    "PPA"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED ASSISTS",
+    "TEAM",
+    "SHA"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY POINTS",
+    "TEAM",
+    "PP PTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED POINTS",
+    "TEAM",
+    "SH PTS"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOTS",
+    "TEAM",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOOTING %",
+    "TEAM",
+    "GOALS",
+    "SHOTS",
+    "PCT"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GAME-WINNING GOALS",
+    "TEAM",
+    "GWG"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PLUS-MINUS",
+    "TEAM",
+    "+/-"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Defenseman Leaders",
+   "headers": [
+    "#",
+    "POINTS",
+    "TEAM",
+    "GP",
+    "G",
+    "A",
+    "PTS"
+   ],
+   "rows": 19
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GOALS",
+    "TEAM",
+    "GP",
+    "G"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "A"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PENALTY MINUTES",
+    "TEAM",
+    "GP",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MINOR PENALTIES",
+    "TEAM",
+    "MINORS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "MAJOR PENALTIES",
+    "TEAM",
+    "MAJORS"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY GOALS",
+    "TEAM",
+    "PPG"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED GOALS",
+    "TEAM",
+    "SHG"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY ASSISTS",
+    "TEAM",
+    "PPA"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED ASSISTS",
+    "TEAM",
+    "SHA"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "POWER-PLAY POINTS",
+    "TEAM",
+    "PP PTS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHORTHANDED POINTS",
+    "TEAM",
+    "SH PTS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOTS",
+    "TEAM",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "SHOOTING %",
+    "TEAM",
+    "GOALS",
+    "SHOTS",
+    "PCT"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "GAME-WINNING GOALS",
+    "TEAM",
+    "GWG"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "#",
+    "PLUS-MINUS",
+    "TEAM",
+    "+/-"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Penalty Shots",
+   "headers": [
+    "SHOOTER",
+    "TEAM",
+    "vs",
+    "GOALIE",
+    "TEAM",
+    "DATE",
+    "PERIOD",
+    "TIME",
+    "RESULT"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Penalty Minute Record",
+   "headers": [
+    "TEAM",
+    "GP",
+    "PIM",
+    "AVG",
+    "MINOR",
+    "MAJOR",
+    "10 MIN MISC",
+    "GAME MISC",
+    "MATCH",
+    "OPPONENT PIM"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Home and Away",
+   "headers": [
+    "TEAM",
+    "GP",
+    "",
+    "GP",
+    "W",
+    "L",
+    "OTL",
+    "SOL",
+    "PTS",
+    "GF",
+    "GA",
+    "S/O",
+    "",
+    "GP"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Team Overtime Stats",
+   "headers": [
+    "TEAM",
+    "GP",
+    "OTW",
+    "OTL",
+    "SOW",
+    "SOL",
+    "PTS",
+    "WIN PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Team Shootout Stats",
+   "headers": [
+    "Shootouts For Rank",
+    "Team",
+    "SOGP",
+    "GF",
+    "Att",
+    "PCT"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Team Shootout Stats",
+   "headers": [
+    "Rank",
+    "Team",
+    "SOGP",
+    "GA",
+    "Att",
+    "PCT"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Record When Scoring First",
+   "headers": [
+    "TEAM",
+    "GP",
+    "FG",
+    "W",
+    "L",
+    "OTL",
+    "SOL",
+    "PTS",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Team Records vs. Division",
+   "headers": [
+    "DIVISION",
+    "TEAM",
+    "W",
+    "L",
+    "OTL",
+    "SOL"
+   ],
+   "rows": 9
+  },
+  {
+   "title": "Team vs. Team Records",
+   "headers": [
+    "",
+    "BHM",
+    "EVV",
+    "FAY",
+    "HSV",
+    "KNX",
+    "MAC"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "PEN",
+    "PEO",
+    "QC",
+    "RNK"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Special Teams Breakdown",
+   "headers": [
+    "Home Power Play Record",
+    "TEAM",
+    "GP",
+    "ADV",
+    "PPGF",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Special Teams Breakdown",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "ADV",
+    "PPGF",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "ADV",
+    "PPGF",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "TSH",
+    "PPGA",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "TSH",
+    "PPGA",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "TSH",
+    "PPGA",
+    "PCT"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "Home SHGF",
+    "TEAM",
+    "GP",
+    "SHGF"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "SHGF"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "SHGF"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "SHGA"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "SHGA"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "",
+    "TEAM",
+    "GP",
+    "SHGA"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Goals For And Goals Against Per Game",
+   "headers": [
+    "RK",
+    "TEAM",
+    "GP",
+    "GF",
+    "GF/GAME"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Goals For And Goals Against Per Game",
+   "headers": [
+    "RK",
+    "TEAM",
+    "GP",
+    "GA",
+    "GA/GAME"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Shots For And Shots Against Per Game",
+   "headers": [
+    "RK",
+    "TEAM",
+    "GP",
+    "SF",
+    "SF/GAME"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Shots For And Shots Against Per Game",
+   "headers": [
+    "RK",
+    "TEAM",
+    "GP",
+    "SA",
+    "SA/GAME"
+   ],
+   "rows": 8
+  },
+  {
+   "title": "Player Streaks",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Player Streaks",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Player Streaks",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "Home Player Streaks",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Home Player Streaks",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Home Player Streaks",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Home Player Streaks",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "Road Player Streaks",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "Road Player Streaks",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Road Player Streaks",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "Road Player Streaks",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Road Player Streaks",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "GP",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "Team Streaks",
+   "headers": [
+    "WINNING",
+    "#",
+    "DATES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "-- Season Streaks --",
+   "headers": [
+    "WINNING",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "-- Season Streaks --",
+   "headers": [
+    "HOME WINNING",
+    "#",
+    "DATES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "-- Season Streaks --",
+   "headers": [
+    "HOME WINNING",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "-- Season Streaks --",
+   "headers": [
+    "WINLESS",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "-- Season Streaks --",
+   "headers": [
+    "WINLESS",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "ROAD WINLESS",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "ROAD WINLESS",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "LOSING (L+OTL)",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "LOSING (L+OTL)",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "ROAD LOSING (L+OTL)",
+    "#",
+    "DATES"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "ROAD LOSING (L+OTL)",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "#",
+    "DATES"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POINTS",
+    "#",
+    "DATES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "HOME POINTS",
+    "#",
+    "DATES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "HOME POINTS",
+    "#",
+    "DATES"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Individual Game Highs",
+   "headers": [
+    "GOALS",
+    "TEAM",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "Individual Game Highs",
+   "headers": [
+    "ASSISTS",
+    "TEAM",
+    "DATE",
+    "ASSISTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Individual Game Highs",
+   "headers": [
+    "POINTS",
+    "TEAM",
+    "DATE",
+    "POINTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Individual Game Highs",
+   "headers": [
+    "PIM",
+    "TEAM",
+    "DATE",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PP GOALS",
+    "TEAM",
+    "DATE",
+    "PPG"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PP ASSISTS",
+    "TEAM",
+    "DATE",
+    "PPA"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "SH GOALS",
+    "TEAM",
+    "DATE",
+    "SHG"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "SH ASSISTS",
+    "TEAM",
+    "DATE",
+    "SHA"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PLUS/MINUS",
+    "TEAM",
+    "DATE",
+    "PLUS/MINUS (+)"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "PLUS/MINUS",
+    "TEAM",
+    "DATE",
+    "PLUS/MINUS (-)"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "SAVES",
+    "TEAM",
+    "DATE",
+    "SAVES"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "GOALS AGAINST",
+    "TEAM",
+    "DATE",
+    "GA"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "Team Game Highs",
+   "headers": [
+    "GOALS",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Team Game Highs",
+   "headers": [
+    "ASSISTS",
+    "DATE",
+    "ASSISTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Team Game Highs",
+   "headers": [
+    "POINTS",
+    "DATE",
+    "POINTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Team Game Highs",
+   "headers": [
+    "PENALTY MINUTES",
+    "DATE",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MINORS",
+    "DATE",
+    "MINORS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MAJORS",
+    "DATE",
+    "MAJORS"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST PIM BOTH TEAMS",
+    "DATE",
+    "PIM"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "POWER-PLAY GOALS",
+    "DATE",
+    "PPG"
+   ],
+   "rows": 2
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "WINNING MARGIN",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "SHORTHANDED GOALS",
+    "DATE",
+    "SHG"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "GOALS BY BOTH TEAMS",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SAVES",
+    "DATE",
+    "SAVES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "GOALS 1ST PERIOD",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SAVES 1ST PERIOD",
+    "DATE",
+    "SAVES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "GOALS 2ND PERIOD",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SAVES 2ND PERIOD",
+    "DATE",
+    "SAVES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "GOALS 3RD PERIOD",
+    "DATE",
+    "GOALS"
+   ],
+   "rows": 1
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SAVES 3RD PERIOD",
+    "DATE",
+    "SAVES"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "SHOTS",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "FEWEST SHOTS",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SHOTS 1ST PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "FEWEST SHOTS 1ST PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SHOTS 2ND PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "FEWEST SHOTS 2ND PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "MOST SHOTS 3RD PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "FEWEST SHOTS 3RD PERIOD",
+    "DATE",
+    "SHOTS"
+   ],
+   "rows": 5
+  },
+  {
+   "title": "Birmingham Bulls Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 23
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Evansville Thunderbolts Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 21
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Huntsville Havoc Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 21
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Knoxville Ice Bears Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 24
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Macon Mayhem Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 20
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Pensacola Ice Flyers Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 21
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 3
+  },
+  {
+   "title": "Peoria Rivermen Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 24
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 4
+  },
+  {
+   "title": "Roanoke Rail Yard Dawgs Statistics",
+   "headers": [
+    "No.",
+    "PLAYER",
+    "POS",
+    "GP",
+    "G",
+    "A",
+    "PTS",
+    "+/-",
+    "PIM",
+    "PP",
+    "PPA",
+    "SHG",
+    "SHA",
+    "GW"
+   ],
+   "rows": 23
+  },
+  {
+   "title": "(untitled)",
+   "headers": [
+    "No.",
+    "GOALIE",
+    "GP",
+    "MINS",
+    "W",
+    "L",
+    "OTL",
+    "SO",
+    "EN",
+    "GA",
+    "GAA",
+    "SA",
+    "SVS",
+    "SV%"
+   ],
+   "rows": 4
+  }
+ ],
+ "parsed": {
+  "standings": true,
+  "skaters": true,
+  "goalies": true,
+  "specialTeams": false,
+  "leaders": false
+ }
+}
