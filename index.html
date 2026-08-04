@@ -484,11 +484,17 @@
       </div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
       <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
+      <div id="dailyBadge" style="font-size:11px;color:#999;margin-top:2px"></div>
     </div>
     <div class="card">
       <h2>Manual <span class="accent">Daily Report</span></h2>
-      <p class="desc">The live feed above is the primary source, but the latest daily report can always be loaded by hand: open the PDF (button above), Select All, Copy, and paste the text here. Standings, per-team player &amp; goalie stats, special teams, league leaders and results are parsed into the same data the feed fills — useful when the feed is down or for a report-only workflow.</p>
-      <div class="field"><label>Paste the full daily report text</label><textarea id="reportPaste" rows="10" placeholder="Open today's daily report PDF → Select All → Copy → paste here…"></textarea></div>
+      <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
+      <div class="btn-row">
+        <a class="btn secondary" href="https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html" target="_blank" rel="noopener">Open today's daily report (HTML)</a>
+        <button class="btn" onclick="document.getElementById('dailyFile').click()">Upload saved report (.html)</button>
+        <input type="file" id="dailyFile" accept=".html,.htm,text/html" style="display:none" onchange="dailyFilePick(event)">
+      </div>
+      <div class="field" style="margin-top:8px"><label>…or paste the report here (HTML page source or PDF text)</label><textarea id="reportPaste" rows="8" placeholder="Open the daily report → Select All → Copy → paste here…"></textarea></div>
       <div class="btn-row">
         <button class="btn" onclick="parseReport()">Parse report</button>
         <button class="btn secondary" onclick="document.getElementById('reportPaste').value='';document.getElementById('importSummary').style.display='none';document.getElementById('parseResult').innerHTML='';">Clear</button>
@@ -948,6 +954,7 @@ const SPHL_REF = {
   }
 };
 </script>
+<script src="js/daily-report-parser.js"></script>
 <script>
 /* ============ COMPAT (older iOS/macOS Safari) ============ */
 if(typeof structuredClone!=='function')window.structuredClone=o=>JSON.parse(JSON.stringify(o));
@@ -1042,6 +1049,7 @@ const val=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
 function parseReport(){
   const raw=document.getElementById('reportPaste').value;
   if(!raw.trim()){toast("Paste the report first");return;}
+  if(/<table[\s>]/i.test(raw)){importDailyHTMLText(raw,'manual paste');return;} // saved HTML page → shared daily-report parser
   const r={parsedAt:new Date().toISOString(),standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}};
   const lines=raw.split(/\r?\n/);
   let inStand=false;
@@ -3237,6 +3245,105 @@ function htShowLastSync(){
   const ls=DATA.report&&DATA.report.lastSync;
   el.textContent=ls?('Last full sync: '+new Date(ls).toLocaleString()+' — data saved in this browser.'):'';
 }
+
+/* ============================================================
+   SPHL DAILY REPORT — keyless baseline data.
+   A nightly GitHub Action fetches the public daily report and
+   commits data/sphl-daily.json; the site loads it as the data
+   floor. The same shared parser (js/daily-report-parser.js)
+   powers manual import: upload a saved daily-report.html or
+   paste the page. Live feed data overlays this when it works.
+   ============================================================ */
+function dailyCityOf(t){
+  t=String(t||'').trim();
+  if(TEAM_ABBR[t])return t;
+  const byAb=Object.keys(TEAM_ABBR).find(c=>TEAM_ABBR[c]===t.toUpperCase());
+  if(byAb)return byAb;
+  const byPrefix=Object.keys(TEAM_ABBR).find(c=>t.indexOf(c)===0);
+  if(byPrefix)return byPrefix;
+  return t.replace(/\s+(Havoc|Bulls|Thunderbolts|Marksmen|Ice Bears|Mayhem|Ice Flyers|Rivermen|Storm|Rail Yard Dawgs|Rock Lobsters|IceCats|Mysticks)$/,'');
+}
+function applyDailyReport(rep,label){
+  const counts=[];
+  const r=DATA.report;
+  if(rep.parsed.standings){
+    r.standings=rep.standings.map(s=>({team:dailyCityOf(s.team),gp:s.gp,w:s.w,l:s.l,otl:s.otl,sol:s.sol,pts:s.pts,gf:s.gf,ga:s.ga}));
+    counts.push('Standings ✓ ('+r.standings.length+')');
+  }else counts.push('Standings ✗');
+  r.teamStats=r.teamStats||{};
+  let sk=0,gl=0;
+  (rep.skaters||[]).forEach(p=>{
+    const c=dailyCityOf(p.team);if(!c)return;
+    const t=r.teamStats[c]=r.teamStats[c]||{players:[],goalies:[]};
+    const ex=t.players.find(x=>norm(x.name)===norm(p.name));
+    if(ex){ex.gp=p.gp;ex.g=p.g;ex.a=p.a;ex.pts=p.pts;if(p.pim)ex.pim=p.pim;}
+    else t.players.push({num:'',name:p.name,pos:'',gp:p.gp,g:p.g,a:p.a,pts:p.pts,pm:0,pim:p.pim||0,pp:0,shg:0,gw:0,shots:0,shpct:''});
+    sk++;
+  });
+  (rep.goalies||[]).forEach(p=>{
+    const c=dailyCityOf(p.team);if(!c)return;
+    const t=r.teamStats[c]=r.teamStats[c]||{players:[],goalies:[]};
+    const ex=t.goalies.find(x=>norm(x.name)===norm(p.name));
+    if(ex){ex.gp=p.gp;ex.w=p.w;ex.l=p.l;ex.otl=p.otl;ex.so=p.so;ex.ga=p.ga;ex.gaa=p.gaa;ex.svpct=p.svpct;}
+    else t.goalies.push({num:'',name:p.name,gp:p.gp,w:p.w,l:p.l,otl:p.otl,so:p.so,ga:p.ga,gaa:p.gaa,sa:0,svs:0,svpct:p.svpct});
+    gl++;
+  });
+  counts.push('Skaters '+(sk?'✓ ('+sk+')':'✗'));
+  counts.push('Goalies '+(gl?'✓ ('+gl+')':'✗'));
+  if(rep.parsed.specialTeams){
+    r.special=r.special||{};
+    (rep.specialTeams.pp||[]).forEach(x=>{const c=dailyCityOf(x.team);r.special[c]=r.special[c]||{};r.special[c].pp=x.pct;});
+    (rep.specialTeams.pk||[]).forEach(x=>{const c=dailyCityOf(x.team);r.special[c]=r.special[c]||{};r.special[c].pk=x.pct;});
+    counts.push('Special teams ✓');
+  }else counts.push('Special teams ✗');
+  if(rep.parsed.leaders)r.leaders=Object.assign(r.leaders||{},rep.leaders);
+  r.parsedAt=new Date().toISOString();
+  r.daily={label:label,date:rep.generatedDate||'',at:r.parsedAt};
+  syncRosterStats();save();
+  if(typeof renderStandings==='function')try{renderStandings();}catch(e){}
+  dailyBadge();
+  return counts.join(' · ');
+}
+function dailyBadge(){
+  const el=document.getElementById('dailyBadge');if(!el)return;
+  const d=DATA.report&&DATA.report.daily;
+  el.textContent=d?('Baseline: SPHL daily report — '+(d.date||'date unknown')+' · '+d.label):'';
+}
+function importDailyHTMLText(html,label){
+  if(typeof SPHLDailyReport==='undefined'){
+    const sum=document.getElementById('importSummary');
+    if(sum){sum.style.display='block';sum.innerHTML='<b>Daily-report parser not loaded.</b> Keep <i>js/daily-report-parser.js</i> next to index.html (it ships with the site), or paste the PDF text instead.';}
+    toast('Parser file missing');return;
+  }
+  let rep;
+  try{rep=SPHLDailyReport.parse(html);}catch(e){toast('Parse failed: '+e.message);return;}
+  const ok=Object.values(rep.parsed).some(Boolean);
+  const summary=ok?applyDailyReport(rep,label):'nothing recognized in that content';
+  const pill=document.getElementById('parseResult');
+  if(pill)pill.innerHTML=ok?'<span class="pill ok">Imported</span>':'<span class="pill warn">Nothing recognized</span>';
+  const sum=document.getElementById('importSummary');
+  if(sum){sum.style.display='block';sum.innerHTML='<b>Daily report ('+esc(label)+(rep.generatedDate?' — '+esc(rep.generatedDate):'')+'):</b> '+esc(summary);}
+  toast(ok?'Daily report imported':'Could not read that as a daily report');
+}
+function dailyFilePick(e){
+  const f=e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>importDailyHTMLText(String(rd.result),'manual upload: '+f.name);
+  rd.readAsText(f);
+  e.target.value='';
+}
+async function dailyAutoLoad(){
+  try{
+    const res=await fetch('data/sphl-daily.json',{cache:'no-cache'});
+    if(!res.ok)return;
+    const j=await res.json();
+    if(!j||!j.parsed)return;
+    const stamp=j.fetchedAt||j.generatedDate||'';
+    if(DATA.report.dailyStamp===stamp){dailyBadge();return;}
+    applyDailyReport(j,'auto (nightly GitHub Action)');
+    DATA.report.dailyStamp=stamp;save();
+  }catch(e){}
+}
 async function htPull(label,fn){
   try{
     htStatus(label+'…','');
@@ -3404,7 +3511,7 @@ setInterval(async()=>{
 },3600000);
 
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
