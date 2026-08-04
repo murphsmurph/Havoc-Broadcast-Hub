@@ -392,6 +392,16 @@
     .tab{white-space:nowrap;flex:0 0 auto;padding:12px 14px;}
     .seg textarea{font-size:16px;}
   }
+  /* live scorebar */
+  .sb-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 0;-webkit-overflow-scrolling:touch;}
+  .sb-game{flex:0 0 auto;min-width:132px;border:1px solid var(--havoc-line);border-radius:8px;padding:7px 10px;background:#fafafa;font-size:12px;line-height:1.5;}
+  .sb-game .sb-row{display:flex;justify-content:space-between;gap:12px;}
+  .sb-game .sb-score{font-weight:900;font-variant-numeric:tabular-nums;}
+  .sb-game .sb-status{font-size:10px;color:#888;margin-top:3px;letter-spacing:.03em;text-transform:uppercase;}
+  .sb-game.sb-live{border-color:var(--havoc-red);}
+  .sb-game.sb-live .sb-status{color:var(--havoc-red);font-weight:800;}
+  .sb-game.sb-hav{background:#fdf2f3;}
+  .sb-msg{font-size:12px;color:#888;padding:6px 2px;}
 </style>
 </head>
 <body>
@@ -445,6 +455,12 @@
 
   <!-- IMPORT (multi-segment) -->
   <section class="panel" id="panel-import">
+    <div class="card">
+      <h2>League <span class="accent">Scorebar</span></h2>
+      <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
+      <div id="sbStrip" class="sb-strip"><div class="sb-msg">Connecting to the league feed…</div></div>
+      <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
+    </div>
     <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
       <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, players with empty bios are looked up on <b>Elite Prospects</b> automatically and career-note bullets are written for them (Havoc + this game's opponent; your hand-written bios are never touched). Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
@@ -2736,7 +2752,7 @@ const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
 function htKey(){return (DATA.settings.htKey||'').trim();}
 function htSeason(){return (DATA.settings.htSeason||'').trim();}
 function htParams(extra){
-  const p={key:htKey(),client_code:'sphl',fmt:'json',...extra};
+  const p={key:htKey(),client_code:'sphl',fmt:'json',lang:'en',...extra};
   return Object.keys(p).map(k=>k+'='+encodeURIComponent(p[k])).join('&');
 }
 let HT_CB=0;
@@ -2826,12 +2842,17 @@ async function htTest(){
     sel.value=String(cur.season_id);
     DATA.settings.htSeason=String(cur.season_id);save();
     htStatus('Connected — '+seasons.length+' seasons found. Season set to '+cur.season_name+'.',true);
+    sbStart();
   }catch(e){htStatus(e.message,false);}
 }
 
 async function htDoStandings(){
   const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:htSeason()});
-  const rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  let rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  if(!rows.length){ // some HockeyTech configs only answer the plain standings view
+    const d2=await htFetch({feed:'modulekit',view:'standings',season_id:htSeason()});
+    rows=(d2&&d2.SiteKit&&(d2.SiteKit.Standings||d2.SiteKit.Statviewtype))||[];
+  }
   const out=[];
   rows.forEach(r=>{
     const name=String(pick(r,['team_name','name','team_city','city'],'')).trim();
@@ -3256,6 +3277,7 @@ async function htSyncAll(){
       try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP bios FAILED ('+e.message+')');}
     }
     DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();
+    if(!SB_HASGAMES)sbStart(); // key/season may have just been auto-detected — light the scorebar up
     const anyFail=results.some(r=>/FAILED/.test(r));
     htStatus('Sync '+(anyFail?'finished with issues':'complete')+' — '+results.join(' · ')+' · saved locally '+new Date().toLocaleTimeString(),!anyFail);
   }catch(e){htStatus(e.message,false);}
@@ -3284,8 +3306,85 @@ async function htAutoKey(statusPrefix){
   }catch(e){return null;}
 }
 
+/* ============================================================
+   LIVE SCOREBAR — league-wide scores with smart polling:
+   60s while games are on (or about to start), 15 min otherwise,
+   fully paused while the tab is hidden.
+   ============================================================ */
+let SB_TIMER=null,SB_LAST=0,SB_HASGAMES=false;
+function sbMsg(html){const el=document.getElementById('sbStrip');if(el)el.innerHTML='<div class="sb-msg">'+html+'</div>';}
+function sbStatusOf(g){
+  const s=String(pick(g,['GameStatusString','game_status_string','GameStatusStringLong','game_status'],'')).trim();
+  const period=String(pick(g,['Period','period'],'')).trim(),clock=String(pick(g,['GameClock','game_clock'],'')).trim();
+  if(/progress|live/i.test(s)&&period&&clock)return period+' · '+clock;
+  if(s)return s;
+  return String(pick(g,['ScheduledFormattedTime','scheduled_time'],'')).trim()||'Scheduled';
+}
+function sbIsLive(g){
+  const s=String(pick(g,['GameStatusString','GameStatusStringLong','game_status'],''));
+  if(/final|unofficial/i.test(s))return false;
+  if(/progress|live/i.test(s))return true;
+  return String(pick(g,['GameStatus','game_status_code'],''))==='2';
+}
+function sbRender(games){
+  const el=document.getElementById('sbStrip');if(!el)return;
+  if(!games.length){sbMsg('No SPHL games in the current window.');SB_HASGAMES=false;return;}
+  SB_HASGAMES=true;
+  el.innerHTML=games.map(g=>{
+    const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity','visiting_team_city'],'')).slice(0,3).toUpperCase();
+    const hc=String(pick(g,['HomeCode','home_team_code'],''))||String(pick(g,['HomeCity','home_team_city'],'')).slice(0,3).toUpperCase();
+    const vg=String(pick(g,['VisitorGoals','visiting_goal_count'],'')),hg=String(pick(g,['HomeGoals','home_goal_count'],''));
+    const live=sbIsLive(g);
+    const started=live||/final/i.test(String(pick(g,['GameStatusString','GameStatusStringLong'],'')));
+    const hav=/HSV|Huntsville/i.test(vc+String(pick(g,['VisitorCity'],''))+hc+String(pick(g,['HomeCity'],'')));
+    const date=String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(5,10).replace('-','/');
+    return '<div class="sb-game'+(live?' sb-live':'')+(hav?' sb-hav':'')+'">'+
+      '<div class="sb-row"><span>'+esc(vc)+'</span><span class="sb-score">'+(started?esc(vg):'')+'</span></div>'+
+      '<div class="sb-row"><span>@ '+esc(hc)+'</span><span class="sb-score">'+(started?esc(hg):'')+'</span></div>'+
+      '<div class="sb-status">'+esc(date)+' · '+esc(sbStatusOf(g))+'</div></div>';
+  }).join('');
+}
+function sbInterval(games){
+  if(games.some(sbIsLive))return 60000;
+  const now=Date.now();
+  const nearGame=games.some(g=>{
+    const iso=String(pick(g,['GameDateISO8601'],''));
+    if(!iso)return false;
+    const t=Date.parse(iso);
+    return !isNaN(t)&&now>=t-15*60000&&now<=t+3.5*3600000;
+  });
+  return nearGame?60000:15*60000;
+}
+async function sbTick(){
+  if(document.hidden)return; // polling stops here; visibilitychange restarts it
+  let games=[];
+  try{
+    const d=await htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7});
+    games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
+    sbRender(games);
+    SB_LAST=Date.now();
+    const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
+  }catch(e){
+    if(!SB_HASGAMES)sbMsg('Scores unavailable — '+esc(e.message)+' They\'ll appear once the feed connects (tap Test connection or Sync below).');
+    const st=document.getElementById('sbStamp');if(st&&SB_LAST)st.textContent='Last updated '+new Date(SB_LAST).toLocaleTimeString()+' — retrying…';
+  }
+  clearTimeout(SB_TIMER);
+  SB_TIMER=setTimeout(sbTick,sbInterval(games));
+}
+function sbStart(){clearTimeout(SB_TIMER);sbTick();}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-SB_LAST>55000)sbStart();});
+
+/* Hourly background refresh of standings + player stats (spec: hourly is plenty).
+   Skips quietly when the tab is hidden or the feed isn't configured yet. */
+setInterval(async()=>{
+  if(document.hidden)return;
+  if(!htKey()&&!htHosted())return;
+  try{await htDoStandings();}catch(e){}
+  try{await htDoPlayers();}catch(e){}
+},3600000);
+
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();})();
+(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
