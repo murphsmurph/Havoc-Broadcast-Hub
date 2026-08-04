@@ -217,7 +217,7 @@
   .mtp-notes-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px;font-size:8.5px;line-height:1.4;}
   .mtp-notes b,.mtp-personal b{color:var(--havoc-red);text-transform:uppercase;font-size:8px;}
   /* lineup chart v2 (dense, themed) */
-  .lc-page{padding:22px 26px;}
+  .lc-page{box-sizing:border-box;padding:20px 24px;width:1056px;height:816px;min-height:816px;overflow:hidden;} /* letter landscape @96dpi — preview matches print */
   .lcx-head{display:flex;align-items:center;gap:14px;color:#fff;padding:8px 16px;border-radius:6px;}
   .lcx-logo{width:46px;height:46px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto;}
   .lcx-logo img{width:100%;height:100%;object-fit:contain;}
@@ -225,7 +225,7 @@
   .lcx-body{display:flex;gap:10px;margin-top:8px;}
   .lcx-main{flex:1;}
   .lcx-sub{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin:6px 0 4px;letter-spacing:.4px;}
-  .lcx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;}
+  .lcx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
   .lcx-card{border:1.5px solid;border-radius:4px;overflow:hidden;}
   .lcx-ph{display:flex;align-items:baseline;gap:6px;padding:2px 6px;}
   .lcx-num{font-size:14px;font-weight:900;}
@@ -282,6 +282,8 @@
     .doc-scroll{max-height:none;overflow:visible;padding:0;background:#fff;}
     .doc-frame{border:none;box-shadow:none;margin:0;}
     .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always;}
+    .page:last-child{page-break-after:auto;} /* no trailing blank page */
+    .lc-page{width:10.45in !important;height:7.9in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter landscape w/ 0.25in margins — one page per team */
   }
   /* season calendar */
   .cal-legend{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -483,6 +485,17 @@
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
       <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
     </div>
+    <div class="card">
+      <h2>Manual <span class="accent">Daily Report</span></h2>
+      <p class="desc">The live feed above is the primary source, but the latest daily report can always be loaded by hand: open the PDF (button above), Select All, Copy, and paste the text here. Standings, per-team player &amp; goalie stats, special teams, league leaders and results are parsed into the same data the feed fills — useful when the feed is down or for a report-only workflow.</p>
+      <div class="field"><label>Paste the full daily report text</label><textarea id="reportPaste" rows="10" placeholder="Open today's daily report PDF → Select All → Copy → paste here…"></textarea></div>
+      <div class="btn-row">
+        <button class="btn" onclick="parseReport()">Parse report</button>
+        <button class="btn secondary" onclick="document.getElementById('reportPaste').value='';document.getElementById('importSummary').style.display='none';document.getElementById('parseResult').innerHTML='';">Clear</button>
+        <span id="parseResult"></span>
+      </div>
+      <div id="importSummary" style="display:none;font-size:13px;margin-top:8px"></div>
+    </div>
     </section>
 
   <!-- HAVOC ROSTER -->
@@ -616,14 +629,14 @@
   <section class="panel" id="panel-chart">
     <div class="card no-print">
       <h2>Lineup <span class="accent">Chart</span></h2>
-      <p class="desc">Havoc cards by position with season stats + bio notes. Toggle the opponent side if you've entered their roster.</p>
+      <p class="desc">Havoc cards by position with season stats + a compact two-line bio per player (hand-written notes first, Elite Prospects career data otherwise). Toggle the opponent side to add their page. Prints <b>horizontal (letter landscape), one page per team</b>.</p>
       <div class="field" style="max-width:280px"><label>Include opponent side?</label>
         <select id="chartSides"><option value="home">Havoc only</option><option value="both">Havoc + opponent</option></select></div>
       <div class="btn-row"><button class="btn" onclick="renderChart()">Refresh preview</button>
       <button class="btn dark" onclick="printDoc('chart')">Print / Save PDF</button></div>
     </div>
     <div class="doc-frame">
-      <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Letter landscape recommended</span></div>
+      <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Prints letter landscape · one page per team</span></div>
       <div class="doc-scroll" id="chartDoc"></div>
     </div>
   </section>
@@ -1392,18 +1405,28 @@ function leadersBlock(team){
 function findTeamStats(cityKeyword){const ts=DATA.report.teamStats||{};for(const k of Object.keys(ts))if(new RegExp(cityKeyword,'i').test(k))return ts[k];return null;}
 
 /* ============ LINEUP CHART (Image-1 dense style, per-team themed) ============ */
+/* Compact auto-bio for chart cards: at most 2 short lines — hand-written
+   notes first, Elite Prospects career data when there are none. */
+function chartBio(p){
+  let lines=(p.notes||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
+  if(!lines.length&&typeof epEntryFor==='function'){
+    const e=epEntryFor(p);
+    if(e)lines=(e.bullets&&e.bullets.length)?e.bullets.slice():epBulletsFromSeasons(e.careerStats||[],p.pos==='G','');
+  }
+  return lines.slice(0,2).map(t=>t.length>92?t.slice(0,89).replace(/\s+\S*$/,'')+'…':t);
+}
 function renderChart(){
   const S=DATA.settings,G=DATA.game;
   const both=val('chartSides')==='both';
   const hsvTheme=teamTheme("Huntsville Havoc");
   const red=S.red||hsvTheme.primary;
-  const homeHTML=teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G);
-  let oppHTML='';
+  // one letter-landscape page per team
+  const pages=[`<div class="page lc-page">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
   if(both&&G.opp){
     const list=DATA.oppRosters[G.opp]||[];
-    oppHTML='<div style="height:14px"></div>'+teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{});
+    pages.push(`<div class="page lc-page">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
-  document.getElementById('chartDoc').innerHTML=`<div class="page lc-page" style="width:1056px;min-height:816px">${homeHTML}${oppHTML}</div>`;
+  document.getElementById('chartDoc').innerHTML=pages.join('');
 }
 function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   const primary=theme.primary,secondary=theme.secondary||'#111';
@@ -1424,7 +1447,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
       const st=statByNum[p.num]||statByName[norm(p.name)];
       if(st)season=`<b>SEASON:</b> ${st.g}-${st.a}-${st.pts} · ${st.pm>=0?'+':''}${st.pm} · ${st.pim} PIM${st.shots!=null?' · '+st.shots+' SH':''}`;
     }
-    const notes=(p.notes||'').split('\n').filter(Boolean).slice(0,4).map(n=>'• '+esc(n)).join('<br>');
+    const notes=chartBio(p).map(n=>'• '+esc(n)).join('<br>');
     return `<div class="lcx-card" style="border-color:${secondary}">
       <div class="lcx-ph" style="background:${secondary}">
         <span class="lcx-num" style="color:#fff">${p.num||''}</span>
@@ -1467,7 +1490,19 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
 }
 
 /* ============ PRINT ============ */
-function printDoc(which){const map={chart:renderChart,packet:renderPacket,lines:renderLinesDoc};if(map[which])map[which]();const panel=document.getElementById('panel-'+which);panel.classList.add('printing');setTimeout(()=>{window.print();panel.classList.remove('printing');},150);}
+function printDoc(which){
+  const map={chart:renderChart,packet:renderPacket,lines:renderLinesDoc};
+  if(map[which])map[which]();
+  const panel=document.getElementById('panel-'+which);
+  panel.classList.add('printing');
+  let st=null;
+  if(which==='chart'){ // lineup chart prints horizontal: letter landscape, one page per team
+    st=document.createElement('style');
+    st.textContent='@page{size:letter landscape;margin:0.25in;}';
+    document.head.appendChild(st);
+  }
+  setTimeout(()=>{window.print();panel.classList.remove('printing');if(st)st.remove();},150);
+}
 
 /* ============ SETTINGS / BACKUP ============ */
 function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_pronounce',s.pronounce);}
@@ -2072,6 +2107,14 @@ function mediaBio(p, teamStats, allReport){
   }
   // append written notes as their own sentences (career background the user added)
   written.forEach(w=>{const t=w.replace(/^[•\-\s]+/,'').trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
+  // no hand-written notes → fall back to Elite Prospects career data so the blurb still reads full
+  if(!written.length&&typeof epEntryFor==='function'){
+    const e=epEntryFor(p);
+    if(e){
+      const eb=(e.bullets&&e.bullets.length)?e.bullets:epBulletsFromSeasons(e.careerStats||[],p.pos==='G','Huntsville Havoc');
+      eb.forEach(w=>{const t=String(w).trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
+    }
+  }
   return sentences.join(' ');
 }
 function listJoin(arr){if(arr.length===1)return arr[0];if(arr.length===2)return arr[0]+' and '+arr[1];return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];}
