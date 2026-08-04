@@ -26,6 +26,15 @@ const OUT_FILE=path.join(DATA_DIR,'ep-players.json');
 const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
 const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
 const EP_BASE='https://api.eliteprospects.com/v1';
+// local convenience: read .env from the repo root when EP_API_KEY isn't already set
+if(!process.env.EP_API_KEY){
+  try{
+    for(const line of fs.readFileSync(path.join(ROOT,'.env'),'utf8').split(/\r?\n/)){
+      const m=line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
+      if(m&&!process.env[m[1]])process.env[m[1]]=m[2].replace(/^["']|["']$/g,'');
+    }
+  }catch(e){}
+}
 const EP_KEY=process.env.EP_API_KEY||'';
 const MAX_EP_CALLS=+(process.env.MAX_EP_CALLS||220);
 const STATS_MAX_AGE_DAYS=30;
@@ -94,13 +103,38 @@ async function htGet(fetchJson,key,params){
   const q=new URLSearchParams({key,client_code:'sphl',fmt:'json',lang:'en',...params}).toString();
   return fetchJson(HT_BASE+'?'+q);
 }
+async function htKeyWorks(fetchJson,k){
+  try{
+    const d=await htGet(fetchJson,k,{feed:'modulekit',view:'seasons'});
+    return !!(d&&d.SiteKit&&Array.isArray(d.SiteKit.Seasons)&&d.SiteKit.Seasons.length);
+  }catch(e){return false;}
+}
+/* Same trick as the front end: when no known key answers, harvest the real
+   key off the league's own public pages. */
+async function htScrapeKeys(){
+  const urls=['https://www.thesphl.com/','https://www.thesphl.com/stats/','https://lscluster.hockeytech.com/statview/mobile/flo/sphl/'];
+  const found=new Set();
+  for(const u of urls){
+    let html='';
+    try{
+      const res=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0 (compatible; HavocHub/1.0)'}});
+      if(!res.ok)continue;
+      html=await res.text();
+    }catch(e){continue;}
+    (html.match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
+    if(/hockeytech|lscluster|leaguestat/i.test(html))
+      (html.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
+    if(found.size)break;
+  }
+  HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
+  return [...found].slice(0,12);
+}
 async function htDetectKey(fetchJson){
   if(process.env.HT_KEY)return process.env.HT_KEY;
-  for(const k of HT_CANDIDATE_KEYS){
-    try{
-      const d=await htGet(fetchJson,k,{feed:'modulekit',view:'seasons'});
-      if(d&&d.SiteKit&&Array.isArray(d.SiteKit.Seasons)&&d.SiteKit.Seasons.length)return k;
-    }catch(e){}
+  for(const k of HT_CANDIDATE_KEYS)if(await htKeyWorks(fetchJson,k))return k;
+  console.log('No known HockeyTech key answered — searching thesphl.com for the real one…');
+  for(const k of await htScrapeKeys()){
+    if(await htKeyWorks(fetchJson,k)){console.log('Found working feed key on the league site.');return k;}
   }
   throw new Error('No HockeyTech key worked — set HT_KEY env/repo variable');
 }
