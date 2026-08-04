@@ -5,7 +5,7 @@ HAvoc Broadcasting Hub
 A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No build, no server — one HTML file that runs in any browser.
 
 ## What's inside
-- **Game packet generator** — cover, Meet the Team (numerical order w/ auto-written bios), scouting report with full Match Up panel, quick facts
+- **Game packet generator** — pro media-notes standard: cover (news w/ auto-draft, standings, 4-column leaders, media contact), Meet the Team, Hockey Operations, Elite Prospects career-stat pages, scouting report (series history + league-ranked Match Up), quick facts, season splits + "last time it happened", game-by-game log, roster + pronunciation guide, franchise records, blank scoring worksheets, and the dense game sheet — with a section picker and Full/Booth presets. Derived pages compute from the per-game log (auto-filled from results + attendance; shots/PP/fights hand-entered on the Schedule tab)
 - **Game sheet, lineup chart & line card** — printable, per-team colors, all 12 team logos embedded
 - **2026-27 schedule** — official 60-game slate + preseason, promo nights, results entry, season calendar (home red / away gray)
 - **Standings & league reference** — 2026-27 rule changes, schedule matrix, all-time Havoc leaders, head-to-head

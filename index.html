@@ -283,6 +283,7 @@
     .doc-frame{border:none;box-shadow:none;margin:0;}
     .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always;}
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
+    .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:10.45in !important;height:7.9in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter landscape w/ 0.25in margins — one page per team */
   }
   /* season calendar */
@@ -406,6 +407,18 @@
   .sb-msg{font-size:12px;color:#888;padding:6px 2px;}
   .ep-link{color:inherit;text-decoration:none;border-bottom:1px dotted #c9c9c9;}
   .ep-link:hover{color:var(--havoc-red);border-bottom-color:var(--havoc-red);}
+  /* packet: 4-column leaders, splits + log tables, worksheets */
+  .ldr4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:8.5px;}
+  .ldr4 .ldr-h{font-weight:900;font-size:8px;letter-spacing:.05em;border-bottom:1.5px solid var(--havoc-red);margin-bottom:2px;}
+  .ldr4 .ldr-r{display:flex;justify-content:space-between;gap:6px;line-height:1.5;}
+  table.pk-t{width:100%;border-collapse:collapse;font-size:8.5px;}
+  table.pk-t th{background:var(--havoc-black);color:#fff;padding:2px 5px;text-align:left;font-size:8px;letter-spacing:.04em;}
+  table.pk-t td{border-bottom:1px solid #ddd;padding:2px 5px;}
+  table.pk-t td.r,table.pk-t th.r{text-align:right;}
+  table.pk-ws td{border:1px solid #888;height:16px;padding:1px 4px;font-size:8px;}
+  table.pk-ws th{border:1px solid #888;background:#eee;font-size:8px;padding:2px 4px;}
+  .gl-edit input{width:54px;font-size:12px;padding:2px 4px;border:1px solid var(--havoc-line);border-radius:4px;}
+  .gl-edit td,.gl-edit th{padding:3px 6px;font-size:12px;white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -579,6 +592,10 @@
       <div id="schedCalendar"></div>
     </div>
     <div class="card"><h3>Parsed schedule</h3><div id="schedPreview" style="font-size:13px"></div></div>
+    <div class="card"><h3>Game log — packet data</h3>
+      <p class="desc">One row per completed game, built automatically from results (the feed also fills attendance). Add shots for/against, power-play numbers and fights by hand when you have them — every derived packet section (splits, game-by-game log, "last time it happened") reads from this. Auto-saves.</p>
+      <div id="glTableWrap" style="overflow-x:auto"></div>
+    </div>
   </section>
 
   <!-- REFERENCE -->
@@ -631,7 +648,7 @@
   <section class="panel" id="panel-packet">
     <div class="card no-print">
       <h2>Game <span class="accent">Packet</span></h2>
-      <p class="desc">The complete game document in one print: Macon-style cover with news &amp; notes, Meet the Team (numerical, with blurbs), Scouting Report with the full Match Up, Quick Facts, and the dense per-player Game Sheet as the final page. Everything data-driven auto-fills; the news blurbs below are yours to write.</p>
+      <p class="desc">Pro media-notes packet: cover with news, standings, 4-column statistical leaders and media contact · Meet the Team · Hockey Operations · EP career-stat pages · Scouting Report with series history and league-ranked Match Up · Quick Facts · Season Splits + Last Time It Happened · Game-by-Game Log · Roster + Pronunciation Guide · Franchise Records · blank scoring worksheets · dense Game Sheet. Everything computes from stored data (game log on the Schedule tab feeds the derived pages); news blurbs are yours — use <b>Auto-draft</b> to start them. Pick sections below; presets remembered.</p>
       <div class="grid g2">
         <div class="field"><label>Havoc news — headline 1</label><input type="text" id="n_h1"></div>
         <div class="field"><label>Havoc news — body 1</label><textarea id="n_b1" rows="2"></textarea></div>
@@ -645,6 +662,13 @@
         <div class="field"><label>Opponent news — body 2</label><textarea id="n_ob2" rows="2"></textarea></div>
       </div>
       <div class="field"><label>Schedule (one per line: M/D/YY  Opponent  Result) — feeds Up Next + Quick Facts</label><textarea id="n_schedule" rows="4" placeholder="2/19/26  @ Fayetteville  L, 2-4&#10;2/20/26  vs. Quad City  W, 5-0"></textarea></div>
+      <div class="section-label">Packet sections (pick what prints — remembered)</div>
+      <div id="pkSecs" style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;margin:6px 0 8px"></div>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
+        <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
+        <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
+      </div>
       <div class="btn-row"><button class="btn" onclick="saveNotesExtra();renderPacket()">Refresh packet</button>
       <button class="btn dark" onclick="printDoc('packet')">Print / Save full packet PDF</button></div>
     </div>
@@ -767,6 +791,7 @@
       <div class="field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
       <div class="field"><label>Footer text</label><input type="text" id="s_footer" value="2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
       <div class="field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
+      <div class="field"><label>Media contact (name · title · phone · email — shown on the packet cover)</label><input type="text" id="s_media" placeholder="Jacob Murphy · Broadcaster · (256) 555-0100 · jacob@huntsvillehavoc.com"></div>
       <div class="field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
@@ -973,7 +998,9 @@ const DEFAULT_DATA={
   coaches:{},           // overrides of SPHL_REF.coaches
   report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
   epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
-  hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}} // Meet the Hockey Operations Team (user-filled)
+  hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
+  gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
+  leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
 let DATA=load();
 function load(){try{const raw=localStorage.getItem(KEY);if(raw)return Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(raw));}catch(e){}return structuredClone(DEFAULT_DATA);}
@@ -1013,9 +1040,9 @@ document.getElementById('tabs').addEventListener('click',e=>{
   document.getElementById('panel-'+tab).classList.add('active');
   if(tab==='roster'){renderRoster();loadHockeyOps();}
   if(tab==='opproster')renderOppRoster();
-  if(tab==='schedule')loadSchedule();
+  if(tab==='schedule'){loadSchedule();renderGameLog();}
   if(tab==='reference')renderReference();
-  if(tab==='packet'){loadNotesExtra();renderPacket();}
+  if(tab==='packet'){loadNotesExtra();pkRenderPicker();renderPacket();}
   if(tab==='chart')renderChart();
   if(tab==='calllog')clInit();
   if(tab==='lines')linesInit();
@@ -1545,8 +1572,8 @@ function printDoc(which){
 }
 
 /* ============ SETTINGS / BACKUP ============ */
-function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_pronounce',s.pronounce);}
-function saveSettings(){DATA.settings={red:val('s_red'),city:val('s_city'),name:val('s_name'),venue:val('s_venue'),footer:val('s_footer'),social:val('s_social'),pronounce:document.getElementById('s_pronounce').value};save();toast("Settings saved");}
+function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_media',s.media);setv('s_pronounce',s.pronounce);}
+function saveSettings(){Object.assign(DATA.settings,{red:val('s_red'),city:val('s_city'),name:val('s_name'),venue:val('s_venue'),footer:val('s_footer'),social:val('s_social'),media:val('s_media'),pronounce:document.getElementById('s_pronounce').value});save();toast("Settings saved");}
 function exportData(){const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast("Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{DATA=Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(rd.result));save();initForms();renderRoster();updateAppMark();toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
 function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
@@ -1849,6 +1876,170 @@ function parseExtended(raw,r){
 /* ============================================================
    MULTI-PAGE GAME NOTES (packet style)
    ============================================================ */
+/* ============ NEW PACKET PAGES (Roanoke/Macon models) ============ */
+function pgWrap(red,S,title,body){
+  return `<div class="page" style="--havoc-red:${red}">
+    <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">${title}</div><div class="pg-num">__PGNO__</div></div>
+    ${body}
+    <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`;
+}
+function leaders4Block(ts){
+  if(!ts||!ts.players||!ts.players.length)return '<div style="color:#999;font-size:9px">Sync live data or import the daily report for leaders.</div>';
+  const activeSet=new Set(DATA.roster.filter(p=>p.active!=='0').map(p=>norm(p.name)));
+  const star=n=>activeSet.size&&!activeSet.has(norm(n))?'*':'';
+  const col=(title,key,fmt)=>{
+    const top=[...ts.players].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,5);
+    return `<div><div class="ldr-h">${title}</div>${top.map(p=>`<div class="ldr-r"><span>${esc(p.name)}${star(p.name)}</span><span>${fmt?fmt(p):(p[key]||0)}</span></div>`).join('')}</div>`;
+  };
+  return `<div class="ldr4">${col('GOALS','g')}${col('ASSISTS','a')}${col('POINTS','pts')}${col('PLUS-MINUS','pm',p=>((p.pm||0)>=0?'+':'')+(p.pm||0))}</div><div style="font-size:7px;color:#666;margin-top:2px">* not on current active roster</div>`;
+}
+function splitsPage(red,S){
+  const sp=glSplits();
+  const R=DATA.report;
+  const splitRows=sp?sp.rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join(''):naRow('Season splits','no completed games in the log yet');
+  const naNote=`<tr><td>Record when scoring first / leading after 1st &amp; 2nd</td><td class="r" style="color:#999">N/A — tracked from box scores going forward</td></tr>`;
+  const lt=glLastTime().map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join('');
+  const spc=(R.special||{})['Huntsville']||{};
+  const stTable=`<table class="pk-t"><tr><th>Special teams</th><th class="r">Overall</th></tr>
+    <tr><td>Power play</td><td class="r">${esc((typeof spc.pp==='string'?spc.pp:(spc.ppO&&spc.ppO.pct!=null?spc.ppO.pct+'%':'—'))||'—')}</td></tr>
+    <tr><td>Penalty kill</td><td class="r">${esc((typeof spc.pk==='string'?spc.pk:(spc.pkO&&spc.pkO.pct!=null?spc.pkO.pct+'%':'—'))||'—')}</td></tr></table>`;
+  const gp=(R.ext||{}).goalsByPeriod;
+  const gpTable=gp?`<table class="pk-t"><tr><th></th><th class="r">1st</th><th class="r">2nd</th><th class="r">3rd</th><th class="r">OT</th><th class="r">Total</th></tr>
+    <tr><td>${esc(S.name)}</td><td class="r">${gp.p1[0]}</td><td class="r">${gp.p2[0]}</td><td class="r">${gp.p3[0]}</td><td class="r">${gp.ot[0]}</td><td class="r">${gp.tot[0]}</td></tr>
+    <tr><td>Opponents</td><td class="r">${gp.p1[1]}</td><td class="r">${gp.p2[1]}</td><td class="r">${gp.p3[1]}</td><td class="r">${gp.ot[1]}</td><td class="r">${gp.tot[1]}</td></tr></table>`
+    :'<div style="color:#999;font-size:9px">Goals-by-period: N/A — import a daily report with period data.</div>';
+  return pgWrap(red,S,'SEASON SPLITS',`
+    <div class="gn-cols">
+      <div class="box"><h3>At a Glance</h3><table class="pk-t">${splitRows}${naNote}</table></div>
+      <div>
+        <div class="box"><h3>Last Time It Happened</h3><table class="pk-t">${lt}</table></div>
+        <div class="box"><h3>Special Teams</h3>${stTable}</div>
+        <div class="box"><h3>Goals by Period</h3>${gpTable}</div>
+      </div>
+    </div>`);
+}
+function gameLogPage(red,S){
+  const gs=glGames();
+  if(!gs.length)return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3><div style="color:#999;font-size:10px">No completed games in the log yet — results fill in automatically as the season goes.</div></div>`);
+  let w=0,l=0,otl=0,sol=0;
+  const rows=gs.map(g=>{
+    if(g.wl==='W')w++;else if(g.wl==='OTL')otl++;else if(g.wl==='SOL')sol++;else l++;
+    const rec=w+'-'+l+'-'+otl+'-'+sol;
+    return `<tr><td>${fmtDateShort(g.d)}</td><td>${g.ha==='@'?'@ ':''}${esc(g.opp)}</td>
+      <td>${g.wl} ${g.us}-${g.them}${g.otso?' ('+g.otso+')':''}</td><td class="r">${rec}</td><td class="r">${glPts(gs.slice(0,gs.indexOf(g)+1))}</td>
+      <td class="r">${g.sf!=null&&g.sa!=null?g.sf+'-'+g.sa:'—'}</td>
+      <td class="r">${g.ppg!=null&&g.ppa!=null?g.ppg+'/'+g.ppa:'—'}</td>
+      <td class="r">${g.att?Number(g.att).toLocaleString():'—'}</td></tr>`;
+  }).join('');
+  return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3>
+    <table class="pk-t"><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Record</th><th class="r">Pts</th><th class="r">Shots F-A</th><th class="r">PP</th><th class="r">Att.</th></tr>${rows}</table>
+    <div style="font-size:7px;color:#666;margin-top:2px">Shots, PP and attendance come from the Game Log on the Schedule tab — fill as available.</div></div>`);
+}
+function rosterPronPage(red,S){
+  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+  const act=DATA.roster.filter(p=>p.active!=='0');
+  const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
+    ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
+  const pron=(S.pronounce||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${pron.length?`<table class="pk-t">${pron.map(l=>{const m=l.split(/\s*[-–—]\s*/);return `<tr><td>${esc(m[0]||l)}</td><td class="r">${esc(m.slice(1).join(' - '))}</td></tr>`;}).join('')}</table>`:'<div style="color:#999;font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun).</div>'}</div>`;
+  const H=DATA.hockeyOps||{};
+  const staff=HO_ROLES.map(r=>{const e=H[r[0]]||{};return e.name?`<div class="h2h-line"><span>${r[1]}</span><span>${esc(e.name)}</span></div>`:'';}).join('');
+  return pgWrap(red,S,'ROSTER',`
+    ${grp('Forwards',act.filter(p=>p.pos!=='D'&&p.pos!=='G'))}
+    ${grp('Defense',act.filter(p=>p.pos==='D'))}
+    ${grp('Goaltenders',act.filter(p=>p.pos==='G'))}
+    <div class="gn-cols">${pronBox}<div class="box"><h3>Hockey Operations</h3>${staff||'<div style="color:#999;font-size:9px">Fill names on the Roster tab.</div>'}</div></div>`);
+}
+function recordsPage(red,S){
+  const R=SPHL_REF.hsvRecords;if(!R)return '';
+  const tab=(t,rows)=>`<div class="box"><h3>${t}</h3><table class="pk-t">${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join('')}</table></div>`;
+  return pgWrap(red,S,'FRANCHISE RECORDS',`
+    <div class="gn-cols">
+      <div>${tab('Career Leaders',R.career)}${tab('Team Records',R.team)}</div>
+      <div>${tab('Single-Season — Skaters',R.players)}${tab('Single-Season — Goalies',R.goalies)}</div>
+    </div>`);
+}
+function worksheetsPage(red,S){
+  const G=DATA.game;
+  const goalRows=Array.from({length:9},()=>'<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>').join('');
+  const penRows=Array.from({length:8},()=>'<tr><td></td><td></td><td></td><td></td><td></td></tr>').join('');
+  const side=t=>`<div><div class="ldr-h" style="font-size:10px;margin:4px 0">${esc(t)}</div>
+    <table class="pk-ws" style="width:100%;border-collapse:collapse"><tr><th>#</th><th>Per</th><th>Time</th><th>Goal</th><th>Assist</th><th>Assist</th></tr>${goalRows}</table>
+    <div style="height:6px"></div>
+    <table class="pk-ws" style="width:100%;border-collapse:collapse"><tr><th>Per</th><th>Time</th><th>#</th><th>Infraction</th><th>Min</th></tr>${penRows}</table></div>`;
+  return pgWrap(red,S,'SCORING &amp; PENALTY WORKSHEET',`
+    <div class="gn-cols">${side(S.city+' '+S.name)}${side((G.opp||'Opponent').toUpperCase())}</div>`);
+}
+function careerPages(red,S){
+  if(!EP_STATIC)return [];
+  const act=DATA.roster.filter(p=>p.active!=='0'&&p.name);
+  const blocks=[];
+  act.forEach(p=>{
+    const e=epEntryFor(p);
+    if(!e||!e.careerStats||!e.careerStats.length)return;
+    const isG=p.pos==='G';
+    const rows=e.careerStats.slice(-9);
+    const totals=e.careerStats.reduce((t,s)=>{const x=s.stats||{};t.gp+=x.gp||0;t.g+=x.g||0;t.a+=x.a||0;t.p+=x.p||0;return t;},{gp:0,g:0,a:0,p:0});
+    blocks.push(`<div class="box"><h3>#${p.num||''} ${esc(dispName(p))} — Career</h3>
+      <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th><th class="r">GP</th>${isG?'<th class="r">GAA</th><th class="r">SV%</th>':'<th class="r">G</th><th class="r">A</th><th class="r">PTS</th>'}</tr>
+      ${rows.map(s=>{const x=s.stats||{};return `<tr><td>${esc(s.year)}</td><td>${esc(s.team)}</td><td>${esc(s.league)}</td><td class="r">${x.gp!=null?x.gp:''}</td>${isG?`<td class="r">${x.gaa!=null?x.gaa:''}</td><td class="r">${x.svp!=null?x.svp:''}</td>`:`<td class="r">${x.g!=null?x.g:''}</td><td class="r">${x.a!=null?x.a:''}</td><td class="r">${x.p!=null?x.p:''}</td>`}</tr>`;}).join('')}
+      ${isG?'':`<tr><td colspan="3"><b>Career totals</b></td><td class="r"><b>${totals.gp}</b></td><td class="r"><b>${totals.g}</b></td><td class="r"><b>${totals.a}</b></td><td class="r"><b>${totals.p}</b></td></tr>`}</table>
+      <div style="font-size:7px;color:#666">Career vs. each SPHL opponent, single-game highs and firsts: N/A — builds from per-game data going forward.</div></div>`);
+  });
+  const pages=[];
+  for(let i=0;i<blocks.length;i+=4)
+    pages.push(pgWrap(red,S,'PLAYER CAREER STATS',blocks.slice(i,i+4).join('')));
+  return pages;
+}
+
+/* ============ GAME LOG EDITOR (Schedule tab) ============ */
+function renderGameLog(){
+  const wrap=document.getElementById('glTableWrap');if(!wrap)return;
+  const gs=glGames();
+  if(!gs.length){wrap.innerHTML='<div class="empty">No completed games yet — results flow in from the schedule automatically.</div>';return;}
+  wrap.innerHTML=`<table class="gl-edit"><tr><th>Date</th><th>Opp</th><th>Result</th><th>SF</th><th>SA</th><th>PPG</th><th>PP adv</th><th>Att.</th><th>Fights</th></tr>
+    ${gs.map(g=>`<tr><td>${fmtDateShort(g.d)}</td><td>${g.ha==='@'?'@ ':''}${esc(g.opp)}</td><td>${g.wl} ${g.us}-${g.them}${g.otso?' ('+g.otso+')':''}</td>
+      ${['sf','sa','ppg','ppa','att','fights'].map(f=>`<td><input type="number" value="${g[f]!=null?g[f]:''}" onchange="glSet('${g.d}','${f}',this.value)"></td>`).join('')}</tr>`).join('')}
+  </table>`;
+}
+function glSet(d,f,v){
+  DATA.gamelog=DATA.gamelog||{};
+  const e=DATA.gamelog[d]=DATA.gamelog[d]||{};
+  if(v==='')delete e[f];else e[f]=+v;
+  save();
+}
+
+/* ============ PACKET SECTION PICKER ============ */
+const PACKET_SECTIONS=[
+  ['cover','Cover'],['meet','Meet the Team'],['ops','Hockey Operations'],['career','Player career stats (EP)'],
+  ['scout','Scouting report'],['facts','Quick facts'],['splits','Season splits'],['gamelog','Game-by-game log'],
+  ['roster','Roster + pronunciation'],['records','Franchise records'],['worksheets','Blank worksheets'],['gamesheet','Dense game sheet']
+];
+const PACKET_PRESETS={
+  full:PACKET_SECTIONS.map(s=>s[0]),
+  booth:['cover','scout','facts','splits','gamelog','roster','worksheets','gamesheet']
+};
+function pkSel(){
+  const sel=DATA.settings.packetSel;
+  return Array.isArray(sel)&&sel.length?sel:PACKET_PRESETS.full;
+}
+function pkRenderPicker(){
+  const el=document.getElementById('pkSecs');if(!el)return;
+  const sel=new Set(pkSel());
+  el.innerHTML=PACKET_SECTIONS.map(s=>`<label style="display:flex;gap:4px;align-items:center;cursor:pointer"><input type="checkbox" ${sel.has(s[0])?'checked':''} onchange="pkToggle('${s[0]}',this.checked)">${s[1]}</label>`).join('');
+}
+function pkToggle(k,on){
+  const sel=new Set(pkSel());
+  if(on)sel.add(k);else sel.delete(k);
+  DATA.settings.packetSel=PACKET_SECTIONS.map(s=>s[0]).filter(x=>sel.has(x));
+  save();
+}
+function pkPreset(name){
+  DATA.settings.packetSel=PACKET_PRESETS[name].slice();
+  save();pkRenderPicker();renderPacket();
+  toast(name==='booth'?'Booth packet preset applied':'Full packet preset applied');
+}
+
 function renderPacket(){
   const S=DATA.settings,G=DATA.game,R=DATA.report,N=DATA.notes||{};
   const red=S.red||'#C8102E';
@@ -1869,7 +2060,8 @@ function renderPacket(){
     <div class="mc-strip">${esc(S.city)} ${esc(S.name)} ${stripRec(hsvStand)||esc(G.hsvrec?'('+G.hsvrec+')':'')} ${G.homeaway==='@'?'at':'vs.'} ${esc(oppShort||'Opponent')} ${stripRec(oppStand)||esc(G.opprec?'('+G.opprec+')':'')} | ${esc(G.venue||S.venue)}</div>
     <div class="gn-top"><div class="gn-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
       <div class="gn-title"><div class="city">${esc(S.city)}</div><div class="team">${esc(S.name)}</div>
-        <div class="gn-bar"><span>SPHL MEMBER SINCE 2004</span><span class="red">${cups.length} PRESIDENTS CUP${cups.length!==1?'S':''} (${cups.join(', ')||'—'})</span><span>HUNTSVILLEHAVOC.COM</span></div></div></div>
+        <div class="gn-bar"><span>SPHL MEMBER SINCE 2004</span><span class="red">${cups.length} PRESIDENTS CUP${cups.length!==1?'S':''} (${cups.join(', ')||'—'})</span><span>HUNTSVILLEHAVOC.COM</span></div>
+        ${S.media?`<div style="font-size:8px;margin-top:2px;letter-spacing:.03em">MEDIA CONTACT: ${esc(S.media)}</div>`:''}</div></div>
     <div class="gn-matchup">
       <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${esc(G.promo||'')}</div><div>${dateStr}</div><div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div><div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
@@ -1879,15 +2071,15 @@ function renderPacket(){
     <div class="box"><h3>Last 5 — Both Teams</h3>
       <div class="l10-row"><span class="tm">${esc(S.name)}</span>${last10Block('Huntsville')}</div>
       <div class="l10-row"><span class="tm">${esc(oppShort||'Opponent')}</span>${last10Block(G.opp)}</div></div>
-    <div class="box"><h3>Havoc Statistical Leaders</h3>${leadersBlock(hsv)}</div>
+    <div class="box"><h3>Havoc Statistical Leaders</h3>${leaders4Block(hsv)}</div>
     ${upNextBox()}
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
 
   /* ---------- PAGE 2: SCOUTING REPORT ---------- */
   const h2h=SPHL_REF.hsvVs[G.opp];
   const oppNews=[[N.oh1,N.ob1],[N.oh2,N.ob2]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add opponent news on the Full Packet tab.</div>';
-  // full match up panel
-  const muRows=matchupRows();
+  // full match up panel, with league-ranked rates appended
+  const muRows=matchupRows().concat(rankedMatchupRows());
   const muTable=`<table class="matchup"><thead><tr><th></th><th>${esc(S.city)} ${esc(S.name)}</th><th>${esc(oppShort||'Opponent')}</th></tr></thead><tbody>
     ${muRows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table>`;
   // head to head: all-time (from ref) + current season (from report)
@@ -1903,7 +2095,7 @@ function renderPacket(){
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">SCOUTING REPORT</div><div class="pg-num">__PGNO__</div></div>
     <div class="box"><h3>Match Up</h3>${muTable}</div>
-    <div class="gn-cols">${h2hBox}${l10Box}</div>
+    <div class="gn-cols">${seriesBoxHTML(red)||h2hBox}${l10Box}</div>
     <div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} News &amp; Notes</h3>${oppNews}
       ${(function(){const oc=getCoach(G.opp);return oc.name?`<div class="news-item"><div class="h">HEAD COACH — ${esc(oc.name)}</div><div class="b">${esc(oc.bio||'')}</div></div>`:'';})()}</div>
     <div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} Statistical Leaders</h3>${leadersBlock(opp)}</div>
@@ -1932,18 +2124,34 @@ function renderPacket(){
     </div>
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
 
-  /* ---------- PAGE: MEET THE GOALIES ---------- */
-  /* ---------- MEET THE TEAM: all roster players, numerical order, blurb each — inserted after cover ---------- */
+  /* ---------- assemble the selected sections in order ---------- */
+  const sel=new Set(pkSel());
   const allPlayers=DATA.roster.filter(p=>p.active!=='0'&&p.name).sort((a,b)=>(+a.num||999)-(+b.num||999));
   const meetPages=[];
   for(let i=0;i<allPlayers.length;i+=6){
     meetPages.push(meetTeamPage(allPlayers.slice(i,i+6),hsv,R,red,S));
   }
   const opsPage=hockeyOpsPage(red,S);
-  pages.splice(1,0,...meetPages,...(opsPage?[opsPage]:[]));
-
-  try{pages.push(sheetPageHTML().replace('<div class="page"','<div class="page" data-sheet="1"'));}catch(e){console.error('sheet page',e);}
-  document.getElementById('packetDoc').innerHTML=pages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  const recsPage=recordsPage(red,S);
+  let sheetPages=[];
+  try{sheetPages=[sheetPageHTML().replace('<div class="page"','<div class="page" data-sheet="1"')];}catch(e){console.error('sheet page',e);}
+  const secPages={
+    cover:[pages[0]],
+    meet:meetPages,
+    ops:opsPage?[opsPage]:[],
+    career:careerPages(red,S),
+    scout:[pages[1]],
+    facts:[pages[2]],
+    splits:[splitsPage(red,S)],
+    gamelog:[gameLogPage(red,S)],
+    roster:[rosterPronPage(red,S)],
+    records:recsPage?[recsPage]:[],
+    worksheets:[worksheetsPage(red,S)],
+    gamesheet:sheetPages
+  };
+  const outPages=[];
+  PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))outPages.push(...(secPages[s[0]]||[]));});
+  document.getElementById('packetDoc').innerHTML=outPages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
 }
 
 function upNextBox(){
@@ -2132,6 +2340,168 @@ function seasonH2HText(){
   const hsv='HSV',oppAb=TEAM_ABBR[(G.opp||'').split(' ')[0]];
   const h2h=DATA.report.seasonH2H||{};
   return h2h[hsv+'|'+oppAb]||h2h[oppAb+'|'+hsv]||null;
+}
+
+/* ============================================================
+   GAME LOG — the per-game store every derived packet section
+   reads from. Filled by the schedule feed (scores, attendance),
+   backfilled from the schedule text, hand-edited for shots /
+   special teams / fights on the Schedule tab.
+   ============================================================ */
+function glBackfill(){ // seed the log from schedule-text results
+  DATA.gamelog=DATA.gamelog||{};
+  parseScheduleData().forEach(g=>{
+    if(!g.result||g.ps)return;
+    const m=g.result.match(/^(W|L|OTL|SOL|T)\s*,?\s*(\d+)\s*-\s*(\d+)(?:\s*\((OT|SO)\))?/i);
+    if(!m)return;
+    const e=DATA.gamelog[g.dateISO]=DATA.gamelog[g.dateISO]||{};
+    if(e.us==null){
+      e.us=+m[2];e.them=+m[3];
+      const res=m[1].toUpperCase();
+      e.otso=(m[4]||'').toUpperCase()||(res==='OTL'?'OT':(res==='SOL'?'SO':''));
+    }
+    e.opp=e.opp||g.team;e.ha=e.ha||(g.hv.indexOf('@')===0?'@':'vs');
+  });
+}
+function glGames(){ // sorted, classified entries
+  glBackfill();
+  return Object.keys(DATA.gamelog).sort().map(d=>{
+    const e=DATA.gamelog[d];
+    if(e.us==null||e.them==null)return null;
+    let wl;
+    if(e.us>e.them)wl='W';
+    else if(e.us<e.them)wl=e.otso==='SO'?'SOL':(e.otso==='OT'?'OTL':'L');
+    else wl='T';
+    const dt=new Date(d+'T12:00');
+    return {...e,d,wl,month:dt.toLocaleString('en-US',{month:'short'}),dow:dt.toLocaleString('en-US',{weekday:'short'})};
+  }).filter(Boolean);
+}
+function glRec(list){ // W-L-OTL-SOL string
+  const c={W:0,L:0,OTL:0,SOL:0};
+  list.forEach(g=>{if(c[g.wl]!=null)c[g.wl]++;});
+  return c.W+'-'+c.L+'-'+c.OTL+'-'+c.SOL;
+}
+function glPts(list){return list.reduce((t,g)=>t+(g.wl==='W'?2:(g.wl==='OTL'||g.wl==='SOL'?1:0)),0);}
+function glStreak(list){
+  if(!list.length)return '—';
+  const last=list[list.length-1];const kind=last.wl==='W'?'W':'L';
+  let n=0;
+  for(let i=list.length-1;i>=0;i--){const k=list[i].wl==='W'?'W':'L';if(k!==kind)break;n++;}
+  return n+kind;
+}
+function fmtDateShort(d){const p=d.split('-');return (+p[1])+'/'+(+p[2])+'/'+p[0].slice(2);}
+function naRow(label,note){return `<tr><td>${label}</td><td class="r" style="color:#999">${note||'N/A'}</td></tr>`;}
+
+/* season splits — everything derivable from the game log; honest N/A otherwise */
+function glSplits(){
+  const gs=glGames();
+  if(!gs.length)return null;
+  const by=f=>{const m={};gs.forEach(g=>{const k=f(g);(m[k]=m[k]||[]).push(g);});return m;};
+  const rows=[];
+  rows.push(['Overall',glRec(gs)+' ('+glPts(gs)+' pts)']);
+  rows.push(['Home',glRec(gs.filter(g=>g.ha==='vs'))]);
+  rows.push(['Road',glRec(gs.filter(g=>g.ha==='@'))]);
+  const mo=by(g=>g.month);Object.keys(mo).forEach(m=>rows.push(['In '+m,glRec(mo[m])]));
+  const dw=by(g=>g.dow);['Thu','Fri','Sat','Sun'].forEach(d=>{if(dw[d])rows.push(['On '+d,glRec(dw[d])]);});
+  rows.push(['Scoring 4+ goals',glRec(gs.filter(g=>g.us>=4))]);
+  rows.push(['Scoring 2 or fewer',glRec(gs.filter(g=>g.us<=2))]);
+  rows.push(['One-goal games',glRec(gs.filter(g=>Math.abs(g.us-g.them)===1))]);
+  rows.push(['Decided by 3+',glRec(gs.filter(g=>Math.abs(g.us-g.them)>=3))]);
+  rows.push(['Overtime games',glRec(gs.filter(g=>g.otso==='OT'))]);
+  rows.push(['Shootouts',glRec(gs.filter(g=>g.otso==='SO'))]);
+  const outsh=gs.filter(g=>g.sf!=null&&g.sa!=null);
+  if(outsh.length){
+    rows.push(['When outshooting opponent',glRec(outsh.filter(g=>+g.sf>+g.sa))]);
+    rows.push(['When outshot',glRec(outsh.filter(g=>+g.sf<+g.sa))]);
+  }
+  return {gs,rows};
+}
+function glLastTime(){
+  const gs=glGames();
+  const latest=pred=>{for(let i=gs.length-1;i>=0;i--){const g=gs[i];if(pred(g))return fmtDateShort(g.d)+' '+g.ha+' '+g.opp;}return 'never happened (this log)';};
+  return [
+    ['Overtime win',latest(g=>g.wl==='W'&&g.otso==='OT')],
+    ['Shootout win',latest(g=>g.wl==='W'&&g.otso==='SO')],
+    ['Shootout loss',latest(g=>g.wl==='SOL')],
+    ['Shutout win',latest(g=>g.wl==='W'&&g.them===0)],
+    ['Shut out (scoreless)',latest(g=>g.us===0)],
+    ['Scored 6+ goals',latest(g=>g.us>=6)],
+    ['Won by 4+',latest(g=>g.us-g.them>=4)],
+    ['Lost by 4+',latest(g=>g.them-g.us>=4)],
+    ['Crowd of 5,000+',latest(g=>g.att>=5000)]
+  ];
+}
+/* series history vs tonight's opponent: all-time (reference) + this season (game log) */
+function seriesBoxHTML(red){
+  const G=DATA.game;if(!G.opp)return '';
+  const oppCity=G.opp.split(' ')[0];
+  const ref=SPHL_REF.hsvVs[G.opp];
+  const vs=glGames().filter(g=>g.opp&&g.opp.indexOf(oppCity)===0);
+  const last=vs[vs.length-1];
+  const line=(a,b)=>`<div class="h2h-line"><span>${a}</span><span>${b}</span></div>`;
+  return `<div class="box"><h3>Series History — vs. ${esc(oppCity)}</h3>
+    ${line('All-time regular season',ref?esc(ref.rs):'—')}
+    ${line('All-time playoffs',ref?esc(ref.po):'—')}
+    ${line('This season',vs.length?glRec(vs):'no meetings yet')}
+    ${line('This season at home',vs.length?glRec(vs.filter(g=>g.ha==='vs')):'—')}
+    ${line('This season on the road',vs.length?glRec(vs.filter(g=>g.ha==='@')):'—')}
+    ${line('Current streak in series',vs.length?glStreak(vs):'—')}
+    ${line('Last meeting',last?(fmtDateShort(last.d)+' — '+(last.wl==='W'?'W':'L')+' '+last.us+'-'+last.them+(last.otso?' ('+last.otso+')':'')):'—')}
+  </div>`;
+}
+/* league ranks for the Matching Up table */
+function lgRank(arr,val,higherBetter){
+  const sorted=[...arr].sort((a,b)=>higherBetter?b.v-a.v:a.v-b.v);
+  const i=sorted.findIndex(x=>x.me);
+  return i<0?null:i+1;
+}
+function rankedMatchupRows(){
+  const G=DATA.game,R=DATA.report;
+  const S=R.standings||[];
+  const oppCity=(G.opp||'').split(' ')[0];
+  const mk=city=>S.map(s=>({v:0,me:new RegExp('^'+city,'i').test(s.team),s}));
+  const val=(city,f)=>{const s=S.find(x=>new RegExp('^'+city,'i').test(x.team));return s&&s.gp?f(s):null;};
+  const rk=(city,f,hb)=>{
+    const arr=S.filter(s=>s.gp).map(s=>({v:f(s),me:new RegExp('^'+city,'i').test(s.team)}));
+    return arr.length?lgRank(arr,null,hb):null;
+  };
+  const fmt=(v,r)=>v==null?'—':(v.toFixed(2)+(r?' ('+ordinal(r)+')':''));
+  const pct=city=>{const sp=(R.special||{})[city]||{};let p=sp.pp;if(p&&typeof p==='object')p=p.pct;let k=sp.pk;if(k&&typeof k==='object')k=k.pct;
+    return {pp:typeof sp.pp==='string'?sp.pp:(sp.ppO&&sp.ppO.pct!=null?sp.ppO.pct+'%':null),
+            pk:typeof sp.pk==='string'?sp.pk:(sp.pkO&&sp.pkO.pct!=null?sp.pkO.pct+'%':null)};};
+  const rows=[];
+  if(S.length){
+    const gpg=s=>s.gf/s.gp, gapg=s=>s.ga/s.gp;
+    rows.push(['Goals per game (rank)',fmt(val('Huntsville',gpg),rk('Huntsville',gpg,true)),fmt(val(oppCity,gpg),rk(oppCity,gpg,true))]);
+    rows.push(['Goals against per game (rank)',fmt(val('Huntsville',gapg),rk('Huntsville',gapg,false)),fmt(val(oppCity,gapg),rk(oppCity,gapg,false))]);
+  }
+  const pH=pct('Huntsville'),pO=pct(oppCity);
+  if(pH.pp||pO.pp)rows.push(['Power play %',pH.pp||'—',pO.pp||'—']);
+  if(pH.pk||pO.pk)rows.push(['Penalty kill %',pH.pk||'—',pO.pk||'—']);
+  return rows;
+}
+/* auto-draft the news blurbs from the latest result + top scorer (edit, don't retype) */
+function autoDraftNews(){
+  const gs=glGames();const S=DATA.settings;
+  const last=gs[gs.length-1];
+  if(last&&!val('n_h1')){
+    const won=last.wl==='W';
+    setv('n_h1',(S.name||'HAVOC').toUpperCase()+(won?' TOP ':' FALL TO ')+last.opp.toUpperCase()+' '+Math.max(last.us,last.them)+'-'+Math.min(last.us,last.them));
+    setv('n_b1','The '+(S.name||'Havoc')+' '+(won?'defeated':'fell to')+' '+last.opp+' '+last.us+'-'+last.them+(last.otso?' in '+(last.otso==='SO'?'a shootout':'overtime'):'')+' on '+fmtDateShort(last.d)+', and are '+glRec(gs.slice(-10))+' over the last ten.');
+  }
+  const hsv=findTeamStats('Huntsville');
+  if(hsv&&hsv.players.length&&!val('n_h2')){
+    const top=[...hsv.players].sort((a,b)=>b.pts-a.pts)[0];
+    const lastName=(top.name||'').split(' ').pop().toUpperCase();
+    setv('n_h2',lastName+' PACING THE OFFENSE');
+    setv('n_b2',top.name+' leads the team in scoring with '+top.g+' goals and '+top.a+' assists for '+top.pts+' points in '+top.gp+' games.');
+  }
+  const streak=gs.length?glStreak(gs):'';
+  if(gs.length&&!val('n_h3')&&parseInt(streak)>=3){
+    setv('n_h3',streak.endsWith('W')?('WIN STREAK AT '+parseInt(streak)):('SKID REACHES '+parseInt(streak)));
+    setv('n_b3','The club has '+(streak.endsWith('W')?'won':'dropped')+' '+parseInt(streak)+' straight entering tonight.');
+  }
+  toast('News drafted — edit, then Refresh packet');
 }
 
 /* ============================================================
@@ -3055,12 +3425,19 @@ async function htDoResults(){
   const games=(d&&d.SiteKit&&d.SiteKit.Schedule)||[];
   if(!games.length)throw new Error('Schedule: no games returned.');
   const mySched=parseScheduleData();let filled=0,added=0;
+  const lgLog=[];
   games.forEach(g=>{
     const home=String(pick(g,['home_team_name','home_team','home_team_city'],''));
     const away=String(pick(g,['visiting_team_name','visiting_team','visiting_team_city'],''));
-    if(!/Huntsville/i.test(home)&&!/Huntsville/i.test(away))return;
     const dateISO=String(pick(g,['date_played','GameDateISO8601','date'],'')).slice(0,10);
     if(!/^\d{4}-\d{2}-\d{2}$/.test(dateISO))return;
+    { // league-wide finals cache — powers opponent sections + head-to-head
+      const st=String(pick(g,['game_status','status'],''));
+      const hg=+pick(g,['home_goal_count','home_goals'],NaN),ag=+pick(g,['visiting_goal_count','visiting_goals'],NaN);
+      if((/final/i.test(st)||String(pick(g,['final'],''))==='1')&&!isNaN(hg)&&!isNaN(ag))
+        lgLog.push({d:dateISO,h:home,a:away,hg,ag,ot:/SO/i.test(st)?'SO':(/OT/i.test(st)?'OT':'')});
+    }
+    if(!/Huntsville/i.test(home)&&!/Huntsville/i.test(away))return;
     const weAreHome=/Huntsville/i.test(home);
     const oppFull=(weAreHome?away:home).trim();
     const oppCity=Object.keys(TEAM_ABBR).find(c=>oppFull.indexOf(c)===0)||oppFull.replace(/\s+(Havoc|Bulls|Thunderbolts|Marksmen|Ice Bears|Mayhem|Ice Flyers|Rivermen|Storm|Rail Yard Dawgs|Rock Lobsters|IceCats|Mysticks)$/,'');
@@ -3073,6 +3450,18 @@ async function htDoResults(){
     if(!row.time){const t=htFmtTime(pick(g,['schedule_time','game_time','time'],''));if(t)row.time=t;}
     const status=String(pick(g,['game_status','status'],''));
     const final=/final/i.test(status)||String(pick(g,['final'],''))==='1';
+    if(final){ // feed the per-game store (attendance comes free from the feed)
+      const hg2=+pick(g,['home_goal_count','home_goals'],NaN),ag2=+pick(g,['visiting_goal_count','visiting_goals'],NaN);
+      if(!isNaN(hg2)&&!isNaN(ag2)){
+        DATA.gamelog=DATA.gamelog||{};
+        const e=DATA.gamelog[dateISO]=DATA.gamelog[dateISO]||{};
+        e.opp=oppCity;e.ha=weAreHome?'vs':'@';
+        e.us=weAreHome?hg2:ag2;e.them=weAreHome?ag2:hg2;
+        e.otso=/SO/i.test(status)?'SO':(/OT/i.test(status)?'OT':'');
+        const att=+String(pick(g,['attendance','att'],'')).replace(/,/g,'');
+        if(att&&!e.att)e.att=att;
+      }
+    }
     if(!final||row.result)return; // never overwrite a manually entered result (e.g. OTL/SOL notation)
     const hg=+pick(g,['home_goal_count','home_goals'],NaN),ag=+pick(g,['visiting_goal_count','visiting_goals'],NaN);
     if(isNaN(hg)||isNaN(ag))return;
@@ -3081,6 +3470,7 @@ async function htDoResults(){
     row.result=(us>them?'W ':'L ')+us+'-'+them+ot;
     filled++;
   });
+  if(lgLog.length)DATA.leagueLog=lgLog;
   if(filled||added){
     if(added)mySched.sort((a,b)=>a.dateISO<b.dateISO?-1:(a.dateISO>b.dateISO?1:0));
     DATA.notes.schedule=rebuildScheduleText(mySched);save();
