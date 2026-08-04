@@ -467,7 +467,7 @@
     </div>
     <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
-      <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, <b>Elite Prospects</b> career data (built weekly by a GitHub Action into <i>data/ep-players.json</i>) is merged in automatically — career-note bullets for players with empty bios and an EP profile link on every player name (your hand-written bios are never touched). Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
+      <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, an <b>Elite Prospects</b> profile link is attached to every player name (from <i>data/ep-players.json</i>, built weekly by a GitHub Action). <b>Bios are yours to write</b>: each Havoc player has a long media bio (game packet) and a short broadcast bio (lineup chart &amp; sheet); opponent players just the broadcast bio. Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
       <div class="grid g3">
         <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
         <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
@@ -478,8 +478,8 @@
         <button class="btn" onclick="htPullStandings()">Pull standings</button>
         <button class="btn" onclick="htPullPlayers()">Pull player + goalie stats</button>
         <button class="btn" onclick="htPullSchedule()">Pull schedule + results</button>
-        <button class="btn" onclick="htPullRosters()">Pull rosters + EP bios</button>
-        <button class="btn" onclick="htPullEPBios()">Merge EP data (all teams)</button>
+        <button class="btn" onclick="htPullRosters()">Pull rosters</button>
+        <button class="btn" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
         <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
       </div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
@@ -502,7 +502,7 @@
   <section class="panel" id="panel-roster">
     <div class="card">
       <h2>Havoc <span class="accent">Roster &amp; Bios</span></h2>
-      <p class="desc">Set once, reused every game. Header facts + career-note bullets per player.</p>
+      <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
       <div class="progress" id="rosterProgress"></div>
       <div class="btn-row" style="margin-top:14px">
         <button class="btn" onclick="openBulk('home')">Bulk import roster</button>
@@ -515,6 +515,29 @@
       </div>
     </div>
     <div class="card" style="padding:0;overflow:hidden"><div id="rosterTableWrap"></div></div>
+    <div class="card">
+      <h2>Hockey <span class="accent">Operations</span></h2>
+      <p class="desc">Meet the Hockey Operations Team — fill these in yourself. When any name is set, the Game Packet gets its own "Meet the Hockey Operations Team" page.</p>
+      <div class="grid g2">
+        <div>
+          <div class="field"><label>Head coach — name</label><input type="text" id="ho_hc_name" onchange="saveHockeyOps()"></div>
+          <div class="field"><label>Head coach — bio</label><textarea id="ho_hc_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+        </div>
+        <div>
+          <div class="field"><label>Assistant coach — name</label><input type="text" id="ho_ac_name" onchange="saveHockeyOps()"></div>
+          <div class="field"><label>Assistant coach — bio</label><textarea id="ho_ac_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+        </div>
+        <div>
+          <div class="field"><label>General manager — name</label><input type="text" id="ho_gm_name" onchange="saveHockeyOps()"></div>
+          <div class="field"><label>General manager — bio</label><textarea id="ho_gm_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+        </div>
+        <div>
+          <div class="field"><label>Equipment manager — name</label><input type="text" id="ho_eq_name" onchange="saveHockeyOps()"></div>
+          <div class="field"><label>Equipment manager — bio</label><textarea id="ho_eq_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+        </div>
+      </div>
+      <div class="btn-row"><button class="btn" onclick="saveHockeyOps();toast('Hockey ops saved')">Save hockey ops</button></div>
+    </div>
   </section>
 
   <!-- OPPONENT ROSTER -->
@@ -629,7 +652,7 @@
   <section class="panel" id="panel-chart">
     <div class="card no-print">
       <h2>Lineup <span class="accent">Chart</span></h2>
-      <p class="desc">Havoc cards by position with season stats + a compact two-line bio per player (hand-written notes first, Elite Prospects career data otherwise). Toggle the opponent side to add their page. Prints <b>horizontal (letter landscape), one page per team</b>.</p>
+      <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — with season stats + your broadcast bio (two lines max). Captains show their letter. Toggle the opponent side to add their page. Prints <b>horizontal (letter landscape), one page per team</b>.</p>
       <div class="field" style="max-width:280px"><label>Include opponent side?</label>
         <select id="chartSides"><option value="home">Havoc only</option><option value="both">Havoc + opponent</option></select></div>
       <div class="btn-row"><button class="btn" onclick="renderChart()">Refresh preview</button>
@@ -793,8 +816,12 @@
     <div class="field" style="grid-column:span 2"><label>Birthplace</label><input type="text" id="p_birth"></div>
     <div class="field" style="grid-column:span 2"><label>DOB</label><input type="text" id="p_dob"></div>
   </div>
-  <div class="field"><label>Career notes (one bullet per line)</label><textarea id="p_notes" rows="4"></textarea></div>
-  <div class="field"><label>Active for upcoming game?</label><select id="p_active"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+  <div class="field"><label>Broadcast bio (lineup chart &amp; game sheet — 1-2 short lines)</label><textarea id="p_bbio" rows="2"></textarea></div>
+  <div class="field" id="p_notes_wrap"><label>Media bio (game packet — one bullet per line)</label><textarea id="p_notes" rows="4"></textarea></div>
+  <div class="grid g2">
+    <div class="field"><label>Captain / Alternate</label><select id="p_capt"><option value="">—</option><option value="C">C — Captain</option><option value="A">A — Alternate captain</option></select></div>
+    <div class="field"><label>Active for upcoming game?</label><select id="p_active"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+  </div>
   <div class="btn-row"><button class="btn" onclick="savePlayer()">Save player</button>
   <button class="btn secondary" onclick="closeModal('playerModal')">Cancel</button>
   <button class="btn secondary" style="margin-left:auto;color:var(--havoc-red)" id="delPlayerBtn" onclick="deletePlayer()">Delete</button></div>
@@ -938,7 +965,8 @@ const DEFAULT_DATA={
   logos:{},             // {teamName:dataURL}
   coaches:{},           // overrides of SPHL_REF.coaches
   report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
-  epCache:{}             // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
+  epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
+  hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}} // Meet the Hockey Operations Team (user-filled)
 };
 let DATA=load();
 function load(){try{const raw=localStorage.getItem(KEY);if(raw)return Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(raw));}catch(e){}return structuredClone(DEFAULT_DATA);}
@@ -976,7 +1004,7 @@ document.getElementById('tabs').addEventListener('click',e=>{
   e.target.classList.add('active');
   const tab=e.target.dataset.tab;
   document.getElementById('panel-'+tab).classList.add('active');
-  if(tab==='roster')renderRoster();
+  if(tab==='roster'){renderRoster();loadHockeyOps();}
   if(tab==='opproster')renderOppRoster();
   if(tab==='schedule')loadSchedule();
   if(tab==='reference')renderReference();
@@ -1146,7 +1174,7 @@ function renderRosterTable(side,wrapId){
   let html='<table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Age</th><th>Birthplace</th><th>Bio</th><th>Active</th><th></th></tr></thead><tbody>';
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
-    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(p.name)}</a></td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
+    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a></td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
 }
@@ -1159,13 +1187,15 @@ function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
   const list=getRoster(side);const p=id?list.find(x=>x.id===id):{};
   setv('p_id',id||'');setv('p_side',side);
-  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_active',p.active||'1');
+  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
+  // opponents only carry a broadcast bio; the long media bio is Havoc-only
+  document.getElementById('p_notes_wrap').style.display=(side==='home')?'':'none';
   document.getElementById('delPlayerBtn').style.display=id?'inline-flex':'none';
   openModal('playerModal');
 }
 function savePlayer(){
   const id=val('p_id'),side=val('p_side');const list=getRoster(side);
-  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),active:val('p_active')};
+  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active')};
   if(!obj.name){toast("Name required");return;}
   if(id)Object.assign(list.find(x=>x.id===id),obj);else{obj.id=uid();list.push(obj);}
   save();closeModal('playerModal');side==='home'?renderRoster():renderOppRoster();toast("Player saved");
@@ -1405,14 +1435,12 @@ function leadersBlock(team){
 function findTeamStats(cityKeyword){const ts=DATA.report.teamStats||{};for(const k of Object.keys(ts))if(new RegExp(cityKeyword,'i').test(k))return ts[k];return null;}
 
 /* ============ LINEUP CHART (Image-1 dense style, per-team themed) ============ */
-/* Compact auto-bio for chart cards: at most 2 short lines — hand-written
-   notes first, Elite Prospects career data when there are none. */
+/* Broadcast bio for lineup chart & game sheet: the player's hand-written
+   broadcast bio (bbio), at most 2 short lines. Falls back to the first
+   lines of the media bio only so older saved data still shows something. */
 function chartBio(p){
-  let lines=(p.notes||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
-  if(!lines.length&&typeof epEntryFor==='function'){
-    const e=epEntryFor(p);
-    if(e)lines=(e.bullets&&e.bullets.length)?e.bullets.slice():epBulletsFromSeasons(e.careerStats||[],p.pos==='G','');
-  }
+  let lines=(p.bbio||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
+  if(!lines.length)lines=(p.notes||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
   return lines.slice(0,2).map(t=>t.length>92?t.slice(0,89).replace(/\s+\S*$/,'')+'…':t);
 }
 function renderChart(){
@@ -1433,9 +1461,12 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   const stats=findTeamStats(cityKeyword);
   const statByNum={},statByName={};
   if(stats)stats.players.forEach(p=>{statByNum[p.num]=p;statByName[norm(p.name)]=p;});
-  const order={C:0,LW:1,RW:2,D:3,G:4};
-  const active=list.filter(p=>p.active!=='0').sort((a,b)=>(order[a.pos]-order[b.pos])||(+a.num-+b.num));
-  const skaters=active.filter(p=>p.pos!=='G'),goalies=active.filter(p=>p.pos==='G');
+  // always numerical order: forwards by number, then defense by number, then goalies
+  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+  const active=list.filter(p=>p.active!=='0');
+  const forwards=active.filter(p=>p.pos!=='G'&&p.pos!=='D').sort(byNum);
+  const defense=active.filter(p=>p.pos==='D').sort(byNum);
+  const goalies=active.filter(p=>p.pos==='G').sort(byNum);
   const logo=teamLogoSrc(teamFull);
 
   const card=(p)=>{
@@ -1451,7 +1482,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     return `<div class="lcx-card" style="border-color:${secondary}">
       <div class="lcx-ph" style="background:${secondary}">
         <span class="lcx-num" style="color:#fff">${p.num||''}</span>
-        <span class="lcx-nm" style="color:#fff">${esc((p.name||'').toUpperCase())}</span>
+        <span class="lcx-nm" style="color:#fff">${esc(dispName(p).toUpperCase())}</span>
       </div>
       <div class="lcx-meta">${p.pos} · ${p.ht||'—'} · ${p.wt||'—'} · ${p.pos==='G'?'G':'Sh'} ${p.sh||'—'}${p.age?' · '+p.age+'y':''} · ${esc(p.birth||'')}</div>
       ${season?`<div class="lcx-stat" style="color:${primary}">${season}</div>`:''}
@@ -1481,8 +1512,9 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   return `${header}
     <div class="lcx-body">
       <div class="lcx-main">
-        <div class="lcx-sub" style="color:${primary};border-color:${primary}">Forwards &amp; Defense</div>
-        <div class="lcx-grid">${skaters.map(card).join('')}</div>
+        <div class="lcx-sub" style="color:${primary};border-color:${primary}">Forwards</div>
+        <div class="lcx-grid">${forwards.map(card).join('')}</div>
+        ${defense.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Defense</div><div class="lcx-grid">${defense.map(card).join('')}</div>`:''}
         ${goalies.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Goaltenders</div><div class="lcx-grid">${goalies.map(card).join('')}</div>`:''}
       </div>
       ${side}
@@ -1510,6 +1542,31 @@ function saveSettings(){DATA.settings={red:val('s_red'),city:val('s_city'),name:
 function exportData(){const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast("Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{DATA=Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(rd.result));save();initForms();renderRoster();updateAppMark();toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
 function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
+/* ============ HOCKEY OPERATIONS TEAM ============ */
+const HO_ROLES=[['hc','HEAD COACH'],['ac','ASSISTANT COACH'],['gm','GENERAL MANAGER'],['eq','EQUIPMENT MANAGER']];
+function loadHockeyOps(){
+  const H=DATA.hockeyOps||{};
+  HO_ROLES.forEach(r=>{const k=r[0];setv('ho_'+k+'_name',(H[k]||{}).name);setv('ho_'+k+'_bio',(H[k]||{}).bio);});
+}
+function saveHockeyOps(){
+  DATA.hockeyOps=DATA.hockeyOps||{};
+  HO_ROLES.forEach(r=>{const k=r[0];DATA.hockeyOps[k]={name:val('ho_'+k+'_name'),bio:document.getElementById('ho_'+k+'_bio').value.trim()};});
+  save();
+}
+function hockeyOpsPage(red,S){
+  const H=DATA.hockeyOps||{};
+  const items=HO_ROLES.map(r=>{
+    const k=r[0],title=r[1],e=H[k]||{};
+    if(!(e.name||'').trim()&&!(e.bio||'').trim())return '';
+    return `<div class="box"><h3>${title}${e.name?' — '+esc(e.name):''}</h3><div style="font-size:10px;line-height:1.6">${esc(e.bio||'')||'<span style="color:#999">Bio to come.</span>'}</div></div>`;
+  }).filter(Boolean).join('');
+  if(!items)return '';
+  return `<div class="page" style="--havoc-red:${red}">
+    <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">MEET THE HOCKEY OPERATIONS TEAM</div><div class="pg-num">__PGNO__</div></div>
+    ${items}
+    <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`;
+}
+
 function restoreBackup(){
   let bk=null;try{bk=JSON.parse(localStorage.getItem(KEY+'_backup')||'null');}catch(e){}
   if(!bk||!bk.data){toast("No auto-backup found yet");return;}
@@ -1524,6 +1581,7 @@ function restoreBackup(){
 function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function setv(id,v){const el=document.getElementById(id);if(el)el.value=v==null?'':v;}
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z]/g,'');}
+function dispName(p){return ((p&&p.name)||'')+(p&&p.capt?' ('+p.capt+')':'');}
 function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.':'A.M.';const h12=((h+11)%12)+1;return `${h12}:${String(m).padStart(2,'0')} ${ap}`;}
 function openModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
@@ -1642,18 +1700,21 @@ function sheetPageHTML(){
   const theme=teamTheme("Huntsville Havoc");
   const red=S.red||theme.primary;
   const stats=findTeamStats('Huntsville');
-  const order={C:0,LW:1,RW:2,D:3,G:4};
-  const active=DATA.roster.filter(p=>p.active!=='0').sort((a,b)=>(order[a.pos]-order[b.pos])||(+a.num-+b.num));
-  const skaters=active.filter(p=>p.pos!=='G'), goalies=active.filter(p=>p.pos==='G');
+  // numerical order with a defense divider, matching the lineup chart
+  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+  const active=DATA.roster.filter(p=>p.active!=='0');
+  const forwards=active.filter(p=>p.pos!=='G'&&p.pos!=='D').sort(byNum);
+  const defense=active.filter(p=>p.pos==='D').sort(byNum);
+  const goalies=active.filter(p=>p.pos==='G').sort(byNum);
 
   const rowFor=(p)=>{
     const st=stats?stats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
     const line=st?`${st.g}-${st.a}-${st.pts}`:'—';
-    const bio=mediaBio(p,stats,R);
+    const bio=chartBio(p).join(' · ');
     const[first,...lastArr]=(p.name||'').split(' ');const last=lastArr.join(' ');
     return `<tr>
       <td class="gs-num">${p.num||''}</td><td class="gs-pos">${p.pos||''}</td>
-      <td class="gs-first">${esc(first)}<div class="gs-last">${esc(last.toUpperCase())}</div><div class="gs-home">${esc(p.birth||'')}</div></td>
+      <td class="gs-first">${esc(first)}<div class="gs-last">${esc(last.toUpperCase())}${p.capt?' ('+esc(p.capt)+')':''}</div><div class="gs-home">${esc(p.birth||'')}</div></td>
       <td class="gs-hw">${esc(p.ht||'')}<br>${esc(p.wt||'')}</td>
       <td class="gs-stat">${line}<div class="gs-gp">${st?st.gp+' GP':''}</div></td>
       <td class="gs-bullets">${esc(bio)||'<span style="color:#aaa">No notes — add bio or import report</span>'}</td>
@@ -1662,10 +1723,10 @@ function sheetPageHTML(){
   const goalieRow=(p)=>{
     const g=stats?stats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
     const line=g?`${g.gaa} / ${g.svpct}`:'—';const rec=g?`${g.gp} GP / ${g.w}-${g.l}-${g.otl}`:'';
-    const bio=mediaBio(p,stats,R);
+    const bio=chartBio(p).join(' · ');
     const[first,...lastArr]=(p.name||'').split(' ');const last=lastArr.join(' ');
     return `<tr><td class="gs-num">${p.num||''}</td><td class="gs-pos">G</td>
-      <td class="gs-first">${esc(first)}<div class="gs-last">${esc(last.toUpperCase())}</div><div class="gs-home">${esc(p.birth||'')}</div></td>
+      <td class="gs-first">${esc(first)}<div class="gs-last">${esc(last.toUpperCase())}${p.capt?' ('+esc(p.capt)+')':''}</div><div class="gs-home">${esc(p.birth||'')}</div></td>
       <td class="gs-hw">${esc(p.ht||'')}<br>${esc(p.wt||'')}</td>
       <td class="gs-stat">${line}<div class="gs-gp">${rec}</div></td>
       <td class="gs-bullets">${esc(bio)||'<span style="color:#aaa">No notes</span>'}</td></tr>`;
@@ -1684,8 +1745,10 @@ function sheetPageHTML(){
       <div class="gs-head-s">${esc(G.hsvrec||'')} · ${G.homeaway==='@'?'@':'vs.'} ${esc(oppShort||'Opponent')} ${esc(G.opprec||'')} · ${dateStr}</div>
     </div>
     <table class="gs-table"><tbody>
-      <tr class="gs-section"><td colspan="6">FORWARDS &amp; DEFENSE</td></tr>
-      ${skaters.map(rowFor).join('')}
+      <tr class="gs-section"><td colspan="6">FORWARDS</td></tr>
+      ${forwards.map(rowFor).join('')}
+      <tr class="gs-section"><td colspan="6">DEFENSE</td></tr>
+      ${defense.map(rowFor).join('')}
       <tr class="gs-section"><td colspan="6">GOALTENDERS</td></tr>
       ${goalies.map(goalieRow).join('')}
     </tbody></table>
@@ -1868,7 +1931,8 @@ function renderPacket(){
   for(let i=0;i<allPlayers.length;i+=6){
     meetPages.push(meetTeamPage(allPlayers.slice(i,i+6),hsv,R,red,S));
   }
-  pages.splice(1,0,...meetPages);
+  const opsPage=hockeyOpsPage(red,S);
+  pages.splice(1,0,...meetPages,...(opsPage?[opsPage]:[]));
 
   try{pages.push(sheetPageHTML().replace('<div class="page"','<div class="page" data-sheet="1"'));}catch(e){console.error('sheet page',e);}
   document.getElementById('packetDoc').innerHTML=pages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
@@ -1933,7 +1997,7 @@ function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
     }
     const notes=(p.notes||'').split('\n').filter(Boolean).map(n=>'• '+esc(n)).join('<br>');
     const[lastN,...rest]=(p.name||'').split(' ').reverse();
-    const display=(p.name||'').toUpperCase();
+    const display=dispName(p).toUpperCase();
     return `<div class="mtp-card">
       <div class="mtp-head"><span class="mtp-name">${esc(display)}</span><span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
       ${statHTML}
@@ -2105,16 +2169,8 @@ function mediaBio(p, teamStats, allReport){
       if(allReport){const allP=[];Object.values(allReport.teamStats||{}).forEach(t=>t.players.forEach(x=>allP.push(x)));allP.sort((a,b)=>b.pts-a.pts);const lrk=allP.findIndex(x=>norm(x.name)===norm(st.name));if(lrk>=0&&lrk<15&&st.pts>0)sentences.push(`Leaguewide, he sits ${ordinal(lrk+1)} in SPHL scoring.`);}
     }
   }
-  // append written notes as their own sentences (career background the user added)
+  // append the hand-written media bio as its own sentences
   written.forEach(w=>{const t=w.replace(/^[•\-\s]+/,'').trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
-  // no hand-written notes → fall back to Elite Prospects career data so the blurb still reads full
-  if(!written.length&&typeof epEntryFor==='function'){
-    const e=epEntryFor(p);
-    if(e){
-      const eb=(e.bullets&&e.bullets.length)?e.bullets:epBulletsFromSeasons(e.careerStats||[],p.pos==='G','Huntsville Havoc');
-      eb.forEach(w=>{const t=String(w).trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
-    }
-  }
   return sentences.join(' ');
 }
 function listJoin(arr){if(arr.length===1)return arr[0];if(arr.length===2)return arr[0]+' and '+arr[1];return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];}
@@ -2778,7 +2834,7 @@ function meetTeamPage(players,teamStats,R,red,S){
       if(st)stripe=`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>PIM: ${st.pim}</span></div>`;}
     const blurb=mediaBio(p,teamStats,R);
     return `<div class="mtp-card">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc((p.name||'').toUpperCase())}</span><span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span><span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(blurb)||'<span style="color:#999">Add bio notes or import a report for a blurb.</span>'}</div>
     </div>`;
@@ -2830,10 +2886,41 @@ async function htFetch(extra,keyOverride,timeoutMs){
     try{
       const txt=await epFetchText(HT_BASE+'?'+htParams({...extra,key:useKey}));
       const m=txt.match(/[\[{][\s\S]*[\]}]/); // JSON body, tolerating JSONP wrappers
-      if(!m)throw new Error('not JSON');
+      if(!m)throw new Error('feed answered but not with data — key may be wrong');
       return JSON.parse(m[0]);
-    }catch(e2){throw e;}
+    }catch(e2){throw new Error(e.message+' · backup route: '+e2.message);}
   }
+}
+/* Find the real SPHL feed key on the league's own public pages (fetched
+   through the CORS proxies) — used when none of the known keys answer. */
+async function htScrapeKeys(statusPrefix){
+  const urls=['https://www.thesphl.com/','https://www.thesphl.com/stats/','https://lscluster.hockeytech.com/statview/mobile/flo/sphl/'];
+  const found=new Set();
+  const harvest=txt=>{
+    (txt.match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
+    if(/hockeytech|lscluster|leaguestat/i.test(txt))
+      (txt.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
+  };
+  for(const u of urls){
+    htStatus((statusPrefix||'')+'searching the league site for the feed key…','');
+    let html='';
+    try{html=await epFetchText(u);}catch(e){continue;}
+    harvest(html);
+    if(!found.size){ // check a few linked scripts that look feed-related
+      const srcs=(html.match(/<script[^>]+src=["']([^"']+)["']/gi)||[])
+        .map(s=>(s.match(/src=["']([^"']+)["']/i)||[])[1]).filter(Boolean)
+        .filter(s=>/hockeytech|leaguestat|main|app|bundle|stats/i.test(s)).slice(0,3);
+      for(let s of srcs){
+        try{
+          if(s.startsWith('//'))s='https:'+s;else if(!/^https?:/i.test(s))s=new URL(s,u).href;
+          harvest(await epFetchText(s));
+        }catch(e){}
+      }
+    }
+    if(found.size)break;
+  }
+  HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
+  return Array.from(found).slice(0,12);
 }
 function htJSONP(extra,useKey,timeoutMs){
   return new Promise((resolve,reject)=>{
@@ -3089,37 +3176,6 @@ async function epFetchText(url){
   EP_NETFAIL++;
   throw lastErr||new Error('All CORS proxies failed');
 }
-function epSvpFmt(v){if(v==null)return '';if(v>2)v=v/100;return v.toFixed(3).replace(/^0/,'');}
-function epBulletsFromSeasons(seasons,isGoalie,currentTeam){
-  const b=[];
-  const S=(seasons||[]).filter(s=>s.team&&s.year);
-  if(!S.length)return b;
-  const college=S.find(s=>/NCAA|USPORTS|ACHA/i.test(s.league));
-  if(college)b.push('Played college hockey at '+college.team+(college.league?' ('+college.league+')':''));
-  else{
-    const jr=S.find(s=>/USHL|NAHL|BCHL|OHL\b|WHL|QMJHL|OJHL|AJHL|NCDC|GOJHL|SJHL|MJHL/i.test(s.league));
-    if(jr)b.push('Junior hockey with '+jr.team+(jr.league?' ('+jr.league+')':''));
-  }
-  const proRe=/SPHL|ECHL|\bAHL\b|\bNHL\b|FPHL|LNAH|\bKHL\b|Liiga|\bDEL\b|ICEHL|EIHL|Extraliga|Slovakia|Czechia|\bSHL\b|Allsv/i;
-  const pro=S.filter(s=>proRe.test(s.league)&&s.stats&&s.stats.gp);
-  if(pro.length&&!isGoalie){
-    const gp=pro.reduce((t,s)=>t+(s.stats.gp||0),0);
-    const pts=pro.reduce((t,s)=>t+(s.stats.p||0),0);
-    const lgs=Array.from(new Set(pro.map(s=>s.league.trim()))).slice(0,4);
-    if(gp>=25)b.push(pts+' points in '+gp+' career pro games ('+lgs.join(', ')+')');
-  }
-  const notCur=S.filter(s=>!currentTeam||norm(s.team)!==norm(currentTeam));
-  const prior=notCur[notCur.length-1];
-  if(prior&&(!college||prior.team!==college.team))b.push('Most recently with '+prior.team+(prior.league?' ('+prior.league+')':'')+' in '+prior.year);
-  if(isGoalie){
-    const bg=S.filter(s=>s.stats&&s.stats.svp!=null&&s.stats.gp>=5).sort((x,y)=>((y.stats.svp>2?y.stats.svp/100:y.stats.svp)-(x.stats.svp>2?x.stats.svp/100:x.stats.svp)))[0];
-    if(bg)b.push('Best season: '+epSvpFmt(bg.stats.svp)+' SV%'+(bg.stats.gaa!=null?', '+bg.stats.gaa.toFixed(2)+' GAA':'')+' in '+bg.stats.gp+' GP with '+bg.team+' ('+bg.year+')');
-  }else{
-    const best=S.filter(s=>s.stats&&s.stats.p>0).sort((x,y)=>y.stats.p-x.stats.p)[0];
-    if(best)b.push('Best season: '+(best.stats.g!=null?best.stats.g+'G-'+best.stats.a+'A-':'')+best.stats.p+'P in '+best.stats.gp+' GP with '+best.team+' ('+best.year+')');
-  }
-  return b.slice(0,4);
-}
 let EP_STATIC=null,EP_STATIC_AT=0;
 async function epLoadStatic(force){
   if(!force&&EP_STATIC&&Date.now()-EP_STATIC_AT<3600000)return EP_STATIC;
@@ -3141,32 +3197,27 @@ function epEntryFor(p){
 function epLinkFor(p){
   return p.epUrl||'https://www.eliteprospects.com/search/player?q='+encodeURIComponent(p.name||'');
 }
-async function epAutoBios(scope){ // 'auto' = Havoc + this game's opponent · 'all' = every stored roster
+async function epAutoBios(scope){ // links only — bios are written by hand (media + broadcast fields)
   const data=await epLoadStatic();
-  if(!data)return 'EP data: data/ep-players.json not published yet — the weekly GitHub Action builds it (see README); player names link to EP search meanwhile';
+  if(!data)return 'EP links: data/ep-players.json not published yet — names link to EP search meanwhile';
   const teams=[['Huntsville Havoc',DATA.roster]];
   if(scope==='all')Object.keys(DATA.oppRosters||{}).forEach(t=>teams.push([t,DATA.oppRosters[t]]));
   else{const opp=(DATA.game&&DATA.game.opp)||'';if(opp&&DATA.oppRosters&&DATA.oppRosters[opp])teams.push([opp,DATA.oppRosters[opp]]);}
-  let filled=0,linked=0,missing=0;
+  let linked=0,missing=0;
   teams.forEach(pair=>{
-    const teamName=pair[0];
     (pair[1]||[]).forEach(p=>{
       if(!p.name||p.active==='0')return;
       const e=epEntryFor(p);
       if(!e){missing++;return;}
       if(e.epUrl&&p.epUrl!==e.epUrl){p.epUrl=e.epUrl;linked++;}
-      if(!p.birth&&e.hometown)p.birth=e.hometown;
+      if(!p.birth&&e.hometown)p.birth=e.hometown; // header facts only — never bios
       if(!p.dob&&e.dob)p.dob=htDobFmt(e.dob)||p.dob;
-      if(!(p.notes&&p.notes.trim())){
-        const bullets=(e.bullets&&e.bullets.length)?e.bullets:epBulletsFromSeasons(e.careerStats||[],p.pos==='G',teamName);
-        if(bullets.length){p.notes=bullets.join('\n');filled++;}
-      }
     });
   });
   save();renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
-  return 'EP data: '+filled+' bios filled, '+linked+' profiles linked'+(missing?', '+missing+' without EP match (names link to EP search)':'');
+  return 'EP links: '+linked+' profiles linked'+(missing?', '+missing+' without EP match (names link to EP search)':'');
 }
-async function htPullEPBios(){try{htStatus('Merging Elite Prospects data (all teams)…','');htStatus(await epAutoBios('all'),true);}catch(e){htStatus(e.message,false);}}
+async function htPullEPBios(){try{htStatus('Linking Elite Prospects profiles (all teams)…','');htStatus(await epAutoBios('all'),true);}catch(e){htStatus(e.message,false);}}
 
 function htShowLastSync(){
   const el=document.getElementById('htLastSync');if(!el)return;
@@ -3218,8 +3269,8 @@ async function htSyncAll(){
     let rosterOK=false;
     try{results.push('rosters: '+await htDoRosters());rosterOK=true;}catch(e){results.push('rosters FAILED ('+e.message+')');}
     if(rosterOK){
-      htStatus('Step 6/6: Elite Prospects career bios…','');
-      try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP bios FAILED ('+e.message+')');}
+      htStatus('Step 6/6: Elite Prospects profile links…','');
+      try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP links FAILED ('+e.message+')');}
     }
     DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();
     if(!SB_HASGAMES)sbStart(); // key/season may have just been auto-detected — light the scorebar up
@@ -3234,21 +3285,32 @@ async function htSyncAll(){
 /* Auto-detect a working public feed key (candidates from open-source HockeyTech projects).
    All candidates are probed in parallel with a short timeout; first one that answers wins. */
 const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
-async function htAutoKey(statusPrefix){
-  htStatus((statusPrefix||'')+'trying '+HT_CANDIDATE_KEYS.length+' known public keys…','');
-  const probes=HT_CANDIDATE_KEYS.map(k=>
+async function htProbeKeys(keys){
+  const probes=keys.map(k=>
     htFetch({feed:'modulekit',view:'seasons'},k,7000).then(d=>{
       const seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];
       if(!seasons.length)throw new Error('no seasons');
       return {key:k,seasons};
     })
   );
-  try{
-    const win=await Promise.any(probes);
-    DATA.settings.htKey=win.key;save();
-    const inp=document.getElementById('ht_key');if(inp)inp.value=win.key;
-    return win;
-  }catch(e){return null;}
+  try{return await Promise.any(probes);}catch(e){return null;}
+}
+async function htAutoKey(statusPrefix){
+  htStatus((statusPrefix||'')+'trying '+HT_CANDIDATE_KEYS.length+' known public keys…','');
+  let win=await htProbeKeys(HT_CANDIDATE_KEYS);
+  if(!win){ // none of the known keys answer — pull the real one off the league's site
+    try{
+      const scraped=await htScrapeKeys(statusPrefix);
+      if(scraped.length){
+        htStatus((statusPrefix||'')+'found '+scraped.length+' possible key(s) on the league site — testing…','');
+        win=await htProbeKeys(scraped);
+      }
+    }catch(e){}
+  }
+  if(!win)return null;
+  DATA.settings.htKey=win.key;save();
+  const inp=document.getElementById('ht_key');if(inp)inp.value=win.key;
+  return win;
 }
 
 /* ============================================================
@@ -3329,7 +3391,7 @@ setInterval(async()=>{
 },3600000);
 
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
