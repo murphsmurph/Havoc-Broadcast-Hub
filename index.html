@@ -2901,6 +2901,17 @@ async function htScrapeKeys(statusPrefix){
     if(/hockeytech|lscluster|leaguestat/i.test(txt))
       (txt.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
   };
+  // Wayback Machine URL index first: archived SPHL feed calls carry the key
+  // in the URL, and archive.org answers browsers directly (CORS-open).
+  try{
+    htStatus((statusPrefix||'')+'checking the web archive for the feed key…','');
+    const cdx='https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=500';
+    let txt='';
+    try{const r=await fetch(cdx);if(r.ok)txt=await r.text();}catch(e){}
+    if(!txt){try{txt=await epFetchText(cdx);}catch(e){}}
+    (String(txt).match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
+  }catch(e){}
+  if(found.size){HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));return Array.from(found).slice(0,20);}
   for(const u of urls){
     htStatus((statusPrefix||'')+'searching the league site for the feed key…','');
     let html='';

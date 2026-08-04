@@ -109,25 +109,37 @@ async function htKeyWorks(fetchJson,k){
     return !!(d&&d.SiteKit&&Array.isArray(d.SiteKit.Seasons)&&d.SiteKit.Seasons.length);
   }catch(e){return false;}
 }
-/* Same trick as the front end: when no known key answers, harvest the real
-   key off the league's own public pages. */
+/* When no known key answers, find the real one:
+   1) the Wayback Machine's URL index — archived lscluster feed calls for
+      client_code=sphl carry the key right in the URL;
+   2) the league's own public pages. */
+async function fetchText(u,ms){
+  const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),ms||25000);
+  try{
+    const res=await fetch(u,{signal:ctl.signal,headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36','Accept':'*/*'}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return await res.text();
+  }finally{clearTimeout(t);}
+}
 async function htScrapeKeys(){
-  const urls=['https://www.thesphl.com/','https://www.thesphl.com/stats/','https://lscluster.hockeytech.com/statview/mobile/flo/sphl/'];
   const found=new Set();
-  for(const u of urls){
-    let html='';
-    try{
-      const res=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0 (compatible; HavocHub/1.0)'}});
-      if(!res.ok)continue;
-      html=await res.text();
-    }catch(e){continue;}
-    (html.match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
-    if(/hockeytech|lscluster|leaguestat/i.test(html))
-      (html.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
-    if(found.size)break;
+  const harvest=t=>{(String(t).match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));};
+  try{
+    harvest(await fetchText('https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=500'));
+    if(found.size)console.log('Wayback index yielded '+found.size+' candidate key(s).');
+  }catch(e){console.warn('Wayback lookup failed: '+e.message);}
+  if(!found.size){
+    for(const u of ['https://www.thesphl.com/','https://www.thesphl.com/stats/','https://lscluster.hockeytech.com/statview/mobile/flo/sphl/']){
+      let html='';
+      try{html=await fetchText(u,15000);}catch(e){continue;}
+      harvest(html);
+      if(/hockeytech|lscluster|leaguestat/i.test(html))
+        (html.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
+      if(found.size)break;
+    }
   }
   HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
-  return [...found].slice(0,12);
+  return [...found].slice(0,20);
 }
 async function htDetectKey(fetchJson){
   if(process.env.HT_KEY)return process.env.HT_KEY;
