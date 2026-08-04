@@ -9,7 +9,9 @@ A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No buil
 - **Game sheet, lineup chart & line card** — printable, per-team colors, all 12 team logos embedded
 - **2026-27 schedule** — official 60-game slate + preseason, promo nights, results entry, season calendar (home red / away gray)
 - **Standings & league reference** — 2026-27 rule changes, schedule matrix, all-time Havoc leaders, head-to-head
-- **Live SPHL data** — one-tap sync from the league's HockeyTech feed (standings, all player/goalie stats, auto-filled final scores)
+- **Live scorebar** — league-wide SPHL scores (recent finals, tonight, week ahead) that update every minute while games are on, every 15 minutes otherwise, and pause while the tab is hidden; standings and stats also quietly refresh hourly
+- **Live SPHL data** — one-tap sync from the league's HockeyTech feed (standings, all player/goalie stats, full schedule + auto-filled final scores, and every team's roster). Works both hosted (GitHub Pages etc.) and opened as a local file; the feed key is auto-detected, and everything is saved to this browser after each sync
+- **Automatic Elite Prospects bios** — a weekly GitHub Action (`.github/workflows/ep-data.yml`) matches every SPHL player to Elite Prospects via the official EP API (name + date-of-birth matching, cached forever, hand-fixable via `data/ep-overrides.json`) and commits `data/ep-players.json`. The site merges it in after each roster pull: career-note bullets (college/junior background, pro totals, last team, best season) for players with empty bios, and an EP profile link on every player name (EP search link when unmatched — never a broken section). Hand-written bios are never overwritten. One-time setup in `data/README.md`; without an EP API key it still runs in links-only mode
 - **Broadcast call log** — career game tracking for 2025-26 + 2026-27, importable from the call-log app
 - **Post-game copy desk** — recap writer from a Game Center paste + booth notes (needs an Anthropic API key)
 - **Learn the Roster** — quiz modes for play-by-play memorization
@@ -19,6 +21,7 @@ All data (rosters, results, call log, keys) is saved in the **browser's localSto
 - Safe to share/publish this file — it contains no personal data or keys
 - **Moving between computers/URLs = data does NOT follow.** Use **Settings → Export** on the old copy and Import on the new one
 - Back up with Settings → Export regularly. localStorage can be wiped by clearing browser data.
+- A rolling **auto-backup** (everything except logos) is also kept in the browser — Settings → Restore auto-backup brings it back if something gets overwritten.
 
 ## Run it
 Open `index.html` in a browser. That's the whole install.

@@ -392,6 +392,18 @@
     .tab{white-space:nowrap;flex:0 0 auto;padding:12px 14px;}
     .seg textarea{font-size:16px;}
   }
+  /* live scorebar */
+  .sb-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 0;-webkit-overflow-scrolling:touch;}
+  .sb-game{flex:0 0 auto;min-width:132px;border:1px solid var(--havoc-line);border-radius:8px;padding:7px 10px;background:#fafafa;font-size:12px;line-height:1.5;}
+  .sb-game .sb-row{display:flex;justify-content:space-between;gap:12px;}
+  .sb-game .sb-score{font-weight:900;font-variant-numeric:tabular-nums;}
+  .sb-game .sb-status{font-size:10px;color:#888;margin-top:3px;letter-spacing:.03em;text-transform:uppercase;}
+  .sb-game.sb-live{border-color:var(--havoc-red);}
+  .sb-game.sb-live .sb-status{color:var(--havoc-red);font-weight:800;}
+  .sb-game.sb-hav{background:#fdf2f3;}
+  .sb-msg{font-size:12px;color:#888;padding:6px 2px;}
+  .ep-link{color:inherit;text-decoration:none;border-bottom:1px dotted #c9c9c9;}
+  .ep-link:hover{color:var(--havoc-red);border-bottom-color:var(--havoc-red);}
 </style>
 </head>
 <body>
@@ -446,8 +458,14 @@
   <!-- IMPORT (multi-segment) -->
   <section class="panel" id="panel-import">
     <div class="card">
+      <h2>League <span class="accent">Scorebar</span></h2>
+      <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
+      <div id="sbStrip" class="sb-strip"><div class="sb-msg">Connecting to the league feed…</div></div>
+      <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
+    </div>
+    <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
-      <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). Only if auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
+      <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, <b>Elite Prospects</b> career data (built weekly by a GitHub Action into <i>data/ep-players.json</i>) is merged in automatically — career-note bullets for players with empty bios and an EP profile link on every player name (your hand-written bios are never touched). Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
       <div class="grid g3">
         <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
         <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
@@ -457,9 +475,13 @@
         <button class="btn" id="htSyncBtn" onclick="htSyncAll()" style="font-weight:900">⟳ Sync all live data</button>
         <button class="btn" onclick="htPullStandings()">Pull standings</button>
         <button class="btn" onclick="htPullPlayers()">Pull player + goalie stats</button>
+        <button class="btn" onclick="htPullSchedule()">Pull schedule + results</button>
+        <button class="btn" onclick="htPullRosters()">Pull rosters + EP bios</button>
+        <button class="btn" onclick="htPullEPBios()">Merge EP data (all teams)</button>
         <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
       </div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
+      <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
     </div>
     </section>
 
@@ -708,11 +730,12 @@
     </div>
     <div class="card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
-      <p class="desc">Everything is stored in this browser only. Export a backup regularly.</p>
+      <p class="desc">Everything is stored in this browser only and saved locally after every change and every live-data sync. A rolling auto-backup (everything except logos) is also kept in this browser — use Restore if something gets clobbered. Export a file backup regularly too.</p>
       <div class="btn-row">
         <button class="btn secondary" onclick="exportData()">Export backup (.json)</button>
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
         <input type="file" id="importFile2" accept="application/json" style="display:none" onchange="importData(event)">
+        <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
         <button class="btn secondary" style="color:var(--havoc-red)" onclick="wipeAll()">Reset everything</button>
       </div>
     </div>
@@ -886,6 +909,10 @@ const SPHL_REF = {
 };
 </script>
 <script>
+/* ============ COMPAT (older iOS/macOS Safari) ============ */
+if(typeof structuredClone!=='function')window.structuredClone=o=>JSON.parse(JSON.stringify(o));
+if(!Promise.any)Promise.any=ps=>new Promise((res,rej)=>{let n=ps.length;const errs=[];if(!n){rej(new Error('empty'));return;}ps.forEach((p,i)=>Promise.resolve(p).then(res,e=>{errs[i]=e;if(--n===0)rej(errs[0]);}));});
+
 /* ============ DATA MODEL ============ */
 const TEAMS=["Athens Rock Lobsters","Birmingham Bulls","Evansville Thunderbolts","Fayetteville Marksmen","Huntsville Havoc","Knoxville Ice Bears","Macon Mayhem","Pee Dee IceCats","Pensacola Ice Flyers","Peoria Rivermen","Quad City Storm","Roanoke Rail Yard Dawgs"];
 const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayetteville":"FAY","Huntsville":"HSV","Knoxville":"KNX","Macon":"MAC","Pee Dee":"PD","Pensacola":"PEN","Peoria":"PEO","Quad City":"QC","Roanoke":"RNK"};
@@ -897,11 +924,24 @@ const DEFAULT_DATA={
   oppRosters:{},        // {teamName:[players]}
   logos:{},             // {teamName:dataURL}
   coaches:{},           // overrides of SPHL_REF.coaches
-  report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}}
+  report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
+  epCache:{}             // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
 };
 let DATA=load();
 function load(){try{const raw=localStorage.getItem(KEY);if(raw)return Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(raw));}catch(e){}return structuredClone(DEFAULT_DATA);}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(DATA));flashSaved();}catch(e){toast("Save failed — storage may be full (large logos?)");}}
+let BK_LAST=0;
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(DATA));flashSaved();}catch(e){toast("Save failed — storage may be full (large logos?)");return;}
+  /* rolling auto-backup, logos excluded so it stays small; at most every 30s */
+  try{
+    const now=Date.now();
+    if(now-BK_LAST>30000){
+      BK_LAST=now;
+      const rest=Object.assign({},DATA);delete rest.logos;
+      localStorage.setItem(KEY+'_backup',JSON.stringify({at:new Date().toISOString(),data:rest}));
+    }
+  }catch(e){}
+}
 function flashSaved(){const el=document.getElementById('saveStatus');el.textContent="✓ Saved "+new Date().toLocaleTimeString();setTimeout(()=>el.textContent="All changes saved locally",2500);}
 function uid(){return 'p'+Math.random().toString(36).slice(2,9);}
 
@@ -1093,7 +1133,7 @@ function renderRosterTable(side,wrapId){
   let html='<table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Age</th><th>Birthplace</th><th>Bio</th><th>Active</th><th></th></tr></thead><tbody>';
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
-    html+=`<tr><td class="num">${p.num||''}</td><td class="nm">${esc(p.name)}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
+    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(p.name)}</a></td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
 }
@@ -1435,6 +1475,15 @@ function saveSettings(){DATA.settings={red:val('s_red'),city:val('s_city'),name:
 function exportData(){const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast("Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{DATA=Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(rd.result));save();initForms();renderRoster();updateAppMark();toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
 function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
+function restoreBackup(){
+  let bk=null;try{bk=JSON.parse(localStorage.getItem(KEY+'_backup')||'null');}catch(e){}
+  if(!bk||!bk.data){toast("No auto-backup found yet");return;}
+  if(!confirm("Restore auto-backup from "+new Date(bk.at).toLocaleString()+"? Team logos are kept from current data."))return;
+  const logos=DATA.logos||{};
+  DATA=Object.assign(structuredClone(DEFAULT_DATA),bk.data);
+  DATA.logos=logos;
+  save();initForms();renderRoster();updateAppMark();toast("Auto-backup restored");
+}
 
 /* ============ HELPERS ============ */
 function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -2705,25 +2754,49 @@ const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
 function htKey(){return (DATA.settings.htKey||'').trim();}
 function htSeason(){return (DATA.settings.htSeason||'').trim();}
 function htParams(extra){
-  const p={key:htKey(),client_code:'sphl',fmt:'json',...extra};
+  const p={key:htKey(),client_code:'sphl',fmt:'json',lang:'en',...extra};
   return Object.keys(p).map(k=>k+'='+encodeURIComponent(p[k])).join('&');
 }
 let HT_CB=0;
 function htHosted(){return location.protocol.startsWith('http');}
-async function htFetch(extra,keyOverride){
-  if(htHosted()){
-    // hosted (e.g. Cloudflare Pages): same-origin server proxy — no key needed client-side
-    const useKey=keyOverride||htKey();
-    const q=Object.entries({...extra,...(useKey?{key:useKey}:{})}).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
-    const res=await fetch('/api/ht?'+q);
-    if(!res.ok){let msg='Proxy error '+res.status;try{const j=await res.json();if(j.error)msg=j.error;}catch(e){}throw new Error(msg);}
-    return await res.json();
+/* Same-origin proxy state: null = untried, true = works, false = missing/broken (use direct JSONP). */
+let HT_PROXY=null;
+async function htFetch(extra,keyOverride,timeoutMs){
+  const useKey=keyOverride||htKey();
+  if(htHosted()&&HT_PROXY!==false){
+    // hosted with a server proxy (e.g. Cloudflare Pages): same-origin /api/ht — no key needed client-side.
+    // Plain static hosting (e.g. GitHub Pages) has no /api/ht; fall back to direct JSONP below.
+    try{
+      const q=Object.entries({...extra,...(useKey?{key:useKey}:{})}).map(([k,v])=>k+'='+encodeURIComponent(v)).join('&');
+      const res=await fetch('/api/ht?'+q);
+      if(!res.ok){let msg='Proxy error '+res.status;try{const j=await res.json();if(j.error)msg=j.error;}catch(e){}throw new Error(msg);}
+      const j=await res.json();
+      HT_PROXY=true;
+      return j;
+    }catch(e){
+      if(HT_PROXY===true)throw e; // proxy known good — this is a real feed error, surface it
+      HT_PROXY=false;             // no working proxy on this host — use direct JSONP from now on
+    }
   }
+  try{
+    return await htJSONP(extra,useKey,timeoutMs);
+  }catch(e){
+    // last resort (e.g. Safari content blockers eating third-party script tags):
+    // fetch the feed's plain JSON through the public CORS proxies
+    if(!useKey)throw e;
+    try{
+      const txt=await epFetchText(HT_BASE+'?'+htParams({...extra,key:useKey}));
+      const m=txt.match(/[\[{][\s\S]*[\]}]/); // JSON body, tolerating JSONP wrappers
+      if(!m)throw new Error('not JSON');
+      return JSON.parse(m[0]);
+    }catch(e2){throw e;}
+  }
+}
+function htJSONP(extra,useKey,timeoutMs){
   return new Promise((resolve,reject)=>{
-    const useKey=keyOverride||htKey();
     if(!useKey){reject(new Error('No feed key - run auto-detect or paste one.'));return;}
     const cb='__htcb'+(++HT_CB);
-    const t=setTimeout(()=>{cleanup();reject(new Error('No response — key may be wrong, or the feed blocked the request.'));},12000);
+    const t=setTimeout(()=>{cleanup();reject(new Error('No response — key may be wrong, or the feed blocked the request.'));},timeoutMs||12000);
     function cleanup(){delete window[cb];if(s.parentNode)s.parentNode.removeChild(s);clearTimeout(t);}
     window[cb]=(data)=>{cleanup();resolve(data);};
     const s=document.createElement('script');
@@ -2732,27 +2805,56 @@ async function htFetch(extra,keyOverride){
     document.head.appendChild(s);
   });
 }
+function htPickSeason(seasons){
+  const sorted=[...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id));
+  return sorted.find(s=>/regular/i.test(s.season_name||''))||sorted[0];
+}
+/* Fetch the season list, auto-detecting a feed key if the configured setup can't answer. */
+async function htGetSeasons(prefix){
+  try{
+    const d=await htFetch({feed:'modulekit',view:'seasons'});
+    const seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];
+    if(seasons.length)return seasons;
+    throw new Error('Connected, but no seasons returned — check the key.');
+  }catch(e){
+    if(htKey())throw e; // a key is set but the feed still failed — surface that
+    const auto=await htAutoKey(prefix||'');
+    if(auto)return auto.seasons;
+    throw new Error('No feed key worked — paste one (thesphl.com, DevTools Network, lscluster request, key= value).');
+  }
+}
+async function htEnsureReady(prefix){
+  if(htKey()&&htSeason())return;
+  const seasons=await htGetSeasons(prefix);
+  if(!htSeason()){
+    const cur=htPickSeason(seasons);
+    DATA.settings.htSeason=String(cur.season_id);save();
+  }
+}
 function pick(o,keys,d){for(const k of keys){if(o&&o[k]!=null&&o[k]!=='')return o[k];}return d;}
 function htStatus(msg,ok){const el=document.getElementById('htStatus');if(el){el.textContent=msg;el.style.color=ok?'#1b7a3d':'#b3232c';}}
 async function htTest(){
   try{
     htStatus('Testing…','');
-    let seasons=[];
-    if(!htKey()&&!htHosted()){const auto=await htAutoKey('Auto-detect: ');if(auto){seasons=auto.seasons;}else{throw new Error('Auto-detect failed - none of the known public keys worked for SPHL. Paste the key from thesphl.com (DevTools, Network tab, lscluster request, key= value).');}}
-    if(!seasons.length){const d=await htFetch({feed:'modulekit',view:'seasons'});seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];}
-    if(!seasons.length)throw new Error('Connected, but no seasons returned — check the key.');
+    const seasons=await htGetSeasons('Auto-detect: ');
     const sel=document.getElementById('ht_seasonSel');
     sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
-    const cur=seasons.find(s=>/2026-27.*Regular/i.test(s.season_name))||seasons[0];
-    sel.value=cur.season_id;
-    DATA.settings.htSeason=cur.season_id;save();
+    const saved=seasons.find(s=>String(s.season_id)===htSeason());
+    const cur=saved||htPickSeason(seasons);
+    sel.value=String(cur.season_id);
+    DATA.settings.htSeason=String(cur.season_id);save();
     htStatus('Connected — '+seasons.length+' seasons found. Season set to '+cur.season_name+'.',true);
+    sbStart();
   }catch(e){htStatus(e.message,false);}
 }
 
 async function htDoStandings(){
   const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:htSeason()});
-  const rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  let rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  if(!rows.length){ // some HockeyTech configs only answer the plain standings view
+    const d2=await htFetch({feed:'modulekit',view:'standings',season_id:htSeason()});
+    rows=(d2&&d2.SiteKit&&(d2.SiteKit.Standings||d2.SiteKit.Statviewtype))||[];
+  }
   const out=[];
   rows.forEach(r=>{
     const name=String(pick(r,['team_name','name','team_city','city'],'')).trim();
@@ -2796,72 +2898,395 @@ async function htDoPlayers(){
   syncRosterStats();save();
   return Object.keys(ts).length+' teams of player/goalie stats';
 }
+function htFmtTime(t){const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);if(!m)return '';let h=+m[1];const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+m[2]+' '+ap;}
 async function htDoResults(){
   const d=await htFetch({feed:'modulekit',view:'schedule',season_id:htSeason()});
   const games=(d&&d.SiteKit&&d.SiteKit.Schedule)||[];
   if(!games.length)throw new Error('Schedule: no games returned.');
-  const mySched=parseScheduleData();let filled=0;
+  const mySched=parseScheduleData();let filled=0,added=0;
   games.forEach(g=>{
-    const status=String(pick(g,['game_status','status'],''));
-    const final=/final/i.test(status)||String(pick(g,['final'],''))==='1';
-    if(!final)return;
     const home=String(pick(g,['home_team_name','home_team','home_team_city'],''));
     const away=String(pick(g,['visiting_team_name','visiting_team','visiting_team_city'],''));
     if(!/Huntsville/i.test(home)&&!/Huntsville/i.test(away))return;
+    const dateISO=String(pick(g,['date_played','GameDateISO8601','date'],'')).slice(0,10);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(dateISO))return;
+    const weAreHome=/Huntsville/i.test(home);
+    const oppFull=(weAreHome?away:home).trim();
+    const oppCity=Object.keys(TEAM_ABBR).find(c=>oppFull.indexOf(c)===0)||oppFull.replace(/\s+(Havoc|Bulls|Thunderbolts|Marksmen|Ice Bears|Mayhem|Ice Flyers|Rivermen|Storm|Rail Yard Dawgs|Rock Lobsters|IceCats|Mysticks)$/,'');
+    let row=mySched.find(x=>x.dateISO===dateISO);
+    if(!row){
+      const parts=dateISO.split('-');
+      row={date:(+parts[1])+'/'+(+parts[2]),yy:parts[0].slice(2),dateISO,hv:weAreHome?'vs':'@',team:oppCity,time:'',result:'',note:'',ps:false,opp:''};
+      mySched.push(row);added++;
+    }
+    if(!row.time){const t=htFmtTime(pick(g,['schedule_time','game_time','time'],''));if(t)row.time=t;}
+    const status=String(pick(g,['game_status','status'],''));
+    const final=/final/i.test(status)||String(pick(g,['final'],''))==='1';
+    if(!final||row.result)return; // never overwrite a manually entered result (e.g. OTL/SOL notation)
     const hg=+pick(g,['home_goal_count','home_goals'],NaN),ag=+pick(g,['visiting_goal_count','visiting_goals'],NaN);
     if(isNaN(hg)||isNaN(ag))return;
-    const dateISO=String(pick(g,['date_played','GameDateISO8601','date'],'')).slice(0,10);
-    const row=mySched.find(x=>x.dateISO===dateISO);
-    if(!row||row.result)return;
-    const weAreHome=/Huntsville/i.test(home);
     const us=weAreHome?hg:ag, them=weAreHome?ag:hg;
     const ot=/OT/i.test(status)?' (OT)':(/SO/i.test(status)?' (SO)':'');
     row.result=(us>them?'W ':'L ')+us+'-'+them+ot;
     filled++;
   });
-  if(filled){DATA.notes.schedule=rebuildScheduleText(mySched);save();renderSchedPreview&&document.getElementById('schedPreview')&&renderSchedPreview();if(DATA.calllog){clCurrentSeason();save();}}
-  return filled+' new final scores filled';
+  if(filled||added){
+    if(added)mySched.sort((a,b)=>a.dateISO<b.dateISO?-1:(a.dateISO>b.dateISO?1:0));
+    DATA.notes.schedule=rebuildScheduleText(mySched);save();
+    const box=document.getElementById('sched_text');if(box)box.value=DATA.notes.schedule;
+    if(typeof renderSchedPreview==='function'&&document.getElementById('schedPreview'))renderSchedPreview();
+    if(DATA.calllog){clCurrentSeason();save();}
+  }
+  return filled+' new final scores filled'+(added?', '+added+' games added':'');
 }
-async function htPullStandings(){try{htStatus('Pulling standings…','');htStatus('Standings: '+await htDoStandings(),true);}catch(e){htStatus(e.message,false);}}
-async function htPullPlayers(){try{htStatus('Pulling player + goalie stats…','');htStatus('Stats: '+await htDoPlayers(),true);}catch(e){htStatus(e.message,false);}}
+/* ---- Rosters: pull every team's roster from the feed ---- */
+function htHeightFmt(h){h=String(h||'').trim();const m=h.match(/^(\d)\.(\d{1,2})$/);if(m)return m[1]+'-'+String(+m[2]);return h;}
+function htDobFmt(b){const m=String(b||'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return '';return m[2]+'/'+m[3]+'/'+m[1].slice(2);}
+function htAgeFrom(b){const m=String(b||'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return '';const t=new Date();let a=t.getFullYear()-(+m[1]);if((t.getMonth()+1)*100+t.getDate()<(+m[2])*100+(+m[3]))a--;return a>0&&a<60?String(a):'';}
+function htRosterRow(r){
+  let name=String(pick(r,['name','player_name'],'')).trim();
+  if(!name)name=(String(pick(r,['first_name'],''))+' '+String(pick(r,['last_name'],''))).trim();
+  const pos=String(pick(r,['position','pos'],'')).toUpperCase().trim();
+  if(!name||!/^(F|C|LW|RW|W|D|G)$/.test(pos))return null; // skips staff/coach rows
+  const bd=String(pick(r,['birthdate','date_of_birth','dob'],''));
+  return {name,pos:pos==='W'?'RW':pos,
+    htid:String(pick(r,['player_id','id'],'')).trim(),
+    num:String(pick(r,['tp_jersey_number','jersey_number','num'],'')).trim(),
+    ht:htHeightFmt(pick(r,['height_hyphenated','height','ht'],'')),
+    wt:String(pick(r,['weight','wt'],'')).trim(),
+    sh:String(pick(r,['shoots','catches','sh'],'')).toUpperCase().replace(/[^LR]/g,'').slice(0,1),
+    dob:htDobFmt(bd),age:htAgeFrom(bd),
+    birth:String(pick(r,['hometown','birthplace','birthtown','birthcity'],'')).trim()};
+}
+function htMergeRoster(list,feedPlayers){
+  list=list||[];
+  const seen=new Set();
+  feedPlayers.forEach(fp=>{
+    const k=norm(fp.name);if(!k)return;seen.add(k);
+    let p=list.find(x=>norm(x.name)===k);
+    if(!p){p={id:uid(),notes:''};list.push(p);}
+    p.name=fp.name;
+    if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
+    if(fp.num)p.num=fp.num;
+    // keep a more specific existing position (C/LW/RW) when the feed only says F
+    if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))p.pos=fp.pos;
+    if(fp.ht)p.ht=fp.ht;if(fp.wt)p.wt=fp.wt;if(fp.sh)p.sh=fp.sh;
+    if(fp.dob)p.dob=fp.dob;if(fp.age)p.age=fp.age;if(fp.birth)p.birth=fp.birth;
+    p.active='1';
+  });
+  // only mark leftovers inactive when the feed clearly returned a full roster
+  if(feedPlayers.length>=8)list.forEach(p=>{if(!seen.has(norm(p.name)))p.active='0';});
+  return list;
+}
+async function htDoRosters(){
+  const d=await htFetch({feed:'modulekit',view:'teamsbyseason',season_id:htSeason()});
+  const teams=(d&&d.SiteKit&&d.SiteKit.Teamsbyseason)||[];
+  if(!teams.length)throw new Error('Rosters: no teams returned.');
+  let teamCount=0,playerCount=0;
+  for(const t of teams){
+    const tid=String(pick(t,['id','team_id'],'')).trim();
+    const tname=String(pick(t,['name','team_name'],'')).trim();
+    if(!tid||!tname)continue;
+    let rows=[];
+    try{
+      const r=await htFetch({feed:'modulekit',view:'roster',season_id:htSeason(),team_id:tid});
+      rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
+    }catch(e){continue;}
+    const players=rows.map(htRosterRow).filter(Boolean);
+    if(!players.length)continue;
+    if(/Huntsville/i.test(tname)){
+      DATA.roster=htMergeRoster(DATA.roster,players);
+    }else{
+      const full=TEAMS.find(x=>x===tname)||TEAMS.find(x=>tname.indexOf(x.split(' ')[0])===0)||tname;
+      DATA.oppRosters=DATA.oppRosters||{};
+      DATA.oppRosters[full]=htMergeRoster(DATA.oppRosters[full],players);
+    }
+    teamCount++;playerCount+=players.length;
+  }
+  if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
+  syncRosterStats();save();
+  renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
+  return teamCount+' team rosters ('+playerCount+' players)';
+}
+
+/* ============================================================
+   ELITE PROSPECTS — two-lane integration.
+   The slow lane: a weekly GitHub Action (.github/workflows/
+   ep-data.yml) matches SPHL players to Elite Prospects via the
+   official EP API and commits data/ep-players.json keyed by
+   HockeyTech player ID. The browser just loads that same-origin
+   JSON and merges it into rosters — career bio bullets for
+   players with empty notes (hand-written notes are never
+   touched) plus an EP profile link on every player name.
+   No EP requests ever leave the visitor's browser.
+   ============================================================ */
+/* Generic CORS-proxy text fetch — used only as the last-resort
+   transport for the league's own public HockeyTech feed. */
+const EP_PROXIES=[
+  u=>'https://corsproxy.io/?url='+encodeURIComponent(u),
+  u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
+  u=>'https://api.codetabs.com/v1/proxy?quest='+encodeURIComponent(u)
+];
+let EP_PROXY=0,EP_NETFAIL=0;
+async function epFetchText(url){
+  let lastErr=null;
+  for(let i=0;i<EP_PROXIES.length;i++){
+    const idx=(EP_PROXY+i)%EP_PROXIES.length;
+    try{
+      const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),12000);
+      const res=await fetch(EP_PROXIES[idx](url),{signal:ctl.signal});
+      clearTimeout(t);
+      if(!res.ok)throw new Error('HTTP '+res.status);
+      const txt=await res.text();
+      if(!txt||!txt.trim())throw new Error('empty response');
+      EP_PROXY=idx;EP_NETFAIL=0;
+      return txt;
+    }catch(e){lastErr=e;}
+  }
+  EP_NETFAIL++;
+  throw lastErr||new Error('All CORS proxies failed');
+}
+function epSvpFmt(v){if(v==null)return '';if(v>2)v=v/100;return v.toFixed(3).replace(/^0/,'');}
+function epBulletsFromSeasons(seasons,isGoalie,currentTeam){
+  const b=[];
+  const S=(seasons||[]).filter(s=>s.team&&s.year);
+  if(!S.length)return b;
+  const college=S.find(s=>/NCAA|USPORTS|ACHA/i.test(s.league));
+  if(college)b.push('Played college hockey at '+college.team+(college.league?' ('+college.league+')':''));
+  else{
+    const jr=S.find(s=>/USHL|NAHL|BCHL|OHL\b|WHL|QMJHL|OJHL|AJHL|NCDC|GOJHL|SJHL|MJHL/i.test(s.league));
+    if(jr)b.push('Junior hockey with '+jr.team+(jr.league?' ('+jr.league+')':''));
+  }
+  const proRe=/SPHL|ECHL|\bAHL\b|\bNHL\b|FPHL|LNAH|\bKHL\b|Liiga|\bDEL\b|ICEHL|EIHL|Extraliga|Slovakia|Czechia|\bSHL\b|Allsv/i;
+  const pro=S.filter(s=>proRe.test(s.league)&&s.stats&&s.stats.gp);
+  if(pro.length&&!isGoalie){
+    const gp=pro.reduce((t,s)=>t+(s.stats.gp||0),0);
+    const pts=pro.reduce((t,s)=>t+(s.stats.p||0),0);
+    const lgs=Array.from(new Set(pro.map(s=>s.league.trim()))).slice(0,4);
+    if(gp>=25)b.push(pts+' points in '+gp+' career pro games ('+lgs.join(', ')+')');
+  }
+  const notCur=S.filter(s=>!currentTeam||norm(s.team)!==norm(currentTeam));
+  const prior=notCur[notCur.length-1];
+  if(prior&&(!college||prior.team!==college.team))b.push('Most recently with '+prior.team+(prior.league?' ('+prior.league+')':'')+' in '+prior.year);
+  if(isGoalie){
+    const bg=S.filter(s=>s.stats&&s.stats.svp!=null&&s.stats.gp>=5).sort((x,y)=>((y.stats.svp>2?y.stats.svp/100:y.stats.svp)-(x.stats.svp>2?x.stats.svp/100:x.stats.svp)))[0];
+    if(bg)b.push('Best season: '+epSvpFmt(bg.stats.svp)+' SV%'+(bg.stats.gaa!=null?', '+bg.stats.gaa.toFixed(2)+' GAA':'')+' in '+bg.stats.gp+' GP with '+bg.team+' ('+bg.year+')');
+  }else{
+    const best=S.filter(s=>s.stats&&s.stats.p>0).sort((x,y)=>y.stats.p-x.stats.p)[0];
+    if(best)b.push('Best season: '+(best.stats.g!=null?best.stats.g+'G-'+best.stats.a+'A-':'')+best.stats.p+'P in '+best.stats.gp+' GP with '+best.team+' ('+best.year+')');
+  }
+  return b.slice(0,4);
+}
+let EP_STATIC=null,EP_STATIC_AT=0;
+async function epLoadStatic(force){
+  if(!force&&EP_STATIC&&Date.now()-EP_STATIC_AT<3600000)return EP_STATIC;
+  try{
+    const res=await fetch('data/ep-players.json',{cache:'no-cache'});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    const j=await res.json();
+    if(j&&typeof j==='object'){EP_STATIC=j;EP_STATIC_AT=Date.now();}
+  }catch(e){}
+  return EP_STATIC;
+}
+function epEntryFor(p){
+  if(!EP_STATIC)return null;
+  if(p.htId&&EP_STATIC[p.htId])return EP_STATIC[p.htId];
+  const k=norm(p.name);
+  for(const id in EP_STATIC){const e=EP_STATIC[id];if(e&&e.name&&norm(e.name)===k)return e;}
+  return null;
+}
+function epLinkFor(p){
+  return p.epUrl||'https://www.eliteprospects.com/search/player?q='+encodeURIComponent(p.name||'');
+}
+async function epAutoBios(scope){ // 'auto' = Havoc + this game's opponent · 'all' = every stored roster
+  const data=await epLoadStatic();
+  if(!data)return 'EP data: data/ep-players.json not published yet — the weekly GitHub Action builds it (see README); player names link to EP search meanwhile';
+  const teams=[['Huntsville Havoc',DATA.roster]];
+  if(scope==='all')Object.keys(DATA.oppRosters||{}).forEach(t=>teams.push([t,DATA.oppRosters[t]]));
+  else{const opp=(DATA.game&&DATA.game.opp)||'';if(opp&&DATA.oppRosters&&DATA.oppRosters[opp])teams.push([opp,DATA.oppRosters[opp]]);}
+  let filled=0,linked=0,missing=0;
+  teams.forEach(pair=>{
+    const teamName=pair[0];
+    (pair[1]||[]).forEach(p=>{
+      if(!p.name||p.active==='0')return;
+      const e=epEntryFor(p);
+      if(!e){missing++;return;}
+      if(e.epUrl&&p.epUrl!==e.epUrl){p.epUrl=e.epUrl;linked++;}
+      if(!p.birth&&e.hometown)p.birth=e.hometown;
+      if(!p.dob&&e.dob)p.dob=htDobFmt(e.dob)||p.dob;
+      if(!(p.notes&&p.notes.trim())){
+        const bullets=(e.bullets&&e.bullets.length)?e.bullets:epBulletsFromSeasons(e.careerStats||[],p.pos==='G',teamName);
+        if(bullets.length){p.notes=bullets.join('\n');filled++;}
+      }
+    });
+  });
+  save();renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
+  return 'EP data: '+filled+' bios filled, '+linked+' profiles linked'+(missing?', '+missing+' without EP match (names link to EP search)':'');
+}
+async function htPullEPBios(){try{htStatus('Merging Elite Prospects data (all teams)…','');htStatus(await epAutoBios('all'),true);}catch(e){htStatus(e.message,false);}}
+
+function htShowLastSync(){
+  const el=document.getElementById('htLastSync');if(!el)return;
+  const ls=DATA.report&&DATA.report.lastSync;
+  el.textContent=ls?('Last full sync: '+new Date(ls).toLocaleString()+' — data saved in this browser.'):'';
+}
+async function htPull(label,fn){
+  try{
+    htStatus(label+'…','');
+    await htEnsureReady('');
+    htStatus(label+': '+await fn(),true);
+  }catch(e){htStatus(e.message,false);}
+}
+async function htPullStandings(){await htPull('Standings',htDoStandings);}
+async function htPullPlayers(){await htPull('Player + goalie stats',htDoPlayers);}
+async function htPullSchedule(){await htPull('Schedule + results',htDoResults);}
+async function htPullRosters(){
+  // roster pull automatically chains into EP career lookups for the new players
+  await htPull('Rosters',async()=>{
+    const r=await htDoRosters();
+    let ep='';try{ep=await epAutoBios('auto');}catch(e){ep='EP bios failed ('+e.message+')';}
+    return r+' · '+ep;
+  });
+}
 let HT_SYNCING=false;
 async function htSyncAll(){
   if(HT_SYNCING)return;HT_SYNCING=true;
   const btn=document.getElementById('htSyncBtn');if(btn)btn.disabled=true;
   const results=[];
   try{
-    if(!htKey()&&!htHosted()){htStatus('Step 0/4: auto-detecting feed key…','');const auto=await htAutoKey('Step 0/4: ');if(auto)results.push('key auto-detected');else throw new Error('No feed key worked - paste one on this tab (thesphl.com, DevTools Network, lscluster request, key= value).');}
-    if(!htSeason()){htStatus('Step 1/4: finding current season…','');const d=await htFetch({feed:'modulekit',view:'seasons'});const seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];if(!seasons.length)throw new Error('Could not read seasons — check the key.');const cur=seasons.find(s=>/2026-27.*Regular/i.test(s.season_name))||seasons[0];DATA.settings.htSeason=cur.season_id;save();results.push('season set: '+cur.season_name);}
-    htStatus('Step 2/4: standings…','');
+    htStatus('Step 1/6: connecting + checking current season…','');
+    const hadKey=!!htKey();
+    try{
+      const seasons=await htGetSeasons('Step 1/6: ');
+      if(!hadKey&&htKey())results.push('key auto-detected');
+      const sel=document.getElementById('ht_seasonSel');
+      if(sel)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
+      let cur=seasons.find(s=>String(s.season_id)===htSeason());
+      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();results.push('season set: '+cur.season_name);}
+      if(sel)sel.value=String(cur.season_id);
+    }catch(e){if(!htSeason())throw e;}
+    htStatus('Step 2/6: standings…','');
     try{results.push('standings: '+await htDoStandings());}catch(e){results.push('standings FAILED ('+e.message+')');}
-    htStatus('Step 3/4: player + goalie stats…','');
+    htStatus('Step 3/6: player + goalie stats…','');
     try{results.push('stats: '+await htDoPlayers());}catch(e){results.push('stats FAILED ('+e.message+')');}
-    htStatus('Step 4/4: game results…','');
-    try{results.push('results: '+await htDoResults());}catch(e){results.push('results FAILED ('+e.message+')');}
+    htStatus('Step 4/6: schedule + results…','');
+    try{results.push('schedule: '+await htDoResults());}catch(e){results.push('schedule FAILED ('+e.message+')');}
+    htStatus('Step 5/6: rosters…','');
+    let rosterOK=false;
+    try{results.push('rosters: '+await htDoRosters());rosterOK=true;}catch(e){results.push('rosters FAILED ('+e.message+')');}
+    if(rosterOK){
+      htStatus('Step 6/6: Elite Prospects career bios…','');
+      try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP bios FAILED ('+e.message+')');}
+    }
+    DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();
+    if(!SB_HASGAMES)sbStart(); // key/season may have just been auto-detected — light the scorebar up
     const anyFail=results.some(r=>/FAILED/.test(r));
-    htStatus('Sync '+(anyFail?'finished with issues':'complete')+' — '+results.join(' · '),!anyFail);
+    htStatus('Sync '+(anyFail?'finished with issues':'complete')+' — '+results.join(' · ')+' · saved locally '+new Date().toLocaleTimeString(),!anyFail);
   }catch(e){htStatus(e.message,false);}
   HT_SYNCING=false;if(btn)btn.disabled=false;
 }
 
 
 
-/* Auto-detect a working public feed key (candidates from open-source HockeyTech projects). */
-const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390'];
+/* Auto-detect a working public feed key (candidates from open-source HockeyTech projects).
+   All candidates are probed in parallel with a short timeout; first one that answers wins. */
+const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
 async function htAutoKey(statusPrefix){
-  for(const k of HT_CANDIDATE_KEYS){
-    try{
-      htStatus((statusPrefix||'')+'Trying key '+k.slice(0,6)+'…','');
-      const d=await htFetch({feed:'modulekit',view:'seasons'},k);
+  htStatus((statusPrefix||'')+'trying '+HT_CANDIDATE_KEYS.length+' known public keys…','');
+  const probes=HT_CANDIDATE_KEYS.map(k=>
+    htFetch({feed:'modulekit',view:'seasons'},k,7000).then(d=>{
       const seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];
-      if(seasons.length){DATA.settings.htKey=k;save();const inp=document.getElementById('ht_key');if(inp)inp.value=k;return {key:k,seasons};}
-    }catch(e){}
-  }
-  return null;
+      if(!seasons.length)throw new Error('no seasons');
+      return {key:k,seasons};
+    })
+  );
+  try{
+    const win=await Promise.any(probes);
+    DATA.settings.htKey=win.key;save();
+    const inp=document.getElementById('ht_key');if(inp)inp.value=win.key;
+    return win;
+  }catch(e){return null;}
 }
 
+/* ============================================================
+   LIVE SCOREBAR — league-wide scores with smart polling:
+   60s while games are on (or about to start), 15 min otherwise,
+   fully paused while the tab is hidden.
+   ============================================================ */
+let SB_TIMER=null,SB_LAST=0,SB_HASGAMES=false;
+function sbMsg(html){const el=document.getElementById('sbStrip');if(el)el.innerHTML='<div class="sb-msg">'+html+'</div>';}
+function sbStatusOf(g){
+  const s=String(pick(g,['GameStatusString','game_status_string','GameStatusStringLong','game_status'],'')).trim();
+  const period=String(pick(g,['Period','period'],'')).trim(),clock=String(pick(g,['GameClock','game_clock'],'')).trim();
+  if(/progress|live/i.test(s)&&period&&clock)return period+' · '+clock;
+  if(s)return s;
+  return String(pick(g,['ScheduledFormattedTime','scheduled_time'],'')).trim()||'Scheduled';
+}
+function sbIsLive(g){
+  const s=String(pick(g,['GameStatusString','GameStatusStringLong','game_status'],''));
+  if(/final|unofficial/i.test(s))return false;
+  if(/progress|live/i.test(s))return true;
+  return String(pick(g,['GameStatus','game_status_code'],''))==='2';
+}
+function sbRender(games){
+  const el=document.getElementById('sbStrip');if(!el)return;
+  if(!games.length){sbMsg('No SPHL games in the current window.');SB_HASGAMES=false;return;}
+  SB_HASGAMES=true;
+  el.innerHTML=games.map(g=>{
+    const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity','visiting_team_city'],'')).slice(0,3).toUpperCase();
+    const hc=String(pick(g,['HomeCode','home_team_code'],''))||String(pick(g,['HomeCity','home_team_city'],'')).slice(0,3).toUpperCase();
+    const vg=String(pick(g,['VisitorGoals','visiting_goal_count'],'')),hg=String(pick(g,['HomeGoals','home_goal_count'],''));
+    const live=sbIsLive(g);
+    const started=live||/final/i.test(String(pick(g,['GameStatusString','GameStatusStringLong'],'')));
+    const hav=/HSV|Huntsville/i.test(vc+String(pick(g,['VisitorCity'],''))+hc+String(pick(g,['HomeCity'],'')));
+    const date=String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(5,10).replace('-','/');
+    return '<div class="sb-game'+(live?' sb-live':'')+(hav?' sb-hav':'')+'">'+
+      '<div class="sb-row"><span>'+esc(vc)+'</span><span class="sb-score">'+(started?esc(vg):'')+'</span></div>'+
+      '<div class="sb-row"><span>@ '+esc(hc)+'</span><span class="sb-score">'+(started?esc(hg):'')+'</span></div>'+
+      '<div class="sb-status">'+esc(date)+' · '+esc(sbStatusOf(g))+'</div></div>';
+  }).join('');
+}
+function sbInterval(games){
+  if(games.some(sbIsLive))return 60000;
+  const now=Date.now();
+  const nearGame=games.some(g=>{
+    const iso=String(pick(g,['GameDateISO8601'],''));
+    if(!iso)return false;
+    const t=Date.parse(iso);
+    return !isNaN(t)&&now>=t-15*60000&&now<=t+3.5*3600000;
+  });
+  return nearGame?60000:15*60000;
+}
+async function sbTick(){
+  if(document.hidden)return; // polling stops here; visibilitychange restarts it
+  let games=[];
+  try{
+    const d=await htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7});
+    games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
+    sbRender(games);
+    SB_LAST=Date.now();
+    const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
+  }catch(e){
+    if(!SB_HASGAMES)sbMsg('Scores unavailable — '+esc(e.message)+' They\'ll appear once the feed connects (tap Test connection or Sync below).');
+    const st=document.getElementById('sbStamp');if(st&&SB_LAST)st.textContent='Last updated '+new Date(SB_LAST).toLocaleTimeString()+' — retrying…';
+  }
+  clearTimeout(SB_TIMER);
+  SB_TIMER=setTimeout(sbTick,sbInterval(games));
+}
+function sbStart(){clearTimeout(SB_TIMER);sbTick();}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-SB_LAST>55000)sbStart();});
+
+/* Hourly background refresh of standings + player stats (spec: hourly is plenty).
+   Skips quietly when the tab is hidden or the feed isn't configured yet. */
+setInterval(async()=>{
+  if(document.hidden)return;
+  if(!htKey()&&!htHosted())return;
+  try{await htDoStandings();}catch(e){}
+  try{await htDoPlayers();}catch(e){}
+},3600000);
+
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';})();
+(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
