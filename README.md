@@ -10,6 +10,7 @@ A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No buil
 - **2026-27 schedule** — official 60-game slate + preseason, promo nights, results entry, season calendar (home red / away gray)
 - **Standings & league reference** — 2026-27 rule changes, schedule matrix, all-time Havoc leaders, head-to-head
 - **Live SPHL data** — one-tap sync from the league's HockeyTech feed (standings, all player/goalie stats, full schedule + auto-filled final scores, and every team's roster). Works both hosted (GitHub Pages etc.) and opened as a local file; the feed key is auto-detected, and everything is saved to this browser after each sync
+- **Automatic Elite Prospects bios** — after each roster pull, players with empty bios are looked up on eliteprospects.com, their career stats are parsed, and career-note bullets are written automatically (college/junior background, pro totals, last team, best season). Hand-written bios are never overwritten; lookups are cached locally
 - **Broadcast call log** — career game tracking for 2025-26 + 2026-27, importable from the call-log app
 - **Post-game copy desk** — recap writer from a Game Center paste + booth notes (needs an Anthropic API key)
 - **Learn the Roster** — quiz modes for play-by-play memorization
