@@ -30,5 +30,6 @@ jobs:
             echo "No data changes."
           else
             git commit -m "Update SPHL daily report data (scheduled)"
+            git pull --rebase origin "$GITHUB_REF_NAME" || true
             git push
           fi
