@@ -2901,37 +2901,39 @@ async function htScrapeKeys(statusPrefix){
     if(/hockeytech|lscluster|leaguestat/i.test(txt))
       (txt.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
   };
-  // Wayback Machine URL index first: archived SPHL feed calls carry the key
-  // in the URL, and archive.org answers browsers directly (CORS-open).
-  try{
-    htStatus((statusPrefix||'')+'checking the web archive for the feed key…','');
-    const cdx='https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=500';
-    let txt='';
-    try{const r=await fetch(cdx);if(r.ok)txt=await r.text();}catch(e){}
-    if(!txt){try{txt=await epFetchText(cdx);}catch(e){}}
-    (String(txt).match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
-  }catch(e){}
-  if(found.size){HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));return Array.from(found).slice(0,20);}
+  const fetchAny=async(u)=>{ // direct first (archive.org is CORS-open), CORS proxy otherwise
+    try{const r=await fetch(u);if(r.ok)return await r.text();}catch(e){}
+    return epFetchText(u);
+  };
+  const scriptSrcs=(html,base)=>(html.match(/<script[^>]+src=["']([^"']+)["']/gi)||[])
+    .map(s=>(s.match(/src=["']([^"']+)["']/i)||[])[1]).filter(Boolean)
+    .filter(s=>/hockeytech|leaguestat|league|stats|main|app|bundle|site/i.test(s)).slice(0,3)
+    .map(s=>{try{if(s.indexOf('//')===0)return 'https:'+s;if(!/^https?:/i.test(s))return new URL(s,base).href;return s;}catch(e){return null;}}).filter(Boolean);
+  // 1) live league pages via the CORS proxies
   for(const u of urls){
     htStatus((statusPrefix||'')+'searching the league site for the feed key…','');
     let html='';
     try{html=await epFetchText(u);}catch(e){continue;}
     harvest(html);
-    if(!found.size){ // check a few linked scripts that look feed-related
-      const srcs=(html.match(/<script[^>]+src=["']([^"']+)["']/gi)||[])
-        .map(s=>(s.match(/src=["']([^"']+)["']/i)||[])[1]).filter(Boolean)
-        .filter(s=>/hockeytech|leaguestat|main|app|bundle|stats/i.test(s)).slice(0,3);
-      for(let s of srcs){
-        try{
-          if(s.startsWith('//'))s='https:'+s;else if(!/^https?:/i.test(s))s=new URL(s,u).href;
-          harvest(await epFetchText(s));
-        }catch(e){}
-      }
-    }
+    if(!found.size)for(const s of scriptSrcs(html,u)){try{harvest(await epFetchText(s));}catch(e){}if(found.size)break;}
     if(found.size)break;
   }
+  // 2) archived copies from the Wayback Machine — bypasses Cloudflare, original bytes
+  if(!found.size){
+    htStatus((statusPrefix||'')+'checking the web archive for the feed key…','');
+    outer:
+    for(const ts of ['2026','2025','2024']){
+      for(const u of urls){
+        let html='';
+        try{html=await fetchAny('https://web.archive.org/web/'+ts+'id_/'+u);}catch(e){continue;}
+        harvest(html);
+        if(!found.size)for(const s of scriptSrcs(html,u)){try{harvest(await fetchAny('https://web.archive.org/web/'+ts+'id_/'+s));}catch(e){}if(found.size)break;}
+        if(found.size)break outer;
+      }
+    }
+  }
   HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
-  return Array.from(found).slice(0,12);
+  return Array.from(found).slice(0,20);
 }
 function htJSONP(extra,useKey,timeoutMs){
   return new Promise((resolve,reject)=>{

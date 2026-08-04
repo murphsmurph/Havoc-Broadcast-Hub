@@ -121,22 +121,47 @@ async function fetchText(u,ms){
     return await res.text();
   }finally{clearTimeout(t);}
 }
+const HT_SCRAPE_PAGES=['https://www.thesphl.com/stats','https://www.thesphl.com/','https://www.thesphl.com/standings','https://www.thesphl.com/schedule'];
 async function htScrapeKeys(){
   const found=new Set();
-  const harvest=t=>{(String(t).match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));};
-  try{
-    harvest(await fetchText('https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=500'));
-    if(found.size)console.log('Wayback index yielded '+found.size+' candidate key(s).');
-  }catch(e){console.warn('Wayback lookup failed: '+e.message);}
+  const harvest=t=>{
+    t=String(t);
+    (t.match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
+    if(/hockeytech|lscluster|leaguestat/i.test(t))
+      (t.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
+  };
+  const scriptSrcs=(html,base)=>(html.match(/<script[^>]+src=["']([^"']+)["']/gi)||[])
+    .map(s=>(s.match(/src=["']([^"']+)["']/i)||[])[1]).filter(Boolean)
+    .filter(s=>/hockeytech|leaguestat|league|stats|main|app|bundle|site/i.test(s)).slice(0,3)
+    .map(s=>{try{if(s.startsWith('//'))return 'https:'+s;if(!/^https?:/i.test(s))return new URL(s,base).href;return s;}catch(e){return null;}}).filter(Boolean);
+  // 1) live league pages (often Cloudflare-blocked for bots, but cheap to try)
+  for(const u of HT_SCRAPE_PAGES){
+    try{harvest(await fetchText(u,10000));}catch(e){}
+    if(found.size)break;
+  }
+  // 2) archived copies via the Wayback Machine — no Cloudflare, original bytes (id_ suffix)
   if(!found.size){
-    for(const u of ['https://www.thesphl.com/','https://www.thesphl.com/stats/','https://lscluster.hockeytech.com/statview/mobile/flo/sphl/']){
-      let html='';
-      try{html=await fetchText(u,15000);}catch(e){continue;}
-      harvest(html);
-      if(/hockeytech|lscluster|leaguestat/i.test(html))
-        (html.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
-      if(found.size)break;
+    outer:
+    for(const ts of ['2026','2025','2024']){
+      for(const u of HT_SCRAPE_PAGES){
+        let html='';
+        try{html=await fetchText('https://web.archive.org/web/'+ts+'id_/'+u,20000);}catch(e){continue;}
+        harvest(html);
+        if(!found.size){
+          for(const s of scriptSrcs(html,u)){
+            try{harvest(await fetchText('https://web.archive.org/web/'+ts+'id_/'+s,20000));}catch(e){}
+            if(found.size)break;
+          }
+        }
+        if(found.size){console.log('Found candidate key(s) in the '+ts+' web archive of '+u);break outer;}
+      }
     }
+  }
+  // 3) last resort: the (slow) Wayback URL index of archived SPHL feed calls
+  if(!found.size){
+    try{
+      harvest(await fetchText('https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=300',55000));
+    }catch(e){console.warn('Wayback index lookup failed: '+e.message);}
   }
   HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
   return [...found].slice(0,20);
