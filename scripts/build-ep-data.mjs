@@ -429,6 +429,12 @@ export async function main(deps){
     }
   }
 
+  // every mapped player gets at least a links-only entry — no API calls needed
+  for(const p of players){
+    const m=map.matched[p.htId];
+    if(m&&!out[p.htId])out[p.htId]={epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
+  }
+
   // nothing needed EP this run? still validate the key with one test call
   if(EP_KEY&&epCalls===0){
     try{
