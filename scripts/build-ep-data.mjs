@@ -246,12 +246,15 @@ function epCandidatesFrom(resp){
   })(resp);
   return out;
 }
+let EP_SEARCH_VARIANT=-1; // once an endpoint shape works, stick to it — saves 2 calls per miss
 async function epSearch(epGet,name){
   const tries=[['/players',{q:name,limit:'12'}],['/search/players',{q:name}],['/players',{name}]];
-  for(const [p,params] of tries){
+  for(let i=0;i<tries.length;i++){
+    if(EP_SEARCH_VARIANT>=0&&i!==EP_SEARCH_VARIANT)continue;
     try{
-      const cands=epCandidatesFrom(await epGet(p,params));
-      if(cands.length)return cands;
+      const cands=epCandidatesFrom(await epGet(tries[i][0],tries[i][1]));
+      if(cands.length){if(EP_SEARCH_VARIANT<0)EP_SEARCH_VARIANT=i;return cands;}
+      if(EP_SEARCH_VARIANT>=0)return []; // endpoint works; the player just isn't found
     }catch(e){if(/budget/.test(e.message))throw e;}
   }
   return [];
