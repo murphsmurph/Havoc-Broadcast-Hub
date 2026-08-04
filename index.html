@@ -891,6 +891,10 @@ const SPHL_REF = {
 };
 </script>
 <script>
+/* ============ COMPAT (older iOS/macOS Safari) ============ */
+if(typeof structuredClone!=='function')window.structuredClone=o=>JSON.parse(JSON.stringify(o));
+if(!Promise.any)Promise.any=ps=>new Promise((res,rej)=>{let n=ps.length;const errs=[];if(!n){rej(new Error('empty'));return;}ps.forEach((p,i)=>Promise.resolve(p).then(res,e=>{errs[i]=e;if(--n===0)rej(errs[0]);}));});
+
 /* ============ DATA MODEL ============ */
 const TEAMS=["Athens Rock Lobsters","Birmingham Bulls","Evansville Thunderbolts","Fayetteville Marksmen","Huntsville Havoc","Knoxville Ice Bears","Macon Mayhem","Pee Dee IceCats","Pensacola Ice Flyers","Peoria Rivermen","Quad City Storm","Roanoke Rail Yard Dawgs"];
 const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayetteville":"FAY","Huntsville":"HSV","Knoxville":"KNX","Macon":"MAC","Pee Dee":"PD","Pensacola":"PEN","Peoria":"PEO","Quad City":"QC","Roanoke":"RNK"};
@@ -2756,7 +2760,19 @@ async function htFetch(extra,keyOverride,timeoutMs){
       HT_PROXY=false;             // no working proxy on this host — use direct JSONP from now on
     }
   }
-  return htJSONP(extra,useKey,timeoutMs);
+  try{
+    return await htJSONP(extra,useKey,timeoutMs);
+  }catch(e){
+    // last resort (e.g. Safari content blockers eating third-party script tags):
+    // fetch the feed's plain JSON through the public CORS proxies
+    if(!useKey)throw e;
+    try{
+      const txt=await epFetchText(HT_BASE+'?'+htParams({...extra,key:useKey}));
+      const m=txt.match(/[\[{][\s\S]*[\]}]/); // JSON body, tolerating JSONP wrappers
+      if(!m)throw new Error('not JSON');
+      return JSON.parse(m[0]);
+    }catch(e2){throw e;}
+  }
 }
 function htJSONP(extra,useKey,timeoutMs){
   return new Promise((resolve,reject)=>{
@@ -2992,7 +3008,7 @@ async function epFetchText(url){
       clearTimeout(t);
       if(!res.ok)throw new Error('HTTP '+res.status);
       const txt=await res.text();
-      if(!txt||txt.length<50)throw new Error('empty response');
+      if(!txt||!txt.trim())throw new Error('empty response');
       EP_PROXY=idx;EP_NETFAIL=0;
       return txt;
     }catch(e){lastErr=e;}
