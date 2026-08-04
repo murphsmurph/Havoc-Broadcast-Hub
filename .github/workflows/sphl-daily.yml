@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '0 11 * * *'   # ~6am Central, after overnight games post
   workflow_dispatch:
+  push:
+    paths:                  # self-test whenever the pipeline itself changes
+      - '.github/workflows/sphl-daily.yml'
+      - 'scripts/fetch-daily-report.mjs'
+      - 'js/daily-report-parser.js'
 
 permissions:
   contents: write
