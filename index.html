@@ -3276,16 +3276,16 @@ function applyDailyReport(rep,label){
     const c=dailyCityOf(p.team);if(!c)return;
     const t=r.teamStats[c]=r.teamStats[c]||{players:[],goalies:[]};
     const ex=t.players.find(x=>norm(x.name)===norm(p.name));
-    if(ex){ex.gp=p.gp;ex.g=p.g;ex.a=p.a;ex.pts=p.pts;if(p.pim)ex.pim=p.pim;}
-    else t.players.push({num:'',name:p.name,pos:'',gp:p.gp,g:p.g,a:p.a,pts:p.pts,pm:0,pim:p.pim||0,pp:0,shg:0,gw:0,shots:0,shpct:''});
+    if(ex){ex.gp=p.gp;ex.g=p.g;ex.a=p.a;ex.pts=p.pts;if(p.pim!=null)ex.pim=p.pim;if(p.pm!=null)ex.pm=p.pm;if(p.pp!=null)ex.pp=p.pp;if(p.shg!=null)ex.shg=p.shg;if(p.gw!=null)ex.gw=p.gw;}
+    else t.players.push({num:'',name:p.name,pos:'',gp:p.gp,g:p.g,a:p.a,pts:p.pts,pm:p.pm||0,pim:p.pim||0,pp:p.pp||0,shg:p.shg||0,gw:p.gw||0,shots:0,shpct:''});
     sk++;
   });
   (rep.goalies||[]).forEach(p=>{
     const c=dailyCityOf(p.team);if(!c)return;
     const t=r.teamStats[c]=r.teamStats[c]||{players:[],goalies:[]};
     const ex=t.goalies.find(x=>norm(x.name)===norm(p.name));
-    if(ex){ex.gp=p.gp;ex.w=p.w;ex.l=p.l;ex.otl=p.otl;ex.so=p.so;ex.ga=p.ga;ex.gaa=p.gaa;ex.svpct=p.svpct;}
-    else t.goalies.push({num:'',name:p.name,gp:p.gp,w:p.w,l:p.l,otl:p.otl,so:p.so,ga:p.ga,gaa:p.gaa,sa:0,svs:0,svpct:p.svpct});
+    if(ex){ex.gp=p.gp;ex.w=p.w;ex.l=p.l;ex.otl=p.otl;ex.so=p.so;ex.ga=p.ga;ex.gaa=p.gaa;ex.svpct=p.svpct;if(p.sa)ex.sa=p.sa;if(p.svs)ex.svs=p.svs;}
+    else t.goalies.push({num:'',name:p.name,gp:p.gp,w:p.w,l:p.l,otl:p.otl,so:p.so,ga:p.ga,gaa:p.gaa,sa:p.sa||0,svs:p.svs||0,svpct:p.svpct});
     gl++;
   });
   counts.push('Skaters '+(sk?'✓ ('+sk+')':'✗'));
