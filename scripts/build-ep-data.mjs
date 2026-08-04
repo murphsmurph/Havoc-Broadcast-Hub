@@ -182,8 +182,20 @@ export function pickSeason(seasons){
 async function htAllPlayers(fetchJson){
   const key=await htDetectKey(fetchJson);
   const sd=await htGet(fetchJson,key,{feed:'modulekit',view:'seasons'});
-  const season=pickSeason((sd.SiteKit&&sd.SiteKit.Seasons)||[]);
-  if(!season)throw new Error('no seasons from HockeyTech');
+  const seasons=(sd.SiteKit&&sd.SiteKit.Seasons)||[];
+  if(!seasons.length)throw new Error('no seasons from HockeyTech');
+  const sorted=[...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id));
+  const regs=sorted.filter(s=>/regular/i.test(s.season_name||''));
+  // offseason: the new season exists but rosters are empty — fall back to the
+  // previous season so the EP mapping gets prebuilt before puck drop
+  for(const season of (regs.length?regs:sorted).slice(0,2)){
+    const players=await htSeasonPlayers(fetchJson,key,season);
+    if(players.length)return {players,season};
+    console.log('No rosters published for '+season.season_name+' yet — trying the previous season…');
+  }
+  return {players:[],season:(regs[0]||sorted[0])};
+}
+async function htSeasonPlayers(fetchJson,key,season){
   const td=await htGet(fetchJson,key,{feed:'modulekit',view:'teamsbyseason',season_id:season.season_id});
   const teams=(td.SiteKit&&td.SiteKit.Teamsbyseason)||[];
   const players=[];
@@ -208,7 +220,7 @@ async function htAllPlayers(fetchJson){
         nationality:String(pick(r,['nationality','country'],'')).trim()});
     }
   }
-  return {players,season};
+  return players;
 }
 
 /* ---------------- EP side ---------------- */
@@ -412,6 +424,14 @@ export async function main(deps){
       console.warn('stats failed for '+p.name+': '+e.message);
       out[p.htId]=out[p.htId]||{epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
     }
+  }
+
+  // nothing needed EP this run? still validate the key with one test call
+  if(EP_KEY&&epCalls===0){
+    try{
+      const n=epCandidatesFrom(await epGet('/players',{q:'Wilson',limit:'5'})).length;
+      console.log('EP API key OK — test search returned '+n+' candidate(s).');
+    }catch(e){console.warn('EP API key test call failed: '+e.message+' — check the key / auth style');}
   }
 
   map.updatedAt=now;
