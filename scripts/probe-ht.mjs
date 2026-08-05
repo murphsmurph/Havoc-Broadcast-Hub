@@ -67,3 +67,13 @@ await probe('standings-mk-s44','feed=modulekit&view=statviewtype&stat=conference
 await probe('scorebar','feed=modulekit&view=scorebar&numberofdaysahead=7&numberofdaysback=3&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike),{noOrigin:true});
 await probe('schedule-mk-s46','feed=modulekit&view=schedule&season_id=46&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike),{noOrigin:true});
 await probe('roster-mk-s46','feed=modulekit&view=roster&season_id=46&team_id=3&fmt=json&lang=en',j=>'players:'+deepCount(j,v=>('last_name'in v)||('lastName'in v)),{noOrigin:true});
+await probe('player-profile-2761','feed=statviewfeed&view=player&player_id=2761&season_id=46&site_id=2&league_id=&lang=en',j=>{
+  let rows=0,img='';
+  const walk=v=>{if(Array.isArray(v)){v.forEach(walk);return;}
+    if(v&&typeof v==='object'){
+      if((v.season_name||v.seasonName||v.shortname)&&(v.games_played!=null||v.gp!=null))rows++;
+      Object.entries(v).forEach(([k,x])=>{if(typeof x==='string'&&!img&&/\.(jpe?g|png)/i.test(x))img=x.slice(0,60);walk(x);});
+    }};
+  walk(j);
+  return 'seasonRows:'+rows+' img:'+(img||'none');
+},{noOrigin:true});
