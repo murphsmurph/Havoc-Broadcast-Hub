@@ -88,6 +88,23 @@
   .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
   .pg-stamp{font-size:10.5px;color:#777;text-align:right;margin-top:3px;flex:0 0 auto;}
+  .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
+  .iv-entry{border:1.5px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:12px;}
+  .iv-q{display:flex;gap:6px;align-items:center;padding:2px 0;font-size:13px;}
+  .iv-q .iv-qt{flex:1;}
+  .iv-qt.iv-asked{text-decoration:line-through;color:#999;}
+  .iv-star.on{color:#c8a013;}
+  .iv-add{display:flex;gap:6px;margin-top:4px;}
+  .iv-add input{flex:1;}
+  .iv-arch{font-size:13px;padding:4px 0;border-bottom:1px solid #eee;}
+  .iv-arch summary{cursor:pointer;}
+  .iv-arch-body{padding:4px 0 4px 14px;font-size:12.5px;line-height:1.5;color:#444;}
+  .ivs-q{font-size:13px;margin:10px 0;}
+  .ivs-line{border-bottom:1px solid #bbb;height:22px;}
+  .ow-banner{color:#fff;text-align:center;font-size:22px;font-weight:900;letter-spacing:1px;padding:14px 10px;border-radius:6px;margin:8px 0;}
+  .ow-banner span{font-size:10.5px;font-weight:700;letter-spacing:.2px;display:block;margin-top:4px;}
+  .media-block{margin-left:auto;border:1.5px solid #222;border-radius:5px;padding:5px 9px;font-size:8.5px;line-height:1.5;flex:0 0 auto;align-self:flex-start;}
+  .media-block .mb-h{font-weight:900;font-size:8px;letter-spacing:.6px;color:var(--havoc-red);}
   .fd-col{min-height:0;display:flex;flex-direction:column;}
   .fd-st{display:flex;gap:6px;font-size:13px;line-height:1.5;align-items:baseline;}
   .fd-seed{font-weight:900;width:18px;flex:0 0 auto;}
@@ -359,6 +376,7 @@
     .lcx-card{outline:none !important;}
     .ws-page{height:10.45in !important;overflow:hidden;}
     .fv,.fd-note{outline:none !important;}
+    #panel-opening.printing .card{display:none !important;}
   }
   /* season calendar */
   .cal-legend{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -519,6 +537,7 @@
   <button class="tab" data-tab="print">Print Center</button>
   <button class="tab" data-tab="postgame">Post-Game</button>
   <button class="tab" data-tab="calllog">Call Log</button>
+  <button class="tab" data-tab="opening" id="tab_opening">Opening Weekend</button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 <div class="wrap">
@@ -557,6 +576,11 @@
         <div class="field"><label>Opponent transactions (one per line)</label><textarea id="g_txaway" rows="3"></textarea></div>
       </div>
       <div class="btn-row"><button class="btn" onclick="saveGame()">Save game details</button><span id="gameSavedPill"></span></div>
+    </div>
+    <div class="card">
+      <h2>Pre-Game <span class="accent">Interviews</span></h2>
+      <p class="desc">Who you're talking to before puck drop — prepared questions (reorder, check off as asked), answers/notes, and stars on the lines worth using. Saved with this game; the archive below finds any past interview. Print gives a one-page clipboard sheet per interview.</p>
+      <div id="ivWrap_pre"></div>
     </div>
   </section>
 
@@ -964,6 +988,11 @@
       </div>
       <div id="pg_out" class="pg-out"></div>
     </div>
+    <div class="card">
+      <h2>Post-Game <span class="accent">Interviews</span></h2>
+      <p class="desc">Same sheet, after the horn — star the quotes you can use and hit &ldquo;&rarr; report&rdquo; to drop one straight into the formatter&rsquo;s Quotes box.</p>
+      <div id="ivWrap_post"></div>
+    </div>
   </section>
 
   <!-- CALL LOG -->
@@ -982,6 +1011,55 @@
     </div>
   </section>
 
+  <!-- OPENING WEEKEND (temporary, archivable) -->
+  <section class="panel" id="panel-opening">
+    <div class="card">
+      <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:#888;font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
+      <p class="desc"><b>Fri, Oct 16, 2026 &middot; 7:15 PM ET (6:15 PM CT) &middot; Florence Center, Florence, SC</b> &mdash; and game two <b>Sat, Oct 17 &middot; 7:15 PM ET (6:15 PM CT)</b>. Zero head-to-head history and zero PD in-season data exist, so this workspace builds a special <b>first-meeting packet</b>: franchise file, how the IceCats were built, connections, and a franchise-firsts watch instead of the usual series history. When the weekend is over, <b>Archive</b> saves everything as the permanent record and retires this tab.</p>
+      <div class="btn-row">
+        <button class="btn" onclick="owBuild()">Build first-meeting packet</button>
+        <button class="btn dark" onclick="owPrint()">Print / Save PDF</button>
+        <button class="btn secondary" onclick="owScan()">Scan EP data for connections</button>
+        <button class="btn secondary" style="color:var(--havoc-red)" onclick="owArchive()">Archive this tab</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3>IceCats franchise file (fill from PD announcements)</h3>
+      <div class="grid g4">
+        <div class="field"><label>Founded</label><input type="text" id="ow_founded" onchange="owSave()"></div>
+        <div class="field"><label>Arena</label><input type="text" id="ow_arena" onchange="owSave()"></div>
+        <div class="field"><label>Capacity</label><input type="text" id="ow_capacity" onchange="owSave()"></div>
+        <div class="field"><label>City notes</label><input type="text" id="ow_city" onchange="owSave()"></div>
+        <div class="field"><label>Ownership</label><input type="text" id="ow_owner" onchange="owSave()"></div>
+        <div class="field"><label>Affiliations</label><input type="text" id="ow_affil" onchange="owSave()"></div>
+        <div class="field"><label>Broadcast info</label><input type="text" id="ow_broadcast" onchange="owSave()"></div>
+        <div class="field"><label>Head coach</label><input type="text" id="ow_coach" onchange="owSave()"></div>
+      </div>
+      <div class="field"><label>Head coach bio</label><textarea id="ow_coachbio" rows="3" onchange="owSave()"></textarea></div>
+    </div>
+    <div class="card">
+      <h3>Storylines &amp; by the numbers</h3>
+      <div class="grid g3">
+        <div class="field"><label>Storyline 1</label><textarea id="ow_s1" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field"><label>Storyline 2</label><textarea id="ow_s2" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field"><label>Storyline 3</label><textarea id="ow_s3" rows="3" onchange="owSave()"></textarea></div>
+      </div>
+      <div class="grid g2">
+        <div class="field"><label>By the numbers (one nugget per line — Havoc last-season stats auto-append, labeled)</label><textarea id="ow_nums" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field"><label>PD preseason results (manual, one per line)</label><textarea id="ow_preseason" rows="3" onchange="owSave()"></textarea></div>
+      </div>
+    </div>
+    <div class="card"><h3>Franchise firsts watch — PD IceCats</h3>
+      <p class="desc">Check them off as they happen with the detail (who/when). This becomes the permanent record and feeds first-time/last-time data.</p>
+      <div id="owFirsts"></div>
+    </div>
+    <div class="card"><h3>Connections (auto-scanned from EP careers · editable)</h3><div id="owConn"></div></div>
+    <div class="doc-frame">
+      <div class="doc-toolbar no-print"><span class="ttl">First-meeting packet — preview</span><div class="spacer"></div><span class="header-status">Letter · prints to PDF</span></div>
+      <div class="doc-scroll" id="openingDoc"></div>
+    </div>
+  </section>
+
   <section class="panel" id="panel-settings">
     <div class="card">
       <h2>Team <span class="accent">Settings</span></h2>
@@ -994,7 +1072,15 @@
       <div class="field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
       <div class="field"><label>Footer text</label><input type="text" id="s_footer" value="2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
       <div class="field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
-      <div class="field"><label>Media contact (name · title · phone · email — shown on the packet cover)</label><input type="text" id="s_media" placeholder="Jacob Murphy · Broadcaster · (256) 555-0100 · jacob@huntsvillehavoc.com"></div>
+      <div class="section-label">Official media contact (packet cover, folders, interview sheets)</div>
+      <div class="grid g3">
+        <div class="field"><label>Name</label><input type="text" id="s_mediaName"></div>
+        <div class="field"><label>Title</label><input type="text" id="s_mediaTitle"></div>
+        <div class="field"><label>Organization</label><input type="text" id="s_mediaOrg"></div>
+        <div class="field"><label>Phone</label><input type="text" id="s_mediaPhone"></div>
+        <div class="field"><label>Email</label><input type="text" id="s_mediaEmail"></div>
+        <div class="field"><label>Website</label><input type="text" id="s_mediaWeb"></div>
+      </div>
       <div class="field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
@@ -1180,7 +1266,8 @@ const TEAMS=["Athens Rock Lobsters","Birmingham Bulls","Evansville Thunderbolts"
 const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayetteville":"FAY","Huntsville":"HSV","Knoxville":"KNX","Macon":"MAC","Pee Dee":"PD","Pensacola":"PEN","Peoria":"PEO","Quad City":"QC","Roanoke":"RNK"};
 const KEY="havocHubData_v2";
 const DEFAULT_DATA={
-  settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:""},
+  settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:"",
+    mediaName:"Jacob Murphy",mediaTitle:"Play by Play Broadcaster",mediaOrg:"Huntsville Havoc",mediaPhone:"863-430-4410 (cell)",mediaEmail:"jmurphy@huntsvillehavoc.com",mediaWeb:"www.huntsvillehavoc.com"},
   game:{},notes:{schedule:"PS 10/9/26  vs Pensacola  Audio only — Radio & YouTube Live\n10/16/26  @ Pee Dee  7:15 PM\n10/17/26  @ Pee Dee  7:15 PM\n10/23/26  vs Pensacola  7:00 PM\n10/24/26  @ Pensacola  7:05 PM\n10/30/26  @ Pensacola  7:05 PM\n10/31/26  vs Macon  7:00 PM\n11/6/26  vs Macon  7:00 PM\n11/7/26  @ Fayetteville  6:00 PM\n11/8/26  @ Knoxville  3:00 PM\n11/13/26  @ Knoxville  7:30 PM\n11/14/26  vs Knoxville  7:00 PM\n11/20/26  vs Fayetteville  7:00 PM\n11/21/26  vs Fayetteville  7:00 PM\n11/25/26  @ Pensacola  7:05 PM\n11/26/26  vs Athens  7:00 PM\n11/27/26  vs Pensacola  7:00 PM\n12/4/26  vs Evansville  7:00 PM\n12/5/26  @ Evansville  7:05 PM\n12/11/26  vs Quad City  7:00 PM\n12/12/26  vs Quad City  7:00 PM\n12/18/26  @ Roanoke  7:05 PM\n12/19/26  @ Roanoke  7:05 PM\n12/20/26  vs Birmingham  5:00 PM\n12/26/26  @ Birmingham  7:00 PM\n12/27/26  @ Birmingham  2:00 PM\n12/29/26  vs Macon  7:00 PM\n12/31/26  @ Macon  6:00 PM\n1/2/27  @ Macon  6:00 PM\n1/8/27  vs Evansville  7:00 PM\n1/9/27  vs Evansville  7:00 PM\n1/15/27  vs Athens  7:00 PM\n1/16/27  vs Athens  7:00 PM\n1/18/27  @ Birmingham  1:00 PM\n1/22/27  vs Pensacola  7:00 PM\n1/23/27  vs Pee Dee  7:00 PM\n1/29/27  @ Evansville  7:05 PM\n1/30/27  @ Evansville  7:05 PM\n2/5/27  vs Knoxville  7:00 PM\n2/6/27  vs Knoxville  7:00 PM\n2/7/27  @ Pensacola  4:05 PM\n2/12/27  vs Quad City  7:00 PM\n2/13/27  vs Quad City  7:00 PM\n2/15/27  @ Birmingham  1:00 PM\n2/19/27  @ Peoria  7:15 PM\n2/20/27  @ Peoria  7:15 PM\n2/21/27  vs Birmingham  5:00 PM\n2/26/27  @ Quad City  7:10 PM\n2/27/27  @ Quad City  7:10 PM\n3/5/27  vs Athens  7:00 PM\n3/6/27  vs Athens  7:00 PM\n3/7/27  @ Evansville  5:00 PM\n3/12/27  @ Fayetteville  7:00 PM\n3/13/27  @ Fayetteville  6:00 PM\n3/19/27  vs Peoria  7:00 PM\n3/20/27  vs Peoria  7:00 PM\n3/25/27  vs Evansville  7:00 PM\n3/26/27  @ Athens  7:05 PM\n3/27/27  @ Athens  7:05 PM\n4/2/27  @ Knoxville  6:00 PM\n4/3/27  vs Knoxville  5:00 PM"},
   roster:[],            // Havoc
   oppRosters:{},        // {teamName:[players]}
@@ -1193,12 +1280,24 @@ const DEFAULT_DATA={
   folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
   statOv:{},             // {key:value} — hand overrides on packet/stat displays
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
+  interviews:{},         // {gameKey:{pre:[],post:[]}} — interview prep + quotes archive
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
 const HAD_LOCAL=(()=>{try{return !!localStorage.getItem(KEY);}catch(e){return false;}})();
 let DATA=load();
-function load(){try{const raw=localStorage.getItem(KEY);if(raw)return Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(raw));}catch(e){}return structuredClone(DEFAULT_DATA);}
+function load(){
+  try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){
+      const parsed=JSON.parse(raw);
+      const out=Object.assign(structuredClone(DEFAULT_DATA),parsed);
+      out.settings=Object.assign(structuredClone(DEFAULT_DATA.settings),parsed.settings||{});
+      return out;
+    }
+  }catch(e){}
+  return structuredClone(DEFAULT_DATA);
+}
 /* tiny IndexedDB k/v — holds the full-state mirror and the backup-folder handle */
 function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('havocHub',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
 async function idbSet(k,v){const db=await idbOpen();return new Promise((res,rej)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>{db.close();res();};t.onerror=()=>{db.close();rej(t.error);};});}
@@ -1294,8 +1393,10 @@ function showTab(tab){
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference')renderReference();
   if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
+  if(tab==='game')ivRender('pre');
+  if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
   if(tab==='calllog')clInit();
-  if(tab==='postgame')pgInit();
+  if(tab==='postgame'){pgInit();ivRender('post');}
   if(tab==='settings')bkStatusRender();
 }
 document.getElementById('tabs').addEventListener('click',e=>{
@@ -1933,6 +2034,307 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     </div>`;
 }
 
+/* ============ OPENING WEEKEND (first Havoc–Pee Dee meeting) ============ */
+const OW_FIRSTS=['First goal','First assist','First win','First home opener','First road win','First power-play goal','First shorthanded goal','First fight','First shutout','First hat trick','First OT/SO win','First sellout'];
+function owData(){
+  DATA.opening=DATA.opening||{};
+  const o=DATA.opening;
+  o.file=o.file||{founded:'2026 (expansion)',arena:'Florence Center',capacity:'',city:'Florence, SC',owner:'',affil:'',broadcast:'',coach:'',coachbio:''};
+  o.story=o.story||{s1:'',s2:'',s3:'',nums:'',preseason:''};
+  o.firsts=o.firsts||OW_FIRSTS.map(t=>({t,done:0,detail:''}));
+  o.connections=o.connections||[];
+  o.origins=o.origins||{};
+  return o;
+}
+function owLoad(){
+  const o=owData();
+  ['founded','arena','capacity','city','owner','affil','broadcast','coach','coachbio'].forEach(k=>setv('ow_'+k,o.file[k]));
+  ['s1','s2','s3','nums','preseason'].forEach(k=>setv('ow_'+k,o.story[k]));
+  owRenderFirsts();owRenderConn();
+}
+function owSave(){
+  const o=owData();
+  ['founded','arena','capacity','city','owner','affil','broadcast','coach','coachbio'].forEach(k=>o.file[k]=val('ow_'+k));
+  ['s1','s2','s3','nums','preseason'].forEach(k=>o.story[k]=val('ow_'+k));
+  save();
+}
+function owRenderFirsts(){
+  const el=document.getElementById('owFirsts');if(!el)return;
+  el.innerHTML=owData().firsts.map((f,i)=>`<div class="iv-q">
+    <input type="checkbox" ${f.done?'checked':''} onchange="owData().firsts[${i}].done=this.checked?1:0;save();">
+    <span class="iv-qt" style="font-weight:700">${esc(f.t)}</span>
+    <input type="text" style="flex:2" placeholder="who / when / detail" value="${esc(f.detail)}" onchange="owData().firsts[${i}].detail=this.value;save();">
+  </div>`).join('');
+}
+function owRenderConn(){
+  const el=document.getElementById('owConn');if(!el)return;
+  const o=owData();
+  el.innerHTML=(o.connections.length?o.connections.map((c,i)=>`<div class="iv-q">
+      <span class="iv-qt"><b>${esc(c.a)}</b> &amp; <b>${esc(c.b)}</b> — <input type="text" style="width:55%" value="${esc(c.note)}" onchange="owData().connections[${i}].note=this.value;save();"></span>
+      <button class="icon-btn" onclick="owData().connections.splice(${i},1);save();owRenderConn();">✕</button>
+    </div>`).join(''):'<div class="empty" style="padding:6px">Nothing yet — scan runs off EP career data for both rosters (pull the PD roster on Live Data first), or add pairs by hand.</div>')
+    +`<div class="iv-add"><input type="text" id="owc_a" placeholder="Havoc player"><input type="text" id="owc_b" placeholder="IceCats player"><input type="text" id="owc_n" placeholder="connection" style="flex:2"><button class="btn small" onclick="owConnAdd()">Add</button></div>`;
+}
+function owConnAdd(){
+  if(!val('owc_a')||!val('owc_b'))return;
+  owData().connections.push({a:val('owc_a'),b:val('owc_b'),note:val('owc_n')});
+  save();owRenderConn();
+}
+function owEpCareer(name){
+  if(!EP_STATIC)return [];
+  const e=Object.values(EP_STATIC).find(x=>x&&x.name&&norm(x.name)===norm(name));
+  return (e&&e.careerStats)||[];
+}
+function owScan(){
+  const pd=(DATA.oppRosters['Pee Dee IceCats']||[]).filter(p=>p.name);
+  if(!pd.length){toast('No stored IceCats roster yet — pull rosters on Live Data first');return;}
+  const o=owData();const found=[];
+  DATA.roster.filter(p=>p.name).forEach(h=>{
+    const hc=owEpCareer(h.name);if(!hc.length)return;
+    pd.forEach(pp=>{
+      owEpCareer(pp.name).forEach(oc=>{
+        hc.forEach(hs=>{
+          if(!hs.year||hs.year!==oc.year)return;
+          if(hs.team&&oc.team&&norm(hs.team)===norm(oc.team))found.push({a:h.name,b:pp.name,note:'played together — '+hs.team+' ('+hs.year+')'});
+          else if(hs.league&&hs.league===oc.league)found.push({a:h.name,b:pp.name,note:'faced off in the '+hs.league+' ('+hs.year+')'});
+        });
+      });
+    });
+  });
+  const seen=new Set(o.connections.map(c=>c.a+'|'+c.b+'|'+c.note));
+  let added=0;
+  found.forEach(c=>{const k=c.a+'|'+c.b+'|'+c.note;if(!seen.has(k)){seen.add(k);o.connections.push(c);added++;}});
+  save();owRenderConn();
+  toast(added?added+' connection(s) found':'No overlaps in the EP career data yet — it deepens as the weekly EP action fills careers');
+}
+function owOrigins(){
+  const pd=(DATA.oppRosters['Pee Dee IceCats']||[]).filter(p=>p.name);
+  const o=owData();
+  const groupOf=t=>{
+    const u=String(t).toUpperCase();
+    if(/SPHL/.test(u))return 'SPHL veterans';
+    if(/ECHL/.test(u))return 'ECHL';
+    if(/NCAA|ACHA|USPORTS|COLLEGE|UNIV/.test(u))return 'College';
+    if(/OJHL|SJHL|BCHL|NAHL|USHL|GOJHL|CCHL|AJHL|NOJHL|MJHL|JUNIOR/.test(u))return 'Juniors';
+    return 'Europe / other pro';
+  };
+  return pd.map(p=>{
+    const ov=o.origins[p.name];
+    let origin=ov||'';
+    if(!origin){
+      const cs=owEpCareer(p.name);
+      if(cs.length){const last=cs[cs.length-1];origin=(last.team||'')+(last.league?' ('+last.league+')':'');}
+    }
+    return {p,origin,group:origin?groupOf(origin):'Unknown — fill by hand'};
+  });
+}
+function owGameLine(){return 'GAME 1 · FRI, OCT 16, 2026 · 7:15 PM ET / 6:15 PM CT · FLORENCE CENTER, FLORENCE, SC — GAME 2 · SAT, OCT 17 · 7:15 PM ET / 6:15 PM CT';}
+function owBuild(){
+  const S=DATA.settings,red=S.red||'#C8102E';
+  const o=owData();
+  const pages=[];
+  // ---- cover: FIRST MEETING banner replaces series history ----
+  const hsvStand=standingsFor('Huntsville');
+  pages.push(`<div class="page" style="--havoc-red:${red}">
+    <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML('Huntsville Havoc','','H')}</div><div class="pg-title" style="color:${red}">OPENING WEEKEND — FIRST MEETING PACKET</div><div class="pg-num">__PGNO__</div></div>
+    <div class="ow-banner" style="background:${red}">FIRST MEETING IN HISTORY<br><span>Huntsville Havoc vs. Pee Dee IceCats — the franchises have never played. Everything tonight is a first.</span></div>
+    <div style="font-size:10px;font-weight:800;margin:6px 0">${owGameLine()}</div>
+    <div class="gn-cols">
+      <div class="box"><h3>The stakes</h3><div style="font-size:9.5px;line-height:1.6">
+        Game 1 of 60 for the IceCats — the first regular-season game in franchise history.<br>
+        Game 1 of 60 for the Havoc, opening their 23rd SPHL season${hsvStand?'':' (2025-26: see By the Numbers)'}.<br>
+        First SPHL game ever played at ${esc(o.file.arena||'Florence Center')}.<br>
+        Every PD goal, win, save and fight tonight is a franchise first — see the Firsts Watch page.</div></div>
+      ${mediaBlockHTML('media-block')}
+    </div>
+    <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
+  // ---- franchise file ----
+  const F=o.file;
+  const fileRows=[['Founded',F.founded],['Arena',F.arena],['Capacity',F.capacity],['City',F.city],['Ownership',F.owner],['Affiliations',F.affil],['Broadcast',F.broadcast],['Head coach',F.coach]];
+  pages.push(pgWrap(red,S,'ICECATS FRANCHISE FILE',`
+    <div class="gn-cols">
+      <div class="box"><h3>Franchise facts</h3><table class="pk-t">${fileRows.map(r=>`<tr><td>${r[0]}</td><td class="r">${esc(r[1]||'—')}</td></tr>`).join('')}</table></div>
+      <div class="box"><h3>Head coach</h3><div style="font-size:9.5px;line-height:1.6"><b>${esc(F.coach||'TBA')}</b><br>${esc(F.coachbio||'Fill the bio on the Opening Weekend tab.')}</div></div>
+    </div>
+    <div class="box"><h3>PD preseason results</h3><div style="font-size:9.5px;line-height:1.6">${(o.story.preseason||'').split('\n').filter(Boolean).map(esc).join('<br>')||'None entered'}</div></div>`));
+  // ---- how the IceCats were built ----
+  const org=owOrigins();
+  const groups={};org.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
+  const builtBody=org.length
+    ?Object.keys(groups).map(g=>`<div class="box"><h3>${esc(g)} (${groups[g].length})</h3><table class="pk-t">${groups[g].map(r=>`<tr><td>${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)} ${r.p.pos?'('+esc(r.p.pos)+')':''}</td><td class="r">${esc(r.origin||'—')}</td></tr>`).join('')}</table></div>`).join('')
+    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Pull the Pee Dee roster on Live Data — every player&rsquo;s previous stop then lists here from EP career data (an expansion team&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
+  pages.push(pgWrap(red,S,'HOW THE ICECATS WERE BUILT',builtBody));
+  // ---- connections ----
+  const connBody=(o.connections.length
+    ?`<div class="box"><h3>Played with / against</h3><table class="pk-t">${o.connections.map(c=>`<tr><td>${esc(c.a)} &amp; ${esc(c.b)}</td><td class="r">${esc(c.note)}</td></tr>`).join('')}</table></div>`
+    :'<div class="box"><h3>Connections</h3><div style="font-size:9.5px;color:#666">No shared history found yet — run the EP scan on the Opening Weekend tab or add pairs by hand.</div></div>');
+  const nums=(o.story.nums||'').split('\n').filter(Boolean);
+  const R=DATA.report,hsv=R.teamStats&&R.teamStats['Huntsville'];
+  if(hsv&&hsv.players&&hsv.players.length){
+    const top=[...hsv.players].sort((a,b)=>(b.pts||0)-(a.pts||0))[0];
+    if(top)nums.push(top.name+' led the Havoc with '+top.pts+' points'+(R.seasonLabel?' — '+R.seasonLabel:' (2025-26, last season)'));
+  }
+  pages.push(pgWrap(red,S,'CONNECTIONS · STORYLINES · BY THE NUMBERS',`
+    ${connBody}
+    <div class="gn-cols">
+      <div class="box"><h3>Storylines</h3><div style="font-size:9.5px;line-height:1.6">${[o.story.s1,o.story.s2,o.story.s3].filter(Boolean).map(t=>'&bull; '+esc(t)).join('<br>')||'Write storylines on the Opening Weekend tab.'}</div></div>
+      <div class="box"><h3>By the numbers</h3><div style="font-size:9.5px;line-height:1.6">${nums.map(t=>'&bull; '+esc(t)).join('<br>')||'—'}</div></div>
+    </div>`));
+  // ---- firsts watch ----
+  pages.push(pgWrap(red,S,'FRANCHISE FIRSTS WATCH — PEE DEE ICECATS',`
+    <div class="box"><h3>Check them off as they happen</h3><table class="pk-t">${o.firsts.map(f=>`<tr><td>${f.done?'☑':'☐'} ${esc(f.t)}</td><td class="r">${esc(f.detail||'________________________')}</td></tr>`).join('')}</table></div>
+    <div style="font-size:9px;color:#666;margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
+  const doc=document.getElementById('openingDoc');
+  if(doc)doc.innerHTML=pages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+}
+function owPrint(){
+  owBuild();
+  const panel=document.getElementById('panel-opening');
+  panel.classList.add('printing');
+  setTimeout(()=>{window.print();panel.classList.remove('printing');},150);
+}
+function owArchive(){
+  if(!confirm('Archive Opening Weekend?\n\nEverything (franchise file, firsts record, connections, storylines) stays saved as the permanent record, the tab leaves the nav, and Pee Dee becomes a normal opponent everywhere.'))return;
+  owSave();
+  owData().archived=true;owData().archivedAt=new Date().toISOString();
+  save();
+  const btn=document.getElementById('tab_opening');if(btn)btn.style.display='none';
+  showTab('game');
+  toast('Opening Weekend archived — the record lives on under DATA and the firsts tracker');
+}
+
+/* ============ PRE / POST-GAME INTERVIEWS ============ */
+function ivKey(){return (DATA.game.date||'undated')+' | '+(DATA.game.opp||'no opponent');}
+function ivStore(){
+  DATA.interviews=DATA.interviews||{};
+  const k=ivKey();
+  return DATA.interviews[k]=DATA.interviews[k]||{pre:[],post:[]};
+}
+function ivFind(kind,id){return ivStore()[kind].find(x=>x.id===id);}
+function ivAdd(kind){
+  ivStore()[kind].push({id:uid(),person:'',role:'coach',team:'Huntsville Havoc',time:'',questions:[],notes:'',quotes:[]});
+  save();ivRender(kind);
+}
+function ivDel(kind,id){
+  if(!confirm('Delete this interview?'))return;
+  const st=ivStore();st[kind]=st[kind].filter(x=>x.id!==id);save();ivRender(kind);
+}
+function ivQAdd(kind,id,inputId){
+  const e=ivFind(kind,id);const el=document.getElementById(inputId);
+  if(!e||!el||!el.value.trim())return;
+  e.questions.push({t:el.value.trim(),asked:0});el.value='';save();ivRender(kind);
+}
+function ivQMove(kind,id,i,d){
+  const q=ivFind(kind,id).questions;
+  const j=i+d;if(j<0||j>=q.length)return;
+  [q[i],q[j]]=[q[j],q[i]];save();ivRender(kind);
+}
+function ivQDel(kind,id,i){const e=ivFind(kind,id);e.questions.splice(i,1);save();ivRender(kind);}
+function ivQAsked(kind,id,i,v){ivFind(kind,id).questions[i].asked=v?1:0;save();}
+function ivQuoteAdd(kind,id,inputId){
+  const e=ivFind(kind,id);const el=document.getElementById(inputId);
+  if(!e||!el||!el.value.trim())return;
+  e.quotes.push({t:el.value.trim(),star:0});el.value='';save();ivRender(kind);
+}
+function ivQuoteStar(kind,id,i){const q=ivFind(kind,id).quotes[i];q.star=q.star?0:1;save();ivRender(kind);}
+function ivQuoteDel(kind,id,i){ivFind(kind,id).quotes.splice(i,1);save();ivRender(kind);}
+function ivField(kind,id,f,v){const e=ivFind(kind,id);if(e){e[f]=v;save();}}
+function ivInsertQuote(kind,id,i){
+  const e=ivFind(kind,id);const q=e&&e.quotes[i];if(!q)return;
+  const who=e.person?(' — '+e.person+(e.role==='coach'?' (head coach)':'')):'';
+  const line='"'+q.t.replace(/^"|"$/g,'')+'"'+who;
+  const box=document.getElementById('pg_quotes');
+  if(box){box.value=(box.value.trim()?box.value.trim()+'\n':'')+line;box.dispatchEvent(new Event('input'));}
+  DATA.postgame=DATA.postgame||{};DATA.postgame.draft=DATA.postgame.draft||{};
+  DATA.postgame.draft.quotes=(DATA.postgame.draft.quotes?DATA.postgame.draft.quotes+'\n':'')+line;
+  save();toast('Quote added to the report');
+}
+function ivEntryHTML(kind,e){
+  const qs=e.questions.map((q,i)=>`<div class="iv-q">
+    <button class="icon-btn" onclick="ivQMove('${kind}','${e.id}',${i},-1)">▲</button>
+    <button class="icon-btn" onclick="ivQMove('${kind}','${e.id}',${i},1)">▼</button>
+    <input type="checkbox" ${q.asked?'checked':''} title="asked" onchange="ivQAsked('${kind}','${e.id}',${i},this.checked)">
+    <span class="iv-qt${q.asked?' iv-asked':''}">${esc(q.t)}</span>
+    <button class="icon-btn" onclick="ivQDel('${kind}','${e.id}',${i})">✕</button>
+  </div>`).join('');
+  const quotes=e.quotes.map((q,i)=>`<div class="iv-q">
+    <button class="icon-btn iv-star${q.star?' on':''}" title="usable quote" onclick="ivQuoteStar('${kind}','${e.id}',${i})">${q.star?'★':'☆'}</button>
+    <span class="iv-qt">${esc(q.t)}</span>
+    ${kind==='post'&&q.star?`<button class="icon-btn" title="insert into the report's Quotes" onclick="ivInsertQuote('${kind}','${e.id}',${i})">→ report</button>`:''}
+    <button class="icon-btn" onclick="ivQuoteDel('${kind}','${e.id}',${i})">✕</button>
+  </div>`).join('');
+  return `<div class="iv-entry">
+    <div class="grid g4">
+      <div class="field"><label>Person</label><input type="text" value="${esc(e.person)}" onchange="ivField('${kind}','${e.id}','person',this.value)"></div>
+      <div class="field"><label>Role</label><select onchange="ivField('${kind}','${e.id}','role',this.value)">${['coach','player','other'].map(r=>`<option${e.role===r?' selected':''}>${r}</option>`).join('')}</select></div>
+      <div class="field"><label>Team</label><input type="text" value="${esc(e.team)}" onchange="ivField('${kind}','${e.id}','team',this.value)"></div>
+      <div class="field"><label>Scheduled time</label><input type="text" value="${esc(e.time)}" placeholder="5:45 PM" onchange="ivField('${kind}','${e.id}','time',this.value)"></div>
+    </div>
+    <div class="section-label">Prepared questions</div>
+    ${qs||'<div class="empty" style="padding:6px">No questions yet.</div>'}
+    <div class="iv-add"><input type="text" id="ivq_${e.id}" placeholder="Add a question…"><button class="btn small" onclick="ivQAdd('${kind}','${e.id}','ivq_${e.id}')">Add</button></div>
+    <div class="field" style="margin-top:8px"><label>Answers / notes</label><textarea rows="3" onchange="ivField('${kind}','${e.id}','notes',this.value)">${esc(e.notes)}</textarea></div>
+    <div class="section-label">Quotable lines ${kind==='post'?'(★ then “→ report”)':'(★ = usable)'}</div>
+    ${quotes||''}
+    <div class="iv-add"><input type="text" id="ivu_${e.id}" placeholder="Add a line worth quoting…"><button class="btn small" onclick="ivQuoteAdd('${kind}','${e.id}','ivu_${e.id}')">Add</button></div>
+    <div class="btn-row" style="margin-top:8px">
+      <button class="btn small secondary" onclick="ivPrint('${kind}','${e.id}')">Print question sheet</button>
+      <button class="btn small secondary" style="color:var(--havoc-red)" onclick="ivDel('${kind}','${e.id}')">Delete</button>
+    </div>
+  </div>`;
+}
+function ivArchiveHTML(kind,q){
+  q=String(q||'').toLowerCase();
+  const cur=ivKey();
+  const rows=[];
+  Object.keys(DATA.interviews||{}).sort().reverse().forEach(k=>{
+    if(k===cur)return;
+    const list=(DATA.interviews[k][kind]||[]);
+    if(!list.length)return;
+    const hit=!q||k.toLowerCase().indexOf(q)>=0||list.some(e=>(e.person||'').toLowerCase().indexOf(q)>=0);
+    if(!hit)return;
+    rows.push(`<details class="iv-arch"><summary><b>${esc(k)}</b> — ${list.map(e=>esc(e.person||'?')).join(', ')}</summary>
+      ${list.map(e=>`<div class="iv-arch-body"><b>${esc(e.person)}</b> (${esc(e.role)}, ${esc(e.team)})${e.time?' · '+esc(e.time):''}
+        ${e.questions.length?'<br>Q: '+e.questions.map(x=>esc(x.t)).join(' · '):''}
+        ${e.notes?'<br>Notes: '+esc(e.notes):''}
+        ${e.quotes.length?'<br>Quotes: '+e.quotes.map(x=>(x.star?'★ ':'')+esc(x.t)).join(' · '):''}</div>`).join('')}
+    </details>`);
+  });
+  return rows.length?rows.join(''):'<div class="empty" style="padding:6px">No archived interviews'+(q?' match "'+esc(q)+'"':'')+'.</div>';
+}
+function ivRender(kind){
+  const wrap=document.getElementById('ivWrap_'+kind);if(!wrap)return;
+  const list=ivStore()[kind];
+  wrap.innerHTML=`<div style="font-size:12px;font-weight:700;color:#666;margin-bottom:6px">Game: ${esc(ivKey())}</div>`
+    +list.map(e=>ivEntryHTML(kind,e)).join('')
+    +`<div class="btn-row"><button class="btn secondary" onclick="ivAdd('${kind}')">+ Add interview</button></div>
+    <div class="section-label" style="margin-top:12px">Season archive</div>
+    <div class="iv-add"><input type="text" id="ivs_${kind}" placeholder="Search by opponent or person…" oninput="document.getElementById('ivarch_${kind}').innerHTML=ivArchiveHTML('${kind}',this.value)"></div>
+    <div id="ivarch_${kind}">${ivArchiveHTML(kind,'')}</div>`;
+}
+function ivSheetHTML(kind,e){
+  const S=DATA.settings,red=S.red||'#C8102E';
+  const qRows=(e.questions.length?e.questions:[{t:''},{t:''},{t:''},{t:''},{t:''}]).map((q,i)=>
+    `<div class="ivs-q"><b>${i+1}.</b> ${esc(q.t)}<div class="ivs-line"></div><div class="ivs-line"></div></div>`).join('');
+  return `<div class="page" style="--havoc-red:${red}">
+    <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
+      <div class="pg-title" style="color:${red}">${kind==='pre'?'PRE':'POST'}-GAME INTERVIEW</div><div class="pg-num">SHEET</div></div>
+    <div style="font-size:14px;font-weight:900;margin:6px 0 2px">${esc(e.person||'____________')} · ${esc(e.role)} · ${esc(e.team)}</div>
+    <div style="font-size:11px;color:#555;margin-bottom:8px">${esc(ivKey())}${e.time?' · scheduled '+esc(e.time):''}</div>
+    ${qRows}
+    <div style="margin-top:14px">${mediaBlockHTML('media-block')}</div>
+    <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>INTERVIEW</span></div>
+  </div>`;
+}
+function ivPrint(kind,id){
+  const e=ivFind(kind,id);if(!e)return;
+  const d=document.createElement('div');
+  d.className='panel printing';
+  d.innerHTML=ivSheetHTML(kind,e);
+  document.body.appendChild(d);
+  setTimeout(()=>{window.print();d.remove();},120);
+}
+
 /* ============ BROADCAST VERBIAGE & ICE MAP ============ */
 const VERBS_DEFAULT={
  p1:"angled, banked, blasted, blocked, bounce, brought, brushed, carried, chipped, chopped, cleared, closed, collared, come (up), controlled, curled, cut, dealt, deflected, directed, dished, dropped, drubs, dubbed, dumped, fed, feeds, finessed, fires, flagged, flew, flipped, floats, flopped, forced, forwarded, gathering, gives, gloved, got, grabbed, guides, handle, hands, held, hopped, intercepted, kicked, knifed, knocks, lays, leads, lifted, lobbed, looked, lugged, muscled, nudges, one-handed, played, poked, popped, punched, pushed, rattled, regathered, ricocheted, rifled, sealed, sent, shooting, slipped, slug, spiked, spirited, spun, squibbed, start, steers, struck, swatted, swirl, taken, tangled, threaded, threw, tipped, touches, trickles, turned, twisted, went, whistled, yanks",
@@ -2097,6 +2499,7 @@ function dataStampHTML(scope){
   else if(R.daily&&R.daily.date)src='SPHL daily report '+R.daily.date;
   else if(R.parsedAt)src='SPHL feed sync '+String(R.parsedAt).slice(0,10);
   else src='no synced data yet';
+  if(R.seasonLabel)src+=' · stats: '+R.seasonLabel;
   let edited=false;
   if(scope==='packet')edited=Object.keys(DATA.statOv||{}).some(k=>String(DATA.statOv[k]||'').trim())||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
   else edited=Object.keys((DATA.folderOv||{})[scope]||{}).some(k=>String(DATA.folderOv[scope][k]||'').trim());
@@ -2227,6 +2630,7 @@ function fdLineupPage(side){
       <div class="fd-sub" style="color:${primary};border-color:${primary}">Goalies</div>${gBlock}
     </div>
     ${strip}
+    <div class="fd-contact">${esc(DATA.settings.mediaName||'')} | ${esc(DATA.settings.mediaTitle||'')} · ${esc(DATA.settings.mediaPhone||'')} · ${esc(DATA.settings.mediaEmail||'')}</div>
     ${dataStampHTML(teamFull)}
   </div>`;
 }
@@ -2332,6 +2736,7 @@ function fdDataPage(side){
       </div>
     </div>
     <div class="fd-notes"><div class="fd-notes-label">NOTES</div><div class="fd-notes-rule"></div></div>
+    <div class="fd-contact">${esc(DATA.settings.mediaName||'')} | ${esc(DATA.settings.mediaTitle||'')} · ${esc(DATA.settings.mediaPhone||'')} · ${esc(DATA.settings.mediaEmail||'')}</div>
     ${dataStampHTML(teamFull)}
   </div>`;
 }
@@ -2386,8 +2791,8 @@ function printDoc(which){
 }
 
 /* ============ SETTINGS / BACKUP ============ */
-function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_media',s.media);setv('s_pronounce',s.pronounce);}
-function saveSettings(){Object.assign(DATA.settings,{red:val('s_red'),city:val('s_city'),name:val('s_name'),venue:val('s_venue'),footer:val('s_footer'),social:val('s_social'),media:val('s_media'),pronounce:document.getElementById('s_pronounce').value});save();toast("Settings saved");}
+function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_pronounce',s.pronounce);['mediaName','mediaTitle','mediaOrg','mediaPhone','mediaEmail','mediaWeb'].forEach(k=>setv('s_'+k,s[k]));}
+function saveSettings(){Object.assign(DATA.settings,{red:val('s_red'),city:val('s_city'),name:val('s_name'),venue:val('s_venue'),footer:val('s_footer'),social:val('s_social'),pronounce:document.getElementById('s_pronounce').value,mediaName:val('s_mediaName'),mediaTitle:val('s_mediaTitle'),mediaOrg:val('s_mediaOrg'),mediaPhone:val('s_mediaPhone'),mediaEmail:val('s_mediaEmail'),mediaWeb:val('s_mediaWeb')});save();toast("Settings saved");}
 /* Backups carry a schema version so future imports can migrate old files;
    schema 1 = a bare DATA object (old exports), still importable */
 const BACKUP_SCHEMA=2;
@@ -2836,6 +3241,10 @@ function parseExtended(raw,r){
    MULTI-PAGE GAME NOTES (packet style)
    ============================================================ */
 /* ============ NEW PACKET PAGES (Roanoke/Macon models) ============ */
+function mediaBlockHTML(cls){
+  const S=DATA.settings;
+  return `<div class="${cls||'media-block'}"><div class="mb-h">MEDIA RELATIONS</div><b>${esc(S.mediaName||'')}</b> | ${esc(S.mediaTitle||'')}<br>${esc(S.mediaOrg||'')}<br>${esc(S.mediaPhone||'')}<br>${esc(S.mediaEmail||'')}<br>${esc(S.mediaWeb||'')}</div>`;
+}
 function pgWrap(red,S,title,body){
   return `<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">${title}</div><div class="pg-num">__PGNO__</div></div>
@@ -3052,8 +3461,8 @@ function renderPacket(){
     <div class="gn-top"><div class="gn-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
       <div class="gn-title"><div class="city">${esc(S.city)}</div><div class="team">${esc(S.name)}</div>
         <div class="gn-bar"><span>SPHL MEMBER SINCE 2004</span><span class="red">${cups.length} PRESIDENTS CUP${cups.length!==1?'S':''} (${cups.join(', ')||'—'})</span><span>HUNTSVILLEHAVOC.COM</span></div>
-        ${S.media?`<div style="font-size:8px;margin-top:2px;letter-spacing:.03em">MEDIA CONTACT: ${esc(S.media)}</div>`:''}
-        <div style="font-size:8px;margin-top:2px;letter-spacing:.03em">OFFICIALS &mdash; REFEREES: ${esc(G.ref1||'TBD')}, ${esc(G.ref2||'TBD')} &middot; LINESMEN: ${esc(G.lin1||'TBD')}, ${esc(G.lin2||'TBD')}</div></div></div>
+        <div style="font-size:8px;margin-top:2px;letter-spacing:.03em">OFFICIALS &mdash; REFEREES: ${esc(G.ref1||'TBD')}, ${esc(G.ref2||'TBD')} &middot; LINESMEN: ${esc(G.lin1||'TBD')}, ${esc(G.lin2||'TBD')}</div></div>
+      ${mediaBlockHTML('media-block')}</div>
     <div class="gn-matchup">
       <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${esc(G.promo||'')}</div><div>${dateStr}</div><div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div><div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
@@ -4294,7 +4703,8 @@ function htJSONP(extra,useKey,timeoutMs){
 }
 function htPickSeason(seasons){
   const sorted=[...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id));
-  return sorted.find(s=>/regular/i.test(s.season_name||''))||sorted[0];
+  // 46 = 2026-27 Regular Season (validated) — the default everywhere this year
+  return sorted.find(s=>String(s.season_id)==='46')||sorted.find(s=>/regular/i.test(s.season_name||''))||sorted[0];
 }
 /* Fetch the season list, auto-detecting a feed key if the configured setup can't answer. */
 async function htGetSeasons(prefix){
@@ -4377,10 +4787,23 @@ async function htDoStandings(){
   return out.length+' teams';
 }
 async function htDoPlayers(){
-  const sk=await htFetch({feed:'statviewfeed',view:'players',season:htSeason(),team:'all',position:'skaters',rookies:0,statsType:'standard',limit:1000,sort:'points',league_id:''});
-  const gl=await htFetch({feed:'statviewfeed',view:'players',season:htSeason(),team:'all',position:'goalies',rookies:0,statsType:'standard',limit:100,sort:'gaa',league_id:''});
+  // preseason fallback: if the current season has no stat rows yet, load last
+  // season's numbers instead and label them — never show blank tables
+  let season=htSeason(),label='';
+  const fetchBoth=async se=>{
+    const sk=await htFetch({feed:'statviewfeed',view:'players',season:se,team:'all',position:'skaters',rookies:0,statsType:'standard',limit:1000,sort:'points',league_id:''});
+    const gl=await htFetch({feed:'statviewfeed',view:'players',season:se,team:'all',position:'goalies',rookies:0,statsType:'standard',limit:100,sort:'gaa',league_id:''});
+    return [sk,gl];
+  };
+  let [sk,gl]=await fetchBoth(season);
   const unwrap=(d)=>{let secs=Array.isArray(d)?d:(d&&d.sections)||[];let rows=[];secs.forEach(s=>{(s.data||[]).forEach(x=>rows.push(x.row||x));});return rows;};
-  const skaters=unwrap(sk),goalies=unwrap(gl);
+  let skaters=unwrap(sk),goalies=unwrap(gl);
+  if(!skaters.length&&!goalies.length&&String(season)!=='44'){
+    [sk,gl]=await fetchBoth('44');
+    skaters=unwrap(sk);goalies=unwrap(gl);
+    label='2025-26 (last season)';
+  }
+  DATA.report.seasonLabel=label;
   if(!skaters.length&&!goalies.length)throw new Error('Players: feed returned nothing readable.');
   const ts={};
   const teamOf=r=>String(pick(r,['team_code','team','team_name'],'')).trim();
@@ -5079,7 +5502,7 @@ function wgDeck(side){
 }
 
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
