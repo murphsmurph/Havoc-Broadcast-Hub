@@ -587,7 +587,15 @@
         <div class="field"><label>EP team ID (optional — filters schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
       </div>
       <div class="field" style="max-width:340px"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+      <div class="section-label">Game-sheet decks — generate a card for every player on the sheet</div>
+      <div class="btn-row">
+        <button class="btn" onclick="wgDeck('home')">Generate Havoc lineup cards</button>
+        <button class="btn secondary" onclick="wgDeck('away')">Generate opponent lineup cards</button>
+        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
+        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
+      </div>
     </div>
+    <div class="card"><h3>Lineup card deck</h3><div id="wgDeckWrap"><div class="empty">Generate the Havoc or opponent deck above — one live EP card per active player on the game sheet, in lineup order.</div></div></div>
     <div class="card"><h3>Player</h3><div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div></div>
     <div class="card"><h3>Coaching staff</h3><div id="wgStaff"></div></div>
     <div class="card"><h3>League standings</h3><div id="wgStandings"></div></div>
@@ -4002,6 +4010,37 @@ function wgPlayer(){
   const s=document.createElement('script');
   s.async=true;s.src='https://widget.eliteprospects.com/embed.js?id='+encodeURIComponent(wid);
   document.head.appendChild(s);
+}
+/* Game-sheet decks: one player widget per active player, same numerical
+   order as the game sheet (forwards, defense, goalies). */
+function wgDeck(side){
+  const wrap=document.getElementById('wgDeckWrap'),msg=document.getElementById('wgDeckMsg');
+  if(!wrap)return;
+  let list,label;
+  if(side==='home'){list=DATA.roster;label='Havoc';}
+  else{
+    const opp=(DATA.game&&DATA.game.opp)||'';
+    if(!opp){if(msg)msg.textContent='Pick tonight\'s opponent on the This Game tab first.';return;}
+    list=(DATA.oppRosters||{})[opp]||[];label=opp;
+    if(!list.length){if(msg)msg.textContent='No stored roster for '+opp+' — Pull rosters on Live Data first.';return;}
+  }
+  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+  const act=list.filter(p=>p.active!=='0'&&p.name);
+  const ordered=[...act.filter(p=>p.pos!=='D'&&p.pos!=='G').sort(byNum),
+                 ...act.filter(p=>p.pos==='D').sort(byNum),
+                 ...act.filter(p=>p.pos==='G').sort(byNum)];
+  const v=wgVals();const missing=[];const cards=[];
+  ordered.forEach(p=>{
+    const e=(typeof epEntryFor==='function')?epEntryFor(p):null;
+    const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
+    if(!id){missing.push(dispName(p));return;}
+    cards.push(`<div class="ldr-h" style="font-size:11px;margin:8px 0 4px">#${esc(p.num||'')} ${esc(dispName(p).toUpperCase())}</div>
+      <div id="epw_deck_${esc(String(id))}" class="ep-widget" data-widget-type="player" data-player-id="${esc(String(id))}" data-game-limit="5" data-view-mode="stats" data-show-summary="false" data-measurement-unit="imperial"${wgStyle(v.red)}></div>`);
+  });
+  if(!cards.length){wrap.innerHTML='<div class="empty">No EP-mapped players on that roster yet — run the weekly EP action / Link EP profiles first.</div>';if(msg)msg.textContent='';return;}
+  wrap.innerHTML=cards.join('');
+  wgLoader(); // fresh discovery pass mounts the whole deck
+  if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
 }
 
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
