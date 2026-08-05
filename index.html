@@ -62,7 +62,14 @@
   .fd-note{font-size:13px;line-height:1.3;border-top:1px dotted #999;margin-top:2px;padding-top:1px;min-height:16px;color:#111;}
   .fd-note:empty:before{content:'call note…';color:#bbb;}
   .fd-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;border-top:2.5px solid #222;padding-top:5px;margin-top:6px;font-size:13px;flex:0 0 auto;}
-  .fd-cols{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.05fr;gap:14px;}
+  .fd-cols{flex:0 1 auto;min-height:0;overflow:hidden;display:grid;grid-template-columns:1fr 1.05fr;gap:14px;}
+  /* NOTES absorbs whatever room remains (fit rule) — ruled every 22px, never under 3 lines */
+  .fd-notes{flex:1;min-height:78px;margin-top:6px;display:flex;flex-direction:column;}
+  .fd-notes-label{font-size:12.5px;font-weight:900;color:#888;letter-spacing:.6px;flex:0 0 auto;}
+  .fd-notes-rule{flex:1;background:repeating-linear-gradient(to bottom,transparent,transparent 21px,#ccc 21px,#ccc 22px);}
+  .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
+  .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
+  .pg-stamp{font-size:10.5px;color:#777;text-align:right;margin-top:3px;flex:0 0 auto;}
   .fd-col{min-height:0;display:flex;flex-direction:column;}
   .fd-st{display:flex;gap:6px;font-size:13px;line-height:1.5;align-items:baseline;}
   .fd-seed{font-weight:900;width:18px;flex:0 0 auto;}
@@ -76,7 +83,7 @@
   table.fd-per{border-collapse:collapse;width:100%;margin:2px 0 4px;}
   table.fd-per th{font-size:12.5px;font-weight:900;border:1px solid #999;padding:1px 5px;background:#eee;}
   table.fd-per td{font-size:13px;border:1px solid #999;padding:1px 5px;text-align:center;min-width:34px;}
-  .fd-res{display:flex;gap:8px;font-size:13px;line-height:1.5;justify-content:space-between;}
+  .fd-res{display:flex;gap:8px;font-size:13px;line-height:1.38;justify-content:space-between;}
   .fd-res span:first-child{flex:0 0 auto;}
   .pstat .pstat-mark{font-weight:900;margin-left:1px;}
   .wrap{max-width:1080px;margin:0 auto;padding:22px 20px 90px;}
@@ -964,6 +971,7 @@
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
         <input type="file" id="importFile2" accept="application/json" style="display:none" onchange="importData(event)">
         <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
+        <button class="btn secondary" onclick="revertAllOverrides()">Revert all stat overrides</button>
         <button class="btn secondary" style="color:var(--havoc-red)" onclick="wipeAll()">Reset everything</button>
       </div>
       <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
@@ -1148,6 +1156,7 @@ const DEFAULT_DATA={
   hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
   chartEdits:{},         // {teamName:{playerKey:html}} — hand edits to lineup-chart cards
   folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
+  statOv:{},             // {key:value} — hand overrides on packet/stat displays
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1892,11 +1901,55 @@ function fdOv(team){DATA.folderOv=DATA.folderOv||{};return DATA.folderOv[team]=D
 /* value cell: hand override > computed > "—" (Havoc) / write-in line (opponent) */
 function fdCell(team,key,computed,isOpp){
   const ov=fdOv(team)[key];
+  const hasOv=ov!=null&&String(ov).trim()!=='';
+  const hasSrc=computed!=null&&computed!=='';
   let inner;
-  if(ov!=null&&String(ov).trim()!=='')inner=esc(ov);
-  else if(computed!=null&&computed!=='')inner=esc(String(computed));
+  if(hasOv)inner=esc(ov);
+  else if(hasSrc)inner=esc(String(computed));
   else inner=isOpp?'<span class="fd-blank"></span>':'—';
-  return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>`;
+  // marker + revert only when a synced source exists — sourceless fields are plain manual entry
+  const mark=hasOv&&hasSrc?`<b class="ov-mark" title="manual override — synced: ${esc(String(computed))}">•</b><button class="fv-rv no-print" title="Revert to synced" onclick="fdRevert('${esc(team)}','${esc(key)}')">↺</button>`:'';
+  return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>${mark}`;
+}
+function fdRevert(team,key){delete fdOv(team)[key];save();renderFolders();toast('Back to synced value');}
+/* every displayed stat traces to the synced store; a small stamp says how fresh */
+function dataStampHTML(scope){
+  const R=DATA.report||{};
+  const d=(R.daily&&R.daily.date)||'';
+  const src=d?('SPHL daily report '+d):(R.parsedAt?('SPHL feed sync '+String(R.parsedAt).slice(0,10)):'no synced data yet');
+  let edited=false;
+  if(scope==='packet')edited=Object.keys(DATA.statOv||{}).some(k=>String(DATA.statOv[k]||'').trim())||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
+  else edited=Object.keys((DATA.folderOv||{})[scope]||{}).some(k=>String(DATA.folderOv[scope][k]||'').trim());
+  return `<div class="pg-stamp">Data: ${esc(src)} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+}
+/* packet/stat-display value cell — same rules as the folder cells, global keys */
+function ovCell(key,computed){
+  DATA.statOv=DATA.statOv||{};
+  const ov=DATA.statOv[key];
+  const hasOv=ov!=null&&String(ov).trim()!=='';
+  const hasSrc=computed!=null&&computed!=='';
+  const inner=hasOv?esc(ov):(hasSrc?esc(String(computed)):'—');
+  const mark=hasOv&&hasSrc?`<b class="ov-mark" title="manual override — synced: ${esc(String(computed))}">•</b><button class="fv-rv no-print" title="Revert to synced" onclick="statOvRevert('${esc(key)}')">↺</button>`:'';
+  return `<span class="pv" contenteditable="true" spellcheck="false" data-k="${esc(key)}">${inner}</span>${mark}`;
+}
+function statOvRevert(key){delete (DATA.statOv||{})[key];save();renderPacket();toast('Back to synced value');}
+function pkWireOv(){
+  const doc=document.getElementById('packetDoc');if(!doc||doc._pvWired)return;
+  doc._pvWired=true;
+  doc.addEventListener('input',e=>{
+    const t=e.target.closest?e.target.closest('.pv[data-k]'):null;if(!t)return;
+    clearTimeout(doc._pvt);
+    doc._pvt=setTimeout(()=>{DATA.statOv=DATA.statOv||{};DATA.statOv[t.dataset.k]=t.innerText.trim();save();},600);
+  });
+}
+function revertAllOverrides(){
+  const n1=Object.values(DATA.folderOv||{}).reduce((a,t)=>a+Object.keys(t).filter(k=>String(t[k]||'').trim()).length,0);
+  const n2=Object.keys(DATA.statOv||{}).filter(k=>String(DATA.statOv[k]||'').trim()).length;
+  const n3=DATA.roster.filter(p=>p.statOverride&&p.statOverride.trim()).length;
+  if(!(n1+n2+n3)){toast('No overrides to revert');return;}
+  if(!confirm('Revert ALL manual stat overrides to synced data?\n\n'+n1+' folder values · '+n2+' packet values · '+n3+' player stat lines'))return;
+  DATA.folderOv={};DATA.statOv={};DATA.roster.forEach(p=>{if(p.statOverride)p.statOverride='';});
+  save();renderFolders();toast('All overrides reverted');
 }
 function fdGamesFor(kw){
   const re=new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
@@ -1994,6 +2047,7 @@ function fdLineupPage(side){
       <div class="fd-sub" style="color:${primary};border-color:${primary}">Goalies</div>${gBlock}
     </div>
     ${strip}
+    ${dataStampHTML(teamFull)}
   </div>`;
 }
 function fdDataPage(side){
@@ -2097,6 +2151,8 @@ function fdDataPage(side){
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Recent Transactions</div>${txRows}
       </div>
     </div>
+    <div class="fd-notes"><div class="fd-notes-label">NOTES</div><div class="fd-notes-rule"></div></div>
+    ${dataStampHTML(teamFull)}
   </div>`;
 }
 function renderFolders(){
@@ -2624,18 +2680,21 @@ function leaders4Block(ts){
 function splitsPage(red,S){
   const sp=glSplits();
   const R=DATA.report;
-  const splitRows=sp?sp.rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join(''):naRow('Season splits','no completed games in the log yet');
+  const spSlug=k=>'sp_'+String(k).toLowerCase().replace(/[^a-z0-9]+/g,'_');
+  const splitRows=sp?sp.rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${ovCell(spSlug(r[0]),r[1])}</td></tr>`).join(''):naRow('Season splits','no completed games in the log yet');
   const naNote=`<tr><td>Record when scoring first / leading after 1st &amp; 2nd</td><td class="r" style="color:#999">N/A — tracked from box scores going forward</td></tr>`;
-  const lt=glLastTime().map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join('');
+  const lt=glLastTime().map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${ovCell(spSlug('lt_'+r[0]),r[1])}</td></tr>`).join('');
   const spc=(R.special||{})['Huntsville']||{};
+  const ppVal=(typeof spc.pp==='string'?spc.pp:(spc.ppO&&spc.ppO.pct!=null?spc.ppO.pct+'%':null))||null;
+  const pkVal=(typeof spc.pk==='string'?spc.pk:(spc.pkO&&spc.pkO.pct!=null?spc.pkO.pct+'%':null))||null;
   const stTable=`<table class="pk-t"><tr><th>Special teams</th><th class="r">Overall</th></tr>
-    <tr><td>Power play</td><td class="r">${esc((typeof spc.pp==='string'?spc.pp:(spc.ppO&&spc.ppO.pct!=null?spc.ppO.pct+'%':'—'))||'—')}</td></tr>
-    <tr><td>Penalty kill</td><td class="r">${esc((typeof spc.pk==='string'?spc.pk:(spc.pkO&&spc.pkO.pct!=null?spc.pkO.pct+'%':'—'))||'—')}</td></tr></table>`;
+    <tr><td>Power play</td><td class="r">${ovCell('sp_pp',ppVal)}</td></tr>
+    <tr><td>Penalty kill</td><td class="r">${ovCell('sp_pk',pkVal)}</td></tr></table>`;
   const gp=(R.ext||{}).goalsByPeriod;
-  const gpTable=gp?`<table class="pk-t"><tr><th></th><th class="r">1st</th><th class="r">2nd</th><th class="r">3rd</th><th class="r">OT</th><th class="r">Total</th></tr>
-    <tr><td>${esc(S.name)}</td><td class="r">${gp.p1[0]}</td><td class="r">${gp.p2[0]}</td><td class="r">${gp.p3[0]}</td><td class="r">${gp.ot[0]}</td><td class="r">${gp.tot[0]}</td></tr>
-    <tr><td>Opponents</td><td class="r">${gp.p1[1]}</td><td class="r">${gp.p2[1]}</td><td class="r">${gp.p3[1]}</td><td class="r">${gp.ot[1]}</td><td class="r">${gp.tot[1]}</td></tr></table>`
-    :'<div style="color:#999;font-size:9px">Goals-by-period: N/A — import a daily report with period data.</div>';
+  const sgp=(k,i)=>ovCell('sp_gp_'+k+i,gp?gp[k][i]:null);
+  const gpTable=`<table class="pk-t"><tr><th></th><th class="r">1st</th><th class="r">2nd</th><th class="r">3rd</th><th class="r">OT</th><th class="r">Total</th></tr>
+    <tr><td>${esc(S.name)}</td><td class="r">${sgp('p1',0)}</td><td class="r">${sgp('p2',0)}</td><td class="r">${sgp('p3',0)}</td><td class="r">${sgp('ot',0)}</td><td class="r">${sgp('tot',0)}</td></tr>
+    <tr><td>Opponents</td><td class="r">${sgp('p1',1)}</td><td class="r">${sgp('p2',1)}</td><td class="r">${sgp('p3',1)}</td><td class="r">${sgp('ot',1)}</td><td class="r">${sgp('tot',1)}</td></tr></table>`;
   return pgWrap(red,S,'SEASON SPLITS',`
     <div class="gn-cols">
       <div class="box"><h3>At a Glance</h3><table class="pk-t">${splitRows}${naNote}</table></div>
@@ -2857,21 +2916,22 @@ function renderPacket(){
   /* ---------- PAGE 3: QUICK FACTS ---------- */
   const ext=R.ext||{};
   const gp=ext.goalsByPeriod;
-  const gpTable=gp?`<table class="qf-grid"><tr><th></th><th>1ST</th><th>2ND</th><th>3RD</th><th>OT</th><th>TOTAL</th></tr>
-    <tr><td>Havoc</td><td>${gp.p1[0]}</td><td>${gp.p2[0]}</td><td>${gp.p3[0]}</td><td>${gp.ot[0]}</td><td>${gp.tot[0]}</td></tr>
-    <tr><td>Opp</td><td>${gp.p1[1]}</td><td>${gp.p2[1]}</td><td>${gp.p3[1]}</td><td>${gp.ot[1]}</td><td>${gp.tot[1]}</td></tr></table>`:'<div style="color:#999;font-size:9px">Goals-by-period not found in report</div>';
+  const gpc=(k,i)=>ovCell('qf_gp_'+k+i,gp?gp[k][i]:null);
+  const gpTable=`<table class="qf-grid"><tr><th></th><th>1ST</th><th>2ND</th><th>3RD</th><th>OT</th><th>TOTAL</th></tr>
+    <tr><td>Havoc</td><td>${gpc('p1',0)}</td><td>${gpc('p2',0)}</td><td>${gpc('p3',0)}</td><td>${gpc('ot',0)}</td><td>${gpc('tot',0)}</td></tr>
+    <tr><td>Opp</td><td>${gpc('p1',1)}</td><td>${gpc('p2',1)}</td><td>${gpc('p3',1)}</td><td>${gpc('ot',1)}</td><td>${gpc('tot',1)}</td></tr></table>`;
   const atGlance=[
-    ['Overall record',G.hsvrec||'—'],['Home',ext.homeAway?ext.homeAway.home:'—'],['Away',ext.homeAway?ext.homeAway.away:'—'],
-    ['When scoring first',ext.scoreFirst?`${ext.scoreFirst.w}-${ext.scoreFirst.l}-${ext.scoreFirst.otl}`:'—'],
-    ['GF/game rank',ext.gfRank?`${ext.gfRank.val} (${ordinal(ext.gfRank.rank)})`:'—']
+    ['Overall record','qf_overall',G.hsvrec||null],['Home','qf_home',ext.homeAway?ext.homeAway.home:null],['Away','qf_away',ext.homeAway?ext.homeAway.away:null],
+    ['When scoring first','qf_first',ext.scoreFirst?`${ext.scoreFirst.w}-${ext.scoreFirst.l}-${ext.scoreFirst.otl}`:null],
+    ['GF/game rank','qf_gfrank',ext.gfRank?`${ext.gfRank.val} (${ordinal(ext.gfRank.rank)})`:null]
   ];
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">QUICK FACTS</div><div class="pg-num">__PGNO__</div></div>
     <div class="gn-cols">
       <div class="box"><h3>2025-26 Schedule</h3><div style="font-size:8px;color:#888">Paste schedule on the Game Notes tab to populate.</div>${scheduleTable()}</div>
       <div>
-        <div class="box"><h3>Havoc at a Glance</h3><table class="qf-list">${atGlance.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table></div>
-        <div class="box"><h3>Special Teams</h3><table class="qf-list"><tr><td>Power play</td><td>${hsvSp.pp||'—'}</td></tr><tr><td>Penalty kill</td><td>${hsvSp.pk||'—'}</td></tr></table></div>
+        <div class="box"><h3>Havoc at a Glance</h3><table class="qf-list">${atGlance.map(r=>`<tr><td>${r[0]}</td><td>${ovCell(r[1],r[2])}</td></tr>`).join('')}</table></div>
+        <div class="box"><h3>Special Teams</h3><table class="qf-list"><tr><td>Power play</td><td>${ovCell('qf_pp',hsvSp.pp||null)}</td></tr><tr><td>Penalty kill</td><td>${ovCell('qf_pk',hsvSp.pk||null)}</td></tr></table></div>
         <div class="box"><h3>Roster Status</h3><table class="qf-list">
           <tr><td>IR</td><td>${esc((G.ir||'').split('\n').filter(Boolean).join(', ')||'None')}</td></tr>
           <tr><td>ECHL</td><td>${esc((G.echl||'').split('\n').filter(Boolean).join(', ')||'None')}</td></tr>
@@ -2910,7 +2970,9 @@ function renderPacket(){
   };
   const outPages=[];
   PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))outPages.push(...(secPages[s[0]]||[]));});
-  document.getElementById('packetDoc').innerHTML=outPages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  const stamp=dataStampHTML('packet');
+  document.getElementById('packetDoc').innerHTML=outPages.map((p,i)=>p.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  pkWireOv();
 }
 
 function upNextBox(){
