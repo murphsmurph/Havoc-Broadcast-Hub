@@ -186,7 +186,28 @@
   "epId": "298839",
   "epUrl": "https://www.eliteprospects.com/player/298839",
   "name": "Brian Wilson",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "1996-09-27",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 45,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 2.35,
+     "svp": 92.4
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .924 SV%, 2.35 GAA in 45 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  },
  "2769": {
   "epId": "327463",
@@ -370,7 +391,8 @@
   "epId": "248427",
   "epUrl": "https://www.eliteprospects.com/player/248427",
   "name": "Austin Alger",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "statsFailAt": "2026-08-05T03:52:27.669Z"
  },
  "3093": {
   "epId": "249620",
@@ -697,7 +719,8 @@
   "epId": "349555",
   "epUrl": "https://www.eliteprospects.com/player/349555",
   "name": "Craig McCabe",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "statsFailAt": "2026-08-05T03:52:27.669Z"
  },
  "3372": {
   "epId": "674687",
@@ -842,7 +865,8 @@
   "epId": "285339",
   "epUrl": "https://www.eliteprospects.com/player/285339",
   "name": "Giovanni Procopio",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "statsFailAt": "2026-08-05T03:52:27.669Z"
  },
  "3466": {
   "epId": "284080",
@@ -1291,7 +1315,29 @@
   "epId": "519479",
   "epUrl": "https://www.eliteprospects.com/player/519479",
   "name": "Kevin Weaver-Vitale",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "1999-12-19",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 56,
+     "g": 5,
+     "a": 18,
+     "p": 23,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "23 points in 56 career pro games (SPHL)",
+   "Best season: 5G-18A-23P in 56 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  },
  "3626": {
   "epId": "435924",
@@ -1550,7 +1596,29 @@
   "epId": "335882",
   "epUrl": "https://www.eliteprospects.com/player/335882",
   "name": "Ben Schultheis",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "2000-02-17",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 51,
+     "g": 5,
+     "a": 14,
+     "p": 19,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "19 points in 51 career pro games (SPHL)",
+   "Best season: 5G-14A-19P in 51 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  },
  "3667": {
   "epId": "275796",
@@ -1675,7 +1743,28 @@
   "epId": "370215",
   "epUrl": "https://www.eliteprospects.com/player/370215",
   "name": "Dawson Sciarrino",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "2000-06-06",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 14,
+     "g": 4,
+     "a": 9,
+     "p": 13,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 4G-9A-13P in 14 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  },
  "3687": {
   "epId": "403206",
@@ -2344,7 +2433,26 @@
   "epId": "482047",
   "epUrl": "https://www.eliteprospects.com/player/482047",
   "name": "Alex Proctor",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "2001-12-12",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 1,
+     "svp": 96.7
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  },
  "3802": {
   "epId": "503026",
@@ -2597,5 +2705,89 @@
   "epUrl": "https://www.eliteprospects.com/player/588228",
   "name": "Kullan Daikawa",
   "team": "Peoria Rivermen"
+ },
+ "ep551018": {
+  "epId": "551018",
+  "epUrl": "https://www.eliteprospects.com/player/551018",
+  "name": "Landry Schmuck",
+  "team": "Huntsville Havoc",
+  "dob": "",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Aurora Univ.",
+    "league": "NCAA III",
+    "stats": {
+     "gp": 28,
+     "g": 11,
+     "a": 18,
+     "p": 29,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Played college hockey at Aurora Univ. (NCAA III)",
+   "Best season: 11G-18A-29P in 28 GP with Aurora Univ. (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
+ },
+ "ep271639": {
+  "epId": "271639",
+  "epUrl": "https://www.eliteprospects.com/player/271639",
+  "name": "Troy Williams",
+  "team": "Huntsville Havoc",
+  "dob": "",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Heerenveen Flyers",
+    "league": "CEHL",
+    "stats": {
+     "gp": 32,
+     "g": 7,
+     "a": 26,
+     "p": 33,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Heerenveen Flyers (CEHL) in 2025-26",
+   "Best season: 7G-26A-33P in 32 GP with Heerenveen Flyers (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
+ },
+ "ep412351": {
+  "epId": "412351",
+  "epUrl": "https://www.eliteprospects.com/player/412351",
+  "name": "Michael Hodge",
+  "team": "Huntsville Havoc",
+  "dob": "",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Solway IHC",
+    "league": "NIHL",
+    "stats": {
+     "gp": 15,
+     "g": 9,
+     "a": 14,
+     "p": 23,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Solway IHC (NIHL) in 2025-26",
+   "Best season: 9G-14A-23P in 15 GP with Solway IHC (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:52:27.669Z"
  }
 }
