@@ -4050,36 +4050,42 @@ async function epLoadTeams(){
   }
   return EP_TEAMS;
 }
+/* All 12 SPHL clubs from the site's own list, Havoc first — never gated on EP data */
+function wgAllTeamNames(){
+  return [...TEAMS].sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
+}
 function wgFillTeams(){
   const sel=document.getElementById('wg_team');if(!sel)return;
-  if(!EP_TEAMS){sel.innerHTML='<option value="">— team ids not built yet (weekly EP action) —</option>';return;}
-  const names=Object.keys(EP_TEAMS).sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
   const cur=sel.value;
-  sel.innerHTML='<option value="">— team —</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  sel.innerHTML='<option value="">— team —</option>'+wgAllTeamNames().map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
   if(cur)sel.value=cur;
 }
+/* Section header always carries the SPHL logo (site's embedded set), never EP branding */
+function wgTeamHeaderHTML(name){
+  const lg=teamLogoSrc(name);
+  return `<div class="ldr-h" style="font-size:11px;margin:8px 0 4px;display:flex;align-items:center;gap:6px">${lg?`<img src="${lg}" style="height:22px;width:22px;object-fit:contain">`:''}<span>${esc(name.toUpperCase())}</span></div>`;
+}
 function wgTeamWidgetHTML(name,ent,v){
-  return `<div class="ldr-h" style="font-size:11px;margin:8px 0 4px">${esc(name.toUpperCase())}</div>
-    <div id="epw_team_${esc(String(ent.epId))}" class="ep-widget" data-widget-type="team" data-team-id="${esc(String(ent.epId))}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-measurement-unit="imperial" data-selected-columns='{"Name":true,"Number":true,"Position":true,"Age":true,"Birth Year":false,"Birth Place":true,"Weight":true,"Height":true,"Shoots/Catches":true,"Games":true,"Goals":true,"Assists":true,"Points":true,"Exclude Goaltenders":false}'${wgStyle(v.red)}></div>`;
+  const head=wgTeamHeaderHTML(name);
+  if(!ent||!ent.epId)return head+`<div class="empty" style="margin:0 0 8px">No Elite Prospects roster widget for this club yet — it appears automatically once the weekly EP action matches the team. Their stored roster is still on Live Data → rosters.</div>`;
+  return head+`<div id="epw_team_${esc(String(ent.epId))}" class="ep-widget" data-widget-type="team" data-team-id="${esc(String(ent.epId))}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-measurement-unit="imperial" data-selected-columns='{"Name":true,"Number":true,"Position":true,"Age":true,"Birth Year":false,"Birth Place":true,"Weight":true,"Height":true,"Shoots/Catches":true,"Games":true,"Goals":true,"Assists":true,"Points":true,"Exclude Goaltenders":false}'${wgStyle(v.red)}></div>`;
 }
 function wgTeamRoster(){
   const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
   const name=val('wg_team');
-  if(!EP_TEAMS){if(msg)msg.textContent='Team ids not built yet — they arrive with the weekly EP action.';return;}
   if(!name){if(msg)msg.textContent='Pick a team first.';return;}
-  const ent=EP_TEAMS[name];if(!ent){if(msg)msg.textContent='No EP id for '+name+'.';return;}
-  wrap.innerHTML=wgTeamWidgetHTML(name,ent,wgVals());
+  wrap.innerHTML=wgTeamWidgetHTML(name,(EP_TEAMS||{})[name],wgVals());
   wgLoader();
   if(msg)msg.textContent='';
 }
 function wgTeamRosterAll(){
   const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
-  if(!EP_TEAMS){if(msg)msg.textContent='Team ids not built yet — they arrive with the weekly EP action.';return;}
   const v=wgVals();
-  const names=Object.keys(EP_TEAMS).sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
-  wrap.innerHTML=names.map(n=>wgTeamWidgetHTML(n,EP_TEAMS[n],v)).join('');
+  const names=wgAllTeamNames();
+  wrap.innerHTML=names.map(n=>wgTeamWidgetHTML(n,(EP_TEAMS||{})[n],v)).join('');
   wgLoader();
-  if(msg)msg.textContent=names.length+' team roster widgets';
+  const nEp=names.filter(n=>(EP_TEAMS||{})[n]).length;
+  if(msg)msg.textContent=names.length+' SPHL clubs · '+nEp+' with live EP rosters';
 }
 
 /* Game-sheet decks: one player widget per active player, same numerical
@@ -4101,11 +4107,12 @@ function wgDeck(side){
                  ...act.filter(p=>p.pos==='D').sort(byNum),
                  ...act.filter(p=>p.pos==='G').sort(byNum)];
   const v=wgVals();const missing=[];const cards=[];
+  const teamLg=teamLogoSrc(side==='home'?'Huntsville Havoc':label);
   ordered.forEach(p=>{
     const e=(typeof epEntryFor==='function')?epEntryFor(p):null;
     const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
     if(!id){missing.push(dispName(p));return;}
-    cards.push(`<div class="ldr-h" style="font-size:11px;margin:8px 0 4px">#${esc(p.num||'')} ${esc(dispName(p).toUpperCase())}</div>
+    cards.push(`<div class="ldr-h" style="font-size:11px;margin:8px 0 4px;display:flex;align-items:center;gap:6px">${teamLg?`<img src="${teamLg}" style="height:20px;width:20px;object-fit:contain">`:''}<span>#${esc(p.num||'')} ${esc(dispName(p).toUpperCase())}</span></div>
       <div id="epw_deck_${esc(String(id))}" class="ep-widget" data-widget-type="player" data-player-id="${esc(String(id))}" data-game-limit="5" data-view-mode="stats" data-show-summary="false" data-measurement-unit="imperial"${wgStyle(v.red)}></div>`);
   });
   if(!cards.length){wrap.innerHTML='<div class="empty">No EP-mapped players on that roster yet — run the weekly EP action / Link EP profiles first.</div>';if(msg)msg.textContent='';return;}
