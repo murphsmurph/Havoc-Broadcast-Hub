@@ -592,7 +592,7 @@
     <div class="card"><h3>League standings</h3><div id="wgStandings"></div></div>
     <div class="card"><h3>Scoring leaders</h3><div id="wgScoring"></div></div>
     <div class="card"><h3>Goalie leaders</h3><div id="wgGoalies"></div></div>
-    <div class="card"><h3>Schedule &amp; results</h3><div id="wgSched"></div></div>
+    <div class="card"><h3>Schedule &amp; standings</h3><div id="wgSched"></div></div>
   </section>
 
   <!-- SCHEDULE -->
@@ -3963,7 +3963,10 @@ function wgBuild(force){
   const scor=document.getElementById('wgScoring');
   if(scor)scor.innerHTML=`<div id="ep_0561" class="ep-widget" data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
   mk('wgGoalies',`data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all"`);
-  mk('wgSched',`data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}"${v.team?` data-team-id="${esc(v.team)}"`:''} data-game-type="both" data-display-order="home"`);
+  // Jacob's generated schedule-and-standings snippet (ep_2495) verbatim, league/season from
+  // the fields, optional team-id filter preserved
+  const schd=document.getElementById('wgSched');
+  if(schd)schd.innerHTML=`<div id="ep_2495" class="ep-widget" data-widget-type="schedule-and-standings" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="1300" data-theme="light" data-font="font-montserrat"></div>`;
   wgFillPlayers();
   wgLoader();
 }
