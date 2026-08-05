@@ -3959,7 +3959,9 @@ function wgBuild(force){
   // the combined loader mounts it along with the rest, so no per-snippet script is needed
   const stand=document.getElementById('wgStandings');
   if(stand)stand.innerHTML=`<div id="ep_9391" class="ep-widget" data-widget-type="league" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-  mk('wgScoring',`data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all"`);
+  // Jacob's generated scoring-leaders snippet (ep_0561) verbatim, league/season from the fields
+  const scor=document.getElementById('wgScoring');
+  if(scor)scor.innerHTML=`<div id="ep_0561" class="ep-widget" data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
   mk('wgGoalies',`data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all"`);
   mk('wgSched',`data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}"${v.team?` data-team-id="${esc(v.team)}"`:''} data-game-type="both" data-display-order="home"`);
   wgFillPlayers();
