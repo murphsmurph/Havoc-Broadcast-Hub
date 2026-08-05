@@ -1,0 +1,55 @@
+// Validate SPHL HockeyTech feed endpoints with the working key, from a
+// network that can reach lscluster (GitHub runners). Prints one line per
+// endpoint: HTTP status, CORS header (as seen with a GitHub Pages Origin),
+// a seasons-trap flag, and a shape summary. Run by .github/workflows/ht-probe.yml.
+const KEY=process.env.HT_KEY||'8fa10d218c49ec96';
+const BASE='https://lscluster.hockeytech.com/feed/';
+const ORIGIN='https://murphsmurph.github.io';
+
+function shape(j){
+  if(Array.isArray(j))return 'array['+j.length+'] first-keys:'+Object.keys(j[0]||{}).slice(0,8).join(',');
+  if(j&&typeof j==='object'){
+    const k=Object.keys(j);
+    let inner='';
+    if(j.SiteKit)inner=' SiteKit:'+Object.keys(j.SiteKit).join(',');
+    return 'object keys:'+k.slice(0,6).join(',')+inner;
+  }
+  return typeof j;
+}
+function deepCount(j,pred){
+  let n=0;
+  const walk=v=>{
+    if(Array.isArray(v)){v.forEach(walk);return;}
+    if(v&&typeof v==='object'){if(pred(v)){n++;return;}Object.values(v).forEach(walk);}
+  };
+  walk(j);return n;
+}
+async function probe(label,qs,expect){
+  const url=BASE+'?'+qs+'&key='+KEY+'&client_code=sphl';
+  try{
+    const r=await fetch(url,{headers:{'Origin':ORIGIN,'User-Agent':'Mozilla/5.0'}});
+    let t=(await r.text()).trim();
+    const cors=r.headers.get('access-control-allow-origin')||'none';
+    const paren=t.startsWith('(');
+    if(paren)t=t.replace(/^\(/,'').replace(/\)$/,'');
+    let j=null;try{j=JSON.parse(t);}catch(e){console.log(label.padEnd(20),'HTTP',r.status,'cors:'+cors,'NOT-JSON:',t.slice(0,100));return;}
+    const trap=!!(j&&j.SiteKit&&Array.isArray(j.SiteKit.Seasons))&&!label.includes('seasons');
+    const found=expect?expect(j):'-';
+    console.log(label.padEnd(20),'HTTP',r.status,'cors:'+cors,paren?'paren-wrapped':'bare',trap?'SEASONS-TRAP':'ok','|',found,'|',shape(j).slice(0,160));
+  }catch(e){console.log(label.padEnd(20),'FETCH-ERR',e.message.slice(0,120));}
+}
+
+const teamLike=v=>(('name'in v)||('team_name'in v))&&(('points'in v)||('pts'in v));
+const playerLike=v=>(('name'in v)||('player_id'in v)||('lastName'in v))&&(('points'in v)||('goals'in v)||('gaa'in v));
+const gameLike=v=>(('home_goal_count'in v)||('HomeGoals'in v)||('home_team'in v)||('HomeCity'in v));
+
+await probe('seasons','feed=modulekit&view=seasons&fmt=json&lang=en',j=>'seasons:'+(((j.SiteKit||{}).Seasons)||[]).length);
+await probe('skaters-s44','feed=statviewfeed&view=players&season=44&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
+await probe('skaters-s46','feed=statviewfeed&view=players&season=46&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
+await probe('goalies-s44','feed=statviewfeed&view=players&season=44&team=all&position=goalies&statsType=standard&first=0&limit=5&sort=gaa&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
+await probe('teams-s44','feed=statviewfeed&view=teams&season=44&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike));
+await probe('teams-s46','feed=statviewfeed&view=teams&season=46&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike));
+await probe('standings-mk-s44','feed=modulekit&view=statviewtype&stat=conference&type=standings&season_id=44&fmt=json&lang=en',j=>'teams:'+deepCount(j,teamLike));
+await probe('scorebar','feed=modulekit&view=scorebar&numberofdaysahead=7&numberofdaysback=3&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike));
+await probe('schedule-mk-s46','feed=modulekit&view=schedule&season_id=46&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike));
+await probe('roster-mk-s46','feed=modulekit&view=roster&season_id=46&team_id=3&fmt=json&lang=en',j=>'players:'+deepCount(j,v=>('last_name'in v)||('lastName'in v)));

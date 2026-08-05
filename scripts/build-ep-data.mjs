@@ -24,7 +24,7 @@ const OVERRIDES_FILE=path.join(DATA_DIR,'ep-overrides.json');
 const OUT_FILE=path.join(DATA_DIR,'ep-players.json');
 
 const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
-const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
+const HT_CANDIDATE_KEYS=['8fa10d218c49ec96','41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
 const EP_BASE='https://api.eliteprospects.com/v1';
 // local convenience: read .env from the repo root when EP_API_KEY isn't already set
 if(!process.env.EP_API_KEY){
