@@ -89,6 +89,7 @@
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
   .pg-stamp{font-size:10.5px;color:#777;text-align:right;margin-top:3px;flex:0 0 auto;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
+  .fd-pron2{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:12.5px;line-height:1.45;}
   .iv-entry{border:1.5px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:12px;}
   .iv-q{display:flex;gap:6px;align-items:center;padding:2px 0;font-size:13px;}
   .iv-q .iv-qt{flex:1;}
@@ -298,6 +299,7 @@
   .mtp-card{border:1.5px solid var(--havoc-black);border-radius:5px;padding:6px 9px;margin-bottom:7px;}
   .mtp-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:4px;}
   .mtp-name{font-size:17px;font-weight:900;text-transform:uppercase;}
+  .pk-mug{width:34px;height:34px;object-fit:cover;border-radius:50%;border:1.5px solid #ccc;vertical-align:middle;margin-right:6px;flex:0 0 auto;}
   .mtp-meta{flex:1;font-size:8.5px;color:#555;font-weight:600;}
   .mtp-num{color:#fff;font-weight:900;font-size:16px;padding:2px 9px;border-radius:4px;}
   .mtp-stats{display:flex;gap:12px;flex-wrap:wrap;background:var(--havoc-silver);padding:3px 7px;border-radius:4px;font-size:9px;font-weight:700;margin-bottom:4px;}
@@ -559,7 +561,7 @@
         <div class="field"><label>Opponent</label><select id="g_opp"><option value="">— select —</option></select></div>
         <div class="field"><label>Havoc record (W-L-OTL)</label><input type="text" id="g_hsvrec" placeholder="22-12-6"></div>
         <div class="field"><label>Opponent record (W-L-OTL)</label><input type="text" id="g_opprec" placeholder="16-17-5"></div>
-        <div class="field"><label>Home / Away</label><select id="g_homeaway"><option value="vs">Home (vs.)</option><option value="@">Away (@)</option></select></div>
+        <div class="field"><label>Home / Away</label><select id="g_homeaway" onchange="updatePromoField()"><option value="vs">Home (vs.)</option><option value="@">Away (@)</option></select></div>
         <div class="field"><label>Broadcast / stream</label><input type="text" id="g_broadcast"></div>
       </div>
       <div class="section-label">Lines &amp; status (lineup chart)</div>
@@ -610,6 +612,8 @@
         <button class="btn" onclick="htPullSchedule()">Pull schedule + results</button>
         <button class="btn" onclick="htPullRosters()">Pull rosters</button>
         <button class="btn" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
+        <button class="btn" onclick="htPullCareers(event.shiftKey)">Pull SPHL career stats + photos</button>
+        <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
         <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
       </div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
@@ -803,6 +807,11 @@
       <h2>SPHL <span class="accent">Standings</span></h2>
       <p class="desc">Live from the imported daily report; zeroed until the season starts. All 12 teams with the new W-L-OTL-SOL columns.</p>
       <div id="standingsTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
+    </div>
+    <div class="card">
+      <h2>SPHL <span class="accent">Venue Reference</span></h2>
+      <p class="desc">Every rink in the league — arena, city, time zone and capacity (seeds are approximate; every field editable), plus your own <b>booth notes</b> per building. Road games pull the opponent&rsquo;s building onto the packet front page from this table, with local puck drop and Central time.</p>
+      <div id="venueTableWrap" style="overflow-x:auto"></div>
     </div>
     <div class="card">
       <h2>League <span class="accent">Reference</span></h2>
@@ -1288,6 +1297,7 @@ const DEFAULT_DATA={
   pkEdits:{},            // {pageKey:outerHTML} — free-text edits on whole packet pages
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
   interviews:{},         // {gameKey:{pre:[],post:[]}} — interview prep + quotes archive
+  venues:{},             // {teamName:{arena,city,tz,cap,notes}} — overrides of VENUES_DEFAULT
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1398,7 +1408,7 @@ function showTab(tab){
   if(tab==='import'){loadSchedule();renderGameLog();}
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
-  if(tab==='reference')renderReference();
+  if(tab==='reference'){renderReference();renderVenues();}
   if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
   if(tab==='game')ivRender('pre');
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
@@ -1478,6 +1488,7 @@ function gameNoAutofill(){
   if(g.hv!=='@')setv('g_venue',DATA.settings.venue); // road venue left as-is for hand entry
   const promo=(typeof promoFor==='function')?promoFor(g.dateISO):'';
   if(promo)setv('g_promo',promo);else if(g.note)setv('g_promo',g.note);
+  updatePromoField();
   saveGame();
   toast('Game '+n+' loaded: '+(g.hv==='@'?'@ ':'vs ')+g.team+' · '+g.dateISO+(g.time?' · '+g.time:'')+(promo?' · '+promo:''));
 }
@@ -1487,6 +1498,7 @@ function loadGameForm(){
     if(g[k]!==undefined)setv(id,g[k]);
   }
   if(!g.venue)setv('g_venue',DATA.settings.venue);
+  updatePromoField();
 }
 function saveGame(){
   DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway')};
@@ -2232,6 +2244,143 @@ function owArchive(){
   toast('Opening Weekend archived — the record lives on under DATA and the firsts tracker');
 }
 
+/* ============ SPHL VENUE REFERENCE + ROAD-GAME HELPERS ============ */
+const VENUES_DEFAULT={
+ "Huntsville Havoc":{arena:"Propst Arena at the Von Braun Center",city:"Huntsville, AL",tz:"Central",cap:"6,600",notes:""},
+ "Birmingham Bulls":{arena:"Pelham Civic Complex",city:"Pelham, AL",tz:"Central",cap:"3,500",notes:""},
+ "Evansville Thunderbolts":{arena:"Ford Center",city:"Evansville, IN",tz:"Central",cap:"9,000",notes:""},
+ "Fayetteville Marksmen":{arena:"Crown Coliseum",city:"Fayetteville, NC",tz:"Eastern",cap:"10,800",notes:""},
+ "Knoxville Ice Bears":{arena:"Knoxville Civic Coliseum",city:"Knoxville, TN",tz:"Eastern",cap:"6,500",notes:""},
+ "Macon Mayhem":{arena:"Macon Coliseum",city:"Macon, GA",tz:"Eastern",cap:"8,000",notes:""},
+ "Pee Dee IceCats":{arena:"Florence Center",city:"Florence, SC",tz:"Eastern",cap:"7,500",notes:""},
+ "Pensacola Ice Flyers":{arena:"Pensacola Bay Center",city:"Pensacola, FL",tz:"Central",cap:"8,100",notes:""},
+ "Peoria Rivermen":{arena:"Carver Arena at Peoria Civic Center",city:"Peoria, IL",tz:"Central",cap:"9,900",notes:""},
+ "Quad City Storm":{arena:"Vibrant Arena at The MARK",city:"Moline, IL",tz:"Central",cap:"9,200",notes:""},
+ "Roanoke Rail Yard Dawgs":{arena:"Berglund Center",city:"Roanoke, VA",tz:"Eastern",cap:"8,600",notes:""}
+};
+function venueFor(teamFull){
+  if(!teamFull)return null;
+  const key=Object.keys(VENUES_DEFAULT).find(k=>k===teamFull)||Object.keys(VENUES_DEFAULT).find(k=>k.split(' ')[0].toLowerCase()===String(teamFull).split(' ')[0].toLowerCase());
+  if(!key)return null;
+  return {...VENUES_DEFAULT[key],...((DATA.venues||{})[key]||{}),team:key};
+}
+function venueSet(team,field,v){DATA.venues=DATA.venues||{};(DATA.venues[team]=DATA.venues[team]||{})[field]=v;save();}
+function renderVenues(){
+  const el=document.getElementById('venueTableWrap');if(!el)return;
+  el.innerHTML=`<table class="roster"><thead><tr><th>Team</th><th>Arena</th><th>City</th><th>TZ</th><th>Cap.</th><th>Booth notes</th></tr></thead><tbody>
+    ${Object.keys(VENUES_DEFAULT).map(t=>{const v=venueFor(t);return `<tr><td style="font-weight:800">${esc(t)}</td>
+      <td><input type="text" value="${esc(v.arena)}" onchange="venueSet('${esc(t)}','arena',this.value)"></td>
+      <td><input type="text" style="width:110px" value="${esc(v.city)}" onchange="venueSet('${esc(t)}','city',this.value)"></td>
+      <td><select onchange="venueSet('${esc(t)}','tz',this.value)"><option${v.tz==='Central'?' selected':''}>Central</option><option${v.tz==='Eastern'?' selected':''}>Eastern</option></select></td>
+      <td><input type="text" style="width:60px" value="${esc(v.cap)}" onchange="venueSet('${esc(t)}','cap',this.value)"></td>
+      <td><input type="text" value="${esc(v.notes)}" placeholder="booth location, wifi, contacts…" onchange="venueSet('${esc(t)}','notes',this.value)"></td></tr>`;}).join('')}</tbody></table>`;
+}
+/* "7:15 PM ET (6:15 PM CT)" for Eastern rinks, "7:05 PM CT" for Central — from the 24h time input */
+function fmtDualTime(t24,tz){
+  const m=String(t24||'').match(/^(\d{1,2}):(\d{2})/);
+  if(!m)return '';
+  const f=(h,mm)=>{const ap=h>=12?'PM':'AM';return ((h%12)||12)+':'+mm+' '+ap;};
+  let h=+m[1];const mm=m[2];
+  if(tz==='Eastern')return f(h,mm)+' ET ('+f((h+23)%24,mm)+' CT)';
+  return f(h,mm)+' CT';
+}
+/* road game: promo is N/A, packet shows the opponent's building */
+function updatePromoField(){
+  const el=document.getElementById('g_promo');if(!el)return;
+  if(val('g_homeaway')==='@'){el.value='N/A (road game)';el.disabled=true;}
+  else{el.disabled=false;if(el.value==='N/A (road game)')el.value=(typeof promoFor==='function'&&val('g_date'))?promoFor(val('g_date')):'';}
+}
+/* pronunciation entries for a roster: player field first, Settings guide as fallback */
+function teamPronList(list){
+  const guide=(DATA.settings.pronounce||'').split('\n').map(l=>{const m2=l.split(/\s*[-–—]\s*/);return {name:(m2[0]||'').trim(),say:m2.slice(1).join('-').trim()};}).filter(x=>x.name&&x.say);
+  const out=[];
+  (list||[]).filter(p=>p.name).forEach(p=>{
+    let say=(p.pron||'').trim();
+    if(!say){const lastNm=p.name.trim().split(/\s+/).pop().toLowerCase();
+      const hit=guide.find(g2=>g2.name.toLowerCase().indexOf(lastNm)>=0);
+      if(hit)say=hit.say;}
+    if(say)out.push({name:p.name,say});
+  });
+  return out;
+}
+function pronBoxHTML(title,list,blanks){
+  const entries=teamPronList(list);
+  const rows=entries.length
+    ?entries.map(e=>`<tr><td>${esc(e.name)}</td><td class="r" style="font-style:italic">${esc(e.say)}</td></tr>`).join('')
+    :Array.from({length:blanks||5},()=>'<tr><td style="border-bottom:1px solid #ccc">&nbsp;</td><td style="border-bottom:1px solid #ccc">&nbsp;</td></tr>').join('');
+  return `<div class="box"><h3>${esc(title)}</h3><table class="pk-t"><tr><th>Name</th><th class="r">Say it</th></tr>${rows}</table></div>`;
+}
+
+/* ============ FULL SPHL CAREER STATS + PLAYER IMAGES ============
+   Uses the same feed the league's own player pages run on:
+   ?feed=statviewfeed&view=player&player_id=<htId>&season_id=<id>&site_id=2
+   One call per rostered Havoc player (we already hold their HockeyTech ids). */
+function htCareerParse(d){
+  const rows=[];let img='';
+  const seen=new Set();
+  const walk=v=>{
+    if(Array.isArray(v)){v.forEach(walk);return;}
+    if(v&&typeof v==='object'){
+      const sn=pick(v,['season_name','seasonName','shortname','season'],null);
+      const hasGp=(v.games_played!=null&&v.games_played!=='')||(v.gp!=null&&v.gp!=='');
+      if(sn&&hasGp&&String(sn).match(/\d{4}/)){
+        const k=String(sn)+'|'+String(pick(v,['team_name','team_code','team'],''))+'|'+String(pick(v,['games_played','gp'],''));
+        if(!seen.has(k)){seen.add(k);rows.push(v);}
+        return;
+      }
+      Object.keys(v).forEach(k=>{
+        const x=v[k];
+        if(typeof x==='string'&&!img&&/\.(jpe?g|png)(\?|$)/i.test(x)&&/image|photo|media|assets|headshot/i.test(k+x))img=x;
+        walk(x);
+      });
+    }
+  };
+  walk(d);
+  return {rows,img};
+}
+function htCareerRow(r,isG){
+  const season=String(pick(r,['season_name','seasonName','shortname','season'],''))
+    .replace(/\s*Regular Season\s*/i,'').replace(/(\d{4})-(\d{2})(\d{2})/,'$1-$3');
+  const playoffs=/playoff/i.test(String(pick(r,['season_name','seasonName','season'],'')));
+  const base={season,playoffs,team:String(pick(r,['team_name','teamname','team_code','team'],'')).trim(),gp:+pick(r,['games_played','gp'],0)};
+  if(isG)return {...base,w:+pick(r,['wins','w'],0),l:+pick(r,['losses','l'],0),otl:+pick(r,['ot_losses','otl'],0),
+    so:+pick(r,['shutouts','so'],0),gaa:String(pick(r,['goals_against_average','gaa'],'')),svpct:String(pick(r,['save_percentage','savepct','svpct'],''))};
+  return {...base,g:+pick(r,['goals','g'],0),a:+pick(r,['assists','a'],0),pts:+pick(r,['points','pts'],0),pim:+pick(r,['penalty_minutes','pim'],0)};
+}
+async function htPullCareers(force){
+  const st=document.getElementById('htCareerMsg');
+  const say=t=>{if(st)st.textContent=t;};
+  DATA.careerHT=DATA.careerHT||{players:{}};
+  const list=DATA.roster.filter(p=>p.name&&p.htId);
+  if(!list.length){say('No players with HockeyTech ids — Sync all live data first.');return;}
+  const fresh=DATA.careerHT.at&&(Date.now()-Date.parse(DATA.careerHT.at))<7*86400000;
+  if(fresh&&!force&&Object.keys(DATA.careerHT.players).length){say('Career stats already pulled this week — hold Shift+click to force.');return;}
+  let done=0,got=0;
+  for(const p of list){
+    say('Career stats: '+p.name+' ('+(done+1)+'/'+list.length+')…');
+    try{
+      const d=await htFetch({feed:'statviewfeed',view:'player',player_id:p.htId,season_id:htSeason()||'46',site_id:'2',league_id:'',lang:'en'});
+      const parsed=htCareerParse(d);
+      const isG=p.pos==='G';
+      const rows=parsed.rows.map(r=>htCareerRow(r,isG)).filter(r=>r.season&&r.gp>0);
+      if(rows.length||parsed.img){
+        DATA.careerHT.players[p.htId]={name:p.name,img:parsed.img||((DATA.careerHT.players[p.htId]||{}).img||''),rows};
+        if(parsed.img)p.img=parsed.img;
+        got++;
+      }
+    }catch(e){console.warn('career',p.name,e.message);}
+    done++;
+  }
+  DATA.careerHT.at=new Date().toISOString();
+  save();
+  say('Career stats: '+got+'/'+list.length+' players pulled — on the packet’s career pages.');
+  toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
+}
+function htCareerFor(p){
+  const c=DATA.careerHT&&DATA.careerHT.players&&p.htId&&DATA.careerHT.players[p.htId];
+  return c&&c.rows&&c.rows.length?c:null;
+}
+
 /* ============ PRE / POST-GAME INTERVIEWS ============ */
 function ivKey(){return (DATA.game.date||'undated')+' | '+(DATA.game.opp||'no opponent');}
 function ivStore(){
@@ -2780,6 +2929,10 @@ function fdDataPage(side){
       <div class="fd-col">
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Team Data</div>${dataRows}
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Recent Transactions</div>${txRows}
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">Pronunciation</div>
+        ${(()=>{const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);const es2=teamPronList(list).slice(0,14);
+          return es2.length?`<div class="fd-pron2">${es2.map(e=>`<div><b>${esc(e.name.split(' ').pop().toUpperCase())}</b> ${esc(e.say)}</div>`).join('')}</div>`
+          :'<div style="font-size:12px;color:#999">None saved — add on the rosters or the Settings guide.</div>';})()}
       </div>
     </div>
     <div class="fd-notes"><div class="fd-notes-label">NOTES</div><div class="fd-notes-rule"></div></div>
@@ -3418,13 +3571,28 @@ function transPage(red,S){
     </div>`);
 }
 function careerPages(red,S){
-  if(!EP_STATIC)return [];
   const act=DATA.roster.filter(p=>p.active!=='0'&&p.name);
   const blocks=[];
   act.forEach(p=>{
-    const e=epEntryFor(p);
-    if(!e||!e.careerStats||!e.careerStats.length)return;
     const isG=p.pos==='G';
+    const hc=htCareerFor(p);
+    if(hc){ // full SPHL career straight from the league feed — every season, every team
+      const reg=hc.rows.filter(r=>!r.playoffs);
+      const po=hc.rows.filter(r=>r.playoffs);
+      const tot=reg.reduce((t,r)=>{t.gp+=r.gp||0;t.g+=r.g||0;t.a+=r.a||0;t.pts+=r.pts||0;t.w+=r.w||0;t.l+=r.l||0;t.otl+=r.otl||0;t.so+=r.so||0;return t;},{gp:0,g:0,a:0,pts:0,w:0,l:0,otl:0,so:0});
+      const head=isG?'<th class="r">GP</th><th class="r">W</th><th class="r">L</th><th class="r">OTL</th><th class="r">GAA</th><th class="r">SV%</th><th class="r">SO</th>'
+        :'<th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th><th class="r">PIM</th>';
+      const row=r=>isG?`<td class="r">${r.gp}</td><td class="r">${r.w}</td><td class="r">${r.l}</td><td class="r">${r.otl}</td><td class="r">${esc(r.gaa)}</td><td class="r">${esc(r.svpct)}</td><td class="r">${r.so}</td>`
+        :`<td class="r">${r.gp}</td><td class="r">${r.g}</td><td class="r">${r.a}</td><td class="r">${r.pts}</td><td class="r">${r.pim}</td>`;
+      blocks.push(`<div class="box"><h3>${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}#${p.num||''} ${esc(dispName(p))} — SPHL Career</h3>
+        <table class="pk-t"><tr><th>Season</th><th>Team</th>${head}</tr>
+        ${reg.map(r=>`<tr><td>${esc(r.season)}</td><td>${esc(r.team)}</td>${row(r)}</tr>`).join('')}
+        <tr><td colspan="2"><b>SPHL totals</b></td>${isG?`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.w}</b></td><td class="r"><b>${tot.l}</b></td><td class="r"><b>${tot.otl}</b></td><td class="r"></td><td class="r"></td><td class="r"><b>${tot.so}</b></td>`:`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.g}</b></td><td class="r"><b>${tot.a}</b></td><td class="r"><b>${tot.pts}</b></td><td class="r"></td>`}</tr>
+        ${po.length?`<tr><td colspan="${isG?9:7}" style="color:#666">Playoffs: ${po.map(r=>esc(r.season)+' '+r.gp+' GP'+(isG?'':' '+r.g+'-'+r.a+'-'+r.pts)).join(' · ')}</td></tr>`:''}</table></div>`);
+      return;
+    }
+    const e=(typeof epEntryFor==='function'&&EP_STATIC)?epEntryFor(p):null;
+    if(!e||!e.careerStats||!e.careerStats.length)return;
     const rows=e.careerStats.slice(-9);
     const totals=e.careerStats.reduce((t,s)=>{const x=s.stats||{};t.gp+=x.gp||0;t.g+=x.g||0;t.a+=x.a||0;t.p+=x.p||0;return t;},{gp:0,g:0,a:0,p:0});
     blocks.push(`<div class="box"><h3>#${p.num||''} ${esc(dispName(p))} — Career</h3>
@@ -3511,7 +3679,9 @@ function renderPacket(){
         <div style="font-size:8px;margin-top:2px;letter-spacing:.03em">OFFICIALS &mdash; REFEREES: ${esc(G.ref1||'TBD')}, ${esc(G.ref2||'TBD')} &middot; LINESMEN: ${esc(G.lin1||'TBD')}, ${esc(G.lin2||'TBD')}</div></div>
       ${mediaBlockHTML('media-block')}</div>
     <div class="gn-matchup">
-      <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${esc(G.promo||'')}</div><div>${dateStr}</div><div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div><div>${esc(G.broadcast||'')}</div></div>
+      <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${G.homeaway==='@'?'N/A (ROAD GAME)':esc(G.promo||'')}</div><div>${dateStr}</div>
+        ${(()=>{if(G.homeaway==='@'){const v=venueFor(G.opp);if(v){const dual=fmtDualTime(G.time,v.tz);return `<div>PUCK DROP: ${dual||timeStr}</div><div>${esc(v.arena)} · ${esc(v.city)}${v.cap?' · cap. '+esc(v.cap):''} · ${esc(v.tz)} time</div>`;}}return `<div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div>`;})()}
+        <div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
       <div class="gn-oppbox"><div class="gn-opp-logo">${logoHTML(G.opp,'',oppAbbr)}</div></div></div>
     <div class="gn-cols"><div><div class="box"><h3>Havoc News &amp; Notes</h3>${news}</div></div>
@@ -3519,7 +3689,10 @@ function renderPacket(){
     <div class="box"><h3>Last 5 — Both Teams</h3>
       <div class="l10-row"><span class="tm">${esc(S.name)}</span>${last10Block('Huntsville')}</div>
       <div class="l10-row"><span class="tm">${esc(oppShort||'Opponent')}</span>${last10Block(G.opp)}</div></div>
-    <div class="box"><h3>Havoc Statistical Leaders</h3>${leaders4Block(hsv)}</div>
+    <div class="gn-cols">
+      <div><div class="box"><h3>Havoc Statistical Leaders</h3>${leaders4Block(hsv)}</div></div>
+      <div>${(()=>{const awayTeam=G.homeaway==='@'?(S.city+' '+S.name):(G.opp||'Visiting team');const awayList=G.homeaway==='@'?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);return pronBoxHTML('Pronunciation Guide — '+awayTeam,awayList,5);})()}</div>
+    </div>
     ${upNextBox()}
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
 
@@ -4633,7 +4806,7 @@ function meetTeamPage(players,teamStats,R,red,S){
     const auto=mediaBio(p,teamStats,R,true);
     const notesHtml=(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
     return `<div class="mtp-card">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
+      <div class="mtp-head">${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}<span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml}</div>
@@ -4968,7 +5141,8 @@ function htRosterRow(r){
     wt:String(pick(r,['weight','wt'],'')).trim(),
     sh:String(pick(r,['shoots','catches','sh'],'')).toUpperCase().replace(/[^LR]/g,'').slice(0,1),
     dob:htDobFmt(bd),age:htAgeFrom(bd),
-    birth:String(pick(r,['hometown','birthplace','birthtown','birthcity'],'')).trim()};
+    birth:String(pick(r,['hometown','birthplace','birthtown','birthcity'],'')).trim(),
+    img:String(pick(r,['player_image','image','photo','headshot'],'')).trim()};
 }
 function htMergeRoster(list,feedPlayers){
   list=list||[];
@@ -4979,6 +5153,7 @@ function htMergeRoster(list,feedPlayers){
     if(!p){p={id:uid(),notes:''};list.push(p);}
     p.name=fp.name;
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
+    if(fp.img)p.img=fp.img;
     if(fp.num)p.num=fp.num;
     // keep a more specific existing position (C/LW/RW) when the feed only says F
     if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))p.pos=fp.pos;
