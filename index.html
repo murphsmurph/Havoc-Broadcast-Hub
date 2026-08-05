@@ -45,6 +45,39 @@
   .subtab.active{background:var(--havoc-red);border-color:var(--havoc-red);color:#fff;}
   .subview{display:none;} .subview.active{display:block;}
   .pstat{font-weight:800;font-size:.82em;white-space:nowrap;margin-left:5px;letter-spacing:.2px;}
+  /* broadcast folders — booth pages, nothing under ~13px */
+  .fd-page{padding:16px 20px;font-size:13px;}
+  .fd-game{font-size:13px;font-weight:800;margin:5px 0 2px;letter-spacing:.2px;}
+  .fd-body{flex:1;min-height:0;display:flex;flex-direction:column;}
+  .fd-sub{font-size:14px;font-weight:900;text-transform:uppercase;border-bottom:2.5px solid;margin:5px 0 3px;letter-spacing:.4px;flex:0 0 auto;}
+  .fd-row{display:grid;gap:6px;margin:2px 0;flex:1;min-height:0;align-items:stretch;}
+  .fd-row.f3{grid-template-columns:20px 1fr 1fr 1fr;}
+  .fd-row.f2{grid-template-columns:20px 1fr 1fr 1fr;}
+  .fd-ln{font-weight:900;font-size:14px;align-self:center;color:#555;}
+  .fd-pl{border:1.5px solid #bbb;border-radius:4px;padding:3px 6px;min-height:0;overflow:hidden;}
+  .fd-pl.fd-empty{border-style:dashed;}
+  .fd-nm{font-size:14px;line-height:1.25;}
+  .fd-nm b{font-size:15px;}
+  .fd-pron{font-size:13px;font-style:italic;color:#444;line-height:1.2;}
+  .fd-note{font-size:13px;line-height:1.3;border-top:1px dotted #999;margin-top:2px;padding-top:1px;min-height:16px;color:#111;}
+  .fd-note:empty:before{content:'call note…';color:#bbb;}
+  .fd-strip{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;border-top:2.5px solid #222;padding-top:5px;margin-top:6px;font-size:13px;flex:0 0 auto;}
+  .fd-cols{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.05fr;gap:14px;}
+  .fd-col{min-height:0;display:flex;flex-direction:column;}
+  .fd-st{display:flex;gap:6px;font-size:13px;line-height:1.5;align-items:baseline;}
+  .fd-seed{font-weight:900;width:18px;flex:0 0 auto;}
+  .fd-stt{font-weight:800;flex:1;}
+  .fd-poline{border-bottom:2.5px solid var(--havoc-red);padding-bottom:2px;margin-bottom:2px;}
+  .fd-dr{display:flex;gap:8px;font-size:13px;line-height:1.55;align-items:baseline;border-bottom:1px dotted #ddd;}
+  .fd-dl{font-weight:800;flex:0 0 46%;}
+  .fd-dr .fv{flex:1;min-height:15px;}
+  .fv:focus,.fd-note:focus{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
+  .fd-blank{display:inline-block;min-width:120px;border-bottom:1px solid #555;height:13px;}
+  table.fd-per{border-collapse:collapse;width:100%;margin:2px 0 4px;}
+  table.fd-per th{font-size:12.5px;font-weight:900;border:1px solid #999;padding:1px 5px;background:#eee;}
+  table.fd-per td{font-size:13px;border:1px solid #999;padding:1px 5px;text-align:center;min-width:34px;}
+  .fd-res{display:flex;gap:8px;font-size:13px;line-height:1.5;justify-content:space-between;}
+  .fd-res span:first-child{flex:0 0 auto;}
   .pstat .pstat-mark{font-weight:900;margin-left:1px;}
   .wrap{max-width:1080px;margin:0 auto;padding:22px 20px 90px;}
   .panel{display:none;} .panel.active{display:block;animation:fade .2s ease;}
@@ -300,6 +333,7 @@
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
     .lcx-card{outline:none !important;}
     .ws-page{height:10.45in !important;overflow:hidden;}
+    .fv,.fd-note{outline:none !important;}
   }
   /* season calendar */
   .cal-legend{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -757,6 +791,7 @@
       <button class="subtab active" data-sub="packet">Game Packet</button>
       <button class="subtab" data-sub="chart">Lineup Chart</button>
       <button class="subtab" data-sub="lines">Lines</button>
+      <button class="subtab" data-sub="folders">Broadcast Folders</button>
       <span class="subspacer"></span>
       <button class="btn" onclick="prRefresh()">Refresh</button>
       <button class="btn dark" onclick="prPrint()">Print / Save PDF</button>
@@ -831,6 +866,23 @@
       <div class="doc-scroll" id="linesDoc"></div>
     </div>
   
+    </div>
+    <div class="subview" id="panel-folders">
+    <div class="card no-print">
+      <h2>Broadcast <span class="accent">Folders</span></h2>
+      <p class="desc">Four letter-portrait booth pages &mdash; a <b>lineup side</b> (lines with stat lines, pronunciations and your per-player call notes) and a <b>data side</b> (standings with the playoff line, team numbers, per-period, recent &amp; upcoming, transactions) for each team. Click any value or call note in the preview to hand-edit it &mdash; edits save and survive refreshes. Large type, one page each, single-sided.</p>
+      <div class="btn-row">
+        <button class="btn dark" onclick="fdPrint('all')">Print Broadcast Folders (4 pages)</button>
+        <button class="btn secondary" onclick="fdPrint('hl')">Havoc lineup</button>
+        <button class="btn secondary" onclick="fdPrint('hd')">Havoc data</button>
+        <button class="btn secondary" onclick="fdPrint('ol')">Opponent lineup</button>
+        <button class="btn secondary" onclick="fdPrint('od')">Opponent data</button>
+      </div>
+    </div>
+    <div class="doc-frame">
+      <div class="doc-toolbar no-print"><span class="ttl">Broadcast Folders — preview</span><div class="spacer"></div><span class="header-status">4 pages · letter vertical · one page per side</span></div>
+      <div class="doc-scroll" id="foldersDoc"></div>
+    </div>
     </div>
   </section>
 
@@ -1095,6 +1147,7 @@ const DEFAULT_DATA={
   epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
   hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
   chartEdits:{},         // {teamName:{playerKey:html}} — hand edits to lineup-chart cards
+  folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1153,7 +1206,7 @@ function loadHavoc2627(){
   DATA.roster=HAVOC_2627.map(t=>{
     const prev=old[t.name.toLowerCase()]||{};
     return {id:prev.id||uid(),...t,active:"1",
-      notes:prev.notes||"",bbio:prev.bbio||"",capt:prev.capt||"",pron:prev.pron||"",
+      notes:prev.notes||"",bbio:prev.bbio||"",capt:prev.capt||"",pron:prev.pron||"",callNote:prev.callNote||"",
       ht:t.ht||prev.ht||"",wt:t.wt||prev.wt||"",sh:t.sh||prev.sh||"",age:t.age||prev.age||"",
       birth:t.birth||prev.birth||"",dob:t.dob||prev.dob||"",
       htId:t.htId||prev.htId||"",epUrl:t.epUrl||prev.epUrl||""};
@@ -1175,7 +1228,8 @@ const SUB_INIT={
   quiz:()=>quizInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
   chart:()=>renderChart(),
-  lines:()=>linesInit()
+  lines:()=>linesInit(),
+  folders:()=>renderFolders()
 };
 function subShow(group,id){
   SUBTABS[group]=id;
@@ -1238,6 +1292,7 @@ function prRefresh(){
   const s=SUBTABS.print;
   if(s==='packet'){saveNotesExtra();renderPacket();}
   else if(s==='chart')renderChart();
+  else if(s==='folders')renderFolders();
   else renderLinesDoc();
 }
 function prPrint(){printDoc(SUBTABS.print);}
@@ -1831,9 +1886,253 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     </div>`;
 }
 
+/* ============ BROADCAST FOLDERS (booth pages) ============ */
+let FD_FILTER=null;
+function fdOv(team){DATA.folderOv=DATA.folderOv||{};return DATA.folderOv[team]=DATA.folderOv[team]||{};}
+/* value cell: hand override > computed > "—" (Havoc) / write-in line (opponent) */
+function fdCell(team,key,computed,isOpp){
+  const ov=fdOv(team)[key];
+  let inner;
+  if(ov!=null&&String(ov).trim()!=='')inner=esc(ov);
+  else if(computed!=null&&computed!=='')inner=esc(String(computed));
+  else inner=isOpp?'<span class="fd-blank"></span>':'—';
+  return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>`;
+}
+function fdGamesFor(kw){
+  const re=new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  return (DATA.leagueLog||[]).filter(g=>re.test(g.h)||re.test(g.a)).sort((a,b)=>a.d<b.d?-1:1)
+    .map(g=>{const home=re.test(g.h);const gf=home?g.hg:g.ag,ga=home?g.ag:g.hg;
+      const wl=gf>ga?(g.ot?(g.ot==='SO'?'SOW':'OTW'):'W'):(gf<ga?(g.ot?(g.ot==='SO'?'SOL':'OTL'):'L'):'T');
+      return {...g,home,gf,ga,wl};});
+}
+function fdRec(gs){
+  if(!gs.length)return null;
+  const c=ks=>gs.filter(g=>ks.indexOf(g.wl)>=0).length;
+  return c(['W','OTW','SOW'])+'-'+c(['L'])+'-'+c(['OTL'])+'-'+c(['SOL']);
+}
+function fdPtsOf(gs){return gs.reduce((s,g)=>s+(g.wl==='W'?3:(g.wl==='OTW'||g.wl==='SOW'?2:(g.wl==='OTL'||g.wl==='SOL'?1:0))),0);}
+function fdStreak(gs){
+  if(!gs.length)return null;
+  const w=g=>['W','OTW','SOW'].indexOf(g.wl)>=0;
+  const last=w(gs[gs.length-1]);let n=0;
+  for(let i=gs.length-1;i>=0&&w(gs[i])===last;i--)n++;
+  return (last?'W':'L')+n;
+}
+function fdRankOf(map,kw,dir){ // rank of team kw within {city:val}; dir 1 = higher is better
+  const re=new RegExp(kw,'i');
+  const entries=Object.keys(map).map(k=>[k,parseFloat(map[k])]).filter(e=>isFinite(e[1]));
+  if(!entries.length)return null;
+  entries.sort((a,b)=>dir*(b[1]-a[1]));
+  const i=entries.findIndex(e=>re.test(e[0]));
+  return i<0?null:ordinal(i+1);
+}
+function fdPron(p){
+  if(p.pron)return p.pron;
+  const lastNm=(p.name||'').trim().split(/\s+/).pop();
+  if(!lastNm)return '';
+  const hit=(DATA.settings.pronounce||'').split('\n').find(l=>l.toLowerCase().indexOf(lastNm.toLowerCase())>=0);
+  return hit?hit.split(/\s*[-–—]\s*/).slice(1).join('-').trim():'';
+}
+function fdGameLine(){
+  const G=DATA.game,S=DATA.settings;
+  const d=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
+  return [d,(S.city+' '+S.name)+' '+(G.homeaway==='@'?'@':'vs.')+' '+(G.opp||'Opponent'),G.venue||S.venue].filter(Boolean).join('  ·  ');
+}
+function fdPlayerHTML(p,kw,side){
+  const parts=(p.name||'').trim().split(/\s+/);
+  let first='',last='';
+  if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+  const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
+  const pron=fdPron(p);
+  return `<div class="fd-pl">
+    <div class="fd-nm">#${esc(p.num||'')} <b>${esc(last.toUpperCase())}</b> ${esc(first)}${letter} ${statSpan(p,kw)}</div>
+    ${pron?`<div class="fd-pron">${esc(pron)}</div>`:''}
+    <div class="fd-note" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}">${esc(p.callNote||'')}</div>
+  </div>`;
+}
+function fdLineupPage(side){
+  const S=DATA.settings,G=DATA.game;
+  const isHome=side==='home';
+  const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
+  const kw=isHome?'Huntsville':(G.opp||'').split(' ')[0]||'zzz';
+  const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
+  const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
+  const logo=teamLogoSrc(teamFull);
+  ensureLines();
+  const L=DATA.lines[isHome?'home':'opp'];
+  const resolve=v=>{
+    const t=String(v||'').trim();if(!t)return null;
+    const mnum=t.match(/^(\d+)/);
+    let p=mnum?list.find(x=>String(x.num)===mnum[1]&&x.name):null;
+    if(!p)p=list.find(x=>x.name&&t.toLowerCase().indexOf(x.name.toLowerCase())>=0);
+    return p;
+  };
+  const cellFor=v=>{const p=resolve(v);return p?fdPlayerHTML(p,kw,side):(String(v||'').trim()?`<div class="fd-pl"><div class="fd-nm">${esc(v)}</div></div>`:'<div class="fd-pl fd-empty"></div>');};
+  const linesUsed=L.f.some(ln=>ln.some(x=>x&&x.trim()))||L.d.some(pr=>pr.some(x=>x&&x.trim()))||L.g.some(x=>x&&x.trim());
+  let fBlock,dBlock,gBlock;
+  if(linesUsed){
+    fBlock=L.f.map((ln,i)=>`<div class="fd-row f3"><span class="fd-ln">${i+1}</span>${ln.map(cellFor).join('')}</div>`).join('');
+    dBlock=L.d.map((pr,i)=>`<div class="fd-row f2"><span class="fd-ln">${i+1}</span>${pr.map(cellFor).join('')}</div>`).join('');
+    gBlock=`<div class="fd-row f2"><span class="fd-ln">G</span>${cellFor(L.g[0])}${cellFor(L.g[1])}</div>`;
+  }else{ // no lines entered yet — numerical roster order so the page still works
+    const act=list.filter(p=>p.active!=='0'&&p.name);
+    const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+    const wrap3=arr=>{let h='';for(let i=0;i<arr.length;i+=3)h+=`<div class="fd-row f3"><span class="fd-ln"></span>${arr.slice(i,i+3).map(p=>fdPlayerHTML(p,kw,side)).join('')}</div>`;return h;};
+    fBlock=wrap3(act.filter(p=>p.pos!=='D'&&p.pos!=='G').sort(byNum));
+    dBlock=wrap3(act.filter(p=>p.pos==='D').sort(byNum));
+    gBlock=wrap3(act.filter(p=>p.pos==='G').sort(byNum));
+  }
+  const strip=isHome
+    ?`<div class="fd-strip"><div><b>SCRATCHES</b> ${esc((G.scratch||'').replace(/\n/g,' · '))||'—'}</div><div><b>IR</b> ${esc((G.ir||'').split('\n').filter(Boolean).join(' · '))||'—'}</div><div><b>ECHL</b> ${esc((G.echl||'').split('\n').filter(Boolean).join(' · '))||'—'}</div></div>`
+    :`<div class="fd-strip"><div><b>SCRATCHES</b> <span class="fd-blank"></span></div><div><b>IR</b> <span class="fd-blank"></span></div><div><b>ECHL</b> <span class="fd-blank"></span></div></div>`;
+  return `<div class="page lc-page fd-page">
+    <div class="lcx-head" style="background:${primary}">${logo?`<div class="lcx-logo"><img src="${logo}"></div>`:''}<div class="lcx-title">${esc(teamFull.toUpperCase())} — LINEUP</div></div>
+    <div class="fd-game">${esc(fdGameLine())}</div>
+    <div class="fd-body">
+      <div class="fd-sub" style="color:${primary};border-color:${primary}">Forwards</div>${fBlock}
+      <div class="fd-sub" style="color:${primary};border-color:${primary}">Defense</div>${dBlock}
+      <div class="fd-sub" style="color:${primary};border-color:${primary}">Goalies</div>${gBlock}
+    </div>
+    ${strip}
+  </div>`;
+}
+function fdDataPage(side){
+  const S=DATA.settings,G=DATA.game;
+  const isHome=side==='home';
+  const isOpp=!isHome;
+  const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
+  const kw=isHome?'Huntsville':(G.opp||'').split(' ')[0]||'zzz';
+  const oppKw=isHome?((G.opp||'').split(' ')[0]||'zzz'):'Huntsville';
+  const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
+  const logo=teamLogoSrc(teamFull);
+  const st=standingsFor(kw);
+  const gs=fdGamesFor(kw);
+  const ext=isHome?(DATA.report.ext||{}):{};
+  const C=(key,computed)=>fdCell(teamFull,key,computed,isOpp);
+  // special teams + ranks
+  const ppMap={},pkMap={};
+  Object.keys(DATA.report.special||{}).forEach(t=>{const o=DATA.report.special[t];if(o.pp!=null)ppMap[t]=o.pp;if(o.pk!=null)pkMap[t]=o.pk;});
+  const ppRe=new RegExp(kw,'i');
+  const ppKey=Object.keys(ppMap).find(k=>ppRe.test(k)),pkKey=Object.keys(pkMap).find(k=>ppRe.test(k));
+  const pp=ppKey?ppMap[ppKey]+(fdRankOf(ppMap,kw,1)?' ('+fdRankOf(ppMap,kw,1)+')':''):null;
+  const pk=pkKey?pkMap[pkKey]+(fdRankOf(pkMap,kw,1)?' ('+fdRankOf(pkMap,kw,1)+')':''):null;
+  // PIM totals + rank
+  const pimMap={};
+  Object.keys(DATA.report.teamStats||{}).forEach(t=>{pimMap[t]=(DATA.report.teamStats[t].players||[]).reduce((s2,p)=>s2+(+p.pim||0),0);});
+  const pimKey=Object.keys(pimMap).find(k=>ppRe.test(k));
+  const pims=(pimKey&&pimMap[pimKey])?pimMap[pimKey]+(fdRankOf(pimMap,kw,1)?' ('+fdRankOf(pimMap,kw,1)+')':''):null;
+  const homeGs=gs.filter(g=>g.home),roadGs=gs.filter(g=>!g.home);
+  const otGs=gs.filter(g=>g.ot);
+  const cnt=w=>gs.filter(g=>g.wl===w).length;
+  const otso=gs.length?`OTW ${cnt('OTW')} · OTL ${cnt('OTL')} · SOW ${cnt('SOW')} · SOL ${cnt('SOL')} (${2*(cnt('OTW')+cnt('SOW'))+cnt('OTL')+cnt('SOL')} pts)`:null;
+  const h2hGs=gs.filter(g=>new RegExp(oppKw,'i').test(g.h)||new RegExp(oppKw,'i').test(g.a));
+  const splits=isHome?glSplits():null;
+  const findSplit=lbl=>{const r=(splits||[]).find(x=>x[0]===lbl);return r?r[1]:null;};
+  const rows=[
+    ['pp','Power play',pp],
+    ['pk','Penalty kill',pk],
+    ['gf','Goals for',st?st.gf:null],
+    ['ga','Goals against',st?st.ga:null],
+    ['ratio','GF/GA ratio',st&&st.gf!=null&&st.ga?(st.gf/st.ga).toFixed(2):null],
+    ['home','Home',fdRec(homeGs)?fdRec(homeGs)+' ('+fdPtsOf(homeGs)+' pts)':null],
+    ['road','Road',fdRec(roadGs)?fdRec(roadGs)+' ('+fdPtsOf(roadGs)+' pts)':null],
+    ['pims','PIMs',pims],
+    ['otso','OT / SO',otso],
+    ['first','Scoring first',isHome&&ext.scoreFirst?`${ext.scoreFirst.w}-${ext.scoreFirst.l}-${ext.scoreFirst.otl}`:null],
+    ['lead1','Leading after 1st',null],
+    ['lead2','Leading after 2nd',null],
+    ['trail1','Trailing after 1st',null],
+    ['trail2','Trailing after 2nd',null],
+    ['tied1','Tied after 1st',null],
+    ['tied2','Tied after 2nd',null],
+    ['outshoot','When outshooting',isHome?findSplit('When outshooting opponent'):null],
+    ['outshot','When outshot',isHome?findSplit('When outshot'):null],
+    ['onegoal','One-goal games',gs.length?fdRec(gs.filter(g=>Math.abs(g.gf-g.ga)===1)):null],
+    ['ppvs','PP vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),null],
+    ['pkvs','PK vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),null],
+    ['ppsplit','PP home / away',null],
+    ['pksplit','PK home / away',null],
+    ['past10','Past 10',gs.length?fdRec(gs.slice(-10))+' ('+fdPtsOf(gs.slice(-10))+' pts)':null],
+    ['streak','Streak',fdStreak(gs)],
+    ['h2h','H2H vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),h2hGs.length?fdRec(h2hGs):null]
+  ];
+  const dataRows=rows.map(r=>`<div class="fd-dr"><span class="fd-dl">${r[1]}</span>${C(r[0],r[2])}</div>`).join('')
+    +`<div class="fd-dr"><span class="fd-dl">Streak note</span>${C('streaknote',null)}</div>`
+    +`<div class="fd-dr"><span class="fd-dl">H2H note</span>${C('h2hnote',null)}</div>`;
+  // standings block with playoff line under 8th
+  const stRows=(DATA.report.standings||[]).map((t,i)=>{
+    const line=`${t.w}-${t.l}-${t.otl}${t.sol!=null?'-'+t.sol:''} · ${t.pts} pts · GR ${t.gp!=null?Math.max(0,60-t.gp):'—'}`;
+    return `<div class="fd-st${i===7?' fd-poline':''}"><span class="fd-seed">${i+1}</span><span class="fd-stt">${esc(t.team)}</span>${fdCell(teamFull,'st'+i,line,false)}</div>`;
+  }).join('')||'<div style="color:#999;font-size:12px">Sync live data / import the daily report for standings.</div>';
+  // per-period table (GF/GA from report where known — every cell editable)
+  const gp=isHome?ext.goalsByPeriod:null;
+  const per=['p1','p2','p3','ot'];
+  const perRow=(pk2,lbl)=>`<tr><th>${lbl}</th><td>${C(pk2+'gf',gp?gp[pk2][0]:null)}</td><td>${C(pk2+'ga',gp?gp[pk2][1]:null)}</td><td>${C(pk2+'sf',null)}</td><td>${C(pk2+'sa',null)}</td></tr>`;
+  const perTable=`<table class="fd-per"><tr><th></th><th>GF</th><th>GA</th><th>SF</th><th>SA</th></tr>${perRow('p1','1st')}${perRow('p2','2nd')}${perRow('p3','3rd')}${perRow('ot','OT')}</table>`;
+  // recent results (last 10) + next 5
+  const recent=gs.slice(-10).map(g=>{
+    const d=new Date(g.d+'T12:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
+    return `<div class="fd-res"><span>${d}</span><span>${esc(g.a.split(' ')[0])} ${g.ag} @ ${esc(g.h.split(' ')[0])} ${g.hg}${g.ot?' ('+g.ot+')':''}</span><b>${g.wl}</b></div>`;
+  }).join('')||'<div style="color:#999;font-size:12px">No finals yet.</div>';
+  let next='';
+  if(isHome){
+    const up=parseScheduleData().filter(x=>!x.result).slice(0,5);
+    next=up.map(x=>`<div class="fd-res"><span>${esc(x.date||'')}</span><span>${esc((x.ha||'')+' '+(x.opp||''))}</span><span></span></div>`).join('');
+  }
+  if(!next)next=Array.from({length:5},()=>'<div class="fd-res"><span class="fd-blank" style="width:100%"></span></div>').join('');
+  const tx=(isHome?G.txhome:G.txaway)||'';
+  const txRows=tx.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>`<div class="fd-res"><span>${esc(l)}</span></div>`).join('')||'<div style="color:#999;font-size:12px">None entered (This Game tab).</div>';
+  return `<div class="page lc-page fd-page">
+    <div class="lcx-head" style="background:${primary}">${logo?`<div class="lcx-logo"><img src="${logo}"></div>`:''}<div class="lcx-title">${esc(teamFull.toUpperCase())} — DATA</div></div>
+    <div class="fd-game">${esc(fdGameLine())}</div>
+    <div class="fd-cols">
+      <div class="fd-col">
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">SPHL Standings</div>${stRows}
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">By Period</div>${perTable}
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">Last 10 Results</div>${recent}
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">Next 5</div>${next}
+      </div>
+      <div class="fd-col">
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">Team Data</div>${dataRows}
+        <div class="fd-sub" style="color:${primary};border-color:${primary}">Recent Transactions</div>${txRows}
+      </div>
+    </div>
+  </div>`;
+}
+function renderFolders(){
+  const doc=document.getElementById('foldersDoc');if(!doc)return;
+  const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
+  const mk={hl:()=>fdLineupPage('home'),hd:()=>fdDataPage('home'),ol:()=>fdLineupPage('opp'),od:()=>fdDataPage('opp')};
+  doc.innerHTML=want.map(k=>mk[k]()).join('');
+  fdWireEdits();
+}
+function fdWireEdits(){
+  const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
+  doc._fdWired=true;
+  doc.addEventListener('input',e=>{
+    clearTimeout(doc._ft);
+    doc._ft=setTimeout(()=>{
+      const t=e.target.closest?e.target.closest('.fv,[data-pid]'):null;if(!t)return;
+      if(t.classList.contains('fv')){
+        fdOv(t.dataset.t)[t.dataset.k]=t.innerText.trim();save();
+      }else if(t.dataset.pid!==undefined){
+        const side=t.dataset.side;
+        const list=side==='home'?DATA.roster:((DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[]);
+        const p=list.find(x=>x.id===t.dataset.pid);
+        if(p){p.callNote=t.innerText.trim();save();}
+      }
+    },600);
+  });
+}
+function fdPrint(which){
+  FD_FILTER=which==='all'?null:which;
+  printDoc('folders');
+  setTimeout(()=>{FD_FILTER=null;renderFolders();},600);
+}
+
 /* ============ PRINT ============ */
 function printDoc(which){
-  const map={chart:renderChart,packet:renderPacket,lines:renderLinesDoc};
+  const map={chart:renderChart,packet:renderPacket,lines:renderLinesDoc,folders:renderFolders};
   if(map[which])map[which]();
   const panel=document.getElementById('panel-'+which);
   // mark the target AND its host panel (Print Center wraps these as sub-views)
@@ -1842,7 +2141,7 @@ function printDoc(which){
   if(host&&host!==panel)marks.push(host);
   marks.forEach(m=>m.classList.add('printing'));
   let st=null;
-  if(which==='chart'){ // lineup chart prints letter vertical (portrait), one page per team
+  if(which==='chart'||which==='folders'){ // letter vertical (portrait), one page per side
     st=document.createElement('style');
     st.textContent='@page{size:letter portrait;margin:0.25in;}';
     document.head.appendChild(st);
