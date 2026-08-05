@@ -429,11 +429,60 @@ export async function main(deps){
 
   // fetch/refresh career stats for mapped players
   let statsErrLogged=0;
-  for(const p of players){
+
+  // 2026-27 Havoc signings with no HockeyTech history yet — fetched straight by
+  // EP id, keyed 'ep<epId>' (the site finds them by name)
+  const EXTRA_PLAYERS=[
+    {epId:'551018',name:'Landry Schmuck',team:'Huntsville Havoc',pos:'F'},
+    {epId:'271639',name:'Troy Williams',team:'Huntsville Havoc',pos:'F'},
+    {epId:'412351',name:'Michael Hodge',team:'Huntsville Havoc',pos:'F'}
+  ];
+  for(const x of EXTRA_PLAYERS){
+    const key='ep'+x.epId;
+    const existing=out[key];
+    const fresh=existing&&existing.fetchedAt&&existing.careerStats&&existing.careerStats.length&&(Date.now()-Date.parse(existing.fetchedAt))<STATS_MAX_AGE_DAYS*86400000;
+    const failedRecently=existing&&existing.statsFailAt&&(Date.now()-Date.parse(existing.statsFailAt))<7*86400000;
+    if(!EP_KEY||fresh||failedRecently){
+      out[key]={...(existing||{}),epId:x.epId,epUrl:epUrlFor(x.epId,''),name:x.name,team:x.team};
+      continue;
+    }
+    try{
+      let resp=null,lastErr=null;
+      const tries=[
+        ['/players/'+x.epId+'/stats',{limit:'200'}],
+        ['/players/'+x.epId+'/season-stats',{limit:'200'}],
+        ['/player-stats',{player:String(x.epId),limit:'200'}],
+        ['/players/'+x.epId,{}]
+      ];
+      for(const t of tries){
+        try{const r0=await epGet(t[0],t[1]);if(r0&&careerFromStats(r0).length){resp=r0;break;}}
+        catch(e){lastErr=e;if(/budget/.test(e.message))throw e;}
+      }
+      const careerStats=resp?careerFromStats(resp):[];
+      if(careerStats.length){
+        out[key]={epId:x.epId,epUrl:epUrlFor(x.epId,''),name:x.name,team:x.team,dob:'',hometown:'',
+          careerStats,bullets:buildBullets(careerStats,x.pos==='G',x.team),fetchedAt:now};
+        statsFetched++;
+      }else{
+        console.warn('stats not available for '+x.name+': '+(lastErr?lastErr.message:'response had no parseable season rows'));
+        out[key]={...(existing||{}),epId:x.epId,epUrl:epUrlFor(x.epId,''),name:x.name,team:x.team,statsFailAt:now};
+      }
+    }catch(e){
+      if(/budget/.test(e.message)){console.warn(e.message+' — stopping stats phase');break;}
+      console.warn('stats failed for '+x.name+': '+e.message);
+      out[key]=out[key]||{epId:x.epId,epUrl:epUrlFor(x.epId,''),name:x.name,team:x.team};
+    }
+  }
+
+  // current Havoc roster gets first crack at the stats budget
+  const PRIORITY_HTIDS=new Set(['288','2761','3089','3371','3465','3622','3666','3669','3686','3801','3817','3837']);
+  const statsOrder=[...players].sort((a,b)=>(PRIORITY_HTIDS.has(String(b.htId))?1:0)-(PRIORITY_HTIDS.has(String(a.htId))?1:0));
+  for(const p of statsOrder){
     const m=map.matched[p.htId];
     if(!m)continue;
     const existing=out[p.htId];
-    const fresh=existing&&existing.fetchedAt&&(Date.now()-Date.parse(existing.fetchedAt))<STATS_MAX_AGE_DAYS*86400000;
+    // "fresh" needs real season rows — an empty stamp from an earlier run is stale
+    const fresh=existing&&existing.fetchedAt&&existing.careerStats&&existing.careerStats.length&&(Date.now()-Date.parse(existing.fetchedAt))<STATS_MAX_AGE_DAYS*86400000;
     const failedRecently=existing&&existing.statsFailAt&&(Date.now()-Date.parse(existing.statsFailAt))<7*86400000;
     if(!EP_KEY||fresh||failedRecently){
       out[p.htId]={...(existing||{}),epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
