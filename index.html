@@ -1115,6 +1115,14 @@ const val=id=>{const e=document.getElementById(id);return e?e.value.trim():'';};
 function parseReport(){
   const raw=document.getElementById('reportPaste').value;
   if(!raw.trim()){toast("Paste the report first");return;}
+  // a bare link is not the report — catch the most common mistake with real guidance
+  if(/^\s*https?:\/\/\S+\s*$/i.test(raw)){
+    document.getElementById('parseResult').innerHTML='<span class="pill warn">That\'s a link, not the report</span>';
+    const sum=document.getElementById('importSummary');sum.style.display='block';
+    sum.innerHTML='<b>That looks like the report\'s address, not its contents.</b> Open the link, then either save the page and use <i>Upload saved report</i>, or Select All (Ctrl/Cmd-A) → Copy → paste the page text here.';
+    toast('Paste the report contents, not the link');
+    return;
+  }
   if(/<table[\s>]/i.test(raw)){importDailyHTMLText(raw,'manual paste');return;} // saved HTML page → shared daily-report parser
   const r={parsedAt:new Date().toISOString(),standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}};
   const lines=raw.split(/\r?\n/);
@@ -1136,12 +1144,19 @@ function parseReport(){
   parseSpecial(raw,r);
   parseResultsAndH2H(raw,r);
   parseExtended(raw,r);
+  const teams=Object.keys(r.teamStats).length;
+  const gotAnything=r.standings.length||teams||Object.keys(r.special).length||(r.leaders&&(r.leaders.points||[]).length);
+  const sum=document.getElementById('importSummary');sum.style.display='block';
+  if(!gotAnything){ // nothing recognized — do NOT clobber existing data, and say so honestly
+    document.getElementById('parseResult').innerHTML='<span class="pill warn">Nothing recognized</span>';
+    sum.innerHTML='<b>Nothing recognized in that paste — your existing data was left untouched.</b> Paste the report\'s contents (open it → Select All → Copy), or save the HTML report and use <i>Upload saved report</i>.';
+    toast("Nothing recognized — data unchanged");
+    return;
+  }
   DATA.report=r;
   syncRosterStats();
   save();
-  const teams=Object.keys(r.teamStats).length;
   document.getElementById('parseResult').innerHTML='<span class="pill ok">Parsed</span>';
-  const sum=document.getElementById('importSummary');sum.style.display='block';
   sum.innerHTML=`<b>Parsed successfully.</b> Standings: ${r.standings.length} teams · Player stats: ${teams} teams · Special teams: ${Object.keys(r.special).length} teams.`;
   toast("Report parsed");
 }

@@ -91,10 +91,12 @@ function makeEpFetch(fetchJson){
     if(!EP_KEY)throw new Error('no EP_API_KEY');
     if(epCalls>=MAX_EP_CALLS)throw new Error('EP call budget ('+MAX_EP_CALLS+') exhausted');
     epCalls++;
-    const q=new URLSearchParams({...(params||{}),apiKey:EP_KEY}).toString();
-    const out=await fetchJson(EP_BASE+pathname+'?'+q,{'X-Api-Key':EP_KEY,'Authorization':'Bearer '+EP_KEY});
-    await sleep(+(process.env.EP_SLEEP_MS||6500)); // free tier: 10 req/min
-    return out;
+    try{
+      const q=new URLSearchParams({...(params||{}),apiKey:EP_KEY}).toString();
+      return await fetchJson(EP_BASE+pathname+'?'+q,{'X-Api-Key':EP_KEY,'Authorization':'Bearer '+EP_KEY});
+    }finally{
+      await sleep(+(process.env.EP_SLEEP_MS||6500)); // free tier: 10 req/min — even after errors
+    }
   };
 }
 
@@ -426,30 +428,42 @@ export async function main(deps){
 
 
   // fetch/refresh career stats for mapped players
+  let statsErrLogged=0;
   for(const p of players){
     const m=map.matched[p.htId];
     if(!m)continue;
     const existing=out[p.htId];
     const fresh=existing&&existing.fetchedAt&&(Date.now()-Date.parse(existing.fetchedAt))<STATS_MAX_AGE_DAYS*86400000;
-    if(!EP_KEY||fresh){
+    const failedRecently=existing&&existing.statsFailAt&&(Date.now()-Date.parse(existing.statsFailAt))<7*86400000;
+    if(!EP_KEY||fresh||failedRecently){
       out[p.htId]={...(existing||{}),epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
       continue;
     }
     try{
-      let resp=null;
+      let resp=null,lastErr=null;
       for(const sp of ['/players/'+m.epId+'/stats','/players/'+m.epId+'/career-stats','/players/'+m.epId]){
-        try{resp=await epGet(sp,{limit:'200'});if(resp)break;}catch(e){if(/budget/.test(e.message))throw e;}
+        try{resp=await epGet(sp,{limit:'200'});if(resp)break;}
+        catch(e){lastErr=e;if(/budget/.test(e.message))throw e;}
       }
-      const careerStats=resp?careerFromStats(resp):(existing&&existing.careerStats)||[];
-      out[p.htId]={
-        epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team,
-        dob:p.dob||(existing&&existing.dob)||'',
-        hometown:(existing&&existing.hometown)||'',
-        careerStats,
-        bullets:buildBullets(careerStats,p.pos==='G',p.team),
-        fetchedAt:now
-      };
-      statsFetched++;
+      const careerStats=resp?careerFromStats(resp):[];
+      if(resp&&careerStats.length){
+        out[p.htId]={
+          epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team,
+          dob:p.dob||(existing&&existing.dob)||'',
+          hometown:(existing&&existing.hometown)||'',
+          careerStats,
+          bullets:buildBullets(careerStats,p.pos==='G',p.team),
+          fetchedAt:now
+        };
+        statsFetched++;
+      }else{
+        // don't freeze a failure as fresh — mark it and retry after a week
+        if(statsErrLogged<3){
+          console.warn('stats not available for '+p.name+': '+(lastErr?lastErr.message:'response had no parseable season rows'));
+          statsErrLogged++;
+        }
+        out[p.htId]={...(existing||{}),epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team,statsFailAt:now};
+      }
     }catch(e){
       if(/budget/.test(e.message)){console.warn(e.message+' — stopping stats phase');break;}
       console.warn('stats failed for '+p.name+': '+e.message);
