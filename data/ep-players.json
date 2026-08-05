@@ -15,7 +15,12 @@
   "epId": "39786",
   "epUrl": "https://www.eliteprospects.com/player/39786",
   "name": "Josh Harris",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1988-04-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "22": {
   "epId": "272683",
@@ -39,7 +44,12 @@
   "epId": "120593",
   "epUrl": "https://www.eliteprospects.com/player/120593",
   "name": "Austin Lotz",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1995-05-27",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "66": {
   "epId": "227727",
@@ -188,7 +198,12 @@
   "epId": "241141",
   "epUrl": "https://www.eliteprospects.com/player/241141",
   "name": "Kristian Stead",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1996-10-17",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "2804": {
   "epId": "379526",
@@ -200,7 +215,12 @@
   "epId": "213990",
   "epUrl": "https://www.eliteprospects.com/player/213990",
   "name": "Cody Karpinski",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1992-06-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "2862": {
   "epId": "282502",
@@ -218,7 +238,12 @@
   "epId": "295427",
   "epUrl": "https://www.eliteprospects.com/player/295427",
   "name": "Scott Kirton",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1996-08-24",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "2894": {
   "epId": "283502",
@@ -242,7 +267,12 @@
   "epId": "418814",
   "epUrl": "https://www.eliteprospects.com/player/418814",
   "name": "Matthew Hobbs",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-05-18",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "2985": {
   "epId": "288244",
@@ -278,13 +308,23 @@
   "epId": "269594",
   "epUrl": "https://www.eliteprospects.com/player/269594",
   "name": "Cayden Cahill",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1996-08-31",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3031": {
   "epId": "252745",
   "epUrl": "https://www.eliteprospects.com/player/252745",
   "name": "Jamie Dorsey",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1996-12-15",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3043": {
   "epId": "438485",
@@ -302,7 +342,12 @@
   "epId": "272165",
   "epUrl": "https://www.eliteprospects.com/player/272165",
   "name": "Matt Wiesner",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1997-08-20",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3070": {
   "epId": "241362",
@@ -371,7 +416,12 @@
   "epId": "199906",
   "epUrl": "https://www.eliteprospects.com/player/199906",
   "name": "Jordan Henderson",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1997-02-19",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3125": {
   "epId": "201709",
@@ -395,7 +445,12 @@
   "epId": "348528",
   "epUrl": "https://www.eliteprospects.com/player/348528",
   "name": "Ryan Lieth",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1998-10-08",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3215": {
   "epId": "279865",
@@ -436,7 +491,12 @@
   "epId": "354857",
   "epUrl": "https://www.eliteprospects.com/player/354857",
   "name": "John Moncovich",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1998-04-11",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3249": {
   "epId": "301194",
@@ -478,7 +538,12 @@
   "epId": "582240",
   "epUrl": "https://www.eliteprospects.com/player/582240",
   "name": "Skate Skalde",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2003-06-22",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3292": {
   "epId": "504110",
@@ -496,7 +561,12 @@
   "epId": "312265",
   "epUrl": "https://www.eliteprospects.com/player/312265",
   "name": "Derek Contessa",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-03-03",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3297": {
   "epId": "229615",
@@ -508,13 +578,23 @@
   "epId": "268997",
   "epUrl": "https://www.eliteprospects.com/player/268997",
   "name": "Joey Berkopec",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-02-12",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3305": {
   "epId": "309391",
   "epUrl": "https://www.eliteprospects.com/player/309391",
   "name": "Ryan Kenny",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-07-27",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3306": {
   "epId": "354666",
@@ -532,19 +612,34 @@
   "epId": "436389",
   "epUrl": "https://www.eliteprospects.com/player/436389",
   "name": "Myles Abbate",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-10-18",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3321": {
   "epId": "364041",
   "epUrl": "https://www.eliteprospects.com/player/364041",
   "name": "Brendahn Brawley",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1998-09-11",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3324": {
   "epId": "468392",
   "epUrl": "https://www.eliteprospects.com/player/468392",
   "name": "Dilan Peters",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-12-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3337": {
   "epId": "460930",
@@ -627,7 +722,12 @@
   "epId": "286796",
   "epUrl": "https://www.eliteprospects.com/player/286796",
   "name": "Jordan Simoneau",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-01-29",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3407": {
   "epId": "380259",
@@ -639,7 +739,12 @@
   "epId": "325203",
   "epUrl": "https://www.eliteprospects.com/player/325203",
   "name": "Tyler Love",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2000-03-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3417": {
   "epId": "474455",
@@ -657,13 +762,23 @@
   "epId": "269074",
   "epUrl": "https://www.eliteprospects.com/player/269074",
   "name": "Tyson Gilmour",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1998-08-31",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3423": {
   "epId": "322545",
   "epUrl": "https://www.eliteprospects.com/player/322545",
   "name": "Alex Wilkins",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1998-03-14",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3427": {
   "epId": "435401",
@@ -675,7 +790,12 @@
   "epId": "393790",
   "epUrl": "https://www.eliteprospects.com/player/393790",
   "name": "Matt Clark",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-05-10",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3439": {
   "epId": "273794",
@@ -789,7 +909,12 @@
   "epId": "507580",
   "epUrl": "https://www.eliteprospects.com/player/507580",
   "name": "John Aonso",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-05-30",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3499": {
   "epId": "565973",
@@ -919,19 +1044,34 @@
   "epId": "201360",
   "epUrl": "https://www.eliteprospects.com/player/201360",
   "name": "Cameron MacPhee",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-05-17",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3559": {
   "epId": "309425",
   "epUrl": "https://www.eliteprospects.com/player/309425",
   "name": "Ayodele Adeniye",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-03-24",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3562": {
   "epId": "483424",
   "epUrl": "https://www.eliteprospects.com/player/483424",
   "name": "Aidan Litke",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2003-03-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3563": {
   "epId": "393057",
@@ -943,7 +1083,12 @@
   "epId": "474215",
   "epUrl": "https://www.eliteprospects.com/player/474215",
   "name": "Isaac Chapman",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-06-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3570": {
   "epId": "299206",
@@ -990,7 +1135,12 @@
   "epId": "383957",
   "epUrl": "https://www.eliteprospects.com/player/383957",
   "name": "Kevin Sadovski",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1999-07-06",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3595": {
   "epId": "315504",
@@ -1068,7 +1218,12 @@
   "epId": "469546",
   "epUrl": "https://www.eliteprospects.com/player/469546",
   "name": "Will van der Veen",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-12-15",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3619": {
   "epId": "497335",
@@ -1138,13 +1293,23 @@
   "epId": "222335",
   "epUrl": "https://www.eliteprospects.com/player/222335",
   "name": "Jacob Mucitelli",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2000-03-24",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3644": {
   "epId": "262797",
   "epUrl": "https://www.eliteprospects.com/player/262797",
   "name": "Shawn Kennedy",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1999-02-09",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3645": {
   "epId": "282354",
@@ -1161,13 +1326,23 @@
   "epId": "699814",
   "epUrl": "https://www.eliteprospects.com/player/699814",
   "name": "Vadim Frolov",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2003-02-25",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3647": {
   "epId": "313407",
   "epUrl": "https://www.eliteprospects.com/player/313407",
   "name": "Philippe Caron",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2000-07-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3648": {
   "epId": "439043",
@@ -1206,43 +1381,78 @@
   "epId": "693174",
   "epUrl": "https://www.eliteprospects.com/player/693174",
   "name": "John Woernle",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-07-03",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3652": {
   "epId": "412519",
   "epUrl": "https://www.eliteprospects.com/player/412519",
   "name": "Ethan Browne",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-05-04",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3654": {
   "epId": "580174",
   "epUrl": "https://www.eliteprospects.com/player/580174",
   "name": "Connor Federkow",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2003-07-26",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3655": {
   "epId": "396681",
   "epUrl": "https://www.eliteprospects.com/player/396681",
   "name": "Eelis Laaksonen",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-03-29",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3656": {
   "epId": "266602",
   "epUrl": "https://www.eliteprospects.com/player/266602",
   "name": "Cameron Patton",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-07-05",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3657": {
   "epId": "451781",
   "epUrl": "https://www.eliteprospects.com/player/451781",
   "name": "Connor Tait",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-01-26",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3658": {
   "epId": "451856",
   "epUrl": "https://www.eliteprospects.com/player/451856",
   "name": "Max Thiessen",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-11-08",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3659": {
   "epId": "624251",
@@ -1254,13 +1464,23 @@
   "epId": "428775",
   "epUrl": "https://www.eliteprospects.com/player/428775",
   "name": "Jesper Tarkiainen",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2001-10-02",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3661": {
   "epId": "364217",
   "epUrl": "https://www.eliteprospects.com/player/364217",
   "name": "Coltan Wilkie",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2000-04-03",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3662": {
   "epId": "272066",
@@ -1398,7 +1618,12 @@
   "epId": "540513",
   "epUrl": "https://www.eliteprospects.com/player/540513",
   "name": "Caleb Huffman",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2002-01-31",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3686": {
   "epId": "370215",
@@ -1488,7 +1713,12 @@
   "epId": "684603",
   "epUrl": "https://www.eliteprospects.com/player/684603",
   "name": "Matt Myers",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2002-02-19",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3704": {
   "epId": "258725",
@@ -1524,13 +1754,23 @@
   "epId": "807637",
   "epUrl": "https://www.eliteprospects.com/player/807637",
   "name": "Marcus Fechko",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2005-09-15",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3713": {
   "epId": "617497",
   "epUrl": "https://www.eliteprospects.com/player/617497",
   "name": "Damon Furuseth",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2003-07-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3714": {
   "epId": "723790",
@@ -1548,7 +1788,12 @@
   "epId": "602093",
   "epUrl": "https://www.eliteprospects.com/player/602093",
   "name": "Lazarus Kaebel",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2001-05-22",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3717": {
   "epId": "386447",
@@ -1566,7 +1811,12 @@
   "epId": "416911",
   "epUrl": "https://www.eliteprospects.com/player/416911",
   "name": "Graeme McCrory",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2000-07-22",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3720": {
   "epId": "410974",
@@ -1613,7 +1863,12 @@
   "epId": "281805",
   "epUrl": "https://www.eliteprospects.com/player/281805",
   "name": "Damon Zimmer",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2000-07-02",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3731": {
   "epId": "474272",
@@ -1625,7 +1880,12 @@
   "epId": "284090",
   "epUrl": "https://www.eliteprospects.com/player/284090",
   "name": "Jaden Shields",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-12-30",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3733": {
   "epId": "359883",
@@ -1649,13 +1909,23 @@
   "epId": "531598",
   "epUrl": "https://www.eliteprospects.com/player/531598",
   "name": "Aaron Chiarot",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2002-03-19",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3739": {
   "epId": "363678",
   "epUrl": "https://www.eliteprospects.com/player/363678",
   "name": "Keanan Stewart",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-04-29",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3740": {
   "epId": "334755",
@@ -1691,7 +1961,12 @@
   "epId": "650156",
   "epUrl": "https://www.eliteprospects.com/player/650156",
   "name": "Adam Manji",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2003-07-10",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3748": {
   "epId": "505219",
@@ -1715,7 +1990,12 @@
   "epId": "418693",
   "epUrl": "https://www.eliteprospects.com/player/418693",
   "name": "Evan Miller",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-03-07",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3752": {
   "epId": "508269",
@@ -1769,7 +2049,12 @@
   "epId": "355789",
   "epUrl": "https://www.eliteprospects.com/player/355789",
   "name": "Dash Quartarolo",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-11-11",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3761": {
   "epId": "651872",
@@ -1781,13 +2066,23 @@
   "epId": "469886",
   "epUrl": "https://www.eliteprospects.com/player/469886",
   "name": "Colin Tracy",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "1999-06-02",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3764": {
   "epId": "456539",
   "epUrl": "https://www.eliteprospects.com/player/456539",
   "name": "Ben Pizzimenti",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2001-04-10",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3765": {
   "epId": "446103",
@@ -1817,7 +2112,12 @@
   "epId": "599777",
   "epUrl": "https://www.eliteprospects.com/player/599777",
   "name": "Ethan Hawes",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2002-03-24",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3772": {
   "epId": "1261126",
@@ -1853,7 +2153,12 @@
   "epId": "569219",
   "epUrl": "https://www.eliteprospects.com/player/569219",
   "name": "Cody Walker",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2003-08-21",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3781": {
   "epId": "108041",
@@ -1865,7 +2170,12 @@
   "epId": "320286",
   "epUrl": "https://www.eliteprospects.com/player/320286",
   "name": "Aiden MacIntosh",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-04-05",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3783": {
   "epId": "324973",
@@ -1919,7 +2229,12 @@
   "epId": "664248",
   "epUrl": "https://www.eliteprospects.com/player/664248",
   "name": "Seth Bernard",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2002-05-01",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3796": {
   "epId": "505704",
@@ -1937,7 +2252,12 @@
   "epId": "934647",
   "epUrl": "https://www.eliteprospects.com/player/934647",
   "name": "Carter Poulin",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2004-07-19",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3799": {
   "epId": "403442",
@@ -1991,7 +2311,12 @@
   "epId": "638100",
   "epUrl": "https://www.eliteprospects.com/player/638100",
   "name": "Scott Cremen",
-  "team": "Birmingham Bulls"
+  "team": "Birmingham Bulls",
+  "dob": "2002-12-27",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3809": {
   "epId": "294742",
@@ -2009,13 +2334,23 @@
   "epId": "351006",
   "epUrl": "https://www.eliteprospects.com/player/351006",
   "name": "Sean Bunting",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2000-05-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3813": {
   "epId": "470081",
   "epUrl": "https://www.eliteprospects.com/player/470081",
   "name": "Killian Rowlee",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-02-22",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3814": {
   "epId": "75031",
@@ -2081,7 +2416,12 @@
   "epId": "369980",
   "epUrl": "https://www.eliteprospects.com/player/369980",
   "name": "Anthony Mollica",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-06-07",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3827": {
   "epId": "376617",
@@ -2146,7 +2486,12 @@
   "epId": "215491",
   "epUrl": "https://www.eliteprospects.com/player/215491",
   "name": "Brock McLeod",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "1999-04-08",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3839": {
   "epId": "498318",
@@ -2158,7 +2503,12 @@
   "epId": "412357",
   "epUrl": "https://www.eliteprospects.com/player/412357",
   "name": "Ethan Lund",
-  "team": "Evansville Thunderbolts"
+  "team": "Evansville Thunderbolts",
+  "dob": "2001-03-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-05T02:54:50.932Z"
  },
  "3841": {
   "epId": "467974",

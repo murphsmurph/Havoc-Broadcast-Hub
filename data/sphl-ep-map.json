@@ -3185,5 +3185,57 @@
    "at": "2026-08-04T22:04:04.576Z"
   }
  },
- "updatedAt": "2026-08-04T22:31:11.858Z"
+ "updatedAt": "2026-08-05T02:54:50.932Z",
+ "teams": {
+  "Birmingham Bulls": {
+   "epId": "23966",
+   "epName": "Birmingham Bulls",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Evansville Thunderbolts": {
+   "epId": "22086",
+   "epName": "Evansville Thunderbolts",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Fayetteville Marksmen": {
+   "epId": "1573",
+   "epName": "Fayetteville Marksmen",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Huntsville Havoc": {
+   "epId": "2153",
+   "epName": "Huntsville Havoc",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Knoxville Ice Bears": {
+   "epId": "2259",
+   "epName": "Knoxville Ice Bears",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Macon Mayhem": {
+   "epId": "18395",
+   "epName": "Macon Mayhem",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Pensacola Ice Flyers": {
+   "epId": "4568",
+   "epName": "Pensacola Ice Flyers",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Peoria Rivermen": {
+   "epId": "249",
+   "epName": "Peoria Rivermen",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Quad City Storm": {
+   "epId": "26152",
+   "epName": "Quad City Storm",
+   "at": "2026-08-05T02:54:50.932Z"
+  },
+  "Roanoke Rail Yard Dawgs": {
+   "epId": "20772",
+   "epName": "Roanoke Rail Yard Dawgs",
+   "at": "2026-08-05T02:54:50.932Z"
+  }
+ }
 }
