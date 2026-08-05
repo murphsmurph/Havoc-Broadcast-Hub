@@ -441,9 +441,19 @@ export async function main(deps){
     }
     try{
       let resp=null,lastErr=null;
-      for(const sp of ['/players/'+m.epId+'/stats','/players/'+m.epId+'/career-stats','/players/'+m.epId]){
-        try{resp=await epGet(sp,{limit:'200'});if(resp)break;}
-        catch(e){lastErr=e;if(/budget/.test(e.message))throw e;}
+      // per-endpoint params — the bare player resource 400s if sent limit=
+      const tries=[
+        ['/players/'+m.epId+'/stats',{limit:'200'}],
+        ['/players/'+m.epId+'/season-stats',{limit:'200'}],
+        ['/player-stats',{player:String(m.epId),limit:'200'}],
+        ['/players/'+m.epId,{}]
+      ];
+      for(const t of tries){
+        try{
+          const r0=await epGet(t[0],t[1]);
+          if(r0&&careerFromStats(r0).length){resp=r0;break;}
+          if(r0&&!resp)resp=null; // answered but no season rows — keep trying shapes
+        }catch(e){lastErr=e;if(/budget/.test(e.message))throw e;}
       }
       const careerStats=resp?careerFromStats(resp):[];
       if(resp&&careerStats.length){
