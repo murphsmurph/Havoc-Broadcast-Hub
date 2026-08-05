@@ -435,6 +435,7 @@
   <button class="tab" data-tab="opproster">Opponent Roster</button>
   <button class="tab" data-tab="schedule">Schedule</button>
   <button class="tab" data-tab="reference">League Reference</button>
+  <button class="tab" data-tab="widgets">EP Widgets</button>
   <button class="tab" data-tab="packet">Game Packet</button>
   <button class="tab" data-tab="chart">Lineup Chart</button>
   <button class="tab" data-tab="lines">Lines</button>
@@ -573,6 +574,25 @@
       </div>
     </div>
     <div class="card" style="padding:0;overflow:hidden"><div id="oppRosterTableWrap"></div></div>
+  </section>
+
+  <!-- EP WIDGETS -->
+  <section class="panel" id="panel-widgets">
+    <div class="card no-print">
+      <h2>Elite Prospects <span class="accent">Widgets</span></h2>
+      <p class="desc">Live embedded EP data, straight from widget.eliteprospects.com — league standings, scoring &amp; goalie leaders, schedule/results, and a career card for any mapped player (players get their EP IDs automatically from the weekly EP action). These complement the SPHL live feed and daily-report data; internet required, styled in Havoc red.</p>
+      <div class="grid g3">
+        <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
+        <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
+        <div class="field"><label>EP team ID (optional — filters schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
+      </div>
+      <div class="field" style="max-width:340px"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+    </div>
+    <div class="card"><h3>Player</h3><div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div></div>
+    <div class="card"><h3>League standings</h3><div id="wgStandings"></div></div>
+    <div class="card"><h3>Scoring leaders</h3><div id="wgScoring"></div></div>
+    <div class="card"><h3>Goalie leaders</h3><div id="wgGoalies"></div></div>
+    <div class="card"><h3>Schedule &amp; results</h3><div id="wgSched"></div></div>
   </section>
 
   <!-- SCHEDULE -->
@@ -1042,6 +1062,7 @@ document.getElementById('tabs').addEventListener('click',e=>{
   if(tab==='opproster')renderOppRoster();
   if(tab==='schedule'){loadSchedule();renderGameLog();}
   if(tab==='reference')renderReference();
+  if(tab==='widgets'){epLoadStatic().then(()=>{wgBuild();wgFillPlayers();});}
   if(tab==='packet'){loadNotesExtra();pkRenderPicker();renderPacket();}
   if(tab==='chart')renderChart();
   if(tab==='calllog')clInit();
@@ -3899,6 +3920,70 @@ setInterval(async()=>{
   try{await htDoStandings();}catch(e){}
   try{await htDoPlayers();}catch(e){}
 },3600000);
+
+/* ============================================================
+   ELITE PROSPECTS WIDGETS — live embeds per EP's widget docs.
+   Containers carry data-* attributes; the combined loader
+   (widget-loader-combined.js, guarded by #ep-widget-loader)
+   mounts every .ep-widget in one pass. The player card uses the
+   per-snippet embed.js?id= form so it can be swapped on demand.
+   ============================================================ */
+function wgSeasonDefault(){const d=new Date();const y=d.getMonth()>=6?d.getFullYear():d.getFullYear()-1;return y+'-'+(y+1);}
+function wgVals(){
+  return {league:(DATA.settings.wgLeague||'sphl'),
+          season:(DATA.settings.wgSeason||wgSeasonDefault()),
+          team:(DATA.settings.wgTeamId||'').trim(),
+          red:DATA.settings.red||'#C8102E'};
+}
+function wgStyle(red){
+  return ` data-background-color="${red}" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="${red}"`;
+}
+function wgLoader(){
+  // the docs' guard checks for #ep-widget-loader; we remove + re-add so a
+  // rebuilt set of containers gets a fresh discovery pass
+  const old=document.getElementById('ep-widget-loader');
+  if(old)old.remove();
+  const s=document.createElement('script');
+  s.id='ep-widget-loader';s.async=true;
+  s.src='https://widget.eliteprospects.com/widget-loader-combined.js';
+  document.head.appendChild(s);
+}
+let WG_BUILT=false;
+function wgBuild(force){
+  if(WG_BUILT&&!force)return;
+  WG_BUILT=true;
+  const v=wgVals(),st=wgStyle(v.red);
+  setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);
+  const mk=(id,attrs)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div id="epw_${id}" class="ep-widget" ${attrs}${st}></div>`;};
+  mk('wgStandings',`data-widget-type="league" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-selected-columns='{"Rank":true,"Team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":true,"GF":true,"GA":true,"GD":false,"TP":true,"PPG":false}'`);
+  mk('wgScoring',`data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all"`);
+  mk('wgGoalies',`data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all"`);
+  mk('wgSched',`data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}"${v.team?` data-team-id="${esc(v.team)}"`:''} data-game-type="both" data-display-order="home"`);
+  wgFillPlayers();
+  wgLoader();
+}
+function wgFillPlayers(){
+  const sel=document.getElementById('wg_player');if(!sel)return;
+  const cur=sel.value;
+  const opts=DATA.roster.filter(p=>p.name).map(p=>{
+    const e=(typeof epEntryFor==='function')?epEntryFor(p):null;
+    const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
+    return id?`<option value="${esc(String(id))}">${esc(dispName(p))}</option>`:null;
+  }).filter(Boolean);
+  sel.innerHTML='<option value="">— pick a mapped player —</option>'+opts.join('');
+  if(cur)sel.value=cur;
+}
+function wgPlayer(){
+  const id=val('wg_player');
+  const wrap=document.getElementById('wgPlayerWrap');if(!wrap)return;
+  if(!id){wrap.innerHTML='<div class="empty">Pick a mapped player above.</div>';return;}
+  const v=wgVals();
+  const wid='epw_player_'+id;
+  wrap.innerHTML=`<div id="${wid}" class="ep-widget" data-widget-type="player" data-player-id="${esc(id)}" data-game-limit="5" data-view-mode="career" data-show-summary="false" data-measurement-unit="imperial"${wgStyle(v.red)}></div>`;
+  const s=document.createElement('script');
+  s.async=true;s.src='https://widget.eliteprospects.com/embed.js?id='+encodeURIComponent(wid);
+  document.head.appendChild(s);
+}
 
 seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
 (function(){const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
