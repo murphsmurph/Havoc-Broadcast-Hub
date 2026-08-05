@@ -50,8 +50,8 @@
   .vb-credit{font-size:9px;color:#888;margin:2px 0 6px;}
   .vb-grid{flex:1;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px;min-height:0;}
   .vb-col{display:flex;flex-direction:column;min-height:0;}
-  .vb-h{font-size:12px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin-bottom:5px;letter-spacing:.4px;flex:0 0 auto;}
-  .vb-list{flex:1;column-count:1;column-gap:14px;font-size:10.5px;line-height:1.62;color:#222;}
+  .vb-h{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin-bottom:5px;letter-spacing:.4px;flex:0 0 auto;}
+  .vb-list{flex:1;column-count:1;column-gap:14px;font-size:11.5px;line-height:1.5;color:#222;}
   .vb-col:first-child .vb-list{column-count:2;}
   .vb-list span{display:block;break-inside:avoid;}
   .rk-page{display:flex;flex-direction:column;}
@@ -59,10 +59,10 @@
   .rk-hdr{font-size:15px;font-weight:900;letter-spacing:.5px;margin:4px 0 0;flex:0 0 auto;}
   .rk-svg{width:100%;flex:1;min-height:0;}
   .rk-svg text{fill:#1c1c22;font-family:inherit;}
-  .rk-svg .rk-big{font-size:17px;font-weight:900;}
-  .rk-svg .rk-med{font-size:13px;font-weight:800;}
-  .rk-svg .rk-med2{font-size:12.5px;font-weight:800;fill:#333;}
-  .rk-svg .rk-small{font-size:10.5px;font-weight:700;fill:#3a3a42;}
+  .rk-svg .rk-big{font-size:18px;font-weight:900;}
+  .rk-svg .rk-med{font-size:14px;font-weight:800;}
+  .rk-svg .rk-med2{font-size:13.5px;font-weight:800;fill:#333;}
+  .rk-svg .rk-small{font-size:11.5px;font-weight:700;fill:#3a3a42;}
   /* broadcast folders — booth pages, nothing under ~13px */
   .fd-page{padding:16px 20px;font-size:13px;}
   .fd-game{font-size:13px;font-weight:800;margin:5px 0 2px;letter-spacing:.2px;}
@@ -942,7 +942,7 @@
     <div class="subview" id="panel-verbiage">
     <div class="card no-print">
       <h2>Broadcast <span class="accent">Verbiage &amp; Ice Map</span></h2>
-      <p class="desc">Two reference pages for the folder: the <b>#EmrickVerbs</b> puck-verb table (editable below &mdash; add your own over time) and the <b>ice map</b>, drawn both directions with LW/RW sides swapped the way you see them from the booth. Also selectable as a Game Packet section.</p>
+      <p class="desc">Two reference pages for the folder: the <b>Doc Emrick puck-verb</b> table (editable below &mdash; add your own over time) and the <b>ice map</b>, drawn both directions with LW/RW sides swapped the way you see them from the booth. Also selectable as a Game Packet section.</p>
       <div class="grid g3">
         <div class="field"><label>First period (puck only) &mdash; comma or line separated</label><textarea id="vb_p1" rows="6" onchange="vbSave()"></textarea></div>
         <div class="field"><label>Second period additions</label><textarea id="vb_p2" rows="6" onchange="vbSave()"></textarea></div>
@@ -2390,7 +2390,7 @@ function vbReset(){
 function verbsPage(red,S){
   const v=vbData();
   const col=(title,words)=>`<div class="vb-col"><div class="vb-h" style="color:${red};border-color:${red}">${title}</div><div class="vb-list">${words.map(w=>`<span>${esc(w)}</span>`).join('')}</div></div>`;
-  return pgWrap(red,S,'#EMRICKVERBS — DOC EMRICK&rsquo;S PUCK VERBS',`
+  return pgWrap(red,S,'DOC EMRICK&rsquo;S PUCK VERBS',`
     <div class="vb-credit">compiled by @bmitchelf · edit the lists on Print Center → Verbiage &amp; Ice Map</div>
     <div class="vb-grid">
       ${col('First period (puck only)',vbList(v.p1))}
@@ -2444,15 +2444,17 @@ function rinkSVG(dir,red){
   const oz=attackRight?{gl:gl2,fo:fo2,bl:bl2,end:X+RW,pt:bl2-14}:{gl:gl1,fo:fo1,bl:bl1,end:X,pt:bl1+14};
   const dz=attackRight?{gl:gl1,fo:fo1,bl:bl1}:{gl:gl2,fo:fo2,bl:bl2};
   const lab=(x,y,text,cls,ax,ay2,anchor)=>{
-    if(ax!=null)L.push(`<line x1="${ax}" y1="${ay2}" x2="${x}" y2="${y}" stroke="#999" stroke-width="0.9"/>`);
+    if(ax!=null){const yEnd=ay2>y?y+4:y-10; // stop the callout just shy of the text
+      L.push(`<line x1="${ax}" y1="${ay2}" x2="${x}" y2="${yEnd}" stroke="#999" stroke-width="0.9"/>`);}
     L.push(`<text x="${x}" y="${y}" class="${cls}"${anchor?` text-anchor="${anchor}"`:''}>${text}</text>`);
   };
   // primary: wings + points + slot + D sides. Attacking RIGHT → LW works the FAR (top) boards; attacking LEFT → LW is NEAR (bottom).
   const lwY=attackRight?dotY1-44:dotY2+52,rwY=attackRight?dotY2+52:dotY1-44;
   lab(oz.fo,lwY,'LW SIDE','rk-big',null,null,'middle');
   lab(oz.fo,rwY,'RW SIDE','rk-big',null,null,'middle');
-  lab(oz.pt,attackRight?dotY1-6:dotY2+12,attackRight?'LEFT POINT':'LEFT POINT','rk-med',null,null,attackRight?'start':'start');
-  lab(oz.pt,attackRight?dotY2+12:dotY1-6,'RIGHT POINT','rk-med',null,null,'start');
+  const ptX=attackRight?oz.pt:(oz.bl-10),ptA=attackRight?'start':'end';
+  lab(ptX,attackRight?dotY1-6:dotY2+12,'LEFT POINT','rk-med',null,null,ptA);
+  lab(ptX,attackRight?dotY2+12:dotY1-6,'RIGHT POINT','rk-med',null,null,ptA);
   lab((oz.gl+oz.bl)/2,cy+4,'SLOT','rk-big',null,null,'middle');
   lab(dz.fo,attackRight?dotY1-44:dotY2+52,attackRight?'LD SIDE':'LD SIDE','rk-med2',null,null,'middle');
   lab(dz.fo,attackRight?dotY2+52:dotY1-44,'RD SIDE','rk-med2',null,null,'middle');
@@ -2463,7 +2465,7 @@ function rinkSVG(dir,red){
   if(dir==='right'){
     // Diagram A extra layer: BOARDS & LINES
     lab(W-4,cy-60,'END BOARDS','rk-small',oz.end-6,cy-40,'end');
-    lab(W-70,Y+6,'CORNER BOARDS','rk-small',oz.end-30,Y+42,'end');
+    lab(W-140,12,'CORNER BOARDS','rk-small',oz.end-26,Y+46,'middle');
     lab(X+150,Y+RH+16,'SIDE BOARDS / "THE WALL"','rk-small',X+170,Y+RH-2,'middle');
     lab(oz.bl+42,Y+RH+16,'HALF WALL','rk-small',(oz.gl+oz.bl)/2,Y+RH-6,'middle');
     lab(oz.bl,Y-12,'BLUE LINE','rk-small',null,null,'middle');
@@ -2476,13 +2478,13 @@ function rinkSVG(dir,red){
     const mid=(oz.gl+oz.bl)/2;
     lab(mid,cy-34,'HIGH SLOT','rk-small',null,null,'middle');
     lab(mid,cy+42,'LOW SLOT','rk-small',null,null,'middle');
-    lab(oz.fo+112,cy-58,'"THE HOUSE"','rk-small',oz.gl+42,cy-20,'start');
-    lab(X+150,Y+RH+16,'BEHIND THE NET / "GRETZKY’S OFFICE"','rk-small',oz.gl-16,cy+34,'middle');
-    lab(oz.fo+112,cy+66,'CREASE / "THE PAINT"','rk-small',oz.gl+14,cy+14,'start');
-    lab(oz.fo+130,dotY1-40,'TOP OF THE CIRCLES','rk-small',oz.fo+16,dotY1-31,'start');
-    lab(oz.fo+120,dotY2+52,'HASH MARKS','rk-small',oz.fo+14,dotY2+34,'start');
+    lab(oz.fo+96,cy-58,'"THE HOUSE"','rk-small',oz.gl+44,cy-18,'start');
+    lab(X+4,Y+RH+16,'BEHIND THE NET / "GRETZKY’S OFFICE"','rk-small',oz.gl-14,cy+38,'start');
+    lab(X+130,Y-12,'CREASE / "THE PAINT"','rk-small',oz.gl+6,cy-24,'start');
+    lab(oz.fo+70,dotY1-52,'TOP OF THE CIRCLES','rk-small',oz.fo+26,dotY1-26,'start');
+    lab(X+4,dotY2+14,'HASH MARKS','rk-small',oz.fo-14,dotY2+30,'start');
     lab(cx,cy-48,'CENTER ICE','rk-small',null,null,'middle');
-    lab(nzd1,dotY1-20,'"THE DOT(S)"','rk-small',nzd1,dotY1-6,'middle');
+    lab(nzd1+18,dotY2+28,'"THE DOT(S)"','rk-small',nzd1+2,dotY2+8,'middle');
     lab(X+40,Y-12,'TRAPEZOID','rk-small',X+22,Y+56,'start');
   }
   return `<svg viewBox="0 -14 ${W} ${H+52}" class="rk-svg">${L.join('')}</svg>`;
