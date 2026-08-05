@@ -750,7 +750,8 @@
   "epId": "474455",
   "epUrl": "https://www.eliteprospects.com/player/474455",
   "name": "Sam Anzai",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-05T03:03:12.158Z"
  },
  "3418": {
   "epId": "386141",
@@ -1270,7 +1271,8 @@
   "epId": "335887",
   "epUrl": "https://www.eliteprospects.com/player/335887",
   "name": "Cooper Fensterstock",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-05T03:03:12.158Z"
  },
  "3640": {
   "epId": "386409",
@@ -1381,7 +1383,7 @@
   "epId": "693174",
   "epUrl": "https://www.eliteprospects.com/player/693174",
   "name": "John Woernle",
-  "team": "Evansville Thunderbolts",
+  "team": "Fayetteville Marksmen",
   "dob": "2000-07-03",
   "hometown": "",
   "careerStats": [],
@@ -2269,7 +2271,8 @@
   "epId": "424271",
   "epUrl": "https://www.eliteprospects.com/player/424271",
   "name": "Evan Pringle",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-05T03:03:12.158Z"
  },
  "3801": {
   "epId": "482047",
@@ -2450,7 +2453,8 @@
   "epId": "451933",
   "epUrl": "https://www.eliteprospects.com/player/451933",
   "name": "William White",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-05T03:03:12.158Z"
  },
  "3832": {
   "epId": "445318",
