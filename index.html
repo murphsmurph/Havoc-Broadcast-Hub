@@ -3963,7 +3963,9 @@ function wgBuild(force){
   // Jacob's generated scoring-leaders snippet (ep_0561) verbatim, league/season from the fields
   const scor=document.getElementById('wgScoring');
   if(scor)scor.innerHTML=`<div id="ep_0561" class="ep-widget" data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-  mk('wgGoalies',`data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all"`);
+  // Jacob's generated goalie-leaders snippet (ep_4438) verbatim
+  const goal=document.getElementById('wgGoalies');
+  if(goal)goal.innerHTML=`<div id="ep_4438" class="ep-widget" data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
   // Jacob's generated schedule-and-results snippet (ep_1677) verbatim
   const res=document.getElementById('wgResults');
   if(res)res.innerHTML=`<div id="ep_1677" class="ep-widget" data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="900" data-theme="light" data-font="font-montserrat"></div>`;
