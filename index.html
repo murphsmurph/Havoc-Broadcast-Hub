@@ -2273,12 +2273,16 @@ function owArchive(){
 
 /* ============ HAVOC HEADSHOTS (Meet the Team) ============
    Official photos from HockeyTech's asset CDN, keyed by the same player_id the
-   roster feed returns (verified via the ht-probe Action against 2761 = Brian
-   Wilson, whose profile feed served assets.leaguestat.com/sphl/120x160/2761.jpg):
-     https://assets.leaguestat.com/sphl/{size}/{player_id}.jpg
+   roster feed returns. CONFIRMED by the ht-probe Action against 2761 (Brian
+   Wilson): https://assets.leaguestat.com/sphl/{size}/{player_id}.jpg
+     60x60 = 200 (4.9KB) · 120x160 = 200 (17.8KB) · 240x240 = 200 (35KB, LARGEST)
+     320x240 / 480x480 = 404 · CDN sends NO CORS headers (plain <img> only —
+     no crossorigin attribute or every load fails; canvas pixel checks taint).
    Sizes are tried largest-first at render time (240x240 → 120x160 → feed URL →
-   manual upload); a failed or generic-silhouette image collapses the entry to
-   TEXT-ONLY layout — no placeholders, no initials, no broken frames.
+   manual upload); a failed image collapses the entry to TEXT-ONLY layout —
+   no placeholders, no initials, no broken frames. The duplicate-hash default-
+   silhouette check below is best-effort: it only works where pixels are
+   readable, and degrades silently to load-success detection otherwise.
    HAVOC PLAYERS ONLY — no photo fetching for any other team, anywhere. */
 function havocHeadSrcs(p){
   const srcs=[];
@@ -4891,7 +4895,7 @@ function meetTeamPage(players,teamStats,R,red,S){
     const auto=mediaBio(p,teamStats,R,true);
     const notesHtml=(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
     const srcs=havocHeadSrcs(p);
-    const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" crossorigin="anonymous" onerror="mtpImgErr(this)"></div>`:'';
+    const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" onerror="mtpImgErr(this)"></div>`:'';
     return `<div class="mtp-card${srcs.length?'':' no-photo'}">
       <div class="mtp-flex">${photo}<div class="mtp-main">
       <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
