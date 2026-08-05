@@ -1748,18 +1748,9 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     return `<div class="lcx-card" contenteditable="true" spellcheck="false" data-team="${esc(teamFull)}" data-ek="${esc(editKey)}" style="border-color:${secondary}">${inner}</div>`;
   };
 
-  // side panel: IR / ECHL / scratches (home only)
-  let side='';
-  if(isHome&&G){
-    const ir=(G.ir||'').split('\n').filter(Boolean).map(esc).join('<br>')||'None';
-    const echl=(G.echl||'').split('\n').filter(Boolean).map(esc).join('<br>')||'None';
-    const scr=(G.scratch||'').trim();
-    side=`<div class="lcx-side">
-      <div class="lcx-side-box" style="border-color:${primary}"><h4 style="color:${primary}">IR</h4>${ir}</div>
-      <div class="lcx-side-box" style="border-color:${primary}"><h4 style="color:${primary}">ECHL</h4>${echl}</div>
-      ${scr?`<div class="lcx-side-box" style="border-color:${primary}"><h4 style="color:${primary}">NOTES</h4>${esc(scr)}</div>`:''}
-    </div>`;
-  }
+  // IR / ECHL / scratches moved to the packet's Quick Facts page — the chart
+  // uses the full width so every player fits
+  const side='';
 
   const header=`<div class="lcx-head" style="background:${primary}">
     ${logo?`<div class="lcx-logo"><img src="${logo}"></div>`:''}
@@ -2493,6 +2484,11 @@ function renderPacket(){
       <div>
         <div class="box"><h3>Havoc at a Glance</h3><table class="qf-list">${atGlance.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join('')}</table></div>
         <div class="box"><h3>Special Teams</h3><table class="qf-list"><tr><td>Power play</td><td>${hsvSp.pp||'—'}</td></tr><tr><td>Penalty kill</td><td>${hsvSp.pk||'—'}</td></tr></table></div>
+        <div class="box"><h3>Roster Status</h3><table class="qf-list">
+          <tr><td>IR</td><td>${esc((G.ir||'').split('\n').filter(Boolean).join(', ')||'None')}</td></tr>
+          <tr><td>ECHL</td><td>${esc((G.echl||'').split('\n').filter(Boolean).join(', ')||'None')}</td></tr>
+          <tr><td>Scratches</td><td>${esc((G.scratch||'').trim()||'None')}</td></tr>
+        </table></div>
         <div class="box"><h3>Goals by Period</h3>${gpTable}</div>
       </div>
     </div>
