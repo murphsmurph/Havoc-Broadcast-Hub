@@ -77,3 +77,10 @@ await probe('player-profile-2761','feed=statviewfeed&view=player&player_id=2761&
   walk(j);
   return 'seasonRows:'+rows+' img:'+(img||'none');
 },{noOrigin:true});
+// headshot CDN: find largest size + CORS readability for player 2761
+for(const size of ['60x60','120x160','240x240','320x240','480x480']){
+  try{
+    const r=await fetch('https://assets.leaguestat.com/sphl/'+size+'/2761.jpg',{headers:{'User-Agent':'Mozilla/5.0'}});
+    console.log('headshot-'+size,'HTTP',r.status,'type:'+(r.headers.get('content-type')||'?'),'bytes:'+(r.headers.get('content-length')||'?'),'acao:'+(r.headers.get('access-control-allow-origin')||'none'));
+  }catch(e){console.log('headshot-'+size,'ERR',e.message.slice(0,80));}
+}

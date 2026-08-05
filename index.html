@@ -300,6 +300,11 @@
   .mtp-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:4px;}
   .mtp-name{font-size:17px;font-weight:900;text-transform:uppercase;}
   .pk-mug{width:34px;height:34px;object-fit:cover;border-radius:50%;border:1.5px solid #ccc;vertical-align:middle;margin-right:6px;flex:0 0 auto;}
+  .mtp-flex{display:flex;gap:10px;align-items:flex-start;}
+  .mtp-photo-wrap{flex:0 0 auto;}
+  .mtp-photo{width:62px;height:62px;object-fit:cover;object-position:top;border-radius:8px;border:2px solid var(--havoc-red);}
+  .mtp-main{flex:1;min-width:0;}
+  .mtp-card.no-photo .mtp-photo-wrap{display:none;} /* text-only layout expands full width */
   .mtp-meta{flex:1;font-size:8.5px;color:#555;font-weight:600;}
   .mtp-num{color:#fff;font-weight:900;font-size:16px;padding:2px 9px;border-radius:4px;}
   .mtp-stats{display:flex;gap:12px;flex-wrap:wrap;background:var(--havoc-silver);padding:3px 7px;border-radius:4px;font-size:9px;font-weight:700;margin-bottom:4px;}
@@ -1127,6 +1132,11 @@
   <button class="close" onclick="closeModal('playerModal')">&times;</button>
   <h3 id="playerModalTitle">Add player</h3>
   <input type="hidden" id="p_id"><input type="hidden" id="p_side">
+  <div class="field" id="p_photo_wrap"><label>Photo (fallback if the SPHL site has none — optional)</label>
+    <input type="file" accept="image/*" onchange="pPhotoPick(event)">
+    <span id="p_photo_preview" style="font-size:12px"></span>
+    <button type="button" class="btn small secondary" onclick="window._pPhotoData='';document.getElementById('p_photo_preview').innerHTML='';">Remove uploaded photo</button>
+  </div>
   <div class="grid g4">
     <div class="field"><label>#</label><input type="text" id="p_num"></div>
     <div class="field" style="grid-column:span 2"><label>Name</label><input type="text" id="p_name"></div>
@@ -1677,12 +1687,29 @@ function openPlayer(side,id){
   setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
   // opponents only carry a broadcast bio; the long media bio is Havoc-only
   document.getElementById('p_notes_wrap').style.display=(side==='home')?'':'none';
+  const pw=document.getElementById('p_photo_wrap');if(pw)pw.style.display=(side==='home')?'':'none';
+  const pp=document.getElementById('p_photo_preview');if(pp)pp.innerHTML=(p&&p.imgData)?'<img src="'+p.imgData+'" style="width:44px;height:44px;object-fit:cover;border-radius:6px"> uploaded photo on file':'';
+  window._pPhotoData=(p&&p.imgData)||'';
   document.getElementById('delPlayerBtn').style.display=id?'inline-flex':'none';
   openModal('playerModal');
 }
+function pPhotoPick(e){
+  const f=e.target.files[0];if(!f)return;
+  const img=new Image();
+  img.onload=()=>{
+    const c=document.createElement('canvas');
+    const sc=Math.min(1,240/Math.max(img.width,img.height));
+    c.width=Math.round(img.width*sc);c.height=Math.round(img.height*sc);
+    c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+    window._pPhotoData=c.toDataURL('image/jpeg',0.82);
+    document.getElementById('p_photo_preview').innerHTML='<img src="'+window._pPhotoData+'" style="width:44px;height:44px;object-fit:cover;border-radius:6px"> ready';
+  };
+  img.src=URL.createObjectURL(f);
+  e.target.value='';
+}
 function savePlayer(){
   const id=val('p_id'),side=val('p_side');const list=getRoster(side);
-  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active')};
+  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active'),imgData:window._pPhotoData||''};
   if(!obj.name){toast("Name required");return;}
   if(id)Object.assign(list.find(x=>x.id===id),obj);else{obj.id=uid();list.push(obj);}
   save();closeModal('playerModal');side==='home'?renderRoster():renderOppRoster();toast("Player saved");
@@ -2242,6 +2269,63 @@ function owArchive(){
   const btn=document.getElementById('tab_opening');if(btn)btn.style.display='none';
   showTab('game');
   toast('Opening Weekend archived — the record lives on under DATA and the firsts tracker');
+}
+
+/* ============ HAVOC HEADSHOTS (Meet the Team) ============
+   Official photos from HockeyTech's asset CDN, keyed by the same player_id the
+   roster feed returns. CONFIRMED by the ht-probe Action against 2761 (Brian
+   Wilson): https://assets.leaguestat.com/sphl/{size}/{player_id}.jpg
+     60x60 = 200 (4.9KB) · 120x160 = 200 (17.8KB) · 240x240 = 200 (35KB, LARGEST)
+     320x240 / 480x480 = 404 · CDN sends NO CORS headers (plain <img> only —
+     no crossorigin attribute or every load fails; canvas pixel checks taint).
+   Sizes are tried largest-first at render time (240x240 → 120x160 → feed URL →
+   manual upload); a failed image collapses the entry to TEXT-ONLY layout —
+   no placeholders, no initials, no broken frames. The duplicate-hash default-
+   silhouette check below is best-effort: it only works where pixels are
+   readable, and degrades silently to load-success detection otherwise.
+   HAVOC PLAYERS ONLY — no photo fetching for any other team, anywhere. */
+function havocHeadSrcs(p){
+  const srcs=[];
+  if(p.htId){srcs.push('https://assets.leaguestat.com/sphl/240x240/'+p.htId+'.jpg');
+             srcs.push('https://assets.leaguestat.com/sphl/120x160/'+p.htId+'.jpg');}
+  if(p.img)srcs.push(p.img);
+  if(p.imgData)srcs.push(p.imgData);
+  return [...new Set(srcs)];
+}
+function mtpImgErr(el){
+  const alts=(el.dataset.alts||'').split('|').filter(Boolean);
+  if(alts.length){el.src=alts.shift();el.dataset.alts=alts.join('|');return;}
+  const card=el.closest('.mtp-card');
+  if(card)card.classList.add('no-photo'); // contingency: text-only, full width
+}
+/* generic-silhouette detection: if several players' images hash identical,
+   that's the CDN's default placeholder — drop them all to text-only.
+   Needs CORS-readable pixels; degrades silently if the CDN taints the canvas. */
+function mtpDetectDefaults(root){
+  try{
+    const imgs=[...(root||document).querySelectorAll('.mtp-photo')].filter(i=>i.complete&&i.naturalWidth>0);
+    const hashes=new Map();
+    imgs.forEach(img=>{
+      try{
+        const c=document.createElement('canvas');c.width=16;c.height=16;
+        const x=c.getContext('2d');x.drawImage(img,0,0,16,16);
+        const h=c.toDataURL(); // throws if tainted
+        (hashes.get(h)||hashes.set(h,[]).get(h)).push(img);
+      }catch(e){}
+    });
+    hashes.forEach(list=>{
+      if(list.length>=2)list.forEach(img=>{const card=img.closest('.mtp-card');if(card)card.classList.add('no-photo');});
+    });
+  }catch(e){}
+}
+/* wait for packet images before printing — never print an empty box */
+function imagesReady(root,ms){
+  const imgs=[...(root||document).querySelectorAll('img')].filter(i=>!i.complete);
+  if(!imgs.length)return Promise.resolve();
+  return Promise.race([
+    Promise.allSettled(imgs.map(i=>new Promise(r=>{i.addEventListener('load',r,{once:true});i.addEventListener('error',r,{once:true});}))),
+    new Promise(r=>setTimeout(r,ms||3000))
+  ]);
 }
 
 /* ============ SPHL VENUE REFERENCE + ROAD-GAME HELPERS ============ */
@@ -2987,7 +3071,11 @@ function printDoc(which){
     st.textContent='@page{size:letter portrait;margin:0.25in;}';
     document.head.appendChild(st);
   }
-  setTimeout(()=>{window.print();marks.forEach(m=>m.classList.remove('printing'));if(st)st.remove();},150);
+  // photos fully loaded (or collapsed to text-only) before the dialog opens
+  imagesReady(panel,3000).then(()=>{
+    mtpDetectDefaults(panel);
+    setTimeout(()=>{window.print();marks.forEach(m=>m.classList.remove('printing'));if(st)st.remove();},120);
+  });
 }
 
 /* ============ SETTINGS / BACKUP ============ */
@@ -3790,6 +3878,7 @@ function renderPacket(){
     return h;
   }).join('');
   pkWireOv();
+  imagesReady(document.getElementById('packetDoc'),3500).then(()=>mtpDetectDefaults(document.getElementById('packetDoc')));
 }
 
 function upNextBox(){
@@ -4805,11 +4894,15 @@ function meetTeamPage(players,teamStats,R,red,S){
       if(st)stripe=`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>PIM: ${st.pim}</span></div>`;}
     const auto=mediaBio(p,teamStats,R,true);
     const notesHtml=(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
-    return `<div class="mtp-card">
-      <div class="mtp-head">${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}<span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
+    const srcs=havocHeadSrcs(p);
+    const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" onerror="mtpImgErr(this)"></div>`:'';
+    return `<div class="mtp-card${srcs.length?'':' no-photo'}">
+      <div class="mtp-flex">${photo}<div class="mtp-main">
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml}</div>
+      </div></div>
     </div>`;
   }).join('');
   return `<div class="page" style="--havoc-red:${red}">
