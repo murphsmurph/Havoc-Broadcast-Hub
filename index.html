@@ -587,6 +587,13 @@
         <div class="field"><label>EP team ID (optional — filters schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
       </div>
       <div class="field" style="max-width:340px"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+      <div class="section-label">Team rosters — any SPHL club, via the EP team widget</div>
+      <div class="btn-row">
+        <select id="wg_team" style="max-width:260px"><option value="">— team —</option></select>
+        <button class="btn" onclick="wgTeamRoster()">Show roster</button>
+        <button class="btn secondary" onclick="wgTeamRosterAll()">All SPHL teams</button>
+        <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
+      </div>
       <div class="section-label">Game-sheet decks — generate a card for every player on the sheet</div>
       <div class="btn-row">
         <button class="btn" onclick="wgDeck('home')">Generate Havoc lineup cards</button>
@@ -595,6 +602,7 @@
         <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
       </div>
     </div>
+    <div class="card"><h3>Team rosters</h3><div id="wgTeamWrap"><div class="empty">Pick a team above (or All SPHL teams) — live EP roster widgets with numbers, positions, sizes and season stats. Team IDs come from data/ep-teams.json, resolved by the weekly EP action.</div></div></div>
     <div class="card"><h3>Lineup card deck</h3><div id="wgDeckWrap"><div class="empty">Generate the Havoc or opponent deck above — one live EP card per active player on the game sheet, in lineup order.</div></div></div>
     <div class="card"><h3>Player</h3><div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div></div>
     <div class="card"><h3>Coaching staff</h3><div id="wgStaff"></div></div>
@@ -1072,7 +1080,7 @@ document.getElementById('tabs').addEventListener('click',e=>{
   if(tab==='opproster')renderOppRoster();
   if(tab==='schedule'){loadSchedule();renderGameLog();}
   if(tab==='reference')renderReference();
-  if(tab==='widgets'){epLoadStatic().then(()=>{wgBuild();wgFillPlayers();});}
+  if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
   if(tab==='packet'){loadNotesExtra();pkRenderPicker();renderPacket();}
   if(tab==='chart')renderChart();
   if(tab==='calllog')clInit();
@@ -4011,6 +4019,54 @@ function wgPlayer(){
   s.async=true;s.src='https://widget.eliteprospects.com/embed.js?id='+encodeURIComponent(wid);
   document.head.appendChild(s);
 }
+/* Team rosters via the EP team widget — EP team ids come from
+   data/ep-teams.json, resolved once by the weekly EP action. */
+let EP_TEAMS=null;
+async function epLoadTeams(){
+  if(EP_TEAMS)return EP_TEAMS;
+  try{
+    const res=await fetch('data/ep-teams.json',{cache:'no-cache'});
+    if(res.ok){const j=await res.json();if(j&&typeof j==='object')EP_TEAMS=j;}
+  }catch(e){}
+  // bonus: auto-fill the schedule widgets' team filter with the Havoc's EP id
+  if(EP_TEAMS&&!DATA.settings.wgTeamId){
+    const hsv=Object.keys(EP_TEAMS).find(n=>/Huntsville/i.test(n));
+    if(hsv&&EP_TEAMS[hsv].epId){DATA.settings.wgTeamId=String(EP_TEAMS[hsv].epId);save();}
+  }
+  return EP_TEAMS;
+}
+function wgFillTeams(){
+  const sel=document.getElementById('wg_team');if(!sel)return;
+  if(!EP_TEAMS){sel.innerHTML='<option value="">— team ids not built yet (weekly EP action) —</option>';return;}
+  const names=Object.keys(EP_TEAMS).sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— team —</option>'+names.map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
+  if(cur)sel.value=cur;
+}
+function wgTeamWidgetHTML(name,ent,v){
+  return `<div class="ldr-h" style="font-size:11px;margin:8px 0 4px">${esc(name.toUpperCase())}</div>
+    <div id="epw_team_${esc(String(ent.epId))}" class="ep-widget" data-widget-type="team" data-team-id="${esc(String(ent.epId))}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-measurement-unit="imperial" data-selected-columns='{"Name":true,"Number":true,"Position":true,"Age":true,"Birth Year":false,"Birth Place":true,"Weight":true,"Height":true,"Shoots/Catches":true,"Games":true,"Goals":true,"Assists":true,"Points":true,"Exclude Goaltenders":false}'${wgStyle(v.red)}></div>`;
+}
+function wgTeamRoster(){
+  const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
+  const name=val('wg_team');
+  if(!EP_TEAMS){if(msg)msg.textContent='Team ids not built yet — they arrive with the weekly EP action.';return;}
+  if(!name){if(msg)msg.textContent='Pick a team first.';return;}
+  const ent=EP_TEAMS[name];if(!ent){if(msg)msg.textContent='No EP id for '+name+'.';return;}
+  wrap.innerHTML=wgTeamWidgetHTML(name,ent,wgVals());
+  wgLoader();
+  if(msg)msg.textContent='';
+}
+function wgTeamRosterAll(){
+  const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
+  if(!EP_TEAMS){if(msg)msg.textContent='Team ids not built yet — they arrive with the weekly EP action.';return;}
+  const v=wgVals();
+  const names=Object.keys(EP_TEAMS).sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
+  wrap.innerHTML=names.map(n=>wgTeamWidgetHTML(n,EP_TEAMS[n],v)).join('');
+  wgLoader();
+  if(msg)msg.textContent=names.length+' team roster widgets';
+}
+
 /* Game-sheet decks: one player widget per active player, same numerical
    order as the game sheet (forwards, defense, goalies). */
 function wgDeck(side){

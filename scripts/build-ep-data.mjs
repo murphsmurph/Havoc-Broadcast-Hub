@@ -397,6 +397,34 @@ export async function main(deps){
     }
   }
 
+  // resolve EP team ids (once, cached forever) → data/ep-teams.json powers the
+  // front end's team-roster widgets for every SPHL club
+  try{
+    const teamNames=[...new Set(players.map(x=>x.team).filter(Boolean))];
+    if(EP_KEY&&teamNames.length){
+      map.teams=map.teams||{};
+      let resolved=0;
+      for(const name of teamNames){
+        if(map.teams[name]&&map.teams[name].epId){resolved++;continue;}
+        let cands=[];
+        for(const ep of ['/teams','/search/teams']){
+          try{cands=epCandidatesFrom(await epGet(ep,{q:name,limit:'10'}));if(cands.length)break;}
+          catch(e){if(/budget/.test(e.message))throw e;}
+        }
+        const k=normName(name);
+        const hit=cands.find(c=>normName(c.name)===k)
+          ||cands.find(c=>normName(c.name).indexOf(k)>=0||k.indexOf(normName(c.name))>=0);
+        if(hit){map.teams[name]={epId:hit.epId,epName:hit.name,at:now};resolved++;}
+        else console.warn('EP team id not found for '+name);
+      }
+      const teamsOut={};
+      Object.entries(map.teams).forEach(([n,t])=>{if(t.epId)teamsOut[n]={epId:t.epId,epName:t.epName};});
+      writeJson(path.join(DATA_DIR,'ep-teams.json'),teamsOut);
+      console.log('EP team ids: '+resolved+'/'+teamNames.length+' resolved');
+    }
+  }catch(e){console.warn('team-id resolution stopped: '+e.message);}
+
+
   // fetch/refresh career stats for mapped players
   for(const p of players){
     const m=map.matched[p.htId];
