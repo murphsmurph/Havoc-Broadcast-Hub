@@ -24,10 +24,15 @@ function deepCount(j,pred){
   };
   walk(j);return n;
 }
-async function probe(label,qs,expect){
-  const url=BASE+'?'+qs+'&key='+KEY+'&client_code=sphl';
+async function probe(label,qs,expect,opts){
+  opts=opts||{};
+  const base=opts.base||BASE;
+  const url=base+'?'+qs+'&key='+KEY+'&client_code=sphl'+(opts.extra||'');
+  const headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36','Accept':'*/*'};
+  if(!opts.noOrigin)headers['Origin']=ORIGIN;
+  if(opts.referer)headers['Referer']=opts.referer;
   try{
-    const r=await fetch(url,{headers:{'Origin':ORIGIN,'User-Agent':'Mozilla/5.0'}});
+    const r=await fetch(url,{headers});
     let t=(await r.text()).trim();
     const cors=r.headers.get('access-control-allow-origin')||'none';
     const paren=t.startsWith('(');
@@ -43,13 +48,22 @@ const teamLike=v=>(('name'in v)||('team_name'in v))&&(('points'in v)||('pts'in v
 const playerLike=v=>(('name'in v)||('player_id'in v)||('lastName'in v))&&(('points'in v)||('goals'in v)||('gaa'in v));
 const gameLike=v=>(('home_goal_count'in v)||('HomeGoals'in v)||('home_team'in v)||('HomeCity'in v));
 
-await probe('seasons','feed=modulekit&view=seasons&fmt=json&lang=en',j=>'seasons:'+(((j.SiteKit||{}).Seasons)||[]).length);
-await probe('skaters-s44','feed=statviewfeed&view=players&season=44&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
-await probe('skaters-s46','feed=statviewfeed&view=players&season=46&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
-await probe('goalies-s44','feed=statviewfeed&view=players&season=44&team=all&position=goalies&statsType=standard&first=0&limit=5&sort=gaa&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike));
-await probe('teams-s44','feed=statviewfeed&view=teams&season=44&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike));
-await probe('teams-s46','feed=statviewfeed&view=teams&season=46&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike));
-await probe('standings-mk-s44','feed=modulekit&view=statviewtype&stat=conference&type=standings&season_id=44&fmt=json&lang=en',j=>'teams:'+deepCount(j,teamLike));
-await probe('scorebar','feed=modulekit&view=scorebar&numberofdaysahead=7&numberofdaysback=3&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike));
-await probe('schedule-mk-s46','feed=modulekit&view=schedule&season_id=46&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike));
-await probe('roster-mk-s46','feed=modulekit&view=roster&season_id=46&team_id=3&fmt=json&lang=en',j=>'players:'+deepCount(j,v=>('last_name'in v)||('lastName'in v)));
+// ---- transport diagnosis: find which request shape gets a body ----
+const SK='feed=statviewfeed&view=players&season=44&team=all&position=skaters&statsType=standard&first=0&limit=2&sort=points&lang=en&division=-1&conference=-1';
+await probe('diag-plain',SK,null,{noOrigin:true});
+await probe('diag-origin',SK,null,{});
+await probe('diag-indexphp',SK,null,{noOrigin:true,base:'https://lscluster.hockeytech.com/feed/index.php'});
+await probe('diag-fmtjson',SK+'&fmt=json',null,{noOrigin:true});
+await probe('diag-callback',SK+'&callback=x',null,{noOrigin:true});
+await probe('diag-referer',SK,null,{noOrigin:true,referer:'https://www.thesphl.com/'});
+
+await probe('seasons','feed=modulekit&view=seasons&fmt=json&lang=en',j=>'seasons:'+(((j.SiteKit||{}).Seasons)||[]).length,{noOrigin:true});
+await probe('skaters-s44','feed=statviewfeed&view=players&season=44&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike),{noOrigin:true});
+await probe('skaters-s46','feed=statviewfeed&view=players&season=46&team=all&position=skaters&statsType=standard&first=0&limit=5&sort=points&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike),{noOrigin:true});
+await probe('goalies-s44','feed=statviewfeed&view=players&season=44&team=all&position=goalies&statsType=standard&first=0&limit=5&sort=gaa&lang=en&division=-1&conference=-1',j=>'players:'+deepCount(j,playerLike),{noOrigin:true});
+await probe('teams-s44','feed=statviewfeed&view=teams&season=44&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike),{noOrigin:true});
+await probe('teams-s46','feed=statviewfeed&view=teams&season=46&groupTeamsBy=division&context=overall&special=false&sort=points&lang=en',j=>'teams:'+deepCount(j,teamLike),{noOrigin:true});
+await probe('standings-mk-s44','feed=modulekit&view=statviewtype&stat=conference&type=standings&season_id=44&fmt=json&lang=en',j=>'teams:'+deepCount(j,teamLike),{noOrigin:true});
+await probe('scorebar','feed=modulekit&view=scorebar&numberofdaysahead=7&numberofdaysback=3&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike),{noOrigin:true});
+await probe('schedule-mk-s46','feed=modulekit&view=schedule&season_id=46&fmt=json&lang=en',j=>'games:'+deepCount(j,gameLike),{noOrigin:true});
+await probe('roster-mk-s46','feed=modulekit&view=roster&season_id=46&team_id=3&fmt=json&lang=en',j=>'players:'+deepCount(j,v=>('last_name'in v)||('lastName'in v)),{noOrigin:true});
