@@ -7,7 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Havoc Hub">
-<meta name="theme-color" content="#111114">
+<meta name="theme-color" content="#C8102E">
+<link rel="manifest" href="manifest.json">
 <title>Havoc Game Notes Hub</title>
 <style>
   :root{
@@ -886,6 +887,13 @@
         <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
         <button class="btn secondary" style="color:var(--havoc-red)" onclick="wipeAll()">Reset everything</button>
       </div>
+      <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
+      <div class="btn-row" style="margin-top:8px">
+        <button class="btn secondary" onclick="bkChooseFolder()">Choose auto-backup folder…</button>
+        <button class="btn secondary" onclick="bkListBackups()">Show folder backups</button>
+      </div>
+      <div id="bkList" style="margin-top:6px"></div>
+      <p class="desc" style="margin-top:12px">Install as an app: in <b>Chrome</b> use the install icon in the address bar; in <b>Safari on a Mac</b> use File → Add to Dock. The installed app opens like a native Mac app, works offline in the booth, and its storage is treated as more durable.</p>
     </div>
   </section>
 
@@ -1062,8 +1070,13 @@ const DEFAULT_DATA={
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
+const HAD_LOCAL=(()=>{try{return !!localStorage.getItem(KEY);}catch(e){return false;}})();
 let DATA=load();
 function load(){try{const raw=localStorage.getItem(KEY);if(raw)return Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(raw));}catch(e){}return structuredClone(DEFAULT_DATA);}
+/* tiny IndexedDB k/v — holds the full-state mirror and the backup-folder handle */
+function idbOpen(){return new Promise((res,rej)=>{const r=indexedDB.open('havocHub',1);r.onupgradeneeded=()=>r.result.createObjectStore('kv');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);});}
+async function idbSet(k,v){const db=await idbOpen();return new Promise((res,rej)=>{const t=db.transaction('kv','readwrite');t.objectStore('kv').put(v,k);t.oncomplete=()=>{db.close();res();};t.onerror=()=>{db.close();rej(t.error);};});}
+async function idbGet(k){const db=await idbOpen();return new Promise((res,rej)=>{const t=db.transaction('kv','readonly');const q=t.objectStore('kv').get(k);q.onsuccess=()=>{db.close();res(q.result);};q.onerror=()=>{db.close();rej(q.error);};});}
 let BK_LAST=0;
 function save(){
   try{localStorage.setItem(KEY,JSON.stringify(DATA));flashSaved();}catch(e){toast("Save failed — storage may be full (large logos?)");return;}
@@ -1075,6 +1088,13 @@ function save(){
       const rest=Object.assign({},DATA);delete rest.logos;
       localStorage.setItem(KEY+'_backup',JSON.stringify({at:new Date().toISOString(),data:rest}));
     }
+  }catch(e){}
+  /* full-state mirror in IndexedDB (survives some cases localStorage doesn't) — debounced */
+  try{
+    clearTimeout(save._mt);
+    save._mt=setTimeout(()=>{
+      idbSet('mirror',{app:'havoc-hub',schema:BACKUP_SCHEMA,at:new Date().toISOString(),data:JSON.parse(JSON.stringify(DATA))}).catch(()=>{});
+    },4000);
   }catch(e){}
 }
 function flashSaved(){const el=document.getElementById('saveStatus');el.textContent="✓ Saved "+new Date().toLocaleTimeString();setTimeout(()=>el.textContent="All changes saved locally",2500);}
@@ -1148,6 +1168,7 @@ function showTab(tab){
   if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
   if(tab==='calllog')clInit();
   if(tab==='postgame')pgInit();
+  if(tab==='settings')bkStatusRender();
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -1164,6 +1185,25 @@ document.addEventListener('keydown',e=>{
   const n=parseInt(e.key,10);if(!(n>=1&&n<=9))return;
   const tabs=[...document.querySelectorAll('#tabs .tab')];
   if(tabs[n-1]){e.preventDefault();showTab(tabs[n-1].dataset.tab);}
+});
+/* Raw Cmd+P (macOS print dialog / Save as PDF) — mark the visible view so the
+   print CSS shows it, and use landscape when the lineup chart is up */
+let RAWPRINT=[];
+window.addEventListener('beforeprint',()=>{
+  if(document.querySelector('.printing'))return; // printDoc already handled it
+  const panel=document.querySelector('.panel.active');if(!panel)return;
+  RAWPRINT=[panel];panel.classList.add('printing');
+  const sv=panel.querySelector('.subview.active');
+  if(sv){sv.classList.add('printing');RAWPRINT.push(sv);}
+  if(sv&&sv.id==='panel-chart'&&!document.getElementById('rawPrintLand')){
+    const st=document.createElement('style');st.id='rawPrintLand';
+    st.textContent='@page{size:letter landscape;margin:0.25in;}';
+    document.head.appendChild(st);
+  }
+});
+window.addEventListener('afterprint',()=>{
+  RAWPRINT.forEach(m=>m.classList.remove('printing'));RAWPRINT=[];
+  const st=document.getElementById('rawPrintLand');if(st)st.remove();
 });
 /* Print Center shared toolbar — acts on the active sub-view */
 function prRefresh(){
@@ -1717,8 +1757,153 @@ function printDoc(which){
 /* ============ SETTINGS / BACKUP ============ */
 function loadSettings(){const s=DATA.settings;setv('s_red',s.red);setv('s_city',s.city);setv('s_name',s.name);setv('s_venue',s.venue);setv('s_footer',s.footer);setv('s_social',s.social);setv('s_media',s.media);setv('s_pronounce',s.pronounce);}
 function saveSettings(){Object.assign(DATA.settings,{red:val('s_red'),city:val('s_city'),name:val('s_name'),venue:val('s_venue'),footer:val('s_footer'),social:val('s_social'),media:val('s_media'),pronounce:document.getElementById('s_pronounce').value});save();toast("Settings saved");}
-function exportData(){const blob=new Blob([JSON.stringify(DATA,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();toast("Backup downloaded");}
-function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{DATA=Object.assign(structuredClone(DEFAULT_DATA),JSON.parse(rd.result));save();initForms();renderRoster();updateAppMark();toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
+/* Backups carry a schema version so future imports can migrate old files;
+   schema 1 = a bare DATA object (old exports), still importable */
+const BACKUP_SCHEMA=2;
+function exportPayload(){return {app:'havoc-hub',schema:BACKUP_SCHEMA,exportedAt:new Date().toISOString(),data:DATA};}
+function applyImported(parsed){
+  const d=(parsed&&parsed.app==='havoc-hub'&&parsed.data)?parsed.data:parsed;
+  if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('not a backup');
+  DATA=Object.assign(structuredClone(DEFAULT_DATA),d);
+  save();initForms();renderRoster();updateAppMark();
+}
+function exportData(){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast("Backup downloaded");}
+function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{applyImported(JSON.parse(rd.result));toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
+
+/* ============ macOS DATA SAFETY (Part B) ============ */
+let PERSIST_GRANTED=null,BK_NEEDS_PERM=false;
+function browserInfo(){
+  const ua=navigator.userAgent;
+  const isMac=/Mac/i.test(navigator.platform||ua);
+  let name='this browser';
+  if(/Edg\//.test(ua))name='Edge';
+  else if((/Chrome\//.test(ua)||/CriOS/.test(ua)))name='Chrome';
+  else if(/Firefox/i.test(ua))name='Firefox';
+  else if(/Safari/.test(ua))name='Safari';
+  return {name,isMac};
+}
+function bkFSASupported(){return typeof window.showDirectoryPicker==='function';}
+async function bkChooseFolder(){
+  if(!bkFSASupported()){toast("This browser can't auto-save to a folder — use Export weekly (in Safari, also try File → Add to Dock)");return;}
+  try{
+    const dir=await showDirectoryPicker({mode:'readwrite',id:'havoc-backups'});
+    await idbSet('bkdir',dir);BK_NEEDS_PERM=false;
+    toast('Backup folder set — a dated backup will be written once per day of use');
+    await bkAutoRun();
+  }catch(e){}
+}
+async function bkEnable(){
+  const dir=await idbGet('bkdir').catch(()=>null);
+  if(!dir)return bkChooseFolder();
+  try{
+    const p=await dir.requestPermission({mode:'readwrite'});
+    if(p==='granted'){BK_NEEDS_PERM=false;await bkAutoRun();toast('Folder access re-enabled');}
+  }catch(e){}
+}
+async function bkAutoRun(){
+  try{
+    if(!bkFSASupported())return bkStatusRender();
+    const dir=await idbGet('bkdir').catch(()=>null);
+    if(!dir)return bkStatusRender();
+    const perm=await dir.queryPermission({mode:'readwrite'});
+    if(perm!=='granted'){BK_NEEDS_PERM=true;return bkStatusRender();}
+    const today=new Date().toISOString().slice(0,10);
+    const name='havoc-hub-backup-'+today+'.json';
+    let exists=false;try{await dir.getFileHandle(name);exists=true;}catch(e){}
+    if(!exists){
+      const fh=await dir.getFileHandle(name,{create:true});
+      const w=await fh.createWritable();
+      await w.write(JSON.stringify(exportPayload(),null,1));
+      await w.close();
+      try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}
+    }
+    const names=[];
+    for await(const entry of dir.keys()){if(/^havoc-hub-backup-\d{4}-\d{2}-\d{2}\.json$/.test(entry))names.push(entry);}
+    names.sort();
+    while(names.length>10){const old=names.shift();try{await dir.removeEntry(old);}catch(e){}}
+    bkStatusRender();
+  }catch(e){bkStatusRender();}
+}
+async function bkListBackups(){
+  const box=document.getElementById('bkList');if(!box)return;
+  const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
+  if(!dir){box.innerHTML='<div class="empty">'+(bkFSASupported()?'No backup folder chosen yet.':'Folder backups aren’t supported in this browser — use Export backup instead.')+'</div>';return;}
+  if(await dir.queryPermission({mode:'readwrite'})!=='granted'){box.innerHTML='<div class="empty">Re-enable folder access first (button above).</div>';return;}
+  const rows=[];
+  for await(const entry of dir.keys()){if(/^havoc-hub-backup-.*\.json$/.test(entry))rows.push(entry);}
+  rows.sort().reverse();
+  box.innerHTML=rows.length
+    ?rows.map(n=>'<div style="display:flex;gap:10px;align-items:center;padding:4px 0;font-size:13px;border-bottom:1px solid #eee"><span style="flex:1">'+esc(n)+'</span><button class="btn small" onclick="bkRestoreFile(\''+esc(n)+'\')">Restore</button></div>').join('')
+    :'<div class="empty">No auto-backups in the folder yet — one is written per day of use.</div>';
+}
+async function bkRestoreFile(name){
+  const dir=await idbGet('bkdir').catch(()=>null);if(!dir)return;
+  if(!confirm('Restore '+name+'?\n\nA safety copy of the CURRENT data downloads first.'))return;
+  exportData();
+  try{
+    const fh=await dir.getFileHandle(name);
+    const f=await fh.getFile();
+    applyImported(JSON.parse(await f.text()));
+    toast('Backup restored');
+  }catch(e){toast('Could not read that backup');}
+}
+function bkReminder(){
+  try{
+    if(bkFSASupported())return; // folder auto-backup path covers Chrome/Edge
+    const last=+(localStorage.getItem(KEY+'_lastbk')||0);
+    const snooze=+(localStorage.getItem(KEY+'_bksnooze')||0);
+    if((last&&Date.now()-last<7*86400000)||Date.now()<snooze)return;
+    if(!last){localStorage.setItem(KEY+'_lastbk',String(Date.now()));return;} // first visit: start the 7-day clock
+    if(document.getElementById('bkBanner'))return;
+    const d=document.createElement('div');d.id='bkBanner';d.className='no-print';
+    d.style.cssText='background:#8a1420;color:#fff;padding:9px 14px;font-size:13px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:60';
+    d.innerHTML='<span style="flex:1">It’s been over a week since your last backup — download one now to keep the season safe (this browser can clear saved data).</span>'
+      +'<button class="btn small" onclick="exportData();document.getElementById(\'bkBanner\').remove()">Download backup now</button>'
+      +'<button class="btn small secondary" onclick="localStorage.setItem(KEY+\'_bksnooze\',String(Date.now()+86400000));document.getElementById(\'bkBanner\').remove()">Later</button>';
+    document.body.prepend(d);
+  }catch(e){}
+}
+async function bkStatusRender(){
+  const el=document.getElementById('bkStatus');if(!el)return;
+  const bi=browserInfo();
+  const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
+  let dirLine;
+  if(!bkFSASupported())dirLine='Folder auto-backup: <b>not supported in '+bi.name+'</b> — the 7-day reminder + Export covers you instead.';
+  else if(!dir)dirLine='Folder auto-backup: <b>no folder chosen</b> — pick one inside iCloud Drive or Documents so backups sync.';
+  else if(BK_NEEDS_PERM)dirLine='Folder auto-backup: folder set (“'+esc(dir.name||'backups')+'”) but access needs a click — <button class="btn small" onclick="bkEnable()">Re-enable folder access</button>';
+  else dirLine='Folder auto-backup: <b>on</b> — writing a dated JSON to “'+esc(dir.name||'backups')+'” once per day of use (keeps the last 10).';
+  let rec;
+  if(bi.name==='Safari')rec='Safari can clear saved data after ~7 days without a visit — on a Mac, Chrome or this app installed to the Dock (File → Add to Dock) is safest.';
+  else if(bi.name==='Chrome'||bi.name==='Edge')rec='good choice — persistent storage and folder auto-backups both work here.';
+  else rec='for the safest setup on a Mac, use Chrome or install the app to the Dock.';
+  const last=+(localStorage.getItem(KEY+'_lastbk')||0);
+  el.innerHTML=[
+    'Persistent storage: <b>'+(PERSIST_GRANTED===null?'checking…':(PERSIST_GRANTED?'granted — exempt from eviction':'not granted'))+'</b>',
+    'Browser: <b>'+bi.name+(bi.isMac?' on macOS':'')+'</b> — '+rec,
+    dirLine,
+    'Last file backup: <b>'+(last?new Date(last).toLocaleString():'never')+'</b>'
+  ].map(x=>'<div>'+x+'</div>').join('');
+}
+/* boot: ask for durable storage, offer the IndexedDB mirror if localStorage came up empty */
+(async function(){
+  try{if(navigator.storage&&navigator.storage.persist)PERSIST_GRANTED=await navigator.storage.persist();}catch(e){PERSIST_GRANTED=false;}
+  if(!HAD_LOCAL){
+    try{
+      const m=await idbGet('mirror');
+      if(m&&m.data&&((m.data.roster||[]).length||(m.data.gamelog&&Object.keys(m.data.gamelog).length))
+        &&confirm('No saved data was found in this browser, but a mirror copy exists from '+new Date(m.at).toLocaleString()+'.\n\nRestore it?')){
+        applyImported(m);
+        toast('Restored from the browser mirror');
+      }
+    }catch(e){}
+  }
+  bkAutoRun();
+  bkReminder();
+  bkStatusRender();
+})();
+if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
 function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
 /* ============ HOCKEY OPERATIONS TEAM ============ */
 const HO_ROLES=[['hc','HEAD COACH'],['ac','ASSISTANT COACH'],['gm','GENERAL MANAGER'],['eq','EQUIPMENT MANAGER']];
