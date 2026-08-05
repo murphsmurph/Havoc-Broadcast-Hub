@@ -299,6 +299,7 @@
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
     .lcx-card{outline:none !important;}
+    .ws-page{height:10.45in !important;overflow:hidden;}
   }
   /* season calendar */
   .cal-legend{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -430,6 +431,14 @@
   table.pk-t td{border-bottom:1px solid #ddd;padding:2px 5px;}
   table.pk-t td.r,table.pk-t th.r{text-align:right;}
   table.pk-ws td{border:1px solid #888;height:16px;padding:1px 4px;font-size:8px;}
+  .ws-page{display:flex;flex-direction:column;height:1056px;}
+  .ws-off{display:flex;gap:16px;flex-wrap:wrap;font-size:9px;font-weight:800;margin:6px 0;align-items:baseline;flex:0 0 auto;}
+  .ws-off .ws-blank{display:inline-block;width:110px;border-bottom:1px solid #333;height:11px;margin-left:4px;}
+  .ws-fill{flex:1;min-height:0;}
+  .ws-side{display:flex;flex-direction:column;height:100%;}
+  .ws-tw{min-height:0;display:flex;}
+  .ws-tw table.pk-ws{width:100%;height:100%;border-collapse:collapse;}
+  .ws-tw table.pk-ws th{height:14px;} /* pin the header row so the stretch goes to the write-in rows */
   table.pk-ws th{border:1px solid #888;background:#eee;font-size:8px;padding:2px 4px;}
   .gl-edit input{width:54px;font-size:12px;padding:2px 4px;border:1px solid var(--havoc-line);border-radius:4px;}
   .gl-edit td,.gl-edit th{padding:3px 6px;font-size:12px;white-space:nowrap;}
@@ -476,6 +485,18 @@
       <div class="field"><label>IR list (one per line)</label><textarea id="g_ir" rows="3" placeholder="15 Matt O'Dea (C) – 14-Day – 1/18"></textarea></div>
       <div class="field"><label>ECHL call-ups (one per line)</label><textarea id="g_echl" rows="2"></textarea></div>
       <div class="field"><label>Scratches / suspensions / note</label><textarea id="g_scratch" rows="2"></textarea></div>
+      <div class="section-label">Officials</div>
+      <div class="grid g4">
+        <div class="field"><label>Referee 1</label><input type="text" id="g_ref1"></div>
+        <div class="field"><label>Referee 2</label><input type="text" id="g_ref2"></div>
+        <div class="field"><label>Linesman 1</label><input type="text" id="g_lin1"></div>
+        <div class="field"><label>Linesman 2</label><input type="text" id="g_lin2"></div>
+      </div>
+      <div class="section-label">Transactions (packet page)</div>
+      <div class="grid g2">
+        <div class="field"><label>Havoc transactions (one per line)</label><textarea id="g_txhome" rows="3" placeholder="10/20 &mdash; F Jack Jaunich loaned to Kalamazoo (ECHL)"></textarea></div>
+        <div class="field"><label>Opponent transactions (one per line)</label><textarea id="g_txaway" rows="3"></textarea></div>
+      </div>
       <div class="btn-row"><button class="btn" onclick="saveGame()">Save game details</button><span id="gameSavedPill"></span></div>
     </div>
   </section>
@@ -1230,13 +1251,13 @@ function fillOpponents(){
 }
 function loadGameForm(){
   const g=DATA.game;
-  for(const[k,id]of Object.entries({gameno:'g_gameno',promo:'g_promo',date:'g_date',time:'g_time',venue:'g_venue',opp:'g_opp',hsvrec:'g_hsvrec',opprec:'g_opprec',homeaway:'g_homeaway',broadcast:'g_broadcast',ir:'g_ir',echl:'g_echl',scratch:'g_scratch'})){
+  for(const[k,id]of Object.entries({gameno:'g_gameno',promo:'g_promo',date:'g_date',time:'g_time',venue:'g_venue',opp:'g_opp',hsvrec:'g_hsvrec',opprec:'g_opprec',homeaway:'g_homeaway',broadcast:'g_broadcast',ir:'g_ir',echl:'g_echl',scratch:'g_scratch',ref1:'g_ref1',ref2:'g_ref2',lin1:'g_lin1',lin2:'g_lin2',txhome:'g_txhome',txaway:'g_txaway'})){
     if(g[k]!==undefined)setv(id,g[k]);
   }
   if(!g.venue)setv('g_venue',DATA.settings.venue);
 }
 function saveGame(){
-  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch')};
+  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway')};
   save();toast("Game details saved");
   document.getElementById('gameSavedPill').innerHTML='<span class="pill ok">Saved</span>';
   setTimeout(()=>document.getElementById('gameSavedPill').innerHTML='',2000);
@@ -2289,7 +2310,12 @@ function pgWrap(red,S,title,body){
 function leaders4Block(ts){
   if(!ts||!ts.players||!ts.players.length)return '<div style="color:#999;font-size:9px">Sync live data or import the daily report for leaders.</div>';
   const activeSet=new Set(DATA.roster.filter(p=>p.active!=='0').map(p=>norm(p.name)));
-  const star=n=>activeSet.size&&!activeSet.has(norm(n))?'*':'';
+  const Gx=DATA.game||{};
+  const flagged=((Gx.ir||'')+'\n'+(Gx.echl||'')+'\n'+(Gx.scratch||'')).toLowerCase();
+  const star=n=>{
+    if(n&&flagged.trim()&&flagged.indexOf(String(n).toLowerCase())>=0)return '*';
+    return activeSet.size&&!activeSet.has(norm(n))?'*':'';
+  };
   const col=(title,key,fmt)=>{
     const top=[...ts.players].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,5);
     return `<div><div class="ldr-h">${title}</div>${top.map(p=>`<div class="ldr-r"><span>${esc(p.name)}${star(p.name)}</span><span>${fmt?fmt(p):(p[key]||0)}</span></div>`).join('')}</div>`;
@@ -2364,14 +2390,38 @@ function recordsPage(red,S){
 }
 function worksheetsPage(red,S){
   const G=DATA.game;
-  const goalRows=Array.from({length:9},()=>'<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>').join('');
-  const penRows=Array.from({length:8},()=>'<tr><td></td><td></td><td></td><td></td><td></td></tr>').join('');
-  const side=t=>`<div><div class="ldr-h" style="font-size:10px;margin:4px 0">${esc(t)}</div>
-    <table class="pk-ws" style="width:100%;border-collapse:collapse"><tr><th>#</th><th>Per</th><th>Time</th><th>Goal</th><th>Assist</th><th>Assist</th></tr>${goalRows}</table>
-    <div style="height:6px"></div>
-    <table class="pk-ws" style="width:100%;border-collapse:collapse"><tr><th>Per</th><th>Time</th><th>#</th><th>Infraction</th><th>Min</th></tr>${penRows}</table></div>`;
+  const goalRows=Array.from({length:12},()=>'<tr><td></td><td></td><td></td><td></td><td></td><td></td></tr>').join('');
+  const penRows=Array.from({length:10},()=>'<tr><td></td><td></td><td></td><td></td><td></td></tr>').join('');
+  // officials strip: names when known, write-in lines when not
+  const off=v=>v?`<b>${esc(v)}</b>`:'<span class="ws-blank"></span>';
+  const officials=`<div class="ws-off"><span>REFEREE 1 ${off(G.ref1)}</span><span>REFEREE 2 ${off(G.ref2)}</span><span>LINESMAN 1 ${off(G.lin1)}</span><span>LINESMAN 2 ${off(G.lin2)}</span></div>`;
+  // flex column per team: tables stretch so the sheet fills the page to the bottom
+  const side=t=>`<div class="ws-side"><div class="ldr-h" style="font-size:10px;margin:4px 0;flex:0 0 auto">${esc(t)}</div>
+    <div class="ws-tw" style="flex:12"><table class="pk-ws"><tr><th>#</th><th>Per</th><th>Time</th><th>Goal</th><th>Assist</th><th>Assist</th></tr>${goalRows}</table></div>
+    <div style="height:8px;flex:0 0 auto"></div>
+    <div class="ws-tw" style="flex:10"><table class="pk-ws"><tr><th>Per</th><th>Time</th><th>#</th><th>Infraction</th><th>Min</th></tr>${penRows}</table></div></div>`;
   return pgWrap(red,S,'SCORING &amp; PENALTY WORKSHEET',`
-    <div class="gn-cols">${side(S.city+' '+S.name)}${side((G.opp||'Opponent').toUpperCase())}</div>`);
+    ${officials}
+    <div class="gn-cols ws-fill">${side(S.city+' '+S.name)}${side((G.opp||'Opponent').toUpperCase())}</div>`)
+    .replace('<div class="page"','<div class="page ws-page"');
+}
+/* Transactions & inactives page — both teams' moves plus IR / call-ups / scratches */
+function transPage(red,S){
+  const G=DATA.game||{};
+  const lines=t=>String(t||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  const list=(arr,empty)=>arr.length?arr.map(l=>`<div class="h2h-line"><span>${esc(l)}</span></div>`).join(''):`<div style="color:#999;font-size:9px">${empty}</div>`;
+  return pgWrap(red,S,'TRANSACTIONS &amp; INACTIVES',`
+    <div class="gn-cols">
+      <div>
+        <div class="box"><h3>Inactives &mdash; Injured Reserve</h3>${list(lines(G.ir),'None')}</div>
+        <div class="box"><h3>Inactives &mdash; ECHL Call-ups</h3>${list(lines(G.echl),'None')}</div>
+        <div class="box"><h3>Scratches / Suspensions</h3>${list(lines(G.scratch),'None')}</div>
+      </div>
+      <div>
+        <div class="box"><h3>${esc(S.city)} ${esc(S.name)} &mdash; Transactions</h3>${list(lines(G.txhome),'None entered &mdash; add on the This Game tab')}</div>
+        <div class="box"><h3>${esc((G.opp||'Opponent').toUpperCase())} &mdash; Transactions</h3>${list(lines(G.txaway),'None entered &mdash; add on the This Game tab')}</div>
+      </div>
+    </div>`);
 }
 function careerPages(red,S){
   if(!EP_STATIC)return [];
@@ -2416,7 +2466,7 @@ function glSet(d,f,v){
 const PACKET_SECTIONS=[
   ['cover','Cover'],['meet','Meet the Team'],['ops','Hockey Operations'],['career','Player career stats (EP)'],
   ['scout','Scouting report'],['facts','Quick facts'],['splits','Season splits'],['gamelog','Game-by-game log'],
-  ['roster','Roster + pronunciation'],['records','Franchise records'],['worksheets','Blank worksheets'],['gamesheet','Dense game sheet']
+  ['roster','Roster + pronunciation'],['trans','Transactions & inactives'],['records','Franchise records'],['worksheets','Blank worksheets'],['gamesheet','Dense game sheet']
 ];
 const PACKET_PRESETS={
   full:PACKET_SECTIONS.map(s=>s[0]),
@@ -2464,7 +2514,8 @@ function renderPacket(){
     <div class="gn-top"><div class="gn-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
       <div class="gn-title"><div class="city">${esc(S.city)}</div><div class="team">${esc(S.name)}</div>
         <div class="gn-bar"><span>SPHL MEMBER SINCE 2004</span><span class="red">${cups.length} PRESIDENTS CUP${cups.length!==1?'S':''} (${cups.join(', ')||'—'})</span><span>HUNTSVILLEHAVOC.COM</span></div>
-        ${S.media?`<div style="font-size:8px;margin-top:2px;letter-spacing:.03em">MEDIA CONTACT: ${esc(S.media)}</div>`:''}</div></div>
+        ${S.media?`<div style="font-size:8px;margin-top:2px;letter-spacing:.03em">MEDIA CONTACT: ${esc(S.media)}</div>`:''}
+        <div style="font-size:8px;margin-top:2px;letter-spacing:.03em">OFFICIALS &mdash; REFEREES: ${esc(G.ref1||'TBD')}, ${esc(G.ref2||'TBD')} &middot; LINESMEN: ${esc(G.lin1||'TBD')}, ${esc(G.lin2||'TBD')}</div></div></div>
     <div class="gn-matchup">
       <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${esc(G.promo||'')}</div><div>${dateStr}</div><div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div><div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
@@ -2553,6 +2604,7 @@ function renderPacket(){
     splits:[splitsPage(red,S)],
     gamelog:[gameLogPage(red,S)],
     roster:[rosterPronPage(red,S)],
+    trans:[transPage(red,S)],
     records:recsPage?[recsPage]:[],
     worksheets:[worksheetsPage(red,S)],
     gamesheet:sheetPages
