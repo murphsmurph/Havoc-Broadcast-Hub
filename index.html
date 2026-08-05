@@ -101,6 +101,9 @@
   .iv-arch-body{padding:4px 0 4px 14px;font-size:12.5px;line-height:1.5;color:#444;}
   .ivs-q{font-size:13px;margin:10px 0;}
   .ivs-line{border-bottom:1px solid #bbb;height:22px;}
+  .bio-edit{display:block;min-height:12px;}
+  .bio-edit:empty:before{content:'Click to write this player\2019s media bio\2026';color:#999;}
+  .bio-edit:focus,.page[data-pk]:focus-within{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
   .ow-banner{color:#fff;text-align:center;font-size:22px;font-weight:900;letter-spacing:1px;padding:14px 10px;border-radius:6px;margin:8px 0;}
   .ow-banner span{font-size:10.5px;font-weight:700;letter-spacing:.2px;display:block;margin-top:4px;}
   .media-block{margin-left:auto;border:1.5px solid #222;border-radius:5px;padding:5px 9px;font-size:8.5px;line-height:1.5;flex:0 0 auto;align-self:flex-start;}
@@ -375,7 +378,7 @@
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
     .lcx-card{outline:none !important;}
     .ws-page{height:10.45in !important;overflow:hidden;}
-    .fv,.fd-note{outline:none !important;}
+    .fv,.fd-note,.bio-edit,.page[data-pk]{outline:none !important;}
     #panel-opening.printing .card{display:none !important;}
   }
   /* season calendar */
@@ -548,7 +551,7 @@
       <h2>This <span class="accent">Game</span></h2>
       <p class="desc">Game-specific details the report can't provide. Prints onto the Game Notes cover. Saved automatically.</p>
       <div class="grid g2">
-        <div class="field"><label>Game number</label><input type="text" id="g_gameno" placeholder="42"></div>
+        <div class="field"><label>Game number</label><input type="text" id="g_gameno" onchange="gameNoAutofill()" placeholder="42"></div>
         <div class="field"><label>Promo / theme night</label><input type="text" id="g_promo"></div>
         <div class="field"><label>Date</label><input type="date" id="g_date"></div>
         <div class="field"><label>Puck drop</label><input type="time" id="g_time"></div>
@@ -868,7 +871,9 @@
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
         <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
         <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
+        <button class="btn secondary" onclick="pkClearEdits()">Clear text edits</button>
       </div>
+      <p class="desc" style="margin-top:6px">Click into any packet page in the preview to edit its text directly &mdash; edits save and survive refreshes (an edited page keeps your wording until you Clear text edits). On Meet the Team pages, editing a player&rsquo;s notes writes straight back to their <b>media bio</b> on the roster.</p>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Game Packet — preview</span><div class="spacer"></div><span class="header-status">Multi-page · prints to PDF</span></div>
@@ -982,6 +987,7 @@
       </details>
     </div>
     <div class="card">
+      <div class="doc-toolbar no-print" style="margin:-10px -14px 10px"><span class="ttl">Formatted report — preview</span><div class="spacer"></div><span class="header-status">updates as you type · house structure</span></div>
       <div class="btn-row" style="margin-bottom:10px">
         <button class="btn" id="pg_copyBtn" onclick="pgCopy()">Copy report</button>
         <span id="pg_status" style="font-weight:800;font-size:12px;color:#666"></span>
@@ -1279,6 +1285,7 @@ const DEFAULT_DATA={
   chartEdits:{},         // {teamName:{playerKey:html}} — hand edits to lineup-chart cards
   folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
   statOv:{},             // {key:value} — hand overrides on packet/stat displays
+  pkEdits:{},            // {pageKey:outerHTML} — free-text edits on whole packet pages
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
   interviews:{},         // {gameKey:{pre:[],post:[]}} — interview prep + quotes archive
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
@@ -1451,6 +1458,28 @@ function fillOpponents(){
   document.getElementById('g_opp').innerHTML='<option value="">— select —</option>'+opp;
   document.getElementById('oppRosterTeam').innerHTML='<option value="">— select team —</option>'+opp;
   document.getElementById('coachTeam').innerHTML='<option value="">— select team —</option>'+TEAMS.map(t=>`<option>${t}</option>`).join('');
+}
+/* Game # → schedule lookup: date, puck drop, venue, opponent, home/away, promo night */
+function gameNoAutofill(){
+  const n=parseInt(val('g_gameno'),10);if(!n)return;
+  const games=parseScheduleData().filter(g=>!g.ps); // regular season only
+  const g=games[n-1];
+  if(!g){toast('No game #'+n+' on the saved schedule');return;}
+  setv('g_date',g.dateISO);
+  if(g.time){
+    const el=document.getElementById('g_time');
+    const m=g.time.match(/(\d{1,2}):(\d{2})\s*([AP])/i);
+    if(el&&el.type==='time'&&m){let h=(+m[1])%12;if(/p/i.test(m[3]))h+=12;el.value=String(h).padStart(2,'0')+':'+m[2];}
+    else setv('g_time',g.time);
+  }
+  const full=TEAMS.find(t=>t.toLowerCase().startsWith(g.team.toLowerCase()))||g.team;
+  setv('g_opp',full);
+  setv('g_homeaway',g.hv==='@'?'@':'vs');
+  if(g.hv!=='@')setv('g_venue',DATA.settings.venue); // road venue left as-is for hand entry
+  const promo=(typeof promoFor==='function')?promoFor(g.dateISO):'';
+  if(promo)setv('g_promo',promo);else if(g.note)setv('g_promo',g.note);
+  saveGame();
+  toast('Game '+n+' loaded: '+(g.hv==='@'?'@ ':'vs ')+g.team+' · '+g.dateISO+(g.time?' · '+g.time:'')+(promo?' · '+promo:''));
 }
 function loadGameForm(){
   const g=DATA.game;
@@ -2520,10 +2549,26 @@ function pkWireOv(){
   const doc=document.getElementById('packetDoc');if(!doc||doc._pvWired)return;
   doc._pvWired=true;
   doc.addEventListener('input',e=>{
-    const t=e.target.closest?e.target.closest('.pv[data-k]'):null;if(!t)return;
+    const pv=e.target.closest?e.target.closest('.pv[data-k]'):null;
+    const bio=e.target.closest?e.target.closest('.bio-edit[data-bio-pid]'):null;
+    const page=e.target.closest?e.target.closest('.page[data-pk]'):null;
     clearTimeout(doc._pvt);
-    doc._pvt=setTimeout(()=>{DATA.statOv=DATA.statOv||{};DATA.statOv[t.dataset.k]=t.innerText.trim();save();},600);
+    doc._pvt=setTimeout(()=>{
+      if(pv){DATA.statOv=DATA.statOv||{};DATA.statOv[pv.dataset.k]=pv.innerText.trim();}
+      if(bio){ // media bio edited right on the packet page — save back to the roster
+        const p=DATA.roster.find(x=>x.id===bio.dataset.bioPid);
+        if(p)p.notes=bio.innerText.split('\n').map(l=>l.replace(/^[•\s]+/,'').trim()).filter(Boolean).join('\n');
+      }
+      if(page&&!bio){DATA.pkEdits=DATA.pkEdits||{};DATA.pkEdits[page.dataset.pk]=page.outerHTML;}
+      save();
+    },600);
   });
+}
+function pkClearEdits(){
+  const n=Object.keys(DATA.pkEdits||{}).length;
+  if(!n){toast('No packet text edits to clear');return;}
+  if(!confirm('Clear your text edits on '+n+' packet page(s) and regenerate them from data?'))return;
+  DATA.pkEdits={};save();renderPacket();toast('Packet edits cleared');
 }
 function revertAllOverrides(){
   const n1=Object.values(DATA.folderOv||{}).reduce((a,t)=>a+Object.keys(t).filter(k=>String(t[k]||'').trim()).length,0);
@@ -3559,9 +3604,16 @@ function renderPacket(){
     gamesheet:sheetPages
   };
   const outPages=[];
-  PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))outPages.push(...(secPages[s[0]]||[]));});
+  PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))(secPages[s[0]]||[]).forEach((p,j)=>outPages.push({k:s[0]+':'+j,sec:s[0],html:p}));});
   const stamp=dataStampHTML('packet');
-  document.getElementById('packetDoc').innerHTML=outPages.map((p,i)=>p.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  DATA.pkEdits=DATA.pkEdits||{};
+  document.getElementById('packetDoc').innerHTML=outPages.map((pg2,i)=>{
+    if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
+    let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1));
+    // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
+    if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
+    return h;
+  }).join('');
   pkWireOv();
 }
 
@@ -3628,7 +3680,7 @@ function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
     return `<div class="mtp-card">
       <div class="mtp-head"><span class="mtp-name">${esc(display)}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
       ${statHTML}
-      <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br>${notes||'<span style="color:#999">Add bio notes in Roster tab</span>'}</div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}</div></div>
+      <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br><span class="bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to the player&#39;s media bio">${notes||'Click to write this player&rsquo;s media bio…'}</span></div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}</div></div>
     </div>`;
   }).join('');
   return `<div class="page" style="--havoc-red:${red}">
@@ -3920,7 +3972,7 @@ function autoDraftNews(){
    LONGER MEDIA-PACKAGE BIO (game sheet)
    Combines written notes + a generated narrative from synced stats.
    ============================================================ */
-function mediaBio(p, teamStats, allReport){
+function mediaBio(p, teamStats, allReport, skipNotes){
   const written=(p.notes||'').split('\n').map(s=>s.trim()).filter(Boolean);
   const sentences=[];
   // lead: who they are
@@ -3960,7 +4012,7 @@ function mediaBio(p, teamStats, allReport){
     }
   }
   // append the hand-written media bio as its own sentences
-  written.forEach(w=>{const t=w.replace(/^[•\-\s]+/,'').trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
+  if(!skipNotes)written.forEach(w=>{const t=w.replace(/^[•\-\s]+/,'').trim();if(t)sentences.push(t.endsWith('.')?t:t+'.');});
   return sentences.join(' ');
 }
 function listJoin(arr){if(arr.length===1)return arr[0];if(arr.length===2)return arr[0]+' and '+arr[1];return arr.slice(0,-1).join(', ')+', and '+arr[arr.length-1];}
@@ -4576,11 +4628,13 @@ function meetTeamPage(players,teamStats,R,red,S){
       if(g)stripe=`<div class="mtp-stats"><span>SV%: ${g.svpct}</span><span>GAA: ${g.gaa}</span><span>${g.w}-${g.l}-${g.otl}</span><span>SO: ${g.so}</span></div>`;}
     else{const st=teamStats?teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
       if(st)stripe=`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>PIM: ${st.pim}</span></div>`;}
-    const blurb=mediaBio(p,teamStats,R);
+    const auto=mediaBio(p,teamStats,R,true);
+    const notesHtml=(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
     return `<div class="mtp-card">
       <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
-      <div class="mtp-blurb">${esc(blurb)||'<span style="color:#999">Add bio notes or import a report for a blurb.</span>'}</div>
+      <div class="mtp-blurb">${esc(auto)}</div>
+      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml}</div>
     </div>`;
   }).join('');
   return `<div class="page" style="--havoc-red:${red}">
@@ -4594,7 +4648,12 @@ function meetTeamPage(players,teamStats,R,red,S){
    LIVE SPHL DATA — HockeyTech/LeagueStat feed (JSONP)
    ============================================================ */
 const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
-function htKey(){return (DATA.settings.htKey||'').trim();}
+function htKey(){
+  // tolerate a pasted URL fragment ("8fa10d218c49ec96&client_code=sphl" etc.) — keep the 16-hex token
+  const raw=(DATA.settings.htKey||'').trim();
+  const m=raw.match(/[0-9a-f]{16}/i);
+  return m?m[0].toLowerCase():raw;
+}
 function htSeason(){return (DATA.settings.htSeason||'').trim();}
 function htParams(extra){
   const p={key:htKey(),client_code:'sphl',fmt:'json',lang:'en',...extra};
