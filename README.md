@@ -17,7 +17,7 @@ A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No buil
 - **EP Widgets tab** — live embedded Elite Prospects widgets (league standings, scoring & goalie leaders, schedule/results, and a career card for any mapped player), styled in Havoc red, complementing the feed + daily-report data
 - **Elite Prospects profile links** — a weekly GitHub Action (`.github/workflows/ep-data.yml`) matches every SPHL player to Elite Prospects via the official EP API (name + date-of-birth matching, cached forever, hand-fixable via `data/ep-overrides.json`) and commits `data/ep-players.json`; every roster name links to the player's EP page (EP search when unmatched). One-time setup in `data/README.md`
 - **Broadcast call log** — career game tracking for 2025-26 + 2026-27, importable from the call-log app
-- **Post-game copy desk** — recap writer from a Game Center paste + booth notes (needs an Anthropic API key)
+- **Post-game copy desk** — a formatter, not a generator: you write each section (headline, lede, body, quotes, notes), it assembles the finished report in one fixed house style with a one-click Copy; a Game Center paste can auto-fill the score/date/venue facts
 - **Learn the Roster** — quiz modes for play-by-play memorization
 
 ## Important: where your data lives
