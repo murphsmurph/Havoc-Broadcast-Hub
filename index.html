@@ -44,6 +44,8 @@
   .subtab:hover{border-color:var(--havoc-red);color:var(--havoc-red);}
   .subtab.active{background:var(--havoc-red);border-color:var(--havoc-red);color:#fff;}
   .subview{display:none;} .subview.active{display:block;}
+  .pstat{font-weight:800;font-size:.82em;white-space:nowrap;margin-left:5px;letter-spacing:.2px;}
+  .pstat .pstat-mark{font-weight:900;margin-left:1px;}
   .wrap{max-width:1080px;margin:0 auto;padding:22px 20px 90px;}
   .panel{display:none;} .panel.active{display:block;animation:fade .2s ease;}
   @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
@@ -811,48 +813,41 @@
     </div>
   </section>
 
-  <!-- POST-GAME RECAP -->
+  <!-- POST-GAME FORMATTER -->
   <section class="panel" id="panel-postgame">
     <div class="card">
       <h2>Post-Game <span class="accent">Copy Desk</span></h2>
-      <p class="desc">Paste the Game Center page, add your booth notes, and it writes the recap — facts from the sheet, story from your notes, nothing invented. <b>Requires an Anthropic API key</b> (console.anthropic.com) since this file runs standalone; a recap costs roughly a cent. The key stays in this browser only.</p>
+      <p class="desc">You write it — this desk formats it. Fill the game facts, write each section in its own box, and the preview assembles the finished report in the same house structure every time. <b>Copy report</b> puts the whole thing on the clipboard. Everything auto-saves as a draft in this browser.</p>
       <div class="pg-scorebar">
         <div class="pg-side"><label>Away</label><input type="text" id="pg_awayTeam" placeholder="Visitor"><input type="number" class="pg-goals" id="pg_awayGoals" placeholder="0"></div>
-        <div class="pg-dash">–</div>
+        <div class="pg-dash">&ndash;</div>
         <div class="pg-side"><label>Home</label><input type="text" id="pg_homeTeam" placeholder="Home"><input type="number" class="pg-goals" id="pg_homeGoals" placeholder="0"></div>
       </div>
       <div class="grid g4">
         <div class="field"><label>Date</label><input type="date" id="pg_date"></div>
         <div class="field"><label>Venue</label><input type="text" id="pg_venue"></div>
         <div class="field"><label>Result</label><select id="pg_result"><option value="regulation">Regulation</option><option value="overtime">Overtime</option><option value="shootout">Shootout</option></select></div>
-        <div class="field"><label>Written for</label><select id="pg_pov"><option value="home">Havoc broadcast</option><option value="neutral">Neutral</option><option value="away">Away team</option></select></div>
+        <div class="field"><label>Next game</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
       </div>
-      <div class="grid g2">
-        <div class="field"><label>Next game (optional)</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
-        <div class="grid g2">
-          <div class="field"><label>Length</label><select id="pg_len"><option value="short">Short · ~200</option><option value="standard" selected>Standard · ~400</option><option value="full">Full · ~600</option></select></div>
-          <div class="field"><label>Angle</label><select id="pg_angle"><option value="straight">Straight recap</option><option value="feature">Feature lede</option><option value="teamsite">Team site</option></select></div>
-        </div>
-      </div>
-      <div class="field"><label>Game Center page — paste the whole thing</label><textarea id="pg_dump" rows="8" placeholder="Select the entire Game Center page and paste — scoring, penalties, goalies, three stars, box score, play-by-play, all of it."></textarea>
+      <div class="field"><label>Game Center page (optional) &mdash; paste it and Read the sheet fills the facts above</label><textarea id="pg_dump" rows="4" placeholder="Paste the whole Game Center page to auto-fill score, teams, date, venue and result."></textarea>
       <div class="btn-row" style="margin-top:6px"><button class="btn secondary" onclick="pgReadSheet()">Read the sheet</button><span id="pg_readFlag" style="font-size:12px;color:#666"></span></div></div>
-      <div class="field"><label>Your booth notes — shorthand ok</label><textarea id="pg_notes" rows="6" placeholder="slow 1st, chasing pucks&#10;PK bailed them out twice in 3rd&#10;b2b tomorrow in Pensacola"></textarea></div>
-      <details style="margin:10px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">Shorthand key, voice rules &amp; API key</summary>
+      <div class="section-label">Report sections &mdash; your words, house structure</div>
+      <div class="field"><label>Headline</label><input type="text" id="pg_headline" placeholder="Havoc Steal One Late in Knoxville"></div>
+      <div class="field"><label>Lede (one or two sentences under the headline)</label><textarea id="pg_lede" rows="2" placeholder="The one-sentence story of the game."></textarea></div>
+      <div class="field"><label>Body (blank line = new paragraph)</label><textarea id="pg_body" rows="10" placeholder="The game story, top to bottom. Leave a blank line between paragraphs."></textarea></div>
+      <div class="field"><label>Quotes (one per line, attribution included &mdash; leave empty to skip the section)</label><textarea id="pg_quotes" rows="3" placeholder='"We found a way." — Head coach ...'></textarea></div>
+      <div class="field"><label>Game notes (one bullet per line &mdash; special teams, goalie line, stars, attendance)</label><textarea id="pg_notesb" rows="3" placeholder="PP 1-for-4; PK 5-for-5&#10;Wilson 31 saves"></textarea></div>
+      <details style="margin:10px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">Shorthand key &amp; voice rules (writing aid)</summary>
         <div class="field" style="margin-top:10px"><label>What your shorthand means</label><textarea id="pg_shorthand" rows="5"></textarea></div>
         <div class="field"><label>Voice rules</label><textarea id="pg_voice" rows="4"></textarea></div>
-        <div class="field"><label>Anthropic API key</label><input type="password" id="pg_key" placeholder="sk-ant-..."><div class="hint" style="font-size:11px;color:#888;margin-top:3px">Saved in this browser's local storage only. Get one at console.anthropic.com.</div></div>
       </details>
-      <div class="btn-row"><button class="btn" id="pg_go" onclick="pgWrite()">Write the recap</button><span id="pg_status" style="font-weight:800;font-size:12px;color:#666"></span></div>
-      <div id="pg_err"></div>
     </div>
     <div class="card">
       <div class="btn-row" style="margin-bottom:10px">
-        <button class="btn secondary" id="pg_copyBtn" onclick="pgCopy()" disabled>Copy</button>
-        <button class="btn secondary" id="pg_tightBtn" onclick="pgRevise('Cut it by about a third. Keep every fact, lose every soft sentence.','Tightening')" disabled>Tighten</button>
-        <button class="btn secondary" id="pg_colorBtn" onclick="pgRevise('Add more texture from the broadcaster notes — momentum swings, crowd, physicality, individual efforts. Invent nothing new.','Adding color')" disabled>More color</button>
-        <button class="btn secondary" id="pg_headBtn" onclick="pgRevise('Keep the body and notes identical. Write a different headline and deck.','New headline')" disabled>New headline</button>
+        <button class="btn" id="pg_copyBtn" onclick="pgCopy()">Copy report</button>
+        <span id="pg_status" style="font-weight:800;font-size:12px;color:#666"></span>
       </div>
-      <div id="pg_out" class="pg-out"><div style="color:#999;font-size:13px;line-height:1.7"><b>Two steps.</b> Paste the Game Center page, add your booth notes, hit Write. The page gives it the facts; your notes give it the story. Nothing gets invented — if it isn't on the sheet, it isn't in the copy.</div></div>
+      <div id="pg_out" class="pg-out"></div>
     </div>
   </section>
 
@@ -1400,7 +1395,8 @@ function renderRosterTable(side,wrapId){
   let html='<table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Age</th><th>Birthplace</th><th>Bio</th><th>Active</th><th></th></tr></thead><tbody>';
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
-    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a></td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
+    const manual=!!(p.statOverride&&p.statOverride.trim());
+    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
 }
@@ -1660,6 +1656,47 @@ function leadersBlock(team){
 }
 function findTeamStats(cityKeyword){const ts=DATA.report.teamStats||{};for(const k of Object.keys(ts))if(new RegExp(cityKeyword,'i').test(k))return ts[k];return null;}
 
+/* ---- current-season stat line beside every player name ----
+   Skater: "12G 8A 20P" · Goalie: ".923 SV% 2.36 GAA 12W" · zeros when unsynced.
+   A hand-entered p.statOverride wins over synced data and shows a * marker. */
+function statTeamKeyword(side){
+  if(side==='away'){const t=val('oppRosterTeam')||DATA.game.opp||'';return t.split(' ')[0]||'zzz-none';}
+  return 'Huntsville';
+}
+function statLineFor(p,teamKeyword){
+  if(p.statOverride&&String(p.statOverride).trim())return {text:String(p.statOverride).trim(),manual:true};
+  const stats=teamKeyword?findTeamStats(teamKeyword):null;
+  if(p.pos==='G'){
+    const g=stats?(stats.goalies||[]).find(x=>String(x.num)===String(p.num)||norm(x.name)===norm(p.name)):null;
+    let sv=parseFloat(g&&g.svpct);if(!isFinite(sv)||sv<0)sv=0;if(sv>1)sv/=100;
+    let gaa=parseFloat(g&&g.gaa);if(!isFinite(gaa)||gaa<0)gaa=0;
+    const w=(g&&g.w!=null&&g.w!=='')?g.w:0;
+    return {text:'.'+String(Math.round(sv*1000)).padStart(3,'0')+' SV% '+gaa.toFixed(2)+' GAA '+w+'W',manual:false};
+  }
+  const list=stats?(stats.players||[]):[];
+  const st=list.find(x=>String(x.num)===String(p.num))||list.find(x=>norm(x.name)===norm(p.name));
+  return {text:((st&&+st.g)||0)+'G '+((st&&+st.a)||0)+'A '+((st&&+st.pts)||0)+'P',manual:false};
+}
+function statSpan(p,teamKeyword){
+  const r=statLineFor(p,teamKeyword);
+  return '<span class="pstat" style="color:'+(DATA.settings.red||'#C8102E')+'">'+esc(r.text)+(r.manual?'<b class="pstat-mark" title="manual override">*</b>':'')+'</span>';
+}
+function statEdit(side,id){
+  const p=getRoster(side).find(x=>x.id===id);if(!p)return;
+  const cur=statLineFor(p,statTeamKeyword(side)).text;
+  const nv=prompt('Stat line for '+p.name+' (blank = use synced data):',p.statOverride||cur);
+  if(nv===null)return;
+  p.statOverride=nv.trim();save();
+  side==='home'?renderRoster():renderOppRoster();
+  toast(p.statOverride?'Manual stat line saved':'Back to synced stats');
+}
+function statRevert(side,id){
+  const p=getRoster(side).find(x=>x.id===id);if(!p)return;
+  p.statOverride='';save();
+  side==='home'?renderRoster():renderOppRoster();
+  toast('Back to synced stats');
+}
+
 /* ============ LINEUP CHART (Image-1 dense style, per-team themed) ============ */
 /* Broadcast bio for lineup chart & game sheet: the player's hand-written
    broadcast bio (bbio), at most 2 short lines. Falls back to the first
@@ -1741,6 +1778,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
         <span class="lcx-num" style="color:#fff">${p.num||''}</span>
         <span class="lcx-last" style="color:#fff">${esc(last.toUpperCase())}</span>
         <span class="lcx-first" style="color:#fff">${esc(first.toUpperCase())}${letter}</span>
+        ${statSpan(p,cityKeyword)}
       </div>
       <div class="lcx-meta">${p.pos} · ${p.ht||'—'} · ${p.wt||'—'} · ${p.pos==='G'?'G':'Sh'} ${p.sh||'—'}${p.age?' · '+p.age+'y':''} · ${esc(p.birth||'')}</div>
       ${season?`<div class="lcx-stat" style="color:${primary}">${season}</div>`:''}
@@ -2304,7 +2342,7 @@ function rosterPronPage(red,S){
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
   const act=DATA.roster.filter(p=>p.active!=='0');
   const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
-    ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
+    ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))} ${statSpan(p,'Huntsville')}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
   const pron=(S.pronounce||'').split('\n').map(s=>s.trim()).filter(Boolean);
   const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${pron.length?`<table class="pk-t">${pron.map(l=>{const m=l.split(/\s*[-–—]\s*/);return `<tr><td>${esc(m[0]||l)}</td><td class="r">${esc(m.slice(1).join(' - '))}</td></tr>`;}).join('')}</table>`:'<div style="color:#999;font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun).</div>'}</div>`;
   const H=DATA.hockeyOps||{};
@@ -2585,7 +2623,7 @@ function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
     const[lastN,...rest]=(p.name||'').split(' ').reverse();
     const display=dispName(p).toUpperCase();
     return `<div class="mtp-card">
-      <div class="mtp-head"><span class="mtp-name">${esc(display)}</span><span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
+      <div class="mtp-head"><span class="mtp-name">${esc(display)}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
       ${statHTML}
       <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br>${notes||'<span style="color:#999">Add bio notes in Roster tab</span>'}</div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}</div></div>
     </div>`;
@@ -3135,27 +3173,84 @@ Lead with what decided the game, not the final score.
 Short sentences beat long ones. No hype words.
 Never say: all cylinders, biscuit in the basket, gritty, dug deep, statement win.
 Credit players by last name after first full reference.`;
-const PG_WORDS={short:'about 180-220 words',standard:'about 350-420 words',full:'about 550-620 words'};
-const PG_ANGLES={
- straight:'Straight news recap. Lede states the result and the reason for it. Chronological scoring woven into the narrative.',
- feature:'Feature lede. Open on the single most telling moment, image or turning point from the notes, then widen to the result by the second paragraph.',
- teamsite:'Official team-site recap. Positive but factual, fan-facing, opponent treated respectfully, close with the next game.'};
-let PG_LAST=null;
-
+let PG_T=null;
 function pgInit(){
   const P=(DATA.postgame=DATA.postgame||{});
+  delete P.key; // the AI writer is gone — drop any stored API key
+  const D=P.draft||{};
   setv('pg_shorthand',P.shorthand||PG_DEFAULT_SHORTHAND);
   setv('pg_voice',P.voice||PG_DEFAULT_VOICE);
-  setv('pg_key',P.key||'');
+  const F=['awayTeam','awayGoals','homeTeam','homeGoals','date','venue','result','next','dump','headline','lede','body','quotes','notesb'];
+  F.forEach(k=>{if(D[k]!==undefined)setv('pg_'+k,D[k]);});
   if(!val('pg_homeTeam'))setv('pg_homeTeam',(DATA.settings.city+' '+DATA.settings.name).trim()||'Huntsville Havoc');
   if(!val('pg_awayTeam')&&DATA.game.opp)setv('pg_awayTeam',DATA.game.opp);
   if(!val('pg_venue'))setv('pg_venue',DATA.game.venue||DATA.settings.venue||'Von Braun Center');
   if(!val('pg_date'))setv('pg_date',new Date().toISOString().slice(0,10));
-  // persist prefs on change
-  ['pg_shorthand','pg_voice','pg_key'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el&&!el._pgWired){el._pgWired=true;el.addEventListener('change',()=>{DATA.postgame.shorthand=val('pg_shorthand');DATA.postgame.voice=val('pg_voice');DATA.postgame.key=val('pg_key');save();});}
+  [...F,'shorthand','voice'].forEach(k=>{
+    const el=document.getElementById('pg_'+k);
+    if(el&&!el._pgWired){el._pgWired=true;el.addEventListener('input',pgChanged);el.addEventListener('change',pgChanged);}
   });
+  pgPreview();
+}
+function pgChanged(){
+  clearTimeout(PG_T);
+  PG_T=setTimeout(()=>{
+    DATA.postgame=DATA.postgame||{};
+    DATA.postgame.shorthand=val('pg_shorthand');DATA.postgame.voice=val('pg_voice');
+    const D={};['awayTeam','awayGoals','homeTeam','homeGoals','date','venue','result','next','dump','headline','lede','body','quotes','notesb'].forEach(k=>D[k]=val('pg_'+k));
+    DATA.postgame.draft=D;save();
+    pgPreview();
+  },500);
+}
+/* the one fixed house structure every report comes out in */
+function pgCompose(){
+  const away=val('pg_awayTeam').trim()||'Away',home=val('pg_homeTeam').trim()||'Home';
+  const ag=val('pg_awayGoals')||'0',hg=val('pg_homeGoals')||'0';
+  const res=val('pg_result');
+  const tag=res==='overtime'?' (OT)':res==='shootout'?' (SO)':'';
+  const dt=val('pg_date')?new Date(val('pg_date')+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'';
+  const scoreline=`${away} ${ag}, ${home} ${hg}${tag}`;
+  const dateline=[dt,val('pg_venue').trim()].filter(Boolean).join(' · ');
+  const paras=val('pg_body').split(/\n\s*\n/).map(t=>t.replace(/\s*\n\s*/g,' ').trim()).filter(Boolean);
+  const quotes=val('pg_quotes').split('\n').map(t=>t.trim()).filter(Boolean);
+  const notes=val('pg_notesb').split('\n').map(t=>t.trim()).filter(Boolean);
+  return {headline:val('pg_headline').trim(),lede:val('pg_lede').replace(/\s*\n\s*/g,' ').trim(),
+    scoreline,dateline,paras,quotes,notes,next:val('pg_next').trim()};
+}
+function pgPreview(){
+  const r=pgCompose();
+  const out=document.getElementById('pg_out');if(!out)return;
+  if(!r.headline&&!r.paras.length&&!r.lede){
+    out.innerHTML='<div style="color:#999;font-size:13px;line-height:1.7"><b>Write, then copy.</b> Fill the sections on the left — the finished report builds here in the house structure as you type, and <b>Copy report</b> grabs the whole thing.</div>';
+    return;
+  }
+  let html='';
+  if(r.headline)html+=`<h2>${esc(r.headline)}</h2>`;
+  if(r.lede)html+=`<p class="deck">${esc(r.lede)}</p>`;
+  html+=`<p class="story" style="font-weight:800">${esc(r.scoreline)}</p>`;
+  if(r.dateline)html+=`<p class="story" style="color:#666;font-size:12px">${esc(r.dateline)}</p>`;
+  r.paras.forEach(p=>html+=`<p class="story">${esc(p)}</p>`);
+  if(r.quotes.length){html+='<div class="notes-head">Quotes</div>';r.quotes.forEach(q=>html+=`<p class="story" style="font-style:italic">${esc(q)}</p>`);}
+  if(r.notes.length){html+='<div class="notes-head">Game notes</div><ul>';r.notes.forEach(n=>html+=`<li>${esc(n)}</li>`);html+='</ul>';}
+  if(r.next)html+=`<p class="story" style="font-weight:700">NEXT: ${esc(r.next)}</p>`;
+  html+='<p style="text-align:center;letter-spacing:.5em;color:#999;margin-top:22px">###</p>';
+  out.innerHTML=html;
+}
+async function pgCopy(){
+  const r=pgCompose();
+  const L=[];
+  if(r.headline)L.push(r.headline);
+  if(r.lede)L.push(r.lede);
+  L.push(r.scoreline+(r.dateline?'\n'+r.dateline:''));
+  r.paras.forEach(p=>L.push(p));
+  if(r.quotes.length)L.push('QUOTES\n'+r.quotes.join('\n'));
+  if(r.notes.length)L.push('GAME NOTES\n'+r.notes.map(n=>'• '+n).join('\n'));
+  if(r.next)L.push('NEXT: '+r.next);
+  L.push('###');
+  const btn=document.getElementById('pg_copyBtn');
+  try{await navigator.clipboard.writeText(L.join('\n\n'));btn.textContent='Copied';document.getElementById('pg_status').textContent='FILED '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}
+  catch(e){btn.textContent='Copy failed';}
+  setTimeout(()=>btn.textContent='Copy report',1600);
 }
 
 function pgReadSheet(){
@@ -3180,121 +3275,6 @@ function pgReadSheet(){
   else if(/\b(overtime|\bOT\b)/.test(raw))setv('pg_result','overtime');
   flag.textContent=found.length?'Read: '+found.join(', '):'Could not read it — fill the score by hand';
   setTimeout(()=>flag.textContent='',5000);
-}
-
-function pgPovLine(){
-  const home=val('pg_homeTeam')||'the home team',away=val('pg_awayTeam')||'the away team',pov=val('pg_pov');
-  if(pov==='home')return `Written for the ${home} broadcast. Frame the game from their side, but stay factual and fair to the opponent.`;
-  if(pov==='away')return `Written for the ${away} broadcast. Frame the game from their side, but stay factual and fair to the opponent.`;
-  return 'Neutral recap. Neither team is the subject; the game is.';
-}
-function pgSheet(){
-  const home=val('pg_homeTeam')||'Home',away=val('pg_awayTeam')||'Away';
-  const hg=val('pg_homeGoals'),ag=val('pg_awayGoals');
-  const line=(k,v)=>v&&String(v).trim()?`${k}: ${String(v).trim()}\n`:'';
-  return `FINAL: ${away} ${ag||'?'} at ${home} ${hg||'?'} (${val('pg_result')})\n`+
-    line('Date',val('pg_date'))+line('Venue',val('pg_venue'))+line('Next game',val('pg_next'))+
-    (val('pg_dump').trim()?`\nGAME CENTER PAGE (raw paste):\n${val('pg_dump').trim()}\n`:'')+
-    (val('pg_notes').trim()?`\nBROADCASTER'S NOTES (shorthand, from the booth):\n${val('pg_notes').trim()}\n`:'');
-}
-function pgSystemPrompt(){
-  return `You are a hockey beat writer filing a post-game recap for the SPHL. You write for a play-by-play broadcaster who was in the building and took the notes below.
-
-READING THE SHEET
-The game data is a raw copy-paste of a league Game Center page. It is repetitive by design: the scoring summary, play-by-play and box score all describe the same events. Read it all, trust the play-by-play for sequence, and mine these sections specifically:
-- Scoring and play-by-play: period, clock, scorer, assists, strength (PP/SH/EN), and which goal was the game winner.
-- Shots by period: use it when the run of play in the notes and the shot counts tell the same story.
-- Special teams line (PP x/y, PIM) and any major or game misconduct.
-- Goaltenders: saves/shots, decision, and any pull for an extra attacker with its time.
-- Three stars, attendance, arena, officials, public notes such as timeouts.
-- Head to head, previous meetings, series and streak data. In a playoff series or a multi-game set, the series state is usually the story — say where it stands.
-
-HARD RULES
-- Use only facts on the sheet. Never invent a stat, name, time, quote, streak or standing. If something is not there, write around it.
-- No quotes at all unless quotes appear in the notes.
-- Player names exactly as written. Full name on first reference, last name after.
-- Expand the broadcaster's shorthand into real prose using the key below. Never print the shorthand itself.
-- Scoring chronology must match the sheet exactly: right period, right time, right scorer, right assists, right strength. Do not describe how a goal was scored unless the notes say so.
-- An empty-net goal is not a rally. Read the score correctly at each moment.
-- If the sheet is thin, write shorter rather than padding.
-
-SHORTHAND KEY
-${val('pg_shorthand').trim()}
-
-VOICE
-${val('pg_voice').trim()}
-
-OUTPUT
-Return ONLY a JSON object, no markdown fences, no preamble:
-{"headline":"...","deck":"one sentence subhead","body":["paragraph","paragraph"],"notes":["short fact bullet","short fact bullet"]}
-headline: 6-10 words, active, no colon-clichés.
-body: ${PG_WORDS[val('pg_len')]} total across 4-7 paragraphs.
-notes: 3-5 bullets of hard facts from the sheet (special teams, goalie line, stars, attendance, record, next game). Omit any bullet you lack data for.`;
-}
-
-async function pgCall(messages){
-  const key=val('pg_key').trim();
-  if(!key)throw new Error('Add your Anthropic API key (in "Shorthand key, voice rules & API key" above). Get one at console.anthropic.com.');
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1500,system:pgSystemPrompt(),messages})
-  });
-  if(!res.ok)throw new Error('The writer did not respond ('+res.status+'). Check the key and try again.');
-  const data=await res.json();
-  return data.content.filter(b=>b.type==='text').map(b=>b.text).join('\n');
-}
-function pgParse(text){
-  const clean=text.replace(/```json|```/g,'').trim();
-  try{return JSON.parse(clean);}catch(e){
-    const m=clean.match(/\{[\s\S]*\}/);
-    if(m){try{return JSON.parse(m[0]);}catch(e2){}}
-    return {headline:'Post-Game Recap',deck:'',body:clean.split(/\n{2,}/),notes:[]};
-  }
-}
-function pgRender(r){
-  PG_LAST=r;
-  let html=`<h2>${esc(r.headline||'')}</h2>`;
-  if(r.deck)html+=`<p class="deck">${esc(r.deck)}</p>`;
-  (r.body||[]).forEach(p=>html+=`<p class="story">${esc(p)}</p>`);
-  if((r.notes||[]).length){html+=`<div class="notes-head">Game notes</div><ul>`;r.notes.forEach(n=>html+=`<li>${esc(n)}</li>`);html+=`</ul>`;}
-  html+=`<p style="text-align:center;letter-spacing:.5em;color:#999;margin-top:22px">###</p>`;
-  document.getElementById('pg_out').innerHTML=html;
-  document.getElementById('pg_status').textContent='FILED '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});
-  ['pg_copyBtn','pg_tightBtn','pg_colorBtn','pg_headBtn'].forEach(b=>document.getElementById(b).disabled=false);
-}
-function pgWorking(msg){document.getElementById('pg_out').innerHTML=`<div style="color:#888;font-size:13px">${msg}…</div>`;document.getElementById('pg_status').textContent='WRITING';}
-function pgFail(e){document.getElementById('pg_err').innerHTML=`<div class="pg-err">${esc(e.message)}</div>`;document.getElementById('pg_status').textContent='';setTimeout(()=>document.getElementById('pg_err').innerHTML='',8000);}
-
-async function pgWrite(){
-  document.getElementById('pg_err').innerHTML='';
-  if(!val('pg_dump').trim()&&!val('pg_notes').trim()){pgFail(new Error('Paste the Game Center page, or at least your notes.'));return;}
-  const btn=document.getElementById('pg_go');btn.disabled=true;pgWorking('Writing the recap');
-  try{
-    const raw=await pgCall([{role:'user',content:`${PG_ANGLES[val('pg_angle')]}\n${pgPovLine()}\n\nGAME SHEET\n${pgSheet()}`}]);
-    pgRender(pgParse(raw));
-  }catch(e){pgFail(e);}
-  btn.disabled=false;
-}
-async function pgRevise(instruction,label){
-  if(!PG_LAST)return;
-  document.getElementById('pg_err').innerHTML='';
-  const prev=JSON.stringify(PG_LAST);pgWorking(label);
-  try{
-    const raw=await pgCall([
-      {role:'user',content:`${PG_ANGLES[val('pg_angle')]}\n${pgPovLine()}\n\nGAME SHEET\n${pgSheet()}`},
-      {role:'assistant',content:prev},
-      {role:'user',content:`${instruction} Return the full JSON object again in the same format.`}
-    ]);
-    pgRender(pgParse(raw));
-  }catch(e){pgFail(e);pgRender(PG_LAST);}
-}
-async function pgCopy(){
-  const r=PG_LAST;if(!r)return;
-  const txt=[r.headline,r.deck,'',...(r.body||[]),'',...(r.notes||[]).map(n=>'• '+n),'','###'].join('\n\n');
-  const btn=document.getElementById('pg_copyBtn');
-  try{await navigator.clipboard.writeText(txt);btn.textContent='Copied';}catch(e){btn.textContent='Copy failed';}
-  setTimeout(()=>btn.textContent='Copy',1600);
 }
 
 
@@ -3417,7 +3397,16 @@ function renderLinesDoc(){
   const teamBlock=(side,teamFull,title,theme)=>{
     const L=DATA.lines[side];const primary=theme.primary,secondary=theme.secondary||'#111';
     const logo=teamLogoSrc(teamFull);
-    const cell=v=>`<td>${esc(v||'')}</td>`;
+    const list=side==='home'?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
+    const kw=side==='home'?'Huntsville':(G.opp||'').split(' ')[0]||'zzz-none';
+    const resolve=v=>{
+      const t=String(v||'').trim();if(!t)return null;
+      const mnum=t.match(/^(\d+)/);
+      let p=mnum?list.find(x=>String(x.num)===mnum[1]&&x.name):null;
+      if(!p)p=list.find(x=>x.name&&t.toLowerCase().indexOf(x.name.toLowerCase())>=0);
+      return p||null;
+    };
+    const cell=v=>{const p=resolve(v);return `<td>${esc(v||'')}${p?' '+statSpan(p,kw):''}</td>`;};
     const fRows=L.f.map((ln,i)=>`<tr><th>${i+1}</th>${cell(ln[0])}${cell(ln[1])}${cell(ln[2])}</tr>`).join('');
     const dRows=L.d.map((pr,i)=>`<tr><th>${i+1}</th>${cell(pr[0])}${cell(pr[1])}<td class="void"></td></tr>`).join('');
     const gRows=`<tr><th>G1</th>${cell(L.g[0])}<td class="void"></td><td class="void"></td></tr><tr><th>G2</th>${cell(L.g[1])}<td class="void"></td><td class="void"></td></tr>`;
@@ -3586,7 +3575,7 @@ function meetTeamPage(players,teamStats,R,red,S){
       if(st)stripe=`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>PIM: ${st.pim}</span></div>`;}
     const blurb=mediaBio(p,teamStats,R);
     return `<div class="mtp-card">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span><span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(blurb)||'<span style="color:#999">Add bio notes or import a report for a blurb.</span>'}</div>
     </div>`;
