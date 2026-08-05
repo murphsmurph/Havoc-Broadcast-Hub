@@ -182,6 +182,10 @@
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
   .cupline{font-size:13px;}
+  .unv{color:var(--havoc-red);font-weight:900;cursor:help;}
+  .ref-ed{font-size:13px;}
+  .ref-ed:focus{outline:2px solid var(--havoc-red);outline-offset:3px;border-radius:4px;}
+  .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
 
   /* ---- print doc styles ---- */
   .doc-frame{background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
@@ -819,6 +823,11 @@
       <div id="venueTableWrap" style="overflow-x:auto"></div>
     </div>
     <div class="card">
+      <h2>2026 Season Review &amp; <span class="accent">New Teams 2026-27</span></h2>
+      <p class="desc">Seeded from the verified research file (Aug 5, 2026). Every block is <b>editable in place</b> — click into the text and type; edits save to this browser and a ↺ appears to restore the seeded text. <span class="unv">•</span> marks an UNVERIFIED number — confirm it, then fix it right here. Arenas &amp; capacities live in the Venue Reference above.</p>
+      <div id="ref26"></div>
+    </div>
+    <div class="card">
       <h2>League <span class="accent">Reference</span></h2>
       <p class="desc">Sourced from the 2025-26 SPHL Media Guide &amp; Record Book. Cup wins, Havoc head-to-head, franchise leaders, and coach blurbs — all editable. These feed the Game Notes automatically.</p>
       <div class="grid g2">
@@ -1056,6 +1065,10 @@
         <div class="field"><label>Head coach</label><input type="text" id="ow_coach" onchange="owSave()"></div>
       </div>
       <div class="field"><label>Head coach bio</label><textarea id="ow_coachbio" rows="3" onchange="owSave()"></textarea></div>
+      <div class="grid g2">
+        <div class="field"><label>Year one in Florence — FPHL 2025-26 (one line per bullet; prints on the franchise-file page)</label><textarea id="ow_fphl" rows="7" onchange="owSave()"></textarea></div>
+        <div class="field"><label>Who they were — FPHL leaders (one per line)</label><textarea id="ow_leaders" rows="7" onchange="owSave()"></textarea></div>
+      </div>
     </div>
     <div class="card">
       <h3>Storylines &amp; by the numbers</h3>
@@ -1208,21 +1221,26 @@ const DEFAULT_LOGOS={"Huntsville Havoc": "data:image/png;base64,iVBORw0KGgoAAAAN
 
 const SPHL_REF = {
   /* Presidents Cup championships per current team */
-  cups:{
+  cups:{ /* updated thru the 2026 President's Cup (verified research file, Aug 5 2026) */
+    "Athens Rock Lobsters":[],
     "Birmingham Bulls":[],
-    "Evansville Thunderbolts":["2025"],
-    "Fayetteville Marksmen":[], /* FireAntz won 2007,2009 are a separate franchise lineage */
+    "Evansville Thunderbolts":["2025","2026"],
+    "Fayetteville Marksmen":[], /* the 2007 FireAntz cup is a separate franchise lineage */
     "Huntsville Havoc":["2010","2018","2019"],
-    "Knoxville Ice Bears":["2005","2006","2008","2009","2015"],
+    "Knoxville Ice Bears":["2006","2008","2009","2015"],
     "Macon Mayhem":["2017"],
-    "Pensacola Ice Flyers":["2013","2014","2016"],
+    "Pee Dee IceCats":[],
+    "Pensacola Ice Flyers":["2013","2014","2016","2021"],
     "Peoria Rivermen":["2022","2024"],
     "Quad City Storm":[],
     "Roanoke Rail Yard Dawgs":["2023"]
   },
   cupNote:{
-    "Fayetteville Marksmen":"The FireAntz won President's Cups in 2007 & 2009; the current Marksmen franchise has yet to win."
+    "Fayetteville Marksmen":"The FireAntz won the 2007 President's Cup; the current Marksmen franchise has yet to win.",
+    "Birmingham Bulls":"Finalists in 2019 and 2023.",
+    "Evansville Thunderbolts":"Back-to-back champions, 2025 & 2026."
   },
+  cupDefunct:"Defunct franchises also won titles: Columbus 2 · Mississippi 1.",
 
   /* Huntsville all-time vs each current club (regular season + playoff) from the guide */
   hsvVs:{
@@ -1268,14 +1286,16 @@ const SPHL_REF = {
   /* Head coach blurbs from the guide (editable in-app). Blank = not cleanly in guide text; paste from packet. */
   coaches:{
     "Huntsville Havoc":{name:"Stuart Stefan",bio:"Named head coach in May 2023, the sixth in franchise history. A longtime Havoc defenseman (2011-12 on), Stefan played 305 regular-season SPHL games with 196 points (57G, 139A) and added 32 points in 55 playoff games. Team captain and later player-assistant coach; part of the 2017-18 SPHL championship team. Retired in 2018 and moved into full-time coaching before his 2023 promotion."},
-    "Birmingham Bulls":{name:"Craig Simchuk",bio:"Captained the Bulls in 2017-18 and 2018-19. A lefty forward, he played five pro seasons in the SPHL with 46G and 75A in 238 games (Columbus, Birmingham). Assistant under Jamey Hicks before taking over as head coach. Two-time SPHL Coach of the Year (2022-23, 2023-24), leading Birmingham to the 2023-24 William B. Coffey Trophy with a franchise-record 38-9-9."},
+    "Birmingham Bulls":{name:"Craig Simchuk",bio:"Captained the Bulls in 2017-18 and 2018-19. A lefty forward, he played five pro seasons in the SPHL with 46G and 75A in 238 games (Columbus, Birmingham). Assistant under Jamey Hicks before taking over as head coach. Three-time SPHL Coach of the Year, leading Birmingham to the 2023-24 William B. Coffey Trophy with a franchise-record 38-9-9."},
     "Evansville Thunderbolts":{name:"Jeff Bes",bio:"In his sixth season as head coach/director of hockey operations. Franchise leader in games coached (270) and wins (132); led Evansville to its first Presidents Cup in 2024-25. Began coaching in 2011-12 with the Mississippi Surge (SPHL Coach of the Year). A 19-year pro player with 1,000+ career points, two CHL titles with Laredo, drafted by Minnesota in 1992, and a 1993 World Junior gold with Canada."},
-    "Fayetteville Marksmen":{name:"Kyle Sharkey",bio:"In his third season with Fayetteville, second as head coach/DOHO (named May 2, 2024). An SPHL veteran who logged 150 regular-season games with 130 points (50G, 80A) for the Huntsville Havoc; finished third in scoring for the 2018-19 Presidents Cup champion Havoc. Two-time SPHL champion; alternate captain on UW-Stevens Point's 2015-16 NCAA D-III title team."},
+    "Fayetteville Marksmen":{name:"Garrett Rutledge",bio:"Hired May 29, 2026, straight from the FPHL's Athens Rock Lobsters — the team he coached to the 2025-26 Continental Division title (44-11-1, 124 points) before the sides parted ways in April. Now behind an SPHL bench in the same league as his old club: Fayetteville-Athens is an instant storyline, and both are on the Havoc schedule."},
+    "Athens Rock Lobsters":{name:"Scott Burt",bio:"Named GM and head coach May 29, 2026 as Athens jumps from the FPHL to the SPHL. Arrives with ECHL head-coaching experience in Idaho and Rapid City plus a stop in Greensboro. Inherits a club that won the 2025-26 FPHL Continental Division (44-11-1, 124 points) under Garrett Rutledge — who now coaches SPHL rival Fayetteville."},
+    "Pee Dee IceCats":{name:"Chris Bernard",bio:"Hired July 5, 2026 — his first professional head-coaching job after 17 years at SUNY Potsdam (NCAA D-III). Succeeds Gary Graham, who retired after coaching the IceCats' Cardiac Cats run to the 2026 FPHL Commissioner's Cup Final in the franchise's first Florence season."},
     "Knoxville Ice Bears":{name:"John Gurskis",bio:"Hired as the ninth head coach in Ice Bears history ahead of 2024-25. A Brockton, Mass. native, he spent five seasons as an ECHL assistant with Wichita and 11 with the South Shore Kings. Played 536 pro games, including SPHL time with Macon, Florida and Pee Dee/Twin City. Remains St. Michael's College all-time leader in points (234) and assists (141)."},
     "Macon Mayhem":{name:"Dave Pszenyczny",bio:"A Sterling Heights, Mich. native who coached six years in the SPHL with Quad City before joining the Mayhem. Played 13 years of pro hockey (AHL, ECHL, CHL, SPHL), reaching three Presidents Cup finals with Peoria and named SPHL Defenseman of the Year in 2017-18. Won a CHL Ray Miron Cup with Bossier-Shreveport in 2011."},
     "Pensacola Ice Flyers":{name:"Jeremy Gates",bio:"Head coach/DOHO, returning to the franchise where he was a hard-nosed defenseman and three-time Presidents Cup champion (2013, 2014, 2016). Appeared in 95 regular-season games with 60 points plus 14 playoff points for the Ice Flyers. Coached as an assistant under Rod Aldoff and with the ECHL's Rapid City Rush before returning."},
     "Peoria Rivermen":{name:"Jean-Guy Trudel",bio:""},
-    "Quad City Storm":{name:"",bio:""},
+    "Quad City Storm":{name:"Shayne Toporowski",bio:""},
     "Roanoke Rail Yard Dawgs":{name:"Dan Bremner",bio:"In his ninth year with Roanoke, eighth as head coach/GM. The Sarnia, Ontario native led the Rail Yard Dawgs to two Presidents Cup finals, winning it in 2023. Since taking over early in 2017-18 he has a 186-136-42 regular-season record (eighth-most wins in league history) and a 19-15 postseason mark. Played 281 pro games (48 goals) before coaching."}
   }
 };
@@ -1308,6 +1328,7 @@ const DEFAULT_DATA={
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
   interviews:{},         // {gameKey:{pre:[],post:[]}} — interview prep + quotes archive
   venues:{},             // {teamName:{arena,city,tz,cap,notes}} — overrides of VENUES_DEFAULT
+  refEdits:{},           // {blockKey:html} — in-place edits to seeded League Reference blocks
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1845,18 +1866,90 @@ function logoHTML(team,fallbackClass,abbr){const l=DATA.logos[team]||(typeof DEF
 function teamLogoSrc(team){return DATA.logos[team]||(typeof DEFAULT_LOGOS!=='undefined'?DEFAULT_LOGOS[team]:null);}
 
 /* ============ REFERENCE ============ */
-function renderReference(){renderMatrix();renderSeries();renderStandings();
+function renderReference(){renderMatrix();renderSeries();renderStandings();renderRef26();
   // cups
   document.getElementById('ref_cups').innerHTML=TEAMS.map(t=>{
     const cups=SPHL_REF.cups[t]||[];const note=SPHL_REF.cupNote[t];
     return `<div class="cupline"><b>${t}:</b> ${cups.length?cups.length+' ('+cups.join(', ')+')':'0'}${note?` <span style="color:#999">— ${note}</span>`:''}</div>`;
-  }).join('');
+  }).join('')+(SPHL_REF.cupDefunct?`<div class="cupline" style="color:#888;margin-top:4px">${SPHL_REF.cupDefunct}</div>`:'');
   // h2h vs selected opponent
   renderH2H();
   // franchise records
   const R=SPHL_REF.hsvRecords;
   const tbl=(arr)=>'<table>'+arr.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')+'</table>';
   document.getElementById('ref_records').innerHTML=`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:4px 0">All-Time Career Leaders</div>${tbl(R.career)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Single-Season — Skaters</div>${tbl(R.players)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Single-Season — Goalies</div>${tbl(R.goalies)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Team</div>${tbl(R.team)}`;
+}
+
+/* ---- 2026 season review + New Teams 2026-27 (verified research file, Aug 5 2026) ----
+   Seeded blocks are contenteditable; edits persist in DATA.refEdits per block, with a
+   per-block restore. "•" (.unv) marks UNVERIFIED numbers per the file's quality flags. */
+const REF26_SEED={
+recap:`<div style="line-height:1.65">
+<b>2026 President's Cup champion: EVANSVILLE THUNDERBOLTS</b> — beat Peoria 3-2 in the best-of-5 final after trailing 0-2, clinching Game 5 (6-4) on May 9, 2026 at Carver Arena. <b>Back-to-back titles (2025, 2026).</b><br>
+<b>Round 1:</b> #1 Peoria def. #8 Macon &middot; <b style="color:#C8102E">#7 Knoxville UPSET #2 Huntsville</b> &middot; #3 Roanoke def. #6 Birmingham &middot; #4 Evansville def. #5 Pensacola 2-1<br>
+<b>Semifinals:</b> Peoria def. Knoxville 2-0 &middot; Evansville def. Roanoke 2-1<br>
+<i>Havoc storyline: 2nd in the regular season, upset in Round 1 — the 2026-27 redemption arc.</i><br>
+<span style="color:#888">The SPHL fields <b>12 teams in 2026-27</b>: the 10 returning clubs plus Athens Rock Lobsters (announced May 13, 2026) and Pee Dee IceCats (approved June 24, 2026), both from the FPHL. Commissioner: Doug Price. League founded 2004.</span>
+</div>`,
+table12:`<table><tr><th>Team</th><th>2025-26 (W-L-OTL-SOL &middot; pts &middot; finish)</th><th>2026 playoffs</th><th>2026-27 head coach</th></tr>
+<tr><td>Peoria Rivermen</td><td>38-17-3-0 &middot; 79 &middot; 1st</td><td>Lost the Final 2-3 to EVV (led 2-0)</td><td>Jean-Guy Trudel</td></tr>
+<tr><td><b>Huntsville Havoc</b></td><td><b>32-20-5-1 &middot; 70 &middot; 2nd</b></td><td><b>Upset in R1 by #7 Knoxville</b></td><td>Stuart Stefan</td></tr>
+<tr><td>Roanoke Rail Yard Dawgs</td><td>32-21-3-2 &middot; 69 &middot; 3rd</td><td>Beat BHM in R1; lost semis 1-2 to EVV</td><td>Dan Bremner (HC/GM)</td></tr>
+<tr><td>Evansville Thunderbolts</td><td>31-20-1-6 &middot; 69 &middot; 4th</td><td><b>WON THE CUP</b> (beat PEN, ROA, PEO)</td><td>Jeff Bes</td></tr>
+<tr><td>Pensacola Ice Flyers</td><td>28-21-6-3 &middot; 65 &middot; 5th</td><td>Lost R1 1-2 to EVV</td><td>Jeremy Gates</td></tr>
+<tr><td>Birmingham Bulls</td><td>28-23-2-5 &middot; 63 &middot; 6th</td><td>Lost R1 to ROA</td><td>Craig Simchuk (3x Coach of the Year)</td></tr>
+<tr><td>Knoxville Ice Bears</td><td>27-26-2-3 &middot; 59 &middot; 7th</td><td>Upset HSV; lost semis 0-2 to PEO</td><td>John Gurskis (extended)</td></tr>
+<tr><td>Macon Mayhem</td><td>26-26-3-3 &middot; 58 &middot; 8th</td><td>Lost R1 to PEO</td><td>Dave Pszenyczny</td></tr>
+<tr><td>Quad City Storm</td><td>25-28-4-1 &middot; 55 &middot; 9th</td><td>Missed</td><td>Shayne Toporowski</td></tr>
+<tr><td>Fayetteville Marksmen</td><td>23-28-5-2 &middot; 53 &middot; 10th</td><td>Missed</td><td>NEW: Garrett Rutledge (hired 5/29/26 — ex-Athens FPHL)</td></tr>
+<tr><td>Athens Rock Lobsters</td><td>FPHL: 44-11-1 &middot; 124 &middot; division champs</td><td>— (joins the SPHL)</td><td>NEW: Scott Burt, GM/HC (ex-Idaho / Rapid City / Greensboro)</td></tr>
+<tr><td>Pee Dee IceCats</td><td>FPHL: 24-25-2-5 &middot; ~81 <span class="unv" title="UNVERIFIED — computed, not a published total">•</span> &middot; 4th Continental</td><td>— (joins the SPHL)</td><td>NEW: Chris Bernard (first pro HC job)</td></tr>
+</table>`,
+pd:`<div style="line-height:1.6">
+<b>2025-26 (only FPHL season in Florence): 24-25-2-5, 4th Continental Division</b> (~81 pts <span class="unv" title="UNVERIFIED — computed, not a published total">•</span>).<br>
+<b>Lineage:</b> Elmira River Sharks (2023) → Hudson Valley Venom (2024) → HC Venom → relocated to Florence as Pee Dee IceCats, 2025-26. <b>Ownership:</b> Kevin Cuppia, managing partner/president (majority owner Parker Moskal removed Oct 22, 2025, four games into the season). <b>GM:</b> Tom Callahan — also the team broadcaster.<br>
+<b>"Cardiac Cats" playoff run — 9 games to the Commissioner's Cup Final in year one:</b><br>
+&bull; R1: <b>SWEPT top-seeded Athens 2-0</b> (8-2, 7-2) despite going 3-11 against them in the regular season — first playoff series win in franchise history.<br>
+&bull; Continental Division Final: beat Columbus 2-1 — G2 won 2-1 in OT (D. Marcinkevics tied it with the goalie pulled and under 30 seconds left; Frolov the OT winner); G3 won 4-3 in OT (<b>Houston Wilson hat trick</b>, incl. the tying goal with 1:01 left and the OT series-winner).<br>
+&bull; <b>Commissioner's Cup Final: LOST 3-1 to Binghamton</b> (W 5-2, L 1-2, L 1-8, L 2-4) — Binghamton's three-peat, a first in FPHL history.<br>
+<b>2025-26 leaders (EP):</b> Patriks Marcinkevics 53gp, 42-48-90 (co-led the FPHL scoring race late) &middot; Dominiks Marcinkevics 40gp, 28-35-63 &middot; Houston Wilson 48gp, 18-41-59 (7g, 10pts in 9 playoff gp — DEPARTED to Port Huron, FPHL) &middot; <b>Alexander Legkov 30gp, 19-31-50 with PD — FPHL ROOKIE OF THE YEAR</b> (91 pts league-wide) &middot; Zaychik 47gp, 41pts &middot; Lord 35pts &middot; Rasulov 35pts.<br>
+<b>Goalies <span class="unv" title="UNVERIFIED table — cite individually verified stats only">•</span>:</b> playoff starter Breandan Colgan (departed, Watertown FPHL) &middot; Parker Rutherford (returning for SPHL 2026-27) &middot; Rahul Sharma 6-6-1, .890 (departed).<br>
+<b>Broadcast gold:</b> FPHL single-season attendance record <b>126,841</b> (4,698 avg) &middot; single-game FPHL record <b>7,837</b> vs Athens, Jan 17, 2026 &middot; home playoff "White Out" games &middot; coach Gary Graham retired post-finals → the Chris Bernard era begins in the SPHL.<br>
+<b>Known 2026-27 SPHL signings <span class="unv" title="UNVERIFIED — per EP, confirm before air">•</span>:</b> Rutherford (G) and Charlie Bedard (D) returning; Asp, Fechko, Shaporev.<br>
+<b>Deep cut:</b> the Pee Dee Pride (ECHL, 1997-2005) played in Florence — pro hockey returns. Colors: electric blue/red/navy/sky blue/silver/black; palmetto-moon claw alternate logo. IG @peedeeicecats &middot; PeeDeeProHockey.com.
+</div>`,
+ath:`<div style="line-height:1.6">
+<b>2024-25 (inaugural): 43-10-3, 121 pts</b> (220 GF / 137 GA); lost R1 best-of-3 1-2 to Columbus (L 4-7, W 5-3, L 2-4). Coach Steve Martinson — FPHL Coach of the Year (left for ECHL Allen, May 2025).<br>
+<b>2025-26: 44-11-1, 124 pts</b> (275 GF / 180 GA) — <b>Continental Division champions</b>, the franchise's first division title. Then swept 0-2 by Pee Dee in R1 (2-8, 2-7) despite an 11-3 season series — the defining upset.<br>
+<b>Cross-reference:</b> 2025-26 coach Garrett Rutledge (parted ways 4/24/26) now coaches <b>FAYETTEVILLE</b> — an instant SPHL storyline whenever the Havoc play either team.<br>
+<b>Leaders:</b> 2024-25 — <b>Garrett Milan 56gp, 37-64-101 — FPHL MVP, the league's only 100-point player</b> &middot; Shinkaruk 77 &middot; Virgili 68 &middot; Kayson Gallant 67 (40 goals led the FPHL). Goalies: Rosenzweig 21-7, 2.21, .926 &middot; Lavallière 12-2, 2.38, .935. 2025-26 — Milan 51gp, 31-56-87 (player-assistant coach) &middot; Shinkaruk 72 &middot; Neiley 60 &middot; Bandurkin 56 &middot; Mack 56. Goalies <span class="unv" title="UNVERIFIED table — confirm before air">•</span>: McPhail 24-7, 2.93, .923 &middot; Lavallière 15-3, 3.14, .907.<br>
+<b>Identity:</b> named for the B-52s' "Rock Lobster" (the band formed in Athens, 1976; members attended the opener). Mascot: Clawdius, a fan-named red lobster. Colors: Crimson, Sapphire, Norfolk Sky, White. Owners: Spire Hockey (Todd Mackin).<br>
+<b>Attendance:</b> 229,000+ over two FPHL seasons; 125,611 in 2025-26 (~4,486/gm); 10 sellouts of 5,500+ at The Tank.<br>
+<b>2026-27:</b> home/season opener <b>Oct 16, 2026 vs Macon</b> at The Tank; 30 home games; no player signings announced as of Aug 5, 2026. SPHL entry announced May 13, 2026.
+</div>`};
+function renderRef26(){
+  const el=document.getElementById('ref26');if(!el)return;
+  const blocks=[
+    ['recap',"2026 President's Cup &amp; Playoffs"],
+    ['table12','The 12-team field — 2025-26 results &amp; 2026-27 coaches'],
+    ['pd','New team 2026-27 · Pee Dee IceCats — FPHL file (feeds Opening Weekend)'],
+    ['ath','New team 2026-27 · Athens Rock Lobsters — FPHL file']
+  ];
+  el.innerHTML=blocks.map(([k,title])=>{
+    const ed=(DATA.refEdits||{})[k];
+    return `<div class="ref-box"><h4 style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>${title}</span>${ed?`<button class="icon-btn" title="Restore the seeded text" onclick="refReset('${k}')">↺ seeded</button>`:''}</h4>
+      <div class="ref-ed" contenteditable="true" data-refkey="${k}" onblur="refEdit(this)">${ed||REF26_SEED[k]}</div></div>`;
+  }).join('');
+}
+function refEdit(el){
+  const k=el.dataset.refkey,cur=el.innerHTML;
+  DATA.refEdits=DATA.refEdits||{};
+  if(DATA.refEdits[k]===cur||(!(k in DATA.refEdits)&&cur===REF26_SEED[k]))return;
+  DATA.refEdits[k]=cur;save();renderRef26();
+}
+function refReset(k){
+  if(DATA.refEdits)delete DATA.refEdits[k];
+  save();renderRef26();toast('Seeded text restored');
 }
 function renderH2H(){
   const opp=val('g_opp');const box=document.getElementById('ref_h2h');
@@ -2107,8 +2200,31 @@ const OW_FIRSTS=['First goal','First assist','First win','First home opener','Fi
 function owData(){
   DATA.opening=DATA.opening||{};
   const o=DATA.opening;
-  o.file=o.file||{founded:'2026 (expansion)',arena:'Florence Center',capacity:'',city:'Florence, SC',owner:'',affil:'',broadcast:'',coach:'',coachbio:''};
-  o.story=o.story||{s1:'',s2:'',s3:'',nums:'',preseason:''};
+  o.file=o.file||{founded:'',arena:'Florence Center',capacity:'',city:'Florence, SC',owner:'',affil:'',broadcast:'',coach:'',coachbio:''};
+  o.story=o.story||{s1:'',s2:'',s3:'',nums:'',preseason:'',fphl:'',leaders:''};
+  /* seed from the Aug 5, 2026 research file — fills BLANK fields only, never overwrites typed text.
+     "•" carries the file's UNVERIFIED flag into the packet. */
+  if(!o.seed26){
+    if(o.file.founded==='2026 (expansion)')o.file.founded='';
+    const F={founded:'2026 SPHL expansion (FPHL 2025-26; lineage: Elmira River Sharks → Hudson Valley Venom → HC Venom)',
+      capacity:'~7,600 hockey • (10,000 total — unverified)',
+      owner:'Kevin Cuppia — managing partner & president',
+      affil:'IG @peedeeicecats · PeeDeeProHockey.com',
+      broadcast:'Tom Callahan (GM & team broadcaster)',
+      coach:'Chris Bernard',
+      coachbio:'Hired July 5, 2026 — his first pro head-coaching job after 17 years at SUNY Potsdam (NCAA D-III). Succeeds Gary Graham, who retired after coaching the Cardiac Cats run to the 2026 FPHL Commissioner\'s Cup Final.'};
+    Object.keys(F).forEach(k=>{if(!String(o.file[k]||'').trim())o.file[k]=F[k];});
+    const S={
+      s1:'The Cardiac Cats: in their only FPHL season in Florence (24-25-2-5), Pee Dee swept top-seeded Athens, beat Columbus on back-to-back OT winners, and reached the Commissioner\'s Cup Final before falling 3-1 to Binghamton.',
+      s2:'Pro hockey returns to Florence: the ECHL\'s Pee Dee Pride played here 1997-2005. Chris Bernard opens his first pro head-coaching job after 17 years at SUNY Potsdam.',
+      s3:'Roster churn: playoff hero Houston Wilson (hat trick incl. the OT series-winner vs Columbus) departed to Port Huron; Rutherford (G) and Bedard (D) return, with Asp, Fechko and Shaporev signed • (unverified, per EP).',
+      nums:'Patriks Marcinkevics: 42-48-90 in 53 GP — co-led the FPHL scoring race\nAlexander Legkov: FPHL Rookie of the Year — 19-31-50 in 30 GP with PD (91 pts league-wide)\nFPHL single-season attendance record: 126,841 (4,698 avg)\nFPHL single-game record: 7,837 vs Athens — Jan 17, 2026\nHouston Wilson: 7 G, 10 PTS in 9 playoff GP (since departed)',
+      fphl:'Regular season: 24-25-2-5, 4th in the Continental Division (~81 pts • — computed, not a published total).\nR1: swept top-seeded Athens 2-0 (8-2, 7-2) after going 3-11 against them in the regular season — the franchise\'s first playoff series win.\nDivision Final: beat Columbus 2-1 — G2 won 2-1 in OT (D. Marcinkevics tied it with the goalie pulled inside 30 seconds; Frolov the winner); G3 won 4-3 in OT on a Houston Wilson hat trick, tying goal at 1:01 and the series-winner.\nCommissioner\'s Cup Final: lost 3-1 to Binghamton (W 5-2, L 1-2, L 1-8, L 2-4) — Binghamton\'s three-peat.\nHome playoff games were "White Out" nights; Gary Graham retired after the finals.',
+      leaders:'Patriks Marcinkevics — 53 GP, 42-48-90\nDominiks Marcinkevics — 40 GP, 28-35-63\nHouston Wilson — 48 GP, 18-41-59 (departed to Port Huron)\nAlexander Legkov — 30 GP, 19-31-50 with PD, FPHL Rookie of the Year\nZaychik 41 pts · Lord 35 · Rasulov 35\nG: Colgan (playoff starter, departed) · Rutherford (returning) · Sharma 6-6-1, .890 •'
+    };
+    Object.keys(S).forEach(k=>{if(!String(o.story[k]||'').trim())o.story[k]=S[k];});
+    o.seed26=1;
+  }
   o.firsts=o.firsts||OW_FIRSTS.map(t=>({t,done:0,detail:''}));
   o.connections=o.connections||[];
   o.origins=o.origins||{};
@@ -2117,13 +2233,13 @@ function owData(){
 function owLoad(){
   const o=owData();
   ['founded','arena','capacity','city','owner','affil','broadcast','coach','coachbio'].forEach(k=>setv('ow_'+k,o.file[k]));
-  ['s1','s2','s3','nums','preseason'].forEach(k=>setv('ow_'+k,o.story[k]));
+  ['s1','s2','s3','nums','preseason','fphl','leaders'].forEach(k=>setv('ow_'+k,o.story[k]));
   owRenderFirsts();owRenderConn();
 }
 function owSave(){
   const o=owData();
   ['founded','arena','capacity','city','owner','affil','broadcast','coach','coachbio'].forEach(k=>o.file[k]=val('ow_'+k));
-  ['s1','s2','s3','nums','preseason'].forEach(k=>o.story[k]=val('ow_'+k));
+  ['s1','s2','s3','nums','preseason','fphl','leaders'].forEach(k=>o.story[k]=val('ow_'+k));
   save();
 }
 function owRenderFirsts(){
@@ -2209,10 +2325,10 @@ function owBuild(){
     <div style="font-size:10px;font-weight:800;margin:6px 0">${owGameLine()}</div>
     <div class="gn-cols">
       <div class="box"><h3>The stakes</h3><div style="font-size:9.5px;line-height:1.6">
-        Game 1 of 60 for the IceCats — the first regular-season game in franchise history.<br>
+        Game 1 of 60 for the IceCats — the first SPHL regular-season game in franchise history (one FPHL season in Florence came before it).<br>
         Game 1 of 60 for the Havoc, opening their 23rd SPHL season${hsvStand?'':' (2025-26: see By the Numbers)'}.<br>
         First SPHL game ever played at ${esc(o.file.arena||'Florence Center')}.<br>
-        Every PD goal, win, save and fight tonight is a franchise first — see the Firsts Watch page.</div></div>
+        Every PD goal, win, save and fight tonight is an SPHL franchise first — see the Firsts Watch page.</div></div>
       ${mediaBlockHTML('media-block')}
     </div>
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
@@ -2224,7 +2340,11 @@ function owBuild(){
       <div class="box"><h3>Franchise facts</h3><table class="pk-t">${fileRows.map(r=>`<tr><td>${r[0]}</td><td class="r">${esc(r[1]||'—')}</td></tr>`).join('')}</table></div>
       <div class="box"><h3>Head coach</h3><div style="font-size:9.5px;line-height:1.6"><b>${esc(F.coach||'TBA')}</b><br>${esc(F.coachbio||'Fill the bio on the Opening Weekend tab.')}</div></div>
     </div>
-    <div class="box"><h3>PD preseason results</h3><div style="font-size:9.5px;line-height:1.6">${(o.story.preseason||'').split('\n').filter(Boolean).map(esc).join('<br>')||'None entered'}</div></div>`));
+    <div class="box"><h3>Year one in Florence — FPHL 2025-26</h3><div style="font-size:9.5px;line-height:1.6">${(o.story.fphl||'').split('\n').filter(Boolean).map(t=>'&bull; '+esc(t)).join('<br>')||'Fill on the Opening Weekend tab.'}</div></div>
+    <div class="gn-cols">
+      <div class="box"><h3>Who they were — FPHL leaders</h3><div style="font-size:9.5px;line-height:1.6">${(o.story.leaders||'').split('\n').filter(Boolean).map(esc).join('<br>')||'—'}</div></div>
+      <div class="box"><h3>PD preseason results</h3><div style="font-size:9.5px;line-height:1.6">${(o.story.preseason||'').split('\n').filter(Boolean).map(esc).join('<br>')||'None entered'}</div></div>
+    </div>`));
   // ---- how the IceCats were built ----
   const org=owOrigins();
   const groups={};org.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
@@ -2249,7 +2369,7 @@ function owBuild(){
       <div class="box"><h3>By the numbers</h3><div style="font-size:9.5px;line-height:1.6">${nums.map(t=>'&bull; '+esc(t)).join('<br>')||'—'}</div></div>
     </div>`));
   // ---- firsts watch ----
-  pages.push(pgWrap(red,S,'FRANCHISE FIRSTS WATCH — PEE DEE ICECATS',`
+  pages.push(pgWrap(red,S,'SPHL FRANCHISE FIRSTS WATCH — PEE DEE ICECATS',`
     <div class="box"><h3>Check them off as they happen</h3><table class="pk-t">${o.firsts.map(f=>`<tr><td>${f.done?'☑':'☐'} ${esc(f.t)}</td><td class="r">${esc(f.detail||'________________________')}</td></tr>`).join('')}</table></div>
     <div style="font-size:9px;color:#666;margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
   const doc=document.getElementById('openingDoc');
@@ -2329,18 +2449,20 @@ function imagesReady(root,ms){
 }
 
 /* ============ SPHL VENUE REFERENCE + ROAD-GAME HELPERS ============ */
+/* capacities per the Aug 5, 2026 research file; "•" = UNVERIFIED hockey config, confirm & edit */
 const VENUES_DEFAULT={
- "Huntsville Havoc":{arena:"Propst Arena at the Von Braun Center",city:"Huntsville, AL",tz:"Central",cap:"6,600",notes:""},
- "Birmingham Bulls":{arena:"Pelham Civic Complex",city:"Pelham, AL",tz:"Central",cap:"3,500",notes:""},
+ "Huntsville Havoc":{arena:"Propst Arena at the Von Braun Center",city:"Huntsville, AL",tz:"Central",cap:"~6,600 •",notes:""},
+ "Athens Rock Lobsters":{arena:"Akins Ford Arena (The Tank)",city:"Athens, GA",tz:"Eastern",cap:"5,500",notes:"Opened Dec 13, 2024"},
+ "Birmingham Bulls":{arena:"Pelham Civic Complex",city:"Pelham, AL",tz:"Central",cap:"4,100",notes:""},
  "Evansville Thunderbolts":{arena:"Ford Center",city:"Evansville, IN",tz:"Central",cap:"9,000",notes:""},
- "Fayetteville Marksmen":{arena:"Crown Coliseum",city:"Fayetteville, NC",tz:"Eastern",cap:"10,800",notes:""},
+ "Fayetteville Marksmen":{arena:"Crown Coliseum",city:"Fayetteville, NC",tz:"Eastern",cap:"10,000",notes:""},
  "Knoxville Ice Bears":{arena:"Knoxville Civic Coliseum",city:"Knoxville, TN",tz:"Eastern",cap:"6,500",notes:""},
- "Macon Mayhem":{arena:"Macon Coliseum",city:"Macon, GA",tz:"Eastern",cap:"8,000",notes:""},
- "Pee Dee IceCats":{arena:"Florence Center",city:"Florence, SC",tz:"Eastern",cap:"7,500",notes:""},
- "Pensacola Ice Flyers":{arena:"Pensacola Bay Center",city:"Pensacola, FL",tz:"Central",cap:"8,100",notes:""},
- "Peoria Rivermen":{arena:"Carver Arena at Peoria Civic Center",city:"Peoria, IL",tz:"Central",cap:"9,900",notes:""},
+ "Macon Mayhem":{arena:"Macon Coliseum",city:"Macon, GA",tz:"Eastern",cap:"7,182",notes:""},
+ "Pee Dee IceCats":{arena:"Florence Center",city:"Florence, SC",tz:"Eastern",cap:"~7,600 •",notes:"10,000 total; hockey config unverified"},
+ "Pensacola Ice Flyers":{arena:"Pensacola Bay Center",city:"Pensacola, FL",tz:"Central",cap:"8,082",notes:""},
+ "Peoria Rivermen":{arena:"Carver Arena at Peoria Civic Center",city:"Peoria, IL",tz:"Central",cap:"9,919",notes:""},
  "Quad City Storm":{arena:"Vibrant Arena at The MARK",city:"Moline, IL",tz:"Central",cap:"9,200",notes:""},
- "Roanoke Rail Yard Dawgs":{arena:"Berglund Center",city:"Roanoke, VA",tz:"Eastern",cap:"8,600",notes:""}
+ "Roanoke Rail Yard Dawgs":{arena:"Berglund Center",city:"Roanoke, VA",tz:"Eastern",cap:"8,672",notes:""}
 };
 function venueFor(teamFull){
   if(!teamFull)return null;
@@ -3768,7 +3890,7 @@ function renderPacket(){
       ${mediaBlockHTML('media-block')}</div>
     <div class="gn-matchup">
       <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${G.homeaway==='@'?'N/A (ROAD GAME)':esc(G.promo||'')}</div><div>${dateStr}</div>
-        ${(()=>{if(G.homeaway==='@'){const v=venueFor(G.opp);if(v){const dual=fmtDualTime(G.time,v.tz);return `<div>PUCK DROP: ${dual||timeStr}</div><div>${esc(v.arena)} · ${esc(v.city)}${v.cap?' · cap. '+esc(v.cap):''} · ${esc(v.tz)} time</div>`;}}return `<div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div>`;})()}
+        ${(()=>{if(G.homeaway==='@'){const v=venueFor(G.opp);if(v){const dual=fmtDualTime(G.time,v.tz);return `<div>PUCK DROP: ${dual||timeStr}</div><div>${esc(v.arena)} · ${esc(v.city)}${v.cap?' · cap. '+esc(String(v.cap).replace(/\s*•/g,'')):''} · ${esc(v.tz)} time</div>`;}}return `<div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div>`;})()}
         <div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
       <div class="gn-oppbox"><div class="gn-opp-logo">${logoHTML(G.opp,'',oppAbbr)}</div></div></div>
