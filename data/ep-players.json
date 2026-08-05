@@ -651,7 +651,29 @@
   "epId": "387323",
   "epUrl": "https://www.eliteprospects.com/player/387323",
   "name": "Sam Dabrowski",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1998-08-12",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 34,
+     "g": 11,
+     "a": 15,
+     "p": 26,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "26 points in 34 career pro games (SPHL)",
+   "Best season: 11G-15A-26P in 34 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:11:37.657Z"
  },
  "3356": {
   "epId": "297989",
@@ -1165,7 +1187,29 @@
   "epId": "393767",
   "epUrl": "https://www.eliteprospects.com/player/393767",
   "name": "Kyler Head",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-07-13",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 49,
+     "g": 8,
+     "a": 19,
+     "p": 27,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "27 points in 49 career pro games (SPHL)",
+   "Best season: 8G-19A-27P in 49 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:11:37.657Z"
  },
  "3606": {
   "epId": "276188",
@@ -1284,7 +1328,7 @@
   "epId": "264878",
   "epUrl": "https://www.eliteprospects.com/player/264878",
   "name": "Shane Murphy",
-  "team": "Birmingham Bulls",
+  "team": "Fayetteville Marksmen",
   "dob": "2000-04-03",
   "hometown": "",
   "careerStats": [],
@@ -2003,7 +2047,29 @@
   "epId": "508269",
   "epUrl": "https://www.eliteprospects.com/player/508269",
   "name": "Blake Humphrey",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2002-01-18",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 39,
+     "g": 13,
+     "a": 10,
+     "p": 23,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "23 points in 39 career pro games (SPHL)",
+   "Best season: 13G-10A-23P in 39 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-05T03:11:37.657Z"
  },
  "3753": {
   "epId": "479157",
