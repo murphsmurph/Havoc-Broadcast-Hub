@@ -1,0 +1,2181 @@
+{
+ "6": {
+  "epId": "96001",
+  "epUrl": "https://www.eliteprospects.com/player/96001",
+  "name": "Tommy Tsicos",
+  "team": "Quad City Storm"
+ },
+ "13": {
+  "epId": "204660",
+  "epUrl": "https://www.eliteprospects.com/player/204660",
+  "name": "JM Piotrowski",
+  "team": "Peoria Rivermen"
+ },
+ "16": {
+  "epId": "39786",
+  "epUrl": "https://www.eliteprospects.com/player/39786",
+  "name": "Josh Harris",
+  "team": "Birmingham Bulls"
+ },
+ "22": {
+  "epId": "272683",
+  "epUrl": "https://www.eliteprospects.com/player/272683",
+  "name": "Brody Claeys",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "25": {
+  "epId": "268299",
+  "epUrl": "https://www.eliteprospects.com/player/268299",
+  "name": "Zach Denny",
+  "team": "Pensacola Ice Flyers"
+ },
+ "29": {
+  "epId": "119464",
+  "epUrl": "https://www.eliteprospects.com/player/119464",
+  "name": "Cole Golka",
+  "team": "Huntsville Havoc"
+ },
+ "35": {
+  "epId": "120593",
+  "epUrl": "https://www.eliteprospects.com/player/120593",
+  "name": "Austin Lotz",
+  "team": "Birmingham Bulls"
+ },
+ "66": {
+  "epId": "227727",
+  "epUrl": "https://www.eliteprospects.com/player/227727",
+  "name": "Alec Baer",
+  "team": "Peoria Rivermen"
+ },
+ "79": {
+  "epId": "229672",
+  "epUrl": "https://www.eliteprospects.com/player/229672",
+  "name": "Cooper Jones",
+  "team": "Pensacola Ice Flyers"
+ },
+ "107": {
+  "epId": "269597",
+  "epUrl": "https://www.eliteprospects.com/player/269597",
+  "name": "Drake Glover",
+  "team": "Birmingham Bulls",
+  "dob": "1996-03-05",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "130": {
+  "epId": "248616",
+  "epUrl": "https://www.eliteprospects.com/player/248616",
+  "name": "Matt O'Dea",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "220": {
+  "epId": "207573",
+  "epUrl": "https://www.eliteprospects.com/player/207573",
+  "name": "Ryan Devine",
+  "team": "Knoxville Ice Bears"
+ },
+ "230": {
+  "epId": "126924",
+  "epUrl": "https://www.eliteprospects.com/player/126924",
+  "name": "Jimmy Soper",
+  "team": "Knoxville Ice Bears"
+ },
+ "244": {
+  "epId": "220778",
+  "epUrl": "https://www.eliteprospects.com/player/220778",
+  "name": "Joseph Drapluk",
+  "team": "Fayetteville Marksmen"
+ },
+ "261": {
+  "epId": "33267",
+  "epUrl": "https://www.eliteprospects.com/player/33267",
+  "name": "Kyle Rank",
+  "team": "Pensacola Ice Flyers"
+ },
+ "271": {
+  "epId": "313666",
+  "epUrl": "https://www.eliteprospects.com/player/313666",
+  "name": "Jordan Ernst",
+  "team": "Peoria Rivermen"
+ },
+ "288": {
+  "epId": "215887",
+  "epUrl": "https://www.eliteprospects.com/player/215887",
+  "name": "Connor Fries",
+  "team": "Huntsville Havoc"
+ },
+ "304": {
+  "epId": "97337",
+  "epUrl": "https://www.eliteprospects.com/player/97337",
+  "name": "Taylor Pryce",
+  "team": "Quad City Storm"
+ },
+ "318": {
+  "epId": "153794",
+  "epUrl": "https://www.eliteprospects.com/player/153794",
+  "name": "Joe Widmar",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "323": {
+  "epId": "239837",
+  "epUrl": "https://www.eliteprospects.com/player/239837",
+  "name": "Bryce Martin",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "335": {
+  "epId": "154443",
+  "epUrl": "https://www.eliteprospects.com/player/154443",
+  "name": "Austyn Roudebush",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "2055": {
+  "epId": "181153",
+  "epUrl": "https://www.eliteprospects.com/player/181153",
+  "name": "Mitch Atkins",
+  "team": "Knoxville Ice Bears"
+ },
+ "2109": {
+  "epId": "283904",
+  "epUrl": "https://www.eliteprospects.com/player/283904",
+  "name": "Preston Kugler",
+  "team": "Pensacola Ice Flyers"
+ },
+ "2704": {
+  "epId": "220887",
+  "epUrl": "https://www.eliteprospects.com/player/220887",
+  "name": "Frankie McClendon",
+  "team": "Fayetteville Marksmen"
+ },
+ "2726": {
+  "epId": "195639",
+  "epUrl": "https://www.eliteprospects.com/player/195639",
+  "name": "Cole Reginato",
+  "team": "Huntsville Havoc"
+ },
+ "2728": {
+  "epId": "206312",
+  "epUrl": "https://www.eliteprospects.com/player/206312",
+  "name": "Carson Vance",
+  "team": "Knoxville Ice Bears"
+ },
+ "2752": {
+  "epId": "180771",
+  "epUrl": "https://www.eliteprospects.com/player/180771",
+  "name": "Zane Steeves",
+  "team": "Quad City Storm"
+ },
+ "2759": {
+  "epId": "285068",
+  "epUrl": "https://www.eliteprospects.com/player/285068",
+  "name": "Cameron Cook",
+  "team": "Huntsville Havoc"
+ },
+ "2761": {
+  "epId": "298839",
+  "epUrl": "https://www.eliteprospects.com/player/298839",
+  "name": "Brian Wilson",
+  "team": "Huntsville Havoc"
+ },
+ "2769": {
+  "epId": "327463",
+  "epUrl": "https://www.eliteprospects.com/player/327463",
+  "name": "Dominick Procopio",
+  "team": "Huntsville Havoc"
+ },
+ "2787": {
+  "epId": "241141",
+  "epUrl": "https://www.eliteprospects.com/player/241141",
+  "name": "Kristian Stead",
+  "team": "Evansville Thunderbolts"
+ },
+ "2804": {
+  "epId": "379526",
+  "epUrl": "https://www.eliteprospects.com/player/379526",
+  "name": "Kyle Soper",
+  "team": "Knoxville Ice Bears"
+ },
+ "2836": {
+  "epId": "213990",
+  "epUrl": "https://www.eliteprospects.com/player/213990",
+  "name": "Cody Karpinski",
+  "team": "Evansville Thunderbolts"
+ },
+ "2862": {
+  "epId": "282502",
+  "epUrl": "https://www.eliteprospects.com/player/282502",
+  "name": "Bailey Brkin",
+  "team": "Macon Mayhem"
+ },
+ "2880": {
+  "epId": "171035",
+  "epUrl": "https://www.eliteprospects.com/player/171035",
+  "name": "Zach Wilkie",
+  "team": "Peoria Rivermen"
+ },
+ "2882": {
+  "epId": "295427",
+  "epUrl": "https://www.eliteprospects.com/player/295427",
+  "name": "Scott Kirton",
+  "team": "Evansville Thunderbolts"
+ },
+ "2894": {
+  "epId": "283502",
+  "epUrl": "https://www.eliteprospects.com/player/283502",
+  "name": "Tim Faulkner",
+  "team": "Knoxville Ice Bears"
+ },
+ "2933": {
+  "epId": "252320",
+  "epUrl": "https://www.eliteprospects.com/player/252320",
+  "name": "Tyson Kirkby",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "2946": {
+  "epId": "306775",
+  "epUrl": "https://www.eliteprospects.com/player/306775",
+  "name": "Jesse Anderson",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "2959": {
+  "epId": "418814",
+  "epUrl": "https://www.eliteprospects.com/player/418814",
+  "name": "Matthew Hobbs",
+  "team": "Evansville Thunderbolts"
+ },
+ "2985": {
+  "epId": "288244",
+  "epUrl": "https://www.eliteprospects.com/player/288244",
+  "name": "Alex Cohen",
+  "team": "Macon Mayhem"
+ },
+ "2993": {
+  "epId": "210135",
+  "epUrl": "https://www.eliteprospects.com/player/210135",
+  "name": "CJ Valerian",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "2994": {
+  "epId": "383024",
+  "epUrl": "https://www.eliteprospects.com/player/383024",
+  "name": "Cory Dennis",
+  "team": "Peoria Rivermen"
+ },
+ "2999": {
+  "epId": "357253",
+  "epUrl": "https://www.eliteprospects.com/player/357253",
+  "name": "Troy Button",
+  "team": "Knoxville Ice Bears"
+ },
+ "3003": {
+  "epId": "232970",
+  "epUrl": "https://www.eliteprospects.com/player/232970",
+  "name": "Davis Kirkendall",
+  "team": "Quad City Storm"
+ },
+ "3022": {
+  "epId": "269594",
+  "epUrl": "https://www.eliteprospects.com/player/269594",
+  "name": "Cayden Cahill",
+  "team": "Fayetteville Marksmen"
+ },
+ "3031": {
+  "epId": "252745",
+  "epUrl": "https://www.eliteprospects.com/player/252745",
+  "name": "Jamie Dorsey",
+  "team": "Birmingham Bulls"
+ },
+ "3043": {
+  "epId": "438485",
+  "epUrl": "https://www.eliteprospects.com/player/438485",
+  "name": "Travis Broughman",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3063": {
+  "epId": "243301",
+  "epUrl": "https://www.eliteprospects.com/player/243301",
+  "name": "Josh Boyko",
+  "team": "Macon Mayhem"
+ },
+ "3068": {
+  "epId": "272165",
+  "epUrl": "https://www.eliteprospects.com/player/272165",
+  "name": "Matt Wiesner",
+  "team": "Fayetteville Marksmen"
+ },
+ "3070": {
+  "epId": "241362",
+  "epUrl": "https://www.eliteprospects.com/player/241362",
+  "name": "Jake Goldowski",
+  "team": "Macon Mayhem"
+ },
+ "3079": {
+  "epId": "204839",
+  "epUrl": "https://www.eliteprospects.com/player/204839",
+  "name": "Kenny Britton",
+  "team": "Birmingham Bulls",
+  "dob": "1996-07-24",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3089": {
+  "epId": "248427",
+  "epUrl": "https://www.eliteprospects.com/player/248427",
+  "name": "Austin Alger",
+  "team": "Huntsville Havoc"
+ },
+ "3093": {
+  "epId": "249620",
+  "epUrl": "https://www.eliteprospects.com/player/249620",
+  "name": "Nick Latinovich",
+  "team": "Peoria Rivermen"
+ },
+ "3095": {
+  "epId": "438108",
+  "epUrl": "https://www.eliteprospects.com/player/438108",
+  "name": "Joe Kennedy",
+  "team": "Quad City Storm"
+ },
+ "3109": {
+  "epId": "107450",
+  "epUrl": "https://www.eliteprospects.com/player/107450",
+  "name": "Talor Joseph",
+  "team": "Birmingham Bulls",
+  "dob": "1994-08-01",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3113": {
+  "epId": "247333",
+  "epUrl": "https://www.eliteprospects.com/player/247333",
+  "name": "Ryan Orgel",
+  "team": "Knoxville Ice Bears"
+ },
+ "3115": {
+  "epId": "120203",
+  "epUrl": "https://www.eliteprospects.com/player/120203",
+  "name": "Kolten Olynek",
+  "team": "Birmingham Bulls",
+  "dob": "1996-02-13",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3118": {
+  "epId": "199906",
+  "epUrl": "https://www.eliteprospects.com/player/199906",
+  "name": "Jordan Henderson",
+  "team": "Fayetteville Marksmen"
+ },
+ "3125": {
+  "epId": "201709",
+  "epUrl": "https://www.eliteprospects.com/player/201709",
+  "name": "Leif Mattson",
+  "team": "Quad City Storm"
+ },
+ "3132": {
+  "epId": "477479",
+  "epUrl": "https://www.eliteprospects.com/player/477479",
+  "name": "Dominiks Marcinkevics",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3146": {
+  "epId": "180781",
+  "epUrl": "https://www.eliteprospects.com/player/180781",
+  "name": "Braydon Barker",
+  "team": "Peoria Rivermen"
+ },
+ "3206": {
+  "epId": "348528",
+  "epUrl": "https://www.eliteprospects.com/player/348528",
+  "name": "Ryan Lieth",
+  "team": "Fayetteville Marksmen"
+ },
+ "3215": {
+  "epId": "279865",
+  "epUrl": "https://www.eliteprospects.com/player/279865",
+  "name": "Mike Gelatt",
+  "team": "Peoria Rivermen"
+ },
+ "3219": {
+  "epId": "301664",
+  "epUrl": "https://www.eliteprospects.com/player/301664",
+  "name": "Nick Parody",
+  "team": "Peoria Rivermen"
+ },
+ "3221": {
+  "epId": "124530",
+  "epUrl": "https://www.eliteprospects.com/player/124530",
+  "name": "Justin Gortman",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3226": {
+  "epId": "258631",
+  "epUrl": "https://www.eliteprospects.com/player/258631",
+  "name": "Macgregor Sinclair",
+  "team": "Birmingham Bulls",
+  "dob": "1998-08-28",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3245": {
+  "epId": "424163",
+  "epUrl": "https://www.eliteprospects.com/player/424163",
+  "name": "Jack Jaunich",
+  "team": "Huntsville Havoc"
+ },
+ "3246": {
+  "epId": "354857",
+  "epUrl": "https://www.eliteprospects.com/player/354857",
+  "name": "John Moncovich",
+  "team": "Fayetteville Marksmen"
+ },
+ "3249": {
+  "epId": "301194",
+  "epUrl": "https://www.eliteprospects.com/player/301194",
+  "name": "Billy Roche",
+  "team": "Knoxville Ice Bears"
+ },
+ "3250": {
+  "epId": "300053",
+  "epUrl": "https://www.eliteprospects.com/player/300053",
+  "name": "Matt Dorsey",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3269": {
+  "epId": "381440",
+  "epUrl": "https://www.eliteprospects.com/player/381440",
+  "name": "Hayden Ford",
+  "team": "Macon Mayhem"
+ },
+ "3281": {
+  "epId": "201487",
+  "epUrl": "https://www.eliteprospects.com/player/201487",
+  "name": "Troy Kobryn",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3283": {
+  "epId": "324943",
+  "epUrl": "https://www.eliteprospects.com/player/324943",
+  "name": "Jared Christy",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3287": {
+  "epId": "355958",
+  "epUrl": "https://www.eliteprospects.com/player/355958",
+  "name": "Brendan Dowler",
+  "team": "Knoxville Ice Bears"
+ },
+ "3290": {
+  "epId": "582240",
+  "epUrl": "https://www.eliteprospects.com/player/582240",
+  "name": "Skate Skalde",
+  "team": "Birmingham Bulls"
+ },
+ "3292": {
+  "epId": "504110",
+  "epUrl": "https://www.eliteprospects.com/player/504110",
+  "name": "Dawson McKinney",
+  "team": "Knoxville Ice Bears"
+ },
+ "3295": {
+  "epId": "438781",
+  "epUrl": "https://www.eliteprospects.com/player/438781",
+  "name": "Michael McChesney",
+  "team": "Peoria Rivermen"
+ },
+ "3296": {
+  "epId": "312265",
+  "epUrl": "https://www.eliteprospects.com/player/312265",
+  "name": "Derek Contessa",
+  "team": "Evansville Thunderbolts"
+ },
+ "3297": {
+  "epId": "229615",
+  "epUrl": "https://www.eliteprospects.com/player/229615",
+  "name": "Dan Winslow",
+  "team": "Macon Mayhem"
+ },
+ "3299": {
+  "epId": "268997",
+  "epUrl": "https://www.eliteprospects.com/player/268997",
+  "name": "Joey Berkopec",
+  "team": "Evansville Thunderbolts"
+ },
+ "3305": {
+  "epId": "309391",
+  "epUrl": "https://www.eliteprospects.com/player/309391",
+  "name": "Ryan Kenny",
+  "team": "Fayetteville Marksmen"
+ },
+ "3306": {
+  "epId": "354666",
+  "epUrl": "https://www.eliteprospects.com/player/354666",
+  "name": "Stephen Mundinger",
+  "team": "Knoxville Ice Bears"
+ },
+ "3309": {
+  "epId": "557797",
+  "epUrl": "https://www.eliteprospects.com/player/557797",
+  "name": "Tristan Trudel",
+  "team": "Peoria Rivermen"
+ },
+ "3319": {
+  "epId": "436389",
+  "epUrl": "https://www.eliteprospects.com/player/436389",
+  "name": "Myles Abbate",
+  "team": "Evansville Thunderbolts"
+ },
+ "3321": {
+  "epId": "364041",
+  "epUrl": "https://www.eliteprospects.com/player/364041",
+  "name": "Brendahn Brawley",
+  "team": "Evansville Thunderbolts"
+ },
+ "3324": {
+  "epId": "468392",
+  "epUrl": "https://www.eliteprospects.com/player/468392",
+  "name": "Dilan Peters",
+  "team": "Evansville Thunderbolts"
+ },
+ "3337": {
+  "epId": "460930",
+  "epUrl": "https://www.eliteprospects.com/player/460930",
+  "name": "Zac Sirota",
+  "team": "Peoria Rivermen"
+ },
+ "3339": {
+  "epId": "387323",
+  "epUrl": "https://www.eliteprospects.com/player/387323",
+  "name": "Sam Dabrowski",
+  "team": "Fayetteville Marksmen"
+ },
+ "3356": {
+  "epId": "297989",
+  "epUrl": "https://www.eliteprospects.com/player/297989",
+  "name": "Ty Taylor",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3361": {
+  "epId": "480948",
+  "epUrl": "https://www.eliteprospects.com/player/480948",
+  "name": "Connor Green",
+  "team": "Knoxville Ice Bears"
+ },
+ "3363": {
+  "epId": "362928",
+  "epUrl": "https://www.eliteprospects.com/player/362928",
+  "name": "Benjamin Lindberg",
+  "team": "Peoria Rivermen"
+ },
+ "3371": {
+  "epId": "349555",
+  "epUrl": "https://www.eliteprospects.com/player/349555",
+  "name": "Craig McCabe",
+  "team": "Huntsville Havoc"
+ },
+ "3372": {
+  "epId": "674687",
+  "epUrl": "https://www.eliteprospects.com/player/674687",
+  "name": "Gehrig Lindberg",
+  "team": "Fayetteville Marksmen"
+ },
+ "3381": {
+  "epId": "480498",
+  "epUrl": "https://www.eliteprospects.com/player/480498",
+  "name": "Savva Smirnov",
+  "team": "Quad City Storm"
+ },
+ "3388": {
+  "epId": "283127",
+  "epUrl": "https://www.eliteprospects.com/player/283127",
+  "name": "Parker Allison",
+  "team": "Macon Mayhem"
+ },
+ "3392": {
+  "epId": "283592",
+  "epUrl": "https://www.eliteprospects.com/player/283592",
+  "name": "CJ Walker",
+  "team": "Birmingham Bulls",
+  "dob": "1999-04-22",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3398": {
+  "epId": "565969",
+  "epUrl": "https://www.eliteprospects.com/player/565969",
+  "name": "Dysen Skinner",
+  "team": "Huntsville Havoc"
+ },
+ "3403": {
+  "epId": "199625",
+  "epUrl": "https://www.eliteprospects.com/player/199625",
+  "name": "Nic Herringer",
+  "team": "Quad City Storm"
+ },
+ "3404": {
+  "epId": "286796",
+  "epUrl": "https://www.eliteprospects.com/player/286796",
+  "name": "Jordan Simoneau",
+  "team": "Evansville Thunderbolts"
+ },
+ "3407": {
+  "epId": "380259",
+  "epUrl": "https://www.eliteprospects.com/player/380259",
+  "name": "Justin Kelley",
+  "team": "Macon Mayhem"
+ },
+ "3413": {
+  "epId": "325203",
+  "epUrl": "https://www.eliteprospects.com/player/325203",
+  "name": "Tyler Love",
+  "team": "Fayetteville Marksmen"
+ },
+ "3417": {
+  "epId": "474455",
+  "epUrl": "https://www.eliteprospects.com/player/474455",
+  "name": "Sam Anzai",
+  "team": "Fayetteville Marksmen"
+ },
+ "3418": {
+  "epId": "386141",
+  "epUrl": "https://www.eliteprospects.com/player/386141",
+  "name": "Jake Maynard",
+  "team": "Knoxville Ice Bears"
+ },
+ "3422": {
+  "epId": "269074",
+  "epUrl": "https://www.eliteprospects.com/player/269074",
+  "name": "Tyson Gilmour",
+  "team": "Evansville Thunderbolts"
+ },
+ "3423": {
+  "epId": "322545",
+  "epUrl": "https://www.eliteprospects.com/player/322545",
+  "name": "Alex Wilkins",
+  "team": "Fayetteville Marksmen"
+ },
+ "3427": {
+  "epId": "435401",
+  "epUrl": "https://www.eliteprospects.com/player/435401",
+  "name": "Jack Bostedt",
+  "team": "Peoria Rivermen"
+ },
+ "3431": {
+  "epId": "393790",
+  "epUrl": "https://www.eliteprospects.com/player/393790",
+  "name": "Matt Clark",
+  "team": "Evansville Thunderbolts"
+ },
+ "3439": {
+  "epId": "273794",
+  "epUrl": "https://www.eliteprospects.com/player/273794",
+  "name": "Nicholas Aromatario",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3444": {
+  "epId": "1087578",
+  "epUrl": "https://www.eliteprospects.com/player/1087578",
+  "name": "Phil Krawec",
+  "team": "Knoxville Ice Bears"
+ },
+ "3463": {
+  "epId": "306948",
+  "epUrl": "https://www.eliteprospects.com/player/306948",
+  "name": "Khristian Acosta",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3465": {
+  "epId": "285339",
+  "epUrl": "https://www.eliteprospects.com/player/285339",
+  "name": "Giovanni Procopio",
+  "team": "Huntsville Havoc"
+ },
+ "3466": {
+  "epId": "284080",
+  "epUrl": "https://www.eliteprospects.com/player/284080",
+  "name": "Noah Finstrom",
+  "team": "Knoxville Ice Bears"
+ },
+ "3467": {
+  "epId": "370282",
+  "epUrl": "https://www.eliteprospects.com/player/370282",
+  "name": "Matt Allen",
+  "team": "Huntsville Havoc"
+ },
+ "3468": {
+  "epId": "350433",
+  "epUrl": "https://www.eliteprospects.com/player/350433",
+  "name": "Terry Ryder",
+  "team": "Huntsville Havoc"
+ },
+ "3469": {
+  "epId": "282474",
+  "epUrl": "https://www.eliteprospects.com/player/282474",
+  "name": "Charlie Risk",
+  "team": "Huntsville Havoc"
+ },
+ "3470": {
+  "epId": "325244",
+  "epUrl": "https://www.eliteprospects.com/player/325244",
+  "name": "Tyler Williams",
+  "team": "Knoxville Ice Bears"
+ },
+ "3472": {
+  "epId": "618254",
+  "epUrl": "https://www.eliteprospects.com/player/618254",
+  "name": "Brayden Stannard",
+  "team": "Knoxville Ice Bears"
+ },
+ "3475": {
+  "epId": "281775",
+  "epUrl": "https://www.eliteprospects.com/player/281775",
+  "name": "Eric Olson",
+  "team": "Knoxville Ice Bears"
+ },
+ "3476": {
+  "epId": "482038",
+  "epUrl": "https://www.eliteprospects.com/player/482038",
+  "name": "Lucas Helland",
+  "team": "Knoxville Ice Bears"
+ },
+ "3477": {
+  "epId": "711609",
+  "epUrl": "https://www.eliteprospects.com/player/711609",
+  "name": "Andrey Simonchyk",
+  "team": "Quad City Storm"
+ },
+ "3481": {
+  "epId": "386171",
+  "epUrl": "https://www.eliteprospects.com/player/386171",
+  "name": "Matteo Ybarra",
+  "team": "Macon Mayhem"
+ },
+ "3483": {
+  "epId": "616222",
+  "epUrl": "https://www.eliteprospects.com/player/616222",
+  "name": "Brandon Reller",
+  "team": "Knoxville Ice Bears"
+ },
+ "3488": {
+  "epId": "326263",
+  "epUrl": "https://www.eliteprospects.com/player/326263",
+  "name": "Shane Bull",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3493": {
+  "epId": "284109",
+  "epUrl": "https://www.eliteprospects.com/player/284109",
+  "name": "Josh Martin",
+  "team": "Peoria Rivermen"
+ },
+ "3497": {
+  "epId": "194820",
+  "epUrl": "https://www.eliteprospects.com/player/194820",
+  "name": "Colby Muise",
+  "team": "Fayetteville Marksmen"
+ },
+ "3498": {
+  "epId": "507580",
+  "epUrl": "https://www.eliteprospects.com/player/507580",
+  "name": "John Aonso",
+  "team": "Fayetteville Marksmen"
+ },
+ "3499": {
+  "epId": "565973",
+  "epUrl": "https://www.eliteprospects.com/player/565973",
+  "name": "Mason Beaupit",
+  "team": "Fayetteville Marksmen"
+ },
+ "3503": {
+  "epId": "320866",
+  "epUrl": "https://www.eliteprospects.com/player/320866",
+  "name": "Johnny Witzke",
+  "team": "Quad City Storm"
+ },
+ "3508": {
+  "epId": "287760",
+  "epUrl": "https://www.eliteprospects.com/player/287760",
+  "name": "Gustav Muller",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3510": {
+  "epId": "473124",
+  "epUrl": "https://www.eliteprospects.com/player/473124",
+  "name": "Cory Doney",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3516": {
+  "epId": "326472",
+  "epUrl": "https://www.eliteprospects.com/player/326472",
+  "name": "Amedeo Mastrangeli",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3519": {
+  "epId": "391096",
+  "epUrl": "https://www.eliteprospects.com/player/391096",
+  "name": "Griffen Fox",
+  "team": "Peoria Rivermen"
+ },
+ "3521": {
+  "epId": "326236",
+  "epUrl": "https://www.eliteprospects.com/player/326236",
+  "name": "Carson Gallagher",
+  "team": "Quad City Storm"
+ },
+ "3525": {
+  "epId": "329797",
+  "epUrl": "https://www.eliteprospects.com/player/329797",
+  "name": "Conor Witherspoon",
+  "team": "Macon Mayhem"
+ },
+ "3529": {
+  "epId": "386997",
+  "epUrl": "https://www.eliteprospects.com/player/386997",
+  "name": "Cameron Clark",
+  "team": "Quad City Storm"
+ },
+ "3531": {
+  "epId": "423407",
+  "epUrl": "https://www.eliteprospects.com/player/423407",
+  "name": "Garrett Devine",
+  "team": "Peoria Rivermen"
+ },
+ "3532": {
+  "epId": "502934",
+  "epUrl": "https://www.eliteprospects.com/player/502934",
+  "name": "Cole Crowder",
+  "team": "Fayetteville Marksmen"
+ },
+ "3534": {
+  "epId": "284025",
+  "epUrl": "https://www.eliteprospects.com/player/284025",
+  "name": "Blake Tosto",
+  "team": "Knoxville Ice Bears"
+ },
+ "3542": {
+  "epId": "508268",
+  "epUrl": "https://www.eliteprospects.com/player/508268",
+  "name": "Michael Herrera",
+  "team": "Birmingham Bulls",
+  "dob": "2002-06-02",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3544": {
+  "epId": "473571",
+  "epUrl": "https://www.eliteprospects.com/player/473571",
+  "name": "Andrew Harley",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3545": {
+  "epId": "387621",
+  "epUrl": "https://www.eliteprospects.com/player/387621",
+  "name": "Jordan Gagnon",
+  "team": "Birmingham Bulls",
+  "dob": "2001-06-19",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3548": {
+  "epId": "706980",
+  "epUrl": "https://www.eliteprospects.com/player/706980",
+  "name": "Brandon Stojcevski",
+  "team": "Peoria Rivermen"
+ },
+ "3552": {
+  "epId": "1202373",
+  "epUrl": "https://www.eliteprospects.com/player/1202373",
+  "name": "Daniel Chartrand",
+  "team": "Peoria Rivermen"
+ },
+ "3555": {
+  "epId": "326524",
+  "epUrl": "https://www.eliteprospects.com/player/326524",
+  "name": "Lukas Jirousek",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3557": {
+  "epId": "528377",
+  "epUrl": "https://www.eliteprospects.com/player/528377",
+  "name": "Eimantas Noreika",
+  "team": "Peoria Rivermen"
+ },
+ "3558": {
+  "epId": "201360",
+  "epUrl": "https://www.eliteprospects.com/player/201360",
+  "name": "Cameron MacPhee",
+  "team": "Evansville Thunderbolts"
+ },
+ "3559": {
+  "epId": "309425",
+  "epUrl": "https://www.eliteprospects.com/player/309425",
+  "name": "Ayodele Adeniye",
+  "team": "Fayetteville Marksmen"
+ },
+ "3562": {
+  "epId": "483424",
+  "epUrl": "https://www.eliteprospects.com/player/483424",
+  "name": "Aidan Litke",
+  "team": "Evansville Thunderbolts"
+ },
+ "3563": {
+  "epId": "393057",
+  "epUrl": "https://www.eliteprospects.com/player/393057",
+  "name": "John Kaljian",
+  "team": "Macon Mayhem"
+ },
+ "3567": {
+  "epId": "474215",
+  "epUrl": "https://www.eliteprospects.com/player/474215",
+  "name": "Isaac Chapman",
+  "team": "Evansville Thunderbolts"
+ },
+ "3570": {
+  "epId": "299206",
+  "epUrl": "https://www.eliteprospects.com/player/299206",
+  "name": "Conor Breen",
+  "team": "Knoxville Ice Bears"
+ },
+ "3575": {
+  "epId": "649707",
+  "epUrl": "https://www.eliteprospects.com/player/649707",
+  "name": "Hunter Godmere",
+  "team": "Quad City Storm"
+ },
+ "3581": {
+  "epId": "198351",
+  "epUrl": "https://www.eliteprospects.com/player/198351",
+  "name": "Hunter Virostek",
+  "team": "Knoxville Ice Bears"
+ },
+ "3584": {
+  "epId": "425993",
+  "epUrl": "https://www.eliteprospects.com/player/425993",
+  "name": "Brandon McNamara",
+  "team": "Peoria Rivermen"
+ },
+ "3586": {
+  "epId": "380391",
+  "epUrl": "https://www.eliteprospects.com/player/380391",
+  "name": "Laudon Poellinger",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3592": {
+  "epId": "284084",
+  "epUrl": "https://www.eliteprospects.com/player/284084",
+  "name": "Connor Scahill",
+  "team": "Birmingham Bulls",
+  "dob": "1999-02-08",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3594": {
+  "epId": "383957",
+  "epUrl": "https://www.eliteprospects.com/player/383957",
+  "name": "Kevin Sadovski",
+  "team": "Birmingham Bulls"
+ },
+ "3595": {
+  "epId": "315504",
+  "epUrl": "https://www.eliteprospects.com/player/315504",
+  "name": "Devin Sanders",
+  "team": "Quad City Storm"
+ },
+ "3600": {
+  "epId": "201485",
+  "epUrl": "https://www.eliteprospects.com/player/201485",
+  "name": "Chance Gorman",
+  "team": "Fayetteville Marksmen"
+ },
+ "3601": {
+  "epId": "400130",
+  "epUrl": "https://www.eliteprospects.com/player/400130",
+  "name": "Blake Holmes",
+  "team": "Fayetteville Marksmen"
+ },
+ "3602": {
+  "epId": "393767",
+  "epUrl": "https://www.eliteprospects.com/player/393767",
+  "name": "Kyler Head",
+  "team": "Fayetteville Marksmen"
+ },
+ "3606": {
+  "epId": "276188",
+  "epUrl": "https://www.eliteprospects.com/player/276188",
+  "name": "Tyler German",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3609": {
+  "epId": "489014",
+  "epUrl": "https://www.eliteprospects.com/player/489014",
+  "name": "Mitchell Haight",
+  "team": "Quad City Storm"
+ },
+ "3610": {
+  "epId": "291472",
+  "epUrl": "https://www.eliteprospects.com/player/291472",
+  "name": "Brodie Girod",
+  "team": "Quad City Storm"
+ },
+ "3611": {
+  "epId": "317590",
+  "epUrl": "https://www.eliteprospects.com/player/317590",
+  "name": "Nathan Berke",
+  "team": "Huntsville Havoc"
+ },
+ "3613": {
+  "epId": "471365",
+  "epUrl": "https://www.eliteprospects.com/player/471365",
+  "name": "Ryan Reifler",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3614": {
+  "epId": "285305",
+  "epUrl": "https://www.eliteprospects.com/player/285305",
+  "name": "Richard Boysen",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3615": {
+  "epId": "452980",
+  "epUrl": "https://www.eliteprospects.com/player/452980",
+  "name": "Dylan Massie",
+  "team": "Peoria Rivermen"
+ },
+ "3616": {
+  "epId": "354316",
+  "epUrl": "https://www.eliteprospects.com/player/354316",
+  "name": "Noah Massie",
+  "team": "Quad City Storm"
+ },
+ "3617": {
+  "epId": "469546",
+  "epUrl": "https://www.eliteprospects.com/player/469546",
+  "name": "Will van der Veen",
+  "team": "Evansville Thunderbolts"
+ },
+ "3619": {
+  "epId": "497335",
+  "epUrl": "https://www.eliteprospects.com/player/497335",
+  "name": "Cole Jungwirth",
+  "team": "Birmingham Bulls",
+  "dob": "2000-10-01",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3621": {
+  "epId": "201661",
+  "epUrl": "https://www.eliteprospects.com/player/201661",
+  "name": "Andrew Poulias",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3622": {
+  "epId": "519479",
+  "epUrl": "https://www.eliteprospects.com/player/519479",
+  "name": "Kevin Weaver-Vitale",
+  "team": "Huntsville Havoc"
+ },
+ "3626": {
+  "epId": "435924",
+  "epUrl": "https://www.eliteprospects.com/player/435924",
+  "name": "Kylar Fenton",
+  "team": "Peoria Rivermen"
+ },
+ "3631": {
+  "epId": "386366",
+  "epUrl": "https://www.eliteprospects.com/player/386366",
+  "name": "Ryan Kuzmich",
+  "team": "Knoxville Ice Bears"
+ },
+ "3633": {
+  "epId": "199941",
+  "epUrl": "https://www.eliteprospects.com/player/199941",
+  "name": "Ethan Price",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3638": {
+  "epId": "335887",
+  "epUrl": "https://www.eliteprospects.com/player/335887",
+  "name": "Cooper Fensterstock",
+  "team": "Fayetteville Marksmen"
+ },
+ "3640": {
+  "epId": "386409",
+  "epUrl": "https://www.eliteprospects.com/player/386409",
+  "name": "Stefan Miklakos",
+  "team": "Macon Mayhem"
+ },
+ "3642": {
+  "epId": "264878",
+  "epUrl": "https://www.eliteprospects.com/player/264878",
+  "name": "Shane Murphy",
+  "team": "Birmingham Bulls",
+  "dob": "2000-04-03",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3643": {
+  "epId": "222335",
+  "epUrl": "https://www.eliteprospects.com/player/222335",
+  "name": "Jacob Mucitelli",
+  "team": "Birmingham Bulls"
+ },
+ "3644": {
+  "epId": "262797",
+  "epUrl": "https://www.eliteprospects.com/player/262797",
+  "name": "Shawn Kennedy",
+  "team": "Birmingham Bulls"
+ },
+ "3645": {
+  "epId": "282354",
+  "epUrl": "https://www.eliteprospects.com/player/282354",
+  "name": "Parker Saretsky",
+  "team": "Birmingham Bulls",
+  "dob": "1999-04-23",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3646": {
+  "epId": "699814",
+  "epUrl": "https://www.eliteprospects.com/player/699814",
+  "name": "Vadim Frolov",
+  "team": "Birmingham Bulls"
+ },
+ "3647": {
+  "epId": "313407",
+  "epUrl": "https://www.eliteprospects.com/player/313407",
+  "name": "Philippe Caron",
+  "team": "Birmingham Bulls"
+ },
+ "3648": {
+  "epId": "439043",
+  "epUrl": "https://www.eliteprospects.com/player/439043",
+  "name": "Doug Scott",
+  "team": "Birmingham Bulls",
+  "dob": "2000-04-16",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3649": {
+  "epId": "569291",
+  "epUrl": "https://www.eliteprospects.com/player/569291",
+  "name": "Kyren Gronick",
+  "team": "Birmingham Bulls",
+  "dob": "2004-02-27",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3650": {
+  "epId": "390533",
+  "epUrl": "https://www.eliteprospects.com/player/390533",
+  "name": "Matt Wood",
+  "team": "Birmingham Bulls",
+  "dob": "2000-08-31",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3651": {
+  "epId": "693174",
+  "epUrl": "https://www.eliteprospects.com/player/693174",
+  "name": "John Woernle",
+  "team": "Evansville Thunderbolts"
+ },
+ "3652": {
+  "epId": "412519",
+  "epUrl": "https://www.eliteprospects.com/player/412519",
+  "name": "Ethan Browne",
+  "team": "Evansville Thunderbolts"
+ },
+ "3654": {
+  "epId": "580174",
+  "epUrl": "https://www.eliteprospects.com/player/580174",
+  "name": "Connor Federkow",
+  "team": "Evansville Thunderbolts"
+ },
+ "3655": {
+  "epId": "396681",
+  "epUrl": "https://www.eliteprospects.com/player/396681",
+  "name": "Eelis Laaksonen",
+  "team": "Evansville Thunderbolts"
+ },
+ "3656": {
+  "epId": "266602",
+  "epUrl": "https://www.eliteprospects.com/player/266602",
+  "name": "Cameron Patton",
+  "team": "Evansville Thunderbolts"
+ },
+ "3657": {
+  "epId": "451781",
+  "epUrl": "https://www.eliteprospects.com/player/451781",
+  "name": "Connor Tait",
+  "team": "Evansville Thunderbolts"
+ },
+ "3658": {
+  "epId": "451856",
+  "epUrl": "https://www.eliteprospects.com/player/451856",
+  "name": "Max Thiessen",
+  "team": "Evansville Thunderbolts"
+ },
+ "3659": {
+  "epId": "624251",
+  "epUrl": "https://www.eliteprospects.com/player/624251",
+  "name": "Hlib Varava",
+  "team": "Fayetteville Marksmen"
+ },
+ "3660": {
+  "epId": "428775",
+  "epUrl": "https://www.eliteprospects.com/player/428775",
+  "name": "Jesper Tarkiainen",
+  "team": "Fayetteville Marksmen"
+ },
+ "3661": {
+  "epId": "364217",
+  "epUrl": "https://www.eliteprospects.com/player/364217",
+  "name": "Coltan Wilkie",
+  "team": "Fayetteville Marksmen"
+ },
+ "3662": {
+  "epId": "272066",
+  "epUrl": "https://www.eliteprospects.com/player/272066",
+  "name": "Paul Maust",
+  "team": "Fayetteville Marksmen"
+ },
+ "3663": {
+  "epId": "375712",
+  "epUrl": "https://www.eliteprospects.com/player/375712",
+  "name": "Alex Davis",
+  "team": "Fayetteville Marksmen"
+ },
+ "3665": {
+  "epId": "313529",
+  "epUrl": "https://www.eliteprospects.com/player/313529",
+  "name": "Billy Girard",
+  "team": "Huntsville Havoc"
+ },
+ "3666": {
+  "epId": "335882",
+  "epUrl": "https://www.eliteprospects.com/player/335882",
+  "name": "Ben Schultheis",
+  "team": "Huntsville Havoc"
+ },
+ "3667": {
+  "epId": "275796",
+  "epUrl": "https://www.eliteprospects.com/player/275796",
+  "name": "Jacob Arsenault",
+  "team": "Huntsville Havoc"
+ },
+ "3668": {
+  "epId": "621599",
+  "epUrl": "https://www.eliteprospects.com/player/621599",
+  "name": "David Novotny",
+  "team": "Huntsville Havoc"
+ },
+ "3669": {
+  "epId": "582425",
+  "epUrl": "https://www.eliteprospects.com/player/582425",
+  "name": "Ethan Lindsay",
+  "team": "Huntsville Havoc"
+ },
+ "3670": {
+  "epId": "289316",
+  "epUrl": "https://www.eliteprospects.com/player/289316",
+  "name": "Jaxon Camp",
+  "team": "Huntsville Havoc"
+ },
+ "3671": {
+  "epId": "153872",
+  "epUrl": "https://www.eliteprospects.com/player/153872",
+  "name": "Josh Kestner",
+  "team": "Huntsville Havoc"
+ },
+ "3672": {
+  "epId": "646980",
+  "epUrl": "https://www.eliteprospects.com/player/646980",
+  "name": "Ashton Paul",
+  "team": "Huntsville Havoc"
+ },
+ "3673": {
+  "epId": "468111",
+  "epUrl": "https://www.eliteprospects.com/player/468111",
+  "name": "Davide Gaeta",
+  "team": "Knoxville Ice Bears"
+ },
+ "3674": {
+  "epId": "76520",
+  "epUrl": "https://www.eliteprospects.com/player/76520",
+  "name": "Paxton Leroux",
+  "team": "Knoxville Ice Bears"
+ },
+ "3675": {
+  "epId": "282504",
+  "epUrl": "https://www.eliteprospects.com/player/282504",
+  "name": "Nathan Carl",
+  "team": "Knoxville Ice Bears"
+ },
+ "3676": {
+  "epId": "381272",
+  "epUrl": "https://www.eliteprospects.com/player/381272",
+  "name": "Robin Liljekvist",
+  "team": "Knoxville Ice Bears"
+ },
+ "3677": {
+  "epId": "326267",
+  "epUrl": "https://www.eliteprospects.com/player/326267",
+  "name": "Domenic Della Civita",
+  "team": "Macon Mayhem"
+ },
+ "3678": {
+  "epId": "446810",
+  "epUrl": "https://www.eliteprospects.com/player/446810",
+  "name": "Evan Beers",
+  "team": "Macon Mayhem"
+ },
+ "3679": {
+  "epId": "438077",
+  "epUrl": "https://www.eliteprospects.com/player/438077",
+  "name": "Nick Dineen",
+  "team": "Macon Mayhem"
+ },
+ "3680": {
+  "epId": "404765",
+  "epUrl": "https://www.eliteprospects.com/player/404765",
+  "name": "Trevor Grasby",
+  "team": "Macon Mayhem"
+ },
+ "3681": {
+  "epId": "476402",
+  "epUrl": "https://www.eliteprospects.com/player/476402",
+  "name": "Connor May",
+  "team": "Macon Mayhem"
+ },
+ "3682": {
+  "epId": "494683",
+  "epUrl": "https://www.eliteprospects.com/player/494683",
+  "name": "Justin Thompson",
+  "team": "Macon Mayhem"
+ },
+ "3683": {
+  "epId": "363891",
+  "epUrl": "https://www.eliteprospects.com/player/363891",
+  "name": "Bobby Price",
+  "team": "Macon Mayhem"
+ },
+ "3684": {
+  "epId": "286814",
+  "epUrl": "https://www.eliteprospects.com/player/286814",
+  "name": "Max Messier",
+  "team": "Macon Mayhem"
+ },
+ "3685": {
+  "epId": "540513",
+  "epUrl": "https://www.eliteprospects.com/player/540513",
+  "name": "Caleb Huffman",
+  "team": "Evansville Thunderbolts"
+ },
+ "3686": {
+  "epId": "370215",
+  "epUrl": "https://www.eliteprospects.com/player/370215",
+  "name": "Dawson Sciarrino",
+  "team": "Huntsville Havoc"
+ },
+ "3687": {
+  "epId": "403206",
+  "epUrl": "https://www.eliteprospects.com/player/403206",
+  "name": "Matt Kinash",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3688": {
+  "epId": "393300",
+  "epUrl": "https://www.eliteprospects.com/player/393300",
+  "name": "Cam Gaudette",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3689": {
+  "epId": "521511",
+  "epUrl": "https://www.eliteprospects.com/player/521511",
+  "name": "Rico DiMatteo",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3690": {
+  "epId": "403996",
+  "epUrl": "https://www.eliteprospects.com/player/403996",
+  "name": "Samson Mouland",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3691": {
+  "epId": "359593",
+  "epUrl": "https://www.eliteprospects.com/player/359593",
+  "name": "Sam Rhodes",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3692": {
+  "epId": "226562",
+  "epUrl": "https://www.eliteprospects.com/player/226562",
+  "name": "Zack Bross",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3693": {
+  "epId": "199892",
+  "epUrl": "https://www.eliteprospects.com/player/199892",
+  "name": "Logan Flodell",
+  "team": "Knoxville Ice Bears"
+ },
+ "3694": {
+  "epId": "296500",
+  "epUrl": "https://www.eliteprospects.com/player/296500",
+  "name": "Brandon Walker",
+  "team": "Peoria Rivermen"
+ },
+ "3695": {
+  "epId": "425349",
+  "epUrl": "https://www.eliteprospects.com/player/425349",
+  "name": "Landon Johnson",
+  "team": "Macon Mayhem"
+ },
+ "3696": {
+  "epId": "400347",
+  "epUrl": "https://www.eliteprospects.com/player/400347",
+  "name": "Connor Szmul",
+  "team": "Peoria Rivermen"
+ },
+ "3697": {
+  "epId": "376334",
+  "epUrl": "https://www.eliteprospects.com/player/376334",
+  "name": "Caydon Meyer",
+  "team": "Fayetteville Marksmen"
+ },
+ "3698": {
+  "epId": "732202",
+  "epUrl": "https://www.eliteprospects.com/player/732202",
+  "name": "Denis Radchenko",
+  "team": "Quad City Storm"
+ },
+ "3699": {
+  "epId": "446686",
+  "epUrl": "https://www.eliteprospects.com/player/446686",
+  "name": "Ty Mathews",
+  "team": "Quad City Storm"
+ },
+ "3700": {
+  "epId": "684603",
+  "epUrl": "https://www.eliteprospects.com/player/684603",
+  "name": "Matt Myers",
+  "team": "Birmingham Bulls"
+ },
+ "3704": {
+  "epId": "258725",
+  "epUrl": "https://www.eliteprospects.com/player/258725",
+  "name": "Luke Lush",
+  "team": "Quad City Storm"
+ },
+ "3707": {
+  "epId": "625948",
+  "epUrl": "https://www.eliteprospects.com/player/625948",
+  "name": "Noe Perez",
+  "team": "Quad City Storm"
+ },
+ "3709": {
+  "epId": "649252",
+  "epUrl": "https://www.eliteprospects.com/player/649252",
+  "name": "Olivier Beaudoin",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3710": {
+  "epId": "572801",
+  "epUrl": "https://www.eliteprospects.com/player/572801",
+  "name": "Fabrice Bourgeois",
+  "team": "Quad City Storm"
+ },
+ "3711": {
+  "epId": "587542",
+  "epUrl": "https://www.eliteprospects.com/player/587542",
+  "name": "Trey Fechko",
+  "team": "Fayetteville Marksmen"
+ },
+ "3712": {
+  "epId": "807637",
+  "epUrl": "https://www.eliteprospects.com/player/807637",
+  "name": "Marcus Fechko",
+  "team": "Fayetteville Marksmen"
+ },
+ "3713": {
+  "epId": "617497",
+  "epUrl": "https://www.eliteprospects.com/player/617497",
+  "name": "Damon Furuseth",
+  "team": "Birmingham Bulls"
+ },
+ "3714": {
+  "epId": "723790",
+  "epUrl": "https://www.eliteprospects.com/player/723790",
+  "name": "Andrew Stacey",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3715": {
+  "epId": "579105",
+  "epUrl": "https://www.eliteprospects.com/player/579105",
+  "name": "Gabe Rosek",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3716": {
+  "epId": "602093",
+  "epUrl": "https://www.eliteprospects.com/player/602093",
+  "name": "Lazarus Kaebel",
+  "team": "Birmingham Bulls"
+ },
+ "3717": {
+  "epId": "386447",
+  "epUrl": "https://www.eliteprospects.com/player/386447",
+  "name": "Michael Colella",
+  "team": "Peoria Rivermen"
+ },
+ "3718": {
+  "epId": "866421",
+  "epUrl": "https://www.eliteprospects.com/player/866421",
+  "name": "Dmitri Toporowski",
+  "team": "Quad City Storm"
+ },
+ "3719": {
+  "epId": "416911",
+  "epUrl": "https://www.eliteprospects.com/player/416911",
+  "name": "Graeme McCrory",
+  "team": "Fayetteville Marksmen"
+ },
+ "3720": {
+  "epId": "410974",
+  "epUrl": "https://www.eliteprospects.com/player/410974",
+  "name": "Blake Wells",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3721": {
+  "epId": "326442",
+  "epUrl": "https://www.eliteprospects.com/player/326442",
+  "name": "Tyler Burnie",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3722": {
+  "epId": "350754",
+  "epUrl": "https://www.eliteprospects.com/player/350754",
+  "name": "Liam Blomqvist",
+  "team": "Quad City Storm"
+ },
+ "3723": {
+  "epId": "149124",
+  "epUrl": "https://www.eliteprospects.com/player/149124",
+  "name": "Jacob Boll",
+  "team": "Quad City Storm"
+ },
+ "3726": {
+  "epId": "279770",
+  "epUrl": "https://www.eliteprospects.com/player/279770",
+  "name": "Danny Weight",
+  "team": "Birmingham Bulls",
+  "dob": "2001-05-01",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3727": {
+  "epId": "726592",
+  "epUrl": "https://www.eliteprospects.com/player/726592",
+  "name": "Timofei Smirnov",
+  "team": "Quad City Storm"
+ },
+ "3728": {
+  "epId": "281805",
+  "epUrl": "https://www.eliteprospects.com/player/281805",
+  "name": "Damon Zimmer",
+  "team": "Birmingham Bulls"
+ },
+ "3731": {
+  "epId": "474272",
+  "epUrl": "https://www.eliteprospects.com/player/474272",
+  "name": "Jack Ring",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3732": {
+  "epId": "284090",
+  "epUrl": "https://www.eliteprospects.com/player/284090",
+  "name": "Jaden Shields",
+  "team": "Evansville Thunderbolts"
+ },
+ "3733": {
+  "epId": "359883",
+  "epUrl": "https://www.eliteprospects.com/player/359883",
+  "name": "Alex Gagnon",
+  "team": "Knoxville Ice Bears"
+ },
+ "3734": {
+  "epId": "419685",
+  "epUrl": "https://www.eliteprospects.com/player/419685",
+  "name": "Noah Giesbrecht",
+  "team": "Knoxville Ice Bears"
+ },
+ "3736": {
+  "epId": "562446",
+  "epUrl": "https://www.eliteprospects.com/player/562446",
+  "name": "Connor Galloway",
+  "team": "Huntsville Havoc"
+ },
+ "3738": {
+  "epId": "531598",
+  "epUrl": "https://www.eliteprospects.com/player/531598",
+  "name": "Aaron Chiarot",
+  "team": "Birmingham Bulls"
+ },
+ "3739": {
+  "epId": "363678",
+  "epUrl": "https://www.eliteprospects.com/player/363678",
+  "name": "Keanan Stewart",
+  "team": "Evansville Thunderbolts"
+ },
+ "3740": {
+  "epId": "334755",
+  "epUrl": "https://www.eliteprospects.com/player/334755",
+  "name": "Tyrone Bronte",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3741": {
+  "epId": "297962",
+  "epUrl": "https://www.eliteprospects.com/player/297962",
+  "name": "Nick McHugh",
+  "team": "Quad City Storm"
+ },
+ "3742": {
+  "epId": "348961",
+  "epUrl": "https://www.eliteprospects.com/player/348961",
+  "name": "Lincoln Erne",
+  "team": "Huntsville Havoc"
+ },
+ "3743": {
+  "epId": "285264",
+  "epUrl": "https://www.eliteprospects.com/player/285264",
+  "name": "Drew Welsch",
+  "team": "Fayetteville Marksmen"
+ },
+ "3746": {
+  "epId": "576286",
+  "epUrl": "https://www.eliteprospects.com/player/576286",
+  "name": "Jake MacDonald",
+  "team": "Quad City Storm"
+ },
+ "3747": {
+  "epId": "650156",
+  "epUrl": "https://www.eliteprospects.com/player/650156",
+  "name": "Adam Manji",
+  "team": "Evansville Thunderbolts"
+ },
+ "3748": {
+  "epId": "505219",
+  "epUrl": "https://www.eliteprospects.com/player/505219",
+  "name": "Khaden Henry",
+  "team": "Macon Mayhem"
+ },
+ "3749": {
+  "epId": "386413",
+  "epUrl": "https://www.eliteprospects.com/player/386413",
+  "name": "Chris Mott",
+  "team": "Macon Mayhem"
+ },
+ "3750": {
+  "epId": "724162",
+  "epUrl": "https://www.eliteprospects.com/player/724162",
+  "name": "Divyne Apollon",
+  "team": "Quad City Storm"
+ },
+ "3751": {
+  "epId": "418693",
+  "epUrl": "https://www.eliteprospects.com/player/418693",
+  "name": "Evan Miller",
+  "team": "Evansville Thunderbolts"
+ },
+ "3752": {
+  "epId": "508269",
+  "epUrl": "https://www.eliteprospects.com/player/508269",
+  "name": "Blake Humphrey",
+  "team": "Fayetteville Marksmen"
+ },
+ "3753": {
+  "epId": "479157",
+  "epUrl": "https://www.eliteprospects.com/player/479157",
+  "name": "Zack Jones",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3754": {
+  "epId": "546219",
+  "epUrl": "https://www.eliteprospects.com/player/546219",
+  "name": "Trey Deloury",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3755": {
+  "epId": "448060",
+  "epUrl": "https://www.eliteprospects.com/player/448060",
+  "name": "Jagger Benson",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3756": {
+  "epId": "499157",
+  "epUrl": "https://www.eliteprospects.com/player/499157",
+  "name": "Matt Sayles",
+  "team": "Fayetteville Marksmen"
+ },
+ "3757": {
+  "epId": "294746",
+  "epUrl": "https://www.eliteprospects.com/player/294746",
+  "name": "Dominic Basse",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3758": {
+  "epId": "580620",
+  "epUrl": "https://www.eliteprospects.com/player/580620",
+  "name": "Max Karlenzig",
+  "team": "Fayetteville Marksmen"
+ },
+ "3759": {
+  "epId": "298555",
+  "epUrl": "https://www.eliteprospects.com/player/298555",
+  "name": "Jordan Rosenbaum",
+  "team": "Macon Mayhem"
+ },
+ "3760": {
+  "epId": "355789",
+  "epUrl": "https://www.eliteprospects.com/player/355789",
+  "name": "Dash Quartarolo",
+  "team": "Evansville Thunderbolts"
+ },
+ "3761": {
+  "epId": "651872",
+  "epUrl": "https://www.eliteprospects.com/player/651872",
+  "name": "Sebastian Resar",
+  "team": "Macon Mayhem"
+ },
+ "3762": {
+  "epId": "469886",
+  "epUrl": "https://www.eliteprospects.com/player/469886",
+  "name": "Colin Tracy",
+  "team": "Birmingham Bulls"
+ },
+ "3764": {
+  "epId": "456539",
+  "epUrl": "https://www.eliteprospects.com/player/456539",
+  "name": "Ben Pizzimenti",
+  "team": "Birmingham Bulls"
+ },
+ "3765": {
+  "epId": "446103",
+  "epUrl": "https://www.eliteprospects.com/player/446103",
+  "name": "Brett Lockhart",
+  "team": "Quad City Storm"
+ },
+ "3766": {
+  "epId": "544432",
+  "epUrl": "https://www.eliteprospects.com/player/544432",
+  "name": "Connor McAnanama",
+  "team": "Peoria Rivermen"
+ },
+ "3768": {
+  "epId": "575670",
+  "epUrl": "https://www.eliteprospects.com/player/575670",
+  "name": "Denver Craig",
+  "team": "Knoxville Ice Bears"
+ },
+ "3769": {
+  "epId": "439068",
+  "epUrl": "https://www.eliteprospects.com/player/439068",
+  "name": "Cristian Wong-Ramos",
+  "team": "Fayetteville Marksmen"
+ },
+ "3771": {
+  "epId": "599777",
+  "epUrl": "https://www.eliteprospects.com/player/599777",
+  "name": "Ethan Hawes",
+  "team": "Evansville Thunderbolts"
+ },
+ "3772": {
+  "epId": "1261126",
+  "epUrl": "https://www.eliteprospects.com/player/1261126",
+  "name": "Bill Yox",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3773": {
+  "epId": "399462",
+  "epUrl": "https://www.eliteprospects.com/player/399462",
+  "name": "Cade Hanley",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3777": {
+  "epId": "427588",
+  "epUrl": "https://www.eliteprospects.com/player/427588",
+  "name": "Jack Suchy",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3778": {
+  "epId": "413496",
+  "epUrl": "https://www.eliteprospects.com/player/413496",
+  "name": "Porter Schachle",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3779": {
+  "epId": "568067",
+  "epUrl": "https://www.eliteprospects.com/player/568067",
+  "name": "Stepan Steshenko",
+  "team": "Quad City Storm"
+ },
+ "3780": {
+  "epId": "569219",
+  "epUrl": "https://www.eliteprospects.com/player/569219",
+  "name": "Cody Walker",
+  "team": "Birmingham Bulls"
+ },
+ "3781": {
+  "epId": "108041",
+  "epUrl": "https://www.eliteprospects.com/player/108041",
+  "name": "Daniel Stone",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3782": {
+  "epId": "320286",
+  "epUrl": "https://www.eliteprospects.com/player/320286",
+  "name": "Aiden MacIntosh",
+  "team": "Evansville Thunderbolts"
+ },
+ "3783": {
+  "epId": "324973",
+  "epUrl": "https://www.eliteprospects.com/player/324973",
+  "name": "Seth Bacon",
+  "team": "Macon Mayhem"
+ },
+ "3785": {
+  "epId": "495955",
+  "epUrl": "https://www.eliteprospects.com/player/495955",
+  "name": "Dusty Bergstrom",
+  "team": "Fayetteville Marksmen"
+ },
+ "3786": {
+  "epId": "430007",
+  "epUrl": "https://www.eliteprospects.com/player/430007",
+  "name": "Noah Roitman",
+  "team": "Macon Mayhem"
+ },
+ "3787": {
+  "epId": "448711",
+  "epUrl": "https://www.eliteprospects.com/player/448711",
+  "name": "Ryan Mahlmeister",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3788": {
+  "epId": "290056",
+  "epUrl": "https://www.eliteprospects.com/player/290056",
+  "name": "Carson Riddle",
+  "team": "Peoria Rivermen"
+ },
+ "3789": {
+  "epId": "369983",
+  "epUrl": "https://www.eliteprospects.com/player/369983",
+  "name": "Tyler Ryder",
+  "team": "Peoria Rivermen"
+ },
+ "3791": {
+  "epId": "441342",
+  "epUrl": "https://www.eliteprospects.com/player/441342",
+  "name": "Chris Ishmael",
+  "team": "Huntsville Havoc"
+ },
+ "3792": {
+  "epId": "492592",
+  "epUrl": "https://www.eliteprospects.com/player/492592",
+  "name": "Cole Beilke",
+  "team": "Peoria Rivermen"
+ },
+ "3795": {
+  "epId": "664248",
+  "epUrl": "https://www.eliteprospects.com/player/664248",
+  "name": "Seth Bernard",
+  "team": "Evansville Thunderbolts"
+ },
+ "3796": {
+  "epId": "505704",
+  "epUrl": "https://www.eliteprospects.com/player/505704",
+  "name": "Brody Tallman",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3797": {
+  "epId": "445007",
+  "epUrl": "https://www.eliteprospects.com/player/445007",
+  "name": "Caden Pattison",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3798": {
+  "epId": "934647",
+  "epUrl": "https://www.eliteprospects.com/player/934647",
+  "name": "Carter Poulin",
+  "team": "Evansville Thunderbolts"
+ },
+ "3799": {
+  "epId": "403442",
+  "epUrl": "https://www.eliteprospects.com/player/403442",
+  "name": "True Crowe",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3800": {
+  "epId": "424271",
+  "epUrl": "https://www.eliteprospects.com/player/424271",
+  "name": "Evan Pringle",
+  "team": "Fayetteville Marksmen"
+ },
+ "3801": {
+  "epId": "482047",
+  "epUrl": "https://www.eliteprospects.com/player/482047",
+  "name": "Alex Proctor",
+  "team": "Huntsville Havoc"
+ },
+ "3802": {
+  "epId": "503026",
+  "epUrl": "https://www.eliteprospects.com/player/503026",
+  "name": "Kyle Kozma",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3804": {
+  "epId": "369960",
+  "epUrl": "https://www.eliteprospects.com/player/369960",
+  "name": "Max Ruoho",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3805": {
+  "epId": "621187",
+  "epUrl": "https://www.eliteprospects.com/player/621187",
+  "name": "Matt Carlson",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3806": {
+  "epId": "413316",
+  "epUrl": "https://www.eliteprospects.com/player/413316",
+  "name": "Connor Bertamini",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3807": {
+  "epId": "478825",
+  "epUrl": "https://www.eliteprospects.com/player/478825",
+  "name": "Dylan Robbins",
+  "team": "Huntsville Havoc"
+ },
+ "3808": {
+  "epId": "638100",
+  "epUrl": "https://www.eliteprospects.com/player/638100",
+  "name": "Scott Cremen",
+  "team": "Birmingham Bulls"
+ },
+ "3809": {
+  "epId": "294742",
+  "epUrl": "https://www.eliteprospects.com/player/294742",
+  "name": "Tyler Stewart",
+  "team": "Knoxville Ice Bears"
+ },
+ "3810": {
+  "epId": "541835",
+  "epUrl": "https://www.eliteprospects.com/player/541835",
+  "name": "Cole Mickel",
+  "team": "Knoxville Ice Bears"
+ },
+ "3812": {
+  "epId": "351006",
+  "epUrl": "https://www.eliteprospects.com/player/351006",
+  "name": "Sean Bunting",
+  "team": "Evansville Thunderbolts"
+ },
+ "3813": {
+  "epId": "470081",
+  "epUrl": "https://www.eliteprospects.com/player/470081",
+  "name": "Killian Rowlee",
+  "team": "Evansville Thunderbolts"
+ },
+ "3814": {
+  "epId": "75031",
+  "epUrl": "https://www.eliteprospects.com/player/75031",
+  "name": "Eric Neiley",
+  "team": "Macon Mayhem"
+ },
+ "3815": {
+  "epId": "565863",
+  "epUrl": "https://www.eliteprospects.com/player/565863",
+  "name": "Jack Lee",
+  "team": "Quad City Storm"
+ },
+ "3816": {
+  "epId": "459669",
+  "epUrl": "https://www.eliteprospects.com/player/459669",
+  "name": "Cameron Lowe",
+  "team": "Quad City Storm"
+ },
+ "3817": {
+  "epId": "398852",
+  "epUrl": "https://www.eliteprospects.com/player/398852",
+  "name": "Cade Helmer",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3818": {
+  "epId": "491399",
+  "epUrl": "https://www.eliteprospects.com/player/491399",
+  "name": "Connor Androlewicz",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3819": {
+  "epId": "415688",
+  "epUrl": "https://www.eliteprospects.com/player/415688",
+  "name": "Jordan Stock",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3820": {
+  "epId": "267665",
+  "epUrl": "https://www.eliteprospects.com/player/267665",
+  "name": "Tim Gould",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3821": {
+  "epId": "439764",
+  "epUrl": "https://www.eliteprospects.com/player/439764",
+  "name": "John Musella",
+  "team": "Fayetteville Marksmen"
+ },
+ "3822": {
+  "epId": "440831",
+  "epUrl": "https://www.eliteprospects.com/player/440831",
+  "name": "Tyler Drummond",
+  "team": "Quad City Storm"
+ },
+ "3823": {
+  "epId": "290045",
+  "epUrl": "https://www.eliteprospects.com/player/290045",
+  "name": "Sean Henry",
+  "team": "Knoxville Ice Bears"
+ },
+ "3824": {
+  "epId": "369980",
+  "epUrl": "https://www.eliteprospects.com/player/369980",
+  "name": "Anthony Mollica",
+  "team": "Evansville Thunderbolts"
+ },
+ "3827": {
+  "epId": "376617",
+  "epUrl": "https://www.eliteprospects.com/player/376617",
+  "name": "Dylan Smith",
+  "team": "Peoria Rivermen"
+ },
+ "3829": {
+  "epId": "369859",
+  "epUrl": "https://www.eliteprospects.com/player/369859",
+  "name": "Jonathan Ziskie",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3830": {
+  "epId": "535877",
+  "epUrl": "https://www.eliteprospects.com/player/535877",
+  "name": "Tyler Braccini",
+  "team": "Birmingham Bulls",
+  "dob": "2001-07-02",
+  "hometown": "",
+  "careerStats": [],
+  "bullets": [],
+  "fetchedAt": "2026-08-04T22:31:11.858Z"
+ },
+ "3831": {
+  "epId": "451933",
+  "epUrl": "https://www.eliteprospects.com/player/451933",
+  "name": "William White",
+  "team": "Fayetteville Marksmen"
+ },
+ "3832": {
+  "epId": "445318",
+  "epUrl": "https://www.eliteprospects.com/player/445318",
+  "name": "John Werber",
+  "team": "Fayetteville Marksmen"
+ },
+ "3834": {
+  "epId": "557126",
+  "epUrl": "https://www.eliteprospects.com/player/557126",
+  "name": "Gage Dill",
+  "team": "Quad City Storm"
+ },
+ "3835": {
+  "epId": "587066",
+  "epUrl": "https://www.eliteprospects.com/player/587066",
+  "name": "Carson Jones",
+  "team": "Peoria Rivermen"
+ },
+ "3836": {
+  "epId": "418249",
+  "epUrl": "https://www.eliteprospects.com/player/418249",
+  "name": "Sebastian Smith",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3837": {
+  "epId": "370024",
+  "epUrl": "https://www.eliteprospects.com/player/370024",
+  "name": "Davis Goukler",
+  "team": "Macon Mayhem"
+ },
+ "3838": {
+  "epId": "215491",
+  "epUrl": "https://www.eliteprospects.com/player/215491",
+  "name": "Brock McLeod",
+  "team": "Evansville Thunderbolts"
+ },
+ "3839": {
+  "epId": "498318",
+  "epUrl": "https://www.eliteprospects.com/player/498318",
+  "name": "Patrick Roginski",
+  "team": "Quad City Storm"
+ },
+ "3840": {
+  "epId": "412357",
+  "epUrl": "https://www.eliteprospects.com/player/412357",
+  "name": "Ethan Lund",
+  "team": "Evansville Thunderbolts"
+ },
+ "3841": {
+  "epId": "467974",
+  "epUrl": "https://www.eliteprospects.com/player/467974",
+  "name": "Gunner Moore",
+  "team": "Peoria Rivermen"
+ },
+ "3842": {
+  "epId": "929938",
+  "epUrl": "https://www.eliteprospects.com/player/929938",
+  "name": "Lance Masterson",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3843": {
+  "epId": "588228",
+  "epUrl": "https://www.eliteprospects.com/player/588228",
+  "name": "Kullan Daikawa",
+  "team": "Peoria Rivermen"
+ }
+}

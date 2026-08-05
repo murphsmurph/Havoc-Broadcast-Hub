@@ -1,15 +1,20 @@
-name: Update Elite Prospects data
+name: Fetch SPHL daily report
 
 on:
   schedule:
-    - cron: '0 6 * * 1'   # Mondays 06:00 UTC
+    - cron: '0 11 * * *'   # ~6am Central, after overnight games post
   workflow_dispatch:
+  push:
+    paths:                  # self-test whenever the pipeline itself changes
+      - '.github/workflows/sphl-daily.yml'
+      - 'scripts/fetch-daily-report.mjs'
+      - 'js/daily-report-parser.js'
 
 permissions:
   contents: write
 
 jobs:
-  build-ep-data:
+  fetch-daily-report:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,21 +23,18 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Build EP data
-        env:
-          EP_API_KEY: ${{ secrets.EP_API_KEY }}
-          HT_KEY: ${{ vars.HT_KEY }}
-        run: node scripts/build-ep-data.mjs
+      - name: Fetch + parse daily report
+        run: node scripts/fetch-daily-report.mjs
 
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/*.json
+          git add data/sphl-daily.json data/sphl-daily.html
           if git diff --staged --quiet; then
             echo "No data changes."
           else
-            git commit -m "Update Elite Prospects data (scheduled)"
+            git commit -m "Update SPHL daily report data (scheduled)"
             git pull --rebase origin "$GITHUB_REF_NAME" || true
             git push
           fi

@@ -26,6 +26,15 @@ const OUT_FILE=path.join(DATA_DIR,'ep-players.json');
 const HT_BASE='https://lscluster.hockeytech.com/feed/index.php';
 const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
 const EP_BASE='https://api.eliteprospects.com/v1';
+// local convenience: read .env from the repo root when EP_API_KEY isn't already set
+if(!process.env.EP_API_KEY){
+  try{
+    for(const line of fs.readFileSync(path.join(ROOT,'.env'),'utf8').split(/\r?\n/)){
+      const m=line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*?)\s*$/);
+      if(m&&!process.env[m[1]])process.env[m[1]]=m[2].replace(/^["']|["']$/g,'');
+    }
+  }catch(e){}
+}
 const EP_KEY=process.env.EP_API_KEY||'';
 const MAX_EP_CALLS=+(process.env.MAX_EP_CALLS||220);
 const STATS_MAX_AGE_DAYS=30;
@@ -94,13 +103,75 @@ async function htGet(fetchJson,key,params){
   const q=new URLSearchParams({key,client_code:'sphl',fmt:'json',lang:'en',...params}).toString();
   return fetchJson(HT_BASE+'?'+q);
 }
+async function htKeyWorks(fetchJson,k){
+  try{
+    const d=await htGet(fetchJson,k,{feed:'modulekit',view:'seasons'});
+    return !!(d&&d.SiteKit&&Array.isArray(d.SiteKit.Seasons)&&d.SiteKit.Seasons.length);
+  }catch(e){return false;}
+}
+/* When no known key answers, find the real one:
+   1) the Wayback Machine's URL index — archived lscluster feed calls for
+      client_code=sphl carry the key right in the URL;
+   2) the league's own public pages. */
+async function fetchText(u,ms){
+  const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),ms||25000);
+  try{
+    const res=await fetch(u,{signal:ctl.signal,headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36','Accept':'*/*'}});
+    if(!res.ok)throw new Error('HTTP '+res.status);
+    return await res.text();
+  }finally{clearTimeout(t);}
+}
+const HT_SCRAPE_PAGES=['https://www.thesphl.com/stats','https://www.thesphl.com/','https://www.thesphl.com/standings','https://www.thesphl.com/schedule'];
+async function htScrapeKeys(){
+  const found=new Set();
+  const harvest=t=>{
+    t=String(t);
+    (t.match(/key=([0-9a-f]{16})/gi)||[]).forEach(m=>found.add(m.slice(4).toLowerCase()));
+    if(/hockeytech|lscluster|leaguestat/i.test(t))
+      (t.match(/["']([0-9a-f]{16})["']/g)||[]).forEach(m=>found.add(m.replace(/["']/g,'').toLowerCase()));
+  };
+  const scriptSrcs=(html,base)=>(html.match(/<script[^>]+src=["']([^"']+)["']/gi)||[])
+    .map(s=>(s.match(/src=["']([^"']+)["']/i)||[])[1]).filter(Boolean)
+    .filter(s=>/hockeytech|leaguestat|league|stats|main|app|bundle|site/i.test(s)).slice(0,3)
+    .map(s=>{try{if(s.startsWith('//'))return 'https:'+s;if(!/^https?:/i.test(s))return new URL(s,base).href;return s;}catch(e){return null;}}).filter(Boolean);
+  // 1) live league pages (often Cloudflare-blocked for bots, but cheap to try)
+  for(const u of HT_SCRAPE_PAGES){
+    try{harvest(await fetchText(u,10000));}catch(e){}
+    if(found.size)break;
+  }
+  // 2) archived copies via the Wayback Machine — no Cloudflare, original bytes (id_ suffix)
+  if(!found.size){
+    outer:
+    for(const ts of ['2026','2025','2024']){
+      for(const u of HT_SCRAPE_PAGES){
+        let html='';
+        try{html=await fetchText('https://web.archive.org/web/'+ts+'id_/'+u,20000);}catch(e){continue;}
+        harvest(html);
+        if(!found.size){
+          for(const s of scriptSrcs(html,u)){
+            try{harvest(await fetchText('https://web.archive.org/web/'+ts+'id_/'+s,20000));}catch(e){}
+            if(found.size)break;
+          }
+        }
+        if(found.size){console.log('Found candidate key(s) in the '+ts+' web archive of '+u);break outer;}
+      }
+    }
+  }
+  // 3) last resort: the (slow) Wayback URL index of archived SPHL feed calls
+  if(!found.size){
+    try{
+      harvest(await fetchText('https://web.archive.org/cdx/search/cdx?url=lscluster.hockeytech.com%2Ffeed%2F*&filter=original:.*client_code%3Dsphl.*&filter=original:.*key%3D.*&fl=original&collapse=urlkey&limit=300',55000));
+    }catch(e){console.warn('Wayback index lookup failed: '+e.message);}
+  }
+  HT_CANDIDATE_KEYS.forEach(k=>found.delete(k));
+  return [...found].slice(0,20);
+}
 async function htDetectKey(fetchJson){
   if(process.env.HT_KEY)return process.env.HT_KEY;
-  for(const k of HT_CANDIDATE_KEYS){
-    try{
-      const d=await htGet(fetchJson,k,{feed:'modulekit',view:'seasons'});
-      if(d&&d.SiteKit&&Array.isArray(d.SiteKit.Seasons)&&d.SiteKit.Seasons.length)return k;
-    }catch(e){}
+  for(const k of HT_CANDIDATE_KEYS)if(await htKeyWorks(fetchJson,k))return k;
+  console.log('No known HockeyTech key answered — searching thesphl.com for the real one…');
+  for(const k of await htScrapeKeys()){
+    if(await htKeyWorks(fetchJson,k)){console.log('Found working feed key on the league site.');return k;}
   }
   throw new Error('No HockeyTech key worked — set HT_KEY env/repo variable');
 }
@@ -111,8 +182,20 @@ export function pickSeason(seasons){
 async function htAllPlayers(fetchJson){
   const key=await htDetectKey(fetchJson);
   const sd=await htGet(fetchJson,key,{feed:'modulekit',view:'seasons'});
-  const season=pickSeason((sd.SiteKit&&sd.SiteKit.Seasons)||[]);
-  if(!season)throw new Error('no seasons from HockeyTech');
+  const seasons=(sd.SiteKit&&sd.SiteKit.Seasons)||[];
+  if(!seasons.length)throw new Error('no seasons from HockeyTech');
+  const sorted=[...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id));
+  const regs=sorted.filter(s=>/regular/i.test(s.season_name||''));
+  // offseason: the new season exists but rosters are empty — fall back to the
+  // previous season so the EP mapping gets prebuilt before puck drop
+  for(const season of (regs.length?regs:sorted).slice(0,2)){
+    const players=await htSeasonPlayers(fetchJson,key,season);
+    if(players.length)return {players,season};
+    console.log('No rosters published for '+season.season_name+' yet — trying the previous season…');
+  }
+  return {players:[],season:(regs[0]||sorted[0])};
+}
+async function htSeasonPlayers(fetchJson,key,season){
   const td=await htGet(fetchJson,key,{feed:'modulekit',view:'teamsbyseason',season_id:season.season_id});
   const teams=(td.SiteKit&&td.SiteKit.Teamsbyseason)||[];
   const players=[];
@@ -137,7 +220,7 @@ async function htAllPlayers(fetchJson){
         nationality:String(pick(r,['nationality','country'],'')).trim()});
     }
   }
-  return {players,season};
+  return players;
 }
 
 /* ---------------- EP side ---------------- */
@@ -163,12 +246,15 @@ function epCandidatesFrom(resp){
   })(resp);
   return out;
 }
+let EP_SEARCH_VARIANT=-1; // once an endpoint shape works, stick to it — saves 2 calls per miss
 async function epSearch(epGet,name){
   const tries=[['/players',{q:name,limit:'12'}],['/search/players',{q:name}],['/players',{name}]];
-  for(const [p,params] of tries){
+  for(let i=0;i<tries.length;i++){
+    if(EP_SEARCH_VARIANT>=0&&i!==EP_SEARCH_VARIANT)continue;
     try{
-      const cands=epCandidatesFrom(await epGet(p,params));
-      if(cands.length)return cands;
+      const cands=epCandidatesFrom(await epGet(tries[i][0],tries[i][1]));
+      if(cands.length){if(EP_SEARCH_VARIANT<0)EP_SEARCH_VARIANT=i;return cands;}
+      if(EP_SEARCH_VARIANT>=0)return []; // endpoint works; the player just isn't found
     }catch(e){if(/budget/.test(e.message))throw e;}
   }
   return [];
@@ -341,6 +427,20 @@ export async function main(deps){
       console.warn('stats failed for '+p.name+': '+e.message);
       out[p.htId]=out[p.htId]||{epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
     }
+  }
+
+  // every mapped player gets at least a links-only entry — no API calls needed
+  for(const p of players){
+    const m=map.matched[p.htId];
+    if(m&&!out[p.htId])out[p.htId]={epId:m.epId,epUrl:epUrlFor(m.epId,m.slug),name:p.name,team:p.team};
+  }
+
+  // nothing needed EP this run? still validate the key with one test call
+  if(EP_KEY&&epCalls===0){
+    try{
+      const n=epCandidatesFrom(await epGet('/players',{q:'Wilson',limit:'5'})).length;
+      console.log('EP API key OK — test search returned '+n+' candidate(s).');
+    }catch(e){console.warn('EP API key test call failed: '+e.message+' — check the key / auth style');}
   }
 
   map.updatedAt=now;
