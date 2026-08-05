@@ -1,0 +1,22 @@
+name: Probe SPHL feed endpoints
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'scripts/probe-ht.mjs'
+      - '.github/workflows/ht-probe.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Probe endpoints
+        run: node scripts/probe-ht.mjs

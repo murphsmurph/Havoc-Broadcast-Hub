@@ -1915,8 +1915,13 @@ function fdRevert(team,key){delete fdOv(team)[key];save();renderFolders();toast(
 /* every displayed stat traces to the synced store; a small stamp says how fresh */
 function dataStampHTML(scope){
   const R=DATA.report||{};
-  const d=(R.daily&&R.daily.date)||'';
-  const src=d?('SPHL daily report '+d):(R.parsedAt?('SPHL feed sync '+String(R.parsedAt).slice(0,10)):'no synced data yet');
+  const dAt=R.daily&&R.daily.at?Date.parse(R.daily.at):0;
+  const lAt=R.live&&R.live.at?Date.parse(R.live.at):0;
+  let src;
+  if(lAt&&lAt>=dAt)src='SPHL live feed '+new Date(lAt).toISOString().slice(0,10);
+  else if(R.daily&&R.daily.date)src='SPHL daily report '+R.daily.date;
+  else if(R.parsedAt)src='SPHL feed sync '+String(R.parsedAt).slice(0,10);
+  else src='no synced data yet';
   let edited=false;
   if(scope==='packet')edited=Object.keys(DATA.statOv||{}).some(k=>String(DATA.statOv[k]||'').trim())||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
   else edited=Object.keys((DATA.folderOv||{})[scope]||{}).some(k=>String(DATA.folderOv[scope][k]||'').trim());
@@ -4014,6 +4019,12 @@ let HT_CB=0;
 function htHosted(){return location.protocol.startsWith('http');}
 /* Same-origin proxy state: null = untried, true = works, false = missing/broken (use direct JSONP). */
 let HT_PROXY=null;
+function htGuard(extra,data){
+  // wrong-endpoint signal: asked for X, got the seasons list back
+  if(data&&data.SiteKit&&Array.isArray(data.SiteKit.Seasons)&&String((extra||{}).view||'')!=='seasons')
+    throw new Error('Feed answered with the seasons list — wrong endpoint/params for view='+((extra||{}).view||'?'));
+  return data;
+}
 async function htFetch(extra,keyOverride,timeoutMs){
   const useKey=keyOverride||htKey();
   if(htHosted()&&HT_PROXY!==false){
@@ -4025,23 +4036,26 @@ async function htFetch(extra,keyOverride,timeoutMs){
       if(!res.ok){let msg='Proxy error '+res.status;try{const j=await res.json();if(j.error)msg=j.error;}catch(e){}throw new Error(msg);}
       const j=await res.json();
       HT_PROXY=true;
-      return j;
+      return htGuard(extra,j);
     }catch(e){
       if(HT_PROXY===true)throw e; // proxy known good — this is a real feed error, surface it
       HT_PROXY=false;             // no working proxy on this host — use direct JSONP from now on
     }
   }
   try{
-    return await htJSONP(extra,useKey,timeoutMs);
+    return htGuard(extra,await htJSONP(extra,useKey,timeoutMs));
   }catch(e){
+    if(/seasons list/.test(e.message))throw e; // wrong endpoint — backup routes won't change that
     // last resort (e.g. Safari content blockers eating third-party script tags):
     // fetch the feed's plain JSON through the public CORS proxies
     if(!useKey)throw e;
     try{
-      const txt=await epFetchText(HT_BASE+'?'+htParams({...extra,key:useKey}));
+      let txt=await epFetchText(HT_BASE+'?'+htParams({...extra,key:useKey}));
+      txt=txt.trim();
+      if(txt.startsWith('(')&&txt.endsWith(')'))txt=txt.slice(1,-1); // statviewfeed paren wrapper
       const m=txt.match(/[\[{][\s\S]*[\]}]/); // JSON body, tolerating JSONP wrappers
       if(!m)throw new Error('feed answered but not with data — key may be wrong');
-      return JSON.parse(m[0]);
+      return htGuard(extra,JSON.parse(m[0]));
     }catch(e2){throw new Error(e.message+' · backup route: '+e2.message);}
   }
 }
@@ -4145,24 +4159,45 @@ async function htTest(){
   }catch(e){htStatus(e.message,false);}
 }
 
+function htTeamsRows(d){
+  // statviewfeed team responses nest teams under sections — deep-collect team-like rows
+  const out=[];
+  const walk=v=>{
+    if(Array.isArray(v)){v.forEach(walk);return;}
+    if(v&&typeof v==='object'){
+      const hasName=('name' in v)||('team_name' in v)||('teamName' in v)||('team_city' in v);
+      const hasPts=('points' in v)||('pts' in v);
+      if(hasName&&hasPts){out.push(v);return;}
+      Object.values(v).forEach(walk);
+    }
+  };
+  walk(d);return out;
+}
 async function htDoStandings(){
-  const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:htSeason()});
-  let rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  let rows=[];
+  try{ // primary: statviewfeed teams — the format the SPHL's own site uses
+    const d0=await htFetch({feed:'statviewfeed',view:'teams',season:htSeason(),groupTeamsBy:'division',context:'overall',special:'false',sort:'points',league_id:''});
+    rows=htTeamsRows(d0);
+  }catch(e){}
+  if(!rows.length){
+    const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:htSeason()});
+    rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
+  }
   if(!rows.length){ // some HockeyTech configs only answer the plain standings view
     const d2=await htFetch({feed:'modulekit',view:'standings',season_id:htSeason()});
     rows=(d2&&d2.SiteKit&&(d2.SiteKit.Standings||d2.SiteKit.Statviewtype))||[];
   }
   const out=[];
   rows.forEach(r=>{
-    const name=String(pick(r,['team_name','name','team_city','city'],'')).trim();
+    const name=String(pick(r,['team_name','name','teamName','team_city','city'],'')).trim();
     if(!name)return;
     out.push({team:name.replace(/ (Havoc|Bulls|Thunderbolts|Marksmen|Ice Bears|Mayhem|Ice Flyers|Rivermen|Storm|Rail Yard Dawgs|Rock Lobsters|IceCats|Mysticks)$/,''),
-      gp:+pick(r,['games_played','gp'],0),w:+pick(r,['wins','w'],0),l:+pick(r,['losses','l'],0),
-      otl:+pick(r,['ot_losses','otl'],0),sol:+pick(r,['shootout_losses','sol'],0),
-      pts:+pick(r,['points','pts'],0),gf:+pick(r,['goals_for','gf'],0),ga:+pick(r,['goals_against','ga'],0)});
+      gp:+pick(r,['games_played','gamesPlayed','gp'],0),w:+pick(r,['wins','w'],0),l:+pick(r,['losses','l'],0),
+      otl:+pick(r,['ot_losses','otLosses','otl'],0),sol:+pick(r,['shootout_losses','shootoutLosses','sol'],0),
+      pts:+pick(r,['points','pts'],0),gf:+pick(r,['goals_for','goalsFor','gf'],0),ga:+pick(r,['goals_against','goalsAgainst','ga'],0)});
   });
   if(!out.length)throw new Error('Standings: no readable rows.');
-  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();save();renderStandings();
+  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();
   return out.length+' teams';
 }
 async function htDoPlayers(){
@@ -4570,7 +4605,20 @@ async function htSyncAll(){
 
 /* Auto-detect a working public feed key (candidates from open-source HockeyTech projects).
    All candidates are probed in parallel with a short timeout; first one that answers wins. */
-const HT_CANDIDATE_KEYS=['41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
+/* ---- SPHL HockeyTech feed — working key + verified endpoints (Aug 2026) ----
+   key=8fa10d218c49ec96  client_code=sphl   base=https://lscluster.hockeytech.com/feed/
+   VERIFIED:
+     skater stats   ?feed=statviewfeed&view=players&season=<id>&team=all&position=skaters&statsType=standard&first=0&limit=200&sort=points&lang=en&division=-1&conference=-1
+     goalie stats   same with position=goalies&sort=gaa
+     seasons list   ?feed=modulekit&view=seasons&fmt=json&lang=en   (44=2025-26 REG · 45=2026 playoffs · 46=2026-27 REG)
+   ADAPTED FROM THE SAME PATTERNS (validated by scripts/probe-ht.mjs via the ht-probe Action):
+     standings      ?feed=statviewfeed&view=teams&season=<id>&groupTeamsBy=division&context=overall&special=false&sort=points
+     scorebar       ?feed=modulekit&view=scorebar&numberofdaysahead=7&numberofdaysback=3&fmt=json
+     schedule       ?feed=modulekit&view=schedule&season_id=<id>&fmt=json
+   GOTCHAS: statviewfeed bodies may arrive wrapped in ( … ) — strip before JSON.parse;
+   some modulekit views answer bad requests with the SEASONS LIST instead of an error —
+   htGuard() below treats that as a wrong-endpoint signal, never as "API down". */
+const HT_CANDIDATE_KEYS=['8fa10d218c49ec96','41b145a848f4bd67','ccb91f29d6744675','2976319eb44abe94','f1aa699db3d81487','446521baf8c38984','c680916776709578','50c2cd9b5e18e390','f322673b6bcae299'];
 async function htProbeKeys(keys){
   const probes=keys.map(k=>
     htFetch({feed:'modulekit',view:'seasons'},k,7000).then(d=>{
