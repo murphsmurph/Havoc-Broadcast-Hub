@@ -224,23 +224,25 @@
   .mtp-notes-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px;font-size:8.5px;line-height:1.4;}
   .mtp-notes b,.mtp-personal b{color:var(--havoc-red);text-transform:uppercase;font-size:8px;}
   /* lineup chart v2 (dense, themed) */
-  .lc-page{box-sizing:border-box;padding:20px 24px;width:1056px;height:816px;min-height:816px;overflow:hidden;} /* letter landscape @96dpi — preview matches print */
+  .lc-page{box-sizing:border-box;padding:20px 24px;width:816px;height:1056px;min-height:1056px;overflow:hidden;display:flex;flex-direction:column;} /* letter portrait @96dpi — preview matches print */
   .lcx-head{display:flex;align-items:center;gap:14px;color:#fff;padding:8px 16px;border-radius:6px;}
   .lcx-logo{width:46px;height:46px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto;}
   .lcx-logo img{width:100%;height:100%;object-fit:contain;}
   .lcx-title{font-size:22px;font-weight:900;text-transform:uppercase;letter-spacing:.6px;}
-  .lcx-body{display:flex;gap:10px;margin-top:8px;}
-  .lcx-main{flex:1;}
-  .lcx-sub{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin:6px 0 4px;letter-spacing:.4px;}
-  .lcx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
-  .lcx-card{border:1.5px solid;border-radius:4px;overflow:hidden;}
-  .lcx-ph{display:flex;align-items:baseline;gap:6px;padding:2px 6px;}
-  .lcx-num{font-size:14px;font-weight:900;}
-  .lcx-nm{font-size:11px;font-weight:900;text-transform:uppercase;}
-  .lcx-meta{font-size:7.5px;color:#444;padding:2px 6px 0;}
-  .lcx-stat{font-size:8px;font-weight:700;padding:1px 6px;}
+  .lcx-body{display:flex;gap:10px;margin-top:8px;flex:1;min-height:0;}
+  .lcx-main{flex:1;display:flex;flex-direction:column;min-height:0;}
+  .lcx-sub{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin:6px 0 4px;letter-spacing:.4px;flex:0 0 auto;}
+  .lcx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;grid-auto-rows:1fr;} /* cards stretch so the chart fills the page to the bottom */
+  .lcx-card{border:1.5px solid;border-radius:4px;overflow:hidden;display:flex;flex-direction:column;}
+  .lcx-card:focus-within{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
+  .lcx-ph{display:flex;align-items:baseline;gap:6px;padding:2px 6px;flex-wrap:wrap;}
+  .lcx-num{font-size:15px;font-weight:900;}
+  .lcx-last{font-size:13.5px;font-weight:900;text-transform:uppercase;letter-spacing:.2px;}
+  .lcx-first{font-size:9.5px;font-weight:700;text-transform:uppercase;opacity:.92;}
+  .lcx-meta{font-size:8px;color:#444;padding:2px 6px 0;}
+  .lcx-stat{font-size:8.5px;font-weight:700;padding:1px 6px;}
   .lcx-stat b{font-weight:900;}
-  .lcx-notes{font-size:7.5px;line-height:1.35;color:#333;padding:1px 6px 4px;}
+  .lcx-notes{font-size:8px;line-height:1.4;color:#333;padding:1px 6px 4px;flex:1;}
   .lcx-side{width:165px;flex:0 0 auto;}
   .lcx-side-box{border:1.5px solid;border-radius:5px;padding:5px 8px;margin-bottom:7px;font-size:8.5px;line-height:1.45;}
   .lcx-side-box h4{font-size:13px;font-weight:900;text-transform:uppercase;margin-bottom:2px;}
@@ -293,7 +295,8 @@
     .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always;}
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
-    .lc-page{width:10.45in !important;height:7.9in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter landscape w/ 0.25in margins — one page per team */
+    .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
+    .lcx-card{outline:none !important;}
   }
   /* season calendar */
   .cal-legend{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
@@ -768,12 +771,20 @@
     <div class="subview" id="panel-chart">
 <div class="card no-print">
       <h2>Lineup <span class="accent">Chart</span></h2>
-      <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — with season stats + your broadcast bio (two lines max). Captains show their letter. Toggle the opponent side to add their page. Prints <b>horizontal (letter landscape), one page per team</b>.</p>
+      <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — <b>last name first in large type</b>, with season stats + your broadcast bio. Captains show their letter. Cards stretch to fill the page. Click into any card to edit its text (Cmd/Ctrl+B for bold, size buttons below); your edits are saved and survive refreshes. Prints <b>letter vertical (portrait), one page per team</b>.</p>
       <div class="field" style="max-width:280px"><label>Include opponent side?</label>
         <select id="chartSides"><option value="home">Havoc only</option><option value="both">Havoc + opponent</option></select></div>
+      <div class="btn-row" style="align-items:center">
+        <span style="font-size:12px;font-weight:700">Selected text:</span>
+        <button class="btn small secondary" title="Bold (Cmd/Ctrl+B)" onmousedown="event.preventDefault()" onclick="chartCmd('bold')"><b>B</b></button>
+        <button class="btn small secondary" title="Smaller text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','1')">A−</button>
+        <button class="btn small secondary" title="Normal text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','3')">A</button>
+        <button class="btn small secondary" title="Larger text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','5')">A+</button>
+        <button class="btn small secondary" onclick="chartClearEdits()">Clear text edits</button>
+      </div>
     </div>
     <div class="doc-frame">
-      <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Prints letter landscape · one page per team</span></div>
+      <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Prints letter vertical · one page per team</span></div>
       <div class="doc-scroll" id="chartDoc"></div>
     </div>
   
@@ -1067,6 +1078,7 @@ const DEFAULT_DATA={
   report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
   epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
   hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
+  chartEdits:{},         // {teamName:{playerKey:html}} — hand edits to lineup-chart cards
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1197,7 +1209,7 @@ window.addEventListener('beforeprint',()=>{
   if(sv){sv.classList.add('printing');RAWPRINT.push(sv);}
   if(sv&&sv.id==='panel-chart'&&!document.getElementById('rawPrintLand')){
     const st=document.createElement('style');st.id='rawPrintLand';
-    st.textContent='@page{size:letter landscape;margin:0.25in;}';
+    st.textContent='@page{size:letter portrait;margin:0.25in;}';
     document.head.appendChild(st);
   }
 });
@@ -1669,6 +1681,30 @@ function renderChart(){
     pages.push(`<div class="page lc-page">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
   document.getElementById('chartDoc').innerHTML=pages.join('');
+  chartWireEdits();
+}
+/* In-place card editing: click into any card, type freely, Cmd/Ctrl+B for bold,
+   A−/A/A+ buttons for text size. Edits save per player and survive refreshes. */
+function chartWireEdits(){
+  const doc=document.getElementById('chartDoc');if(!doc||doc._editWired)return;
+  doc._editWired=true;
+  doc.addEventListener('input',e=>{
+    const card=e.target.closest?e.target.closest('.lcx-card[data-ek]'):null;if(!card)return;
+    clearTimeout(doc._et);
+    doc._et=setTimeout(()=>{
+      DATA.chartEdits=DATA.chartEdits||{};
+      const t=card.dataset.team,k=card.dataset.ek;
+      (DATA.chartEdits[t]=DATA.chartEdits[t]||{})[k]=card.innerHTML;
+      save();
+    },600);
+  });
+}
+function chartCmd(cmd,arg){try{document.execCommand('styleWithCSS',false,false);document.execCommand(cmd,false,arg||null);}catch(e){}}
+function chartClearEdits(){
+  const n=Object.values(DATA.chartEdits||{}).reduce((a,t)=>a+Object.keys(t).length,0);
+  if(!n){toast('No card text edits to clear');return;}
+  if(!confirm('Clear your text edits on '+n+' card(s) and regenerate them from roster data?'))return;
+  DATA.chartEdits={};save();renderChart();toast('Card edits cleared');
 }
 function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   const primary=theme.primary,secondary=theme.secondary||'#111';
@@ -1684,7 +1720,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   const logo=teamLogoSrc(teamFull);
 
   const card=(p)=>{
-    let season='',career='';
+    let season='';
     if(p.pos==='G'){
       const g=stats?stats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
       if(g)season=`<b>SEASON:</b> ${g.gaa} GAA · ${g.svpct} SV% · ${g.w}-${g.l}-${g.otl}${g.so?' · '+g.so+' SO':''}`;
@@ -1693,15 +1729,23 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
       if(st)season=`<b>SEASON:</b> ${st.g}-${st.a}-${st.pts} · ${st.pm>=0?'+':''}${st.pm} · ${st.pim} PIM${st.shots!=null?' · '+st.shots+' SH':''}`;
     }
     const notes=chartBio(p).map(n=>'• '+esc(n)).join('<br>');
-    return `<div class="lcx-card" style="border-color:${secondary}">
+    // last name first (bigger), then first name — captain letter follows the first name
+    const parts=(p.name||'').trim().split(/\s+/);
+    let first='',last='';
+    if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+    const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
+    const editKey=p.id||norm(p.name);
+    const saved=(DATA.chartEdits&&DATA.chartEdits[teamFull]&&DATA.chartEdits[teamFull][editKey])||null;
+    const inner=saved!==null?saved:`
       <div class="lcx-ph" style="background:${secondary}">
         <span class="lcx-num" style="color:#fff">${p.num||''}</span>
-        <span class="lcx-nm" style="color:#fff">${esc(dispName(p).toUpperCase())}</span>
+        <span class="lcx-last" style="color:#fff">${esc(last.toUpperCase())}</span>
+        <span class="lcx-first" style="color:#fff">${esc(first.toUpperCase())}${letter}</span>
       </div>
       <div class="lcx-meta">${p.pos} · ${p.ht||'—'} · ${p.wt||'—'} · ${p.pos==='G'?'G':'Sh'} ${p.sh||'—'}${p.age?' · '+p.age+'y':''} · ${esc(p.birth||'')}</div>
       ${season?`<div class="lcx-stat" style="color:${primary}">${season}</div>`:''}
-      ${notes?`<div class="lcx-notes">${notes}</div>`:''}
-    </div>`;
+      ${notes?`<div class="lcx-notes">${notes}</div>`:''}`;
+    return `<div class="lcx-card" contenteditable="true" spellcheck="false" data-team="${esc(teamFull)}" data-ek="${esc(editKey)}" style="border-color:${secondary}">${inner}</div>`;
   };
 
   // side panel: IR / ECHL / scratches (home only)
@@ -1723,13 +1767,15 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   </div>`;
 
   if(!active.length)return header+'<div class="empty">No active players. Add roster + import report.</div>';
+  // each section grows in proportion to its row count so cards fill the page to the bottom
+  const grid=(arr)=>`<div class="lcx-grid" style="flex:${Math.max(1,Math.ceil(arr.length/3))}">${arr.map(card).join('')}</div>`;
   return `${header}
     <div class="lcx-body">
       <div class="lcx-main">
         <div class="lcx-sub" style="color:${primary};border-color:${primary}">Forwards</div>
-        <div class="lcx-grid">${forwards.map(card).join('')}</div>
-        ${defense.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Defense</div><div class="lcx-grid">${defense.map(card).join('')}</div>`:''}
-        ${goalies.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Goaltenders</div><div class="lcx-grid">${goalies.map(card).join('')}</div>`:''}
+        ${grid(forwards)}
+        ${defense.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Defense</div>${grid(defense)}`:''}
+        ${goalies.length?`<div class="lcx-sub" style="color:${primary};border-color:${primary}">Goaltenders</div>${grid(goalies)}`:''}
       </div>
       ${side}
     </div>`;
@@ -1746,9 +1792,9 @@ function printDoc(which){
   if(host&&host!==panel)marks.push(host);
   marks.forEach(m=>m.classList.add('printing'));
   let st=null;
-  if(which==='chart'){ // lineup chart prints horizontal: letter landscape, one page per team
+  if(which==='chart'){ // lineup chart prints letter vertical (portrait), one page per team
     st=document.createElement('style');
-    st.textContent='@page{size:letter landscape;margin:0.25in;}';
+    st.textContent='@page{size:letter portrait;margin:0.25in;}';
     document.head.appendChild(st);
   }
   setTimeout(()=>{window.print();marks.forEach(m=>m.classList.remove('printing'));if(st)st.remove();},150);
