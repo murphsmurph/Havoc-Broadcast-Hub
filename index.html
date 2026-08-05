@@ -3928,7 +3928,7 @@ setInterval(async()=>{
    mounts every .ep-widget in one pass. The player card uses the
    per-snippet embed.js?id= form so it can be swapped on demand.
    ============================================================ */
-function wgSeasonDefault(){const d=new Date();const y=d.getMonth()>=6?d.getFullYear():d.getFullYear()-1;return y+'-'+(y+1);}
+function wgSeasonDefault(){return '2025-2026';} // the season EP currently carries SPHL data for — change the Season field when 2026-2027 play begins
 function wgVals(){
   return {league:(DATA.settings.wgLeague||'sphl'),
           season:(DATA.settings.wgSeason||wgSeasonDefault()),
@@ -3936,7 +3936,7 @@ function wgVals(){
           red:DATA.settings.red||'#C8102E'};
 }
 function wgStyle(red){
-  return ` data-background-color="${red}" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="${red}"`;
+  return ` data-background-color="${red}" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="${red}" data-height="800" data-theme="light" data-font="font-montserrat"`;
 }
 function wgLoader(){
   // the docs' guard checks for #ep-widget-loader; we remove + re-add so a
@@ -3955,7 +3955,10 @@ function wgBuild(force){
   const v=wgVals(),st=wgStyle(v.red);
   setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);
   const mk=(id,attrs)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div id="epw_${id}" class="ep-widget" ${attrs}${st}></div>`;};
-  mk('wgStandings',`data-widget-type="league" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-selected-columns='{"Rank":true,"Team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":true,"GF":true,"GA":true,"GD":false,"TP":true,"PPG":false}'`);
+  // Jacob's generated snippet (ep_9391) verbatim, with league/season driven by the fields above;
+  // the combined loader mounts it along with the rest, so no per-snippet script is needed
+  const stand=document.getElementById('wgStandings');
+  if(stand)stand.innerHTML=`<div id="ep_9391" class="ep-widget" data-widget-type="league" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
   mk('wgScoring',`data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all"`);
   mk('wgGoalies',`data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all"`);
   mk('wgSched',`data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}"${v.team?` data-team-id="${esc(v.team)}"`:''} data-game-type="both" data-display-order="home"`);
