@@ -4052,13 +4052,17 @@ function wgFillPlayers(){
   sel.innerHTML='<option value="">— pick a mapped player —</option>'+opts.join('');
   if(cur)sel.value=cur;
 }
+/* Jacob's generated player snippet (ep_9834) verbatim — full career stats
+   for every mapped player, used by the single card and both decks */
+function epPlayerCareerWidget(domId,pid){
+  return `<div id="${domId}" class="ep-widget" data-widget-type="player" data-player-id="${esc(String(pid))}" data-game-limit="5" data-view-mode="career" data-show-summary="false" data-measurement-unit="metric" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
+}
 function wgPlayer(){
   const id=val('wg_player');
   const wrap=document.getElementById('wgPlayerWrap');if(!wrap)return;
   if(!id){wrap.innerHTML='<div class="empty">Pick a mapped player above.</div>';return;}
-  const v=wgVals();
   const wid='epw_player_'+id;
-  wrap.innerHTML=`<div id="${wid}" class="ep-widget" data-widget-type="player" data-player-id="${esc(id)}" data-game-limit="5" data-view-mode="career" data-show-summary="false" data-measurement-unit="imperial"${wgStyle(v.red)}></div>`;
+  wrap.innerHTML=epPlayerCareerWidget(wid,id);
   const s=document.createElement('script');
   s.async=true;s.src='https://widget.eliteprospects.com/embed.js?id='+encodeURIComponent(wid);
   document.head.appendChild(s);
@@ -4142,7 +4146,7 @@ function wgDeck(side){
     const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
     if(!id){missing.push(dispName(p));return;}
     cards.push(`<div class="ldr-h" style="font-size:11px;margin:8px 0 4px;display:flex;align-items:center;gap:6px">${teamLg?`<img src="${teamLg}" style="height:20px;width:20px;object-fit:contain">`:''}<span>#${esc(p.num||'')} ${esc(dispName(p).toUpperCase())}</span></div>
-      <div id="epw_deck_${esc(String(id))}" class="ep-widget" data-widget-type="player" data-player-id="${esc(String(id))}" data-game-limit="5" data-view-mode="stats" data-show-summary="false" data-measurement-unit="imperial"${wgStyle(v.red)}></div>`);
+      `+epPlayerCareerWidget('epw_deck_'+esc(String(id)),id));
   });
   if(!cards.length){wrap.innerHTML='<div class="empty">No EP-mapped players on that roster yet — run the weekly EP action / Link EP profiles first.</div>';if(msg)msg.textContent='';return;}
   wrap.innerHTML=cards.join('');
