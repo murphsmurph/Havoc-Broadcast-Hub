@@ -571,7 +571,6 @@
   <button class="tab" data-tab="import">Live Data</button>
   <button class="tab" data-tab="rosters">Rosters</button>
   <button class="tab" data-tab="reference">League Reference</button>
-  <button class="tab" data-tab="widgets">EP Widgets</button>
   <button class="tab" data-tab="print">Print Center</button>
   <button class="tab" data-tab="postgame">Post-Game</button>
   <button class="tab" data-tab="calllog">Call Log</button>
@@ -656,6 +655,18 @@
       <div id="dailyBadge" style="font-size:11px;color:#999;margin-top:2px"></div>
     </div>
     <div class="card">
+      <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:#888;font-weight:700">same league, alternate source</span></h2>
+      <p class="desc">Elite Prospects' own standings, leaders and schedule, for cross-checking what the SPHL feed gave us above. Off by default — it loads remote widgets and needs internet.</p>
+      <div class="btn-row"><button class="btn secondary" id="epViewBtn" onclick="epViewToggle()">Show EP view</button></div>
+      <div id="epView" style="display:none">
+        <div class="section-label">League standings</div><div id="wgStandings"></div>
+        <div class="section-label">Scoring leaders</div><div id="wgScoring"></div>
+        <div class="section-label">Goalie leaders</div><div id="wgGoalies"></div>
+        <div class="section-label">Schedule &amp; results</div><div id="wgResults"></div>
+        <div class="section-label">Schedule &amp; standings</div><div id="wgSched"></div>
+      </div>
+    </div>
+    <div class="card">
       <h2>Manual <span class="accent">Daily Report</span> <span class="upd" data-sync="daily"></span></h2>
       <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
       <div class="btn-row">
@@ -723,6 +734,30 @@
     </div>
     <div class="card" style="padding:0;overflow:hidden"><div id="rosterTableWrap"></div></div>
     <div class="card">
+      <h2>Elite Prospects <span class="accent">career cards</span></h2>
+      <p class="desc">Live EP cards, embedded straight from widget.eliteprospects.com — a full career card for any mapped player, a roster card for any SPHL club, and lineup decks for the game sheet. Internet required. League slug, season and EP team id live under Settings → Advanced.</p>
+      <div class="grid g2">
+        <div class="field"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+        <div class="field"><label>Team roster</label>
+          <div class="btn-row" style="margin:0">
+            <select id="wg_team" style="max-width:220px"><option value="">— team —</option></select>
+            <button class="btn small" onclick="wgTeamRoster()">Show</button>
+            <button class="btn small secondary" onclick="wgTeamRosterAll()">All 12</button>
+            <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="wgDeck('home')">Havoc lineup cards</button>
+        <button class="btn secondary" onclick="wgDeck('away')">Opponent lineup cards</button>
+        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
+        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
+      </div>
+      <div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div>
+      <div id="wgTeamWrap"></div>
+      <div id="wgDeckWrap"></div>
+    </div>
+    <div class="card">
       <h2>Hockey <span class="accent">Operations</span></h2>
       <p class="desc">Meet the Hockey Operations Team — fill these in yourself. When any name is set, the Game Packet gets its own "Meet the Hockey Operations Team" page.</p>
       <div class="grid g2">
@@ -787,41 +822,6 @@
   </section>
 
   <!-- EP WIDGETS -->
-  <section class="panel" id="panel-widgets">
-    <div class="card no-print">
-      <h2>Elite Prospects <span class="accent">Widgets</span></h2>
-      <p class="desc">Live embedded EP data, straight from widget.eliteprospects.com — league standings, scoring &amp; goalie leaders, schedule/results, and a career card for any mapped player (players get their EP IDs automatically from the weekly EP action). These complement the SPHL live feed and daily-report data; internet required, styled in Havoc red.</p>
-      <div class="grid g3">
-        <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
-        <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
-        <div class="field"><label>EP team ID (optional — filters schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
-      </div>
-      <div class="field" style="max-width:340px"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
-      <div class="section-label">Team rosters — any SPHL club, via the EP team widget</div>
-      <div class="btn-row">
-        <select id="wg_team" style="max-width:260px"><option value="">— team —</option></select>
-        <button class="btn" onclick="wgTeamRoster()">Show roster</button>
-        <button class="btn secondary" onclick="wgTeamRosterAll()">All SPHL teams</button>
-        <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
-      </div>
-      <div class="section-label">Game-sheet decks — generate a card for every player on the sheet</div>
-      <div class="btn-row">
-        <button class="btn" onclick="wgDeck('home')">Generate Havoc lineup cards</button>
-        <button class="btn secondary" onclick="wgDeck('away')">Generate opponent lineup cards</button>
-        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
-        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
-      </div>
-    </div>
-    <div class="card"><h3>Team rosters</h3><div id="wgTeamWrap"><div class="empty">Pick a team above (or All SPHL teams) — live EP roster widgets with numbers, positions, sizes and season stats. Team IDs come from data/ep-teams.json, resolved by the weekly EP action.</div></div></div>
-    <div class="card"><h3>Lineup card deck</h3><div id="wgDeckWrap"><div class="empty">Generate the Havoc or opponent deck above — one live EP card per active player on the game sheet, in lineup order.</div></div></div>
-    <div class="card"><h3>Player</h3><div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div></div>
-    <div class="card"><h3>Coaching staff</h3><div id="wgStaff"></div></div>
-    <div class="card"><h3>League standings</h3><div id="wgStandings"></div></div>
-    <div class="card"><h3>Scoring leaders</h3><div id="wgScoring"></div></div>
-    <div class="card"><h3>Goalie leaders</h3><div id="wgGoalies"></div></div>
-    <div class="card"><h3>Schedule &amp; results</h3><div id="wgResults"></div></div>
-    <div class="card"><h3>Schedule &amp; standings</h3><div id="wgSched"></div></div>
-  </section>
 
   <!-- SCHEDULE -->
 
@@ -875,6 +875,8 @@
           <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:#888;margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
         </div>
       </div>
+      <div class="section-label">Coaching staff — Elite Prospects career histories</div>
+      <div id="wgStaff"><div class="empty">Loads with this tab when EP widgets are reachable.</div></div>
       <div class="section-label">Coach blurbs (editable)</div>
       <div class="field" style="max-width:340px"><label>Edit coach for</label>
         <select id="coachTeam" onchange="loadCoach()"><option value="">— select team —</option></select></div>
@@ -1150,6 +1152,18 @@
       </div>
       <div class="field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
+    </div>
+    <div class="card">
+      <h2>Advanced</h2>
+      <details>
+        <summary style="cursor:pointer;font-weight:800;font-size:13px">Elite Prospects widget configuration</summary>
+        <p class="desc" style="margin-top:8px">Drives the EP career cards on Rosters, the EP view on Live Data and the staff histories in League Reference. Defaults are correct for the SPHL — change the season when EP starts carrying 2026-27.</p>
+        <div class="grid g3">
+          <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field"><label>EP team ID (filters the schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from the eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
+        </div>
+      </details>
     </div>
     <div class="card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
@@ -1684,7 +1698,7 @@ function renderRosterStatus(){
 /* Merged panels (Rosters, Print Center) hold sub-views; last-used sub-view remembered per tab */
 const SUBTABS={rosters:'roster',print:'packet'};
 const SUB_INIT={
-  roster:()=>{renderRoster();loadHockeyOps();},
+  roster:()=>{renderRoster();loadHockeyOps();Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgFillPlayers();wgFillTeams();});},
   opproster:()=>renderOppRoster(),
   quiz:()=>quizInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
@@ -1709,12 +1723,12 @@ function showTab(tab){
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
-  if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
+  if(tab==='reference')Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild());
   if(tab==='game')ivRender('pre');
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
   if(tab==='calllog')clInit();
   if(tab==='postgame'){pgInit();ivRender('post');}
-  if(tab==='settings')bkStatusRender();
+  if(tab==='settings'){bkStatusRender();wgSettingsFill();}
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -6204,6 +6218,7 @@ setInterval(async()=>{
    per-snippet embed.js?id= form so it can be swapped on demand.
    ============================================================ */
 function wgSeasonDefault(){return '2025-2026';} // the season EP currently carries SPHL data for — change the Season field when 2026-2027 play begins
+function wgSettingsFill(){const v=wgVals();setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);}
 function wgVals(){
   return {league:(DATA.settings.wgLeague||'sphl'),
           season:(DATA.settings.wgSeason||wgSeasonDefault()),
@@ -6228,7 +6243,6 @@ function wgBuild(force){
   if(WG_BUILT&&!force)return;
   WG_BUILT=true;
   const v=wgVals(),st=wgStyle(v.red);
-  setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);
   const mk=(id,attrs)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div id="epw_${id}" class="ep-widget" ${attrs}${st}></div>`;};
   // Jacob's generated snippet (ep_9391) verbatim, with league/season driven by the fields above;
   // the combined loader mounts it along with the rest, so no per-snippet script is needed
@@ -6253,6 +6267,15 @@ function wgBuild(force){
   if(schd)schd.innerHTML=`<div id="ep_2495" class="ep-widget" data-widget-type="schedule-and-standings" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="1300" data-theme="light" data-font="font-montserrat"></div>`;
   wgFillPlayers();
   wgLoader();
+}
+function epViewToggle(){
+  const box=document.getElementById('epView'),btn=document.getElementById('epViewBtn');
+  if(!box)return;
+  const show=box.style.display==='none';
+  box.style.display=show?'':'none';
+  btn.textContent=show?'Hide EP view':'Show EP view';
+  DATA.settings.epView=show?1:0;save();
+  if(show)Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild(true));
 }
 function wgFillPlayers(){
   const sel=document.getElementById('wg_player');if(!sel)return;
