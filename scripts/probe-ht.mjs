@@ -84,3 +84,47 @@ for(const size of ['60x60','120x160','240x240','320x240','480x480']){
     console.log('headshot-'+size,'HTTP',r.status,'type:'+(r.headers.get('content-type')||'?'),'bytes:'+(r.headers.get('content-length')||'?'),'acao:'+(r.headers.get('access-control-allow-origin')||'none'));
   }catch(e){console.log('headshot-'+size,'ERR',e.message.slice(0,80));}
 }
+
+// ---- 2026-27 Havoc roster check (season 46) ----
+// Does the league feed have the Havoc roster yet, and what does it say about
+// jersey numbers vs the team's own signed-players sheet?
+const SHEET=[['4','Davis Goukler'],['8','Kevin Weaver-Vitale'],['12','Gio Procopio'],['72','Alex Proctor'],
+  ['91','Connor Fries'],['15','Dawson Sciarrino'],['93','Troy Williams'],['18','Austin Alger'],
+  ['86','Landry Schmuck'],['3','Ben Schultheis'],['63','Craig McCabe'],['20','Cade Helmer'],
+  ['11','Michael Hodge'],['','Kadin Ilot'],['43','Terry Ryder']];
+const nrm=s=>String(s||'').toLowerCase().replace(/[^a-z]/g,'');
+async function jget(qs){
+  const r=await fetch(BASE+'?'+qs+'&key='+KEY+'&client_code=sphl',{headers:{'User-Agent':'Mozilla/5.0'}});
+  let t=(await r.text()).trim();
+  if(t.startsWith('('))t=t.replace(/^\(/,'').replace(/\)$/,'');
+  try{return JSON.parse(t);}catch(e){return null;}
+}
+for(const season of ['46','44']){
+  const tb=await jget('feed=modulekit&view=teamsbyseason&season_id='+season+'&fmt=json&lang=en');
+  const teams=(tb&&tb.SiteKit&&tb.SiteKit.Teamsbyseason)||[];
+  console.log('season '+season+' teams:',teams.length,teams.map(t=>(t.name||t.team_name)+'#'+(t.id||t.team_id)).join(', ').slice(0,300));
+  const hsv=teams.find(t=>/huntsville/i.test(t.name||t.team_name||''));
+  if(!hsv){console.log('season '+season+': no Huntsville team row');continue;}
+  const rr=await jget('feed=modulekit&view=roster&season_id='+season+'&team_id='+(hsv.id||hsv.team_id)+'&fmt=json&lang=en');
+  const rows=(rr&&rr.SiteKit&&rr.SiteKit.Roster)||[];
+  const players=rows.map(r=>({
+    name:(r.name||((r.first_name||'')+' '+(r.last_name||''))).trim(),
+    num:r.tp_jersey_number||r.jersey_number||'',pos:(r.position||r.pos||'').toUpperCase(),
+    id:r.player_id||r.id||'',ht:r.height_hyphenated||r.height||'',wt:r.weight||'',
+    dob:r.birthdate||r.date_of_birth||'',home:r.hometown||r.birthplace||'',img:r.player_image||r.image||''
+  })).filter(p=>p.name&&/^(F|C|LW|RW|W|D|G)$/.test(p.pos));
+  console.log('season '+season+' HUNTSVILLE roster rows:',rows.length,'players:',players.length);
+  players.forEach(p=>console.log('   #'+String(p.num).padStart(2)+' '+p.name.padEnd(24)+p.pos.padEnd(3)+' id='+p.id+' '+p.ht+' '+p.wt+' dob='+p.dob+' home='+(p.home||'-')+' img='+(p.img?'yes':'no')));
+  if(season==='46'){
+    const byName=new Map(players.map(p=>[nrm(p.name),p]));
+    console.log('--- reconcile vs the signed sheet ---');
+    SHEET.forEach(([num,name])=>{
+      const f=byName.get(nrm(name));
+      if(!f)console.log('   NOT IN FEED   '+name+' (sheet #'+(num||'--')+')');
+      else if(String(f.num)!==String(num))console.log('   NUMBER CONFLICT '+name+': sheet #'+(num||'--')+' vs feed #'+(f.num||'--')+' id='+f.id);
+      else console.log('   match         '+name+' #'+num+' id='+f.id);
+    });
+    const sheetNames=new Set(SHEET.map(s=>nrm(s[1])));
+    players.filter(p=>!sheetNames.has(nrm(p.name))).forEach(p=>console.log('   IN FEED ONLY  #'+p.num+' '+p.name+' ('+p.pos+') id='+p.id));
+  }
+}
