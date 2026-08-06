@@ -185,6 +185,12 @@
   /* live-data freshness badges */
   .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:#e8f3ec;color:#2f6b45;vertical-align:middle;}
   .upd.none{background:#eceef2;color:#6b7078;}
+  .sb-state{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;margin-bottom:8px;}
+  .sb-state .sb-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+  .sb-state.loading{color:#6b7078;} .sb-state.loading .sb-dot{background:#c3c7cf;animation:sbpulse 1s ease-in-out infinite;}
+  .sb-state.loaded{color:#2f6b45;} .sb-state.loaded .sb-dot{background:#2f6b45;}
+  .sb-state.failed{color:var(--havoc-red);} .sb-state.failed .sb-dot{background:var(--havoc-red);}
+  @keyframes sbpulse{0%,100%{opacity:.35}50%{opacity:1}}
   .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
   .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
@@ -621,7 +627,8 @@
     <div class="card">
       <h2>League <span class="accent">Scorebar</span> <span class="upd" data-sync="scorebar"></span></h2>
       <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
-      <div id="sbStrip" class="sb-strip"><div class="sb-msg">Connecting to the league feed…</div></div>
+      <div id="sbState" class="sb-state loading"><span class="sb-dot"></span><span id="sbStateMsg">Connecting to the league feed…</span><button class="btn small secondary no-print" id="sbRetry" style="display:none" onclick="sbRetry()">Retry</button></div>
+      <div id="sbStrip" class="sb-strip"></div>
       <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
     </div>
     <div class="card">
@@ -1521,6 +1528,7 @@ const DEFAULT_DATA={
   franchiseEdits:{},     // {team|section:html} — in-place edits to seeded franchise files
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
+  sbCache:null,          // last scorebar payload, so a feed outage still shows something
   sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
@@ -6112,7 +6120,7 @@ function sbIsLive(g){
 }
 function sbRender(games){
   const el=document.getElementById('sbStrip');if(!el)return;
-  if(!games.length){sbMsg('No SPHL games in the current window.');SB_HASGAMES=false;return;}
+  if(!games.length){sbMsg('No SPHL games scheduled in this window (2 days back → 7 days ahead).');SB_HASGAMES=false;return;}
   SB_HASGAMES=true;
   el.innerHTML=games.map(g=>{
     const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity','visiting_team_city'],'')).slice(0,3).toUpperCase();
@@ -6139,18 +6147,39 @@ function sbInterval(games){
   });
   return nearGame?60000:15*60000;
 }
+/* three states, always resolved: loading (capped at 10s) → loaded, or failed
+   with a retry and whatever was cached last time */
+function sbState(state,msg,retry){
+  const box=document.getElementById('sbState');if(!box)return;
+  box.className='sb-state '+state;
+  const m=document.getElementById('sbStateMsg');if(m)m.textContent=msg;
+  const r=document.getElementById('sbRetry');if(r)r.style.display=retry?'':'none';
+}
+function sbCacheSave(games){DATA.sbCache={at:new Date().toISOString(),games:games.slice(0,24)};try{save();}catch(e){}}
+function sbCacheGames(){return ((DATA.sbCache||{}).games)||[];}
+function sbRetry(){sbState('loading','Reconnecting to the league feed…',false);sbStart();}
 async function sbTick(){
   if(document.hidden)return; // polling stops here; visibilitychange restarts it
   let games=[];
+  if(!SB_HASGAMES)sbState('loading','Connecting to the league feed…',false);
   try{
-    const d=await htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7});
+    const d=await Promise.race([
+      htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7}),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('the feed did not answer within 10 seconds')),10000))
+    ]);
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
-    sbRender(games);
+    sbRender(games);sbCacheSave(games);
     SB_LAST=Date.now();syncMark('scorebar');
+    sbState('loaded','League feed connected · '+syncLabel('scorebar').toLowerCase(),false);
     const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
   }catch(e){
-    if(!SB_HASGAMES)sbMsg('Scores unavailable — '+esc(e.message)+' They\'ll appear once the feed connects (tap Test connection or Sync below).');
-    const st=document.getElementById('sbStamp');if(st&&SB_LAST)st.textContent='Last updated '+new Date(SB_LAST).toLocaleTimeString()+' — retrying…';
+    const cached=sbCacheGames();
+    if(cached.length){sbRender(cached);SB_HASGAMES=true;}
+    const when=syncAt('scorebar');
+    sbState('failed',
+      'Live scores unavailable — '+e.message+'.'+(cached.length&&when?' Showing cached data from '+syncTimeStr(when)+'.':' No cached scores to fall back on yet.'),
+      true);
+    const st=document.getElementById('sbStamp');if(st)st.textContent=when?'Cached '+syncTimeStr(when)+' — will keep retrying':'';
   }
   clearTimeout(SB_TIMER);
   SB_TIMER=setTimeout(sbTick,sbInterval(games));
