@@ -1,0 +1,389 @@
+/* ============================================================
+   Havoc Broadcast Hub — mobile rendering fixes
+   Loaded AFTER the inline styles in index.html.
+
+   The .hub-* names from the source stylesheet are mapped onto the
+   app's real elements, which now carry both classes:
+     .hub-header       → .app-header            .hub-tabs        → #tabs
+     .hub-header__logo → .app-header .mark      .hub-subnav      → .pr-subs
+     .hub-header__title/__sub → h1 / .sub       .hub-toolbar     → .pr-bar
+     .hub-app          → .wrap                  .hub-pagecount   → .pg-badge
+     .hub-panel        → .panel                 .hub-btn--print  → .btn.dark
+     .hub-card         → .card                  .hub-sectionctrl → .sec-item
+     .hub-field        → .field                 .hub-preview     → .doc-scroll
+     .hub-tablewrap    → the five wide-table containers
+     .hub-preview__page→ .page inside the packet preview
+
+   Colours map to the app's theme tokens rather than the fixed dark
+   palette in the source, so mobile follows light/dark like everything
+   else. Every layout rule is inside a max-width query, so desktop is
+   untouched; the print block at the bottom undoes all of it on paper.
+   ============================================================ */
+
+/* ---------- Global (safe on all sizes) ---------- */
+
+:root {
+  --hub-red: var(--havoc-red);
+  --hub-bg: var(--havoc-black);          /* app chrome is dark in both themes */
+  --hub-surface: var(--surface);
+  --hub-surface-2: var(--surface-2);
+  --hub-line: var(--havoc-line);
+  --hub-text: var(--ink);
+  --hub-text-dim: var(--ink-2);
+  --hub-chrome-text: #f2f2f4;            /* on the dark header/tab bar */
+  --hub-chrome-dim: #a8a8b3;
+  --hub-tap: 44px;                       /* minimum touch target */
+  --hub-safe-b: env(safe-area-inset-bottom, 0px);
+  --hub-safe-t: env(safe-area-inset-top, 0px);
+  --hub-headerh: 46px;                   /* compact mobile header, for tab stacking */
+}
+
+html {
+  -webkit-text-size-adjust: 100%;        /* stop iOS auto-inflating text */
+}
+
+* { -webkit-tap-highlight-color: rgba(200, 16, 46, 0.25); }
+
+/* iOS zooms the whole page when you focus an input under 16px.
+   (The app already sets 16px, so this changes nothing on desktop.) */
+input, select, textarea { font-size: 16px; }
+
+/* Dynamic viewport height so iOS browser chrome doesn't cut off the bottom. */
+.hub-app { min-height: 100svh; }
+
+
+/* ============================================================
+   MOBILE  (phones)
+   ============================================================ */
+@media (max-width: 640px) {
+
+  /* ---------- 1. Compact, theme-matched header ---------- */
+  .hub-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: calc(6px + var(--hub-safe-t)) 12px 6px;
+    background: var(--hub-bg);
+    border-bottom: 2px solid var(--hub-red);
+  }
+  .hub-header__logo { width: 30px; height: 30px; flex: 0 0 auto; }
+  .hub-header__titles { min-width: 0; }   /* allows ellipsis to work */
+  .hub-header .hub-header__title {
+    font-size: 15px;
+    line-height: 1.15;
+    margin: 0;
+    color: var(--hub-chrome-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hub-header .hub-header__sub {
+    font-size: 11px;
+    line-height: 1.2;
+    margin: 1px 0 0;
+    color: var(--hub-chrome-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  /* the save flash would push the title into an ellipsis on a narrow screen */
+  .hub-header .header-status { display: none; }
+
+  /* ---------- 2. Tab bar: scrollable with a visible edge hint ---------- */
+  .hub-tabs {
+    position: sticky;
+    top: var(--hub-headerh);              /* the app header stays put above it */
+    z-index: 49;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 6px 12px;
+    background: var(--havoc-charcoal);
+    /* fade on the right edge = "there is more over here" */
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+            mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+  }
+  .hub-tabs::-webkit-scrollbar { display: none; }
+  .hub-tabs > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    min-height: var(--hub-tap);
+    display: inline-flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 13px;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    border-radius: 8px;
+    border-bottom: 0;                     /* the app's underline is replaced below */
+    color: var(--hub-chrome-dim);
+  }
+  .hub-tabs > [aria-selected="true"],
+  .hub-tabs > .is-active,
+  .hub-tabs > .active {
+    color: #fff;
+    background: #2b2b33;                  /* opaque, so contrast is unambiguous */
+    box-shadow: inset 0 -3px 0 var(--hub-red);
+  }
+
+  /* ---------- 3. Sub-view pills: one scrolling row, not two stacked ---------- */
+  .hub-subnav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    padding: 0 0 2px;
+    margin: 0;
+    grid-column: 1 / -1;                  /* full width inside the toolbar grid */
+  }
+  .hub-subnav::-webkit-scrollbar { display: none; }
+  .hub-subnav > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    min-height: 38px;
+    padding: 0 14px;
+    font-size: 13px;
+    white-space: nowrap;
+    border-radius: 999px;
+  }
+
+  /* ---------- 4. Action toolbar: predictable 2-up grid ---------- */
+  .hub-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 8px 12px;
+    position: static;                     /* a sticky grid fights the tab bar */
+  }
+  .hub-toolbar > * {
+    min-height: var(--hub-tap);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 0 10px;
+  }
+  .hub-toolbar > .subspacer { display: none; }
+  /* primary actions span the full width and read as primary */
+  .hub-toolbar > .is-primary,
+  .hub-toolbar > .hub-print-all { grid-column: 1 / -1; }
+
+  /* page-count chip is information, not a button */
+  .hub-pagecount {
+    grid-column: 1 / -1;
+    justify-self: start;
+    min-height: 0;
+    padding: 2px 8px;
+    font-size: 12px;
+    color: var(--hub-text-dim);
+    background: var(--hub-surface-2);
+    border-radius: 6px;
+  }
+
+  /* ---------- 5. Make the print action read as the primary one ----------
+     The app's button is dark-filled with white text, so it never reads as
+     disabled the way the old pale one did; this keeps that fill and adds a
+     red outline so it stands apart from the secondary actions without
+     competing with the full-width red "Print everything". */
+  .hub-toolbar .hub-btn--print {
+    color: #fff !important;
+    font-weight: 800;
+    border: 2px solid var(--hub-red);
+  }
+  .hub-btn--print[disabled],
+  .hub-btn[disabled] {
+    opacity: .45;                         /* a real disabled state looks different */
+    cursor: not-allowed;
+  }
+
+  /* ---------- 6. Section size & weight rows: aligned grid ---------- */
+  .hub-sectionctrls { padding: 4px 12px 12px; }
+  .hub-sectionctrls .sec-bar {
+    display: block;                       /* the desktop flex-wrap row becomes a list */
+    padding: 10px;
+  }
+  .hub-sectionctrl {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto auto;  /* label A− pt A+ B ⟲ */
+    align-items: center;
+    column-gap: 6px;
+    width: 100%;
+    padding: 6px 8px;
+    margin: 0 0 6px;
+    background: var(--hub-surface);
+    border: 1px solid var(--hub-line);
+    border-radius: 10px;
+  }
+  .hub-sectionctrl__label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hub-text);
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .hub-sectionctrl button {
+    min-width: 38px;
+    min-height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 8px;
+    background: var(--hub-surface-2);
+    border: 1px solid var(--hub-line);
+    color: var(--hub-text);
+  }
+  .hub-sectionctrl__value {
+    min-width: 44px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;   /* "8 pt" and "10 pt" same width */
+    font-size: 13px;
+    color: var(--hub-text-dim);
+  }
+  .hub-sectionctrl button[aria-pressed="true"],
+  .hub-sectionctrl button.on {
+    background: var(--hub-red);
+    border-color: var(--hub-red);
+    color: #fff;
+  }
+
+  /* ---------- 7. Nothing hides behind the browser's bottom bar ---------- */
+  .hub-app,
+  .hub-panel,
+  .hub-scroll {
+    padding-bottom: calc(96px + var(--hub-safe-b));
+  }
+
+  /* ---------- 8. Wide tables scroll inside their own box ---------- */
+  .hub-tablewrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid var(--hub-line);
+    border-radius: 10px;
+  }
+  .hub-tablewrap > table { min-width: 560px; font-size: 13px; }
+  .hub-tablewrap th, .hub-tablewrap td { padding: 7px 9px; white-space: nowrap; }
+  /* freeze the name column so you know which row you're reading */
+  .hub-tablewrap th:first-child,
+  .hub-tablewrap td:first-child {
+    position: sticky;
+    left: 0;
+    background: var(--hub-surface);
+    z-index: 1;
+  }
+  .hub-tablewrap thead th:first-child { background: var(--havoc-black); }
+  /* the seeded reference blocks carry wide tables of their own */
+  .ref-box, .ref-ed, .bio-panel { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  /* grid and flex children default to min-width:auto, which lets a wide table
+     stretch its column instead of scrolling — this is what pushed the whole
+     League Reference page sideways */
+  .grid > *, .ref-box > *, .hub-panel .card > * { min-width: 0; }
+  .grid { min-width: 0; }
+  .hub-tablewrap tr.me td:first-child { background: var(--tint-row); }
+
+  /* ---------- 9. Print preview: fit the page width, don't overflow ---------- */
+  .hub-preview {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px;
+  }
+  .hub-preview__page {
+    transform-origin: top left;
+    /* an 816px page scaled to the phone's width. CSS cannot divide a length by
+       a length, so index.html publishes the ratio as --hub-page-scale and keeps
+       it current on resize. */
+    transform: scale(var(--hub-page-scale, 1));
+    width: 816px;
+    margin-bottom: var(--hub-page-gap, 12px);
+  }
+
+  /* ---------- 10. Forms: readable, thumb-sized, full width ---------- */
+  .hub-field { display: block; margin: 0 0 10px; }
+  .hub-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--hub-text-dim);
+    margin: 0 0 3px;
+  }
+  .hub-field input,
+  .hub-field select,
+  .hub-field textarea {
+    width: 100%;
+    min-height: var(--hub-tap);
+    padding: 8px 10px;
+    background: var(--hub-surface);
+    border: 1px solid var(--hub-line);
+    border-radius: 10px;
+    color: var(--hub-text);
+  }
+  /* two short fields can share a row */
+  .hub-field--half { display: inline-block; width: calc(50% - 5px); }
+  .hub-field--half + .hub-field--half { margin-left: 10px; }
+
+  /* ---------- 10b. Tall modals scroll instead of hiding their buttons ----------
+     the player editor is ~1400px tall on a phone; its Save button sat below
+     the viewport with nothing to scroll */
+  .modal-bg { align-items: flex-start; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 10px 10px calc(40px + var(--hub-safe-b)); }
+  .modal { max-height: none; padding: 14px; border-radius: 12px; }
+
+  /* ---------- 11. Section headings: quieter, less vertical waste ---------- */
+  .hub-sectionhead {
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--hub-text-dim);
+    margin: 14px 0 6px;
+  }
+  .hub-card { padding: 10px; border-radius: 12px; }
+
+  /* the app's own grids stack rather than squeeze */
+  .grid.g2, .grid.g3, .grid.g4 { grid-template-columns: 1fr; }
+  .btn-row { gap: 8px; }
+  .btn-row .btn { min-height: var(--hub-tap); }
+  .btn, .btn.small, .btn.secondary { min-height: 38px; }
+  .subnav .subtab, .subtab { min-height: 38px; }
+  .icon-btn { min-height: 38px; padding: 4px 12px; }
+  .sb-state .btn.small { min-height: 38px; }
+}
+
+/* ---------- Very small phones ---------- */
+@media (max-width: 380px) {
+  .hub-toolbar { grid-template-columns: 1fr; }
+  .hub-sectionctrl { grid-template-columns: 1fr auto auto auto auto auto; column-gap: 4px; }
+  .hub-sectionctrl button { min-width: 34px; min-height: 34px; }
+}
+
+/* ---------- Landscape phone: reclaim vertical space ---------- */
+@media (max-width: 900px) and (orientation: landscape) {
+  .hub-header { padding-top: 4px; padding-bottom: 4px; }
+  .hub-header__logo { width: 24px; height: 24px; }
+  .hub-header__sub { display: none; }
+}
+
+/* ---------- Never let any of this touch printed output ---------- */
+@media print {
+  .hub-header, .hub-tabs, .hub-subnav, .hub-toolbar, .hub-sectionctrls { display: none !important; }
+  .hub-preview__page {
+    transform: none !important;
+    width: 816px !important;
+    margin-bottom: 0 !important;
+  }
+  .hub-app, .hub-panel, .hub-scroll { padding-bottom: 0 !important; }
+  .hub-preview { overflow: visible !important; padding: 0 !important; }
+  .hub-tablewrap { overflow: visible !important; border: 0 !important; }
+  .hub-tablewrap > table { min-width: 0 !important; }
+  .hub-tablewrap th, .hub-tablewrap td { white-space: normal; }
+  .hub-tablewrap th:first-child,
+  .hub-tablewrap td:first-child { position: static !important; }
+}
