@@ -191,6 +191,21 @@
   .sb-state.loaded{color:#2f6b45;} .sb-state.loaded .sb-dot{background:#2f6b45;}
   .sb-state.failed{color:var(--havoc-red);} .sb-state.failed .sb-dot{background:var(--havoc-red);}
   @keyframes sbpulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .btn.gameday{font-weight:900;font-size:15px;padding:12px 22px;}
+  .feed-chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;border-radius:11px;padding:3px 11px;margin-bottom:10px;}
+  .feed-chip .fc-dot{width:8px;height:8px;border-radius:50%;}
+  .feed-chip.checking{background:#eceef2;color:#5d626c;} .feed-chip.checking .fc-dot{background:#b6bac2;animation:sbpulse 1s ease-in-out infinite;}
+  .feed-chip.ok{background:#e8f3ec;color:#2f6b45;} .feed-chip.ok .fc-dot{background:#2f6b45;}
+  .feed-chip.off{background:#fdecee;color:var(--havoc-red);} .feed-chip.off .fc-dot{background:var(--havoc-red);}
+  .gd-steps{list-style:none;margin:12px 0 0;padding:0;}
+  .gd-steps li{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:3px 0;color:#6b7078;}
+  .gd-steps li .gd-mark{width:17px;text-align:center;font-weight:900;}
+  .gd-steps li.run{color:var(--havoc-ink);font-weight:700;} .gd-steps li.run .gd-mark{animation:sbpulse 1s ease-in-out infinite;}
+  .gd-steps li.ok{color:#2f6b45;} .gd-steps li.ok .gd-mark{color:#2f6b45;}
+  .gd-steps li.bad{color:var(--havoc-red);} .gd-steps li.bad .gd-mark{color:var(--havoc-red);}
+  .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
+  .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
+  .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
   .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
   .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
@@ -633,22 +648,29 @@
     <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
       <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, an <b>Elite Prospects</b> profile link is attached to every player name (from <i>data/ep-players.json</i>, built weekly by a GitHub Action). <b>Bios are yours to write</b>: each Havoc player has a long media bio (game packet) and a short broadcast bio (lineup chart &amp; sheet); opponent players just the broadcast bio. Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
-      <div class="grid g3">
-        <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
-        <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
-        <div class="field"><label>&nbsp;</label><button class="btn" onclick="htTest()">Test connection</button></div>
-      </div>
+      <div id="feedChip" class="feed-chip checking"><span class="fc-dot"></span><span id="feedChipMsg">Checking the feed…</span></div>
       <div class="btn-row">
-        <button class="btn" id="htSyncBtn" onclick="htSyncAll()" style="font-weight:900">⟳ Sync all live data</button>
-        <button class="btn" onclick="htPullStandings()">Pull standings</button>
-        <button class="btn" onclick="htPullPlayers()">Pull player + goalie stats</button>
-        <button class="btn" onclick="htPullSchedule()">Pull schedule + results</button>
-        <button class="btn" onclick="htPullRosters()">Pull rosters</button>
-        <button class="btn" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
-        <button class="btn" onclick="htPullCareers(event.shiftKey)">Pull SPHL career stats + photos</button>
-        <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
-        <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
+        <button class="btn gameday" id="htSyncBtn" onclick="htSyncAll()">⟳ Game Day Refresh</button>
+        <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Today's daily report (PDF)</a>
       </div>
+      <ol id="htSteps" class="gd-steps"></ol>
+      <details class="gd-adv">
+        <summary>Advanced / refresh individually</summary>
+        <div class="grid g3" style="margin-top:10px">
+          <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
+          <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
+          <div class="field"><label>&nbsp;</label><button class="btn secondary" onclick="htTest()">Test connection</button></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn secondary" onclick="htPullStandings()">Pull standings</button>
+          <button class="btn secondary" onclick="htPullPlayers()">Pull player + goalie stats</button>
+          <button class="btn secondary" onclick="htPullSchedule()">Pull schedule + results</button>
+          <button class="btn secondary" onclick="htPullRosters()">Pull rosters</button>
+          <button class="btn secondary" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
+          <button class="btn secondary" onclick="htPullCareers(event.shiftKey)">Pull SPHL career stats + photos</button>
+          <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
+        </div>
+      </details>
       <div id="htFeedAges" class="feed-ages"></div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
       <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
@@ -2909,14 +2931,14 @@ function htCareerRow(r,isG){
     so:+pick(r,['shutouts','so'],0),gaa:String(pick(r,['goals_against_average','gaa'],'')),svpct:String(pick(r,['save_percentage','savepct','svpct'],''))};
   return {...base,g:+pick(r,['goals','g'],0),a:+pick(r,['assists','a'],0),pts:+pick(r,['points','pts'],0),pim:+pick(r,['penalty_minutes','pim'],0)};
 }
-async function htPullCareers(force){
+async function htPullCareers(force,quiet){
   const st=document.getElementById('htCareerMsg');
   const say=t=>{if(st)st.textContent=t;};
   DATA.careerHT=DATA.careerHT||{players:{}};
   const list=DATA.roster.filter(p=>p.name&&p.htId);
-  if(!list.length){say('No players with HockeyTech ids — Sync all live data first.');return;}
+  if(!list.length){say('No players with HockeyTech ids — run a Game Day Refresh first.');return 'no players with HockeyTech ids yet';}
   const fresh=DATA.careerHT.at&&(Date.now()-Date.parse(DATA.careerHT.at))<7*86400000;
-  if(fresh&&!force&&Object.keys(DATA.careerHT.players).length){say('Career stats already pulled this week — hold Shift+click to force.');return;}
+  if(fresh&&!force&&Object.keys(DATA.careerHT.players).length){say('Career stats already pulled this week — hold Shift+click to force.');return 'already current this week';}
   let done=0,got=0;
   for(const p of list){
     say('Career stats: '+p.name+' ('+(done+1)+'/'+list.length+')…');
@@ -2936,7 +2958,8 @@ async function htPullCareers(force){
   DATA.careerHT.at=new Date().toISOString();syncMark('careers');
   save();
   say('Career stats: '+got+'/'+list.length+' players pulled — on the packet’s career pages.');
-  toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
+  if(!quiet)toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
+  return got+'/'+list.length+' players';
 }
 function htCareerFor(p){
   const c=DATA.careerHT&&DATA.careerHT.players&&p.htId&&DATA.careerHT.players[p.htId];
@@ -6022,41 +6045,91 @@ async function htPullRosters(){
   });
 }
 let HT_SYNCING=false;
+/* ---- Game Day Refresh: one button, everything tonight needs, step by step ---- */
+const GD_STEPS=[
+  ['connect','Connect + confirm the season'],
+  ['standings','League standings'],
+  ['players','Player + goalie stats'],
+  ['schedule','Schedule + final scores'],
+  ['rosters','Every team roster'],
+  ['careers','Havoc career stats + headshots'],
+  ['eplinks','Elite Prospects profile links'],
+  ['scorebar','Tonight&rsquo;s scoreboard']
+];
+function gdRender(state){
+  const el=document.getElementById('htSteps');if(!el)return;
+  el.innerHTML=GD_STEPS.map(([k,label])=>{
+    const s=state[k]||{};
+    const mark=s.status==='ok'?'&#10003;':(s.status==='bad'?'&#10007;':(s.status==='run'?'&#9679;':'&#9675;'));
+    return `<li class="${s.status||''}"><span class="gd-mark">${mark}</span><span>${label}</span>${s.note?`<span class="gd-note">— ${esc(s.note)}</span>`:''}</li>`;
+  }).join('');
+}
 async function htSyncAll(){
   if(HT_SYNCING)return;HT_SYNCING=true;
-  const btn=document.getElementById('htSyncBtn');if(btn)btn.disabled=true;
-  const results=[];
-  try{
-    htStatus('Step 1/6: connecting + checking current season…','');
+  const btn=document.getElementById('htSyncBtn');if(btn){btn.disabled=true;btn.textContent='⟳ Refreshing…';}
+  const state={};
+  const run=async(key,fn)=>{
+    state[key]={status:'run'};gdRender(state);
+    try{const note=await fn();state[key]={status:'ok',note:note||'done'};}
+    catch(e){state[key]={status:'bad',note:e.message};}
+    gdRender(state);
+    return state[key].status==='ok';
+  };
+  gdRender(state);
+  await run('connect',async()=>{
     const hadKey=!!htKey();
     try{
-      const seasons=await htGetSeasons('Step 1/6: ');
-      if(!hadKey&&htKey())results.push('key auto-detected');
+      const seasons=await htGetSeasons('');
       const sel=document.getElementById('ht_seasonSel');
       if(sel)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
       let cur=seasons.find(s=>String(s.season_id)===htSeason());
-      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();results.push('season set: '+cur.season_name);}
+      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();}
       if(sel)sel.value=String(cur.season_id);
-    }catch(e){if(!htSeason())throw e;}
-    htStatus('Step 2/6: standings…','');
-    try{results.push('standings: '+await htDoStandings());}catch(e){results.push('standings FAILED ('+e.message+')');}
-    htStatus('Step 3/6: player + goalie stats…','');
-    try{results.push('stats: '+await htDoPlayers());}catch(e){results.push('stats FAILED ('+e.message+')');}
-    htStatus('Step 4/6: schedule + results…','');
-    try{results.push('schedule: '+await htDoResults());}catch(e){results.push('schedule FAILED ('+e.message+')');}
-    htStatus('Step 5/6: rosters…','');
-    let rosterOK=false;
-    try{results.push('rosters: '+await htDoRosters());rosterOK=true;}catch(e){results.push('rosters FAILED ('+e.message+')');}
-    if(rosterOK){
-      htStatus('Step 6/6: Elite Prospects profile links…','');
-      try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP links FAILED ('+e.message+')');}
+      return (hadKey?'':'key auto-detected · ')+'season '+cur.season_name;
+    }catch(e){
+      if(!htSeason())throw e;
+      return 'using the saved season ('+htSeason()+')';
     }
-    DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();
-    if(!SB_HASGAMES)sbStart(); // key/season may have just been auto-detected — light the scorebar up
-    const anyFail=results.some(r=>/FAILED/.test(r));
-    htStatus('Sync '+(anyFail?'finished with issues':'complete')+' — '+results.join(' · ')+' · saved locally '+new Date().toLocaleTimeString(),!anyFail);
-  }catch(e){htStatus(e.message,false);}
-  HT_SYNCING=false;if(btn)btn.disabled=false;
+  });
+  await run('standings',()=>htDoStandings());
+  await run('players',()=>htDoPlayers());
+  await run('schedule',()=>htDoResults());
+  const rostersOK=await run('rosters',()=>htDoRosters());
+  await run('careers',async()=>{
+    if(!rostersOK)throw new Error('skipped — rosters did not load');
+    return await htPullCareers(false,true);
+  });
+  await run('eplinks',async()=>{
+    if(!rostersOK)throw new Error('skipped — rosters did not load');
+    return await epAutoBios('auto');
+  });
+  await run('scorebar',async()=>{sbStart();return 'refreshing';});
+  DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();renderSyncBadges();
+  const bad=Object.keys(state).filter(k=>state[k].status==='bad');
+  htStatus(bad.length?('Finished with '+bad.length+' step'+(bad.length>1?'s':'')+' failing — see the list above. Everything that did load is saved.')
+    :('Game Day Refresh complete — saved locally '+new Date().toLocaleTimeString()+'.'),!bad.length);
+  feedChip(bad.length<GD_STEPS.length);
+  HT_SYNCING=false;if(btn){btn.disabled=false;btn.textContent='⟳ Game Day Refresh';}
+}
+/* the connection check runs itself on load and reports as a chip */
+function feedChip(ok,msg){
+  const el=document.getElementById('feedChip'),m=document.getElementById('feedChipMsg');
+  if(!el||!m)return;
+  el.className='feed-chip '+(ok===null?'checking':(ok?'ok':'off'));
+  m.textContent=msg||(ok===null?'Checking the feed…':(ok?'Feed: connected ✓':'Feed: offline — using cached data'));
+}
+async function feedAutoCheck(){
+  feedChip(null);
+  try{
+    const seasons=await Promise.race([htGetSeasons(''),new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),10000))]);
+    const sel=document.getElementById('ht_seasonSel');
+    if(sel&&seasons.length)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}"${String(s.season_id)===htSeason()?' selected':''}>${esc(s.season_name)}</option>`).join('');
+    feedChip(true);
+  }catch(e){
+    const any=['standings','players','rosters','schedule'].some(k=>syncAt(k));
+    feedChip(false,any?'Feed: offline — showing data saved '+syncTimeStr(Math.max(...['standings','players','rosters','schedule'].map(syncAt)))
+      :'Feed: offline — no data saved in this browser yet');
+  }
 }
 
 
@@ -6391,7 +6464,7 @@ function wgDeck(side){
 }
 
 seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
