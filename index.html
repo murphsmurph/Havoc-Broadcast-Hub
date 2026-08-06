@@ -91,9 +91,9 @@
   .vb-grid{flex:1;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px;min-height:0;}
   .vb-col{display:flex;flex-direction:column;min-height:0;}
   .vb-h{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin-bottom:5px;letter-spacing:.4px;flex:0 0 auto;}
-  .vb-list{flex:1;column-count:1;column-gap:14px;font-size:11.5px;line-height:1.5;color:#222;}
+  .vb-list{flex:1;column-count:1;column-gap:18px;column-rule:1px solid #e2e2e6;font-size:11.5px;line-height:1.5;color:#222;}
   .vb-col:first-child .vb-list{column-count:2;}
-  .vb-list span{display:block;break-inside:avoid;}
+  .vb-list span{display:block;break-inside:avoid;padding-right:9px;overflow-wrap:break-word;hyphens:auto;}
   .rk-page{display:flex;flex-direction:column;}
   .rk-note{font-size:10px;color:#555;margin:2px 0 4px;line-height:1.4;}
   .rk-hdr{font-size:15px;font-weight:900;letter-spacing:.5px;margin:4px 0 0;flex:0 0 auto;}
@@ -150,6 +150,8 @@
   .fd-note{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
   .pg-embargo{background:var(--havoc-red);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;padding:3px 6px;border-radius:3px;margin-top:4px;flex:0 0 auto;}
   .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
+  .pg-footer .pg-stamp{font-size:8px;line-height:1.3;text-align:left;}
+  .pg-footer .pg-embargo{font-size:8px;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
   .fd-pron2{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:12.5px;line-height:1.45;}
   .iv-entry{border:1.5px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:12px;}
@@ -181,6 +183,67 @@
   .fd-dr .fv{flex:1;min-height:15px;}
   .fv:focus,.fd-note:focus{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
   .fd-blank{display:inline-block;min-width:120px;border-bottom:1px solid #555;height:13px;}
+  /* ---- broadcast folder call sheet: one team, one page ---- */
+  .cs-page{display:flex;flex-direction:column;padding:14px 16px;}
+  .cs-head{padding:6px 9px;border-radius:4px;flex:0 0 auto;}
+  .cs-h1{font-size:19px;font-weight:900;letter-spacing:.01em;line-height:1.05;text-transform:uppercase;font-stretch:condensed;}
+  .cs-h2{font-size:9px;font-weight:800;letter-spacing:.02em;line-height:1.25;margin-top:2px;text-transform:uppercase;opacity:.95;}
+  .cs-game{font-size:9px;font-weight:800;color:#444;text-transform:uppercase;letter-spacing:.03em;margin:3px 0 2px;flex:0 0 auto;}
+  .cs-body{display:flex;gap:9px;align-items:stretch;flex:1 1 auto;min-height:0;}
+  .cs-main{flex:1 1 auto;min-width:0;}
+  .cs-side{flex:0 0 auto;display:flex;flex-direction:column;gap:4px;}
+  .cs-sub{font-size:9.5px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;border-bottom:2px solid;padding-bottom:1px;margin:3px 0 3px;}
+  .cs-grid{display:grid;gap:4px;}
+  .cs-card{border:1.5px solid;border-radius:3px;padding:3px 4px;min-width:0;break-inside:avoid;}
+  .cs-top{display:flex;align-items:center;gap:4px;min-width:0;}
+  .cs-num{flex:0 0 auto;min-width:19px;text-align:center;font-size:12px;font-weight:900;border-radius:2px;padding:0 3px;line-height:1.25;}
+  .cs-name{font-size:10px;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;font-stretch:condensed;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
+  .cs-vitals{font-size:6.8px;color:#333;letter-spacing:.01em;margin-top:1px;}
+  .cs-stat{font-size:6.8px;line-height:1.32;margin-top:1px;color:#111;}
+  .cs-stat i{font-weight:900;font-style:italic;letter-spacing:.02em;}
+  .cs-lab{font-size:6.4px;font-weight:900;text-decoration:underline;text-transform:uppercase;letter-spacing:.04em;margin-top:2px;color:#222;}
+  .cs-note{font-size:6.8px;line-height:1.3;text-align:justify;hyphens:auto;overflow-wrap:break-word;color:#111;
+    display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden;}
+  .cs-note:focus{display:block;overflow:visible;-webkit-line-clamp:unset;outline:1px dashed var(--havoc-red);}
+  .cs-note b,.cs-note strong{font-weight:900;text-transform:uppercase;}
+  .cs-pers{color:#333;-webkit-line-clamp:3;}
+  .cs-ph{color:#999;font-style:italic;}
+  .cs-none{font-size:8px;color:#777;font-style:italic;padding:2px 0;}
+  .cs-sb-box{border:1px solid #bbb;border-radius:3px;padding:2px 4px;}
+  .cs-sb-h{font-size:7.5px;font-weight:900;text-transform:uppercase;letter-spacing:.07em;color:#111;border-bottom:1px solid #ddd;margin-bottom:1px;}
+  .cs-sb-row{font-size:7px;line-height:1.35;color:#222;}
+  .cs-dim{color:#888;}
+  .cs-susp{font-size:8px;font-weight:900;text-transform:uppercase;text-align:center;color:#fff;background:#C8102E;border-radius:3px;padding:3px 4px;line-height:1.2;}
+  .cs-grow{flex:1 1 auto;display:flex;flex-direction:column;min-height:0;}
+  .cs-write{background:repeating-linear-gradient(to bottom,transparent,transparent 12px,#d8d8d8 12px,#d8d8d8 13px);min-height:52px;}
+  .cs-write-grow{flex:1 1 auto;min-height:60px;}
+  .cs-bold,.cs-bold .cs-note,.cs-bold .cs-stat{font-weight:700;}
+  .cs-pad0 .cs-card{padding:1px 2px;} .cs-pad0 .cs-grid{gap:2px;}
+  .cs-pad1 .cs-card{padding:2px 3px;} .cs-pad1 .cs-grid{gap:3px;}
+  .cs-pad3 .cs-card{padding:5px 6px;} .cs-pad3 .cs-grid{gap:6px;}
+  .cs-pad4 .cs-card{padding:7px 8px;} .cs-pad4 .cs-grid{gap:8px;}
+  /* edit mode */
+  .fd-editing .cs-card{position:relative;}
+  .fd-editing .cs-card:hover{outline:1px dashed var(--havoc-red);outline-offset:1px;}
+  .fd-editing .cs-card{cursor:grab;}
+  .cs-dragging{opacity:.45;}
+  .fd-ct{position:absolute;top:-9px;right:2px;z-index:8;display:none;gap:2px;background:#fff;border:1px solid var(--havoc-line);border-radius:5px;padding:0 2px;box-shadow:var(--shadow);}
+  .cs-card:hover > .fd-ct{display:flex;}
+  .fd-ct button{min-height:17px;padding:0 4px;font-size:10px;font-weight:800;line-height:1;border:1px solid var(--havoc-line);border-radius:3px;background:#fff;color:#222;cursor:pointer;}
+  .fd-ct button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .fd-hidden{font-size:11px;font-weight:700;color:var(--ink-2);margin-bottom:4px;}
+  .fd-editbar{margin-top:6px;}
+  .fd-eb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;border:1px solid var(--havoc-line);border-radius:9px;padding:7px 10px;background:var(--surface-2);}
+  .fd-eb-t{font-size:12px;font-weight:800;color:var(--ink);}
+  .fd-eb-item{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--ink-2);}
+  .fd-eb-item b{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);}
+  .fd-eb-v{min-width:56px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);}
+  .fd-eb-note{flex:1 0 100%;font-size:11px;color:var(--ink-2);line-height:1.4;}
+  .fd-fit{font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px;}
+  .fd-fit.ok{color:var(--ok-fg);background:var(--tint-ok);}
+  .fd-fit.bad{color:#fff;background:var(--havoc-red);}
+
+
   table.fd-per{border-collapse:collapse;width:100%;margin:2px 0 4px;}
   table.fd-per th{font-size:12.5px;font-weight:900;border:1px solid #999;padding:1px 5px;background:#eee;}
   table.fd-per td{font-size:13px;border:1px solid #999;padding:1px 5px;text-align:center;min-width:34px;}
@@ -334,6 +397,11 @@
   .season-warn{font-size:13px;font-weight:800;color:#fff;background:var(--havoc-red);border-radius:8px;padding:6px 10px;margin:4px 0;}
   .season-fell{font-size:12px;font-weight:800;color:#8a6a00;background:#ffefc0;border:1px solid #e2c96b;border-radius:7px;padding:4px 8px;margin:4px 0;}
   .season-of{font-size:12px;font-weight:800;color:var(--ink-2);margin:2px 0 4px;}
+  .pal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--havoc-line);}
+  .pal-nm{min-width:190px;font-weight:800;font-size:13px;color:var(--ink);}
+  .pal-chip{font-size:11px;font-weight:900;letter-spacing:.05em;padding:3px 9px;border-radius:5px;}
+  .pal-sw{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink-2);font-weight:700;}
+  .pal-sw input[type=color]{width:30px;height:24px;padding:0;border:1px solid var(--havoc-line);border-radius:5px;background:none;cursor:pointer;}
   .sec-auto-note{width:100%;font-size:11px;font-weight:700;color:var(--ink-2);margin-top:3px;}
   .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
   .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
@@ -343,7 +411,7 @@
   /* the footer is positioned against the zoom wrapper, whose box is exactly the
      page's content width — otherwise a scaled section pushes it past the edge */
   .sec-zoom{position:relative;}
-  .sec-zoom > .gn-foot{left:0;right:0;}
+  .sec-zoom > .pg-footer{left:0;right:0;}
   .page > .sec-zoom{display:block;}
   .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:var(--tint-red);}
   .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--red-text);margin-bottom:4px;letter-spacing:.04em;}
@@ -433,7 +501,18 @@
   .h2h .ln span:first-child{color:#555;font-weight:600;}
   .cupbanner{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:3px 0;}
   .cupbanner .c{background:var(--havoc-black);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;border-bottom:2px solid var(--havoc-red);}
-  .gn-foot{position:absolute;bottom:18px;left:38px;right:38px;border-top:3px solid var(--havoc-red);padding-top:5px;display:flex;justify-content:space-between;font-size:9px;font-weight:700;text-transform:uppercase;color:var(--havoc-grey);}
+  /* The page furniture is one stacked block pinned to the foot of the sheet:
+     the embargo stripe, then the freshness line, then the rule and the footer
+     row — each on its own row, so they cannot print on top of one another.
+     A spacer of the same height sits in the flow above it, so body content
+     cannot run underneath either. */
+  .pg-footer{position:absolute;left:38px;right:38px;bottom:18px;display:flex;flex-direction:column;gap:4px;}
+  .pg-footer > *{margin:0;position:static;}
+  .pg-footpad{flex:0 0 auto;}
+  .gn-foot{border-top:3px solid var(--havoc-red);padding-top:5px;display:flex;gap:10px;justify-content:space-between;font-size:9px;font-weight:700;text-transform:uppercase;color:var(--havoc-grey);}
+  .gn-foot > span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .gn-foot > span:first-child{text-align:left;flex:0 1 auto;}
+  .gn-foot > span:last-child{text-align:right;flex:0 0 auto;}
   .frec{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:9px;}
   .frec .col h4{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;}
   .frec .rr{display:flex;justify-content:space-between;}
@@ -784,7 +863,15 @@
       <div class="section-label hub-sectionhead">Lines &amp; status (lineup chart)</div>
       <div class="field hub-field"><label>IR list (one per line)</label><textarea id="g_ir" rows="3" placeholder="15 Matt O'Dea (C) – 14-Day – 1/18"></textarea></div>
       <div class="field hub-field"><label>ECHL call-ups (one per line)</label><textarea id="g_echl" rows="2"></textarea></div>
-      <div class="field hub-field"><label>Scratches / suspensions / note</label><textarea id="g_scratch" rows="2"></textarea></div>
+      <div class="field hub-field"><label>Scratches / note</label><textarea id="g_scratch" rows="2"></textarea></div>
+      <div class="field hub-field"><label>Suspension callout (prints in bold caps on the Havoc call sheet)</label><input type="text" id="g_susp" placeholder="#28 Travis Broughman suspended for one game (tonight)"></div>
+      <div class="section-label hub-sectionhead">Opponent status (their call sheet&rsquo;s sidebar)</div>
+      <div class="grid g2">
+        <div class="field hub-field"><label>Opponent IR (one per line)</label><textarea id="g_oppIr" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Opponent ECHL call-ups (one per line)</label><textarea id="g_oppEchl" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Opponent scratches</label><textarea id="g_oppScratch" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Opponent suspension callout</label><input type="text" id="g_oppSusp"></div>
+      </div>
       <div class="section-label hub-sectionhead">Officials</div>
       <div class="grid g4">
         <div class="field hub-field"><label>Referee 1</label><input type="text" id="g_ref1"></div>
@@ -1061,6 +1148,11 @@
       <div id="ref26"></div>
     </div>
     <div class="card hub-card">
+      <h2>Team <span class="accent">Colours</span></h2>
+      <p class="desc">Each club's marks, used for that club's broadcast folder: <b>primary</b> is the header bar, <b>secondary</b> the jersey-number badges and the forwards group, <b>accent</b> the defence group, <b>goalies</b> the goalie group, and <b>text on primary</b> the colour that reads on the header. Change any swatch and it applies everywhere that club prints. A red <span class="unv">&bull;</span> marks a shade still to check against the club's own marks.</p>
+      <div id="palList"></div>
+    </div>
+    <div class="card hub-card">
       <h2>Franchise <span class="accent">Files</span></h2>
       <p class="desc">A deep file on every club — founding and arena, season by season, all-time record, championships, leaders, records, attendance, retired numbers and the current coach — plus a running <b>Havoc all-time vs. them</b> line and your own storylines box. Researched Aug 5, 2026 and arithmetic-checked; every block is editable in place with a ↺ restore. A red <span class="unv">&bull;</span> means the number is computed, single-sourced or disputed &mdash; hover it for which. These are never overwritten by a sync.</p>
       <div class="field hub-field" style="max-width:340px"><label>Franchise</label><select id="frTeamSel" onchange="frPick(this.value)"></select></div>
@@ -1196,13 +1288,22 @@
     <div class="card no-print">
       <h2>Broadcast <span class="accent">Folders</span></h2>
       <p class="desc">Four letter-portrait booth pages &mdash; a <b>lineup side</b> (lines with stat lines, pronunciations and your per-player call notes) and a <b>data side</b> (standings with the playoff line, team numbers, per-period, recent &amp; upcoming, transactions) for each team. Click any value or call note in the preview to hand-edit it &mdash; edits save and survive refreshes. Large type, one page each, single-sided.</p>
-      <div class="btn-row">
-        <span style="font-size:12px;font-weight:800;color:var(--havoc-grey);text-transform:uppercase">Print one page:</span>
-        <button class="btn small secondary" onclick="fdPrint('hl')">Havoc lineup</button>
-        <button class="btn small secondary" onclick="fdPrint('hd')">Havoc data</button>
-        <button class="btn small secondary" onclick="fdPrint('ol')">Opponent lineup</button>
-        <button class="btn small secondary" onclick="fdPrint('od')">Opponent data</button>
+      <div class="btn-row fd-views hub-subnav" id="fdViews">
+        <span style="font-size:12px;font-weight:800;color:var(--havoc-grey);text-transform:uppercase">Show:</span>
+        <button class="btn small secondary" data-fdv="all" onclick="fdShow('all')">All four</button>
+        <button class="btn small secondary" data-fdv="hl" onclick="fdShow('hl')">Havoc call sheet</button>
+        <button class="btn small secondary" data-fdv="hd" onclick="fdShow('hd')">Havoc data</button>
+        <button class="btn small secondary" data-fdv="ol" onclick="fdShow('ol')">Opponent call sheet</button>
+        <button class="btn small secondary" data-fdv="od" onclick="fdShow('od')">Opponent data</button>
       </div>
+      <div class="btn-row">
+        <button class="btn small secondary" onclick="fdPrint(FD_FILTER||'all')">Print this page</button>
+        <button class="btn small secondary" onclick="fdPrint('all')">Print all four</button>
+        <button class="btn small secondary" id="fdEditBtn" onclick="fdEditToggle()">Edit layout</button>
+        <button class="btn small secondary" onclick="fdTmplReset(fdSideOfView())">Reset this page</button>
+        <span id="fdFit" class="fd-fit"></span>
+      </div>
+      <div id="fdEditBar" class="fd-editbar" style="display:none"></div>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Broadcast Folders — preview</span><div class="spacer"></div><span class="header-status">4 pages · letter vertical · one page per side</span></div>
@@ -2231,7 +2332,7 @@ window.addEventListener('afterprint',()=>{
    callout lines all scale together and the PDF matches the preview exactly. */
 const SEC_BASE={packet:8,folders:10,chart:8,lines:8,verbs:8};   // default body size, in pt, per output
 const SEC_LABEL_EXTRA={
-  'fd:hl':'Havoc lineup','fd:hd':'Havoc data','fd:ol':'Opponent lineup','fd:od':'Opponent data',
+  'fd:hl':'Havoc call sheet','fd:hd':'Havoc data','fd:ol':'Opponent call sheet','fd:od':'Opponent data',
   'chart:hsv':'Havoc chart','chart:opp':'Opponent chart',lines:'Line card',
   'vb:verbs':'Verb list','vb:map':'Ice map'
 };
@@ -2315,6 +2416,7 @@ function secApplyAll(){
     if(!p.querySelector(':scope > .sec-tools'))p.insertAdjacentHTML('afterbegin',secToolsHTML(key));
     else p.querySelector(':scope > .sec-tools').outerHTML=secToolsHTML(key);
   });
+  pgFooterFix(host||document);
   secRenderBar(null); // controls appear immediately; the overflow check follows a frame later
   // measure after the zoom lands
   requestAnimationFrame(()=>{
@@ -2348,6 +2450,26 @@ function secApplyAll(){
   });
   const badge=document.getElementById('prPages');
   if(badge)badge.textContent=pages.length+(pages.length===1?' page':' pages');
+}
+/* The same auto-fit the packet gets, for the other printable views: a page
+   that has stopped fitting steps its section down rather than spilling.
+   Anything he sized himself is left alone, and it stops at 7 pt. */
+async function fitActiveAuto(){
+  for(let pass=0;pass<6;pass++){
+    await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)));
+    let moved=false;
+    document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
+      const key=p.dataset.sec;if(!key)return;
+      if((DATA.secPt||{})[key])return;
+      if(secPt(key)<=7)return;
+      if(pkUsed(p)>pkRoom(p)+2){
+        DATA.secAuto=DATA.secAuto||{};
+        DATA.secAuto[key]=secPt(key)-1;moved=true;
+      }
+    });
+    if(!moved)break;
+    save();secApplyAll();
+  }
 }
 /* Step every overflowing section down until its pages fit, so the PDF can't
    come out longer than the preview. Bounded, and it reports what it changed. */
@@ -2427,6 +2549,29 @@ function pkBlockListHTML(){
   if(!rows.length)return '';
   return `<details class="blk-list"><summary><h4 style="display:inline">Blocks on these pages (${rows.length}) — size, weight, order, page break, hide</h4></summary>${rows.join('')}</details>`;
 }
+/* Collect a printed page's furniture into one stacked block at the foot of
+   the sheet, and reserve the same height in the flow above it. Before this,
+   the footer was absolutely positioned and the freshness line was in the
+   flow, so on a full page they printed on top of each other. */
+function pgFooterFix(root){
+  if(!root)return;
+  root.querySelectorAll('.page').forEach(p=>{
+    const zone=p.querySelector(':scope > .sec-zoom')||p;
+    const foot=zone.querySelector(':scope > .gn-foot');
+    if(!foot)return;                       // pages without a footer rule are laid out their own way
+    let box=zone.querySelector(':scope > .pg-footer');
+    if(!box){box=document.createElement('div');box.className='pg-footer';zone.appendChild(box);}
+    // order: embargo stripe, freshness line, then the rule and the footer row
+    [...zone.children].filter(el=>el!==box&&(el.classList.contains('pg-embargo')
+      ||el.classList.contains('embargo-bar')||el.classList.contains('pg-stamp')))
+      .forEach(el=>box.appendChild(el));
+    box.appendChild(foot);
+    let pad=zone.querySelector(':scope > .pg-footpad');
+    if(!pad){pad=document.createElement('div');pad.className='pg-footpad';}
+    if(pad.nextSibling!==box)zone.insertBefore(pad,box);
+    pad.style.height=(box.offsetHeight+6)+'px';
+  });
+}
 /* ============================================================
    PACKET BLOCK LAYOUT
    Every printable page is built from blocks — a stat table, a bio card, a
@@ -2437,7 +2582,7 @@ function pkBlockListHTML(){
    map, the worksheets) are left exactly as they were built.
    ============================================================ */
 const PK_NOFLOW={cover:1,gamesheet:1,worksheets:1,verbs:1};
-const PK_CHROME=['pg-head','gn-foot','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp','embargo-bar','pg-embargo'];
+const PK_CHROME=['pg-head','gn-foot','pg-footer','pg-footpad','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp','embargo-bar','pg-embargo'];
 function pkPresetName(){const n=(DATA.settings||{}).packetPreset;return (n==='booth'||n==='compact')?n:'full';}
 function blkAll(){DATA.blk=DATA.blk||{};const k=pkPresetName();return (DATA.blk[k]=DATA.blk[k]||{});}
 function blkGet(id){return blkAll()[id]||{};}
@@ -2522,7 +2667,7 @@ function pkScale(pg){const w=pg.getBoundingClientRect().width;return w>0?w/816:1
 /* how much of a sheet a page's content may fill before it reaches the footer */
 function pkRoom(pg){
   const s=pkScale(pg);
-  const foot=pg.querySelector(':scope > .gn-foot');
+  const foot=pg.querySelector('.pg-footer')||pg.querySelector('.gn-foot');
   const fh=foot?foot.getBoundingClientRect().height/s:0;
   const padT=parseFloat(getComputedStyle(pg).paddingTop)||34;
   return 1056-padT-18-fh-14;    // a little slack so a trailing margin can't tip a page over
@@ -2547,15 +2692,19 @@ function pkFlowSection(pages,blocks){
   first.classList.remove('pg-over','pg-under');
   const out=[first];
   let pg=first,zone=pkZone(pg),room=pkRoom(pg);
+  // the footer block and its spacer stay at the end of the page; body blocks
+  // are inserted above them so nothing ever flows underneath the footer
+  const tail=z=>z.querySelector(':scope > .pg-footpad')||z.querySelector(':scope > .pg-footer');
+  const put=el=>{const t=tail(zone);if(t)zone.insertBefore(el,t);else zone.appendChild(el);};
   const nextPage=()=>{
     pg=tmpl.cloneNode(true);host.insertBefore(pg,after);out.push(pg);
     zone=pkZone(pg);room=pkRoom(pg);
   };
   blocks.forEach(b=>{
     if(b.cfg.brk&&pkFlowKids(zone).length)nextPage();
-    zone.appendChild(b.el);
+    put(b.el);
     // a block never splits: if it puts the page over, it moves whole
-    if(pkFlowKids(zone).length>1&&pkUsed(pg)>room){nextPage();zone.appendChild(b.el);}
+    if(pkFlowKids(zone).length>1&&pkUsed(pg)>room){nextPage();put(b.el);}
   });
   return out;
 }
@@ -2676,6 +2825,17 @@ function pkAutoFit(){
       (bySec[s]=bySec[s]||[]).push(pg);
     });
     let moved=false;
+    // a page of a fixed section that no longer fits gets stepped down too —
+    // otherwise its content prints underneath the footer
+    [...doc.querySelectorAll('.page')].forEach(pg=>{
+      const sec=pg.dataset.sec;if(!sec)return;
+      if((DATA.secPt||{})[sec])return;
+      if(secPt(sec)<=7)return;
+      if(pkUsed(pg)>pkRoom(pg)+2){
+        DATA.secAuto=DATA.secAuto||{};
+        DATA.secAuto[sec]=secPt(sec)-1;moved=true;
+      }
+    });
     Object.keys(bySec).forEach(sec=>{
       const pages=bySec[sec];
       if(pages.length<2)return;
@@ -2773,14 +2933,14 @@ function gameNoAutofill(){
 }
 function loadGameForm(){
   const g=DATA.game;
-  for(const[k,id]of Object.entries({gameno:'g_gameno',promo:'g_promo',date:'g_date',time:'g_time',venue:'g_venue',opp:'g_opp',hsvrec:'g_hsvrec',opprec:'g_opprec',homeaway:'g_homeaway',broadcast:'g_broadcast',ir:'g_ir',echl:'g_echl',scratch:'g_scratch',ref1:'g_ref1',ref2:'g_ref2',lin1:'g_lin1',lin2:'g_lin2',txhome:'g_txhome',txaway:'g_txaway'})){
+  for(const[k,id]of Object.entries({gameno:'g_gameno',promo:'g_promo',date:'g_date',time:'g_time',venue:'g_venue',opp:'g_opp',hsvrec:'g_hsvrec',opprec:'g_opprec',homeaway:'g_homeaway',broadcast:'g_broadcast',ir:'g_ir',echl:'g_echl',scratch:'g_scratch',susp:'g_susp',oppIr:'g_oppIr',oppEchl:'g_oppEchl',oppScratch:'g_oppScratch',oppSusp:'g_oppSusp',ref1:'g_ref1',ref2:'g_ref2',lin1:'g_lin1',lin2:'g_lin2',txhome:'g_txhome',txaway:'g_txaway'})){
     if(g[k]!==undefined)setv(id,g[k]);
   }
   if(!g.venue)setv('g_venue',DATA.settings.venue);
   updatePromoField();
 }
 function saveGame(){
-  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway')};
+  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),susp:val('g_susp'),oppIr:val('g_oppIr'),oppEchl:val('g_oppEchl'),oppScratch:val('g_oppScratch'),oppSusp:val('g_oppSusp'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway')};
   save();toast("Game details saved");
   document.getElementById('gameSavedPill').innerHTML='<span class="pill ok">Saved</span>';
   setTimeout(()=>document.getElementById('gameSavedPill').innerHTML='',2000);
@@ -3134,7 +3294,20 @@ function logoHTML(team,fallbackClass,abbr){const l=DATA.logos[team]||(typeof DEF
 function teamLogoSrc(team){return DATA.logos[team]||(typeof DEFAULT_LOGOS!=='undefined'?DEFAULT_LOGOS[team]:null);}
 
 /* ============ REFERENCE ============ */
-function renderReference(){renderMatrix();renderSeries();renderStandings();renderRef26();
+function renderPalettes(){
+  const el=document.getElementById('palList');if(!el)return;
+  const label={primary:'Primary',secondary:'Secondary',accent:'Accent (D)',goalie:'Goalies',textOn:'Text on primary'};
+  el.innerHTML=TEAMS.map(t=>{
+    const p=teamPal(t),mine=!!((DATA.palettes||{})[t]);
+    return `<div class="pal-row">
+      <span class="pal-nm">${esc(t)}${p.ok?'':' <span class="unv" title="Not yet checked against the club&#39;s marks">&bull;</span>'}</span>
+      <span class="pal-chip" style="background:${p.primary};color:${p.textOn}">${esc(t.split(' ')[0].toUpperCase())}</span>
+      ${PAL_KEYS.map(k=>`<label class="pal-sw" title="${label[k]}"><input type="color" value="${esc(p[k])}" onchange="palSet('${esc(t).replace(/'/g,"\\'")}','${k}',this.value)"><span>${label[k]}</span></label>`).join('')}
+      ${mine?`<button class="icon-btn" onclick="palReset('${esc(t).replace(/'/g,"\\'")}')">&#8635; restore</button>`:''}
+    </div>`;
+  }).join('');
+}
+function renderReference(){renderMatrix();renderSeries();renderStandings();renderRef26();renderPalettes();
   // cups
   document.getElementById('ref_cups').innerHTML=TEAMS.map(t=>{
     const cups=SPHL_REF.cups[t]||[];const note=SPHL_REF.cupNote[t];
@@ -4410,6 +4583,206 @@ function fdPlayerHTML(p,kw,side){
     <div class="fd-note" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}">${esc(p.callNote||fdNoteSeed(p))}</div>
   </div>`;
 }
+/* ============================================================
+   BROADCAST FOLDER CALL SHEET
+   One team, one page, everything visible at a glance: a header bar in the
+   club's own colours, compact player cards grouped by position, and a
+   write-in sidebar. Built to the reference call sheet's structure.
+   ============================================================ */
+function fdTeamRec(team){
+  const st=standingsFor(team);
+  if(!st)return '';
+  const rec=[st.w,st.l,st.otl].concat(st.sol!=null?[st.sol]:[]).join('-');
+  return rec;
+}
+function fdPlace(team){
+  const rows=(DATA.report.standings||[]).slice().sort((a,b)=>(b.pts||0)-(a.pts||0));
+  const k=String(team||'').split(' ')[0];
+  const i=rows.findIndex(r=>new RegExp(k,'i').test(r.team));
+  return i>=0?ordinal(i+1).toUpperCase():'';
+}
+function fdCoachLine(team){
+  const {head,asst}=staffFor(team);
+  const ref=getCoach(team);
+  const name=(head&&head.name)||ref.name||'';
+  if(!name&&!asst.length)return '';
+  const bits=[];
+  if(name){
+    // tenure and career record come from the League Reference file's coach note
+    const bio=String(ref.bio||'');
+    const career=(bio.match(/\(?\b(\d{2,4}-\d{2,4}(?:-\d{1,3})?)\b\)?/)||[])[1]||'';
+    let tenure=(bio.match(/(\d+(?:st|nd|rd|th)[^.;]*?(?:with|overall)[^.;]*)/i)||[])[1]||'';
+    if(career)tenure=tenure.replace(new RegExp('\\(?\\s*'+career.replace(/-/g,'\\-')+'\\s*\\)?','g'),'').trim();
+    tenure=tenure.replace(/[\s(]+$/,'');
+    bits.push('HEAD COACH: '+name.toUpperCase()
+      +(tenure?' – '+tenure.toUpperCase():'')
+      +(career?' ('+career+')':''));
+  }
+  if(asst.length)bits.push('ASST. COACHES: '+asst.map(a=>a.name).join(', '));
+  return bits.join('  /  ');
+}
+/* season line for one player, from the synced team stats */
+function fdSeasonLine(p,ts){
+  if(!ts)return '';
+  if(p.pos==='G'){
+    const g=ts.goalies.find(x=>(x.htId&&p.htId&&x.htId===p.htId)||x.num===p.num||norm(x.name)===norm(p.name));
+    if(!g)return '';
+    return 'SV%: '+(g.svpct||'—')+'&nbsp;&nbsp;W-L-OT: '+g.w+'-'+g.l+'-'+g.otl
+      +'<br>GAA: '+(g.gaa||'—')+'&nbsp;&nbsp;SO: '+(g.so||0);
+  }
+  const x=ts.players.find(y=>(y.htId&&p.htId&&y.htId===p.htId)||y.num===p.num||norm(y.name)===norm(p.name));
+  if(!x)return '';
+  return 'G: '+x.g+'&nbsp;&nbsp;A: '+x.a+'&nbsp;&nbsp;P: '+x.pts
+    +'<br>+/-: '+(x.pm>=0?'+':'')+x.pm+'&nbsp;&nbsp;PIM: '+x.pim+'&nbsp;&nbsp;Shots: '+(x.shots||0);
+}
+/* SPHL career totals, from the feed's career pull where we have it */
+function fdCareerLine(p){
+  const hc=typeof htCareerFor==='function'?htCareerFor(p):null;
+  if(!hc||!hc.rows||!hc.rows.length)return '';
+  const reg=hc.rows.filter(r=>!r.playoffs);
+  if(!reg.length)return '';
+  const t=reg.reduce((a,r)=>{a.gp+=r.gp||0;a.g+=r.g||0;a.a+=r.a||0;a.p+=r.pts||0;a.pim+=r.pim||0;a.w+=r.w||0;a.l+=r.l||0;a.otl+=r.otl||0;a.so+=r.so||0;return a;},
+    {gp:0,g:0,a:0,p:0,pim:0,w:0,l:0,otl:0,so:0});
+  if(p.pos==='G')return 'GP: '+t.gp+', W-L-OT: '+t.w+'-'+t.l+'-'+t.otl+', SO: '+t.so;
+  return 'GP: '+t.gp+', G: '+t.g+', A: '+t.a+', P: '+t.p+'<br>PIM: '+t.pim;
+}
+/* the prose blurb — the club's broadcast notes, his to rewrite in place */
+function fdNotesText(p){
+  if(p.callNote!=null&&String(p.callNote).trim())return String(p.callNote);
+  const n=(p.bioNotes||[]).slice(0,2).join(' ');
+  return n||'';
+}
+function fdPersonalText(p){
+  if(p.callPersonal!=null&&String(p.callPersonal).trim())return String(p.callPersonal);
+  const bits=[];
+  if(p.dob||p.birth)bits.push('Born '+[p.dob,p.birth?'from '+p.birth:''].filter(Boolean).join(' '));
+  if(p.bornIn&&p.bornIn!==p.birth)bits.push('birthplace '+p.bornIn);
+  if(p.junior)bits.push(p.junior);
+  return bits.join(' … ');
+}
+function fdVitals(p){
+  const g=p.pos==='G';
+  return 'Ht: '+(p.ht||'—')+'&nbsp; Wt: '+(p.wt||'—')+'&nbsp; '+(g?'Catches':'Shoots')+': '+(p.sh||'—')
+    +'&nbsp; Age: '+(p.age||'—');
+}
+function fdCard(p,side,pal,group){
+  const parts=(p.name||'').trim().split(/\s+/);
+  let first='',last='';
+  if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+  const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
+  const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
+  const bid='cs:'+(p.id||p.num||last);
+  const cfg=fdBlk(side,bid);
+  const zoom=cfg.pt?(1+(+cfg.pt)*0.09).toFixed(3):'';
+  const ts=findTeamStats(side==='home'?'Huntsville':String(DATA.game.opp||'').split(' ')[0]);
+  const season=fdSeasonLine(p,ts),career=fdCareerLine(p);
+  const notes=fdNotesText(p),personal=fdPersonalText(p);
+  const ed=(k,cls,html)=>`<div class="${cls}" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}" data-fdk="${k}">${html}</div>`;
+  return `<div class="cs-card${cfg.bold?' cs-bold':''}" style="border-color:${edge}${zoom?';zoom:'+zoom:''}"
+      data-fdid="${esc(bid)}" data-fdside="${side}" data-fdgroup="${group}" draggable="${FD_EDIT?'true':'false'}">
+    ${FD_EDIT?fdCardTools(side,bid):''}
+    <div class="cs-top">
+      <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(p.num||'')}</span>
+      <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}${letter}</span>
+    </div>
+    <div class="cs-vitals">${fdVitals(p)}</div>
+    ${season?`<div class="cs-stat"><i>SEASON STATS:</i> ${season}</div>`:''}
+    ${career?`<div class="cs-stat"><i>CAREER STATS (SPHL TOTALS):</i> ${career}</div>`:''}
+    <div class="cs-lab">SEASON/CAREER NOTES:</div>
+    ${ed('note','cs-note',esc(notes)||'<span class="cs-ph">click to write</span>')}
+    <div class="cs-lab">PERSONAL NOTES:</div>
+    ${ed('personal','cs-note cs-pers',esc(personal)||'<span class="cs-ph">click to write</span>')}
+  </div>`;
+}
+function fdSideList(title,text,cls){
+  const rows=String(text||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  return `<div class="cs-sb-box ${cls||''}"><div class="cs-sb-h">${esc(title)}</div>`
+    +(rows.length?rows.map(r=>'<div class="cs-sb-row">'+esc(r)+'</div>').join(''):'<div class="cs-sb-row cs-dim">—</div>')
+    +`</div>`;
+}
+function fdCallSheet(side){
+  const S=DATA.settings,G=DATA.game;
+  const isHome=side==='home';
+  const team=isHome?'Huntsville Havoc':(G.opp||'Opponent');
+  const pal=teamPal(team);
+  const primary=isHome?(S.red||pal.primary):pal.primary;
+  const list=(isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[])).filter(p=>p.active!=='0'&&p.name);
+  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+  const fwd=printablePlayers(list.filter(p=>p.pos!=='D'&&p.pos!=='G')).sort(byNum);
+  const def=printablePlayers(list.filter(p=>p.pos==='D')).sort(byNum);
+  const gls=printablePlayers(list.filter(p=>p.pos==='G')).sort(byNum);
+  const cols=k=>fdCols(side,k);
+  const tmpl=fdTmpl(side),ord=tmpl.order||{},blk=tmpl.blk||{};
+  const bidOf=p=>'cs:'+(p.id||p.num||String(p.name||'').split(/\s+/).pop());
+  const arrange=arr=>arr.filter(p=>!(blk[bidOf(p)]||{}).hide)
+    .map((p,i)=>({p,i})).sort((a,b)=>{
+      const x=ord[bidOf(a.p)]==null?a.i:ord[bidOf(a.p)],y=ord[bidOf(b.p)]==null?b.i:ord[bidOf(b.p)];
+      return x===y?a.i-b.i:x-y;
+    }).map(x=>x.p);
+  const grid=(arr,group,key)=>{
+    const use=arrange(arr);
+    return use.length
+      ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols(key)},minmax(0,1fr))" data-fdgrid="${key}">${use.map(p=>fdCard(p,side,pal,group)).join('')}</div>`
+      :'<div class="cs-none">No players in this group.</div>';
+  };
+  const rec=fdTeamRec(team),place=fdPlace(team);
+  const coach=fdCoachLine(team);
+  const susp=(isHome?(G.susp||''):(G.oppSusp||'')).trim();
+  const sb=`<aside class="cs-side" style="width:${fdSideW(side)}px">
+    ${fdSideList('IR',isHome?G.ir:G.oppIr)}
+    ${fdSideList('ECHL',isHome?G.echl:G.oppEchl)}
+    ${susp?`<div class="cs-susp">*** ${esc(susp.toUpperCase())} ***</div>`:''}
+    ${fdSideList('SCRATCHES',isHome?G.scratch:G.oppScratch)}
+    <div class="cs-sb-box"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
+    <div class="cs-sb-box cs-grow"><div class="cs-sb-h">NOTES</div><div class="cs-write cs-write-grow"></div></div>
+  </aside>`;
+  return `<div class="page lc-page cs-page cs-pad${fdPad(side)}">
+    ${FD_EDIT?fdHiddenHTML(side):''}
+    <div class="cs-head" style="background:${primary};color:${pal.textOn}">
+      <div class="cs-h1">${esc(team.toUpperCase())}${rec?' ('+esc(rec)+')':''}${place?' – '+esc(place):''}</div>
+      ${coach?`<div class="cs-h2">${esc(coach)}</div>`:''}
+    </div>
+    <div class="cs-game">${esc(fdGameLine())}</div>
+    <div class="cs-body">
+      <div class="cs-main">
+        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${fwd.length})</div>${grid(fwd,'F','f')}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${def.length})</div>${grid(def,'D','d')}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goalies (${gls.length})</div>${grid(gls,'G','g')}
+      </div>
+      ${sb}
+    </div>
+    <div class="fd-contact">${esc(S.mediaName||'')} | ${esc(S.mediaTitle||'')} · ${esc(S.mediaPhone||'')} · ${esc(S.mediaEmail||'')}</div>
+    ${dataStampHTML(team)}
+  </div>`;
+}
+/* per-team layout choices — columns per group and the sidebar width */
+function fdTmplKey(side){
+  return side==='home'?'Huntsville Havoc':(DATA.game.opp||'Opponent');
+}
+function fdTmpl(side){
+  DATA.fdTmpl=DATA.fdTmpl||{};
+  const k=fdTmplKey(side);
+  return (DATA.fdTmpl[k]=DATA.fdTmpl[k]||{});
+}
+function fdCols(side,key){
+  const t=fdTmpl(side).cols||{};
+  const d={f:3,d:2,g:2};
+  const v=+t[key];
+  return (v>=1&&v<=4)?v:d[key];
+}
+function fdSetCols(side,key,v){
+  const t=fdTmpl(side);t.cols=t.cols||{};
+  t.cols[key]=Math.max(1,Math.min(4,+v||1));save();renderFolders();
+}
+function fdSideW(side){const v=+fdTmpl(side).sideW;return (v>=130&&v<=280)?v:170;}
+function fdSetSideW(side,v){
+  const t=fdTmpl(side);
+  t.sideW=Math.max(130,Math.min(280,Math.round(v/10)*10));save();renderFolders();
+}
+function fdTmplReset(side){
+  DATA.fdTmpl=DATA.fdTmpl||{};delete DATA.fdTmpl[fdTmplKey(side)];
+  save();renderFolders();toast('Layout for '+fdTmplKey(side)+' reset');
+}
 function fdLineupPage(side){
   const S=DATA.settings,G=DATA.game;
   const isHome=side==='home';
@@ -4577,9 +4950,45 @@ function fdDataPage(side){
 function renderFolders(){
   const doc=document.getElementById('foldersDoc');if(!doc)return;
   const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
-  const mk={hl:()=>fdLineupPage('home'),hd:()=>fdDataPage('home'),ol:()=>fdLineupPage('opp'),od:()=>fdDataPage('opp')};
+  const mk={hl:()=>fdCallSheet('home'),hd:()=>fdDataPage('home'),ol:()=>fdCallSheet('opp'),od:()=>fdDataPage('opp')};
   doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
-  fdWireEdits();secApplyAll();
+  fdWireEdits();fdWireDrag();secApplyAll();fdViewSync();fdEditBar();
+  imagesReady(doc,2500).then(()=>fitActiveAuto().then(fdFitReport));
+}
+/* Drag reordering, within a group only — this is a flow, not a canvas, so a
+   drag can never leave a card floating somewhere it will not print. */
+function fdWireDrag(){
+  const doc=document.getElementById('foldersDoc');if(!doc||doc._fdDrag)return;
+  doc._fdDrag=true;
+  let from=null;
+  doc.addEventListener('dragstart',e=>{
+    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
+    if(!c||!FD_EDIT){e.preventDefault();return;}
+    from=c;c.classList.add('cs-dragging');
+    e.dataTransfer.effectAllowed='move';
+    try{e.dataTransfer.setData('text/plain',c.dataset.fdid);}catch(x){}
+  });
+  doc.addEventListener('dragover',e=>{
+    if(!from)return;
+    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
+    if(c&&c!==from&&c.dataset.fdgroup===from.dataset.fdgroup&&c.dataset.fdside===from.dataset.fdside)e.preventDefault();
+  });
+  doc.addEventListener('drop',e=>{
+    if(!from)return;
+    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
+    if(!c||c===from||c.dataset.fdgroup!==from.dataset.fdgroup)return;
+    e.preventDefault();
+    const side=from.dataset.fdside;
+    const t=fdTmpl(side);t.order=t.order||{};
+    const ids=[...doc.querySelectorAll('.cs-card[data-fdid]')]
+      .filter(x=>x.dataset.fdside===side&&x.dataset.fdgroup===from.dataset.fdgroup)
+      .map(x=>x.dataset.fdid);
+    const i=ids.indexOf(from.dataset.fdid),j=ids.indexOf(c.dataset.fdid);
+    ids.splice(j,0,ids.splice(i,1)[0]);
+    ids.forEach((x,k)=>{t.order[x]=k+1;});
+    save();renderFolders();
+  });
+  doc.addEventListener('dragend',()=>{if(from)from.classList.remove('cs-dragging');from=null;});
 }
 function fdWireEdits(){
   const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
@@ -4594,15 +5003,141 @@ function fdWireEdits(){
         const side=t.dataset.side;
         const list=side==='home'?DATA.roster:((DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[]);
         const p=list.find(x=>x.id===t.dataset.pid);
-        if(p){p.callNote=t.innerText.trim();save();}
+        if(p){
+          // the call sheet has two written fields per player; the older lineup
+          // page had one, so an unmarked edit still means the call note
+          const k=t.dataset.fdk==='personal'?'callPersonal':'callNote';
+          p[k]=t.innerText.trim();save();fdFitReport();
+        }
       }
     },600);
   });
 }
+/* The four buttons switch the preview; printing is its own action, so he can
+   always see what he is about to print. */
+function fdShow(which){
+  FD_FILTER=which==='all'?null:which;
+  save();renderFolders();fdViewSync();
+}
+function fdViewSync(){
+  const cur=FD_FILTER||'all';
+  document.querySelectorAll('#fdViews [data-fdv]').forEach(b=>{
+    const on=b.dataset.fdv===cur;
+    b.classList.toggle('dark',on);
+    b.setAttribute('aria-pressed',on?'true':'false');
+  });
+}
+/* which team's sheet is on screen — the edit controls act on that one */
+function fdSideOfView(){return (FD_FILTER==='ol'||FD_FILTER==='od')?'opp':'home';}
+/* live fit indicator: does the visible sheet still land on one page? */
+function fdFitReport(){
+  const el=document.getElementById('fdFit');if(!el)return;
+  const pages=[...document.querySelectorAll('#foldersDoc .page')];
+  if(!pages.length){el.textContent='';return;}
+  let worst=0,who='';
+  pages.forEach(p=>{
+    const z=p.querySelector(':scope > .sec-zoom');
+    const scale=z?(+z.style.zoom||1):1;
+    const over=Math.max(p.offsetHeight-1056,z?(z.scrollHeight*scale)-p.clientHeight:0);
+    if(over>worst){worst=over;who=secLabel(p.dataset.sec||'');}
+  });
+  if(worst<=2){
+    el.className='fd-fit ok';
+    el.textContent='Fits on '+pages.length+' page'+(pages.length===1?'':'s')+' ✓';
+  }else{
+    el.className='fd-fit bad';
+    el.textContent=who+' overflows by ~'+(worst/96).toFixed(1)+'in — reduce type or hide a block';
+  }
+}
+/* ---- Edit layout: flow-based, so it cannot produce a sheet that won't print.
+   Every text element is editable, every block gets a handle, and the column
+   count and sidebar width are per team and kept for good. ---- */
+let FD_EDIT=false;
+function fdEditToggle(){
+  FD_EDIT=!FD_EDIT;
+  const b=document.getElementById('fdEditBtn');
+  if(b){b.classList.toggle('dark',FD_EDIT);b.textContent=FD_EDIT?'Editing layout ✓':'Edit layout';}
+  document.getElementById('foldersDoc').classList.toggle('fd-editing',FD_EDIT);
+  document.getElementById('fdEditBar').style.display=FD_EDIT?'':'none';
+  renderFolders();
+}
+function fdEditBar(){
+  const el=document.getElementById('fdEditBar');if(!el||!FD_EDIT)return;
+  const side=fdSideOfView(),team=fdTmplKey(side);
+  const col=(k,label)=>`<span class="fd-eb-item"><b>${label}</b>
+    <button class="icon-btn" onclick="fdSetCols('${side}','${k}',${fdCols(side,k)-1})">&minus;</button>
+    <span class="fd-eb-v">${fdCols(side,k)} across</span>
+    <button class="icon-btn" onclick="fdSetCols('${side}','${k}',${fdCols(side,k)+1})">+</button></span>`;
+  el.innerHTML=`<div class="fd-eb">
+    <span class="fd-eb-t">Editing <b>${esc(team)}</b></span>
+    ${col('f','Forwards')}${col('d','Defense')}${col('g','Goalies')}
+    <span class="fd-eb-item"><b>Sidebar</b>
+      <button class="icon-btn" onclick="fdSetSideW('${side}',${fdSideW(side)-20})">&minus;</button>
+      <span class="fd-eb-v">${fdSideW(side)}px</span>
+      <button class="icon-btn" onclick="fdSetSideW('${side}',${fdSideW(side)+20})">+</button></span>
+    <span class="fd-eb-item"><b>Spacing</b>
+      <button class="icon-btn" onclick="fdSetPad('${side}',-1)">tighter</button>
+      <span class="fd-eb-v">${fdPad(side)}</span>
+      <button class="icon-btn" onclick="fdSetPad('${side}',1)">looser</button></span>
+    <button class="btn small secondary" onclick="fdSaveTemplate('${side}')">Save as template for ${esc(team.split(' ')[0])}</button>
+    <span class="fd-eb-note">Click any text to rewrite it. Drag a card by its handle to reorder. Nothing here can push content off the sheet — the fit line above updates as you go.</span>
+  </div>`;
+}
+function fdPad(side){const v=+fdTmpl(side).pad;return (v>=0&&v<=4)?v:2;}
+function fdSetPad(side,d){
+  const t=fdTmpl(side);t.pad=Math.max(0,Math.min(4,fdPad(side)+d));save();renderFolders();
+}
+function fdSaveTemplate(side){
+  const t=fdTmpl(side);t.saved=new Date().toISOString();save();
+  toast('Layout saved for '+fdTmplKey(side)+' — it applies to every future game against them');
+}
+/* per-card handle: size, bold, hide, move, and a page break before it */
+function fdBlk(side,id){
+  const t=fdTmpl(side);t.blk=t.blk||{};
+  return (t.blk[id]=t.blk[id]||{});
+}
+function fdBlkSet(side,id,patch){
+  const c=fdBlk(side,id);Object.assign(c,patch);
+  Object.keys(c).forEach(k=>{if(!c[k])delete c[k];});
+  save();renderFolders();
+}
+function fdCardTools(side,id){
+  const c=fdBlk(side,id);
+  return `<div class="fd-ct no-print" contenteditable="false">
+    <button title="1 pt smaller" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:(${+c.pt||0})-1})">A&minus;</button>
+    <button title="1 pt larger" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:(${+c.pt||0})+1})">A+</button>
+    <button class="${c.bold?'on':''}" title="Bold" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{bold:${c.bold?0:1}})"><b>B</b></button>
+    <button title="Move earlier" onclick="event.stopPropagation();fdMove('${side}','${id}',-1)">&uarr;</button>
+    <button title="Move later" onclick="event.stopPropagation();fdMove('${side}','${id}',1)">&darr;</button>
+    <button title="Hide from print" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{hide:1})">&#128065;</button>
+    <button title="Reset" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:0,bold:0,hide:0,ord:0})">&#8635;</button>
+  </div>`;
+}
+function fdMove(side,id,d){
+  const t=fdTmpl(side);t.order=t.order||{};
+  const cards=[...document.querySelectorAll('#foldersDoc .cs-card[data-fdid]')]
+    .filter(el=>el.dataset.fdside===side&&el.dataset.fdgroup===
+      (document.querySelector('#foldersDoc .cs-card[data-fdid="'+CSS.escape(id)+'"]')||{dataset:{}}).dataset.fdgroup);
+  const ids=cards.map(el=>el.dataset.fdid);
+  const i=ids.indexOf(id),j=i+d;
+  if(i<0||j<0||j>=ids.length)return;
+  ids.splice(j,0,ids.splice(i,1)[0]);
+  ids.forEach((x,k)=>{t.order[x]=k+1;});
+  save();renderFolders();
+}
+/* hidden cards are listed so they can come back */
+function fdHiddenHTML(side){
+  const t=fdTmpl(side),blk=t.blk||{};
+  const ids=Object.keys(blk).filter(k=>blk[k].hide);
+  if(!ids.length)return '';
+  return `<div class="fd-hidden no-print">Hidden: ${ids.map(id=>
+    `<button class="icon-btn" onclick="fdBlkSet('${side}','${id}',{hide:0})">${esc(id.replace(/^cs:/,''))} &#128065;</button>`).join(' ')}</div>`;
+}
 function fdPrint(which){
+  const keep=FD_FILTER;
   FD_FILTER=which==='all'?null:which;
   printDoc('folders');
-  setTimeout(()=>{FD_FILTER=null;renderFolders();},600);
+  setTimeout(()=>{FD_FILTER=keep;renderFolders();fdViewSync();},600);
 }
 
 /* ============ PRINT ============ */
@@ -4881,21 +5416,44 @@ function initForms(){fillOpponents();loadGameForm();loadNotesForm();loadSettings
 
 /* boot */
 /* ===== Per-team color themes (primary/secondary) derived from SPHL guide "Team Colors" ===== */
-const TEAM_THEME = {
-  "Athens Rock Lobsters":{primary:"#C1272D",secondary:"#0B7A75",text:"#ffffff"},
-  "Pee Dee IceCats":{primary:"#0E3A5D",secondary:"#7BA7C7",text:"#ffffff"},
-  "Birmingham Bulls":      {primary:"#C8102E", secondary:"#000000", text:"#ffffff"}, // Red, Black, Silver
-  "Evansville Thunderbolts":{primary:"#C8102E", secondary:"#1B3D8F", text:"#ffffff"}, // Red, Blue
-  "Fayetteville Marksmen": {primary:"#E87722", secondary:"#1a1a1a", text:"#ffffff"}, // Orange, Black, Cream, Olive
-  "Huntsville Havoc":      {primary:"#C8102E", secondary:"#111114", text:"#ffffff"}, // Red, Black, White
-  "Knoxville Ice Bears":   {primary:"#5B2B82", secondary:"#E87722", text:"#ffffff"}, // Black, Purple, Orange
-  "Macon Mayhem":          {primary:"#C8102E", secondary:"#1B3D8F", text:"#ffffff"}, // Red, White, Blue
-  "Pensacola Ice Flyers":  {primary:"#16284B", secondary:"#5A7290", text:"#ffffff"}, // Navy, Blue, Gray
-  "Peoria Rivermen":       {primary:"#13294B", secondary:"#C8A04B", text:"#ffffff"}, // Navy, Gold, Red, White
-  "Quad City Storm":       {primary:"#1a1a1a", secondary:"#F2C200", text:"#ffffff"}, // Black, Charcoal, Blue, Yellow
-  "Roanoke Rail Yard Dawgs":{primary:"#1B3A6B", secondary:"#5BA8D8", text:"#ffffff"}  // Dark Blue, Light Blue, Gold
+/* Each club's marks: primary, secondary, a third accent for the defence group
+   and a fourth for goalies, plus the text colour that reads on the primary.
+   `ok:0` means the shade still wants checking against the club's own marks —
+   the League Reference palette card flags those with a red dot. Every value is
+   editable there and edits are kept for good. */
+const TEAM_PALETTE = {
+  "Huntsville Havoc":       {primary:"#C8102E", secondary:"#111114", accent:"#8E9092", goalie:"#5A5C5E", textOn:"#ffffff", ok:1}, // red / black · silver
+  "Roanoke Rail Yard Dawgs":{primary:"#1B3A6B", secondary:"#C8A04B", accent:"#5BA8D8", goalie:"#2E5E9E", textOn:"#ffffff", ok:1}, // navy / gold
+  "Pensacola Ice Flyers":   {primary:"#16284B", secondary:"#9BCBEB", accent:"#5A7290", goalie:"#3C6E9F", textOn:"#ffffff", ok:1}, // navy / Columbia blue
+  "Birmingham Bulls":       {primary:"#C8102E", secondary:"#000000", accent:"#8E9092", goalie:"#5A5C5E", textOn:"#ffffff", ok:1}, // red / black
+  "Athens Rock Lobsters":   {primary:"#C1272D", secondary:"#0F52BA", accent:"#0B7A75", goalie:"#7A1B20", textOn:"#ffffff", ok:1}, // crimson / sapphire
+  "Pee Dee IceCats":        {primary:"#0AA3E0", secondary:"#C8102E", accent:"#0E3A5D", goalie:"#7BA7C7", textOn:"#ffffff", ok:1}, // electric blue / red
+  "Macon Mayhem":           {primary:"#111114", secondary:"#C8102E", accent:"#9BCBEB", goalie:"#5A5C5E", textOn:"#ffffff", ok:1}, // black / Mayhem red · ice blue
+  "Evansville Thunderbolts":{primary:"#C8102E", secondary:"#1B3D8F", accent:"#8E9092", goalie:"#5A5C5E", textOn:"#ffffff", ok:1}, // red / blue
+  "Knoxville Ice Bears":    {primary:"#5B2B82", secondary:"#E87722", accent:"#111114", goalie:"#7A4BA6", textOn:"#ffffff", ok:0},
+  "Peoria Rivermen":        {primary:"#13294B", secondary:"#C8A04B", accent:"#C8102E", goalie:"#2E5E9E", textOn:"#ffffff", ok:0},
+  "Quad City Storm":        {primary:"#1a1a1a", secondary:"#F2C200", accent:"#1B3D8F", goalie:"#5A5C5E", textOn:"#ffffff", ok:0},
+  "Fayetteville Marksmen":  {primary:"#E87722", secondary:"#1a1a1a", accent:"#6B7A3A", goalie:"#B45A15", textOn:"#ffffff", ok:0}
 };
-function teamTheme(name){return TEAM_THEME[name]||{primary:"#C8102E",secondary:"#111114",text:"#fff"};}
+const PAL_KEYS=['primary','secondary','accent','goalie','textOn'];
+function teamPal(name){
+  const seed=TEAM_PALETTE[name]||{primary:"#C8102E",secondary:"#111114",accent:"#8E9092",goalie:"#5A5C5E",textOn:"#ffffff",ok:0};
+  const mine=((DATA.palettes||{})[name])||{};
+  return Object.assign({},seed,mine);
+}
+function palSet(name,key,v){
+  if(PAL_KEYS.indexOf(key)<0)return;
+  DATA.palettes=DATA.palettes||{};
+  DATA.palettes[name]=DATA.palettes[name]||{};
+  DATA.palettes[name][key]=v;DATA.palettes[name].ok=1;
+  save();renderPalettes();if(typeof renderFolders==='function'&&document.getElementById('foldersDoc'))renderFolders();
+}
+function palReset(name){
+  if(DATA.palettes)delete DATA.palettes[name];
+  save();renderPalettes();if(typeof renderFolders==='function'&&document.getElementById('foldersDoc'))renderFolders();
+}
+const TEAM_THEME=TEAM_PALETTE;
+function teamTheme(name){const p=teamPal(name);return {primary:p.primary,secondary:p.secondary,text:p.textOn};}
 
 /* ===== AUTO-BIO GENERATORS ===== */
 /* Stat bullets computed from imported report, for one player on a given team */
@@ -5535,6 +6093,7 @@ function renderPacket(){
 /* one pass of the layout: section sizes, then blocks flowed onto sheets */
 function pkRebuild(){
   secApplyAll();
+  pgFooterFix(document.getElementById('packetDoc'));
   pkLayout();
 }
 
@@ -7141,6 +7700,22 @@ function htBornIn(r){
   const prov=String(pick(r,['birthprov','birthstate','birthcntry','birthcountry'],'')).trim();
   return [town,prov].filter(Boolean).join(', ');
 }
+/* The roster response carries the staff alongside the players — head coach,
+   assistants, equipment manager, athletic trainer. They fill the call sheet's
+   header line, so they are kept rather than skipped. */
+function htStaffRow(r){
+  let name=String(pick(r,['name','player_name'],'')).trim();
+  if(!name)name=(String(pick(r,['first_name'],''))+' '+String(pick(r,['last_name'],''))).trim();
+  const role=String(pick(r,['position','role','title'],'')).trim();
+  if(!name||!role||/^(F|C|LW|RW|W|D|G)$/i.test(role))return null;
+  return {name,role};
+}
+function staffFor(team){
+  const list=((DATA.staff||{})[team])||[];
+  const head=list.find(x=>/head\s*coach/i.test(x.role));
+  const asst=list.filter(x=>/assist/i.test(x.role));
+  return {list,head,asst};
+}
 function htRosterRow(r){
   let name=String(pick(r,['name','player_name'],'')).trim();
   if(!name)name=(String(pick(r,['first_name'],''))+' '+String(pick(r,['last_name'],''))).trim();
@@ -7298,6 +7873,8 @@ async function htRosterSweep(season){
       const r=await htFetch({feed:'modulekit',view:'roster',season_id:season,team_id:tid});
       rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
     }catch(e){continue;}
+    const staff=rows.map(htStaffRow).filter(Boolean);
+    if(staff.length){DATA.staff=DATA.staff||{};DATA.staff[tname]=staff;}
     const players=rows.map(htRosterRow).filter(Boolean);
     if(!players.length)continue;                 // coaches-only, as 2026-27 is today
     out.push({tname,players});
