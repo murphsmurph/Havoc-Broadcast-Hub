@@ -127,6 +127,22 @@
   .fd-notes-rule{flex:1;background:repeating-linear-gradient(to bottom,transparent,transparent 21px,#ccc 21px,#ccc 22px);}
   .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
+  /* printed pages are a fixed sheet: nothing inside may exceed the content box */
+  /* the sheet itself keeps its fixed width — only its contents are capped */
+  .page *{max-width:100%;}
+  .page{overflow-wrap:break-word;}
+  table.bst-t{table-layout:fixed;}
+  .bst-t .c-season{width:52px;} .bst-t .c-lg{width:54px;} .bst-t .c-gp{width:26px;}
+  .bst-t .c-n{width:30px;} .bst-t .c-rec{width:46px;}
+  .bst-t .c-team{max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .bst-t td,.bst-t th{overflow:hidden;text-overflow:ellipsis;}
+  .bst-note td{color:var(--ink-2);font-size:7.5px;border-bottom:0;padding-top:0;white-space:normal;}
+  .mtp-nick{font-size:9px;font-weight:800;color:var(--ink-2);margin-left:4px;}
+  .mtp-pron{font-size:8.5px;font-style:italic;color:var(--ink-2);margin-left:5px;}
+  .mtp-line{font-size:8.5px;line-height:1.45;margin-top:2px;}
+  .mtp-line b{text-transform:uppercase;font-size:7.5px;letter-spacing:.04em;color:var(--red-text);margin-right:3px;}
+  .mtp-adv{font-size:7.5px;line-height:1.4;color:var(--ink-2);margin-top:2px;}
+  .mtp-head{flex-wrap:wrap;}
   .bst-h{font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px;letter-spacing:.04em;}
   .bst-mtp{margin-top:3px;}
   .bst-mtp .pk-t{font-size:7.5px;}
@@ -268,7 +284,11 @@
   .sec-item button{min-height:24px;padding:1px 7px;font-size:12px;font-weight:800;border:1px solid var(--havoc-line);border-radius:5px;background:transparent;color:inherit;cursor:pointer;}
   .sec-item button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
   .sec-item .sec-pt{min-width:40px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
-  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--red-text);}
+  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--red-text);line-height:1.9;}
+  .sec-fix{font-size:11px;font-weight:800;border:1px solid var(--havoc-red);border-radius:5px;background:transparent;color:var(--red-text);padding:1px 7px;cursor:pointer;}
+  .page.pg-over{outline:2px solid var(--havoc-red);outline-offset:2px;}
+  .pg-overtag{position:absolute;top:0;left:0;right:0;background:var(--havoc-red);color:#fff;font-size:11px;font-weight:800;padding:3px 8px;display:flex;gap:8px;align-items:center;justify-content:center;z-index:6;}
+  .pg-overtag button{font-size:11px;font-weight:800;border:1px solid #fff;border-radius:5px;background:#fff;color:var(--havoc-red);padding:1px 7px;cursor:pointer;}
   .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
   .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
   .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
@@ -1841,6 +1861,10 @@ function seedRosterIfEmpty(){
    pro stat tables, matched to the roster by name. The file itself never lands
    in this repo — it is embargoed club material and this repo is public, so it
    lives in the browser only, behind the embargo banner below. */
+/* fields the club file uses to caveat a value — shown as notes, never as data */
+const BIO_ADVISORY=['dobNote','weightNote','hometownNote','vitalsNote','numberNote','injuryNote','nameCorrection','identityConfidence','returningNote'];
+const BIO_ADVISORY_LABEL={dobNote:'DOB',weightNote:'Weight',hometownNote:'Hometown',vitalsNote:'Vitals',
+  numberNote:'Number',injuryNote:'Injury',nameCorrection:'Name',identityConfidence:'Identity',returningNote:'Returning'};
 function bioNorm(n){return norm(String(n||'').replace(/["'"]/g,'').replace(/\(.*?\)/g,''));}
 function bioMatch(entry){
   const want=[entry.name,entry.fullName,entry.nameCorrection,(entry.name||'').replace(/\s*".*?"\s*/,' ')]
@@ -1887,12 +1911,21 @@ function bioApply(json){
     if(Array.isArray(e.awards)&&e.awards.length)p.awards=e.awards;
     if(e.letter)p.capt=e.letter;
     if(e.juniorSummary)p.junior=e.juniorSummary;
+    if(e.nickname)p.nickname=e.nickname;
+    if(e.acquired)p.acquired=e.acquired;
+    if(e.seasonWithTeam!=null)p.seasonWithTeam=String(e.seasonWithTeam);
+    if(e.returning!=null)p.returning=e.returning?1:0;
+    if(e.returningNote)p.returningNote=e.returningNote;
+    // advisory fields print as small italics, never as data
+    p.bioNotesAdvisory=BIO_ADVISORY.map(k=>e[k]?{k,v:String(e[k])}:null).filter(Boolean);
+    if(!p.bioNotesAdvisory.length)delete p.bioNotesAdvisory;
     // pronunciation: only take it when the file is sure; otherwise queue it to ask
     const pr=String(e.pronunciation||'');
     if(pr&&!/UNVERIFIED/i.test(pr)&&!/as spelled/i.test(pr))p.pron=pr;
     else if(/UNVERIFIED/i.test(pr))p.pronAsk=1;
     // stat tables the league feed cannot give us in preseason
-    if((e.collegeStats||[]).length||(e.proStats||[]).length)p.bioStats={college:e.collegeStats||[],pro:e.proStats||[]};
+    if((e.collegeStats||[]).length||(e.proStats||[]).length||(e.playoffStats||[]).length)
+      p.bioStats={college:e.collegeStats||[],pro:e.proStats||[],playoffs:e.playoffStats||[]};
     // anything the file flags for the club
     if(e.identityStatus==='UNRESOLVED'||/UNRESOLVED/i.test(e.position||'')){p.identityUnresolved=e.warning||'Identity unresolved — confirm with the club.';out.flags.push(p.name+': identity unresolved');}
     if(e.identityConfidence&&/MODERATE|LOW/i.test(e.identityConfidence)){p.identityNote=e.identityConfidence;out.flags.push(p.name+': '+e.identityConfidence);}
@@ -2205,12 +2238,50 @@ function secApplyAll(){
       const scale=z?(+z.style.zoom||1):1;
       const grew=p.offsetHeight-1056>2;                              // auto-height page past a sheet
       const spills=z?(z.scrollHeight*scale)-p.clientHeight>2:false;  // scaled content past the fixed sheet
-      if(grew||spills)over.push({i:i+1,key});
+      // horizontal: anything reaching past the page's content box is cut off on paper
+      const box=p.getBoundingClientRect(),cs=getComputedStyle(p);
+      const right=box.right-parseFloat(cs.paddingRight)-parseFloat(cs.borderRightWidth||0)+1;
+      let wide=0;
+      (z||p).querySelectorAll('*').forEach(el=>{
+        const r=el.getBoundingClientRect();
+        if(r.width>0&&r.right>right)wide=Math.max(wide,Math.round(r.right-right));
+      });
+      p.classList.toggle('pg-over',!!(grew||spills||wide));
+      const tag=p.querySelector(':scope > .pg-overtag');
+      if(grew||spills||wide){
+        const why=wide?('runs '+wide+'px past the right edge'):'is taller than one sheet';
+        const html='<div class="pg-overtag no-print">This page '+why+
+          ' <button onclick="event.stopPropagation();secStep(\''+key+'\',-1)">reduce '+esc(secLabel(key))+' by 1 pt</button></div>';
+        if(tag)tag.outerHTML=html;else p.insertAdjacentHTML('afterbegin',html);
+        over.push({i:i+1,key,wide});
+      }else if(tag)tag.remove();
     });
     secRenderBar(over);
   });
   const badge=document.getElementById('prPages');
   if(badge)badge.textContent=pages.length+(pages.length===1?' page':' pages');
+}
+/* Step every overflowing section down until its pages fit, so the PDF can't
+   come out longer than the preview. Bounded, and it reports what it changed. */
+async function secFitAll(){
+  const changed={};
+  for(let pass=0;pass<12;pass++){
+    await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)));
+    const bad=[];
+    document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
+      const key=p.dataset.sec;if(!key)return;
+      const z=p.querySelector(':scope > .sec-zoom');
+      const scale=z?(+z.style.zoom||1):1;
+      const tall=p.offsetHeight-1056>2||(z&&(z.scrollHeight*scale)-p.clientHeight>2);
+      if(tall&&bad.indexOf(key)<0)bad.push(key);
+    });
+    if(!bad.length)break;
+    let moved=false;
+    bad.forEach(k=>{if(secPt(k)>6){secStep(k,-1);changed[k]=(changed[k]||0)+1;moved=true;}});
+    if(!moved)break;
+  }
+  const list=Object.keys(changed);
+  toast(list.length?('Fitted '+list.map(k=>secLabel(k)+' −'+changed[k]+'pt').join(', ')):'Everything already fits');
 }
 function secRenderBar(over){
   const bar=document.getElementById('prSecBar');if(!bar)return;
@@ -2226,7 +2297,7 @@ function secRenderBar(over){
       <button title="1 pt larger" onclick="secStep('${k}',1)">A+</button>
       <button class="${secBold(k)?'on':''}" aria-pressed="${secBold(k)?'true':'false'}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
       <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button></span>`).join('')
-   +((over||[]).length?`<div class="sec-warn">${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') overflows — reduce by 1 pt').join('<br>')}</div>`:'')
+   +((over||[]).length?`<div class="sec-warn"><button class="sec-fix" style="margin-bottom:4px" onclick="secFitAll()">Fit every page (steps the offenders down until they fit)</button><br>${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') '+(o.wide?'runs '+o.wide+'px past the right edge':'overflows the page')+' — <button class="sec-fix" onclick="secStep(\''+o.key+'\',-1)">reduce by 1 pt</button>').join('<br>')}</div>`:'')
    +`</div>`;
 }
 /* toolbar actions that used to be duplicated per section */
@@ -6036,23 +6107,44 @@ function renderStandings(){
 
 
 /* the club file keeps college and pro apart, so they print apart — never merged */
+/* League names are the widest thing in these tables and will push a printed
+   page past its content box, so they print in their short form. */
+const LEAGUE_SHORT=[[/NCAA\s*(Division|Div\.?)?\s*III/i,'NCAA D-III'],[/NCAA\s*(Division|Div\.?)?\s*II/i,'NCAA D-II'],
+  [/NCAA\s*(Division|Div\.?)?\s*I\b/i,'NCAA D-I'],[/USports|U\s*Sports/i,'U SPORTS'],
+  [/Ontario University Athletics|OUA/i,'OUA'],[/Southern Professional/i,'SPHL'],[/East Coast Hockey/i,'ECHL'],
+  [/Federal Prospects/i,'FPHL'],[/American Hockey League/i,'AHL'],[/National Hockey League/i,'NHL']];
+function leagueShort(v){
+  let s=String(v||'').trim();
+  if(!s)return '';
+  for(const [re,short] of LEAGUE_SHORT)if(re.test(s))return short;
+  s=s.replace(/\s*\(.*?\)\s*/g,' ').trim();      // drop parentheticals like "(NCHC)"
+  return s.length>12?s.slice(0,11)+'…':s;
+}
+/* A row is a goalie row if it carries goalie keys — the club file uses a
+   different shape for them, and reading skater keys yields empty cells. */
+function isGoalieRow(r,p){
+  if(r&&(r.record!=null||r.gaa!=null||r.svPct!=null||r.saves!=null))return true;
+  if(r&&(r.g!=null||r.a!=null||r.p!=null||r.pim!=null))return false;
+  return !!(p&&p.pos==='G');
+}
 function bioStatTablesHTML(p,scope){
   const b=p.bioStats;if(!b)return '';
-  const isG=p.pos==='G';
-  const one=(rows,title,pro)=>{
+  const n=v=>(v==null||v==='')?'—':v;
+  const one=(rows,title)=>{
     if(!rows||!rows.length)return '';
-    const g=isG&&pro;
-    const n=v=>v==null?'—':v;
-    const head=g?'<th class="r">GP</th><th class="r">Rec</th><th class="r">GAA</th><th class="r">SV%</th><th class="r">SO</th>'
-      :'<th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th>';
-    return `<div class="bst"><div class="bst-h">${title}</div>
-      <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th>${head}</tr>
-      ${rows.map(r=>`<tr><td>${esc(r.season||'')}</td><td>${esc(r.team||'')}</td><td>${esc(r.league||'')}</td>`
-        +(g?`<td class="r">${n(r.gp)}</td><td class="r">${esc(n(r.record))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(n(r.svPct))}</td><td class="r">${n(r.so)}</td>`
-           :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td>`)+`</tr>`).join('')}
+    const g=rows.some(r=>isGoalieRow(r,p));
+    const head=g?'<th class="r c-gp">GP</th><th class="r c-rec">Record</th><th class="r c-n">GAA</th><th class="r c-n">SV%</th><th class="r c-n">SO</th>'
+      :'<th class="r c-gp">GP</th><th class="r c-n">G</th><th class="r c-n">A</th><th class="r c-n">PTS</th><th class="r c-n">PIM</th>';
+    const cells=r=>g
+      ?`<td class="r">${n(r.gp)}</td><td class="r">${esc(String(n(r.record)))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(String(n(r.svPct)))}</td><td class="r">${n(r.so)}</td>`
+      :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td><td class="r">${n(r.pim)}</td>`;
+    return `<div class="bst"><div class="bst-h">${esc(title)}</div>
+      <table class="pk-t bst-t"><tr><th class="c-season">Season</th><th class="c-team">Team</th><th class="c-lg">League</th>${head}</tr>
+      ${rows.map(r=>`<tr><td class="c-season">${esc(r.season||'')}</td><td class="c-team" title="${esc(r.team||'')}">${esc(r.team||'')}</td><td class="c-lg">${esc(leagueShort(r.league))}</td>${cells(r)}</tr>`
+        +(r.note?`<tr class="bst-note"><td colspan="8">${esc(r.note)}</td></tr>`:'')).join('')}
       </table></div>`;
   };
-  const body=one(b.pro,'Professional',true)+one(b.college,'College',false);
+  const body=one(b.pro,'Professional')+one(b.playoffs,'Playoffs')+one(b.college,'College');
   if(!body)return '';
   return `<div class="bst-wrap${scope==='mtp'?' bst-mtp':''}">${body}</div>`;
 }
@@ -6070,11 +6162,15 @@ function mtpCardHTML(p,teamStats,R,red,S){
     const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" onerror="mtpImgErr(this)"></div>`:'';
     return `<div class="mtp-card${srcs.length?'':' no-photo'}">
       <div class="mtp-flex">${photo}<div class="mtp-main">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — click here to type one, or import the club bios on the Rosters tab. Bios live in this browser, so each device needs its own import.</span>'}</div>
+      ${p.acquired?`<div class="mtp-line"><b>Acquired</b> ${esc(p.acquired)}</div>`:''}
+      ${(p.awards||[]).length?`<div class="mtp-line"><b>Awards</b> ${esc(p.awards.join(' · '))}</div>`:''}
       ${bioStatTablesHTML(p,'mtp')}
+      ${p.junior?`<div class="mtp-line"><b>Junior</b> ${esc(p.junior)}</div>`:''}
+      ${(p.bioNotesAdvisory||[]).length?`<div class="mtp-adv">${p.bioNotesAdvisory.map(a=>'<i>'+esc((BIO_ADVISORY_LABEL[a.k]||a.k)+': '+a.v)+'</i>').join('<br>')}</div>`:''}
       </div></div>
     </div>`;
   }).join('');
