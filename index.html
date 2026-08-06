@@ -206,6 +206,9 @@
   .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
   .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
   .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
+  .gm-scores{padding-top:12px;}
+  .gm-sb-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:8px;}
+  .gm-sb-head .spacer{flex:1;}
   .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
   .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
@@ -596,6 +599,10 @@
 
   <!-- THIS GAME -->
   <section class="panel active" id="panel-game">
+    <div class="card gm-scores">
+      <div class="gm-sb-head"><span>Tonight around the league</span><span class="upd" data-sync="scorebar"></span><span class="spacer"></span><button class="btn small secondary no-print" onclick="showTab('import')">Open Live Data</button></div>
+      <div id="gmScorebar" class="sb-strip"></div>
+    </div>
     <div class="card">
       <h2>This <span class="accent">Game</span></h2>
       <p class="desc">Game-specific details the report can't provide. Prints onto the Game Notes cover. Saved automatically.</p>
@@ -1742,6 +1749,7 @@ function showTab(tab){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('panel-'+tab);if(el)el.classList.add('active');
   if(tab==='import'){loadSchedule();renderGameLog();renderSyncBadges();}
+  if(tab==='game'){gmScorebar();renderSyncBadges();}
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
@@ -6223,6 +6231,20 @@ function sbRender(games){
       '<div class="sb-status">'+esc(date)+' · '+esc(sbStatusOf(g))+'</div></div>';
   }).join('');
 }
+/* This Game carries a read-only strip: tonight's games only, no controls.
+   The full feed lives on Live Data — one place to pull, one place to view. */
+function gmScorebar(games){
+  const el=document.getElementById('gmScorebar');if(!el)return;
+  const src=(games&&games.length?games:sbCacheGames())||[];
+  const today=new Date().toISOString().slice(0,10);
+  const tonight=src.filter(g=>String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(0,10)===today);
+  if(!src.length){el.innerHTML='<div class="sb-msg">No scores yet — run a Game Day Refresh on Live Data.</div>';return;}
+  if(!tonight.length){el.innerHTML='<div class="sb-msg">No SPHL games today. The week ahead is on the Live Data tab.</div>';return;}
+  const old=document.getElementById('sbStrip').innerHTML;
+  sbRender(tonight);
+  el.innerHTML=document.getElementById('sbStrip').innerHTML;
+  document.getElementById('sbStrip').innerHTML=old;
+}
 function sbInterval(games){
   if(games.some(sbIsLive))return 60000;
   const now=Date.now();
@@ -6255,13 +6277,14 @@ async function sbTick(){
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('the feed did not answer within 10 seconds')),10000))
     ]);
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
-    sbRender(games);sbCacheSave(games);
+    sbRender(games);sbCacheSave(games);gmScorebar(games);
     SB_LAST=Date.now();syncMark('scorebar');
     sbState('loaded','League feed connected · '+syncLabel('scorebar').toLowerCase(),false);
     const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
   }catch(e){
     const cached=sbCacheGames();
     if(cached.length){sbRender(cached);SB_HASGAMES=true;}
+    gmScorebar(cached);
     const when=syncAt('scorebar');
     sbState('failed',
       'Live scores unavailable — '+e.message+'.'+(cached.length&&when?' Showing cached data from '+syncTimeStr(when)+'.':' No cached scores to fall back on yet.'),
