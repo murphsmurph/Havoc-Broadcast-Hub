@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -621,6 +622,7 @@
   .stnd tr.me td{background:var(--tint-row);}
   .stnd tr.me td.pts{background:var(--tint-red-2);}
   .mtp-blurb{font-size:9.5px;line-height:1.55;}
+  .mtp-nobio{color:#8a8f98;font-style:italic;}
   .mc-strip{background:var(--havoc-black);color:#fff;text-align:center;font-weight:800;font-size:11px;padding:5px 8px;border-radius:4px;margin-bottom:8px;letter-spacing:.02em;}
   /* --- iOS/Mac mobile overrides (end of cascade so they win) --- */
   @media (max-width:760px){
@@ -1986,7 +1988,7 @@ function renderBioStatus(){
   </div>`;
 }
 function renderRosterStatus(){
-  renderBioStatus();renderEmbargo();
+  renderBioStatus();bioPrompt();renderEmbargo();
   const el=document.getElementById('rosterStatus');if(!el)return;
   const s=rosterStatus();
   if(!s.sheet.length&&!s.parked.length&&!s.feedOnly.length){el.innerHTML='';return;}
@@ -2469,6 +2471,13 @@ function renderRosterTable(side,wrapId){
     html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}${flags}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
+}
+function bioPrompt(){
+  const el=document.getElementById('bioStatus');if(!el||DATA.bioMeta)return;
+  const n=DATA.roster.filter(p=>(p.notes||'').trim()).length;
+  el.innerHTML=n?'':`<div class="bio-panel"><h5>No player bios in this browser</h5>
+    Written bios live in this browser's storage, so every device needs its own copy — importing on your Mac does not carry to the phone.
+    Use <b>Import bios JSON…</b> above with the club file, or type a media bio into any player. ${DATA.roster.length} players are on the roster with header facts only.</div>`;
 }
 function renderRosterProgress(){
   const f=DATA.roster.filter(p=>['C','LW','RW'].includes(p.pos)),d=DATA.roster.filter(p=>p.pos==='D'),g=DATA.roster.filter(p=>p.pos==='G');
@@ -6051,7 +6060,7 @@ function mtpCardHTML(p,teamStats,R,red,S){
       <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
-      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml}</div>
+      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — click here to type one, or import the club bios on the Rosters tab. Bios live in this browser, so each device needs its own import.</span>'}</div>
       ${bioStatTablesHTML(p,'mtp')}
       </div></div>
     </div>`;

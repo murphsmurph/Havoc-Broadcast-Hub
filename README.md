@@ -29,6 +29,9 @@ A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No buil
 - **Post-game copy desk** — a formatter, not a generator: you write each section (headline, lede, body, quotes, notes), it assembles the finished report in one fixed house style with a one-click Copy; a Game Center paste can auto-fill the score/date/venue facts
 - **Learn the Roster** — quiz modes for play-by-play memorization
 
+## Not indexed
+`robots.txt` disallows all crawlers and every page carries `<meta name="robots" content="noindex, nofollow">`. That keeps the hub out of search results — it does **not** make it private. The repository is public and the URL is reachable by anyone who has it, which is why unannounced club material stays in the browser and out of this repo.
+
 ## Important: where your data lives
 All data (rosters, results, call log, keys) is saved in the **browser's localStorage — not in this file**. That means:
 - Safe to share/publish this file — it contains no personal data or keys
