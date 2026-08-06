@@ -182,6 +182,18 @@
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
   .cupline{font-size:13px;}
+  /* 2026-27 roster reconcile panel */
+  .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
+  .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:#fafafb;}
+  .rs-box.warn{border-left-color:var(--havoc-red);}
+  .rs-box.wait{border-left-color:#b9bcc4;}
+  .rs-box h5{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:5px;}
+  .rs-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;padding:2px 0;}
+  .rs-num{font-weight:800;min-width:34px;}
+  .rs-nm{font-weight:700;min-width:150px;}
+  .rs-note{color:var(--havoc-grey);}
+  .rs-flag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:800;background:#eceef2;color:#5d626c;cursor:help;}
+  .rs-flag.warn{background:var(--havoc-red);color:#fff;}
   .unv{color:var(--havoc-red);font-weight:900;cursor:help;}
   .ref-ed{font-size:13px;}
   .ref-ed:focus{outline:2px solid var(--havoc-red);outline-offset:3px;border-radius:4px;}
@@ -685,11 +697,13 @@
       <h2>Havoc <span class="accent">Roster &amp; Bios</span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
       <div class="progress" id="rosterProgress"></div>
+      <div id="rosterStatus"></div>
       <div class="btn-row" style="margin-top:14px">
         <button class="btn" onclick="openBulk('home')">Bulk import roster</button>
         <button class="btn secondary" onclick="openEPBulk('home')">Bulk EP → auto-bios</button>
         <button class="btn secondary" onclick="openPlayer('home')">+ Add one player</button>
-        <button class="btn secondary" onclick="loadHavoc2627()">Load 2026-27 roster</button>
+        <button class="btn secondary" onclick="loadHavoc2627()">Apply 2026-27 signed sheet</button>
+        <button class="btn secondary" onclick="epFillHome()">Fill facts from Elite Prospects</button>
         <button class="btn secondary" onclick="openPasteEP('home')">Paste Elite Prospects text</button>
       </div>
     </div>
@@ -1165,6 +1179,7 @@
     <div class="field"><label>Shoots/Catches</label><input type="text" id="p_sh"></div>
     <div class="field"><label>Age</label><input type="text" id="p_age"></div>
     <div class="field" style="grid-column:span 2"><label>Birthplace</label><input type="text" id="p_birth"></div>
+    <div class="field" style="grid-column:span 2"><label>Previous team</label><input type="text" id="p_from" placeholder="filled from Elite Prospects"></div>
     <div class="field" style="grid-column:span 2"><label>DOB</label><input type="text" id="p_dob"></div>
   </div>
   <div class="field"><label>Broadcast bio (lineup chart &amp; game sheet — 1-2 short lines)</label><textarea id="p_bbio" rows="2"></textarea></div>
@@ -1543,42 +1558,110 @@ function save(){
 function flashSaved(){const el=document.getElementById('saveStatus');el.textContent="✓ Saved "+new Date().toLocaleTimeString();setTimeout(()=>el.textContent="All changes saved locally",2500);}
 function uid(){return 'p'+Math.random().toString(36).slice(2,9);}
 
-/* Current 2026-27 Havoc roster (from the team's announced signings, Aug 2026).
-   htid/epUrl pre-wired where the EP mapping already knows the player. */
+/* ===== 2026-27 HAVOC OPENING ROSTER — the team's signed-players sheet =====
+   Numbers come from the club's internal sheet (Aug 2026) and OUTRANK the league
+   feed in preseason. Vitals (pos/ht/wt/dob/hometown) and HockeyTech ids for the
+   returning players are the league's own season-44 roster values, pulled by the
+   ht-probe Action on Aug 6, 2026 — the season-46 roster was still empty then.
+   New arrivals carry only what the sheet and Elite Prospects know so far. */
 const HAVOC_2627=[
- {num:"3",name:"Ben Schultheis",pos:"D",ht:"",wt:"",sh:"",age:"26",birth:"Mount Juliet, TN",dob:"02/17/00",htId:"3666",epUrl:"https://www.eliteprospects.com/player/335882"},
- {num:"4",name:"Davis Goukler",pos:"D",ht:"",wt:"",sh:"",age:"25",birth:"",dob:"",htId:"3837",epUrl:"https://www.eliteprospects.com/player/370024"},
- {num:"8",name:"Kevin Weaver-Vitale",pos:"D",ht:"6-0",wt:"200",sh:"L",age:"26",birth:"Toronto, ON",dob:"12/19/99",htId:"3622",epUrl:"https://www.eliteprospects.com/player/519479"},
- {num:"11",name:"Michael Hodge",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"",dob:"",epUrl:"https://www.eliteprospects.com/player/412351"},
- {num:"12",name:"Gio Procopio",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"",dob:"",htId:"3465",epUrl:"https://www.eliteprospects.com/player/285339"},
- {num:"15",name:"Dawson Sciarrino",pos:"F",ht:"5-10",wt:"165",sh:"R",age:"26",birth:"Greensburg, PA",dob:"06/06/00",htId:"3686",epUrl:"https://www.eliteprospects.com/player/370215"},
- {num:"18",name:"Austin Alger",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"",dob:"",htId:"3089",epUrl:"https://www.eliteprospects.com/player/248427"},
- {num:"20",name:"Cade Helmer",pos:"F",ht:"6-2",wt:"200",sh:"",age:"",birth:"Hershey, PA",dob:"",htId:"3817",epUrl:"https://www.eliteprospects.com/player/398852"},
- {num:"63",name:"Craig McCabe",pos:"D",ht:"",wt:"",sh:"",age:"27",birth:"Webster, NY",dob:"",htId:"3371",epUrl:"https://www.eliteprospects.com/player/349555"},
- {num:"72",name:"Alex Proctor",pos:"G",ht:"6-2",wt:"174",sh:"L",age:"24",birth:"Dallas, TX",dob:"12/12/01",htId:"3801",epUrl:"https://www.eliteprospects.com/player/482047"},
- {num:"86",name:"Landry Schmuck",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"Huntsville, AL",dob:"",epUrl:"https://www.eliteprospects.com/player/551018"},
- {num:"91",name:"Connor Fries",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"",dob:"",htId:"288",epUrl:"https://www.eliteprospects.com/player/215887"},
- {num:"93",name:"Troy Williams",pos:"F",ht:"",wt:"",sh:"",age:"28",birth:"Dryden, ON",dob:"02/08/98",epUrl:"https://www.eliteprospects.com/player/271639"},
- {num:"",name:"Brian Wilson",pos:"G",ht:"6-4",wt:"185",sh:"L",age:"29",birth:"Mississauga, ON",dob:"09/27/96",htId:"2761",epUrl:"https://www.eliteprospects.com/player/298839"},
- {num:"",name:"Ethan Lindsay",pos:"F",ht:"",wt:"",sh:"",age:"",birth:"Barrie, ON",dob:"",htId:"3669",epUrl:"https://www.eliteprospects.com/player/582425"}
+ {num:"3",name:"Ben Schultheis",pos:"D",ht:"6-3",wt:"205",sh:"",dobi:"2000-02-17",birth:"Mount Juliet, TN",htId:"3666",epUrl:"https://www.eliteprospects.com/player/335882"},
+ {num:"4",name:"Davis Goukler",pos:"D",ht:"",wt:"",sh:"",dobi:"",birth:"",htId:"3837",epUrl:"https://www.eliteprospects.com/player/370024",from:"Macon Mayhem"},
+ {num:"8",name:"Kevin Weaver-Vitale",pos:"D",ht:"5-11",wt:"201",sh:"L",dobi:"1999-12-19",birth:"Toronto, ON",htId:"3622",epUrl:"https://www.eliteprospects.com/player/519479"},
+ {num:"11",name:"Michael Hodge",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"",epUrl:"https://www.eliteprospects.com/player/412351",from:"Solway IHC (NIHL)"},
+ {num:"12",name:"Gio Procopio",pos:"C",ht:"5-11",wt:"185",sh:"",dobi:"2000-04-29",birth:"Grosse Pointe, MI",htId:"3465",epUrl:"https://www.eliteprospects.com/player/285339"},
+ {num:"15",name:"Dawson Sciarrino",pos:"RW",ht:"5-11",wt:"174",sh:"R",dobi:"2000-06-06",birth:"Greensburg, PA",htId:"3686",epUrl:"https://www.eliteprospects.com/player/370215"},
+ {num:"18",name:"Austin Alger",pos:"RW",ht:"6-0",wt:"181",sh:"",dobi:"1997-09-23",birth:"Livonia, MI",htId:"3089",epUrl:"https://www.eliteprospects.com/player/248427"},
+ {num:"20",name:"Cade Helmer",pos:"F",ht:"6-2",wt:"200",sh:"",dobi:"",birth:"Hershey, PA",htId:"3817",epUrl:"https://www.eliteprospects.com/player/398852",from:"Roanoke Rail Yard Dawgs"},
+ {num:"43",name:"Terry Ryder",pos:"D",ht:"6-0",wt:"184",sh:"",dobi:"1998-07-11",birth:"Kalamazoo, MI",htId:"3468",epUrl:"https://www.eliteprospects.com/player/350433"},
+ {num:"63",name:"Craig McCabe",pos:"D",ht:"5-10",wt:"180",sh:"",dobi:"1998-03-09",birth:"Webster, NY",htId:"3371",epUrl:"https://www.eliteprospects.com/player/349555"},
+ {num:"72",name:"Alex Proctor",pos:"G",ht:"6-3",wt:"185",sh:"L",dobi:"2001-12-12",birth:"Dallas, TX",htId:"3801",epUrl:"https://www.eliteprospects.com/player/482047"},
+ {num:"86",name:"Landry Schmuck",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"Huntsville, AL",epUrl:"https://www.eliteprospects.com/player/551018",from:"Aurora Univ. (NCAA III)"},
+ {num:"91",name:"Connor Fries",pos:"C",ht:"5-10",wt:"177",sh:"",dobi:"1995-03-15",birth:"Centerville, MA",htId:"288",epUrl:"https://www.eliteprospects.com/player/215887"},
+ {num:"93",name:"Troy Williams",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"Dryden, ON",epUrl:"https://www.eliteprospects.com/player/271639",from:"Heerenveen Flyers (CEHL)"},
+ {num:"",name:"Kadin Ilot",pos:"",ht:"",wt:"",sh:"",dobi:"",birth:"",from:"number not assigned yet"}
 ];
-function loadHavoc2627(){
-  if(DATA.roster.length&&!confirm('Replace the current Havoc roster with the announced 2026-27 roster ('+HAVOC_2627.length+' players)?\n\nBios, captain letters and pronunciations you already entered are kept for returning names.'))return;
-  const old={};DATA.roster.forEach(p=>{old[p.name.toLowerCase()]=p;});
-  DATA.roster=HAVOC_2627.map(t=>{
-    const prev=old[t.name.toLowerCase()]||{};
-    return {id:prev.id||uid(),...t,active:"1",
-      notes:prev.notes||"",bbio:prev.bbio||"",capt:prev.capt||"",pron:prev.pron||"",callNote:prev.callNote||"",
-      ht:t.ht||prev.ht||"",wt:t.wt||prev.wt||"",sh:t.sh||prev.sh||"",age:t.age||prev.age||"",
-      birth:t.birth||prev.birth||"",dob:t.dob||prev.dob||"",
-      htId:t.htId||prev.htId||"",epUrl:t.epUrl||prev.epUrl||""};
+/* the sheet is partial — anything already on the roster that isn't on it is parked,
+   never deleted, until you confirm or remove it */
+function havocSheetApply(){
+  const bySheet=new Map(HAVOC_2627.map(t=>[norm(t.name),t]));
+  const out=[];let added=0,updated=0,parked=0;
+  DATA.roster.forEach(p=>{
+    const t=bySheet.get(norm(p.name));
+    if(t){
+      bySheet.delete(norm(p.name));
+      havocSheetFill(p,t);updated++;
+    }else if(p.sheet!=='2026-27'){
+      p.unconf='2026-27';p.active='0';parked++;
+    }
+    out.push(p);
   });
-  save();renderRoster();
+  bySheet.forEach(t=>{const p={id:uid(),notes:"",bbio:"",capt:"",pron:""};havocSheetFill(p,t);out.push(p);added++;});
+  DATA.roster=out;save();
+  return {added,updated,parked};
+}
+function havocSheetFill(p,t){
+  p.name=t.name;p.sheet='2026-27';p.numSheet=t.num||'';delete p.unconf;delete p.newFeed;
+  p.num=t.num||'';                       // the sheet's number wins over the feed
+  if(p.numFeed&&p.numFeed===p.num)delete p.numFeed;
+  p.active='1';
+  ['pos','ht','wt','sh','birth'].forEach(k=>{if(t[k])p[k]=t[k];else p[k]=p[k]||'';});
+  if(t.dobi){p.dob=htDobFmt(t.dobi);p.dobi=t.dobi;p.age=htAgeFrom(t.dobi);}
+  else if(p.dobi)p.age=htAgeFrom(p.dobi);
+  if(t.htId)p.htId=t.htId;
+  if(t.epUrl)p.epUrl=p.epUrl||t.epUrl;
+  if(t.from)p.from=t.from;
+}
+/* apply the club's signed sheet once per revision, on the browser that already holds
+   a roster — nothing is deleted, prior players are parked for review, bios are kept */
+const SHEET_REV='2026-27a';
+function havocSheetOnce(){
+  if(DATA.sheetRev===SHEET_REV)return;
+  const r=havocSheetApply();
+  DATA.sheetRev=SHEET_REV;save();
+  if(r.added||r.parked)setTimeout(()=>toast(`2026-27 signed sheet applied — ${r.added} added, ${r.updated} updated${r.parked?', '+r.parked+' parked for review on the Rosters tab':''}`),900);
+}
+function loadHavoc2627(){
+  const r=havocSheetApply();
+  renderRoster();
+  toast(`2026-27 sheet applied — ${r.updated} updated, ${r.added} added${r.parked?', '+r.parked+' parked for review':''}`);
 }
 function seedRosterIfEmpty(){
   if(DATA.roster.length)return;
-  DATA.roster=HAVOC_2627.map(t=>({id:uid(),...t,active:"1",notes:"",bbio:"",capt:"",pron:""}));
-  save();
+  DATA.roster=[];havocSheetApply();
+}
+/* ---- roster reconcile: sheet vs league feed ---- */
+function rosterStatus(){
+  const R=DATA.roster||[];
+  return {
+    sheet:R.filter(p=>p.sheet==='2026-27'),
+    inFeed:R.filter(p=>p.sheet==='2026-27'&&p.htId&&p.feed46),
+    awaiting:R.filter(p=>p.sheet==='2026-27'&&!p.feed46),
+    conflicts:R.filter(p=>p.numFeed&&p.numFeed!==p.num),
+    feedOnly:R.filter(p=>p.newFeed),
+    parked:R.filter(p=>p.unconf)
+  };
+}
+function rosterConfirm(id){const p=DATA.roster.find(x=>x.id===id);if(!p)return;delete p.unconf;delete p.newFeed;p.active='1';p.sheet='2026-27';p.numSheet=p.num||'';save();renderRoster();}
+function rosterDrop(id){
+  const p=DATA.roster.find(x=>x.id===id);if(!p)return;
+  if(!confirm('Remove '+p.name+' from the roster?\n\nBios and notes go with them — this cannot be undone from here.'))return;
+  DATA.roster=DATA.roster.filter(x=>x.id!==id);save();renderRoster();
+}
+function numTakeFeed(id){const p=DATA.roster.find(x=>x.id===id);if(!p||!p.numFeed)return;p.num=p.numFeed;p.numSheet=p.numFeed;delete p.numFeed;save();renderRoster();}
+function numKeepSheet(id){const p=DATA.roster.find(x=>x.id===id);if(!p)return;delete p.numFeed;save();renderRoster();}
+function renderRosterStatus(){
+  const el=document.getElementById('rosterStatus');if(!el)return;
+  const s=rosterStatus();
+  if(!s.sheet.length&&!s.parked.length&&!s.feedOnly.length){el.innerHTML='';return;}
+  const line=(p,extra)=>`<div class="rs-row"><span class="rs-num">${p.num?'#'+esc(p.num):'—'}</span><span class="rs-nm">${esc(p.name)}</span>${extra||''}</div>`;
+  const box=(title,cls,rows)=>rows.length?`<div class="rs-box ${cls}"><h5>${title} (${rows.length})</h5>${rows.join('')}</div>`:'';
+  el.innerHTML=
+    `<div class="rs-head">2026-27 opening roster — <b>${s.sheet.length}</b> signed${s.inFeed.length?` · ${s.inFeed.length} confirmed in the league feed`:''}</div>`
+   +box('Awaiting the league feed','wait',s.awaiting.map(p=>line(p,'<span class="rs-note">not published on the SPHL feed yet — vitals from the sheet + last season</span>')))
+   +box('Jersey-number conflicts — your sheet is showing','warn',s.conflicts.map(p=>line(p,`<span class="rs-note">feed says <b>#${esc(p.numFeed)}</b></span><button class="icon-btn" onclick="numTakeFeed('${p.id}')">use feed #</button><button class="icon-btn" onclick="numKeepSheet('${p.id}')">keep mine</button>`)))
+   +box('In the feed but not on your sheet','warn',s.feedOnly.map(p=>line(p,`<span class="rs-note">added by a sync — confirm to include in the packet</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)))
+   +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)));
 }
 
 /* ============ TABS ============ */
@@ -1849,7 +1932,7 @@ function getRoster(side){
   const t=val('oppRosterTeam');if(!t)return [];
   DATA.oppRosters[t]=DATA.oppRosters[t]||[];return DATA.oppRosters[t];
 }
-function renderRoster(){seedRosterIfEmpty();renderRosterTable('home','rosterTableWrap');renderRosterProgress();}
+function renderRoster(){seedRosterIfEmpty();renderRosterTable('home','rosterTableWrap');renderRosterProgress();renderRosterStatus();}
 function renderOppRoster(){renderRosterTable('away','oppRosterTableWrap');}
 function renderRosterTable(side,wrapId){
   const wrap=document.getElementById(wrapId);
@@ -1862,7 +1945,8 @@ function renderRosterTable(side,wrapId){
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
     const manual=!!(p.statOverride&&p.statOverride.trim());
-    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
+    const flags=(side==='home')?`${p.numFeed&&p.numFeed!==p.num?`<span class="rs-flag warn" title="Your sheet says #${esc(p.num||'--')}, the league feed says #${esc(p.numFeed)} — resolve it in the roster status panel">#${esc(p.numFeed)}?</span>`:''}${p.unconf?'<span class="rs-flag wait" title="Not on the 2026-27 signed sheet — parked for your review, not printing">unconfirmed '+esc(p.unconf)+'</span>':''}${p.newFeed?'<span class="rs-flag warn" title="Added by a league-feed sync, not on your sheet — confirm it">new from feed</span>':''}`:'';
+    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}${flags}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
 }
@@ -1875,7 +1959,7 @@ function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
   const list=getRoster(side);const p=id?list.find(x=>x.id===id):{};
   setv('p_id',id||'');setv('p_side',side);
-  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
+  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_from',p.from||'');setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
   // opponents only carry a broadcast bio; the long media bio is Havoc-only
   document.getElementById('p_notes_wrap').style.display=(side==='home')?'':'none';
   const pw=document.getElementById('p_photo_wrap');if(pw)pw.style.display=(side==='home')?'':'none';
@@ -1900,7 +1984,7 @@ function pPhotoPick(e){
 }
 function savePlayer(){
   const id=val('p_id'),side=val('p_side');const list=getRoster(side);
-  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active'),imgData:window._pPhotoData||''};
+  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),from:val('p_from'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active'),imgData:window._pPhotoData||''};
   if(!obj.name){toast("Name required");return;}
   if(id)Object.assign(list.find(x=>x.id===id),obj);else{obj.id=uid();list.push(obj);}
   save();closeModal('playerModal');side==='home'?renderRoster():renderOppRoster();toast("Player saved");
@@ -5599,25 +5683,32 @@ function htRosterRow(r){
     birth:String(pick(r,['hometown','birthplace','birthtown','birthcity'],'')).trim(),
     img:String(pick(r,['player_image','image','photo','headshot'],'')).trim()};
 }
-function htMergeRoster(list,feedPlayers){
+function htMergeRoster(list,feedPlayers,isHavoc){
   list=list||[];
   const seen=new Set();
   feedPlayers.forEach(fp=>{
     const k=norm(fp.name);if(!k)return;seen.add(k);
     let p=list.find(x=>norm(x.name)===k);
-    if(!p){p={id:uid(),notes:''};list.push(p);}
+    if(!p){p={id:uid(),notes:''};list.push(p);if(isHavoc)p.newFeed=1;} // feed-only arrival — flagged for confirmation
     p.name=fp.name;
+    if(isHavoc)p.feed46=1;
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
     if(fp.img)p.img=fp.img;
-    if(fp.num)p.num=fp.num;
+    if(fp.num){
+      // the club's signed sheet is ahead of the league feed in preseason: keep the
+      // sheet number, record the feed's, and let the roster panel settle it
+      if(isHavoc&&p.sheet==='2026-27'&&p.numSheet&&String(fp.num)!==String(p.numSheet)){p.numFeed=String(fp.num);p.num=p.numSheet;}
+      else {p.num=fp.num;if(p.numFeed===String(fp.num))delete p.numFeed;}
+    }
     // keep a more specific existing position (C/LW/RW) when the feed only says F
     if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))p.pos=fp.pos;
     if(fp.ht)p.ht=fp.ht;if(fp.wt)p.wt=fp.wt;if(fp.sh)p.sh=fp.sh;
     if(fp.dob)p.dob=fp.dob;if(fp.age)p.age=fp.age;if(fp.birth)p.birth=fp.birth;
     p.active='1';
   });
-  // only mark leftovers inactive when the feed clearly returned a full roster
-  if(feedPlayers.length>=8)list.forEach(p=>{if(!seen.has(norm(p.name)))p.active='0';});
+  // only mark leftovers inactive when the feed clearly returned a full roster —
+  // never a player the club's own sheet says is signed
+  if(feedPlayers.length>=8)list.forEach(p=>{if(!seen.has(norm(p.name))&&p.sheet!=='2026-27')p.active='0';});
   return list;
 }
 async function htDoRosters(){
@@ -5637,7 +5728,7 @@ async function htDoRosters(){
     const players=rows.map(htRosterRow).filter(Boolean);
     if(!players.length)continue;
     if(/Huntsville/i.test(tname)){
-      DATA.roster=htMergeRoster(DATA.roster,players);
+      DATA.roster=htMergeRoster(DATA.roster,players,true);
     }else{
       const full=TEAMS.find(x=>x===tname)||TEAMS.find(x=>tname.indexOf(x.split(' ')[0])===0)||tname;
       DATA.oppRosters=DATA.oppRosters||{};
@@ -5723,12 +5814,18 @@ async function epAutoBios(scope){ // links only — bios are written by hand (me
       if(!e){missing++;return;}
       if(e.epUrl&&p.epUrl!==e.epUrl){p.epUrl=e.epUrl;linked++;}
       if(!p.birth&&e.hometown)p.birth=e.hometown; // header facts only — never bios
-      if(!p.dob&&e.dob)p.dob=htDobFmt(e.dob)||p.dob;
+      if(!p.dob&&e.dob){p.dob=htDobFmt(e.dob)||p.dob;p.dobi=p.dobi||e.dob;if(!p.age)p.age=htAgeFrom(e.dob);}
+      // previous stop: the last career line that isn't this club — fills the "from" header fact
+      if(!p.from&&Array.isArray(e.careerStats)&&e.careerStats.length){
+        const prev=[...e.careerStats].reverse().find(c=>c&&c.team&&norm(c.team)!==norm(pair[0]));
+        if(prev)p.from=prev.team+(prev.league?' ('+prev.league+')':'');
+      }
     });
   });
   save();renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
   return 'EP links: '+linked+' profiles linked'+(missing?', '+missing+' without EP match (names link to EP search)':'');
 }
+async function epFillHome(){try{toast(await epAutoBios('home'));}catch(e){toast(e.message);}}
 async function htPullEPBios(){try{htStatus('Linking Elite Prospects profiles (all teams)…','');htStatus(await epAutoBios('all'),true);}catch(e){htStatus(e.message,false);}}
 
 function htShowLastSync(){
@@ -6192,7 +6289,7 @@ function wgDeck(side){
   if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
 }
 
-seedRosterIfEmpty();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
+seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
 (function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
