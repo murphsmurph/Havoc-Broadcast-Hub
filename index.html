@@ -126,6 +126,10 @@
   .fd-notes-rule{flex:1;background:repeating-linear-gradient(to bottom,transparent,transparent 21px,#ccc 21px,#ccc 22px);}
   .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
+  .bst-h{font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px;letter-spacing:.04em;}
+  .bst-mtp{margin-top:3px;}
+  .bst-mtp .pk-t{font-size:7.5px;}
+  .fd-note{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
   .pg-embargo{background:var(--havoc-red);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;padding:3px 6px;border-radius:3px;margin-top:4px;flex:0 0 auto;}
   .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
@@ -251,6 +255,7 @@
   .gd-steps li .gd-note{color:var(--ink-2);font-weight:400;}
   .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
   .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
+  .pr-subs{display:contents;}
   .pr-bar{position:sticky;top:104px;z-index:40;background:var(--bg);align-items:center;gap:6px;}
   html[data-theme="dark"] .pr-bar{background:var(--bg);}
   .pg-badge{font-size:11.5px;font-weight:800;background:var(--havoc-silver);border-radius:9px;padding:3px 10px;color:var(--havoc-grey);}
@@ -660,15 +665,16 @@
   .gl-edit input{width:54px;font-size:12px;padding:2px 4px;border:1px solid var(--havoc-line);border-radius:4px;}
   .gl-edit td,.gl-edit th{padding:3px 6px;font-size:12px;white-space:nowrap;}
 </style>
+<link rel="stylesheet" href="mobile.css">
 </head>
 <body>
-<div class="app-header">
-  <div class="mark" id="appMark">H</div>
-  <div><h1>Havoc Game Notes Hub</h1><div class="sub">Huntsville Havoc · SPHL 2026-27</div></div>
+<div class="app-header hub-header">
+  <div class="mark hub-header__logo" id="appMark">H</div>
+  <div class="hub-header__titles"><h1 class="hub-header__title">Havoc Game Notes Hub</h1><div class="sub hub-header__sub">Huntsville Havoc · SPHL 2026-27</div></div>
   <div class="spacer"></div>
   <div class="header-status save-flash" id="saveStatus" title="Everything is stored in this browser — back it up from Settings"></div>
 </div>
-<div class="tabs" id="tabs">
+<div class="tabs hub-tabs" id="tabs">
   <button class="tab active" data-tab="game">This Game</button>
   <button class="tab" data-tab="import">Live Data</button>
   <button class="tab" data-tab="rosters">Rosters</button>
@@ -679,48 +685,48 @@
   <button class="tab" data-tab="opening" id="tab_opening" title="Temporary — archive it after Oct 17">Opening Weekend <span class="tab-temp">temp</span></button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
-<div class="wrap">
+<div class="wrap hub-app">
 
   <!-- THIS GAME -->
-  <section class="panel active" id="panel-game">
+  <section class="panel hub-panel active" id="panel-game">
     <div class="card gm-scores">
       <div class="gm-sb-head"><span>Tonight around the league</span><span class="upd" data-sync="scorebar"></span><span class="spacer"></span><button class="btn small secondary no-print" onclick="showTab('import')">Open Live Data</button></div>
       <div id="gmScorebar" class="sb-strip"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>This <span class="accent">Game</span></h2>
       <p class="desc">Game-specific details the report can't provide. Prints onto the Game Notes cover. Saved automatically.</p>
       <div class="grid g2">
-        <div class="field"><label>Game number</label><input type="text" id="g_gameno" onchange="gameNoAutofill()" placeholder="42"></div>
-        <div class="field"><label>Promo / theme night</label><input type="text" id="g_promo"></div>
-        <div class="field"><label>Date</label><input type="date" id="g_date"></div>
-        <div class="field"><label>Puck drop</label><input type="time" id="g_time"></div>
-        <div class="field"><label>Venue</label><input type="text" id="g_venue"></div>
-        <div class="field"><label>Opponent</label><select id="g_opp"><option value="">— select —</option></select></div>
-        <div class="field"><label>Havoc record (W-L-OTL)</label><input type="text" id="g_hsvrec" placeholder="22-12-6"></div>
-        <div class="field"><label>Opponent record (W-L-OTL)</label><input type="text" id="g_opprec" placeholder="16-17-5"></div>
-        <div class="field"><label>Home / Away</label><select id="g_homeaway" onchange="updatePromoField()"><option value="vs">Home (vs.)</option><option value="@">Away (@)</option></select></div>
-        <div class="field"><label>Broadcast / stream</label><input type="text" id="g_broadcast"></div>
+        <div class="field hub-field"><label>Game number</label><input type="text" id="g_gameno" onchange="gameNoAutofill()" placeholder="42"></div>
+        <div class="field hub-field"><label>Promo / theme night</label><input type="text" id="g_promo"></div>
+        <div class="field hub-field"><label>Date</label><input type="date" id="g_date"></div>
+        <div class="field hub-field"><label>Puck drop</label><input type="time" id="g_time"></div>
+        <div class="field hub-field"><label>Venue</label><input type="text" id="g_venue"></div>
+        <div class="field hub-field"><label>Opponent</label><select id="g_opp"><option value="">— select —</option></select></div>
+        <div class="field hub-field"><label>Havoc record (W-L-OTL)</label><input type="text" id="g_hsvrec" placeholder="22-12-6"></div>
+        <div class="field hub-field"><label>Opponent record (W-L-OTL)</label><input type="text" id="g_opprec" placeholder="16-17-5"></div>
+        <div class="field hub-field"><label>Home / Away</label><select id="g_homeaway" onchange="updatePromoField()"><option value="vs">Home (vs.)</option><option value="@">Away (@)</option></select></div>
+        <div class="field hub-field"><label>Broadcast / stream</label><input type="text" id="g_broadcast"></div>
       </div>
-      <div class="section-label">Lines &amp; status (lineup chart)</div>
-      <div class="field"><label>IR list (one per line)</label><textarea id="g_ir" rows="3" placeholder="15 Matt O'Dea (C) – 14-Day – 1/18"></textarea></div>
-      <div class="field"><label>ECHL call-ups (one per line)</label><textarea id="g_echl" rows="2"></textarea></div>
-      <div class="field"><label>Scratches / suspensions / note</label><textarea id="g_scratch" rows="2"></textarea></div>
-      <div class="section-label">Officials</div>
+      <div class="section-label hub-sectionhead">Lines &amp; status (lineup chart)</div>
+      <div class="field hub-field"><label>IR list (one per line)</label><textarea id="g_ir" rows="3" placeholder="15 Matt O'Dea (C) – 14-Day – 1/18"></textarea></div>
+      <div class="field hub-field"><label>ECHL call-ups (one per line)</label><textarea id="g_echl" rows="2"></textarea></div>
+      <div class="field hub-field"><label>Scratches / suspensions / note</label><textarea id="g_scratch" rows="2"></textarea></div>
+      <div class="section-label hub-sectionhead">Officials</div>
       <div class="grid g4">
-        <div class="field"><label>Referee 1</label><input type="text" id="g_ref1"></div>
-        <div class="field"><label>Referee 2</label><input type="text" id="g_ref2"></div>
-        <div class="field"><label>Linesman 1</label><input type="text" id="g_lin1"></div>
-        <div class="field"><label>Linesman 2</label><input type="text" id="g_lin2"></div>
+        <div class="field hub-field"><label>Referee 1</label><input type="text" id="g_ref1"></div>
+        <div class="field hub-field"><label>Referee 2</label><input type="text" id="g_ref2"></div>
+        <div class="field hub-field"><label>Linesman 1</label><input type="text" id="g_lin1"></div>
+        <div class="field hub-field"><label>Linesman 2</label><input type="text" id="g_lin2"></div>
       </div>
-      <div class="section-label">Transactions (packet page)</div>
+      <div class="section-label hub-sectionhead">Transactions (packet page)</div>
       <div class="grid g2">
-        <div class="field"><label>Havoc transactions (one per line)</label><textarea id="g_txhome" rows="3" placeholder="10/20 &mdash; F Jack Jaunich loaned to Kalamazoo (ECHL)"></textarea></div>
-        <div class="field"><label>Opponent transactions (one per line)</label><textarea id="g_txaway" rows="3"></textarea></div>
+        <div class="field hub-field"><label>Havoc transactions (one per line)</label><textarea id="g_txhome" rows="3" placeholder="10/20 &mdash; F Jack Jaunich loaned to Kalamazoo (ECHL)"></textarea></div>
+        <div class="field hub-field"><label>Opponent transactions (one per line)</label><textarea id="g_txaway" rows="3"></textarea></div>
       </div>
       <div class="btn-row"><button class="btn" onclick="saveGame()">Save game details</button><span id="gameSavedPill"></span></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Pre-Game <span class="accent">Interviews</span></h2>
       <p class="desc">Who you're talking to before puck drop — prepared questions (reorder, check off as asked), answers/notes, and stars on the lines worth using. Saved with this game; the archive below finds any past interview. Print gives a one-page clipboard sheet per interview.</p>
       <div id="ivWrap_pre"></div>
@@ -728,15 +734,15 @@
   </section>
 
   <!-- IMPORT (multi-segment) -->
-  <section class="panel" id="panel-import">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-import">
+    <div class="card hub-card">
       <h2>League <span class="accent">Scorebar</span> <span class="upd" data-sync="scorebar"></span></h2>
       <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
       <div id="sbState" class="sb-state loading"><span class="sb-dot"></span><span id="sbStateMsg">Connecting to the league feed…</span><button class="btn small secondary no-print" id="sbRetry" style="display:none" onclick="sbRetry()">Retry</button></div>
       <div id="sbStrip" class="sb-strip"></div>
       <div id="sbStamp" style="font-size:11px;color:var(--ink-2);margin-top:6px"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
       <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, an <b>Elite Prospects</b> profile link is attached to every player name (from <i>data/ep-players.json</i>, built weekly by a GitHub Action). <b>Bios are yours to write</b>: each Havoc player has a long media bio (game packet) and a short broadcast bio (lineup chart &amp; sheet); opponent players just the broadcast bio. Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
       <div id="feedChip" class="feed-chip checking"><span class="fc-dot"></span><span id="feedChipMsg">Checking the feed…</span></div>
@@ -748,9 +754,9 @@
       <details class="gd-adv">
         <summary>Advanced / refresh individually</summary>
         <div class="grid g3" style="margin-top:10px">
-          <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
-          <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
-          <div class="field"><label>&nbsp;</label><button class="btn secondary" onclick="htTest()">Test connection</button></div>
+          <div class="field hub-field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
+          <div class="field hub-field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
+          <div class="field hub-field"><label>&nbsp;</label><button class="btn secondary" onclick="htTest()">Test connection</button></div>
         </div>
         <div class="btn-row">
           <button class="btn secondary" onclick="htPullStandings()">Pull standings</button>
@@ -767,19 +773,19 @@
       <div id="htLastSync" style="font-size:11px;color:var(--ink-2);margin-top:4px"></div>
       <div id="dailyBadge" style="font-size:11px;color:var(--ink-2);margin-top:2px"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:var(--ink-2);font-weight:700">same league, alternate source</span></h2>
       <p class="desc">Elite Prospects' own standings, leaders and schedule, for cross-checking what the SPHL feed gave us above. Off by default — it loads remote widgets and needs internet.</p>
       <div class="btn-row"><button class="btn secondary" id="epViewBtn" onclick="epViewToggle()">Show EP view</button></div>
       <div id="epView" style="display:none">
-        <div class="section-label">League standings</div><div id="wgStandings"></div>
-        <div class="section-label">Scoring leaders</div><div id="wgScoring"></div>
-        <div class="section-label">Goalie leaders</div><div id="wgGoalies"></div>
-        <div class="section-label">Schedule &amp; results</div><div id="wgResults"></div>
-        <div class="section-label">Schedule &amp; standings</div><div id="wgSched"></div>
+        <div class="section-label hub-sectionhead">League standings</div><div id="wgStandings"></div>
+        <div class="section-label hub-sectionhead">Scoring leaders</div><div id="wgScoring"></div>
+        <div class="section-label hub-sectionhead">Goalie leaders</div><div id="wgGoalies"></div>
+        <div class="section-label hub-sectionhead">Schedule &amp; results</div><div id="wgResults"></div>
+        <div class="section-label hub-sectionhead">Schedule &amp; standings</div><div id="wgSched"></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Manual <span class="accent">Daily Report</span> <span class="upd" data-sync="daily"></span></h2>
       <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
       <div class="btn-row">
@@ -787,7 +793,7 @@
         <button class="btn" onclick="document.getElementById('dailyFile').click()">Upload saved report (.html)</button>
         <input type="file" id="dailyFile" accept=".html,.htm,text/html" style="display:none" onchange="dailyFilePick(event)">
       </div>
-      <div class="field" style="margin-top:8px"><label>…or paste the report here (HTML page source or PDF text)</label><textarea id="reportPaste" rows="8" placeholder="Open the daily report → Select All → Copy → paste here…"></textarea></div>
+      <div class="field hub-field" style="margin-top:8px"><label>…or paste the report here (HTML page source or PDF text)</label><textarea id="reportPaste" rows="8" placeholder="Open the daily report → Select All → Copy → paste here…"></textarea></div>
       <div class="btn-row">
         <button class="btn" onclick="parseReport()">Parse report</button>
         <button class="btn secondary" onclick="document.getElementById('reportPaste').value='';document.getElementById('importSummary').style.display='none';document.getElementById('parseResult').innerHTML='';">Clear</button>
@@ -796,24 +802,24 @@
       <div id="importSummary" style="display:none;font-size:13px;margin-top:8px"></div>
     </div>
       <div id="panel-schedule">
-<div class="card">
+<div class="card hub-card">
       <h2>2026 <span class="accent">Schedule</span></h2>
       <p class="desc">Enter the season schedule once. It feeds the Up Next box and the Quick Facts schedule page, and powers the running record. One game per line: <b>M/D/YY  vs|@ Opponent  [Result]</b> — result optional (e.g. <i>W 4-2</i> or <i>L 1-3</i>).</p>
-      <div class="field"><textarea id="sched_text" rows="14" placeholder="10/17/25  vs Huntsville  L 2-4&#10;10/24/25  @ Knoxville  W 5-0&#10;10/25/25  vs Knoxville  L 3-4&#10;…"></textarea></div>
+      <div class="field hub-field"><textarea id="sched_text" rows="14" placeholder="10/17/25  vs Huntsville  L 2-4&#10;10/24/25  @ Knoxville  W 5-0&#10;10/25/25  vs Knoxville  L 3-4&#10;…"></textarea></div>
       <div class="btn-row">
         <button class="btn" onclick="saveSchedule()">Save schedule</button>
         <button class="btn secondary" onclick="document.getElementById('sched_text').value='';">Clear box</button>
         <span id="schedMsg"></span>
       </div>
     </div>
-    <div class="card"><h3>Season calendar</h3>
+    <div class="card hub-card"><h3>Season calendar</h3>
       <div class="cal-legend"><span class="cal-key home"></span> Home &nbsp;&nbsp; <span class="cal-key away"></span> Away</div>
       <div id="schedCalendar"></div>
     </div>
-    <div class="card"><h3>Parsed schedule</h3><div id="schedPreview" style="font-size:13px"></div></div>
-    <div class="card"><h3>Game log — packet data</h3>
+    <div class="card hub-card"><h3>Parsed schedule</h3><div id="schedPreview" style="font-size:13px"></div></div>
+    <div class="card hub-card"><h3>Game log — packet data</h3>
       <p class="desc">One row per completed game, built automatically from results (the feed also fills attendance). Add shots for/against, power-play numbers and fights by hand when you have them — every derived packet section (splits, game-by-game log, "last time it happened") reads from this. Auto-saves.</p>
-      <div id="glTableWrap" style="overflow-x:auto"></div>
+      <div id="glTableWrap" class="hub-tablewrap" style="overflow-x:auto"></div>
     </div>
   
     </div>
@@ -824,14 +830,14 @@
   <!-- OPPONENT ROSTER -->
 
   <!-- ROSTERS: Havoc + Opponent + Learn the Roster -->
-  <section class="panel" id="panel-rosters">
+  <section class="panel hub-panel" id="panel-rosters">
     <div class="subnav no-print">
       <button class="subtab active" data-sub="roster">Havoc</button>
       <button class="subtab" data-sub="opproster">Opponent</button>
       <button class="subtab" data-sub="quiz">Learn the Roster</button>
     </div>
     <div class="subview active" id="panel-roster">
-<div class="card">
+<div class="card hub-card">
       <h2>Havoc <span class="accent">Roster &amp; Bios</span> <span class="upd" data-sync="rosters"></span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
       <div class="embargo-slot"></div>
@@ -849,13 +855,13 @@
         <button class="btn secondary" onclick="openPasteEP('home')">Paste Elite Prospects text</button>
       </div>
     </div>
-    <div class="card" style="padding:0;overflow:hidden"><div id="rosterTableWrap"></div></div>
-    <div class="card">
+    <div class="card hub-card" style="padding:0;overflow:hidden"><div id="rosterTableWrap" class="hub-tablewrap"></div></div>
+    <div class="card hub-card">
       <h2>Elite Prospects <span class="accent">career cards</span></h2>
       <p class="desc">Live EP cards, embedded straight from widget.eliteprospects.com — a full career card for any mapped player, a roster card for any SPHL club, and lineup decks for the game sheet. Internet required. League slug, season and EP team id live under Settings → Advanced.</p>
       <div class="grid g2">
-        <div class="field"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
-        <div class="field"><label>Team roster</label>
+        <div class="field hub-field"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+        <div class="field hub-field"><label>Team roster</label>
           <div class="btn-row" style="margin:0">
             <select id="wg_team" style="max-width:220px"><option value="">— team —</option></select>
             <button class="btn small" onclick="wgTeamRoster()">Show</button>
@@ -874,25 +880,25 @@
       <div id="wgTeamWrap"></div>
       <div id="wgDeckWrap"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Hockey <span class="accent">Operations</span></h2>
       <p class="desc">Meet the Hockey Operations Team — fill these in yourself. When any name is set, the Game Packet gets its own "Meet the Hockey Operations Team" page.</p>
       <div class="grid g2">
         <div>
-          <div class="field"><label>Head coach — name</label><input type="text" id="ho_hc_name" onchange="saveHockeyOps()"></div>
-          <div class="field"><label>Head coach — bio</label><textarea id="ho_hc_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+          <div class="field hub-field"><label>Head coach — name</label><input type="text" id="ho_hc_name" onchange="saveHockeyOps()"></div>
+          <div class="field hub-field"><label>Head coach — bio</label><textarea id="ho_hc_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
         </div>
         <div>
-          <div class="field"><label>Assistant coach — name</label><input type="text" id="ho_ac_name" onchange="saveHockeyOps()"></div>
-          <div class="field"><label>Assistant coach — bio</label><textarea id="ho_ac_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+          <div class="field hub-field"><label>Assistant coach — name</label><input type="text" id="ho_ac_name" onchange="saveHockeyOps()"></div>
+          <div class="field hub-field"><label>Assistant coach — bio</label><textarea id="ho_ac_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
         </div>
         <div>
-          <div class="field"><label>General manager — name</label><input type="text" id="ho_gm_name" onchange="saveHockeyOps()"></div>
-          <div class="field"><label>General manager — bio</label><textarea id="ho_gm_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+          <div class="field hub-field"><label>General manager — name</label><input type="text" id="ho_gm_name" onchange="saveHockeyOps()"></div>
+          <div class="field hub-field"><label>General manager — bio</label><textarea id="ho_gm_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
         </div>
         <div>
-          <div class="field"><label>Equipment manager — name</label><input type="text" id="ho_eq_name" onchange="saveHockeyOps()"></div>
-          <div class="field"><label>Equipment manager — bio</label><textarea id="ho_eq_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
+          <div class="field hub-field"><label>Equipment manager — name</label><input type="text" id="ho_eq_name" onchange="saveHockeyOps()"></div>
+          <div class="field hub-field"><label>Equipment manager — bio</label><textarea id="ho_eq_bio" rows="3" onchange="saveHockeyOps()"></textarea></div>
         </div>
       </div>
       <div class="btn-row"><button class="btn" onclick="saveHockeyOps();toast('Hockey ops saved')">Save hockey ops</button></div>
@@ -900,10 +906,10 @@
   
     </div>
     <div class="subview" id="panel-opproster">
-<div class="card">
+<div class="card hub-card">
       <h2>Opponent <span class="accent">Roster</span></h2>
       <p class="desc">Optional away-team roster for the selected opponent. Stored per team, so each opponent keeps its own roster. Useful for a two-sided lineup sheet.</p>
-      <div class="field" style="max-width:340px"><label>Editing roster for</label>
+      <div class="field hub-field" style="max-width:340px"><label>Editing roster for</label>
         <select id="oppRosterTeam" onchange="renderOppRoster()"><option value="">— select team —</option></select></div>
       <div class="btn-row">
         <button class="btn" onclick="openBulk('away')">Bulk import roster</button>
@@ -911,27 +917,27 @@
         <button class="btn secondary" onclick="openPasteEP('away')">Paste Elite Prospects text</button>
       </div>
     </div>
-    <div class="card" style="padding:0;overflow:hidden"><div id="oppRosterTableWrap"></div></div>
+    <div class="card hub-card" style="padding:0;overflow:hidden"><div id="oppRosterTableWrap" class="hub-tablewrap"></div></div>
   
     </div>
     <div class="subview" id="panel-quiz">
-<div class="card">
+<div class="card hub-card">
       <h2>Learn the <span class="accent">Roster</span></h2>
       <p class="desc">A study tool for play-by-play prep. Drills you on numbers, names, positions, and stats for the Havoc roster (or a selected opponent). Build your roster first, then quiz.</p>
       <div class="grid g3">
-        <div class="field"><label>Quiz which team?</label><select id="quizTeam"><option value="home">Huntsville Havoc</option></select></div>
-        <div class="field"><label>Quiz mode</label><select id="quizMode">
+        <div class="field hub-field"><label>Quiz which team?</label><select id="quizTeam"><option value="home">Huntsville Havoc</option></select></div>
+        <div class="field hub-field"><label>Quiz mode</label><select id="quizMode">
           <option value="num2name">Number → Name</option>
           <option value="name2num">Name → Number</option>
           <option value="num2pos">Number → Position</option>
           <option value="name2stat">Name → Season stat line</option>
           <option value="flash">Flashcards (self-check)</option>
         </select></div>
-        <div class="field"><label>&nbsp;</label><button class="btn" onclick="quizStart()">Start / Restart</button></div>
+        <div class="field hub-field"><label>&nbsp;</label><button class="btn" onclick="quizStart()">Start / Restart</button></div>
       </div>
       <div class="quiz-score" id="quizScore"></div>
     </div>
-    <div class="card" id="quizCard" style="display:none">
+    <div class="card hub-card" id="quizCard" style="display:none">
       <div id="quizBody"></div>
     </div>
   
@@ -943,8 +949,8 @@
   <!-- SCHEDULE -->
 
   <!-- REFERENCE -->
-  <section class="panel" id="panel-reference">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-reference">
+    <div class="card hub-card">
       <h2>2026-27 <span class="accent">Rule Changes</span></h2>
       <p class="desc">Announced June 29, 2026, following the Board of Governors meeting (St. Petersburg, FL). These matter for broadcast and game notes this season.</p>
       <div class="grid g2">
@@ -957,28 +963,28 @@
       </div>
       <div class="note" style="margin-top:10px">League note: SPHL enters its 23rd season with 13 member clubs — 12 playing in 2026-27 (the 10 returning teams plus expansion Athens Rock Lobsters and Pee Dee IceCats), while the <b>Mobile Mysticks</b> are the 13th member and begin play in 2027-28.</div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>SPHL <span class="accent">Standings</span> <span class="upd" data-sync="standings"></span></h2>
       <p class="desc">Live from the imported daily report; zeroed until the season starts. All 12 teams with the new W-L-OTL-SOL columns.</p>
-      <div id="standingsTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
+      <div id="standingsTable" class="hub-tablewrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>SPHL <span class="accent">Venue Reference</span></h2>
       <p class="desc">Every rink in the league — arena, city, time zone and capacity (seeds are approximate; every field editable), plus your own <b>booth notes</b> per building. Road games pull the opponent&rsquo;s building onto the packet front page from this table, with local puck drop and Central time.</p>
-      <div id="venueTableWrap" style="overflow-x:auto"></div>
+      <div id="venueTableWrap" class="hub-tablewrap" style="overflow-x:auto"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>2026 Season Review &amp; <span class="accent">New Teams 2026-27</span></h2>
       <p class="desc">Seeded from the verified research file (Aug 5, 2026). Every block is <b>editable in place</b> — click into the text and type; edits save to this browser and a ↺ appears to restore the seeded text. <span class="unv">•</span> marks an UNVERIFIED number — confirm it, then fix it right here. Arenas &amp; capacities live in the Venue Reference above.</p>
       <div id="ref26"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Franchise <span class="accent">Files</span></h2>
       <p class="desc">A deep file on every club — founding and arena, season by season, all-time record, championships, leaders, records, attendance, retired numbers and the current coach — plus a running <b>Havoc all-time vs. them</b> line and your own storylines box. Researched Aug 5, 2026 and arithmetic-checked; every block is editable in place with a ↺ restore. A red <span class="unv">&bull;</span> means the number is computed, single-sourced or disputed &mdash; hover it for which. These are never overwritten by a sync.</p>
-      <div class="field" style="max-width:340px"><label>Franchise</label><select id="frTeamSel" onchange="frPick(this.value)"></select></div>
+      <div class="field hub-field" style="max-width:340px"><label>Franchise</label><select id="frTeamSel" onchange="frPick(this.value)"></select></div>
       <div id="frFile"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>League <span class="accent">Reference</span></h2>
       <p class="desc">Sourced from the 2025-26 SPHL Media Guide &amp; Record Book. Cup wins, Havoc head-to-head, franchise leaders, and coach blurbs — all editable. These feed the Game Notes automatically.</p>
       <div class="grid g2">
@@ -989,19 +995,19 @@
         <div>
           <div class="ref-box"><h4>Havoc franchise leaders &amp; records</h4><div id="ref_records"></div></div>
           <div class="ref-box"><h4>2026-27 season series — Havoc vs. everyone</h4><div id="ref_series"></div></div>
-          <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:var(--ink-2);margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
+          <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:var(--ink-2);margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" class="hub-tablewrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
         </div>
       </div>
-      <div class="section-label">Coaching staff — Elite Prospects career histories</div>
+      <div class="section-label hub-sectionhead">Coaching staff — Elite Prospects career histories</div>
       <div id="wgStaff"><div class="empty">Loads with this tab when EP widgets are reachable.</div></div>
-      <div class="section-label">Coach blurbs (editable)</div>
-      <div class="field" style="max-width:340px"><label>Edit coach for</label>
+      <div class="section-label hub-sectionhead">Coach blurbs (editable)</div>
+      <div class="field hub-field" style="max-width:340px"><label>Edit coach for</label>
         <select id="coachTeam" onchange="loadCoach()"><option value="">— select team —</option></select></div>
       <div class="grid g2">
-        <div class="field"><label>Coach name</label><input type="text" id="coach_name"></div>
-        <div class="field" style="display:flex;align-items:flex-end"><button class="btn small" onclick="saveCoach()">Save coach</button></div>
+        <div class="field hub-field"><label>Coach name</label><input type="text" id="coach_name"></div>
+        <div class="field hub-field" style="display:flex;align-items:flex-end"><button class="btn small" onclick="saveCoach()">Save coach</button></div>
       </div>
-      <div class="field"><label>Coach bio</label><textarea id="coach_bio" rows="5"></textarea></div>
+      <div class="field hub-field"><label>Coach bio</label><textarea id="coach_bio" rows="5"></textarea></div>
     </div>
   </section>
 
@@ -1014,38 +1020,41 @@
   <!-- LINES -->
 
   <!-- PRINT CENTER: Game Packet + Lineup Chart + Lines -->
-  <section class="panel" id="panel-print">
-    <div class="subnav no-print pr-bar">
-      <button class="subtab active" data-sub="packet">Game Packet</button>
-      <button class="subtab" data-sub="chart">Lineup Chart</button>
-      <button class="subtab" data-sub="lines">Lines</button>
-      <button class="subtab" data-sub="folders">Broadcast Folders</button>
-      <button class="subtab" data-sub="verbiage">Verbiage &amp; Ice Map</button>
+  <section class="panel hub-panel" id="panel-print">
+    <div class="subnav no-print pr-bar hub-toolbar">
+      <div class="pr-subs hub-subnav">
+        <button class="subtab active" data-sub="packet">Game Packet</button>
+        <button class="subtab" data-sub="chart">Lineup Chart</button>
+        <button class="subtab" data-sub="lines">Lines</button>
+        <button class="subtab" data-sub="folders">Broadcast Folders</button>
+        <button class="subtab" data-sub="verbiage">Verbiage &amp; Ice Map</button>
+      </div>
       <span class="subspacer"></span>
-      <span class="pg-badge" id="prPages">—</span>
+      <span class="pg-badge hub-pagecount" id="prPages">—</span>
       <button class="btn small secondary" onclick="prRefresh()">Refresh</button>
       <button class="btn small secondary" onclick="prClearEdits()">Clear text edits</button>
-      <button class="btn dark" onclick="prPrint()">Print / Save PDF</button>
-      <button class="btn" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
+      <button class="btn small secondary" id="distBtn" onclick="distToggle()" title="Distribution copies leave out players the club has not announced">Copy: internal prep</button>
+      <button class="btn dark hub-btn hub-btn--print is-primary" onclick="prPrint()">Print / Save PDF</button>
+      <button class="btn hub-print-all" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
     </div>
-    <div class="no-print" id="prSecBar"></div>
+    <div class="no-print hub-sectionctrls" id="prSecBar"></div>
     <div class="subview active" id="panel-packet">
 <div class="card no-print">
       <h2>Game <span class="accent">Packet</span></h2>
       <p class="desc">Pro media-notes packet: cover with news, standings, 4-column statistical leaders and media contact · Meet the Team · Hockey Operations · EP career-stat pages · Scouting Report with series history and league-ranked Match Up · Quick Facts · Season Splits + Last Time It Happened · Game-by-Game Log · Roster + Pronunciation Guide · Franchise Records · blank scoring worksheets · dense Game Sheet. Everything computes from stored data (game log on the Schedule tab feeds the derived pages); news blurbs are yours — use <b>Auto-draft</b> to start them. Pick sections below; presets remembered.</p>
       <div class="grid g2">
-        <div class="field"><label>Havoc news — headline 1</label><input type="text" id="n_h1"></div>
-        <div class="field"><label>Havoc news — body 1</label><textarea id="n_b1" rows="2"></textarea></div>
-        <div class="field"><label>Havoc news — headline 2</label><input type="text" id="n_h2"></div>
-        <div class="field"><label>Havoc news — body 2</label><textarea id="n_b2" rows="2"></textarea></div>
-        <div class="field"><label>Havoc news — headline 3</label><input type="text" id="n_h3"></div>
-        <div class="field"><label>Havoc news — body 3</label><textarea id="n_b3" rows="2"></textarea></div>
-        <div class="field"><label>Opponent news — headline 1</label><input type="text" id="n_oh1"></div>
-        <div class="field"><label>Opponent news — body 1</label><textarea id="n_ob1" rows="2"></textarea></div>
-        <div class="field"><label>Opponent news — headline 2</label><input type="text" id="n_oh2"></div>
-        <div class="field"><label>Opponent news — body 2</label><textarea id="n_ob2" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Havoc news — headline 1</label><input type="text" id="n_h1"></div>
+        <div class="field hub-field"><label>Havoc news — body 1</label><textarea id="n_b1" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Havoc news — headline 2</label><input type="text" id="n_h2"></div>
+        <div class="field hub-field"><label>Havoc news — body 2</label><textarea id="n_b2" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Havoc news — headline 3</label><input type="text" id="n_h3"></div>
+        <div class="field hub-field"><label>Havoc news — body 3</label><textarea id="n_b3" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Opponent news — headline 1</label><input type="text" id="n_oh1"></div>
+        <div class="field hub-field"><label>Opponent news — body 1</label><textarea id="n_ob1" rows="2"></textarea></div>
+        <div class="field hub-field"><label>Opponent news — headline 2</label><input type="text" id="n_oh2"></div>
+        <div class="field hub-field"><label>Opponent news — body 2</label><textarea id="n_ob2" rows="2"></textarea></div>
       </div>
-      <div class="section-label">Packet sections (pick what prints — remembered)</div>
+      <div class="section-label hub-sectionhead">Packet sections (pick what prints — remembered)</div>
       <div id="pkSecs" style="display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;margin:6px 0 8px"></div>
       <div class="btn-row">
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
@@ -1056,7 +1065,7 @@
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Game Packet — preview</span><div class="spacer"></div><span class="header-status">Multi-page · prints to PDF</span></div>
-      <div class="doc-scroll" id="packetDoc"></div>
+      <div class="doc-scroll hub-preview" id="packetDoc"></div>
     </div>
   
     </div>
@@ -1064,7 +1073,7 @@
 <div class="card no-print">
       <h2>Lineup <span class="accent">Chart</span></h2>
       <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — <b>last name first in large type</b>, with season stats + your broadcast bio. Captains show their letter. Cards stretch to fill the page. Click into any card to edit its text (Cmd/Ctrl+B for bold, size buttons below); your edits are saved and survive refreshes. Prints <b>letter vertical (portrait), one page per team</b>.</p>
-      <div class="field" style="max-width:280px"><label>Include opponent side?</label>
+      <div class="field hub-field" style="max-width:280px"><label>Include opponent side?</label>
         <select id="chartSides"><option value="home">Havoc only</option><option value="both">Havoc + opponent</option></select></div>
       <div class="btn-row" style="align-items:center">
         <span style="font-size:12px;font-weight:700">Selected text:</span>
@@ -1076,7 +1085,7 @@
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Prints letter vertical · one page per team</span></div>
-      <div class="doc-scroll" id="chartDoc"></div>
+      <div class="doc-scroll hub-preview" id="chartDoc"></div>
     </div>
   
     </div>
@@ -1096,7 +1105,7 @@
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Line card — preview</span><div class="spacer"></div><span class="header-status">Letter · prints to PDF</span></div>
-      <div class="doc-scroll" id="linesDoc"></div>
+      <div class="doc-scroll hub-preview" id="linesDoc"></div>
     </div>
   
     </div>
@@ -1114,7 +1123,7 @@
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Broadcast Folders — preview</span><div class="spacer"></div><span class="header-status">4 pages · letter vertical · one page per side</span></div>
-      <div class="doc-scroll" id="foldersDoc"></div>
+      <div class="doc-scroll hub-preview" id="foldersDoc"></div>
     </div>
     </div>
     <div class="subview" id="panel-verbiage">
@@ -1122,22 +1131,22 @@
       <h2>Broadcast <span class="accent">Verbiage &amp; Ice Map</span></h2>
       <p class="desc">Two reference pages for the folder: the <b>Doc Emrick puck-verb</b> table (editable below &mdash; add your own over time) and the <b>ice map</b>, drawn both directions with LW/RW sides swapped the way you see them from the booth. Also selectable as a Game Packet section.</p>
       <div class="grid g3">
-        <div class="field"><label>First period (puck only) &mdash; comma or line separated</label><textarea id="vb_p1" rows="6" onchange="vbSave()"></textarea></div>
-        <div class="field"><label>Second period additions</label><textarea id="vb_p2" rows="6" onchange="vbSave()"></textarea></div>
-        <div class="field"><label>Third period</label><textarea id="vb_p3" rows="6" onchange="vbSave()"></textarea></div>
+        <div class="field hub-field"><label>First period (puck only) &mdash; comma or line separated</label><textarea id="vb_p1" rows="6" onchange="vbSave()"></textarea></div>
+        <div class="field hub-field"><label>Second period additions</label><textarea id="vb_p2" rows="6" onchange="vbSave()"></textarea></div>
+        <div class="field hub-field"><label>Third period</label><textarea id="vb_p3" rows="6" onchange="vbSave()"></textarea></div>
       </div>
       <div class="btn-row"><button class="btn secondary" onclick="vbReset()">Reset to the Emrick list</button></div>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Verbiage &amp; Ice Map — preview</span><div class="spacer"></div><span class="header-status">2 pages · letter vertical</span></div>
-      <div class="doc-scroll" id="verbiageDoc"></div>
+      <div class="doc-scroll hub-preview" id="verbiageDoc"></div>
     </div>
     </div>
   </section>
 
   <!-- POST-GAME FORMATTER -->
-  <section class="panel" id="panel-postgame">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-postgame">
+    <div class="card hub-card">
       <h2>Post-Game <span class="accent">Copy Desk</span></h2>
       <p class="desc">You write it — this desk formats it. Fill the game facts, write each section in its own box, and the preview assembles the finished report in the same house structure every time. <b>Copy report</b> puts the whole thing on the clipboard. Everything auto-saves as a draft in this browser.</p>
       <div class="pg-scorebar">
@@ -1146,25 +1155,25 @@
         <div class="pg-side"><label>Home</label><input type="text" id="pg_homeTeam" placeholder="Home"><input type="number" class="pg-goals" id="pg_homeGoals" placeholder="0"></div>
       </div>
       <div class="grid g4">
-        <div class="field"><label>Date</label><input type="date" id="pg_date"></div>
-        <div class="field"><label>Venue</label><input type="text" id="pg_venue"></div>
-        <div class="field"><label>Result</label><select id="pg_result"><option value="regulation">Regulation</option><option value="overtime">Overtime</option><option value="shootout">Shootout</option></select></div>
-        <div class="field"><label>Next game</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
+        <div class="field hub-field"><label>Date</label><input type="date" id="pg_date"></div>
+        <div class="field hub-field"><label>Venue</label><input type="text" id="pg_venue"></div>
+        <div class="field hub-field"><label>Result</label><select id="pg_result"><option value="regulation">Regulation</option><option value="overtime">Overtime</option><option value="shootout">Shootout</option></select></div>
+        <div class="field hub-field"><label>Next game</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
       </div>
-      <div class="field"><label>Game Center page (optional) &mdash; paste it and Read the sheet fills the facts above</label><textarea id="pg_dump" rows="4" placeholder="Paste the whole Game Center page to auto-fill score, teams, date, venue and result."></textarea>
+      <div class="field hub-field"><label>Game Center page (optional) &mdash; paste it and Read the sheet fills the facts above</label><textarea id="pg_dump" rows="4" placeholder="Paste the whole Game Center page to auto-fill score, teams, date, venue and result."></textarea>
       <div class="btn-row" style="margin-top:6px"><button class="btn secondary" onclick="pgReadSheet()">Read the sheet</button><span id="pg_readFlag" style="font-size:12px;color:var(--ink-2)"></span></div></div>
-      <div class="section-label">Report sections &mdash; your words, house structure</div>
-      <div class="field"><label>Headline</label><input type="text" id="pg_headline" placeholder="Havoc Steal One Late in Knoxville"></div>
-      <div class="field"><label>Lede (one or two sentences under the headline)</label><textarea id="pg_lede" rows="2" placeholder="The one-sentence story of the game."></textarea></div>
-      <div class="field"><label>Body (blank line = new paragraph)</label><textarea id="pg_body" rows="10" placeholder="The game story, top to bottom. Leave a blank line between paragraphs."></textarea></div>
-      <div class="field"><label>Quotes (one per line, attribution included &mdash; leave empty to skip the section)</label><textarea id="pg_quotes" rows="3" placeholder='"We found a way." — Head coach ...'></textarea></div>
-      <div class="field"><label>Game notes (one bullet per line &mdash; special teams, goalie line, stars, attendance)</label><textarea id="pg_notesb" rows="3" placeholder="PP 1-for-4; PK 5-for-5&#10;Wilson 31 saves"></textarea></div>
+      <div class="section-label hub-sectionhead">Report sections &mdash; your words, house structure</div>
+      <div class="field hub-field"><label>Headline</label><input type="text" id="pg_headline" placeholder="Havoc Steal One Late in Knoxville"></div>
+      <div class="field hub-field"><label>Lede (one or two sentences under the headline)</label><textarea id="pg_lede" rows="2" placeholder="The one-sentence story of the game."></textarea></div>
+      <div class="field hub-field"><label>Body (blank line = new paragraph)</label><textarea id="pg_body" rows="10" placeholder="The game story, top to bottom. Leave a blank line between paragraphs."></textarea></div>
+      <div class="field hub-field"><label>Quotes (one per line, attribution included &mdash; leave empty to skip the section)</label><textarea id="pg_quotes" rows="3" placeholder='"We found a way." — Head coach ...'></textarea></div>
+      <div class="field hub-field"><label>Game notes (one bullet per line &mdash; special teams, goalie line, stars, attendance)</label><textarea id="pg_notesb" rows="3" placeholder="PP 1-for-4; PK 5-for-5&#10;Wilson 31 saves"></textarea></div>
       <details style="margin:10px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">Shorthand key &amp; voice rules (writing aid)</summary>
-        <div class="field" style="margin-top:10px"><label>What your shorthand means</label><textarea id="pg_shorthand" rows="5"></textarea></div>
-        <div class="field"><label>Voice rules</label><textarea id="pg_voice" rows="4"></textarea></div>
+        <div class="field hub-field" style="margin-top:10px"><label>What your shorthand means</label><textarea id="pg_shorthand" rows="5"></textarea></div>
+        <div class="field hub-field"><label>Voice rules</label><textarea id="pg_voice" rows="4"></textarea></div>
       </details>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <div class="doc-toolbar no-print" style="margin:-10px -14px 10px"><span class="ttl">Formatted report — preview</span><div class="spacer"></div><span class="header-status">updates as you type · house structure</span></div>
       <div class="btn-row" style="margin-bottom:10px">
         <button class="btn" id="pg_copyBtn" onclick="pgCopy()">Copy report</button>
@@ -1172,7 +1181,7 @@
       </div>
       <div id="pg_out" class="pg-out"></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Post-Game <span class="accent">Interviews</span></h2>
       <p class="desc">Same sheet, after the horn — star the quotes you can use and hit &ldquo;&rarr; report&rdquo; to drop one straight into the formatter&rsquo;s Quotes box.</p>
       <div id="ivWrap_post"></div>
@@ -1180,8 +1189,8 @@
   </section>
 
   <!-- CALL LOG -->
-  <section class="panel" id="panel-calllog">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-calllog">
+    <div class="card hub-card">
       <h2>Broadcast <span class="accent">Call Log</span></h2>
       <p class="desc">Your career game log — 2025-26 seeded with the real season results, 2026-27 built live from the hub schedule (scores flow in as you enter results). Tap CALLED on games you broadcast, rate your call 1-10, and import your call-log app backup to bring in your full history including goal calls.</p>
       <div id="clStats" class="cl-stats"></div>
@@ -1196,8 +1205,8 @@
   </section>
 
   <!-- OPENING WEEKEND (temporary, archivable) -->
-  <section class="panel" id="panel-opening">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-opening">
+    <div class="card hub-card">
       <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:var(--ink-2);font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
       <p class="desc"><b>Fri, Oct 16, 2026 &middot; 7:15 PM ET (6:15 PM CT) &middot; Florence Center, Florence, SC</b> &mdash; and game two <b>Sat, Oct 17 &middot; 7:15 PM ET (6:15 PM CT)</b>. Zero head-to-head history and zero PD in-season data exist, so this workspace builds a special <b>first-meeting packet</b>: franchise file, how the IceCats were built, connections, and a franchise-firsts watch instead of the usual series history. When the weekend is over, <b>Archive</b> saves everything as the permanent record and retires this tab.</p>
       <div class="note" style="margin-bottom:10px"><b>Temporary tab.</b> It exists for the first-ever Havoc&ndash;Pee Dee meeting on Oct 16-17, 2026. Archive it after the Saturday game and it leaves the nav for good &mdash; the firsts record and everything you write here stays saved.</div>
@@ -1208,78 +1217,78 @@
         <button class="btn secondary" style="color:var(--red-text)" onclick="owArchive()">Archive this tab</button>
       </div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h3>IceCats franchise file (fill from PD announcements)</h3>
       <div class="grid g4">
-        <div class="field"><label>Founded</label><input type="text" id="ow_founded" onchange="owSave()"></div>
-        <div class="field"><label>Arena</label><input type="text" id="ow_arena" onchange="owSave()"></div>
-        <div class="field"><label>Capacity</label><input type="text" id="ow_capacity" onchange="owSave()"></div>
-        <div class="field"><label>City notes</label><input type="text" id="ow_city" onchange="owSave()"></div>
-        <div class="field"><label>Ownership</label><input type="text" id="ow_owner" onchange="owSave()"></div>
-        <div class="field"><label>Affiliations</label><input type="text" id="ow_affil" onchange="owSave()"></div>
-        <div class="field"><label>Broadcast info</label><input type="text" id="ow_broadcast" onchange="owSave()"></div>
-        <div class="field"><label>Head coach</label><input type="text" id="ow_coach" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Founded</label><input type="text" id="ow_founded" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Arena</label><input type="text" id="ow_arena" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Capacity</label><input type="text" id="ow_capacity" onchange="owSave()"></div>
+        <div class="field hub-field"><label>City notes</label><input type="text" id="ow_city" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Ownership</label><input type="text" id="ow_owner" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Affiliations</label><input type="text" id="ow_affil" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Broadcast info</label><input type="text" id="ow_broadcast" onchange="owSave()"></div>
+        <div class="field hub-field"><label>Head coach</label><input type="text" id="ow_coach" onchange="owSave()"></div>
       </div>
-      <div class="field"><label>Head coach bio</label><textarea id="ow_coachbio" rows="3" onchange="owSave()"></textarea></div>
+      <div class="field hub-field"><label>Head coach bio</label><textarea id="ow_coachbio" rows="3" onchange="owSave()"></textarea></div>
       <div class="grid g2">
-        <div class="field"><label>Year one in Florence — FPHL 2025-26 (one line per bullet; prints on the franchise-file page)</label><textarea id="ow_fphl" rows="7" onchange="owSave()"></textarea></div>
-        <div class="field"><label>Who they were — FPHL leaders (one per line)</label><textarea id="ow_leaders" rows="7" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>Year one in Florence — FPHL 2025-26 (one line per bullet; prints on the franchise-file page)</label><textarea id="ow_fphl" rows="7" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>Who they were — FPHL leaders (one per line)</label><textarea id="ow_leaders" rows="7" onchange="owSave()"></textarea></div>
       </div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h3>Storylines &amp; by the numbers</h3>
       <div class="grid g3">
-        <div class="field"><label>Storyline 1</label><textarea id="ow_s1" rows="3" onchange="owSave()"></textarea></div>
-        <div class="field"><label>Storyline 2</label><textarea id="ow_s2" rows="3" onchange="owSave()"></textarea></div>
-        <div class="field"><label>Storyline 3</label><textarea id="ow_s3" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>Storyline 1</label><textarea id="ow_s1" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>Storyline 2</label><textarea id="ow_s2" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>Storyline 3</label><textarea id="ow_s3" rows="3" onchange="owSave()"></textarea></div>
       </div>
       <div class="grid g2">
-        <div class="field"><label>By the numbers (one nugget per line — Havoc last-season stats auto-append, labeled)</label><textarea id="ow_nums" rows="3" onchange="owSave()"></textarea></div>
-        <div class="field"><label>PD preseason results (manual, one per line)</label><textarea id="ow_preseason" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>By the numbers (one nugget per line — Havoc last-season stats auto-append, labeled)</label><textarea id="ow_nums" rows="3" onchange="owSave()"></textarea></div>
+        <div class="field hub-field"><label>PD preseason results (manual, one per line)</label><textarea id="ow_preseason" rows="3" onchange="owSave()"></textarea></div>
       </div>
     </div>
-    <div class="card"><h3>Franchise firsts watch — PD IceCats</h3>
+    <div class="card hub-card"><h3>Franchise firsts watch — PD IceCats</h3>
       <p class="desc">Check them off as they happen with the detail (who/when). This becomes the permanent record and feeds first-time/last-time data.</p>
       <div id="owFirsts"></div>
     </div>
-    <div class="card"><h3>Connections (auto-scanned from EP careers · editable)</h3><div id="owConn"></div></div>
+    <div class="card hub-card"><h3>Connections (auto-scanned from EP careers · editable)</h3><div id="owConn"></div></div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">First-meeting packet — preview</span><div class="spacer"></div><span class="header-status">Letter · prints to PDF</span></div>
-      <div class="doc-scroll" id="openingDoc"></div>
+      <div class="doc-scroll hub-preview" id="openingDoc"></div>
     </div>
   </section>
 
-  <section class="panel" id="panel-settings">
-    <div class="card">
+  <section class="panel hub-panel" id="panel-settings">
+    <div class="card hub-card">
       <h2>Team <span class="accent">Settings</span></h2>
       <p class="desc">Official guide lists Havoc colors as Red, Black &amp; White. Override the red if you have an exact brand hex.</p>
       <div class="grid g3">
-        <div class="field"><label>Primary (red)</label><input type="text" id="s_red" value="#C8102E"></div>
-        <div class="field"><label>Team city line</label><input type="text" id="s_city" value="HUNTSVILLE"></div>
-        <div class="field"><label>Team name line</label><input type="text" id="s_name" value="HAVOC"></div>
+        <div class="field hub-field"><label>Primary (red)</label><input type="text" id="s_red" value="#C8102E"></div>
+        <div class="field hub-field"><label>Team city line</label><input type="text" id="s_city" value="HUNTSVILLE"></div>
+        <div class="field hub-field"><label>Team name line</label><input type="text" id="s_name" value="HAVOC"></div>
       </div>
-      <div class="field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
-      <div class="field"><label>Footer text</label><input type="text" id="s_footer" value="2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
-      <div class="field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
-      <div class="section-label">Official media contact (packet cover, folders, interview sheets)</div>
+      <div class="field hub-field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
+      <div class="field hub-field"><label>Footer text</label><input type="text" id="s_footer" value="2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
+      <div class="field hub-field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
+      <div class="section-label hub-sectionhead">Official media contact (packet cover, folders, interview sheets)</div>
       <div class="grid g3">
-        <div class="field"><label>Name</label><input type="text" id="s_mediaName"></div>
-        <div class="field"><label>Title</label><input type="text" id="s_mediaTitle"></div>
-        <div class="field"><label>Organization</label><input type="text" id="s_mediaOrg"></div>
-        <div class="field"><label>Phone</label><input type="text" id="s_mediaPhone"></div>
-        <div class="field"><label>Email</label><input type="text" id="s_mediaEmail"></div>
-        <div class="field"><label>Website</label><input type="text" id="s_mediaWeb"></div>
+        <div class="field hub-field"><label>Name</label><input type="text" id="s_mediaName"></div>
+        <div class="field hub-field"><label>Title</label><input type="text" id="s_mediaTitle"></div>
+        <div class="field hub-field"><label>Organization</label><input type="text" id="s_mediaOrg"></div>
+        <div class="field hub-field"><label>Phone</label><input type="text" id="s_mediaPhone"></div>
+        <div class="field hub-field"><label>Email</label><input type="text" id="s_mediaEmail"></div>
+        <div class="field hub-field"><label>Website</label><input type="text" id="s_mediaWeb"></div>
       </div>
-      <div class="field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
+      <div class="field hub-field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
-    <div class="card" id="embargoCard">
+    <div class="card hub-card" id="embargoCard">
       <h2>Embargoed <span class="accent">material</span></h2>
       <div class="embargo-slot"></div>
       <p class="desc">Club material that has not been publicly announced is held here. While the embargo is on, every printed page carries a warning stripe and the app shows the banner above. Nothing embargoed is ever written to the site's public repository — imported bios live in this browser only.</p>
       <div class="btn-row"><button class="btn secondary" onclick="embargoLift()">Lift embargo (club has announced)</button></div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Booth <span class="accent">display</span></h2>
       <p class="desc">For the booth: a dark screen next to a live mic, and bigger type for glancing at during play. Neither changes a printed page or a PDF — those always come out on the white sheet at the normal size.</p>
       <div class="btn-row">
@@ -1287,23 +1296,23 @@
         <button class="btn secondary" id="boothBtn" onclick="boothToggle()">Booth mode: Off</button>
       </div>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Advanced</h2>
       <details>
         <summary style="cursor:pointer;font-weight:800;font-size:13px">Elite Prospects widget configuration</summary>
         <p class="desc" style="margin-top:8px">Drives the EP career cards on Rosters, the EP view on Live Data and the staff histories in League Reference. Defaults are correct for the SPHL — change the season when EP starts carrying 2026-27.</p>
         <div class="grid g3">
-          <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
-          <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
-          <div class="field"><label>EP team ID (filters the schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from the eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field hub-field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field hub-field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field hub-field"><label>EP team ID (filters the schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from the eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
         </div>
       </details>
     </div>
-    <div class="card">
+    <div class="card hub-card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
       <p class="desc">Everything is stored in this browser only and saved locally after every change and every live-data sync. A rolling auto-backup (everything except logos) is also kept in this browser — use Restore if something gets clobbered. Export a file backup regularly too.</p>
       <div id="bkInline" class="bk-inline"></div>
-      <div class="section-label">Backup &amp; restore</div>
+      <div class="section-label hub-sectionhead">Backup &amp; restore</div>
       <div class="btn-row">
         <button class="btn secondary" onclick="exportData()">Export backup (.json)</button>
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
@@ -1333,29 +1342,30 @@
   <button class="close" onclick="closeModal('playerModal')">&times;</button>
   <h3 id="playerModalTitle">Add player</h3>
   <input type="hidden" id="p_id"><input type="hidden" id="p_side">
-  <div class="field" id="p_photo_wrap"><label>Photo (fallback if the SPHL site has none — optional)</label>
+  <div class="field hub-field" id="p_photo_wrap"><label>Photo (fallback if the SPHL site has none — optional)</label>
     <input type="file" accept="image/*" onchange="pPhotoPick(event)">
     <span id="p_photo_preview" style="font-size:12px"></span>
     <button type="button" class="btn small secondary" onclick="window._pPhotoData='';document.getElementById('p_photo_preview').innerHTML='';">Remove uploaded photo</button>
   </div>
   <div class="grid g4">
-    <div class="field"><label>#</label><input type="text" id="p_num"></div>
-    <div class="field" style="grid-column:span 2"><label>Name</label><input type="text" id="p_name"></div>
-    <div class="field"><label>Pos</label><select id="p_pos"><option>C</option><option>LW</option><option>RW</option><option>D</option><option>G</option></select></div>
-    <div class="field"><label>Height</label><input type="text" id="p_ht"></div>
-    <div class="field"><label>Weight</label><input type="text" id="p_wt"></div>
-    <div class="field"><label>Shoots/Catches</label><input type="text" id="p_sh"></div>
-    <div class="field"><label>Age</label><input type="text" id="p_age"></div>
-    <div class="field" style="grid-column:span 2"><label>Birthplace</label><input type="text" id="p_birth"></div>
-    <div class="field" style="grid-column:span 2"><label>Previous team</label><input type="text" id="p_from" placeholder="filled from Elite Prospects"></div>
-    <div class="field" style="grid-column:span 2"><label>DOB</label><input type="text" id="p_dob"></div>
+    <div class="field hub-field"><label>#</label><input type="text" id="p_num"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>Name</label><input type="text" id="p_name"></div>
+    <div class="field hub-field"><label>Pos</label><select id="p_pos"><option>C</option><option>LW</option><option>RW</option><option>D</option><option>G</option></select></div>
+    <div class="field hub-field"><label>Height</label><input type="text" id="p_ht"></div>
+    <div class="field hub-field"><label>Weight</label><input type="text" id="p_wt"></div>
+    <div class="field hub-field"><label>Shoots/Catches</label><input type="text" id="p_sh"></div>
+    <div class="field hub-field"><label>Age</label><input type="text" id="p_age"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>Birthplace</label><input type="text" id="p_birth"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>Previous team</label><input type="text" id="p_from" placeholder="filled from Elite Prospects"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>DOB</label><input type="text" id="p_dob"></div>
   </div>
-  <div class="field"><label>Broadcast bio (lineup chart &amp; game sheet — 1-2 short lines)</label><textarea id="p_bbio" rows="2"></textarea></div>
-  <div class="field" id="p_notes_wrap"><label>Media bio (game packet — one bullet per line)</label><textarea id="p_notes" rows="4"></textarea></div>
+  <div class="field hub-field"><label>Broadcast bio (lineup chart &amp; game sheet — 1-2 short lines)</label><textarea id="p_bbio" rows="2"></textarea></div>
+  <div class="field hub-field" id="p_notes_wrap"><label>Media bio (game packet — one bullet per line)</label><textarea id="p_notes" rows="4"></textarea></div>
   <div class="grid g2">
-    <div class="field"><label>Captain / Alternate</label><select id="p_capt"><option value="">—</option><option value="C">C — Captain</option><option value="A">A — Alternate captain</option></select></div>
-    <div class="field"><label>Active for upcoming game?</label><select id="p_active"><option value="1">Active</option><option value="0">Inactive</option></select></div>
+    <div class="field hub-field"><label>Captain / Alternate</label><select id="p_capt"><option value="">—</option><option value="C">C — Captain</option><option value="A">A — Alternate captain</option></select></div>
+    <div class="field hub-field"><label>Active for upcoming game?</label><select id="p_active"><option value="1">Active</option><option value="0">Inactive</option></select></div>
   </div>
+  <div id="p_bioStats"></div>
   <div class="btn-row"><button class="btn" onclick="savePlayer()">Save player</button>
   <button class="btn secondary" onclick="closeModal('playerModal')">Cancel</button>
   <button class="btn secondary" style="margin-left:auto;color:var(--red-text)" id="delPlayerBtn" onclick="deletePlayer()">Delete</button></div>
@@ -1367,8 +1377,8 @@
   <h3>Paste Elite Prospects text</h3>
   <p class="desc">Auto-fills #, name, DOB, age, position, height, weight, shoots, birthplace. Add jersey # and career notes after.</p>
   <input type="hidden" id="ep_side">
-  <div class="field"><label>Jersey # (optional)</label><input type="text" id="ep_num"></div>
-  <div class="field"><label>EP text</label><textarea id="ep_text" rows="9"></textarea></div>
+  <div class="field hub-field"><label>Jersey # (optional)</label><input type="text" id="ep_num"></div>
+  <div class="field hub-field"><label>EP text</label><textarea id="ep_text" rows="9"></textarea></div>
   <div class="btn-row"><button class="btn" onclick="parseEP()">Parse &amp; create player</button>
   <button class="btn secondary" onclick="closeModal('epModal')">Cancel</button></div>
 </div></div>
@@ -1379,7 +1389,7 @@
   <h3 style="color:var(--red-text)">Reset everything</h3>
   <p class="desc">This erases the roster, bios, game log, call log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
   <div id="resetSummary" class="reset-summary"></div>
-  <div class="field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
+  <div class="field hub-field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
   <div class="btn-row">
     <button class="btn danger" id="resetGo" disabled onclick="wipeAll()">Download a backup and reset</button>
     <button class="btn secondary" onclick="closeModal('resetModal')">Cancel</button>
@@ -1392,7 +1402,7 @@
   <h3>Bulk import roster</h3>
   <input type="hidden" id="bulk_side">
   <p class="desc">Paste a whole roster at once. Works with the Elite Prospects roster-table copy-paste (tab or multi-space separated). Include the <b>Forwards</b> / <b>Defencemen</b> / <b>Goalies</b> header rows and the position is set automatically. Doubled names are fixed for you.</p>
-  <div class="field"><label>Roster text</label><textarea id="bulk_text" rows="10" placeholder="Forwards&#10;9&#9;David Novotny&#9;LW&#9;5-11&#9;185&#9;&#9;Boca Raton, FL&#10;12&#9;Giovanni Procopio&#9;C&#9;5-11&#9;185&#9;&#9;Grosse Pointe, MI&#10;Defencemen&#10;2&#9;Dominick Procopio&#9;D&#9;6-2&#9;216&#9;&#9;Grosse Pointe, MI&#10;Goalies&#10;1&#9;Alex Proctor&#9;G&#9;6-2&#9;174&#9;&#9;Dallas, TX"></textarea></div>
+  <div class="field hub-field"><label>Roster text</label><textarea id="bulk_text" rows="10" placeholder="Forwards&#10;9&#9;David Novotny&#9;LW&#9;5-11&#9;185&#9;&#9;Boca Raton, FL&#10;12&#9;Giovanni Procopio&#9;C&#9;5-11&#9;185&#9;&#9;Grosse Pointe, MI&#10;Defencemen&#10;2&#9;Dominick Procopio&#9;D&#9;6-2&#9;216&#9;&#9;Grosse Pointe, MI&#10;Goalies&#10;1&#9;Alex Proctor&#9;G&#9;6-2&#9;174&#9;&#9;Dallas, TX"></textarea></div>
   <div class="btn-row" style="margin-bottom:6px">
     <button class="btn" onclick="bulkPreview()">Preview</button>
     <button class="btn secondary" onclick="document.getElementById('bulk_text').value='';document.getElementById('bulkPreviewWrap').innerHTML='';">Clear</button>
@@ -1407,7 +1417,7 @@
   <h3>Bulk EP → auto-bios</h3>
   <input type="hidden" id="epbulk_side">
   <p class="desc">Paste one or more full Elite Prospects profiles (facts + career stats table). Separate multiple players with a line containing only <b>===</b>. The hub parses each profile and auto-writes career-note bullets (college/junior teams, last team, best statistical season). It matches players to your roster by name and fills empty bios only — it won't overwrite notes you've written.</p>
-  <div class="field"><label>EP profiles (split multiple with === )</label><textarea id="epbulk_text" rows="12" placeholder="Paste EP profile 1…&#10;===&#10;Paste EP profile 2…"></textarea></div>
+  <div class="field hub-field"><label>EP profiles (split multiple with === )</label><textarea id="epbulk_text" rows="12" placeholder="Paste EP profile 1…&#10;===&#10;Paste EP profile 2…"></textarea></div>
   <div class="btn-row" style="margin-bottom:6px">
     <button class="btn" onclick="epBulkPreview()">Preview bios</button>
     <button class="btn secondary" onclick="document.getElementById('epbulk_text').value='';document.getElementById('epBulkPreviewWrap').innerHTML='';">Clear</button>
@@ -1851,6 +1861,7 @@ function bioApply(json){
     if(!p){p={id:uid(),name:e.name,notes:'',bbio:'',sheet:'2026-27',numSheet:String(e.number==null?'':e.number),active:'1',newFeed:0};DATA.roster.push(p);out.added++;}
     else out.matched++;
     // the club's spelling wins over the sheet's
+    if(meta.EMBARGO)p.unannounced=1;         // not yet announced by the club
     if(e.name&&e.name!==p.name){out.renamed.push(p.name+' → '+e.name);p.name=e.name;}
     const air=airNameOf(p.name);if(air)p.airName=air;
     if(e.number!=null&&String(e.number)!==String(p.num||''))p.numBio=String(e.number);
@@ -1867,7 +1878,10 @@ function bioApply(json){
     // bios: the long one prints in the packet, the short one on the chart
     if(e.bio)p.notes=e.bio;
     if(!String(p.bbio||'').trim()&&Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bbio=e.broadcastNotes[0];
-    if(Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bioNotes=e.broadcastNotes;
+    if(Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length){
+      p.bioNotes=e.broadcastNotes;
+      p.callNote=e.broadcastNotes.join(' · ');   // the booth card's per-player call note
+    }
     if(Array.isArray(e.awards)&&e.awards.length)p.awards=e.awards;
     if(e.letter)p.capt=e.letter;
     if(e.juniorSummary)p.junior=e.juniorSummary;
@@ -1909,9 +1923,29 @@ function embargoBarHTML(){
   return `<div class="embargo-bar">EMBARGOED — INTERNAL PREP ONLY<span>${esc(DATA.embargo.text||'')}</span></div>`;
 }
 function embargoLift(){
-  if(!confirm('Lift the embargo?\n\nOnly do this once the club has publicly announced these signings. It removes the warning from the app and from every printed page.'))return;
+  const n=DATA.roster.filter(p=>p.unannounced).length;
+  if(!confirm('Clear the unannounced flag on '+n+' player'+(n===1?'':'s')+'?\n\nOnly do this once the club has publicly announced them. They then print on distribution copies like anyone else, and the warning comes off the app and every printed page.'))return;
+  DATA.roster.forEach(p=>{delete p.unannounced;});
   DATA.embargo={on:false,liftedAt:new Date().toISOString()};save();
-  renderRoster();renderEmbargo();toast('Embargo lifted');
+  renderRoster();renderEmbargo();
+  if(SUBTABS.print)prRefresh();
+  toast('Embargo cleared on '+n+' player'+(n===1?'':'s'));
+}
+/* distribution copies leave unannounced players out entirely */
+function distMode(){return !!DATA.settings.distCopy;}
+function distToggle(){
+  DATA.settings.distCopy=distMode()?0:1;save();
+  const b=document.getElementById('distBtn');
+  if(b){b.textContent=distMode()?'Copy: for distribution':'Copy: internal prep';b.classList.toggle('dark',distMode());}
+  prRefresh();
+  toast(distMode()?'Distribution copy — unannounced players are left out':'Internal prep copy — everything shows, marked embargoed');
+}
+function printablePlayers(list){
+  return (list||[]).filter(p=>!(distMode()&&p.unannounced));
+}
+function distNoteHTML(){
+  const n=DATA.roster.filter(p=>p.unannounced).length;
+  return (distMode()&&n)?`<div class="pg-stamp" style="color:var(--havoc-red)">${n} unannounced player${n===1?'':'s'} withheld from this distribution copy.</div>`:'';
 }
 function renderEmbargo(){
   document.querySelectorAll('.embargo-slot').forEach(el=>{el.innerHTML=embargoBarHTML();});
@@ -1966,6 +2000,21 @@ function renderRosterStatus(){
    +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)));
 }
 
+/* Preview scaling on phones: CSS can't divide a length by a length, so the
+   ratio that fits an 816px sheet into the viewport is published here and kept
+   current on resize. mobile.css consumes it; print ignores it entirely. */
+function hubPageScale(){
+  const vw=document.documentElement.clientWidth;
+  const r=document.documentElement;
+  if(vw>640){r.style.removeProperty('--hub-page-scale');r.style.removeProperty('--hub-page-gap');return;}
+  const s=Math.min(1,(vw-24)/816);
+  r.style.setProperty('--hub-page-scale',s.toFixed(4));
+  // the scaled page still reserves its unscaled height — pull the next page up
+  r.style.setProperty('--hub-page-gap',Math.round(-1056*(1-s)+12)+'px');
+}
+window.addEventListener('resize',hubPageScale);
+window.addEventListener('orientationchange',()=>setTimeout(hubPageScale,50));
+
 /* ============ BOOTH DISPLAY (dark mode + type scale) ============
    Screen only: the print CSS resets both so PDFs are identical either way. */
 const THEMES=['system','light','dark'];
@@ -2008,6 +2057,7 @@ function subShow(group,id){
   if(SUB_INIT[id])SUB_INIT[id]();
 }
 function showTab(tab){
+  setTimeout(()=>{document.querySelectorAll('#tabs .tab').forEach(t=>t.setAttribute('aria-selected',t.classList.contains('active')?'true':'false'));},0);
   const btn=document.querySelector('#tabs .tab[data-tab="'+tab+'"]');if(!btn)return;
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -2168,11 +2218,11 @@ function secRenderBar(over){
   });
   if(!keys.length){bar.innerHTML='';return;}
   bar.innerHTML=`<div class="sec-bar"><h4>Section size &amp; weight — 1 pt per click, saved with your layout</h4>`
-   +keys.map(k=>`<span class="sec-item"><span class="sec-nm">${esc(secLabel(k))}</span>
+   +keys.map(k=>`<span class="sec-item hub-sectionctrl"><span class="sec-nm hub-sectionctrl__label">${esc(secLabel(k))}</span>
       <button title="1 pt smaller" onclick="secStep('${k}',-1)">A&minus;</button>
-      <span class="sec-pt">${secPt(k)} pt</span>
+      <span class="sec-pt hub-sectionctrl__value">${secPt(k)} pt</span>
       <button title="1 pt larger" onclick="secStep('${k}',1)">A+</button>
-      <button class="${secBold(k)?'on':''}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
+      <button class="${secBold(k)?'on':''}" aria-pressed="${secBold(k)?'true':'false'}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
       <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button></span>`).join('')
    +((over||[]).length?`<div class="sec-warn">${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') overflows — reduce by 1 pt').join('<br>')}</div>`:'')
    +`</div>`;
@@ -2197,7 +2247,15 @@ function printTonight(){
     setTimeout(()=>{window.print();[panel,pk,fd].forEach(el=>el&&el.classList.remove('printing'));},120);
   });
 }
+function distBtnSync(){
+  const b=document.getElementById('distBtn');if(!b)return;
+  const any=DATA.roster.some(p=>p.unannounced);
+  b.style.display=any?'':'none';
+  b.textContent=distMode()?'Copy: for distribution':'Copy: internal prep';
+  b.classList.toggle('dark',distMode());
+}
 function prRefresh(){
+  distBtnSync();
   const s=SUBTABS.print;
   if(s==='packet'){saveNotesExtra();renderPacket();}
   else if(s==='chart')renderChart();
@@ -2428,6 +2486,8 @@ function openPlayer(side,id){
   const pp=document.getElementById('p_photo_preview');if(pp)pp.innerHTML=(p&&p.imgData)?'<img src="'+p.imgData+'" style="width:44px;height:44px;object-fit:cover;border-radius:6px"> uploaded photo on file':'';
   window._pPhotoData=(p&&p.imgData)||'';
   document.getElementById('delPlayerBtn').style.display=id?'inline-flex':'none';
+  const bs=document.getElementById('p_bioStats');
+  if(bs)bs.innerHTML=(p&&p.bioStats)?`<div class="section-label" style="margin-top:6px">Club stat tables (read-only)</div>${bioStatTablesHTML(p,'modal')}${p.junior?`<div style="font-size:11.5px;color:var(--ink-2);margin-top:4px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}${(p.awards||[]).length?`<div style="font-size:11.5px;margin-top:3px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}${p.unannounced?'<div style="font-size:11.5px;color:var(--havoc-red);font-weight:800;margin-top:4px">Unannounced — withheld from distribution copies</div>':''}`:'';
   openModal('playerModal');
 }
 function pPhotoPick(e){
@@ -2537,7 +2597,7 @@ function bulkPreview(){
   BULK_PARSED=bulkParse(raw);
   const wrap=document.getElementById('bulkPreviewWrap');
   if(!BULK_PARSED.length){wrap.innerHTML='<div class="note">Couldn\'t parse any players. Check the format — each line needs at least a name.</div>';return;}
-  let html='<div class="section-label">Preview — '+BULK_PARSED.length+' players</div><div style="max-height:300px;overflow:auto"><table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Birthplace</th></tr></thead><tbody>';
+  let html='<div class="section-label hub-sectionhead">Preview — '+BULK_PARSED.length+' players</div><div style="max-height:300px;overflow:auto"><table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Birthplace</th></tr></thead><tbody>';
   BULK_PARSED.forEach(p=>{html+=`<tr><td class="num">${esc(p.num)}</td><td class="nm">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${esc(p.ht)}</td><td>${esc(p.wt)}</td><td>${esc(p.sh)}</td><td>${esc(p.birth)}</td></tr>`;});
   html+='</tbody></table></div>';
   html+='<div class="note" style="margin-top:10px">Position defaults to C for forwards if not specified — edit any player afterward to set LW/RW. Career notes, age, and DOB are added later per player.</div>';
@@ -3439,16 +3499,16 @@ function ivEntryHTML(kind,e){
   </div>`).join('');
   return `<div class="iv-entry">
     <div class="grid g4">
-      <div class="field"><label>Person</label><input type="text" value="${esc(e.person)}" onchange="ivField('${kind}','${e.id}','person',this.value)"></div>
-      <div class="field"><label>Role</label><select onchange="ivField('${kind}','${e.id}','role',this.value)">${['coach','player','other'].map(r=>`<option${e.role===r?' selected':''}>${r}</option>`).join('')}</select></div>
-      <div class="field"><label>Team</label><input type="text" value="${esc(e.team)}" onchange="ivField('${kind}','${e.id}','team',this.value)"></div>
-      <div class="field"><label>Scheduled time</label><input type="text" value="${esc(e.time)}" placeholder="5:45 PM" onchange="ivField('${kind}','${e.id}','time',this.value)"></div>
+      <div class="field hub-field"><label>Person</label><input type="text" value="${esc(e.person)}" onchange="ivField('${kind}','${e.id}','person',this.value)"></div>
+      <div class="field hub-field"><label>Role</label><select onchange="ivField('${kind}','${e.id}','role',this.value)">${['coach','player','other'].map(r=>`<option${e.role===r?' selected':''}>${r}</option>`).join('')}</select></div>
+      <div class="field hub-field"><label>Team</label><input type="text" value="${esc(e.team)}" onchange="ivField('${kind}','${e.id}','team',this.value)"></div>
+      <div class="field hub-field"><label>Scheduled time</label><input type="text" value="${esc(e.time)}" placeholder="5:45 PM" onchange="ivField('${kind}','${e.id}','time',this.value)"></div>
     </div>
-    <div class="section-label">Prepared questions</div>
+    <div class="section-label hub-sectionhead">Prepared questions</div>
     ${qs||'<div class="empty" style="padding:6px">No questions yet.</div>'}
     <div class="iv-add"><input type="text" id="ivq_${e.id}" placeholder="Add a question…"><button class="btn small" onclick="ivQAdd('${kind}','${e.id}','ivq_${e.id}')">Add</button></div>
-    <div class="field" style="margin-top:8px"><label>Answers / notes</label><textarea rows="3" onchange="ivField('${kind}','${e.id}','notes',this.value)">${esc(e.notes)}</textarea></div>
-    <div class="section-label">Quotable lines ${kind==='post'?'(★ then “→ report”)':'(★ = usable)'}</div>
+    <div class="field hub-field" style="margin-top:8px"><label>Answers / notes</label><textarea rows="3" onchange="ivField('${kind}','${e.id}','notes',this.value)">${esc(e.notes)}</textarea></div>
+    <div class="section-label hub-sectionhead">Quotable lines ${kind==='post'?'(★ then “→ report”)':'(★ = usable)'}</div>
     ${quotes||''}
     <div class="iv-add"><input type="text" id="ivu_${e.id}" placeholder="Add a line worth quoting…"><button class="btn small" onclick="ivQuoteAdd('${kind}','${e.id}','ivu_${e.id}')">Add</button></div>
     <div class="btn-row" style="margin-top:8px">
@@ -3729,7 +3789,9 @@ function dataStampHTML(scope){
   return embargoStampHTML()+`<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
 }
 function embargoStampHTML(){
-  return embargoOn()?'<div class="pg-embargo">EMBARGOED — INTERNAL PREP ONLY · NOT FOR DISTRIBUTION OR AIR UNTIL THE CLUB ANNOUNCES</div>':'';
+  if(!embargoOn())return '';
+  if(distMode())return distNoteHTML();
+  return '<div class="pg-embargo">EMBARGOED — INTERNAL PREP ONLY · NOT FOR DISTRIBUTION OR AIR UNTIL THE CLUB ANNOUNCES</div>';
 }
 function stampMissing(containerId,scope){
   const root=document.getElementById(containerId);if(!root)return;
@@ -4496,7 +4558,7 @@ function epBulkPreview(){
   const wrap=document.getElementById('epBulkPreviewWrap');
   if(!EPBULK_PARSED.length){wrap.innerHTML='<div class="note">Couldn\'t parse any profiles. Make sure each includes the name line ending in "Facts".</div>';return;}
   const side=val('epbulk_side');const list=getRoster(side);
-  let html='<div class="section-label">Preview — '+EPBULK_PARSED.length+' profiles</div>';
+  let html='<div class="section-label hub-sectionhead">Preview — '+EPBULK_PARSED.length+' profiles</div>';
   EPBULK_PARSED.forEach(p=>{
     const match=list.find(x=>norm(x.name)===norm(p.facts.name));
     const status=match?(match.notes&&match.notes.trim()?'<span class="pill warn">has bio — will skip</span>':'<span class="pill ok">will fill bio</span>'):'<span class="pill grey">no roster match</span>';
@@ -4631,7 +4693,7 @@ function gameLogPage(red,S){
 }
 function rosterPronPage(red,S){
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
-  const act=DATA.roster.filter(p=>p.active!=='0');
+  const act=printablePlayers(DATA.roster.filter(p=>p.active!=='0'));
   const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
     ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))} ${statSpan(p,'Huntsville')}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
   // per-player pronunciations first (imported or typed), then any extra Settings lines
@@ -4714,7 +4776,7 @@ function packMeasured(blocks,limitPx){
   return pages;
 }
 function careerPages(red,S){
-  const act=DATA.roster.filter(p=>p.active!=='0'&&p.name);
+  const act=printablePlayers(DATA.roster.filter(p=>p.active!=='0'&&p.name));
   const blocks=[];
   act.forEach(p=>{
     const isG=p.pos==='G';
@@ -4736,22 +4798,8 @@ function careerPages(red,S){
     }
     if(p.bioStats&&((p.bioStats.pro||[]).length||(p.bioStats.college||[]).length)){
       // club-supplied tables — what we have until the league publishes 2026-27
-      const tbl=(rows,title)=>{
-        if(!rows.length)return '';
-        const g=isG&&rows===p.bioStats.pro;
-        const head=g?'<th class="r">GP</th><th class="r">Record</th><th class="r">GAA</th><th class="r">SV%</th><th class="r">SO</th>'
-          :'<th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th>';
-        const n=v=>v==null?'':v;
-        return `<div style="font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px">${title}</div>
-          <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th>${head}</tr>
-          ${rows.map(r=>`<tr><td>${esc(r.season||'')}</td><td>${esc(r.team||'')}</td><td>${esc(r.league||'')}</td>`
-            +(g?`<td class="r">${n(r.gp)}</td><td class="r">${esc(n(r.record))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(n(r.svPct))}</td><td class="r">${n(r.so)}</td>`
-               :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td>`)
-            +`</tr>${r.note?`<tr><td colspan="${g?8:7}" style="color:var(--ink-2);font-size:7.5px">${esc(r.note)}</td></tr>`:''}`).join('')}</table>`;
-      };
       blocks.push(`<div class="box"><h3>${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}#${p.num||''} ${esc(dispName(p))} — Career</h3>
-        ${tbl(p.bioStats.pro||[],'Professional')}
-        ${tbl(p.bioStats.college||[],'College')}
+        ${bioStatTablesHTML(p,'career')}
         ${p.junior?`<div style="font-size:7.5px;color:var(--ink-2);margin-top:3px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}
         ${(p.awards||[]).length?`<div style="font-size:7.5px;margin-top:2px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}
         <div style="font-size:7px;color:var(--ink-2);margin-top:2px">Club-supplied tables — the league feed has no 2026-27 numbers yet.</div></div>`);
@@ -4916,7 +4964,7 @@ function renderPacket(){
 
   /* ---------- assemble the selected sections in order ---------- */
   const sel=new Set(pkSel());
-  const allPlayers=DATA.roster.filter(p=>p.active!=='0'&&p.name).sort((a,b)=>(+a.num||999)-(+b.num||999));
+  const allPlayers=printablePlayers(DATA.roster.filter(p=>p.active!=='0'&&p.name)).sort((a,b)=>(+a.num||999)-(+b.num||999));
   // written bios make the cards vary wildly in height — measure them and pack so
   // no page spills onto a second sheet
   const meetCards=allPlayers.map(p=>({p,html:mtpCardHTML(p,hsv,R,red,S)}));
@@ -4949,7 +4997,7 @@ function renderPacket(){
   document.getElementById('packetDoc').innerHTML=outPages.map((pg2,i)=>{
     if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
     let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1));
-    h=h.replace('<div class="page','<div data-sec="'+pg2.sec+'" class="page');
+    h=h.replace('<div class="page','<div data-sec="'+pg2.sec+'" class="hub-preview__page page');
     // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
     if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
     return h;
@@ -5965,6 +6013,27 @@ function renderStandings(){
 }
 
 
+/* the club file keeps college and pro apart, so they print apart — never merged */
+function bioStatTablesHTML(p,scope){
+  const b=p.bioStats;if(!b)return '';
+  const isG=p.pos==='G';
+  const one=(rows,title,pro)=>{
+    if(!rows||!rows.length)return '';
+    const g=isG&&pro;
+    const n=v=>v==null?'—':v;
+    const head=g?'<th class="r">GP</th><th class="r">Rec</th><th class="r">GAA</th><th class="r">SV%</th><th class="r">SO</th>'
+      :'<th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th>';
+    return `<div class="bst"><div class="bst-h">${title}</div>
+      <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th>${head}</tr>
+      ${rows.map(r=>`<tr><td>${esc(r.season||'')}</td><td>${esc(r.team||'')}</td><td>${esc(r.league||'')}</td>`
+        +(g?`<td class="r">${n(r.gp)}</td><td class="r">${esc(n(r.record))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(n(r.svPct))}</td><td class="r">${n(r.so)}</td>`
+           :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td>`)+`</tr>`).join('')}
+      </table></div>`;
+  };
+  const body=one(b.pro,'Professional',true)+one(b.college,'College',false);
+  if(!body)return '';
+  return `<div class="bst-wrap${scope==='mtp'?' bst-mtp':''}">${body}</div>`;
+}
 function mtpCardHTML(p,teamStats,R,red,S){
   return [p].map(p=>{
     const isG=p.pos==='G';
@@ -5983,6 +6052,7 @@ function mtpCardHTML(p,teamStats,R,red,S){
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml}</div>
+      ${bioStatTablesHTML(p,'mtp')}
       </div></div>
     </div>`;
   }).join('');
@@ -7028,7 +7098,7 @@ function wgDeck(side){
   if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
 }
 
-themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
+hubPageScale();themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
 (function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
