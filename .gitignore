@@ -1,3 +1,8 @@
 .env
 node_modules/
 .DS_Store
+# Embargoed club material — bios and rosters the team has not announced.
+# This repository is PUBLIC and serves the site; keep unannounced material in
+# the browser (Rosters → Import bios JSON) and never commit it here.
+*bios*.json
+data/bios/

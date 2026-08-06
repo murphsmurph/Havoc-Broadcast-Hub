@@ -126,6 +126,7 @@
   .fd-notes-rule{flex:1;background:repeating-linear-gradient(to bottom,transparent,transparent 21px,#ccc 21px,#ccc 22px);}
   .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
+  .pg-embargo{background:var(--havoc-red);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;padding:3px 6px;border-radius:3px;margin-top:4px;flex:0 0 auto;}
   .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
   .fd-pron2{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:12.5px;line-height:1.45;}
@@ -285,6 +286,12 @@
   .feed-ages span{font-size:11px;font-weight:700;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:var(--ink-2);}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   /* 2026-27 roster reconcile panel */
+  .embargo-bar{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;background:var(--havoc-red);color:#fff;border-radius:7px;padding:9px 13px;margin-bottom:14px;font-size:12px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;}
+  .embargo-bar span{font-weight:600;text-transform:none;letter-spacing:0;font-size:12px;opacity:.95;}
+  .bio-panel{border:1px solid var(--havoc-line);border-left:4px solid var(--havoc-red);border-radius:6px;padding:9px 12px;margin-bottom:10px;background:var(--surface-2);font-size:12.5px;}
+  .bio-panel h5{font-size:11.5px;font-weight:900;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:5px;}
+  .bio-panel ul{margin:4px 0 0 16px;padding:0;} .bio-panel li{margin-bottom:2px;}
+  .bio-panel .src{color:var(--ink-2);font-size:11.5px;margin-top:6px;}
   .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
   .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:var(--surface-2);}
   .rs-box.warn{border-left-color:var(--red-text);}
@@ -827,7 +834,9 @@
 <div class="card">
       <h2>Havoc <span class="accent">Roster &amp; Bios</span> <span class="upd" data-sync="rosters"></span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
+      <div class="embargo-slot"></div>
       <div class="progress" id="rosterProgress"></div>
+      <div id="bioStatus"></div>
       <div id="rosterStatus"></div>
       <div class="btn-row" style="margin-top:14px">
         <button class="btn" onclick="openBulk('home')">Bulk import roster</button>
@@ -835,6 +844,8 @@
         <button class="btn secondary" onclick="openPlayer('home')">+ Add one player</button>
         <button class="btn secondary" onclick="loadHavoc2627()">Apply 2026-27 signed sheet</button>
         <button class="btn secondary" onclick="epFillHome()">Fill facts from Elite Prospects</button>
+        <button class="btn secondary" onclick="document.getElementById('bioFile').click()">Import bios JSON…</button>
+        <input type="file" id="bioFile" accept="application/json,.json" style="display:none" onchange="bioImportFile(event)">
         <button class="btn secondary" onclick="openPasteEP('home')">Paste Elite Prospects text</button>
       </div>
     </div>
@@ -1262,6 +1273,12 @@
       <div class="field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
+    <div class="card" id="embargoCard">
+      <h2>Embargoed <span class="accent">material</span></h2>
+      <div class="embargo-slot"></div>
+      <p class="desc">Club material that has not been publicly announced is held here. While the embargo is on, every printed page carries a warning stripe and the app shows the banner above. Nothing embargoed is ever written to the site's public repository — imported bios live in this browser only.</p>
+      <div class="btn-row"><button class="btn secondary" onclick="embargoLift()">Lift embargo (club has announced)</button></div>
+    </div>
     <div class="card">
       <h2>Booth <span class="accent">display</span></h2>
       <p class="desc">For the booth: a dark screen next to a live mic, and bigger type for glancing at during play. Neither changes a printed page or a PDF — those always come out on the white sheet at the normal size.</p>
@@ -1679,6 +1696,8 @@ const DEFAULT_DATA={
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
   sbCache:null,          // last scorebar payload, so a feed outage still shows something
+  bioMeta:null,          // provenance + open items from the club's bios file (browser only)
+  embargo:null,          // {on,text} — club material not yet announced
   secPt:{},              // {sectionKey:pt} — per-section printed body size
   secBold:{},            // {sectionKey:1} — per-section bold body text
   sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
@@ -1805,6 +1824,98 @@ function seedRosterIfEmpty(){
   if(DATA.roster.length)return;
   DATA.roster=[];havocSheetApply();
 }
+/* ============ TEAM BIOS IMPORT (media-team JSON) ============
+   Written bios, vitals, pronunciations, awards, broadcast notes and college /
+   pro stat tables, matched to the roster by name. The file itself never lands
+   in this repo — it is embargoed club material and this repo is public, so it
+   lives in the browser only, behind the embargo banner below. */
+function bioNorm(n){return norm(String(n||'').replace(/["'"]/g,'').replace(/\(.*?\)/g,''));}
+function bioMatch(entry){
+  const want=[entry.name,entry.fullName,entry.nameCorrection,(entry.name||'').replace(/\s*".*?"\s*/,' ')]
+    .filter(Boolean).map(bioNorm);
+  // the sheet's spelling may differ from the club's ("Ilot"/"Ilott") — match on the surname too
+  const last=bioNorm(String(entry.name||'').split(/\s+/).pop());
+  return DATA.roster.find(p=>want.indexOf(bioNorm(p.name))>=0)
+    || DATA.roster.find(p=>{const pl=bioNorm(String(p.name).split(/\s+/).pop());return pl&&(pl===last||pl.indexOf(last)===0||last.indexOf(pl)===0);});
+}
+function bioApply(json){
+  if(!json||!Array.isArray(json.players))throw new Error('That file has no players array.');
+  const meta=json._meta||{};
+  const out={matched:0,added:0,unmatched:[],renamed:[],flags:[]};
+  DATA.bioMeta={compiled:meta.compiled||'',source:meta.source||'',statsNote:meta.statsNote||'',
+    openItems:meta.openItemsForTheClub||[],corrections:meta.spellingCorrections||[],knownError:meta.knownError||'',
+    at:new Date().toISOString()};
+  if(meta.EMBARGO)DATA.embargo={on:true,text:meta.EMBARGO,at:new Date().toISOString()};
+  json.players.forEach(e=>{
+    let p=bioMatch(e);
+    if(!p){p={id:uid(),name:e.name,notes:'',bbio:'',sheet:'2026-27',numSheet:String(e.number==null?'':e.number),active:'1',newFeed:0};DATA.roster.push(p);out.added++;}
+    else out.matched++;
+    // the club's spelling wins over the sheet's
+    if(e.name&&e.name!==p.name){out.renamed.push(p.name+' → '+e.name);p.name=e.name;}
+    const air=airNameOf(p.name);if(air)p.airName=air;
+    if(e.number!=null&&String(e.number)!==String(p.num||''))p.numBio=String(e.number);
+    // header facts — only where the file is actually sure
+    const set=(k,v)=>{if(v!=null&&String(v).trim()&&!/UNVERIFIED|UNCONFIRMED|UNRESOLVED/i.test(String(v)))p[k]=String(v);};
+    set('pos',e.position&&e.position.replace(/\s*\(.*\)/,''));
+    set('ht',e.height&&String(e.height).replace(/'/,'-').replace(/"/,''));
+    set('wt',e.weight);
+    const hand=String(e.shoots||e.catches||'');
+    if(/^[LR]$/i.test(hand.trim()))p.sh=hand.trim().toUpperCase();
+    set('birth',e.hometown);
+    if(e.dob&&/^\d{4}-\d{2}-\d{2}$/.test(e.dob)){p.dobi=e.dob;p.dob=htDobFmt(e.dob);p.age=htAgeFrom(e.dob);}
+    else if(e.age)p.age=String(e.age);
+    // bios: the long one prints in the packet, the short one on the chart
+    if(e.bio)p.notes=e.bio;
+    if(!String(p.bbio||'').trim()&&Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bbio=e.broadcastNotes[0];
+    if(Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bioNotes=e.broadcastNotes;
+    if(Array.isArray(e.awards)&&e.awards.length)p.awards=e.awards;
+    if(e.letter)p.capt=e.letter;
+    if(e.juniorSummary)p.junior=e.juniorSummary;
+    // pronunciation: only take it when the file is sure; otherwise queue it to ask
+    const pr=String(e.pronunciation||'');
+    if(pr&&!/UNVERIFIED/i.test(pr)&&!/as spelled/i.test(pr))p.pron=pr;
+    else if(/UNVERIFIED/i.test(pr))p.pronAsk=1;
+    // stat tables the league feed cannot give us in preseason
+    if((e.collegeStats||[]).length||(e.proStats||[]).length)p.bioStats={college:e.collegeStats||[],pro:e.proStats||[]};
+    // anything the file flags for the club
+    if(e.identityStatus==='UNRESOLVED'||/UNRESOLVED/i.test(e.position||'')){p.identityUnresolved=e.warning||'Identity unresolved — confirm with the club.';out.flags.push(p.name+': identity unresolved');}
+    if(e.identityConfidence&&/MODERATE|LOW/i.test(e.identityConfidence)){p.identityNote=e.identityConfidence;out.flags.push(p.name+': '+e.identityConfidence);}
+    if(e.numberNote){p.numberNote=e.numberNote;out.flags.push(p.name+': '+e.numberNote);}
+    if(e.nameCorrection)out.flags.push(e.nameCorrection);
+  });
+  save();renderRoster();
+  return out;
+}
+function bioImportFile(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const r=bioApply(JSON.parse(rd.result));
+      toast('Bios imported — '+r.matched+' matched'+(r.added?', '+r.added+' added':'')+(r.flags.length?', '+r.flags.length+' to confirm':''));
+    }catch(e){toast('Could not read that file: '+e.message);}
+  };
+  rd.readAsText(f);ev.target.value='';
+}
+function bioImportPaste(){
+  const t=prompt('Paste the bios JSON:');if(!t)return;
+  try{const r=bioApply(JSON.parse(t));toast('Bios imported — '+r.matched+' matched');}
+  catch(e){toast('Could not read that: '+e.message);}
+}
+/* embargoed material: visible everywhere it could reach air or print, until lifted */
+function embargoOn(){return !!((DATA.embargo||{}).on);}
+function embargoBarHTML(){
+  if(!embargoOn())return '';
+  return `<div class="embargo-bar">EMBARGOED — INTERNAL PREP ONLY<span>${esc(DATA.embargo.text||'')}</span></div>`;
+}
+function embargoLift(){
+  if(!confirm('Lift the embargo?\n\nOnly do this once the club has publicly announced these signings. It removes the warning from the app and from every printed page.'))return;
+  DATA.embargo={on:false,liftedAt:new Date().toISOString()};save();
+  renderRoster();renderEmbargo();toast('Embargo lifted');
+}
+function renderEmbargo(){
+  document.querySelectorAll('.embargo-slot').forEach(el=>{el.innerHTML=embargoBarHTML();});
+}
 /* ---- roster reconcile: sheet vs league feed ---- */
 function rosterStatus(){
   const R=DATA.roster||[];
@@ -1825,7 +1936,23 @@ function rosterDrop(id){
 }
 function numTakeFeed(id){const p=DATA.roster.find(x=>x.id===id);if(!p||!p.numFeed)return;p.num=p.numFeed;p.numSheet=p.numFeed;delete p.numFeed;save();renderRoster();}
 function numKeepSheet(id){const p=DATA.roster.find(x=>x.id===id);if(!p)return;delete p.numFeed;save();renderRoster();}
+function renderBioStatus(){
+  const el=document.getElementById('bioStatus');if(!el)return;
+  const m=DATA.bioMeta;
+  if(!m){el.innerHTML='';return;}
+  const flagged=DATA.roster.filter(p=>p.identityUnresolved||p.identityNote||p.numberNote||p.pronAsk);
+  const li=a=>(a||[]).map(x=>'<li>'+esc(typeof x==='string'?x:(x.sheet+' → '+x.correct+(x.note?' ('+x.note+')':''))) +'</li>').join('');
+  el.innerHTML=`<div class="bio-panel">
+    <h5>Club bios loaded${m.compiled?' — compiled '+esc(m.compiled):''}</h5>
+    ${m.knownError?`<div><b>Known error in a club release:</b> ${esc(m.knownError)}</div>`:''}
+    ${(m.corrections||[]).length?`<div style="margin-top:5px"><b>Spelling:</b><ul>${li(m.corrections)}</ul></div>`:''}
+    ${flagged.length?`<div style="margin-top:5px"><b>Confirm before air:</b><ul>${flagged.map(p=>'<li>'+esc(p.name)+' — '+esc(p.identityUnresolved||p.numberNote||p.identityNote||'pronunciation not verified')+'</li>').join('')}</ul></div>`:''}
+    ${(m.openItems||[]).length?`<div style="margin-top:5px"><b>Open items for the club:</b><ul>${li(m.openItems)}</ul></div>`:''}
+    <div class="src">${esc(m.source||'')} Stats tables from this file print on the career pages until the league feed has 2026-27 numbers.</div>
+  </div>`;
+}
 function renderRosterStatus(){
+  renderBioStatus();renderEmbargo();
   const el=document.getElementById('rosterStatus');if(!el)return;
   const s=rosterStatus();
   if(!s.sheet.length&&!s.parked.length&&!s.feedOnly.length){el.innerHTML='';return;}
@@ -1895,7 +2022,8 @@ function showTab(tab){
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
   if(tab==='calllog')clInit();
   if(tab==='postgame'){pgInit();ivRender('post');}
-  if(tab==='settings'){bkStatusRender();wgSettingsFill();themeApply();}
+  if(tab==='settings'){bkStatusRender();wgSettingsFill();themeApply();renderEmbargo();
+    const ec=document.getElementById('embargoCard');if(ec)ec.style.display=(DATA.embargo?'':'none');}
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -3165,6 +3293,7 @@ function teamPronList(list){
     if(!say){const lastNm=p.name.trim().split(/\s+/).pop().toLowerCase();
       const hit=guide.find(g2=>g2.name.toLowerCase().indexOf(lastNm)>=0);
       if(hit)say=hit.say;}
+    if(!say&&p.pronAsk)say='— ask him —';
     if(say)out.push({name:p.name,say});
   });
   return out;
@@ -3541,6 +3670,13 @@ function fdCell(team,key,computed,isOpp){
   const mark=hasOv&&hasSrc?`<b class="ov-mark" title="manual override — synced: ${esc(String(computed))}">•</b><button class="fv-rv no-print" title="Revert to synced" onclick="fdRevert('${esc(team)}','${esc(key)}')">↺</button>`:'';
   return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>${mark}`;
 }
+/* one line off the club's notes when you haven't written your own — the booth
+   card is a fixed sheet, so it takes the headline note, not the whole file */
+function fdNoteSeed(p){
+  const n=(p.bioNotes||[])[0];if(!n)return '';
+  const t=String(n).replace(/^[A-Z][A-Z \-']{3,}:\s*/,'');
+  return t.length>96?t.slice(0,93).replace(/\s+\S*$/,'')+'…':t;
+}
 function fdRevert(team,key){delete fdOv(team)[key];save();renderFolders();toast('Back to synced value');}
 /* ---- freshness: one timestamp per feed, because they refresh at different rates ---- */
 function syncMark(kind){DATA.sync=DATA.sync||{};DATA.sync[kind]=new Date().toISOString();try{save();}catch(e){}renderSyncBadges();}
@@ -3590,7 +3726,10 @@ function dataStampHTML(scope){
   if(R.daily&&R.daily.date)parts.push('daily report '+R.daily.date);
   if(R.seasonLabel)parts.push('stats: '+R.seasonLabel);
   const edited=stampEdited(scope);
-  return `<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+  return embargoStampHTML()+`<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+}
+function embargoStampHTML(){
+  return embargoOn()?'<div class="pg-embargo">EMBARGOED — INTERNAL PREP ONLY · NOT FOR DISTRIBUTION OR AIR UNTIL THE CLUB ANNOUNCES</div>':'';
 }
 function stampMissing(containerId,scope){
   const root=document.getElementById(containerId);if(!root)return;
@@ -3700,7 +3839,7 @@ function fdPlayerHTML(p,kw,side){
   return `<div class="fd-pl">
     <div class="fd-nm">#${esc(p.num||'')} <b>${esc(last.toUpperCase())}</b> ${esc(first)}${letter} ${statSpan(p,kw)}</div>
     ${pron?`<div class="fd-pron">${esc(pron)}</div>`:''}
-    <div class="fd-note" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}">${esc(p.callNote||'')}</div>
+    <div class="fd-note" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}">${esc(p.callNote||fdNoteSeed(p))}</div>
   </div>`;
 }
 function fdLineupPage(side){
@@ -4154,7 +4293,12 @@ function restoreBackup(){
 function esc(s){return (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
 function setv(id,v){const el=document.getElementById(id);if(el)el.value=v==null?'':v;}
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z]/g,'');}
-function dispName(p){return ((p&&p.name)||'')+(p&&p.capt?' ('+p.capt+')':'');}
+function dispName(p){return ((p&&(p.airName||p.name))||'')+(p&&p.capt?' ('+p.capt+')':'');}
+/* Giovanni "Gio" Procopio → Gio Procopio for anything that goes on air or in print */
+function airNameOf(full){
+  const m=String(full||'').match(/^(\S+)\s+["“']([^"”']+)["”']\s+(.+)$/);
+  return m?m[2]+' '+m[3]:'';
+}
 function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.':'A.M.';const h12=((h+11)%12)+1;return `${h12}:${String(m).padStart(2,'0')} ${ap}`;}
 function openModal(id){if(id==='resetModal')resetRender();document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
@@ -4490,8 +4634,14 @@ function rosterPronPage(red,S){
   const act=DATA.roster.filter(p=>p.active!=='0');
   const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
     ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))} ${statSpan(p,'Huntsville')}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
-  const pron=(S.pronounce||'').split('\n').map(s=>s.trim()).filter(Boolean);
-  const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${pron.length?`<table class="pk-t">${pron.map(l=>{const m=l.split(/\s*[-–—]\s*/);return `<tr><td>${esc(m[0]||l)}</td><td class="r">${esc(m.slice(1).join(' - '))}</td></tr>`;}).join('')}</table>`:'<div style="color:var(--ink-2);font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun).</div>'}</div>`;
+  // per-player pronunciations first (imported or typed), then any extra Settings lines
+  const rows=teamPronList(act);
+  const have=new Set(rows.map(r=>norm(r.name)));
+  (S.pronounce||'').split('\n').map(s=>s.trim()).filter(Boolean).forEach(l=>{
+    const m=l.split(/\s*[-–—]\s*/);const nm=(m[0]||l).trim();
+    if(!have.has(norm(nm)))rows.push({name:nm,say:m.slice(1).join(' - ')});
+  });
+  const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${rows.length?`<table class="pk-t">${rows.map(r=>`<tr><td>${esc(r.name)}</td><td class="r">${esc(r.say)}</td></tr>`).join('')}</table>`:'<div style="color:var(--ink-2);font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun), or import the club bios on the Rosters tab.</div>'}</div>`;
   const H=DATA.hockeyOps||{};
   const staff=HO_ROLES.map(r=>{const e=H[r[0]]||{};return e.name?`<div class="h2h-line"><span>${r[1]}</span><span>${esc(e.name)}</span></div>`:'';}).join('');
   return pgWrap(red,S,'ROSTER',`
@@ -4544,6 +4694,25 @@ function transPage(red,S){
       </div>
     </div>`);
 }
+/* Pack blocks into pages by MEASURING them, not guessing: long written bios and
+   club stat tables vary too much for an estimate to hold. */
+function packMeasured(blocks,limitPx){
+  if(!blocks.length)return [];
+  const host=document.createElement('div');
+  host.className='page';
+  host.style.cssText='position:absolute;left:-10000px;top:0;visibility:hidden;min-height:0;box-shadow:none;';
+  document.body.appendChild(host);
+  const heights=blocks.map(h=>{host.innerHTML=h;return host.offsetHeight;});
+  document.body.removeChild(host);
+  const pages=[];let chunk=[],acc=0;
+  blocks.forEach((h,i)=>{
+    const c=heights[i];
+    if(chunk.length&&acc+c>limitPx){pages.push(chunk);chunk=[];acc=0;}
+    chunk.push(h);acc+=c;
+  });
+  if(chunk.length)pages.push(chunk);
+  return pages;
+}
 function careerPages(red,S){
   const act=DATA.roster.filter(p=>p.active!=='0'&&p.name);
   const blocks=[];
@@ -4565,6 +4734,29 @@ function careerPages(red,S){
         ${po.length?`<tr><td colspan="${isG?9:7}" style="color:var(--ink-2)">Playoffs: ${po.map(r=>esc(r.season)+' '+r.gp+' GP'+(isG?'':' '+r.g+'-'+r.a+'-'+r.pts)).join(' · ')}</td></tr>`:''}</table></div>`);
       return;
     }
+    if(p.bioStats&&((p.bioStats.pro||[]).length||(p.bioStats.college||[]).length)){
+      // club-supplied tables — what we have until the league publishes 2026-27
+      const tbl=(rows,title)=>{
+        if(!rows.length)return '';
+        const g=isG&&rows===p.bioStats.pro;
+        const head=g?'<th class="r">GP</th><th class="r">Record</th><th class="r">GAA</th><th class="r">SV%</th><th class="r">SO</th>'
+          :'<th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th>';
+        const n=v=>v==null?'':v;
+        return `<div style="font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px">${title}</div>
+          <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th>${head}</tr>
+          ${rows.map(r=>`<tr><td>${esc(r.season||'')}</td><td>${esc(r.team||'')}</td><td>${esc(r.league||'')}</td>`
+            +(g?`<td class="r">${n(r.gp)}</td><td class="r">${esc(n(r.record))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(n(r.svPct))}</td><td class="r">${n(r.so)}</td>`
+               :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td>`)
+            +`</tr>${r.note?`<tr><td colspan="${g?8:7}" style="color:var(--ink-2);font-size:7.5px">${esc(r.note)}</td></tr>`:''}`).join('')}</table>`;
+      };
+      blocks.push(`<div class="box"><h3>${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}#${p.num||''} ${esc(dispName(p))} — Career</h3>
+        ${tbl(p.bioStats.pro||[],'Professional')}
+        ${tbl(p.bioStats.college||[],'College')}
+        ${p.junior?`<div style="font-size:7.5px;color:var(--ink-2);margin-top:3px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}
+        ${(p.awards||[]).length?`<div style="font-size:7.5px;margin-top:2px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}
+        <div style="font-size:7px;color:var(--ink-2);margin-top:2px">Club-supplied tables — the league feed has no 2026-27 numbers yet.</div></div>`);
+      return;
+    }
     const e=(typeof epEntryFor==='function'&&EP_STATIC)?epEntryFor(p):null;
     if(!e||!e.careerStats||!e.careerStats.length)return;
     const rows=e.careerStats.slice(-9);
@@ -4575,10 +4767,7 @@ function careerPages(red,S){
       ${isG?'':`<tr><td colspan="3"><b>Career totals</b></td><td class="r"><b>${totals.gp}</b></td><td class="r"><b>${totals.g}</b></td><td class="r"><b>${totals.a}</b></td><td class="r"><b>${totals.p}</b></td></tr>`}</table>
       <div style="font-size:7px;color:var(--ink-2)">Career vs. each SPHL opponent, single-game highs and firsts: N/A — builds from per-game data going forward.</div></div>`);
   });
-  const pages=[];
-  for(let i=0;i<blocks.length;i+=4)
-    pages.push(pgWrap(red,S,'PLAYER CAREER STATS',blocks.slice(i,i+4).join('')));
-  return pages;
+  return packMeasured(blocks,900).map(g=>pgWrap(red,S,'PLAYER CAREER STATS',g.join('')));
 }
 
 /* ============ GAME LOG EDITOR (Schedule tab) ============ */
@@ -4728,10 +4917,11 @@ function renderPacket(){
   /* ---------- assemble the selected sections in order ---------- */
   const sel=new Set(pkSel());
   const allPlayers=DATA.roster.filter(p=>p.active!=='0'&&p.name).sort((a,b)=>(+a.num||999)-(+b.num||999));
-  const meetPages=[];
-  for(let i=0;i<allPlayers.length;i+=6){
-    meetPages.push(meetTeamPage(allPlayers.slice(i,i+6),hsv,R,red,S));
-  }
+  // written bios make the cards vary wildly in height — measure them and pack so
+  // no page spills onto a second sheet
+  const meetCards=allPlayers.map(p=>({p,html:mtpCardHTML(p,hsv,R,red,S)}));
+  const meetPages=packMeasured(meetCards.map(c=>c.html),900)
+    .map(group=>meetTeamPage(group.map(h=>meetCards.find(c=>c.html===h).p),hsv,R,red,S));
   const opsPage=hockeyOpsPage(red,S);
   const recsPage=recordsPage(red,S);
   let sheetPages=[];
@@ -5775,8 +5965,8 @@ function renderStandings(){
 }
 
 
-function meetTeamPage(players,teamStats,R,red,S){
-  const cards=players.map(p=>{
+function mtpCardHTML(p,teamStats,R,red,S){
+  return [p].map(p=>{
     const isG=p.pos==='G';
     let stripe='';
     if(isG){const g=teamStats?teamStats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
@@ -5796,6 +5986,9 @@ function meetTeamPage(players,teamStats,R,red,S){
       </div></div>
     </div>`;
   }).join('');
+}
+function meetTeamPage(players,teamStats,R,red,S){
+  const cards=players.map(p=>mtpCardHTML(p,teamStats,R,red,S)).join('');
   return `<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">MEET THE TEAM</div><div class="pg-num">__PGNO__</div></div>
     ${cards}
