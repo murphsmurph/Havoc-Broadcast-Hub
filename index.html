@@ -57,6 +57,11 @@
   .app-header .spacer{flex:1;}
   .header-status{font-size:12px;color:#b9b9c0;}
   .tabs{display:flex;gap:2px;background:var(--havoc-charcoal);padding:0 14px;position:sticky;top:60px;z-index:49;flex-wrap:wrap;}
+  @media(max-width:900px){
+    .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{flex:0 0 auto;white-space:nowrap;}
+  }
   .tab{background:transparent;border:none;color:#cfcfd6;padding:11px 14px;font-size:12.5px;font-weight:600;letter-spacing:.3px;border-bottom:3px solid transparent;text-transform:uppercase;}
   .tab:hover{color:#fff;} .tab.active{color:#fff;border-bottom-color:var(--havoc-red);}
   .subnav{display:flex;gap:6px;align-items:center;margin:0 0 14px;flex-wrap:wrap;}
@@ -203,6 +208,11 @@
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
   .cupline{font-size:13px;}
+  .save-flash{opacity:0;transition:opacity .35s ease;pointer-events:none;}
+  .save-flash.on{opacity:1;}
+  .tab-temp{font-size:9px;font-weight:900;background:var(--havoc-red);color:#fff;border-radius:8px;padding:1px 5px;margin-left:5px;vertical-align:middle;text-transform:uppercase;}
+  .stnd tr.zeroed td{color:#9a9ea6;}
+  .empty-cell{text-align:center;color:var(--havoc-grey);font-size:11px;padding:8px 6px;font-style:normal;}
   /* live-data freshness badges */
   .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:#e8f3ec;color:#2f6b45;vertical-align:middle;}
   .upd.none{background:#eceef2;color:#6b7078;}
@@ -636,7 +646,7 @@
   <div class="mark" id="appMark">H</div>
   <div><h1>Havoc Game Notes Hub</h1><div class="sub">Huntsville Havoc · SPHL 2025-26</div></div>
   <div class="spacer"></div>
-  <div class="header-status" id="saveStatus">All changes saved locally</div>
+  <div class="header-status save-flash" id="saveStatus" title="Everything is stored in this browser — back it up from Settings"></div>
 </div>
 <div class="tabs" id="tabs">
   <button class="tab active" data-tab="game">This Game</button>
@@ -646,7 +656,7 @@
   <button class="tab" data-tab="print">Print Center</button>
   <button class="tab" data-tab="postgame">Post-Game</button>
   <button class="tab" data-tab="calllog">Call Log</button>
-  <button class="tab" data-tab="opening" id="tab_opening">Opening Weekend</button>
+  <button class="tab" data-tab="opening" id="tab_opening" title="Temporary — archive it after Oct 17">Opening Weekend <span class="tab-temp">temp</span></button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 <div class="wrap">
@@ -1166,6 +1176,7 @@
     <div class="card">
       <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:#888;font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
       <p class="desc"><b>Fri, Oct 16, 2026 &middot; 7:15 PM ET (6:15 PM CT) &middot; Florence Center, Florence, SC</b> &mdash; and game two <b>Sat, Oct 17 &middot; 7:15 PM ET (6:15 PM CT)</b>. Zero head-to-head history and zero PD in-season data exist, so this workspace builds a special <b>first-meeting packet</b>: franchise file, how the IceCats were built, connections, and a franchise-firsts watch instead of the usual series history. When the weekend is over, <b>Archive</b> saves everything as the permanent record and retires this tab.</p>
+      <div class="note" style="margin-bottom:10px"><b>Temporary tab.</b> It exists for the first-ever Havoc&ndash;Pee Dee meeting on Oct 16-17, 2026. Archive it after the Saturday game and it leaves the nav for good &mdash; the firsts record and everything you write here stays saved.</div>
       <div class="btn-row">
         <button class="btn" onclick="owBuild()">Build first-meeting packet</button>
         <button class="btn dark" onclick="owPrint()">Print / Save PDF</button>
@@ -1699,7 +1710,14 @@ function save(){
     },4000);
   }catch(e){}
 }
-function flashSaved(){const el=document.getElementById('saveStatus');el.textContent="✓ Saved "+new Date().toLocaleTimeString();setTimeout(()=>el.textContent="All changes saved locally",2500);}
+let SAVE_FADE=null;
+function flashSaved(){
+  const el=document.getElementById('saveStatus');if(!el)return;
+  el.textContent='✓ Saved '+new Date().toLocaleTimeString();
+  el.classList.add('on');
+  clearTimeout(SAVE_FADE);
+  SAVE_FADE=setTimeout(()=>el.classList.remove('on'),2600);
+}
 function uid(){return 'p'+Math.random().toString(36).slice(2,9);}
 
 /* ===== 2026-27 HAVOC OPENING ROSTER — the team's signed-players sheet =====
@@ -1879,7 +1897,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(!(e.metaKey||e.ctrlKey)||e.altKey||e.shiftKey)return;
   const n=parseInt(e.key,10);if(!(n>=1&&n<=9))return;
-  const tabs=[...document.querySelectorAll('#tabs .tab')];
+  const tabs=[...document.querySelectorAll('#tabs .tab')].filter(t=>t.style.display!=='none');
   if(tabs[n-1]){e.preventDefault();showTab(tabs[n-1].dataset.tab);}
 });
 /* Raw Cmd+P (macOS print dialog / Save as PDF) — mark the visible view so the
@@ -2595,7 +2613,7 @@ function renderNotes(){
   DATA.notes={h1:val('n_h1'),b1:val('n_b1'),h2:val('n_h2'),b2:val('n_b2'),h3:val('n_h3'),b3:val('n_b3')};save();
   const S=DATA.settings,G=DATA.game,R=DATA.report,red=S.red||'#C8102E';
   const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
-  let standRows = R.standings.length ? R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">Import the SPHL report</td></tr>';
+  let standRows = R.standings.length ? R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join('') : emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
   const hsv=findTeamStats('Huntsville');
   const leadersHtml=leadersBlock(hsv);
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
@@ -2661,7 +2679,7 @@ function renderNotes(){
   document.getElementById('notesDoc').innerHTML=doc;
 }
 function leadersBlock(team){
-  if(!team)return '<div style="color:#999;font-size:10px">Import the SPHL report to populate leaders.</div>';
+  if(!team)return '<div class="empty-cell" style="font-size:10px">No 2026-27 stats published yet — leaders fill in after the first games. Run a Game Day Refresh on Live Data.</div>';
   const top=(key)=>[...team.players].sort((a,b)=>b[key]-a[key]).slice(0,5);
   const col=(title,arr,key)=>`<div class="lead-col"><h4>${title}</h4>`+arr.map(p=>`<div class="lr"><span class="nm">${esc(p.name)}</span><span class="vl">${p[key]}</span></div>`).join('')+`</div>`;
   return `<div class="leaders-grid">${col('Goals',top('g'),'g')}${col('Assists',top('a'),'a')}${col('Points',top('pts'),'pts')}${col('Plus/Minus',top('pm'),'pm')}</div>`;
@@ -2808,7 +2826,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     <div class="lcx-title">${esc(title)} ${rec?'('+esc(rec)+')':''}</div>
   </div>`;
 
-  if(!active.length)return header+'<div class="empty">No active players. Add roster + import report.</div>';
+  if(!active.length)return header+'<div class="empty">No active players on this roster — apply the 2026-27 signed sheet on the Rosters tab, or add players by hand.</div>';
   // each section grows in proportion to its row count so cards fill the page to the bottom
   const grid=(arr)=>`<div class="lcx-grid" style="flex:${Math.max(1,Math.ceil(arr.length/3))}">${arr.map(card).join('')}</div>`;
   return `${header}
@@ -2978,7 +2996,7 @@ function owBuild(){
   const groups={};org.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
   const builtBody=org.length
     ?Object.keys(groups).map(g=>`<div class="box"><h3>${esc(g)} (${groups[g].length})</h3><table class="pk-t">${groups[g].map(r=>`<tr><td>${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)} ${r.p.pos?'('+esc(r.p.pos)+')':''}</td><td class="r">${esc(r.origin||'—')}</td></tr>`).join('')}</table></div>`).join('')
-    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Pull the Pee Dee roster on Live Data — every player&rsquo;s previous stop then lists here from EP career data (an expansion team&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
+    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Not published yet — the SPHL feed has no Pee Dee roster for 2026-27. Run a Game Day Refresh; every player&rsquo;s previous stop then lists here from EP career data (an expansion club&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
   pages.push(pgWrap(red,S,'HOW THE ICECATS WERE BUILT',builtBody));
   // ---- connections ----
   const connBody=(o.connections.length
@@ -3525,6 +3543,20 @@ function renderFeedAges(){
   const el=document.getElementById('htFeedAges');if(!el)return;
   const feeds=[['standings','Standings'],['players','Player stats'],['schedule','Schedule'],['rosters','Rosters'],['careers','Career stats'],['scorebar','Scorebar'],['daily','Daily report']];
   el.innerHTML=feeds.map(([k,label])=>{const t=syncAt(k);return `<span>${label}: <b>${t?syncTimeStr(t):'never'}</b></span>`;}).join('');
+}
+/* one honest empty state everywhere: what is missing, why, and what shows instead */
+function emptyState(what,how){
+  const lbl=(DATA.report&&DATA.report.seasonLabel)||'';
+  const fallback=lbl?' Showing <b>'+esc(lbl)+'</b> until then.':'';
+  return '<div class="empty"><div class="big">'+esc(what)+'</div>'+(how||'')+fallback+'</div>';
+}
+function emptyRow(cols,what,how){
+  return '<tr><td colspan="'+cols+'" class="empty-cell"><b>'+esc(what)+'</b>'+(how?' — '+how:'')+'</td></tr>';
+}
+function preseasonNote(){
+  const lbl=(DATA.report&&DATA.report.seasonLabel)||'';
+  return lbl?'2026-27 hasn&rsquo;t started — these are <b>'+esc(lbl)+'</b> numbers.'
+    :'No 2026-27 games played yet.';
 }
 function renderSyncBadges(){
   renderFeedAges();
@@ -4540,7 +4572,7 @@ function careerPages(red,S){
 function renderGameLog(){
   const wrap=document.getElementById('glTableWrap');if(!wrap)return;
   const gs=glGames();
-  if(!gs.length){wrap.innerHTML='<div class="empty">No completed games yet — results flow in from the schedule automatically.</div>';return;}
+  if(!gs.length){wrap.innerHTML=emptyState('No completed games yet','Final scores fill in from the schedule feed as they are played; shots, power plays and fights are yours to add.');return;}
   wrap.innerHTML=`<table class="gl-edit"><tr><th>Date</th><th>Opp</th><th>Result</th><th>SF</th><th>SA</th><th>PPG</th><th>PP adv</th><th>Att.</th><th>Fights</th></tr>
     ${gs.map(g=>`<tr><td>${fmtDateShort(g.d)}</td><td>${g.ha==='@'?'@ ':''}${esc(g.opp)}</td><td>${g.wl} ${g.us}-${g.them}${g.otso?' ('+g.otso+')':''}</td>
       ${['sf','sa','ppg','ppa','att','fights'].map(f=>`<td><input type="number" value="${g[f]!=null?g[f]:''}" onchange="glSet('${g.d}','${f}',this.value)"></td>`).join('')}</tr>`).join('')}
@@ -4593,7 +4625,7 @@ function renderPacket(){
   const pages=[];
 
   /* ---------- PAGE 1: COVER ---------- */
-  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):'<tr><td colspan="5" style="text-align:center;color:#999">Import report</td></tr>';
+  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
   const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add news on the Game Notes tab.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
@@ -5723,9 +5755,10 @@ function renderStandings(){
   }else{
     rows=TEAMS.map(full=>{const city=cityOf(full);return {abbr:TEAM_ABBR[city]||'',full,gp:0,w:0,l:0,otl:0,sol:0,pts:0};});
   }
-  el.innerHTML=`<table class="stnd"><tr><th></th><th class="tm">SPHL</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SOL</th><th class="pts">PTS</th></tr>`+
+  const note=S.length?'':`<div class="empty-cell" style="text-align:left;font-size:12px">${preseasonNote()} These are placeholder zeros for all 12 clubs — nothing has been published for 2026-27 yet.</div>`;
+  el.innerHTML=note+`<table class="stnd"><tr><th></th><th class="tm">SPHL</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SOL</th><th class="pts">PTS</th></tr>`+
     rows.map(r=>{const lg=teamLogoSrc(r.full);const me=/Huntsville/.test(r.full);
-      return `<tr class="${me?'me':''}"><td class="lg">${lg?`<img src="${lg}">`:''}</td><td class="tm">${r.abbr}</td><td>${r.gp}</td><td>${r.w}</td><td>${r.l}</td><td>${r.otl}</td><td>${r.sol}</td><td class="pts">${r.pts}</td></tr>`;}).join('')+`</table>`;
+      return `<tr class="${me?'me':''}${S.length?'':' zeroed'}"><td class="lg">${lg?`<img src="${lg}">`:''}</td><td class="tm">${r.abbr}</td><td>${r.gp}</td><td>${r.w}</td><td>${r.l}</td><td>${r.otl}</td><td>${r.sol}</td><td class="pts">${r.pts}</td></tr>`;}).join('')+`</table>`;
 }
 
 
