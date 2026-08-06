@@ -206,6 +206,14 @@
   .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
   .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
   .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
+  .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:#fffafb;}
+  .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin-bottom:4px;letter-spacing:.04em;}
+  .danger-zone p{font-size:12.5px;color:#6b7078;margin-bottom:10px;}
+  .btn.danger{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);font-weight:800;}
+  .bk-inline{font-size:12.5px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:7px;padding:8px 11px;margin-bottom:14px;}
+  .bk-inline .bk-warn{color:var(--havoc-red);}
+  .reset-summary{font-size:12.5px;background:#f4f5f7;border-radius:7px;padding:9px 11px;margin-bottom:12px;line-height:1.8;}
+  .bk-inline a{color:var(--havoc-red);cursor:pointer;text-decoration:underline;}
   .gm-scores{padding-top:12px;}
   .gm-sb-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:8px;}
   .gm-sb-head .spacer{flex:1;}
@@ -1197,20 +1205,26 @@
     <div class="card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
       <p class="desc">Everything is stored in this browser only and saved locally after every change and every live-data sync. A rolling auto-backup (everything except logos) is also kept in this browser — use Restore if something gets clobbered. Export a file backup regularly too.</p>
+      <div id="bkInline" class="bk-inline"></div>
+      <div class="section-label">Backup &amp; restore</div>
       <div class="btn-row">
         <button class="btn secondary" onclick="exportData()">Export backup (.json)</button>
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
         <input type="file" id="importFile2" accept="application/json" style="display:none" onchange="importData(event)">
         <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
-        <button class="btn secondary" onclick="revertAllOverrides()">Revert all stat overrides</button>
-        <button class="btn secondary" style="color:var(--havoc-red)" onclick="wipeAll()">Reset everything</button>
-      </div>
-      <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
-      <div class="btn-row" style="margin-top:8px">
         <button class="btn secondary" onclick="bkChooseFolder()">Choose auto-backup folder…</button>
         <button class="btn secondary" onclick="bkListBackups()">Show folder backups</button>
       </div>
       <div id="bkList" style="margin-top:6px"></div>
+      <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
+      <div class="danger-zone">
+        <h4>Danger zone</h4>
+        <p>Both of these throw work away. A backup file downloads automatically before either runs.</p>
+        <div class="btn-row">
+          <button class="btn secondary" onclick="revertAllOverridesSafe()">Revert all stat overrides</button>
+          <button class="btn danger" onclick="openModal('resetModal')">Reset everything…</button>
+        </div>
+      </div>
       <p class="desc" style="margin-top:12px">Install as an app: in <b>Chrome</b> use the install icon in the address bar; in <b>Safari on a Mac</b> use File → Add to Dock. The installed app opens like a native Mac app, works offline in the booth, and its storage is treated as more durable.</p>
     </div>
   </section>
@@ -1260,6 +1274,19 @@
   <div class="field"><label>EP text</label><textarea id="ep_text" rows="9"></textarea></div>
   <div class="btn-row"><button class="btn" onclick="parseEP()">Parse &amp; create player</button>
   <button class="btn secondary" onclick="closeModal('epModal')">Cancel</button></div>
+</div></div>
+
+<!-- RESET confirmation -->
+<div class="modal-bg" id="resetModal"><div class="modal">
+  <button class="close" onclick="closeModal('resetModal')">&times;</button>
+  <h3 style="color:var(--havoc-red)">Reset everything</h3>
+  <p class="desc">This erases the roster, bios, game log, call log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
+  <div id="resetSummary" class="reset-summary"></div>
+  <div class="field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
+  <div class="btn-row">
+    <button class="btn danger" id="resetGo" disabled onclick="wipeAll()">Download a backup and reset</button>
+    <button class="btn secondary" onclick="closeModal('resetModal')">Cancel</button>
+  </div>
 </div></div>
 
 <!-- BULK import modal -->
@@ -3636,7 +3663,7 @@ function applyImported(parsed){
   DATA=Object.assign(structuredClone(DEFAULT_DATA),d);
   save();initForms();renderRoster();updateAppMark();
 }
-function exportData(){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast("Backup downloaded");}
+function exportData(tag){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+(tag?'-'+tag:'')+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast(tag?"Safety backup downloaded":"Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{applyImported(JSON.parse(rd.result));toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
 
 /* ============ macOS DATA SAFETY (Part B) ============ */
@@ -3732,7 +3759,18 @@ function bkReminder(){
     document.body.prepend(d);
   }catch(e){}
 }
+async function bkInlineRender(){
+  const el=document.getElementById('bkInline');if(!el)return;
+  const last=+(localStorage.getItem(KEY+'_lastbk')||0);
+  const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
+  const when=last?syncTimeStr(last):null;
+  if(dir&&!BK_NEEDS_PERM)el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · folder connected ✓ (“'+esc(dir.name||'backups')+'”)';
+  else if(dir)el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · <span class="bk-warn">folder access needs a click</span> — <a onclick="bkEnable()">re-enable</a>';
+  else if(bkFSASupported())el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · <span class="bk-warn">No backup folder chosen</span> — <a onclick="bkChooseFolder()">set one up</a>';
+  else el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · folder backups aren\u2019t supported in this browser — export by hand.';
+}
 async function bkStatusRender(){
+  bkInlineRender();
   const el=document.getElementById('bkStatus');if(!el)return;
   const bi=browserInfo();
   const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
@@ -3773,7 +3811,45 @@ async function bkStatusRender(){
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
-function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
+/* what a reset would actually cost, counted from the live store */
+function resetSummary(){
+  const g=Object.keys(DATA.gamelog||{}).length;
+  const bios=DATA.roster.filter(p=>(p.notes&&p.notes.trim())||(p.bbio&&p.bbio.trim())).length;
+  const iv=Object.keys(DATA.interviews||{}).length;
+  const ov=Object.keys(DATA.statOv||{}).length+Object.keys(DATA.pkEdits||{}).length
+    +Object.keys(DATA.chartEdits||{}).length+Object.keys(DATA.folderOv||{}).length
+    +Object.keys(DATA.refEdits||{}).length+Object.keys(DATA.franchiseEdits||{}).length;
+  const cl=((DATA.calllog&&DATA.calllog.games)||[]).length;
+  return [[DATA.roster.length,'roster players'],[bios,'written bios'],[g,'logged games'],
+    [cl,'call-log games'],[iv,'interview sets'],[ov,'manual edits & overrides']];
+}
+function resetRender(){
+  const el=document.getElementById('resetSummary');if(!el)return;
+  el.innerHTML='<b>What you would lose:</b><br>'+resetSummary().map(r=>'&bull; '+r[0]+' '+r[1]).join('<br>');
+  const inp=document.getElementById('resetConfirm');if(inp)inp.value='';
+  resetCheck();
+}
+function resetCheck(){
+  const btn=document.getElementById('resetGo');if(!btn)return;
+  btn.disabled=(val('resetConfirm')||'').trim().toUpperCase()!=='RESET';
+}
+function safetyBackup(tag){
+  try{exportData(tag);return true;}catch(e){return false;}
+}
+function revertAllOverridesSafe(){
+  if(!confirm('Revert every manual override and hand edit back to the synced values?\n\nA backup file downloads first.'))return;
+  safetyBackup('before-revert');
+  revertAllOverrides();
+}
+function wipeAll(){
+  if((val('resetConfirm')||'').trim().toUpperCase()!=='RESET'){toast('Type RESET to confirm');return;}
+  safetyBackup('before-reset');
+  localStorage.removeItem(KEY);
+  DATA=structuredClone(DEFAULT_DATA);
+  initForms();seedRosterIfEmpty();havocSheetOnce();renderRoster();updateAppMark();
+  closeModal('resetModal');
+  toast('Everything reset — the backup file just downloaded is the way back');
+}
 /* ============ HOCKEY OPERATIONS TEAM ============ */
 const HO_ROLES=[['hc','HEAD COACH'],['ac','ASSISTANT COACH'],['gm','GENERAL MANAGER'],['eq','EQUIPMENT MANAGER']];
 function loadHockeyOps(){
@@ -3815,7 +3891,7 @@ function setv(id,v){const el=document.getElementById(id);if(el)el.value=v==null?
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z]/g,'');}
 function dispName(p){return ((p&&p.name)||'')+(p&&p.capt?' ('+p.capt+')':'');}
 function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.':'A.M.';const h12=((h+11)%12)+1;return `${h12}:${String(m).padStart(2,'0')} ${ap}`;}
-function openModal(id){document.getElementById(id).classList.add('show');}
+function openModal(id){if(id==='resetModal')resetRender();document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
 let toastTimer;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
 function initForms(){fillOpponents();loadGameForm();loadNotesForm();loadSettings();}
