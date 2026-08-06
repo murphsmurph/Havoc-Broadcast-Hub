@@ -153,3 +153,24 @@ for(const season of ['46','44']){
     }
   }
 }
+
+// ---- vitals authority: which fields does the roster feed actually populate? ----
+{
+  const VITAL=['homeplace','hometown','birthplace','birthtown','birthprov','birthcntry',
+    'height','height_hyphenated','weight','birthdate','position','position_id',
+    'shoots','catches','tp_jersey_number','rookie','isRookie','veteran_status',
+    'draft_status','draftinfo','player_image','phonetic_name'];
+  const rr=await jget('feed=modulekit&view=roster&season_id=44&team_id=3&fmt=json&lang=en');
+  const rows=(rr&&rr.SiteKit&&rr.SiteKit.Roster)||[];
+  const players=rows.filter(r=>/^(F|C|LW|RW|W|D|G)$/i.test(String(r.position||'')));
+  console.log('\n--- vitals field coverage, season 44 Huntsville ('+players.length+' players) ---');
+  VITAL.forEach(f=>{
+    const have=players.filter(r=>String(r[f]==null?'':r[f]).trim()!=='');
+    const sample=have.length?String(have[0][f]).slice(0,40):'';
+    console.log('   '+f.padEnd(20)+String(have.length).padStart(3)+'/'+players.length+(sample?'   e.g. '+JSON.stringify(sample):''));
+  });
+  const unknown=Object.keys(players[0]||{}).filter(k=>VITAL.indexOf(k)<0);
+  console.log('   other fields present: '+unknown.join(', '));
+  console.log('\n--- phonetic_name, every player ---');
+  players.forEach(r=>console.log('   '+((r.first_name||'')+' '+(r.last_name||'')).trim().padEnd(24)+JSON.stringify(String(r.phonetic_name||''))));
+}
