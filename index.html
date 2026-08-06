@@ -227,6 +227,26 @@
   .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
   .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
   .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
+  .pr-bar{position:sticky;top:104px;z-index:40;background:var(--bg);align-items:center;gap:6px;}
+  html[data-theme="dark"] .pr-bar{background:var(--bg);}
+  .pg-badge{font-size:11.5px;font-weight:800;background:var(--havoc-silver);border-radius:9px;padding:3px 10px;color:var(--havoc-grey);}
+  .sec-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow);}
+  html[data-theme="dark"] .sec-bar{background:#191a20;}
+  .sec-bar h4{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--havoc-grey);width:100%;margin:0;letter-spacing:.04em;}
+  .sec-item{display:flex;align-items:center;gap:3px;border:1px solid var(--havoc-line);border-radius:7px;padding:3px 6px;font-size:12px;}
+  .sec-item .sec-nm{font-weight:800;margin-right:4px;}
+  .sec-item button{min-height:24px;padding:1px 7px;font-size:12px;font-weight:800;border:1px solid var(--havoc-line);border-radius:5px;background:transparent;color:inherit;cursor:pointer;}
+  .sec-item button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-item .sec-pt{min-width:40px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
+  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--havoc-red);}
+  .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
+  .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
+  .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
+  .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-tools .sec-pt{font-size:11.5px;font-weight:800;color:#1a1a1a;padding:0 3px;}
+  .page.sec-bold{font-weight:700;}
+  .lc-page > .sec-zoom,.vb-page > .sec-zoom{display:flex;flex-direction:column;height:100%;}
+  .page > .sec-zoom{display:block;}
   .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:#fffafb;}
   .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin-bottom:4px;letter-spacing:.04em;}
   .danger-zone p{font-size:12.5px;color:#6b7078;margin-bottom:10px;}
@@ -961,16 +981,20 @@
 
   <!-- PRINT CENTER: Game Packet + Lineup Chart + Lines -->
   <section class="panel" id="panel-print">
-    <div class="subnav no-print">
+    <div class="subnav no-print pr-bar">
       <button class="subtab active" data-sub="packet">Game Packet</button>
       <button class="subtab" data-sub="chart">Lineup Chart</button>
       <button class="subtab" data-sub="lines">Lines</button>
       <button class="subtab" data-sub="folders">Broadcast Folders</button>
       <button class="subtab" data-sub="verbiage">Verbiage &amp; Ice Map</button>
       <span class="subspacer"></span>
-      <button class="btn" onclick="prRefresh()">Refresh</button>
+      <span class="pg-badge" id="prPages">—</span>
+      <button class="btn small secondary" onclick="prRefresh()">Refresh</button>
+      <button class="btn small secondary" onclick="prClearEdits()">Clear text edits</button>
       <button class="btn dark" onclick="prPrint()">Print / Save PDF</button>
+      <button class="btn" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
     </div>
+    <div class="no-print" id="prSecBar"></div>
     <div class="subview active" id="panel-packet">
 <div class="card no-print">
       <h2>Game <span class="accent">Packet</span></h2>
@@ -993,7 +1017,6 @@
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
         <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
         <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
-        <button class="btn secondary" onclick="pkClearEdits()">Clear text edits</button>
       </div>
       <p class="desc" style="margin-top:6px">Click into any packet page in the preview to edit its text directly &mdash; edits save and survive refreshes (an edited page keeps your wording until you Clear text edits). On Meet the Team pages, editing a player&rsquo;s notes writes straight back to their <b>media bio</b> on the roster.</p>
     </div>
@@ -1015,7 +1038,6 @@
         <button class="btn small secondary" title="Smaller text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','1')">A−</button>
         <button class="btn small secondary" title="Normal text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','3')">A</button>
         <button class="btn small secondary" title="Larger text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','5')">A+</button>
-        <button class="btn small secondary" onclick="chartClearEdits()">Clear text edits</button>
       </div>
     </div>
     <div class="doc-frame">
@@ -1049,11 +1071,11 @@
       <h2>Broadcast <span class="accent">Folders</span></h2>
       <p class="desc">Four letter-portrait booth pages &mdash; a <b>lineup side</b> (lines with stat lines, pronunciations and your per-player call notes) and a <b>data side</b> (standings with the playoff line, team numbers, per-period, recent &amp; upcoming, transactions) for each team. Click any value or call note in the preview to hand-edit it &mdash; edits save and survive refreshes. Large type, one page each, single-sided.</p>
       <div class="btn-row">
-        <button class="btn dark" onclick="fdPrint('all')">Print Broadcast Folders (4 pages)</button>
-        <button class="btn secondary" onclick="fdPrint('hl')">Havoc lineup</button>
-        <button class="btn secondary" onclick="fdPrint('hd')">Havoc data</button>
-        <button class="btn secondary" onclick="fdPrint('ol')">Opponent lineup</button>
-        <button class="btn secondary" onclick="fdPrint('od')">Opponent data</button>
+        <span style="font-size:12px;font-weight:800;color:var(--havoc-grey);text-transform:uppercase">Print one page:</span>
+        <button class="btn small secondary" onclick="fdPrint('hl')">Havoc lineup</button>
+        <button class="btn small secondary" onclick="fdPrint('hd')">Havoc data</button>
+        <button class="btn small secondary" onclick="fdPrint('ol')">Opponent lineup</button>
+        <button class="btn small secondary" onclick="fdPrint('od')">Opponent data</button>
       </div>
     </div>
     <div class="doc-frame">
@@ -1633,6 +1655,8 @@ const DEFAULT_DATA={
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
   sbCache:null,          // last scorebar payload, so a feed outage still shows something
+  secPt:{},              // {sectionKey:pt} — per-section printed body size
+  secBold:{},            // {sectionKey:1} — per-section bold body text
   sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
@@ -1878,6 +1902,142 @@ window.addEventListener('afterprint',()=>{
   const st=document.getElementById('rawPrintLand');if(st)st.remove();
 });
 /* Print Center shared toolbar — acts on the active sub-view */
+/* ============ PRINTED SECTION STYLING (size + bold, per section) ============
+   Each printable page carries data-sec. A section's size is stored in whole
+   points and applied as a proportional zoom, so headers, rows, padding and
+   callout lines all scale together and the PDF matches the preview exactly. */
+const SEC_BASE={packet:8,folders:10,chart:8,lines:8,verbs:8};   // default body size, in pt, per output
+const SEC_LABEL_EXTRA={
+  'fd:hl':'Havoc lineup','fd:hd':'Havoc data','fd:ol':'Opponent lineup','fd:od':'Opponent data',
+  'chart:hsv':'Havoc chart','chart:opp':'Opponent chart',lines:'Line card',
+  'vb:verbs':'Verb list','vb:map':'Ice map'
+};
+function secLabel(key){
+  if(SEC_LABEL_EXTRA[key])return SEC_LABEL_EXTRA[key];
+  const hit=(typeof PACKET_SECTIONS!=='undefined')&&PACKET_SECTIONS.find(s=>s[0]===key);
+  return hit?hit[1]:key;
+}
+function secFamily(key){
+  if(key.indexOf('fd:')===0)return 'folders';
+  if(key.indexOf('chart:')===0)return 'chart';
+  if(key.indexOf('vb:')===0)return 'verbs';
+  if(key==='lines')return 'lines';
+  return 'packet';
+}
+function secBase(key){return SEC_BASE[secFamily(key)]||8;}
+function secPt(key){
+  DATA.secPt=DATA.secPt||{};
+  const v=+DATA.secPt[key];
+  return (v>=6&&v<=16)?v:secBase(key);
+}
+function secBold(key){return !!((DATA.secBold||{})[key]);}
+function secSetPt(key,pt){
+  pt=Math.max(6,Math.min(16,Math.round(pt)));
+  DATA.secPt=DATA.secPt||{};
+  if(pt===secBase(key))delete DATA.secPt[key];else DATA.secPt[key]=pt;
+  save();secApplyAll();
+}
+function secStep(key,d){secSetPt(key,secPt(key)+d);}
+function secToggleBold(key){
+  DATA.secBold=DATA.secBold||{};
+  if(secBold(key))delete DATA.secBold[key];else DATA.secBold[key]=1;
+  save();secApplyAll();
+}
+function secReset(key){
+  if(DATA.secPt)delete DATA.secPt[key];
+  if(DATA.secBold)delete DATA.secBold[key];
+  save();secApplyAll();
+}
+function secToolsHTML(key){
+  const pt=secPt(key);
+  return `<div class="sec-tools no-print">
+    <button title="1 pt smaller" onclick="event.stopPropagation();secStep('${key}',-1)">A&minus;</button>
+    <span class="sec-pt">${pt} pt</span>
+    <button title="1 pt larger" onclick="event.stopPropagation();secStep('${key}',1)">A+</button>
+    <button class="${secBold(key)?'on':''}" title="Bold this section's body text" onclick="event.stopPropagation();secToggleBold('${key}')"><b>B</b></button>
+    <button title="Back to the default" onclick="event.stopPropagation();secReset('${key}')">&#8635;</button>
+  </div>`;
+}
+/* apply stored size/bold to every built page, and warn about anything that overflows */
+function secApplyAll(){
+  const sv=SUBTABS.print;
+  const host=document.querySelector('#panel-'+(sv==='verbiage'?'verbiage':sv)+' .doc-scroll');
+  const pages=[...document.querySelectorAll('#panel-print .subview.active .page')];
+  const over=[];
+  pages.forEach((p,i)=>{
+    const key=p.dataset.sec;if(!key)return;
+    const pt=secPt(key);
+    // scale the CONTENT, never the page box — the sheet stays one letter page,
+    // so a size change can make content stop fitting but can never spill onto
+    // extra printed pages
+    let z=p.querySelector(':scope > .sec-zoom');
+    if(!z){
+      z=document.createElement('div');z.className='sec-zoom';
+      const keep=[...p.childNodes].filter(n=>!(n.nodeType===1&&n.classList.contains('sec-tools')));
+      keep.forEach(n=>z.appendChild(n));
+      p.appendChild(z);
+    }
+    z.style.zoom=(pt/secBase(key)).toFixed(4);
+    p.style.zoom='';
+    p.classList.toggle('sec-bold',secBold(key));
+    if(!p.querySelector(':scope > .sec-tools'))p.insertAdjacentHTML('afterbegin',secToolsHTML(key));
+    else p.querySelector(':scope > .sec-tools').outerHTML=secToolsHTML(key);
+  });
+  secRenderBar(null); // controls appear immediately; the overflow check follows a frame later
+  // measure after the zoom lands
+  requestAnimationFrame(()=>{
+    pages.forEach((p,i)=>{
+      const key=p.dataset.sec;if(!key)return;
+      // a page that grows past one letter sheet, or any block inside it that has
+      // started clipping its own content — both read as "this no longer fits"
+      const z=p.querySelector(':scope > .sec-zoom');
+      const scale=z?(+z.style.zoom||1):1;
+      const grew=p.offsetHeight-1056>2;                              // auto-height page past a sheet
+      const spills=z?(z.scrollHeight*scale)-p.clientHeight>2:false;  // scaled content past the fixed sheet
+      if(grew||spills)over.push({i:i+1,key});
+    });
+    secRenderBar(over);
+  });
+  const badge=document.getElementById('prPages');
+  if(badge)badge.textContent=pages.length+(pages.length===1?' page':' pages');
+}
+function secRenderBar(over){
+  const bar=document.getElementById('prSecBar');if(!bar)return;
+  const keys=[];
+  document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
+    if(p.dataset.sec&&keys.indexOf(p.dataset.sec)<0)keys.push(p.dataset.sec);
+  });
+  if(!keys.length){bar.innerHTML='';return;}
+  bar.innerHTML=`<div class="sec-bar"><h4>Section size &amp; weight — 1 pt per click, saved with your layout</h4>`
+   +keys.map(k=>`<span class="sec-item"><span class="sec-nm">${esc(secLabel(k))}</span>
+      <button title="1 pt smaller" onclick="secStep('${k}',-1)">A&minus;</button>
+      <span class="sec-pt">${secPt(k)} pt</span>
+      <button title="1 pt larger" onclick="secStep('${k}',1)">A+</button>
+      <button class="${secBold(k)?'on':''}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
+      <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button></span>`).join('')
+   +((over||[]).length?`<div class="sec-warn">${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') overflows — reduce by 1 pt').join('<br>')}</div>`:'')
+   +`</div>`;
+}
+/* toolbar actions that used to be duplicated per section */
+function prClearEdits(){
+  const s=SUBTABS.print;
+  if(s==='packet')pkClearEdits();
+  else if(s==='chart')chartClearEdits();
+  else if(s==='folders'){if(confirm('Clear every hand-edited value on the broadcast folders?')){DATA.folderOv={};save();renderFolders();}}
+  else if(s==='verbiage')vbReset();
+  else toast('Nothing to clear on this view');
+}
+/* packet then folders, in one job — the order the booth folder gets assembled */
+function printTonight(){
+  renderPacket();renderFolders();
+  const panel=document.getElementById('panel-print');
+  const pk=document.getElementById('panel-packet'),fd=document.getElementById('panel-folders');
+  [panel,pk,fd].forEach(el=>el&&el.classList.add('printing'));
+  imagesReady(pk,3500).then(()=>{
+    mtpDetectDefaults(pk);
+    setTimeout(()=>{window.print();[panel,pk,fd].forEach(el=>el&&el.classList.remove('printing'));},120);
+  });
+}
 function prRefresh(){
   const s=SUBTABS.print;
   if(s==='packet'){saveNotesExtra();renderPacket();}
@@ -1887,6 +2047,7 @@ function prRefresh(){
   else renderLinesDoc();
 }
 function prPrint(){printDoc(SUBTABS.print);}
+function prSyncBar(){secApplyAll();}
 
 /* ============ GAME TAB ============ */
 function fillOpponents(){
@@ -2563,14 +2724,14 @@ function renderChart(){
   const hsvTheme=teamTheme("Huntsville Havoc");
   const red=S.red||hsvTheme.primary;
   // one letter-landscape page per team
-  const pages=[`<div class="page lc-page">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
+  const pages=[`<div class="page lc-page" data-sec="chart:hsv">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
   if(both&&G.opp){
     const list=DATA.oppRosters[G.opp]||[];
-    pages.push(`<div class="page lc-page">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
+    pages.push(`<div class="page lc-page" data-sec="chart:opp">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
   const cstamp=dataStampHTML('chart');
   document.getElementById('chartDoc').innerHTML=pages.map(p=>p.replace(/<\/div>$/,cstamp+'</div>')).join('');
-  chartWireEdits();
+  chartWireEdits();secApplyAll();
 }
 /* In-place card editing: click into any card, type freely, Cmd/Ctrl+B for bold,
    A−/A/A+ buttons for text size. Edits save per player and survive refreshes. */
@@ -3327,6 +3488,10 @@ function renderVerbiage(){
   const S=DATA.settings,red=S.red||'#C8102E';
   doc.innerHTML=(verbsPage(red,S)+iceMapPage(red,S)).replace(/__PGNO__/g,'REFERENCE');
   stampMissing('verbiageDoc','verbs');
+  const vps=doc.querySelectorAll('.page');
+  if(vps[0])vps[0].dataset.sec='vb:verbs';
+  if(vps[1])vps[1].dataset.sec='vb:map';
+  secApplyAll();
 }
 
 /* ============ BROADCAST FOLDERS (booth pages) ============ */
@@ -3655,8 +3820,8 @@ function renderFolders(){
   const doc=document.getElementById('foldersDoc');if(!doc)return;
   const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
   const mk={hl:()=>fdLineupPage('home'),hd:()=>fdDataPage('home'),ol:()=>fdLineupPage('opp'),od:()=>fdDataPage('opp')};
-  doc.innerHTML=want.map(k=>mk[k]()).join('');
-  fdWireEdits();
+  doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
+  fdWireEdits();secApplyAll();
 }
 function fdWireEdits(){
   const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
@@ -4549,12 +4714,13 @@ function renderPacket(){
   document.getElementById('packetDoc').innerHTML=outPages.map((pg2,i)=>{
     if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
     let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1));
+    h=h.replace('<div class="page','<div data-sec="'+pg2.sec+'" class="page');
     // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
     if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
     return h;
   }).join('');
   stampMissing('packetDoc','packet');
-  pkWireOv();
+  pkWireOv();secApplyAll();
   imagesReady(document.getElementById('packetDoc'),3500).then(()=>mtpDetectDefaults(document.getElementById('packetDoc')));
 }
 
@@ -5415,7 +5581,7 @@ function renderLinesDoc(){
       </table></div>`;
   };
   const oppName=G.opp||'Opponent';
-  const doc=`<div class="page" style="width:816px">
+  const doc=`<div class="page" data-sec="lines" style="width:816px">
     <div class="lnc-top"><span>LINE CARD</span><span>${esc(S.city)} ${esc(S.name)} ${G.homeaway==='@'?'@':'vs.'} ${esc(oppName)}</span><span>${dateStr}</span></div>
     <div class="lnc-grid">
       ${teamBlock('home','Huntsville Havoc',(S.city+' '+S.name).trim(),teamTheme('Huntsville Havoc'))}
@@ -5425,6 +5591,7 @@ function renderLinesDoc(){
     <div class="gs-foot" style="border-color:${S.red||'#C8102E'};margin-top:10px"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span></div>
   </div>`;
   document.getElementById('linesDoc').innerHTML=doc;
+  secApplyAll();
 }
 
 
