@@ -182,6 +182,12 @@
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
   .cupline{font-size:13px;}
+  /* live-data freshness badges */
+  .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:#e8f3ec;color:#2f6b45;vertical-align:middle;}
+  .upd.none{background:#eceef2;color:#6b7078;}
+  .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
+  .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   /* 2026-27 roster reconcile panel */
   .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
   .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:#fafafb;}
@@ -613,7 +619,7 @@
   <!-- IMPORT (multi-segment) -->
   <section class="panel" id="panel-import">
     <div class="card">
-      <h2>League <span class="accent">Scorebar</span></h2>
+      <h2>League <span class="accent">Scorebar</span> <span class="upd" data-sync="scorebar"></span></h2>
       <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
       <div id="sbStrip" class="sb-strip"><div class="sb-msg">Connecting to the league feed…</div></div>
       <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
@@ -637,12 +643,13 @@
         <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
         <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
       </div>
+      <div id="htFeedAges" class="feed-ages"></div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
       <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
       <div id="dailyBadge" style="font-size:11px;color:#999;margin-top:2px"></div>
     </div>
     <div class="card">
-      <h2>Manual <span class="accent">Daily Report</span></h2>
+      <h2>Manual <span class="accent">Daily Report</span> <span class="upd" data-sync="daily"></span></h2>
       <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
       <div class="btn-row">
         <a class="btn secondary" href="https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html" target="_blank" rel="noopener">Open today's daily report (HTML)</a>
@@ -694,7 +701,7 @@
     </div>
     <div class="subview active" id="panel-roster">
 <div class="card">
-      <h2>Havoc <span class="accent">Roster &amp; Bios</span></h2>
+      <h2>Havoc <span class="accent">Roster &amp; Bios</span> <span class="upd" data-sync="rosters"></span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
       <div class="progress" id="rosterProgress"></div>
       <div id="rosterStatus"></div>
@@ -827,7 +834,7 @@
       <div class="note" style="margin-top:10px">League note: SPHL enters its 23rd season with 13 member clubs — 12 playing in 2026-27 (the 10 returning teams plus expansion Athens Rock Lobsters and Pee Dee IceCats), while the <b>Mobile Mysticks</b> are the 13th member and begin play in 2027-28.</div>
     </div>
     <div class="card">
-      <h2>SPHL <span class="accent">Standings</span></h2>
+      <h2>SPHL <span class="accent">Standings</span> <span class="upd" data-sync="standings"></span></h2>
       <p class="desc">Live from the imported daily report; zeroed until the season starts. All 12 teams with the new W-L-OTL-SOL columns.</p>
       <div id="standingsTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
     </div>
@@ -1514,6 +1521,7 @@ const DEFAULT_DATA={
   franchiseEdits:{},     // {team|section:html} — in-place edits to seeded franchise files
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
+  sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1689,7 +1697,7 @@ function showTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('panel-'+tab);if(el)el.classList.add('active');
-  if(tab==='import'){loadSchedule();renderGameLog();}
+  if(tab==='import'){loadSchedule();renderGameLog();renderSyncBadges();}
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
@@ -2426,7 +2434,8 @@ function renderChart(){
     const list=DATA.oppRosters[G.opp]||[];
     pages.push(`<div class="page lc-page">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
-  document.getElementById('chartDoc').innerHTML=pages.join('');
+  const cstamp=dataStampHTML('chart');
+  document.getElementById('chartDoc').innerHTML=pages.map(p=>p.replace(/<\/div>$/,cstamp+'</div>')).join('');
   chartWireEdits();
 }
 /* In-place card editing: click into any card, type freely, Cmd/Ctrl+B for bold,
@@ -2697,7 +2706,8 @@ function owBuild(){
     <div class="box"><h3>Check them off as they happen</h3><table class="pk-t">${o.firsts.map(f=>`<tr><td>${f.done?'☑':'☐'} ${esc(f.t)}</td><td class="r">${esc(f.detail||'________________________')}</td></tr>`).join('')}</table></div>
     <div style="font-size:9px;color:#666;margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
   const doc=document.getElementById('openingDoc');
-  if(doc)doc.innerHTML=pages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  const ostamp=dataStampHTML('opening');
+  if(doc)doc.innerHTML=pages.map((p,i)=>p.replace('<div class="gn-foot"',ostamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
 }
 function owPrint(){
   owBuild();
@@ -2901,7 +2911,7 @@ async function htPullCareers(force){
     }catch(e){console.warn('career',p.name,e.message);}
     done++;
   }
-  DATA.careerHT.at=new Date().toISOString();
+  DATA.careerHT.at=new Date().toISOString();syncMark('careers');
   save();
   say('Career stats: '+got+'/'+list.length+' players pulled — on the packet’s career pages.');
   toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
@@ -3031,6 +3041,7 @@ function ivSheetHTML(kind,e){
     <div style="font-size:11px;color:#555;margin-bottom:8px">${esc(ivKey())}${e.time?' · scheduled '+esc(e.time):''}</div>
     ${qRows}
     <div style="margin-top:14px">${mediaBlockHTML('media-block')}</div>
+    ${dataStampHTML('interview')}
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>INTERVIEW</span></div>
   </div>`;
 }
@@ -3180,6 +3191,7 @@ function renderVerbiage(){
   const doc=document.getElementById('verbiageDoc');if(!doc)return;
   const S=DATA.settings,red=S.red||'#C8102E';
   doc.innerHTML=(verbsPage(red,S)+iceMapPage(red,S)).replace(/__PGNO__/g,'REFERENCE');
+  stampMissing('verbiageDoc','verbs');
 }
 
 /* ============ BROADCAST FOLDERS (booth pages) ============ */
@@ -3199,21 +3211,55 @@ function fdCell(team,key,computed,isOpp){
   return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>${mark}`;
 }
 function fdRevert(team,key){delete fdOv(team)[key];save();renderFolders();toast('Back to synced value');}
+/* ---- freshness: one timestamp per feed, because they refresh at different rates ---- */
+function syncMark(kind){DATA.sync=DATA.sync||{};DATA.sync[kind]=new Date().toISOString();try{save();}catch(e){}renderSyncBadges();}
+function syncAt(kind){const t=Date.parse(((DATA.sync||{})[kind])||'');return isNaN(t)?0:t;}
+function syncTimeStr(t){
+  const d=new Date(t),now=new Date();
+  const time=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  return d.toDateString()===now.toDateString()?time:d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+time;
+}
+function syncLabel(kind){const t=syncAt(kind);return t?'Updated '+syncTimeStr(t):'Never updated';}
+/* <span class="upd" data-sync="standings"></span> anywhere = a live freshness badge */
+function renderFeedAges(){
+  const el=document.getElementById('htFeedAges');if(!el)return;
+  const feeds=[['standings','Standings'],['players','Player stats'],['schedule','Schedule'],['rosters','Rosters'],['careers','Career stats'],['scorebar','Scorebar'],['daily','Daily report']];
+  el.innerHTML=feeds.map(([k,label])=>{const t=syncAt(k);return `<span>${label}: <b>${t?syncTimeStr(t):'never'}</b></span>`;}).join('');
+}
+function renderSyncBadges(){
+  renderFeedAges();
+  document.querySelectorAll('.upd[data-sync]').forEach(el=>{
+    const k=el.dataset.sync,t=syncAt(k);
+    el.textContent=t?syncLabel(k):'Not synced yet';
+    el.className='upd'+(t?'':' none');
+    el.title=t?new Date(t).toLocaleString():'This feed has not been pulled in this browser yet';
+  });
+}
 /* every displayed stat traces to the synced store; a small stamp says how fresh */
 function dataStampHTML(scope){
   const R=DATA.report||{};
-  const dAt=R.daily&&R.daily.at?Date.parse(R.daily.at):0;
-  const lAt=R.live&&R.live.at?Date.parse(R.live.at):0;
-  let src;
-  if(lAt&&lAt>=dAt)src='SPHL live feed '+new Date(lAt).toISOString().slice(0,10);
-  else if(R.daily&&R.daily.date)src='SPHL daily report '+R.daily.date;
-  else if(R.parsedAt)src='SPHL feed sync '+String(R.parsedAt).slice(0,10);
-  else src='no synced data yet';
-  if(R.seasonLabel)src+=' · stats: '+R.seasonLabel;
-  let edited=false;
-  if(scope==='packet')edited=Object.keys(DATA.statOv||{}).some(k=>String(DATA.statOv[k]||'').trim())||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
-  else edited=Object.keys((DATA.folderOv||{})[scope]||{}).some(k=>String(DATA.folderOv[scope][k]||'').trim());
-  return `<div class="pg-stamp">Data: ${esc(src)} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+  const feedAt=Math.max(syncAt('standings'),syncAt('players'),syncAt('schedule'),syncAt('rosters'),
+    (R.live&&Date.parse(R.live.at))||0,(R.parsedAt&&Date.parse(R.parsedAt))||0);
+  const parts=[];
+  parts.push('SPHL feed '+(feedAt?new Date(feedAt).toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'}):'not synced'));
+  if(R.daily&&R.daily.date)parts.push('daily report '+R.daily.date);
+  if(R.seasonLabel)parts.push('stats: '+R.seasonLabel);
+  const edited=stampEdited(scope);
+  return `<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+}
+function stampMissing(containerId,scope){
+  const root=document.getElementById(containerId);if(!root)return;
+  const html=dataStampHTML(scope);
+  root.querySelectorAll('.page').forEach(p=>{if(!p.querySelector('.pg-stamp'))p.insertAdjacentHTML('beforeend',html);});
+}
+function stampEdited(scope){
+  const any=o=>Object.keys(o||{}).some(k=>String(o[k]||'').trim());
+  if(scope==='packet')return any(DATA.statOv)||Object.keys(DATA.pkEdits||{}).length>0||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
+  if(scope==='chart')return Object.keys(DATA.chartEdits||{}).length>0;
+  if(scope==='verbs')return !!DATA.verbs;
+  if(scope==='lines')return false;
+  if(scope==='opening')return false;
+  return any((DATA.folderOv||{})[scope])||any(DATA.statOv);
 }
 /* packet/stat-display value cell — same rules as the folder cells, global keys */
 function ovCell(key,computed){
@@ -4323,6 +4369,7 @@ function renderPacket(){
     if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
     return h;
   }).join('');
+  stampMissing('packetDoc','packet');
   pkWireOv();
   imagesReady(document.getElementById('packetDoc'),3500).then(()=>mtpDetectDefaults(document.getElementById('packetDoc')));
 }
@@ -5190,6 +5237,7 @@ function renderLinesDoc(){
       ${teamBlock('home','Huntsville Havoc',(S.city+' '+S.name).trim(),teamTheme('Huntsville Havoc'))}
       ${teamBlock('opp',oppName,oppName,teamTheme(oppName))}
     </div>
+    ${dataStampHTML('lines')}
     <div class="gs-foot" style="border-color:${S.red||'#C8102E'};margin-top:10px"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span></div>
   </div>`;
   document.getElementById('linesDoc').innerHTML=doc;
@@ -5556,7 +5604,7 @@ async function htDoStandings(){
       pts:+pick(r,['points','pts'],0),gf:+pick(r,['goals_for','goalsFor','gf'],0),ga:+pick(r,['goals_against','goalsAgainst','ga'],0)});
   });
   if(!out.length)throw new Error('Standings: no readable rows.');
-  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();
+  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();syncMark('standings');
   return out.length+' teams';
 }
 async function htDoPlayers(){
@@ -5599,7 +5647,7 @@ async function htDoPlayers(){
       sa:+pick(r,['shots_against','sa'],0),svs:+pick(r,['saves','svs'],0),svpct:String(pick(r,['save_percentage','svpct'],''))});
   });
   DATA.report.teamStats=ts;DATA.report.parsedAt=new Date().toISOString();
-  syncRosterStats();save();
+  syncRosterStats();save();syncMark('players');
   return Object.keys(ts).length+' teams of player/goalie stats';
 }
 function htFmtTime(t){const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);if(!m)return '';let h=+m[1];const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+m[2]+' '+ap;}
@@ -5661,6 +5709,7 @@ async function htDoResults(){
     if(typeof renderSchedPreview==='function'&&document.getElementById('schedPreview'))renderSchedPreview();
     if(DATA.calllog){clCurrentSeason();save();}
   }
+  syncMark('schedule');
   return filled+' new final scores filled'+(added?', '+added+' games added':'');
 }
 /* ---- Rosters: pull every team's roster from the feed ---- */
@@ -5737,7 +5786,7 @@ async function htDoRosters(){
     teamCount++;playerCount+=players.length;
   }
   if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
-  syncRosterStats();save();
+  syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
   return teamCount+' team rosters ('+playerCount+' players)';
 }
@@ -5886,7 +5935,7 @@ function applyDailyReport(rep,label){
   }else counts.push('Special teams ✗');
   if(rep.parsed.leaders)r.leaders=Object.assign(r.leaders||{},rep.leaders);
   r.parsedAt=new Date().toISOString();
-  r.daily={label:label,date:rep.generatedDate||'',at:r.parsedAt};
+  r.daily={label:label,date:rep.generatedDate||'',at:r.parsedAt};syncMark('daily');
   syncRosterStats();save();
   if(typeof renderStandings==='function')try{renderStandings();}catch(e){}
   dailyBadge();
@@ -6097,7 +6146,7 @@ async function sbTick(){
     const d=await htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7});
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
     sbRender(games);
-    SB_LAST=Date.now();
+    SB_LAST=Date.now();syncMark('scorebar');
     const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
   }catch(e){
     if(!SB_HASGAMES)sbMsg('Scores unavailable — '+esc(e.message)+' They\'ll appear once the feed connects (tap Test connection or Sync below).');
