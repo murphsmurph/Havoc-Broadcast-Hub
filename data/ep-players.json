@@ -18,9 +18,23 @@
   "team": "Birmingham Bulls",
   "dob": "1988-04-23",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "22": {
   "epId": "272683",
@@ -47,9 +61,23 @@
   "team": "Birmingham Bulls",
   "dob": "1995-05-27",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 0,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "66": {
   "epId": "227727",
@@ -72,7 +100,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "fetchedAt": "2026-08-04T22:31:11.858Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "130": {
   "epId": "248616",
@@ -114,7 +143,8 @@
   "epId": "215887",
   "epUrl": "https://www.eliteprospects.com/player/215887",
   "name": "Connor Fries",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "304": {
   "epId": "97337",
@@ -239,9 +269,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "1992-06-16",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 13,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 1.81,
+     "svp": 93.6
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .936 SV%, 1.81 GAA in 13 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "2862": {
   "epId": "282502",
@@ -293,7 +339,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "2985": {
   "epId": "288244",
@@ -343,9 +390,27 @@
   "team": "Birmingham Bulls",
   "dob": "1996-12-15",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Monroe Moccasins",
+    "league": "FPHL",
+    "stats": {
+     "gp": 38,
+     "g": 3,
+     "a": 11,
+     "p": 14,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "14 points in 38 career pro games (FPHL)",
+   "Most recently with Monroe Moccasins (FPHL) in 2025-26",
+   "Best season: 3G-11A-14P in 38 GP with Monroe Moccasins (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3043": {
   "epId": "438485",
@@ -385,7 +450,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "fetchedAt": "2026-08-04T22:31:11.858Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3089": {
   "epId": "248427",
@@ -413,9 +479,25 @@
   "team": "Birmingham Bulls",
   "dob": "1994-08-01",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 17,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 1.96,
+     "svp": 93.7
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .937 SV%, 1.96 GAA in 17 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3113": {
   "epId": "247333",
@@ -430,9 +512,26 @@
   "team": "Birmingham Bulls",
   "dob": "1996-02-13",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 38,
+     "g": 9,
+     "a": 8,
+     "p": 17,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "17 points in 38 career pro games (SPHL)",
+   "Best season: 9G-8A-17P in 38 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3118": {
   "epId": "199906",
@@ -499,9 +598,26 @@
   "team": "Birmingham Bulls",
   "dob": "1998-08-28",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 16,
+     "a": 29,
+     "p": 45,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "45 points in 58 career pro games (SPHL)",
+   "Best season: 16G-29A-45P in 58 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3245": {
   "epId": "424163",
@@ -565,7 +681,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3292": {
   "epId": "504110",
@@ -603,9 +720,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-02-12",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 4,
+     "a": 19,
+     "p": 23,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "23 points in 58 career pro games (SPHL)",
+   "Best season: 4G-19A-23P in 58 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3305": {
   "epId": "309391",
@@ -637,9 +771,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-10-18",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 56,
+     "g": 19,
+     "a": 17,
+     "p": 36,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "36 points in 56 career pro games (SPHL)",
+   "Best season: 19G-17A-36P in 56 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3321": {
   "epId": "364041",
@@ -747,9 +898,26 @@
   "team": "Birmingham Bulls",
   "dob": "1999-04-22",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 35,
+     "g": 15,
+     "a": 20,
+     "p": 35,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "35 points in 35 career pro games (SPHL)",
+   "Best season: 15G-20A-35P in 35 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3398": {
   "epId": "565969",
@@ -770,9 +938,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-01-29",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 56,
+     "g": 14,
+     "a": 6,
+     "p": 20,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "20 points in 56 career pro games (SPHL)",
+   "Best season: 14G-6A-20P in 56 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3407": {
   "epId": "380259",
@@ -811,9 +996,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1998-08-31",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 57,
+     "g": 6,
+     "a": 24,
+     "p": 30,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "30 points in 57 career pro games (SPHL)",
+   "Best season: 6G-24A-30P in 57 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3423": {
   "epId": "322545",
@@ -1042,9 +1244,27 @@
   "team": "Birmingham Bulls",
   "dob": "2002-06-02",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Macon Mayhem",
+    "league": "SPHL",
+    "stats": {
+     "gp": 41,
+     "g": 15,
+     "a": 21,
+     "p": 36,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "36 points in 41 career pro games (SPHL)",
+   "Most recently with Macon Mayhem (SPHL) in 2025-26",
+   "Best season: 15G-21A-36P in 41 GP with Macon Mayhem (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3544": {
   "epId": "473571",
@@ -1059,9 +1279,26 @@
   "team": "Birmingham Bulls",
   "dob": "2001-06-19",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 57,
+     "g": 4,
+     "a": 9,
+     "p": 13,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "13 points in 57 career pro games (SPHL)",
+   "Best season: 4G-9A-13P in 57 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3548": {
   "epId": "706980",
@@ -1094,9 +1331,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-05-17",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 1,
+     "a": 5,
+     "p": 6,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "6 points in 58 career pro games (SPHL)",
+   "Best season: 1G-5A-6P in 58 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3559": {
   "epId": "309425",
@@ -1133,9 +1387,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-06-16",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 48,
+     "g": 6,
+     "a": 11,
+     "p": 17,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "17 points in 48 career pro games (SPHL)",
+   "Best season: 6G-11A-17P in 48 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3570": {
   "epId": "299206",
@@ -1174,9 +1445,26 @@
   "team": "Birmingham Bulls",
   "dob": "1999-02-08",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 4,
+     "a": 11,
+     "p": 15,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "15 points in 58 career pro games (SPHL)",
+   "Best season: 4G-11A-15P in 58 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3594": {
   "epId": "383957",
@@ -1185,9 +1473,26 @@
   "team": "Birmingham Bulls",
   "dob": "1999-07-06",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Sydney Bears",
+    "league": "AIHL",
+    "stats": {
+     "gp": 10,
+     "g": 1,
+     "a": 6,
+     "p": 7,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Sydney Bears (AIHL) in 2025-26",
+   "Best season: 1G-6A-7P in 10 GP with Sydney Bears (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3595": {
   "epId": "315504",
@@ -1292,7 +1597,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3619": {
   "epId": "497335",
@@ -1301,9 +1607,26 @@
   "team": "Birmingham Bulls",
   "dob": "2000-10-01",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 1,
+     "a": 3,
+     "p": 4,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "4 points in 58 career pro games (SPHL)",
+   "Best season: 1G-3A-4P in 58 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3621": {
   "epId": "201661",
@@ -1374,12 +1697,13 @@
   "epId": "264878",
   "epUrl": "https://www.eliteprospects.com/player/264878",
   "name": "Shane Murphy",
-  "team": "Fayetteville Marksmen",
+  "team": "Birmingham Bulls",
   "dob": "2000-04-03",
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "fetchedAt": "2026-08-04T22:31:11.858Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3643": {
   "epId": "222335",
@@ -1388,9 +1712,25 @@
   "team": "Birmingham Bulls",
   "dob": "2000-03-24",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 14,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 3.02,
+     "svp": 91.8
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .918 SV%, 3.02 GAA in 14 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3644": {
   "epId": "262797",
@@ -1399,9 +1739,26 @@
   "team": "Birmingham Bulls",
   "dob": "1999-02-09",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 29,
+     "g": 9,
+     "a": 16,
+     "p": 25,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "25 points in 29 career pro games (SPHL)",
+   "Best season: 9G-16A-25P in 29 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3645": {
   "epId": "282354",
@@ -1410,9 +1767,26 @@
   "team": "Birmingham Bulls",
   "dob": "1999-04-23",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 48,
+     "g": 4,
+     "a": 23,
+     "p": 27,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "27 points in 48 career pro games (SPHL)",
+   "Best season: 4G-23A-27P in 48 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3646": {
   "epId": "699814",
@@ -1421,9 +1795,27 @@
   "team": "Birmingham Bulls",
   "dob": "2003-02-25",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Pee Dee IceCats",
+    "league": "FPHL",
+    "stats": {
+     "gp": 35,
+     "g": 11,
+     "a": 17,
+     "p": 28,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "28 points in 35 career pro games (FPHL)",
+   "Most recently with Pee Dee IceCats (FPHL) in 2025-26",
+   "Best season: 11G-17A-28P in 35 GP with Pee Dee IceCats (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3647": {
   "epId": "313407",
@@ -1432,9 +1824,26 @@
   "team": "Birmingham Bulls",
   "dob": "2000-07-23",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Melbourne Mustangs",
+    "league": "AIHL",
+    "stats": {
+     "gp": 24,
+     "g": 10,
+     "a": 34,
+     "p": 44,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Melbourne Mustangs (AIHL) in 2025-26",
+   "Best season: 10G-34A-44P in 24 GP with Melbourne Mustangs (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3648": {
   "epId": "439043",
@@ -1443,9 +1852,26 @@
   "team": "Birmingham Bulls",
   "dob": "2000-04-16",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 39,
+     "g": 7,
+     "a": 11,
+     "p": 18,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "18 points in 39 career pro games (SPHL)",
+   "Best season: 7G-11A-18P in 39 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3649": {
   "epId": "569291",
@@ -1454,9 +1880,26 @@
   "team": "Birmingham Bulls",
   "dob": "2004-02-27",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 46,
+     "g": 4,
+     "a": 6,
+     "p": 10,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "10 points in 46 career pro games (SPHL)",
+   "Best season: 4G-6A-10P in 46 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3650": {
   "epId": "390533",
@@ -1465,20 +1908,54 @@
   "team": "Birmingham Bulls",
   "dob": "2000-08-31",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 12,
+     "a": 23,
+     "p": 35,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "35 points in 58 career pro games (SPHL)",
+   "Best season: 12G-23A-35P in 58 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3651": {
   "epId": "693174",
   "epUrl": "https://www.eliteprospects.com/player/693174",
   "name": "John Woernle",
-  "team": "Fayetteville Marksmen",
+  "team": "Evansville Thunderbolts",
   "dob": "2000-07-03",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 13,
+     "g": 2,
+     "a": 2,
+     "p": 4,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Fayetteville Marksmen (SPHL) in 2025-26",
+   "Best season: 2G-2A-4P in 13 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3652": {
   "epId": "412519",
@@ -1509,9 +1986,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-03-29",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 47,
+     "g": 4,
+     "a": 6,
+     "p": 10,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "10 points in 47 career pro games (SPHL)",
+   "Best season: 4G-6A-10P in 47 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3656": {
   "epId": "266602",
@@ -1636,7 +2130,29 @@
   "epId": "582425",
   "epUrl": "https://www.eliteprospects.com/player/582425",
   "name": "Ethan Lindsay",
-  "team": "Huntsville Havoc"
+  "team": "Huntsville Havoc",
+  "dob": "2003-05-17",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 53,
+     "g": 8,
+     "a": 9,
+     "p": 17,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "17 points in 53 career pro games (SPHL)",
+   "Best season: 8G-9A-17P in 53 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3670": {
   "epId": "289316",
@@ -1743,7 +2259,7 @@
   "epId": "370215",
   "epUrl": "https://www.eliteprospects.com/player/370215",
   "name": "Dawson Sciarrino",
-  "team": "Huntsville Havoc",
+  "team": "Pensacola Ice Flyers",
   "dob": "2000-06-06",
   "hometown": "",
   "careerStats": [
@@ -1851,9 +2367,25 @@
   "team": "Birmingham Bulls",
   "dob": "2002-02-19",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 8,
+     "g": 1,
+     "a": 0,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 1G-0A-1P in 8 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3704": {
   "epId": "258725",
@@ -1903,9 +2435,25 @@
   "team": "Birmingham Bulls",
   "dob": "2003-07-23",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Peoria Rivermen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Peoria Rivermen (SPHL) in 2025-26"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3714": {
   "epId": "723790",
@@ -1926,9 +2474,25 @@
   "team": "Birmingham Bulls",
   "dob": "2001-05-22",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 5,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 5 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3717": {
   "epId": "386447",
@@ -1984,9 +2548,26 @@
   "team": "Birmingham Bulls",
   "dob": "2001-05-01",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 29,
+     "g": 9,
+     "a": 17,
+     "p": 26,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "26 points in 29 career pro games (SPHL)",
+   "Best season: 9G-17A-26P in 29 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3727": {
   "epId": "726592",
@@ -2001,9 +2582,25 @@
   "team": "Birmingham Bulls",
   "dob": "2000-07-02",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Knoxville Ice Bears",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Knoxville Ice Bears (SPHL) in 2025-26"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3731": {
   "epId": "474272",
@@ -2047,9 +2644,26 @@
   "team": "Birmingham Bulls",
   "dob": "2002-03-19",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Cincinnati Cyclones",
+    "league": "ECHL",
+    "stats": {
+     "gp": 7,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Cincinnati Cyclones (ECHL) in 2025-26",
+   "Best season: 0G-1A-1P in 7 GP with Cincinnati Cyclones (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3739": {
   "epId": "363678",
@@ -2128,9 +2742,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-03-07",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 42,
+     "g": 13,
+     "a": 17,
+     "p": 30,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "30 points in 42 career pro games (SPHL)",
+   "Best season: 13G-17A-30P in 42 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3752": {
   "epId": "508269",
@@ -2228,7 +2859,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3764": {
   "epId": "456539",
@@ -2237,9 +2869,26 @@
   "team": "Birmingham Bulls",
   "dob": "2001-04-10",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Pee Dee IceCats",
+    "league": "FPHL",
+    "stats": {
+     "gp": 11,
+     "g": 1,
+     "a": 2,
+     "p": 3,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Pee Dee IceCats (FPHL) in 2025-26",
+   "Best season: 1G-2A-3P in 11 GP with Pee Dee IceCats (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3765": {
   "epId": "446103",
@@ -2313,9 +2962,25 @@
   "team": "Birmingham Bulls",
   "dob": "2003-08-21",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 8,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 8 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3781": {
   "epId": "108041",
@@ -2389,9 +3054,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "2002-05-01",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 10,
+     "g": 1,
+     "a": 1,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 1G-1A-2P in 10 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3796": {
   "epId": "505704",
@@ -2491,9 +3172,25 @@
   "team": "Birmingham Bulls",
   "dob": "2002-12-27",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Birmingham Bulls",
+    "league": "SPHL",
+    "stats": {
+     "gp": 6,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 6 GP with Birmingham Bulls (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3809": {
   "epId": "294742",
@@ -2551,7 +3248,26 @@
   "epId": "398852",
   "epUrl": "https://www.eliteprospects.com/player/398852",
   "name": "Cade Helmer",
-  "team": "Roanoke Rail Yard Dawgs"
+  "team": "Roanoke Rail Yard Dawgs",
+  "dob": "2001-05-03",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Roanoke Rail Yard Dawgs",
+    "league": "SPHL",
+    "stats": {
+     "gp": 4,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3818": {
   "epId": "491399",
@@ -2596,9 +3312,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "2001-06-07",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 9,
+     "g": 4,
+     "a": 5,
+     "p": 9,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 4G-5A-9P in 9 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3827": {
   "epId": "376617",
@@ -2621,7 +3353,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-04T22:31:11.858Z"
+  "fetchedAt": "2026-08-04T22:31:11.858Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3831": {
   "epId": "451933",
@@ -2658,7 +3391,8 @@
   "epId": "370024",
   "epUrl": "https://www.eliteprospects.com/player/370024",
   "name": "Davis Goukler",
-  "team": "Macon Mayhem"
+  "team": "Macon Mayhem",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3838": {
   "epId": "215491",
@@ -2667,9 +3401,23 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-04-08",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 3,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-06T04:40:39.426Z"
  },
  "3839": {
   "epId": "498318",
@@ -2686,7 +3434,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-06T04:40:39.426Z"
  },
  "3841": {
   "epId": "467974",
