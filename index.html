@@ -326,6 +326,14 @@
   .blk-list summary{cursor:pointer;list-style:none;}
   .blk-list summary::-webkit-details-marker{display:none;}
   .sec-auto{font-size:10px;font-weight:800;text-transform:uppercase;color:#8a6a00;background:#ffefc0;border-radius:4px;padding:0 4px;margin-left:3px;}
+  /* the active season is never buried in a log line again */
+  .season-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 4px;}
+  .season-bar label{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);}
+  .season-bar select{min-height:34px;font-size:16px;font-weight:700;padding:2px 8px;border:1px solid var(--havoc-line);border-radius:8px;background:var(--surface);color:var(--ink);}
+  .season-now{font-size:17px;font-weight:900;letter-spacing:.01em;color:var(--red-text);align-self:center;}
+  .season-warn{font-size:13px;font-weight:800;color:#fff;background:var(--havoc-red);border-radius:8px;padding:6px 10px;margin:4px 0;}
+  .season-fell{font-size:12px;font-weight:800;color:#8a6a00;background:#ffefc0;border:1px solid #e2c96b;border-radius:7px;padding:4px 8px;margin:4px 0;}
+  .season-of{font-size:12px;font-weight:800;color:var(--ink-2);margin:2px 0 4px;}
   .sec-auto-note{width:100%;font-size:11px;font-weight:700;color:var(--ink-2);margin-top:3px;}
   .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
   .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
@@ -811,8 +819,16 @@
       <h2>Live <span class="accent">SPHL Data</span></h2>
       <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, an <b>Elite Prospects</b> profile link is attached to every player name (from <i>data/ep-players.json</i>, built weekly by a GitHub Action). <b>Bios are yours to write</b>: each Havoc player has a long media bio (game packet) and a short broadcast bio (lineup chart &amp; sheet); opponent players just the broadcast bio. Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
       <div id="feedChip" class="feed-chip checking"><span class="fc-dot"></span><span id="feedChipMsg">Checking the feed…</span></div>
+      <div class="season-bar no-print">
+        <label for="seasonPick">Season</label>
+        <select id="seasonPick" onchange="seasonSet(this.value)"></select>
+        <button class="btn small secondary" onclick="seasonsRefresh()" title="Re-read the league&rsquo;s season list">Reload list</button>
+      </div>
+      <div id="seasonWarn" class="season-warn" style="display:none"></div>
+      <div id="seasonFell"></div>
       <div class="btn-row">
         <button class="btn gameday" id="htSyncBtn" onclick="htSyncAll()">⟳ Game Day Refresh</button>
+        <span id="seasonNow" class="season-now">Season: —</span>
         <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Today's daily report (PDF)</a>
       </div>
       <ol id="htSteps" class="gd-steps"></ol>
@@ -820,7 +836,7 @@
         <summary>Advanced / refresh individually</summary>
         <div class="grid g3" style="margin-top:10px">
           <div class="field hub-field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
-          <div class="field hub-field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
+          <div class="field hub-field"><label>Season</label><select id="ht_seasonSel" onchange="seasonSet(this.value)"><option value="">Tap Test first</option></select></div>
           <div class="field hub-field"><label>&nbsp;</label><button class="btn secondary" onclick="htTest()">Test connection</button></div>
         </div>
         <div class="btn-row">
@@ -1031,6 +1047,7 @@
     <div class="card hub-card">
       <h2>SPHL <span class="accent">Standings</span> <span class="upd" data-sync="standings"></span></h2>
       <p class="desc">Live from the imported daily report; zeroed until the season starts. All 12 teams with the new W-L-OTL-SOL columns.</p>
+      <div id="standingsSeason"></div>
       <div id="standingsTable" class="hub-tablewrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
     </div>
     <div class="card hub-card">
@@ -3902,7 +3919,7 @@ async function htPullCareers(force,quiet){
   for(const p of list){
     say('Career stats: '+p.name+' ('+(done+1)+'/'+list.length+')…');
     try{
-      const d=await htFetch({feed:'statviewfeed',view:'player',player_id:p.htId,season_id:htSeason()||'46',site_id:'2',league_id:'',lang:'en'});
+      const d=await htFetch({feed:'statviewfeed',view:'player',player_id:p.htId,season_id:activeSeasonId(),site_id:'2',league_id:'',lang:'en'});
       const parsed=htCareerParse(d);
       const isG=p.pos==='G';
       const rows=parsed.rows.map(r=>htCareerRow(r,isG)).filter(r=>r.season&&r.gp>0);
@@ -4272,6 +4289,7 @@ function dataStampHTML(scope){
   const parts=[];
   parts.push('SPHL feed '+(feedAt?new Date(feedAt).toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'}):'not synced'));
   if(R.daily&&R.daily.date)parts.push('daily report '+R.daily.date);
+  parts.push('season '+seasonShortOf(activeSeasonId()));
   if(R.seasonLabel)parts.push('stats: '+R.seasonLabel);
   const edited=stampEdited(scope);
   return embargoStampHTML()+`<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
@@ -5613,12 +5631,14 @@ function syncRosterStats(){
 }
 function applyStatsTo(list,teamStats){
   if(!teamStats||!list)return;
+  // the SPHL player_id is the join key; number and name are the fallbacks
+  const byId=(rows,p)=>p.htId&&rows.find(x=>x.htId&&String(x.htId)===String(p.htId));
   list.forEach(p=>{
     if(p.pos==='G'){
-      const g=teamStats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name));
+      const g=byId(teamStats.goalies,p)||teamStats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name))||rosterMatch(p.name,teamStats.goalies);
       if(g)p.stat={gp:g.gp,w:g.w,l:g.l,otl:g.otl,so:g.so,ga:g.ga,gaa:g.gaa,sa:g.sa,svs:g.svs,svpct:g.svpct};
     }else{
-      const s=teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name));
+      const s=byId(teamStats.players,p)||teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name))||rosterMatch(p.name,teamStats.players);
       if(s)p.stat={gp:s.gp,g:s.g,a:s.a,pts:s.pts,pm:s.pm,pim:s.pim,pp:s.pp,shg:s.shg,gw:s.gw,shots:s.shots,shpct:s.shpct};
     }
   });
@@ -6508,6 +6528,13 @@ function clImportBackup(e){
 /* league standings display w/ logos + abbreviations */
 function renderStandings(){
   const el=document.getElementById('standingsTable');if(!el)return;
+  const fellEl=document.getElementById('standingsSeason');
+  if(fellEl){
+    const used=((DATA.report||{}).seasonUsed||{}).standings||activeSeasonId();
+    const fell=!!(((DATA.report||{}).seasonFallback||{}).standings);
+    fellEl.innerHTML=fell?'<div class="season-fell">'+esc(fallbackNote(used))+'</div>'
+      :'<div class="season-of">'+esc(seasonLabelOf(used))+'</div>';
+  }
   const S=DATA.report.standings||[];
   const cityOf=t=>t.split(' ')[0]==='Quad'?'Quad City':(t.split(' ')[0]==='Pee'?'Pee Dee':t.split(' ')[0]);
   let rows;
@@ -6626,7 +6653,130 @@ function htKey(){
   const m=raw.match(/[0-9a-f]{16}/i);
   return m?m[0].toLowerCase():raw;
 }
-function htSeason(){return (DATA.settings.htSeason||'').trim();}
+/* ============================================================
+   SEASONS — one explicit choice, threaded through every call.
+   Sync used to auto-detect a season and then keep whatever it had picked
+   for good, which is how a run ended up pulling 2015 Playoffs. The season
+   is now chosen, shown on screen at all times, and sanity-checked.
+   ============================================================ */
+const SEASON_STALE_MONTHS=18;
+function seasonNorm(s){
+  const yes=v=>/^(1|y|yes|true)$/i.test(String(v==null?'':v).trim());
+  return {id:String(pick(s,['season_id','id'],'')).trim(),
+    name:String(pick(s,['season_name','name'],'')).trim(),
+    short:String(pick(s,['shortname','short_name'],'')).trim(),
+    playoff:yes(s&&s.playoff),career:yes(s&&s.career),
+    start:String(pick(s,['start_date'],'')).slice(0,10),
+    end:String(pick(s,['end_date'],'')).slice(0,10)};
+}
+function seasonList(){return ((DATA.seasons||{}).list)||[];}
+function seasonsStore(raw){
+  const list=(raw||[]).map(seasonNorm).filter(s=>s.id).sort((a,b)=>(+b.id)-(+a.id));
+  if(list.length){DATA.seasons={at:new Date().toISOString(),list};save();}
+  return list;
+}
+/* the default: the highest season_id that is neither a playoff nor a career
+   season. Sorted numerically — never [0], never a "current" flag. */
+function seasonDefault(list){
+  return (list||seasonList()).filter(s=>!s.playoff&&!s.career)
+    .sort((a,b)=>(+b.id)-(+a.id))[0]||null;
+}
+function seasonById(id){return seasonList().find(s=>s.id===String(id))||null;}
+function activeSeasonId(){
+  const saved=String((DATA.settings||{}).htSeason||'').trim();
+  if(saved)return saved;
+  const d=seasonDefault();
+  return d?d.id:'46';                       // 46 = 2026-27, until the list loads
+}
+function activeSeason(){return seasonById(activeSeasonId());}
+function seasonLabelOf(id){const s=seasonById(id);return s?(s.name||s.short||('season '+id)):('season '+id);}
+function seasonShortOf(id){const s=seasonById(id);return s?(s.short||s.name||('season '+id)):('season '+id);}
+/* a season that ended more than 18 months ago is not the one he means */
+function seasonStale(s){
+  s=s||activeSeason();
+  if(!s||!s.end)return false;
+  const end=Date.parse(s.end+'T00:00');
+  if(!end)return false;
+  return (Date.now()-end)>SEASON_STALE_MONTHS*30.44*86400000;
+}
+/* every feed call goes through this, so a wrong season stops the run instead
+   of quietly filling the app with numbers from another decade */
+function seasonGuard(){
+  const s=activeSeason();
+  if(seasonStale(s))throw new Error('Season looks wrong ('+(s?s.name:activeSeasonId())+') — pick a season above.');
+  return activeSeasonId();
+}
+function htSeason(){return activeSeasonId();}
+/* the previous regular season, for the preseason fallback */
+function seasonPrevRegular(id){
+  return seasonList().filter(s=>!s.playoff&&!s.career&&(+s.id)<(+id))
+    .sort((a,b)=>(+b.id)-(+a.id))[0]||null;
+}
+/* Record which season each step actually used, so a mismatch is visible in the
+   run report instead of buried. */
+function seasonUsed(step,id,fellBack){
+  DATA.report=DATA.report||{};
+  DATA.report.seasonUsed=DATA.report.seasonUsed||{};
+  DATA.report.seasonUsed[step]=String(id);
+  DATA.report.seasonFallback=DATA.report.seasonFallback||{};
+  if(fellBack)DATA.report.seasonFallback[step]=String(id);
+  else delete DATA.report.seasonFallback[step];
+}
+function seasonStepNote(step,extra){
+  const id=((DATA.report||{}).seasonUsed||{})[step]||activeSeasonId();
+  const fell=!!(((DATA.report||{}).seasonFallback||{})[step]);
+  const nm=seasonShortOf(id);
+  return (extra?extra+' · ':'')+(fell?fallbackNote(id):nm);
+}
+function fallbackNote(usedId){
+  return seasonShortOf(usedId)+' (last season) — '+seasonShortOf(activeSeasonId())+' not yet published';
+}
+/* true when anything on screen is showing a season other than the chosen one */
+function seasonFellBack(){
+  const f=(DATA.report||{}).seasonFallback||{};
+  return Object.keys(f).length?f[Object.keys(f)[0]]:'';
+}
+function seasonBannerHTML(){
+  const id=seasonFellBack();
+  if(!id)return '';
+  return '<div class="season-fell">'+esc(fallbackNote(id))+'</div>';
+}
+function seasonSet(id){
+  id=String(id||'').trim();if(!id)return;
+  if(id===activeSeasonId()){renderSeasonBar();return;}
+  DATA.settings.htSeason=id;save();
+  renderSeasonBar();
+  toast('Season set to '+seasonLabelOf(id)+' — reloading every table');
+  htSyncAll();
+}
+function renderSeasonBar(){
+  const sel=document.getElementById('seasonPick');
+  const now=document.getElementById('seasonNow');
+  const warn=document.getElementById('seasonWarn');
+  const list=seasonList(),cur=activeSeasonId(),s=activeSeason();
+  if(sel){
+    // a career aggregate is not a season you can sync — keep it out of the list
+    const pick=list.filter(x=>!x.career||x.id===cur);
+    sel.innerHTML=pick.length
+      ? pick.map(x=>`<option value="${esc(x.id)}"${x.id===cur?' selected':''}>${esc(x.name||x.short||('Season '+x.id))}</option>`).join('')
+      : `<option value="${esc(cur)}">${esc(seasonLabelOf(cur))}</option>`;
+    sel.value=cur;
+  }
+  if(now)now.textContent='Season: '+(s?(s.name||s.short):('id '+cur));
+  const fell=document.getElementById('seasonFell');
+  if(fell)fell.innerHTML=seasonBannerHTML();
+  if(warn){
+    const bad=seasonStale(s);
+    warn.style.display=bad?'':'none';
+    warn.textContent=bad?('Season looks wrong ('+(s?s.name:cur)+') — pick a season above.'):'';
+  }
+  // the old Advanced dropdown stays in step with the one above it
+  const old=document.getElementById('ht_seasonSel');
+  if(old&&list.length){
+    old.innerHTML=list.filter(x=>!x.career||x.id===cur).map(x=>`<option value="${esc(x.id)}"${x.id===cur?' selected':''}>${esc(x.name||('Season '+x.id))}</option>`).join('');
+    old.value=cur;
+  }
+}
 function htParams(extra){
   const p={key:htKey(),client_code:'sphl',fmt:'json',lang:'en',...extra};
   return Object.keys(p).map(k=>k+'='+encodeURIComponent(p[k])).join('&');
@@ -6732,31 +6882,44 @@ function htJSONP(extra,useKey,timeoutMs){
     document.head.appendChild(s);
   });
 }
+/* The highest season_id that is neither a playoff nor a career season. Never
+   by array index, never by a "current" flag — that is what put 2015 Playoffs
+   into a Game Day Refresh. */
 function htPickSeason(seasons){
-  const sorted=[...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id));
-  // 46 = 2026-27 Regular Season (validated) — the default everywhere this year
-  return sorted.find(s=>String(s.season_id)==='46')||sorted.find(s=>/regular/i.test(s.season_name||''))||sorted[0];
+  const norm=(seasons||[]).map(seasonNorm).filter(s=>s.id);
+  const best=seasonDefault(norm);
+  return best?(seasons.find(s=>String(pick(s,['season_id','id'],''))===best.id)||best):((seasons||[])[0]);
 }
 /* Fetch the season list, auto-detecting a feed key if the configured setup can't answer. */
 async function htGetSeasons(prefix){
+  let raw=null;
   try{
     const d=await htFetch({feed:'modulekit',view:'seasons'});
-    const seasons=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];
-    if(seasons.length)return seasons;
-    throw new Error('Connected, but no seasons returned — check the key.');
+    raw=(d&&d.SiteKit&&d.SiteKit.Seasons)||[];
+    if(!raw.length)throw new Error('Connected, but no seasons returned — check the key.');
   }catch(e){
     if(htKey())throw e; // a key is set but the feed still failed — surface that
     const auto=await htAutoKey(prefix||'');
-    if(auto)return auto.seasons;
-    throw new Error('No feed key worked — paste one (thesphl.com, DevTools Network, lscluster request, key= value).');
+    if(auto)raw=auto.seasons;
+    else throw new Error('No feed key worked — paste one (thesphl.com, DevTools Network, lscluster request, key= value).');
   }
+  seasonsStore(raw);            // cached; the list only changes twice a year
+  renderSeasonBar();
+  return raw;
+}
+/* re-read the league's season list on demand */
+async function seasonsRefresh(){
+  try{
+    await htGetSeasons('');
+    toast(seasonList().length+' seasons loaded');
+  }catch(e){toast('Could not load the season list: '+e.message);}
 }
 async function htEnsureReady(prefix){
-  if(htKey()&&htSeason())return;
-  const seasons=await htGetSeasons(prefix);
-  if(!htSeason()){
-    const cur=htPickSeason(seasons);
-    DATA.settings.htSeason=String(cur.season_id);save();
+  if(htKey()&&seasonList().length)return;
+  await htGetSeasons(prefix);
+  if(!String((DATA.settings||{}).htSeason||'').trim()){
+    const cur=seasonDefault();
+    if(cur){DATA.settings.htSeason=cur.id;save();renderSeasonBar();}
   }
 }
 function pick(o,keys,d){for(const k of keys){if(o&&o[k]!=null&&o[k]!=='')return o[k];}return d;}
@@ -6770,13 +6933,12 @@ async function htTest(){
   try{
     htStatus('Testing…','');
     const seasons=await htGetSeasons('Auto-detect: ');
-    const sel=document.getElementById('ht_seasonSel');
-    sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
-    const saved=seasons.find(s=>String(s.season_id)===htSeason());
-    const cur=saved||htPickSeason(seasons);
-    sel.value=String(cur.season_id);
-    DATA.settings.htSeason=String(cur.season_id);save();
-    htStatus('Connected — '+seasons.length+' seasons found. Season set to '+cur.season_name+'.',true);
+    if(!seasonById(activeSeasonId())){
+      const d=seasonDefault();
+      if(d){DATA.settings.htSeason=d.id;save();}
+    }
+    renderSeasonBar();
+    htStatus('Connected — '+seasons.length+' seasons found. Season: '+seasonLabelOf(activeSeasonId())+'.',true);
     sbStart();
   }catch(e){htStatus(e.message,false);}
 }
@@ -6795,20 +6957,44 @@ function htTeamsRows(d){
   };
   walk(d);return out;
 }
-async function htDoStandings(){
+/* Run a pull for the chosen season; if the league has not published that
+   season yet, run it again against the previous regular season and label the
+   result. Never returns last season's numbers unlabelled. */
+async function seasonTry(step,fn){
+  const want=seasonGuard();
+  let out=await fn(want);
+  if(out&&out.empty){
+    const prev=seasonPrevRegular(want);
+    if(prev){
+      const back=await fn(prev.id);
+      if(back&&!back.empty){seasonUsed(step,prev.id,true);save();return back;}
+    }
+  }
+  seasonUsed(step,want,false);save();
+  return out;
+}
+async function htStandingsRows(season){
   let rows=[];
   try{ // primary: statviewfeed teams — the format the SPHL's own site uses
-    const d0=await htFetch({feed:'statviewfeed',view:'teams',season:htSeason(),groupTeamsBy:'division',context:'overall',special:'false',sort:'points',league_id:''});
+    const d0=await htFetch({feed:'statviewfeed',view:'teams',season:season,groupTeamsBy:'division',context:'overall',special:'false',sort:'points',league_id:''});
     rows=htTeamsRows(d0);
   }catch(e){}
   if(!rows.length){
-    const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:htSeason()});
+    const d=await htFetch({feed:'modulekit',view:'statviewtype',stat:'conference',type:'standings',season_id:season});
     rows=(d&&d.SiteKit&&(d.SiteKit.Statviewtype||d.SiteKit.Standings))||[];
   }
   if(!rows.length){ // some HockeyTech configs only answer the plain standings view
-    const d2=await htFetch({feed:'modulekit',view:'standings',season_id:htSeason()});
+    const d2=await htFetch({feed:'modulekit',view:'standings',season_id:season});
     rows=(d2&&d2.SiteKit&&(d2.SiteKit.Standings||d2.SiteKit.Statviewtype))||[];
   }
+  return rows;
+}
+async function htDoStandings(){
+  const got=await seasonTry('standings',async se=>{
+    const rows=await htStandingsRows(se);
+    return {rows,empty:!rows.length};
+  });
+  const rows=got.rows||[];
   const out=[];
   rows.forEach(r=>{
     const name=String(pick(r,['team_name','name','teamName','team_city','city'],'')).trim();
@@ -6818,36 +7004,41 @@ async function htDoStandings(){
       otl:+pick(r,['ot_losses','otLosses','otl'],0),sol:+pick(r,['shootout_losses','shootoutLosses','sol'],0),
       pts:+pick(r,['points','pts'],0),gf:+pick(r,['goals_for','goalsFor','gf'],0),ga:+pick(r,['goals_against','goalsAgainst','ga'],0)});
   });
-  if(!out.length)throw new Error('Standings: no readable rows.');
+  if(!out.length)throw new Error('Standings: no readable rows for '+seasonLabelOf(activeSeasonId())+'.');
   DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();syncMark('standings');
-  return out.length+' teams';
+  return seasonStepNote('standings',out.length+' teams');
+}
+/* statviewfeed player stats. The parameter is season= (not season_id=), the
+   body arrives wrapped in parentheses, and asking wrongly gets you the seasons
+   list back with a 200 — htGuard turns that into a failure rather than a
+   silent empty table. */
+async function htPlayerRows(season,position){
+  const d=await htFetch({feed:'statviewfeed',view:'players',season:season,team:'all',
+    position:position,statsType:'standard',first:0,limit:500,
+    sort:position==='goalies'?'gaa':'points',division:-1,conference:-1});
+  const secs=Array.isArray(d)?d:((d&&d.sections)||[]);
+  const rows=[];
+  secs.forEach(sec=>{(sec.data||[]).forEach(x=>rows.push(x.row||x));});
+  return rows;
 }
 async function htDoPlayers(){
-  // preseason fallback: if the current season has no stat rows yet, load last
-  // season's numbers instead and label them — never show blank tables
-  let season=htSeason(),label='';
-  const fetchBoth=async se=>{
-    const sk=await htFetch({feed:'statviewfeed',view:'players',season:se,team:'all',position:'skaters',rookies:0,statsType:'standard',limit:1000,sort:'points',league_id:''});
-    const gl=await htFetch({feed:'statviewfeed',view:'players',season:se,team:'all',position:'goalies',rookies:0,statsType:'standard',limit:100,sort:'gaa',league_id:''});
-    return [sk,gl];
-  };
-  let [sk,gl]=await fetchBoth(season);
-  const unwrap=(d)=>{let secs=Array.isArray(d)?d:(d&&d.sections)||[];let rows=[];secs.forEach(s=>{(s.data||[]).forEach(x=>rows.push(x.row||x));});return rows;};
-  let skaters=unwrap(sk),goalies=unwrap(gl);
-  if(!skaters.length&&!goalies.length&&String(season)!=='44'){
-    [sk,gl]=await fetchBoth('44');
-    skaters=unwrap(sk);goalies=unwrap(gl);
-    label='2025-26 (last season)';
-  }
-  DATA.report.seasonLabel=label;
-  if(!skaters.length&&!goalies.length)throw new Error('Players: feed returned nothing readable.');
+  // preseason fallback: if the chosen season has no stat rows yet, load last
+  // season's numbers instead and label them — never blank, never unlabelled
+  const got=await seasonTry('players',async se=>{
+    const skaters=await htPlayerRows(se,'skaters');
+    const goalies=await htPlayerRows(se,'goalies');
+    return {skaters,goalies,empty:!skaters.length&&!goalies.length};
+  });
+  const skaters=got.skaters||[],goalies=got.goalies||[];
+  DATA.report.seasonLabel=(DATA.report.seasonFallback||{}).players?fallbackNote(DATA.report.seasonUsed.players):'';
+  if(!skaters.length&&!goalies.length)throw new Error('Players: feed returned nothing readable for '+seasonLabelOf(activeSeasonId())+'.');
   const ts={};
   const teamOf=r=>String(pick(r,['team_code','team','team_name'],'')).trim();
   skaters.forEach(r=>{
     const ab=teamOf(r);if(!ab)return;
     const city=Object.keys(TEAM_ABBR).find(c=>TEAM_ABBR[c]===ab)||ab;
     ts[city]=ts[city]||{players:[],goalies:[]};
-    ts[city].players.push({num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),pos:String(pick(r,['position','pos'],'')),
+    ts[city].players.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),pos:String(pick(r,['position','pos'],'')),
       gp:+pick(r,['games_played','gp'],0),g:+pick(r,['goals','g'],0),a:+pick(r,['assists','a'],0),pts:+pick(r,['points','pts'],0),
       pm:+pick(r,['plus_minus','pm'],0),pim:+pick(r,['penalty_minutes','pim'],0),pp:+pick(r,['power_play_goals','ppg'],0),
       shg:+pick(r,['short_handed_goals','shg'],0),gw:+pick(r,['game_winning_goals','gwg'],0),shots:+pick(r,['shots','sh'],0),shpct:String(pick(r,['shooting_percentage','shpct'],''))});
@@ -6856,20 +7047,24 @@ async function htDoPlayers(){
     const ab=teamOf(r);if(!ab)return;
     const city=Object.keys(TEAM_ABBR).find(c=>TEAM_ABBR[c]===ab)||ab;
     ts[city]=ts[city]||{players:[],goalies:[]};
-    ts[city].goalies.push({num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),
+    ts[city].goalies.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),
       gp:+pick(r,['games_played','gp'],0),w:+pick(r,['wins','w'],0),l:+pick(r,['losses','l'],0),otl:+pick(r,['ot_losses','otl'],0),
       so:+pick(r,['shutouts','so'],0),ga:+pick(r,['goals_against','ga'],0),gaa:String(pick(r,['goals_against_average','gaa'],'')),
       sa:+pick(r,['shots_against','sa'],0),svs:+pick(r,['saves','svs'],0),svpct:String(pick(r,['save_percentage','svpct'],''))});
   });
   DATA.report.teamStats=ts;DATA.report.parsedAt=new Date().toISOString();
   syncRosterStats();save();syncMark('players');
-  return Object.keys(ts).length+' teams of player/goalie stats';
+  return seasonStepNote('players',Object.keys(ts).length+' teams · '+skaters.length+' skaters, '+goalies.length+' goalies');
 }
 function htFmtTime(t){const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);if(!m)return '';let h=+m[1];const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+m[2]+' '+ap;}
 async function htDoResults(){
-  const d=await htFetch({feed:'modulekit',view:'schedule',season_id:htSeason()});
-  const games=(d&&d.SiteKit&&d.SiteKit.Schedule)||[];
-  if(!games.length)throw new Error('Schedule: no games returned.');
+  const got=await seasonTry('schedule',async se=>{
+    const d=await htFetch({feed:'modulekit',view:'schedule',season_id:se});
+    const games=(d&&d.SiteKit&&d.SiteKit.Schedule)||[];
+    return {games,empty:!games.length};
+  });
+  const games=got.games||[];
+  if(!games.length)throw new Error('Schedule: no games returned for '+seasonLabelOf(activeSeasonId())+'.');
   const mySched=parseScheduleData();let filled=0,added=0;
   const lgLog=[];
   games.forEach(g=>{
@@ -6925,7 +7120,7 @@ async function htDoResults(){
     if(DATA.calllog){clCurrentSeason();save();}
   }
   syncMark('schedule');
-  return filled+' new final scores filled'+(added?', '+added+' games added':'');
+  return seasonStepNote('schedule',filled+' new final scores filled'+(added?', '+added+' games added':''));
 }
 /* ---- Rosters: pull every team's roster from the feed ---- */
 function htHeightFmt(h){h=String(h||'').trim();const m=h.match(/^(\d)\.(\d{1,2})$/);if(m)return m[1]+'-'+String(+m[2]);return h;}
@@ -7058,11 +7253,13 @@ const HT_TEAM_ID={"Peoria Rivermen":1,"Fayetteville Marksmen":2,"Huntsville Havo
    appear in the feed, and then fill in automatically. Season 44 is still the
    league feed, so it outranks the bios file exactly the same way. */
 async function htVitalsBackfill(){
-  const need=DATA.roster.filter(p=>p.name&&p.active!=='0');
+  // only reach back a season when the chosen one left something out
+  const need=DATA.roster.filter(p=>p.name&&p.active!=='0'&&(!p.img||!p.birth||!p.ht||!p.wt||!p.dob));
   if(!need.length)return '';
   let rows=[];
   try{
-    const r=await htFetch({feed:'modulekit',view:'roster',season_id:'44',team_id:String(HT_TEAM_ID['Huntsville Havoc'])});
+    const prev=seasonPrevRegular(activeSeasonId());
+    const r=await htFetch({feed:'modulekit',view:'roster',season_id:prev?prev.id:'44',team_id:String(HT_TEAM_ID['Huntsville Havoc'])});
     rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
   }catch(e){return '';}
   const by=new Map();
@@ -7082,24 +7279,35 @@ async function htVitalsBackfill(){
     got++;
   });
   if(got){save();renderRoster();}
-  return got?got+' filled from 2025-26'+(pics?' ('+pics+' photo'+(pics===1?'':'s')+')':''):'';
+  const prevName=(seasonPrevRegular(activeSeasonId())||{}).short||'last season';
+  return got?got+' filled from '+prevName+(pics?' ('+pics+' photo'+(pics===1?'':'s')+')':''):'';
 }
-async function htDoRosters(){
-  const d=await htFetch({feed:'modulekit',view:'teamsbyseason',season_id:htSeason()});
+/* every club's roster for one season — returns what it found, so the caller
+   can decide whether the season is simply not published yet */
+async function htRosterSweep(season){
+  const d=await htFetch({feed:'modulekit',view:'teamsbyseason',season_id:season});
   const teams=(d&&d.SiteKit&&d.SiteKit.Teamsbyseason)||[];
-  if(!teams.length)throw new Error('Rosters: no teams returned.');
-  let teamCount=0,playerCount=0;
+  if(!teams.length)return {teams:0,out:[],empty:true};
+  const out=[];
   for(const t of teams){
     const tid=String(pick(t,['id','team_id'],'')).trim();
     const tname=String(pick(t,['name','team_name'],'')).trim();
     if(!tid||!tname)continue;
     let rows=[];
     try{
-      const r=await htFetch({feed:'modulekit',view:'roster',season_id:htSeason(),team_id:tid});
+      const r=await htFetch({feed:'modulekit',view:'roster',season_id:season,team_id:tid});
       rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
     }catch(e){continue;}
     const players=rows.map(htRosterRow).filter(Boolean);
-    if(!players.length)continue;
+    if(!players.length)continue;                 // coaches-only, as 2026-27 is today
+    out.push({tname,players});
+  }
+  return {teams:teams.length,out,empty:!out.length};
+}
+async function htDoRosters(){
+  const got=await seasonTry('rosters',se=>htRosterSweep(se));
+  let teamCount=0,playerCount=0;
+  (got.out||[]).forEach(({tname,players})=>{
     if(/Huntsville/i.test(tname)){
       DATA.roster=htMergeRoster(DATA.roster,players,true);
     }else{
@@ -7108,13 +7316,13 @@ async function htDoRosters(){
       DATA.oppRosters[full]=htMergeRoster(DATA.oppRosters[full],players);
     }
     teamCount++;playerCount+=players.length;
-  }
-  if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
+  });
+  if(!teamCount)throw new Error('Rosters: no club has published a roster for '+seasonLabelOf(activeSeasonId())+' yet.');
   syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
   let back='';
   try{back=await htVitalsBackfill();}catch(e){}
-  return teamCount+' team rosters ('+playerCount+' players)'+(back?' · '+back:'');
+  return seasonStepNote('rosters',teamCount+' of '+(got.teams||teamCount)+' team rosters ('+playerCount+' players)'+(back?' · '+back:''));
 }
 
 /* ============================================================
@@ -7167,9 +7375,16 @@ async function epLoadStatic(force){
 }
 function epEntryFor(p){
   if(!EP_STATIC)return null;
-  if(p.htId&&EP_STATIC[p.htId])return EP_STATIC[p.htId];
+  if(p.htId&&EP_STATIC[p.htId])return EP_STATIC[p.htId];      // the SPHL player_id is the join key
+  const list=Object.keys(EP_STATIC).map(id=>EP_STATIC[id]).filter(e=>e&&e.name);
   const k=norm(p.name);
-  for(const id in EP_STATIC){const e=EP_STATIC[id];if(e&&e.name&&norm(e.name)===k)return e;}
+  const exact=list.find(e=>norm(e.name)===k);
+  if(exact)return exact;
+  // the club signs him under one name and the league prints another — surname
+  // and first initial, only where that is unambiguous
+  const near=rosterMatch(p.name,list);
+  if(near)return near;
+  if(p.dobi){const byDob=list.filter(e=>e.dob===p.dobi);if(byDob.length===1)return byDob[0];}
   return null;
 }
 function epLinkFor(p){
@@ -7181,13 +7396,15 @@ async function epAutoBios(scope){ // links only — bios are written by hand (me
   const teams=[['Huntsville Havoc',DATA.roster]];
   if(scope==='all')Object.keys(DATA.oppRosters||{}).forEach(t=>teams.push([t,DATA.oppRosters[t]]));
   else{const opp=(DATA.game&&DATA.game.opp)||'';if(opp&&DATA.oppRosters&&DATA.oppRosters[opp])teams.push([opp,DATA.oppRosters[opp]]);}
-  let linked=0,missing=0;
+  let linked=0,already=0;const miss=[];
   teams.forEach(pair=>{
     (pair[1]||[]).forEach(p=>{
       if(!p.name||p.active==='0')return;
       const e=epEntryFor(p);
-      if(!e){missing++;return;}
+      if(!e){miss.push(p.name);return;}
+      if(e.epId)p.epId=String(e.epId);
       if(e.epUrl&&p.epUrl!==e.epUrl){p.epUrl=e.epUrl;linked++;}
+      else if(e.epUrl)already++;
       if(!p.birth&&e.hometown)p.birth=e.hometown; // header facts only — never bios
       if(!p.dob&&e.dob){p.dob=htDobFmt(e.dob)||p.dob;p.dobi=p.dobi||e.dob;if(!p.age)p.age=htAgeFrom(e.dob);}
       // previous stop: the last career line that isn't this club — fills the "from" header fact
@@ -7198,7 +7415,11 @@ async function epAutoBios(scope){ // links only — bios are written by hand (me
     });
   });
   save();renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
-  return 'EP links: '+linked+' profiles linked'+(missing?', '+missing+' without EP match (names link to EP search)':'');
+  DATA.report.epMiss=miss;save();
+  // name the ones that missed rather than reporting a bare count
+  const names=miss.slice(0,6).join(', ')+(miss.length>6?' +'+(miss.length-6)+' more':'');
+  return 'EP links: '+linked+' newly linked'+(already?', '+already+' already had one':'')
+    +(miss.length?' · no match for '+names+' (they link to EP search)':'');
 }
 async function epFillHome(){try{toast(await epAutoBios('home'));}catch(e){toast(e.message);}}
 async function htPullEPBios(){try{htStatus('Linking Elite Prospects profiles (all teams)…','');htStatus(await epAutoBios('all'),true);}catch(e){htStatus(e.message,false);}}
@@ -7357,34 +7578,48 @@ async function htSyncAll(){
     return state[key].status==='ok';
   };
   gdRender(state);
-  await run('connect',async()=>{
+  DATA.report.seasonUsed={};DATA.report.seasonFallback={};
+  const connected=await run('connect',async()=>{
     const hadKey=!!htKey();
+    let note='';
     try{
-      const seasons=await htGetSeasons('');
-      const sel=document.getElementById('ht_seasonSel');
-      if(sel)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
-      let cur=seasons.find(s=>String(s.season_id)===htSeason());
-      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();}
-      if(sel)sel.value=String(cur.season_id);
-      return (hadKey?'':'key auto-detected · ')+'season '+cur.season_name;
+      await htGetSeasons('');
+      // a season we no longer recognise (or none at all) goes back to the rule:
+      // the highest regular season the league lists
+      if(!seasonById(activeSeasonId())){
+        const d=seasonDefault();
+        if(d){DATA.settings.htSeason=d.id;save();note='season reset to the current one · ';}
+      }
+      renderSeasonBar();
     }catch(e){
-      if(!htSeason())throw e;
-      return 'using the saved season ('+htSeason()+')';
+      if(!seasonList().length)throw e;
+      note='season list offline · ';
     }
+    const s=activeSeason();
+    if(seasonStale(s))throw new Error('Season looks wrong ('+(s?s.name:activeSeasonId())+') — pick a season above.');
+    return (hadKey?'':'key auto-detected · ')+note+seasonLabelOf(activeSeasonId());
   });
-  await run('standings',()=>htDoStandings());
-  await run('players',()=>htDoPlayers());
-  await run('schedule',()=>htDoResults());
-  const rostersOK=await run('rosters',()=>htDoRosters());
-  await run('careers',async()=>{
+  const skipAll=!connected;
+  const step=(k,fn)=>run(k,async()=>{
+    if(skipAll)throw new Error('skipped — the season is not settled');
+    return await fn();
+  });
+  await step('standings',()=>htDoStandings());
+  await step('players',()=>htDoPlayers());
+  await step('schedule',()=>htDoResults());
+  const rostersOK=await step('rosters',()=>htDoRosters());
+  await step('careers',async()=>{
     if(!rostersOK)throw new Error('skipped — rosters did not load');
-    return await htPullCareers(false,true);
+    seasonUsed('careers',activeSeasonId(),false);
+    return seasonStepNote('careers',await htPullCareers(false,true));
   });
-  await run('eplinks',async()=>{
+  await step('eplinks',async()=>{
     if(!rostersOK)throw new Error('skipped — rosters did not load');
-    return await epAutoBios('auto');
+    seasonUsed('eplinks',((DATA.report||{}).seasonUsed||{}).rosters||activeSeasonId(),
+      !!((DATA.report||{}).seasonFallback||{}).rosters);
+    return seasonStepNote('eplinks',await epAutoBios('auto'));
   });
-  await run('scorebar',async()=>{sbStart();return 'refreshing';});
+  await step('scorebar',async()=>{sbStart();seasonUsed('scorebar',activeSeasonId(),false);return seasonStepNote('scorebar','refreshing');});
   DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();renderSyncBadges();
   const bad=Object.keys(state).filter(k=>state[k].status==='bad');
   htStatus(bad.length?('Finished with '+bad.length+' step'+(bad.length>1?'s':'')+' failing — see the list above. Everything that did load is saved.')
@@ -7403,8 +7638,7 @@ async function feedAutoCheck(){
   feedChip(null);
   try{
     const seasons=await Promise.race([htGetSeasons(''),new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),10000))]);
-    const sel=document.getElementById('ht_seasonSel');
-    if(sel&&seasons.length)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}"${String(s.season_id)===htSeason()?' selected':''}>${esc(s.season_name)}</option>`).join('');
+    if(seasons.length)renderSeasonBar();
     feedChip(true);
   }catch(e){
     const any=['standings','players','rosters','schedule'].some(k=>syncAt(k));
@@ -7546,7 +7780,7 @@ async function sbTick(){
   if(!SB_HASGAMES)sbState('loading','Connecting to the league feed…',false);
   try{
     const d=await Promise.race([
-      htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7}),
+      htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7,season_id:activeSeasonId()}),
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('the feed did not answer within 10 seconds')),10000))
     ]);
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
@@ -7760,7 +7994,7 @@ function wgDeck(side){
 }
 
 hubPageScale();themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();

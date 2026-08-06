@@ -174,3 +174,54 @@ for(const season of ['46','44']){
   console.log('\n--- phonetic_name, every player ---');
   players.forEach(r=>console.log('   '+((r.first_name||'')+' '+(r.last_name||'')).trim().padEnd(24)+JSON.stringify(String(r.phonetic_name||''))));
 }
+
+// ---- seasons list: exact shape, flags and dates, plus the players endpoint ----
+{
+  console.log('\n--- seasons list, newest first ---');
+  const sr=await jget('feed=modulekit&view=seasons&fmt=json&lang=en');
+  const seasons=(sr&&sr.SiteKit&&sr.SiteKit.Seasons)||[];
+  console.log('   fields: '+Object.keys(seasons[0]||{}).join(', '));
+  [...seasons].sort((a,b)=>(+b.season_id)-(+a.season_id)).slice(0,10).forEach(s=>{
+    console.log('   '+String(s.season_id).padStart(3)+'  '+String(s.season_name||'').padEnd(30)
+      +'playoff='+JSON.stringify(s.playoff)+' career='+JSON.stringify(s.career)
+      +' start='+(s.start_date||'-')+' end='+(s.end_date||'-'));
+  });
+  const nonPo=[...seasons].filter(s=>String(s.playoff)!=='1'&&String(s.career)!=='1')
+    .sort((a,b)=>(+b.season_id)-(+a.season_id))[0];
+  console.log('   max non-playoff, non-career: '+(nonPo?nonPo.season_id+' '+nonPo.season_name:'none'));
+
+  console.log('\n--- statviewfeed players, the spec URL, season 46 and 44 ---');
+  for(const season of ['46','44']){
+    for(const position of ['skaters','goalies']){
+      const qs='feed=statviewfeed&view=players&season='+season+'&team=all&position='+position
+        +'&statsType=standard&first=0&limit=500&sort=points&lang=en&division=-1&conference=-1';
+      const u='https://lscluster.hockeytech.com/feed/?'+qs+'&key='+KEY+'&client_code=sphl';
+      try{
+        const r=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0'}});
+        let t=(await r.text()).trim();
+        const paren=t.startsWith('(');
+        if(paren)t=t.replace(/^\(/,'').replace(/\)$/,'');
+        let j=null;try{j=JSON.parse(t);}catch(e){console.log('   s'+season+' '+position+' NOT-JSON '+t.slice(0,80));continue;}
+        const trap=JSON.stringify(j).indexOf('"Seasons"')>=0;
+        const rows=deepCount(j,v=>('player_id' in v)||('playerId' in v));
+        console.log('   s'+season+' '+position.padEnd(8)+' HTTP '+r.status+' paren='+paren
+          +' seasons-trap='+trap+' playerRows='+rows+'  '+shape(j).slice(0,90));
+      }catch(e){console.log('   s'+season+' '+position+' ERR '+e.message.slice(0,60));}
+    }
+  }
+
+  console.log('\n--- how many teams/rosters each season returns ---');
+  for(const season of ['46','44']){
+    const td=await jget('feed=modulekit&view=teamsbyseason&season_id='+season+'&fmt=json&lang=en');
+    const teams=(td&&td.SiteKit&&td.SiteKit.Teamsbyseason)||[];
+    let withPlayers=0,total=0;
+    for(const t of teams){
+      const rd=await jget('feed=modulekit&view=roster&season_id='+season+'&team_id='+(t.id||t.team_id)+'&fmt=json&lang=en');
+      const rows=(rd&&rd.SiteKit&&rd.SiteKit.Roster)||[];
+      const pl=rows.filter(r=>/^(F|C|LW|RW|W|D|G)$/i.test(String(r.position||'')));
+      if(pl.length)withPlayers++;
+      total+=pl.length;
+    }
+    console.log('   season '+season+': teams='+teams.length+' rostersWithPlayers='+withPlayers+' players='+total);
+  }
+}
