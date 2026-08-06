@@ -17,6 +17,27 @@
     --ok:#1d8a4e;--warn:#b8860b;--shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
     --radius:8px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
+  /* booth: dark palette + a bigger type scale, screen only — print always resets to the light sheet */
+  html[data-theme="dark"]{
+    --havoc-black:#f2f2f5;--havoc-charcoal:#16161a;--havoc-grey:#a2a4ad;
+    --havoc-line:#33343c;--havoc-silver:#25262c;--bg:#101015;
+    --shadow:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.4);
+  }
+  html[data-theme="dark"] body{background:var(--bg);color:var(--havoc-black);}
+  html[data-theme="dark"] .card,html[data-theme="dark"] .modal,html[data-theme="dark"] .ref-box,
+  html[data-theme="dark"] .rs-box,html[data-theme="dark"] .doc-frame{background:#191a20;color:var(--havoc-black);}
+  html[data-theme="dark"] .doc-toolbar,html[data-theme="dark"] .bk-inline,html[data-theme="dark"] .reset-summary,
+  html[data-theme="dark"] .feed-ages span{background:#212229;color:var(--havoc-black);}
+  html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:#212229;color:var(--havoc-black);border-color:var(--havoc-line);}
+  html[data-theme="dark"] .btn.secondary,html[data-theme="dark"] .icon-btn{background:#212229;color:var(--havoc-black);}
+  html[data-theme="dark"] .empty{color:var(--havoc-grey);}
+  html[data-theme="dark"] .danger-zone{background:#241418;}
+  html[data-theme="dark"] .page{color:#111114;} /* previews stay paper-white — they are the printed thing */
+  html[data-booth="1"] body{font-size:17px;}
+  html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td,html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th{padding-top:9px;padding-bottom:9px;}
+  html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
+  html[data-booth="1"] .tab{font-size:14.5px;}
+  html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
   body{margin:0;font-family:var(--font);background:var(--bg);color:var(--havoc-black);line-height:1.45;font-size:15px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
@@ -425,6 +446,11 @@
   .quiz-prog{font-size:13px;color:#666;margin-bottom:8px;}
   @media (max-width:700px){.quiz-opts{grid-template-columns:1fr;}}
   @media print{
+    /* screen themes never reach paper */
+    html[data-theme="dark"],html[data-booth="1"]{--havoc-black:#111114;--havoc-charcoal:#1d1d22;--havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--bg:#fff;}
+    html[data-theme="dark"] body,html[data-booth="1"] body{background:#fff !important;color:#111114 !important;font-size:15px !important;}
+    html[data-theme="dark"] .card,html[data-theme="dark"] .page,html[data-theme="dark"] .doc-frame{background:#fff !important;color:#111114 !important;}
+    html[data-booth="1"] table td,html[data-booth="1"] table th{padding-top:revert;padding-bottom:revert;}
     body{background:#fff;}
     .app-header,.tabs,.doc-toolbar,.no-print{display:none !important;}
     .wrap{padding:0;max-width:none;}
@@ -1191,6 +1217,14 @@
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
     <div class="card">
+      <h2>Booth <span class="accent">display</span></h2>
+      <p class="desc">For the booth: a dark screen next to a live mic, and bigger type for glancing at during play. Neither changes a printed page or a PDF — those always come out on the white sheet at the normal size.</p>
+      <div class="btn-row">
+        <button class="btn secondary" id="themeBtn" onclick="themeCycle()">Theme: System</button>
+        <button class="btn secondary" id="boothBtn" onclick="boothToggle()">Booth mode: Off</button>
+      </div>
+    </div>
+    <div class="card">
       <h2>Advanced</h2>
       <details>
         <summary style="cursor:pointer;font-weight:800;font-size:13px">Elite Prospects widget configuration</summary>
@@ -1578,7 +1612,7 @@ const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayettevi
 const KEY="havocHubData_v2";
 const DEFAULT_DATA={
   settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:"",
-    mediaName:"Jacob Murphy",mediaTitle:"Play by Play Broadcaster",mediaOrg:"Huntsville Havoc",mediaPhone:"863-430-4410 (cell)",mediaEmail:"jmurphy@huntsvillehavoc.com",mediaWeb:"www.huntsvillehavoc.com"},
+    mediaName:"Jacob Murphy",mediaTitle:"Play by Play Broadcaster",mediaOrg:"Huntsville Havoc",mediaPhone:"863-430-4410 (cell)",mediaEmail:"jmurphy@huntsvillehavoc.com",mediaWeb:"www.huntsvillehavoc.com",theme:"system",booth:0},
   game:{},notes:{schedule:"PS 10/9/26  vs Pensacola  Audio only — Radio & YouTube Live\n10/16/26  @ Pee Dee  7:15 PM\n10/17/26  @ Pee Dee  7:15 PM\n10/23/26  vs Pensacola  7:00 PM\n10/24/26  @ Pensacola  7:05 PM\n10/30/26  @ Pensacola  7:05 PM\n10/31/26  vs Macon  7:00 PM\n11/6/26  vs Macon  7:00 PM\n11/7/26  @ Fayetteville  6:00 PM\n11/8/26  @ Knoxville  3:00 PM\n11/13/26  @ Knoxville  7:30 PM\n11/14/26  vs Knoxville  7:00 PM\n11/20/26  vs Fayetteville  7:00 PM\n11/21/26  vs Fayetteville  7:00 PM\n11/25/26  @ Pensacola  7:05 PM\n11/26/26  vs Athens  7:00 PM\n11/27/26  vs Pensacola  7:00 PM\n12/4/26  vs Evansville  7:00 PM\n12/5/26  @ Evansville  7:05 PM\n12/11/26  vs Quad City  7:00 PM\n12/12/26  vs Quad City  7:00 PM\n12/18/26  @ Roanoke  7:05 PM\n12/19/26  @ Roanoke  7:05 PM\n12/20/26  vs Birmingham  5:00 PM\n12/26/26  @ Birmingham  7:00 PM\n12/27/26  @ Birmingham  2:00 PM\n12/29/26  vs Macon  7:00 PM\n12/31/26  @ Macon  6:00 PM\n1/2/27  @ Macon  6:00 PM\n1/8/27  vs Evansville  7:00 PM\n1/9/27  vs Evansville  7:00 PM\n1/15/27  vs Athens  7:00 PM\n1/16/27  vs Athens  7:00 PM\n1/18/27  @ Birmingham  1:00 PM\n1/22/27  vs Pensacola  7:00 PM\n1/23/27  vs Pee Dee  7:00 PM\n1/29/27  @ Evansville  7:05 PM\n1/30/27  @ Evansville  7:05 PM\n2/5/27  vs Knoxville  7:00 PM\n2/6/27  vs Knoxville  7:00 PM\n2/7/27  @ Pensacola  4:05 PM\n2/12/27  vs Quad City  7:00 PM\n2/13/27  vs Quad City  7:00 PM\n2/15/27  @ Birmingham  1:00 PM\n2/19/27  @ Peoria  7:15 PM\n2/20/27  @ Peoria  7:15 PM\n2/21/27  vs Birmingham  5:00 PM\n2/26/27  @ Quad City  7:10 PM\n2/27/27  @ Quad City  7:10 PM\n3/5/27  vs Athens  7:00 PM\n3/6/27  vs Athens  7:00 PM\n3/7/27  @ Evansville  5:00 PM\n3/12/27  @ Fayetteville  7:00 PM\n3/13/27  @ Fayetteville  6:00 PM\n3/19/27  vs Peoria  7:00 PM\n3/20/27  vs Peoria  7:00 PM\n3/25/27  vs Evansville  7:00 PM\n3/26/27  @ Athens  7:05 PM\n3/27/27  @ Athens  7:05 PM\n4/2/27  @ Knoxville  6:00 PM\n4/3/27  vs Knoxville  5:00 PM"},
   roster:[],            // Havoc
   oppRosters:{},        // {teamName:[players]}
@@ -1750,6 +1784,27 @@ function renderRosterStatus(){
    +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)));
 }
 
+/* ============ BOOTH DISPLAY (dark mode + type scale) ============
+   Screen only: the print CSS resets both so PDFs are identical either way. */
+const THEMES=['system','light','dark'];
+function themeApply(){
+  const t=DATA.settings.theme||'system';
+  const dark=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.documentElement.setAttribute('data-booth',DATA.settings.booth?'1':'0');
+  const b=document.getElementById('themeBtn');
+  if(b)b.textContent='Theme: '+({system:'System',light:'Light',dark:'Dark'}[t])+(t==='system'?(dark?' (dark now)':' (light now)'):'');
+  const bb=document.getElementById('boothBtn');
+  if(bb)bb.textContent='Booth mode: '+(DATA.settings.booth?'On':'Off');
+}
+function themeCycle(){
+  const cur=DATA.settings.theme||'system';
+  DATA.settings.theme=THEMES[(THEMES.indexOf(cur)+1)%THEMES.length];
+  save();themeApply();
+}
+function boothToggle(){DATA.settings.booth=DATA.settings.booth?0:1;save();themeApply();toast('Booth mode '+(DATA.settings.booth?'on — bigger type on screen only':'off'));}
+if(window.matchMedia)try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if((DATA.settings.theme||'system')==='system')themeApply();});}catch(e){}
+
 /* ============ TABS ============ */
 /* Merged panels (Rosters, Print Center) hold sub-views; last-used sub-view remembered per tab */
 const SUBTABS={rosters:'roster',print:'packet'};
@@ -1785,7 +1840,7 @@ function showTab(tab){
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
   if(tab==='calllog')clInit();
   if(tab==='postgame'){pgInit();ivRender('post');}
-  if(tab==='settings'){bkStatusRender();wgSettingsFill();}
+  if(tab==='settings'){bkStatusRender();wgSettingsFill();themeApply();}
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -6562,7 +6617,7 @@ function wgDeck(side){
   if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
 }
 
-seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
+themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
 (function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
