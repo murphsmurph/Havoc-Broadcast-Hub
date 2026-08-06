@@ -359,6 +359,20 @@ input, select, textarea { font-size: 16px; }
   .subnav .subtab, .subtab { min-height: 38px; }
   .icon-btn { min-height: 38px; padding: 4px 12px; }
   .sb-state .btn.small { min-height: 38px; }
+
+  /* ---------- Packet block controls ----------
+     The inline toolbars appear on hover, which a phone does not have — the
+     sidebar list is the touch surface, so give its buttons real tap targets. */
+  .blk-tools { display: none !important; }
+  .blk-row { flex-wrap: wrap; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--hub-line); }
+  .blk-row .bl-nm { flex: 1 0 100%; }
+  .blk-row button {
+    min-height: var(--hub-tap);
+    min-width: var(--hub-tap);
+    font-size: 14px;
+  }
+  .blk-list { max-height: 60vh; overflow-y: auto; }
+
 }
 
 /* ---------- Very small phones ---------- */

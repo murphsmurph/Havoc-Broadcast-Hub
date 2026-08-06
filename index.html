@@ -146,6 +146,7 @@
   .bst-h{font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px;letter-spacing:.04em;}
   .bst-mtp{margin-top:3px;}
   .bst-mtp .pk-t{font-size:7.5px;}
+  .bst-none{font-size:7.5px;font-style:italic;color:var(--ink-2);line-height:1.35;margin:1px 0 2px;}
   .fd-note{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
   .pg-embargo{background:var(--havoc-red);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;padding:3px 6px;border-radius:3px;margin-top:4px;flex:0 0 auto;}
   .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
@@ -291,11 +292,50 @@
   .pg-overtag button{font-size:11px;font-weight:800;border:1px solid #fff;border-radius:5px;background:#fff;color:var(--havoc-red);padding:1px 7px;cursor:pointer;}
   .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
   .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
+  /* a page that is mostly empty while the section still has blocks to come */
+  .page.pg-under{outline:2px dashed #b48a00;outline-offset:2px;}
+  .pg-filltag{position:absolute;top:0;left:0;right:0;background:#b48a00;color:#fff;font-size:11px;font-weight:800;padding:3px 8px;display:flex;gap:8px;align-items:center;justify-content:center;z-index:6;}
+  .pg-filltag button{font-size:11px;font-weight:800;border:1px solid #fff;border-radius:5px;background:#fff;color:#8a6a00;padding:1px 7px;cursor:pointer;}
+  /* Per-block controls: on hover in the preview, never on paper. They sit
+     beside the block rather than inside it — a printed block's own children
+     are styled by position, so nothing may be inserted among them. */
+  .blk-tools{position:absolute;z-index:7;display:none;gap:2px;background:rgba(255,255,255,.97);border:1px solid var(--havoc-line);border-radius:6px;padding:1px 3px;box-shadow:var(--shadow);}
+  .blk:hover + .blk-tools,.blk-tools:hover{display:flex;}
+  .blk-tools button{min-height:20px;padding:0 5px;font-size:11px;font-weight:800;line-height:1;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#222;cursor:pointer;}
+  .blk-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .blk-tools button[disabled]{opacity:.35;cursor:default;}
+  .blk-tools .blk-pt{font-size:10px;font-weight:700;color:#555;min-width:30px;text-align:center;font-variant-numeric:tabular-nums;}
+  /* Compact preset: the tightest rhythm that still reads at 8 pt */
+  .pk-compact .box{padding:4px 7px;margin-bottom:4px;}
+  .pk-compact .box h3{font-size:12px;padding-bottom:1px;margin-bottom:2px;}
+  .pk-compact table.pk-t td{padding:1px 4px;}
+  .pk-compact table.pk-t th{padding:1px 4px;}
+  .pk-compact .mtp-card{padding:4px 6px;margin-bottom:3px;}
+  .pk-compact .pg-head{padding-bottom:3px;margin-bottom:5px;}
+  .pk-compact .gn-cols{gap:9px;margin-top:3px;}
+  .blk-bold{font-weight:700;}
+  .blk-bold td,.blk-bold p,.blk-bold div,.blk-bold span{font-weight:700;}
+  .blk-list{width:100%;margin-top:4px;}
+  .blk-list h4{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:0 0 3px;}
+  .blk-row{display:flex;align-items:center;gap:4px;font-size:11px;padding:1px 0;color:var(--ink);}
+  .blk-row .bl-pg{min-width:52px;color:var(--ink-2);font-weight:700;}
+  .blk-row .bl-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .blk-row.off .bl-nm{opacity:.5;text-decoration:line-through;}
+  .blk-row button{min-height:20px;padding:0 5px;font-size:11px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:transparent;color:inherit;cursor:pointer;}
+  .blk-row button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .blk-list summary{cursor:pointer;list-style:none;}
+  .blk-list summary::-webkit-details-marker{display:none;}
+  .sec-auto{font-size:10px;font-weight:800;text-transform:uppercase;color:#8a6a00;background:#ffefc0;border-radius:4px;padding:0 4px;margin-left:3px;}
+  .sec-auto-note{width:100%;font-size:11px;font-weight:700;color:var(--ink-2);margin-top:3px;}
   .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
   .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
   .sec-tools .sec-pt{font-size:11.5px;font-weight:800;color:#1a1a1a;padding:0 3px;}
   .page.sec-bold{font-weight:700;}
   .lc-page > .sec-zoom,.vb-page > .sec-zoom{display:flex;flex-direction:column;height:100%;}
+  /* the footer is positioned against the zoom wrapper, whose box is exactly the
+     page's content width — otherwise a scaled section pushes it past the edge */
+  .sec-zoom{position:relative;}
+  .sec-zoom > .gn-foot{left:0;right:0;}
   .page > .sec-zoom{display:block;}
   .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:var(--tint-red);}
   .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--red-text);margin-bottom:4px;letter-spacing:.04em;}
@@ -361,9 +401,9 @@
   .gn-oppbox{text-align:right;}
   .gn-opp-logo{width:78px;height:78px;border-radius:8px;background:#333;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:900;font-size:22px;overflow:hidden;}
   .gn-opp-logo img{width:100%;height:100%;object-fit:contain;background:#fff;}
-  .gn-cols{display:grid;grid-template-columns:1.55fr 1fr;gap:14px;margin-top:6px;}
-  .box{border:1.5px solid var(--havoc-red);border-radius:6px;padding:8px 10px;margin-bottom:9px;}
-  .box h3{font-size:14px;font-weight:900;text-transform:uppercase;text-align:center;border-bottom:2px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:5px;letter-spacing:.4px;}
+  .gn-cols{display:grid;grid-template-columns:1.55fr 1fr;gap:12px;margin-top:4px;}
+  .box{border:1.5px solid var(--havoc-red);border-radius:6px;padding:6px 9px;margin-bottom:6px;}
+  .box h3{font-size:14px;font-weight:900;text-transform:uppercase;text-align:center;border-bottom:2px solid var(--havoc-silver);padding-bottom:2px;margin-bottom:4px;letter-spacing:.4px;}
   .news-item{margin-bottom:6px;}
   .news-item .h{font-weight:900;text-transform:uppercase;color:var(--red-text);font-size:10.5px;}
   .news-item .b{font-size:9.5px;line-height:1.4;text-align:justify;}
@@ -430,7 +470,7 @@
   .gs-stand tr.me td{background:var(--havoc-red);color:#fff;font-weight:800;}
   .gs-foot{border-top:3px solid var(--havoc-red);margin-top:8px;padding-top:4px;display:flex;justify-content:space-between;font-size:8px;font-weight:700;text-transform:uppercase;color:var(--havoc-grey);}
   /* packet multi-page styles */
-  .pg-head{display:flex;align-items:center;gap:12px;border-bottom:4px solid var(--havoc-red);padding-bottom:6px;margin-bottom:10px;}
+  .pg-head{display:flex;align-items:center;gap:12px;border-bottom:4px solid var(--havoc-red);padding-bottom:5px;margin-bottom:7px;}
   .pg-logo{width:46px;height:46px;border-radius:6px;background:var(--havoc-red);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;overflow:hidden;}
   .pg-logo img{width:100%;height:100%;object-fit:contain;background:#fff;}
   .pg-title{flex:1;font-size:30px;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
@@ -447,7 +487,7 @@
   table.qf-sched{width:100%;border-collapse:collapse;font-size:7.5px;}
   table.qf-sched td{padding:1px 3px;border-bottom:1px solid #eee;}
   table.qf-sched td:last-child{text-align:right;font-weight:700;}
-  .mtp-card{border:1.5px solid var(--havoc-black);border-radius:5px;padding:6px 9px;margin-bottom:7px;}
+  .mtp-card{border:1.5px solid var(--havoc-black);border-radius:5px;padding:5px 8px;margin-bottom:5px;}
   .mtp-head{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:4px;}
   .mtp-name{font-size:17px;font-weight:900;text-transform:uppercase;}
   .pk-mug{width:34px;height:34px;object-fit:cover;border-radius:50%;border:1.5px solid #ccc;vertical-align:middle;margin-right:6px;flex:0 0 auto;}
@@ -521,6 +561,7 @@
   .flash-back{font-size:18px;margin-top:12px;color:#444;}
   .quiz-prog{font-size:13px;color:var(--ink-2);margin-bottom:8px;}
   @media (max-width:700px){.quiz-opts{grid-template-columns:1fr;}}
+  @page{size:letter portrait;margin:0;}
   @media print{
     /* screen themes live in @media screen, so paper needs no reset — this only
        guards against a stray inline theme value reaching the sheet */
@@ -533,7 +574,9 @@
     .subview.printing{display:block !important;}
     .doc-scroll{max-height:none;overflow:visible;padding:0;background:#fff;}
     .doc-frame{border:none;box-shadow:none;margin:0;}
-    .page{box-shadow:none;margin:0;width:auto;min-height:auto;page-break-after:always;}
+    /* one .page element = exactly one sheet, the same 816x1056 box the preview
+       shows, so the PDF can never paginate differently from the preview */
+    .page{box-shadow:none;margin:0;width:816px;min-height:1056px;height:1056px;overflow:hidden;page-break-after:always;}
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
@@ -672,7 +715,7 @@
   .ldr4 .ldr-r{display:flex;justify-content:space-between;gap:6px;line-height:1.5;}
   table.pk-t{width:100%;border-collapse:collapse;font-size:8.5px;}
   table.pk-t th{background:var(--havoc-black);color:#fff !important;padding:2px 5px;text-align:left;font-size:8px;letter-spacing:.04em;}
-  table.pk-t td{border-bottom:1px solid #ddd;padding:2px 5px;}
+  table.pk-t td{border-bottom:1px solid #ddd;padding:1.5px 5px;}
   table.pk-t td.r,table.pk-t th.r{text-align:right;}
   table.pk-ws td{border:1px solid #888;height:16px;padding:1px 4px;font-size:8px;}
   .ws-page{display:flex;flex-direction:column;height:1056px;}
@@ -1081,6 +1124,7 @@
       <div class="btn-row">
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
         <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
+        <button class="btn secondary" onclick="pkPreset('compact')" title="Everything, at the tightest size that still reads">Compact preset</button>
         <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
       </div>
       <p class="desc" style="margin-top:6px">Click into any packet page in the preview to edit its text directly &mdash; edits save and survive refreshes (an edited page keeps your wording until you Clear text edits). On Meet the Team pages, editing a player&rsquo;s notes writes straight back to their <b>media bio</b> on the roster.</p>
@@ -1344,6 +1388,11 @@
         <button class="btn secondary" onclick="bkListBackups()">Show folder backups</button>
       </div>
       <div id="bkList" style="margin-top:6px"></div>
+      <div class="section-label hub-sectionhead">Packet layout</div>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="pkLayoutReset()">Reset all layout</button>
+      </div>
+      <p class="desc">Puts every packet block back to its default size, weight, order, page break and visibility, and clears anything auto-fit changed. Your text edits and data are untouched.</p>
       <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
       <div class="danger-zone">
         <h4>Danger zone</h4>
@@ -1377,7 +1426,8 @@
     <div class="field hub-field"><label>Weight</label><input type="text" id="p_wt"></div>
     <div class="field hub-field"><label>Shoots/Catches</label><input type="text" id="p_sh"></div>
     <div class="field hub-field"><label>Age</label><input type="text" id="p_age"></div>
-    <div class="field hub-field" style="grid-column:span 2"><label>Birthplace</label><input type="text" id="p_birth"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>Hometown <span class="hint">(the league feed owns this &mdash; typing here keeps your version)</span></label><input type="text" id="p_birth"></div>
+    <div class="field hub-field" style="grid-column:span 2"><label>Birthplace <span class="hint">(only when it differs)</span></label><input type="text" id="p_bornIn"></div>
     <div class="field hub-field" style="grid-column:span 2"><label>Previous team</label><input type="text" id="p_from" placeholder="filled from Elite Prospects"></div>
     <div class="field hub-field" style="grid-column:span 2"><label>DOB</label><input type="text" id="p_dob"></div>
   </div>
@@ -1397,7 +1447,7 @@
 <div class="modal-bg" id="epModal"><div class="modal">
   <button class="close" onclick="closeModal('epModal')">&times;</button>
   <h3>Paste Elite Prospects text</h3>
-  <p class="desc">Auto-fills #, name, DOB, age, position, height, weight, shoots, birthplace. Add jersey # and career notes after.</p>
+  <p class="desc">Auto-fills #, name, DOB, age, position, height, weight, shoots, hometown. Add jersey # and career notes after.</p>
   <input type="hidden" id="ep_side">
   <div class="field hub-field"><label>Jersey # (optional)</label><input type="text" id="ep_num"></div>
   <div class="field hub-field"><label>EP text</label><textarea id="ep_text" rows="9"></textarea></div>
@@ -1890,17 +1940,22 @@ function bioApply(json){
     if(meta.EMBARGO)p.unannounced=1;         // not yet announced by the club
     if(e.name&&e.name!==p.name){out.renamed.push(p.name+' → '+e.name);p.name=e.name;}
     const air=airNameOf(p.name);if(air)p.airName=air;
-    if(e.number!=null&&String(e.number)!==String(p.num||''))p.numBio=String(e.number);
-    // header facts — only where the file is actually sure
-    const set=(k,v)=>{if(v!=null&&String(v).trim()&&!/UNVERIFIED|UNCONFIRMED|UNRESOLVED/i.test(String(v)))p[k]=String(v);};
+    if(e.number!=null&&!feedOwns(p,'num')&&String(e.number)!==String(p.num||''))p.numBio=String(e.number);
+    // Header facts. The league feed is the authority on every vital, so the
+    // bios file only fills a gap the feed has not answered — and only where
+    // the file is actually sure.
+    const set=(k,v)=>{
+      if(feedOwns(p,k)||handOwns(p,k))return;                       // SPHL, then his own edit
+      if(v!=null&&String(v).trim()&&!/UNVERIFIED|UNCONFIRMED|UNRESOLVED/i.test(String(v)))p[k]=String(v);
+    };
     set('pos',e.position&&e.position.replace(/\s*\(.*\)/,''));
     set('ht',e.height&&String(e.height).replace(/'/,'-').replace(/"/,''));
     set('wt',e.weight);
     const hand=String(e.shoots||e.catches||'');
-    if(/^[LR]$/i.test(hand.trim()))p.sh=hand.trim().toUpperCase();
+    if(/^[LR]$/i.test(hand.trim()))set('sh',hand.trim().toUpperCase());
     set('birth',e.hometown);
-    if(e.dob&&/^\d{4}-\d{2}-\d{2}$/.test(e.dob)){p.dobi=e.dob;p.dob=htDobFmt(e.dob);p.age=htAgeFrom(e.dob);}
-    else if(e.age)p.age=String(e.age);
+    if(e.dob&&/^\d{4}-\d{2}-\d{2}$/.test(e.dob)&&!feedOwns(p,'dob')&&!handOwns(p,'dob')){p.dobi=e.dob;p.dob=htDobFmt(e.dob);set('age',htAgeFrom(e.dob));}
+    else if(e.age)set('age',e.age);
     // bios: the long one prints in the packet, the short one on the chart
     if(e.bio)p.notes=e.bio;
     if(!String(p.bbio||'').trim()&&Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bbio=e.broadcastNotes[0];
@@ -1919,10 +1974,12 @@ function bioApply(json){
     // advisory fields print as small italics, never as data
     p.bioNotesAdvisory=BIO_ADVISORY.map(k=>e[k]?{k,v:String(e[k])}:null).filter(Boolean);
     if(!p.bioNotesAdvisory.length)delete p.bioNotesAdvisory;
-    // pronunciation: only take it when the file is sure; otherwise queue it to ask
+    // pronunciation: the feed's phonetic_name wins; otherwise take the file's
+    // only where it is sure, and queue the rest to ask the club
     const pr=String(e.pronunciation||'');
-    if(pr&&!/UNVERIFIED/i.test(pr)&&!/as spelled/i.test(pr))p.pron=pr;
-    else if(/UNVERIFIED/i.test(pr))p.pronAsk=1;
+    if(feedOwns(p,'pron')){}
+    else if(pr&&!/UNVERIFIED/i.test(pr)&&!/as spelled/i.test(pr))p.pron=pr;
+    else if(!String(p.pron||'').trim())p.pronAsk=1;
     // stat tables the league feed cannot give us in preseason
     if((e.collegeStats||[]).length||(e.proStats||[]).length||(e.playoffStats||[]).length)
       p.bioStats={college:e.collegeStats||[],pro:e.proStats||[],playoffs:e.playoffStats||[]};
@@ -2032,7 +2089,12 @@ function renderRosterStatus(){
    +box('Awaiting the league feed','wait',s.awaiting.map(p=>line(p,'<span class="rs-note">not published on the SPHL feed yet — vitals from the sheet + last season</span>')))
    +box('Jersey-number conflicts — your sheet is showing','warn',s.conflicts.map(p=>line(p,`<span class="rs-note">feed says <b>#${esc(p.numFeed)}</b></span><button class="icon-btn" onclick="numTakeFeed('${p.id}')">use feed #</button><button class="icon-btn" onclick="numKeepSheet('${p.id}')">keep mine</button>`)))
    +box('In the feed but not on your sheet','warn',s.feedOnly.map(p=>line(p,`<span class="rs-note">added by a sync — confirm to include in the packet</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)))
-   +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)));
+   +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)))
+   +(function(){
+      // the feed's phonetic_name fills the guide; these are the ones it left blank
+      const ask=DATA.roster.filter(p=>p.name&&p.active!=='0'&&!String(p.pron||'').trim());
+      return box('Pronunciations to get from the club','wait',ask.map(p=>line(p,'<span class="rs-note">no phonetic_name on the league feed — prints as “— ask him —”</span>')));
+    })();
 }
 
 /* Preview scaling on phones: CSS can't divide a length by a length, so the
@@ -2169,17 +2231,23 @@ function secFamily(key){
   return 'packet';
 }
 function secBase(key){return SEC_BASE[secFamily(key)]||8;}
+/* auto-fit's own value for a section, used only where he hasn't set one himself */
+function secAutoPt(key){const v=+((DATA.secAuto||{})[key]);return (v>=6&&v<=16)?v:0;}
 function secPt(key){
   DATA.secPt=DATA.secPt||{};
   const v=+DATA.secPt[key];
+  if(!(v>=6&&v<=16)&&secAutoPt(key))return secAutoPt(key);
   return (v>=6&&v<=16)?v:secBase(key);
 }
 function secBold(key){return !!((DATA.secBold||{})[key]);}
 function secSetPt(key,pt){
   pt=Math.max(6,Math.min(16,Math.round(pt)));
   DATA.secPt=DATA.secPt||{};
+  if(DATA.secAuto)delete DATA.secAuto[key];   // his click takes the section back from auto-fit
   if(pt===secBase(key))delete DATA.secPt[key];else DATA.secPt[key]=pt;
-  save();secApplyAll();
+  save();
+  if(secFamily(key)==='packet'&&document.getElementById('packetDoc'))renderPacket();
+  else secApplyAll();
 }
 function secStep(key,d){secSetPt(key,secPt(key)+d);}
 function secToggleBold(key){
@@ -2190,7 +2258,10 @@ function secToggleBold(key){
 function secReset(key){
   if(DATA.secPt)delete DATA.secPt[key];
   if(DATA.secBold)delete DATA.secBold[key];
-  save();secApplyAll();
+  if(DATA.secAuto)delete DATA.secAuto[key];
+  save();
+  if(secFamily(key)==='packet'&&document.getElementById('packetDoc'))renderPacket();
+  else secApplyAll();
 }
 function secToolsHTML(key){
   const pt=secPt(key);
@@ -2296,9 +2367,323 @@ function secRenderBar(over){
       <span class="sec-pt hub-sectionctrl__value">${secPt(k)} pt</span>
       <button title="1 pt larger" onclick="secStep('${k}',1)">A+</button>
       <button class="${secBold(k)?'on':''}" aria-pressed="${secBold(k)?'true':'false'}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
-      <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button></span>`).join('')
+      <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button>${secAutoPt(k)&&!((DATA.secPt||{})[k])?`<span class="sec-auto" title="Auto-fitted to save a page">auto</span>`:''}</span>`).join('')
    +((over||[]).length?`<div class="sec-warn"><button class="sec-fix" style="margin-bottom:4px" onclick="secFitAll()">Fit every page (steps the offenders down until they fit)</button><br>${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') '+(o.wide?'runs '+o.wide+'px past the right edge':'overflows the page')+' — <button class="sec-fix" onclick="secStep(\''+o.key+'\',-1)">reduce by 1 pt</button>').join('<br>')}</div>`:'')
-   +`</div>`;
+   +autoFitNoteHTML()
+   +`</div>`+pkBlockListHTML();
+}
+/* what auto-fit did, said plainly */
+function autoFitNoteHTML(){
+  const a=DATA.secAuto||{};
+  const ks=Object.keys(a).filter(k=>!((DATA.secPt||{})[k]));
+  if(!ks.length)return '';
+  return `<div class="sec-auto-note">${ks.map(k=>esc(secLabel(k))+' auto-fit to '+a[k]+' pt').join(' · ')}</div>`;
+}
+/* the sidebar list of every block on the packet — the controls without hovering */
+function pkBlockListHTML(){
+  if(SUBTABS.print!=='packet')return '';
+  const doc=document.getElementById('packetDoc');if(!doc)return '';
+  const pageOf=new Map();
+  [...doc.querySelectorAll('.page')].forEach((pg,i)=>{pg.querySelectorAll('[data-blk]').forEach(el=>pageOf.set(el.dataset.blk,i+1));});
+  const rows=[];
+  const bySec={};
+  doc.querySelectorAll('[data-blk]').forEach(el=>{const s=el.dataset.blksec||'';(bySec[s]=bySec[s]||[]).push(el);});
+  const hidden=Object.keys(blkAll()).filter(id=>blkAll()[id].hide);
+  Object.keys(bySec).forEach(sec=>{
+    bySec[sec].forEach((el,i)=>{
+      const id=el.dataset.blk,c=blkGet(id),last=i===bySec[sec].length-1;
+      rows.push(`<div class="blk-row"><span class="bl-pg">p${pageOf.get(id)||'—'}</span><span class="bl-nm">${esc(blkLabel(el))}</span>
+        <button title="1 pt smaller" onclick="blkStep('${id}',-1)">A&minus;</button><span class="blk-pt">${c.pt||secPt(sec)} pt</span>
+        <button title="1 pt larger" onclick="blkStep('${id}',1)">A+</button>
+        <button class="${c.bold?'on':''}" title="Bold" onclick="blkBold('${id}')"><b>B</b></button>
+        <button title="Move earlier" ${i===0?'disabled':''} onclick="blkMove('${id}',-1)">&uarr;</button>
+        <button title="Move later" ${last?'disabled':''} onclick="blkMove('${id}',1)">&darr;</button>
+        <button class="${c.brk?'on':''}" title="Start a new page here" onclick="blkBreak('${id}')">&#9166;</button>
+        <button title="Hide from print" onclick="blkHide('${id}')">&#128065;</button>
+        <button title="Reset" onclick="blkReset('${id}')">&#8635;</button></div>`);
+    });
+  });
+  hidden.forEach(id=>{
+    rows.push(`<div class="blk-row off"><span class="bl-pg">hidden</span><span class="bl-nm">${esc(id.split('#').pop().replace(/-/g,' '))}</span>
+      <button title="Show again" onclick="blkHide('${id}')">&#128065;</button></div>`);
+  });
+  if(!rows.length)return '';
+  return `<details class="blk-list"><summary><h4 style="display:inline">Blocks on these pages (${rows.length}) — size, weight, order, page break, hide</h4></summary>${rows.join('')}</details>`;
+}
+/* ============================================================
+   PACKET BLOCK LAYOUT
+   Every printable page is built from blocks — a stat table, a bio card, a
+   news box, a worksheet. This lays them out: it flows blocks onto as few
+   sheets as they fit on, never splits one across a page break, and keeps a
+   per-block size / weight / order / break / hide setting saved per preset.
+   Pages the club's layout depends on (the cover, the game sheet, the ice
+   map, the worksheets) are left exactly as they were built.
+   ============================================================ */
+const PK_NOFLOW={cover:1,gamesheet:1,worksheets:1,verbs:1};
+const PK_CHROME=['pg-head','gn-foot','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp','embargo-bar','pg-embargo'];
+function pkPresetName(){const n=(DATA.settings||{}).packetPreset;return (n==='booth'||n==='compact')?n:'full';}
+function blkAll(){DATA.blk=DATA.blk||{};const k=pkPresetName();return (DATA.blk[k]=DATA.blk[k]||{});}
+function blkGet(id){return blkAll()[id]||{};}
+function blkSet(id,patch){
+  const all=blkAll(),c=Object.assign({},all[id]||{},patch);
+  Object.keys(c).forEach(k=>{if(!c[k])delete c[k];});
+  if(Object.keys(c).length)all[id]=c;else delete all[id];
+  save();renderPacket();
+}
+function blkStep(id,d){const c=blkGet(id);blkSet(id,{pt:Math.max(6,Math.min(16,(+c.pt||0)+d||(secBase('packet')+d)))});}
+function blkBold(id){blkSet(id,{bold:blkGet(id).bold?0:1});}
+function blkHide(id){blkSet(id,{hide:blkGet(id).hide?0:1});}
+function blkBreak(id){blkSet(id,{brk:blkGet(id).brk?0:1});}
+function blkReset(id){const all=blkAll();delete all[id];save();renderPacket();}
+function pkLayoutReset(){
+  if(!confirm('Put every packet block back to its default size, order and visibility?'))return;
+  DATA.blk={};DATA.secAuto={};save();renderPacket();toast('Packet layout reset');
+}
+/* the blocks that make up a page, in print order — page furniture excluded */
+function pkFlowKids(host){
+  return [...host.children].filter(el=>el.nodeType===1&&!el.classList.contains('sec-zoom')
+    &&!PK_CHROME.some(c=>el.classList.contains(c)));
+}
+function pkZone(pg){return pg.querySelector(':scope > .sec-zoom')||pg;}
+function blkSlug(el,sec){
+  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,.bst-h,h3,.h');
+  let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim().slice(0,44);
+  if(!t)t=(el.className||'').split(/\s+/)[0]||'block';
+  return sec+'#'+t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,44);
+}
+function blkLabel(el){
+  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,.bst-h,h3,.h');
+  let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim();
+  return t.slice(0,38)||'block';
+}
+/* Tag every block with a stable id. Ids are assigned before anything is
+   hidden or reordered, so a block keeps the same id whatever the layout. */
+function pkTag(){
+  const seen={},out=[];
+  document.querySelectorAll('#packetDoc .page').forEach(pg=>{
+    const sec=pg.dataset.sec||'';
+    pkFlowKids(pkZone(pg)).forEach(el=>{
+      let id=blkSlug(el,sec);
+      seen[id]=(seen[id]||0)+1;
+      if(seen[id]>1)id+='~'+seen[id];
+      el.dataset.blk=id;el.dataset.blksec=sec;
+      out.push({id,sec,el,cfg:blkGet(id)});
+    });
+  });
+  return out;
+}
+/* per-block size and weight ride on the block itself, so the printed sheet
+   gets exactly what the preview shows */
+function pkApplyBlock(b){
+  const base=secPt(b.sec)||secBase('packet');
+  b.el.style.zoom=b.cfg.pt?(b.cfg.pt/base).toFixed(4):'';
+  b.el.classList.toggle('blk-bold',!!b.cfg.bold);
+  b.el.classList.toggle('blk-brk',!!b.cfg.brk);
+}
+/* sort a section's blocks by his order, falling back to build order */
+function pkOrdered(blocks){
+  return blocks.map((b,i)=>({b,i})).sort((x,y)=>{
+    const a=x.b.cfg.ord==null?x.i:x.b.cfg.ord, c=y.b.cfg.ord==null?y.i:y.b.cfg.ord;
+    return a===c?x.i-y.i:a-c;
+  }).map(x=>x.b);
+}
+function blkMove(id,d){
+  const el=document.querySelector('#packetDoc [data-blk="'+CSS.escape(id)+'"]');
+  if(!el)return;
+  const sec=el.dataset.blksec;
+  const list=pkOrdered(pkTag().filter(b=>b.sec===sec));
+  const i=list.findIndex(b=>b.id===id),j=i+d;
+  if(i<0||j<0||j>=list.length)return;
+  list.splice(j,0,list.splice(i,1)[0]);
+  const all=blkAll();
+  list.forEach((b,k)=>{all[b.id]=Object.assign({},all[b.id]||{},{ord:k+1});});
+  save();renderPacket();
+}
+/* Measure in heights, never in page positions: a scrolling preview or a
+   phone-scaled page moves every coordinate, but a height is a height. */
+function pkScale(pg){const w=pg.getBoundingClientRect().width;return w>0?w/816:1;}
+/* how much of a sheet a page's content may fill before it reaches the footer */
+function pkRoom(pg){
+  const s=pkScale(pg);
+  const foot=pg.querySelector(':scope > .gn-foot');
+  const fh=foot?foot.getBoundingClientRect().height/s:0;
+  const padT=parseFloat(getComputedStyle(pg).paddingTop)||34;
+  return 1056-padT-18-fh-14;    // a little slack so a trailing margin can't tip a page over
+}
+/* how much of it the content actually fills */
+function pkUsed(pg){
+  const z=pkZone(pg);
+  if(z===pg)return 0;
+  return z.getBoundingClientRect().height/pkScale(pg);
+}
+/* Flow one section's blocks onto as few sheets as they fit on. A block is
+   atomic: it never splits, it moves whole to the next page. */
+function pkFlowSection(pages,blocks){
+  if(!pages.length)return pages;
+  const host=pages[0].parentNode,after=pages[pages.length-1].nextSibling;
+  const tmpl=pages[0].cloneNode(true);
+  pkFlowKids(pkZone(tmpl)).forEach(k=>k.remove());
+  const tag=pkZone(tmpl).querySelector('.pg-overtag, .pg-filltag');if(tag)tag.remove();
+  pages.slice(1).forEach(p=>p.remove());
+  const first=pages[0];
+  pkFlowKids(pkZone(first)).forEach(k=>k.remove());
+  first.classList.remove('pg-over','pg-under');
+  const out=[first];
+  let pg=first,zone=pkZone(pg),room=pkRoom(pg);
+  const nextPage=()=>{
+    pg=tmpl.cloneNode(true);host.insertBefore(pg,after);out.push(pg);
+    zone=pkZone(pg);room=pkRoom(pg);
+  };
+  blocks.forEach(b=>{
+    if(b.cfg.brk&&pkFlowKids(zone).length)nextPage();
+    zone.appendChild(b.el);
+    // a block never splits: if it puts the page over, it moves whole
+    if(pkFlowKids(zone).length>1&&pkUsed(pg)>room){nextPage();zone.appendChild(b.el);}
+  });
+  return out;
+}
+/* page numbers are only knowable once the flow has settled */
+function pkNumberPages(){
+  [...document.querySelectorAll('#packetDoc .page')].forEach((pg,i)=>{
+    pg.querySelectorAll('.pg-num').forEach(el=>{el.textContent='PAGE '+(i+1);});
+    const foot=pg.querySelector('.gn-foot');
+    if(foot&&foot.lastElementChild)foot.lastElementChild.textContent='PAGE '+(i+1);
+  });
+}
+let PK_LAYOUT_BUSY=false;
+function pkLayout(){
+  const doc=document.getElementById('packetDoc');if(!doc)return;
+  const blocks=pkTag();
+  blocks.forEach(b=>{
+    if(b.cfg.hide){b.el.remove();return;}
+    pkApplyBlock(b);
+  });
+  const live=blocks.filter(b=>!b.cfg.hide);
+  // group each section's pages together, then reflow the ones that may flow
+  const bySec={};
+  [...doc.querySelectorAll('.page')].forEach(pg=>{
+    const s=pg.dataset.sec||'';(bySec[s]=bySec[s]||[]).push(pg);
+  });
+  Object.keys(bySec).forEach(sec=>{
+    if(PK_NOFLOW[sec])return;
+    if(bySec[sec].some(p=>p.dataset.edited==='1'))return;   // a hand-edited page keeps its shape
+    const mine=pkOrdered(live.filter(b=>b.sec===sec));
+    if(!mine.length)return;
+    pkFlowSection(bySec[sec],mine);
+  });
+  pkNumberPages();
+  pkBlockTools();
+}
+/* the inline toolbar each block carries in the preview, never in print */
+function blkToolsHTML(id,pt,c,first,last){
+  const on=k=>c[k]?' class="on"':'';
+  return `<div class="blk-tools no-print">
+    <button title="1 pt smaller" onclick="event.stopPropagation();blkStep('${id}',-1)">A&minus;</button>
+    <span class="blk-pt">${pt} pt</span>
+    <button title="1 pt larger" onclick="event.stopPropagation();blkStep('${id}',1)">A+</button>
+    <button${on('bold')} title="Bold this block" onclick="event.stopPropagation();blkBold('${id}')"><b>B</b></button>
+    <button title="Move earlier"${first?' disabled':''} onclick="event.stopPropagation();blkMove('${id}',-1)">&uarr;</button>
+    <button title="Move later"${last?' disabled':''} onclick="event.stopPropagation();blkMove('${id}',1)">&darr;</button>
+    <button${on('brk')} title="Start a new page before this block" onclick="event.stopPropagation();blkBreak('${id}')">&#9166;</button>
+    <button title="Hide from print (keeps the data)" onclick="event.stopPropagation();blkHide('${id}')">&#128065;</button>
+    <button title="Back to defaults" onclick="event.stopPropagation();blkReset('${id}')">&#8635;</button>
+  </div>`;
+}
+function pkBlockTools(){
+  document.querySelectorAll('#packetDoc .blk-tools').forEach(t=>t.remove());
+  const bySec={};
+  document.querySelectorAll('#packetDoc [data-blk]').forEach(el=>{
+    const s=el.dataset.blksec||'';(bySec[s]=bySec[s]||[]).push(el);
+  });
+  Object.keys(bySec).forEach(sec=>{
+    const list=bySec[sec];
+    list.forEach((el,i)=>{
+      const id=el.dataset.blk,c=blkGet(id);
+      const pt=c.pt||secPt(sec)||secBase('packet');
+      el.classList.add('blk');
+      el.insertAdjacentHTML('afterend',blkToolsHTML(id,pt,c,i===0,i===list.length-1));
+      const tool=el.nextElementSibling;
+      if(tool&&tool.classList.contains('blk-tools')){
+        tool.setAttribute('contenteditable','false');
+        tool.style.top=(el.offsetTop+2)+'px';
+        tool.style.right='2px';
+      }
+    });
+  });
+}
+/* ---- the page inspector: what overflows, and what is mostly empty ---- */
+function pkInspect(){
+  const doc=document.getElementById('packetDoc');if(!doc)return [];
+  const pages=[...doc.querySelectorAll('.page')];
+  const out=[];
+  pages.forEach((pg,i)=>{
+    const sec=pg.dataset.sec||'';
+    const zone=pkZone(pg),kids=pkFlowKids(zone),s=pkScale(pg);
+    const room=pkRoom(pg);
+    const chrome=[...zone.children].filter(c=>kids.indexOf(c)<0)
+      .reduce((t,c)=>t+c.getBoundingClientRect().height/s,0);
+    const body=kids.reduce((t,k)=>t+k.getBoundingClientRect().height/s,0);
+    const fill=room>chrome?Math.max(0,Math.min(1,body/(room-chrome))):1;
+    // is there another block of this section waiting on a later page?
+    const next=pages.slice(i+1).find(p=>(p.dataset.sec||'')===sec);
+    const wasted=!PK_NOFLOW[sec]&&fill<0.40&&!!next;
+    pg.classList.toggle('pg-under',wasted);
+    const tag=pg.querySelector(':scope > .pg-filltag');
+    if(wasted){
+      const html='<div class="pg-filltag no-print">This page is '+Math.round(fill*100)+'% full'
+        +' <button onclick="event.stopPropagation();pkPullUp(\''+sec+'\')">pull the next block up</button></div>';
+      if(tag)tag.outerHTML=html;else pg.insertAdjacentHTML('afterbegin',html);
+    }else if(tag)tag.remove();
+    out.push({i:i+1,sec,fill:Math.round(fill*100),wasted});
+  });
+  return out;
+}
+/* the honest lever for wasted space: the next block does not fit at this size,
+   so take the section down a point and let it come up */
+function pkPullUp(sec){
+  const pt=secPt(sec);
+  if(pt<=7){toast(secLabel(sec)+' is already at its smallest readable size');return;}
+  secSetPt(sec,pt-1);
+  toast(secLabel(sec)+' reduced to '+(pt-1)+' pt to pull the next block up');
+}
+/* Auto-fit: when a section is within ~10% of fitting on one fewer sheet, take
+   it down a point rather than print a nearly empty page. Never below 7 pt. */
+function pkAutoFit(){
+  const doc=document.getElementById('packetDoc');if(!doc)return {};
+  const changed={};
+  const compact=pkPresetName()==='compact';
+  for(let pass=0;pass<6;pass++){
+    const bySec={};
+    [...doc.querySelectorAll('.page')].forEach(pg=>{
+      const s=pg.dataset.sec||'';if(PK_NOFLOW[s])return;
+      (bySec[s]=bySec[s]||[]).push(pg);
+    });
+    let moved=false;
+    Object.keys(bySec).forEach(sec=>{
+      const pages=bySec[sec];
+      if(pages.length<2)return;
+      if((DATA.secPt||{})[sec])return;                 // he set this one himself
+      const floor=7;
+      if(secPt(sec)<=floor)return;
+      let used=0;
+      const s=pkScale(pages[0]);
+      pages.forEach(pg=>{pkFlowKids(pkZone(pg)).forEach(k=>{used+=k.getBoundingClientRect().height/s;});});
+      const kids0=pkFlowKids(pkZone(pages[0]));
+      const chrome=[...pkZone(pages[0]).children].filter(c=>kids0.indexOf(c)<0)
+        .reduce((t,c)=>t+c.getBoundingClientRect().height/s,0);
+      const target=(pages.length-1)*Math.max(1,pkRoom(pages[0])-chrome);
+      if(compact||used<=target*1.10){
+        DATA.secAuto=DATA.secAuto||{};
+        DATA.secAuto[sec]=secPt(sec)-1;
+        changed[sec]=DATA.secAuto[sec];
+        moved=true;
+      }
+    });
+    if(!moved)break;
+    save();
+    pkRebuild();
+  }
+  return changed;
 }
 /* toolbar actions that used to be duplicated per section */
 function prClearEdits(){
@@ -2534,7 +2919,7 @@ function renderRosterTable(side,wrapId){
   if(!list.length){wrap.innerHTML='<div class="empty"><div class="big">No players yet</div>Add players or paste Elite Prospects text.</div>';return;}
   const order={C:0,LW:1,RW:2,D:3,G:4};
   const sorted=[...list].sort((a,b)=>(order[a.pos]-order[b.pos])||(+a.num-+b.num));
-  let html='<table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Age</th><th>Birthplace</th><th>Bio</th><th>Active</th><th></th></tr></thead><tbody>';
+  let html='<table class="roster"><thead><tr><th>#</th><th>Name</th><th>Pos</th><th>Ht</th><th>Wt</th><th>Sh</th><th>Age</th><th>Hometown</th><th>Bio</th><th>Active</th><th></th></tr></thead><tbody>';
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
     const manual=!!(p.statOverride&&p.statOverride.trim());
@@ -2559,7 +2944,7 @@ function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
   const list=getRoster(side);const p=id?list.find(x=>x.id===id):{};
   setv('p_id',id||'');setv('p_side',side);
-  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_from',p.from||'');setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
+  setv('p_num',p.num);setv('p_name',p.name);setv('p_pos',p.pos||'C');setv('p_ht',p.ht);setv('p_wt',p.wt);setv('p_sh',p.sh);setv('p_age',p.age);setv('p_birth',p.birth);setv('p_bornIn',p.bornIn||'');setv('p_from',p.from||'');setv('p_dob',p.dob);setv('p_notes',p.notes);setv('p_bbio',p.bbio);setv('p_capt',p.capt||'');setv('p_active',p.active||'1');
   // opponents only carry a broadcast bio; the long media bio is Havoc-only
   document.getElementById('p_notes_wrap').style.display=(side==='home')?'':'none';
   const pw=document.getElementById('p_photo_wrap');if(pw)pw.style.display=(side==='home')?'':'none';
@@ -2586,9 +2971,19 @@ function pPhotoPick(e){
 }
 function savePlayer(){
   const id=val('p_id'),side=val('p_side');const list=getRoster(side);
-  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),from:val('p_from'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active'),imgData:window._pPhotoData||''};
+  const obj={num:val('p_num'),name:val('p_name'),pos:val('p_pos'),ht:val('p_ht'),wt:val('p_wt'),sh:val('p_sh'),age:val('p_age'),birth:val('p_birth'),bornIn:val('p_bornIn'),from:val('p_from'),dob:val('p_dob'),notes:document.getElementById('p_notes').value.trim(),bbio:document.getElementById('p_bbio').value.trim(),capt:val('p_capt'),active:val('p_active'),imgData:window._pPhotoData||''};
   if(!obj.name){toast("Name required");return;}
-  if(id)Object.assign(list.find(x=>x.id===id),obj);else{obj.id=uid();list.push(obj);}
+  if(id){
+    const cur=list.find(x=>x.id===id);
+    // remember which vitals he changed by hand so the next roster sync leaves
+    // his correction alone; everything else the league feed still owns
+    const he=Object.assign({},cur.handEdit||{});
+    ['num','pos','ht','wt','sh','age','birth','dob'].forEach(k=>{
+      if(String(obj[k]||'')!==String(cur[k]||''))he[k]=1;
+    });
+    if(Object.keys(he).length)obj.handEdit=he;
+    Object.assign(cur,obj);
+  }else{obj.id=uid();list.push(obj);}
   save();closeModal('playerModal');side==='home'?renderRoster():renderOppRoster();toast("Player saved");
 }
 function deletePlayer(){
@@ -4145,9 +4540,15 @@ function fdDataPage(side){
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Team Data</div>${dataRows}
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Recent Transactions</div>${txRows}
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Pronunciation</div>
-        ${(()=>{const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);const es2=teamPronList(list).slice(0,14);
-          return es2.length?`<div class="fd-pron2">${es2.map(e=>`<div><b>${esc(e.name.split(' ').pop().toUpperCase())}</b> ${esc(e.say)}</div>`).join('')}</div>`
-          :'<div style="font-size:12px;color:var(--ink-2)">None saved — add on the rosters or the Settings guide.</div>';})()}
+        ${(()=>{const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
+          const all=teamPronList(list);
+          // the booth card carries the ones we actually know; the unknowns are a
+          // prep job, and they get their own line on the packet's guide
+          const known=all.filter(e=>!/ask him/i.test(e.say)).slice(0,14);
+          const ask=all.length-all.filter(e=>!/ask him/i.test(e.say)).length;
+          const tail=ask?`<div style="font-size:11px;color:var(--ink-2);margin-top:2px">${ask} still to confirm with the club</div>`:'';
+          return known.length?`<div class="fd-pron2">${known.map(e=>`<div><b>${esc(e.name.split(' ').pop().toUpperCase())}</b> ${esc(e.say)}</div>`).join('')}</div>${tail}`
+          :(tail||'<div style="font-size:12px;color:var(--ink-2)">None saved — add on the rosters or the Settings guide.</div>');})()}
       </div>
     </div>
     <div class="fd-notes"><div class="fd-notes-label">NOTES</div><div class="fd-notes-rule"></div></div>
@@ -4908,7 +5309,8 @@ function careerPages(red,S){
       ${isG?'':`<tr><td colspan="3"><b>Career totals</b></td><td class="r"><b>${totals.gp}</b></td><td class="r"><b>${totals.g}</b></td><td class="r"><b>${totals.a}</b></td><td class="r"><b>${totals.p}</b></td></tr>`}</table>
       <div style="font-size:7px;color:var(--ink-2)">Career vs. each SPHL opponent, single-game highs and firsts: N/A — builds from per-game data going forward.</div></div>`);
   });
-  return packMeasured(blocks,900).map(g=>pgWrap(red,S,'PLAYER CAREER STATS',g.join('')));
+  // one page of blocks — the layout engine flows them onto as few sheets as fit
+  return blocks.length?[pgWrap(red,S,'PLAYER CAREER STATS',blocks.join(''))]:[];
 }
 
 /* ============ GAME LOG EDITOR (Schedule tab) ============ */
@@ -4936,7 +5338,9 @@ const PACKET_SECTIONS=[
 ];
 const PACKET_PRESETS={
   full:PACKET_SECTIONS.map(s=>s[0]),
-  booth:['cover','scout','facts','splits','gamelog','roster','worksheets','gamesheet']
+  booth:['cover','scout','facts','splits','gamelog','roster','worksheets','gamesheet'],
+  // everything the full packet carries, laid out as tight as it still reads
+  compact:PACKET_SECTIONS.map(s=>s[0])
 };
 function pkSel(){
   const sel=DATA.settings.packetSel;
@@ -4955,8 +5359,11 @@ function pkToggle(k,on){
 }
 function pkPreset(name){
   DATA.settings.packetSel=PACKET_PRESETS[name].slice();
+  DATA.settings.packetPreset=name;
+  DATA.secAuto={};                     // each preset auto-fits on its own terms
   save();pkRenderPicker();renderPacket();
-  toast(name==='booth'?'Booth packet preset applied':'Full packet preset applied');
+  toast(name==='compact'?'Compact preset — auto-fitting to the fewest readable pages'
+    :(name==='booth'?'Booth packet preset applied':'Full packet preset applied'));
 }
 
 function renderPacket(){
@@ -5058,11 +5465,9 @@ function renderPacket(){
   /* ---------- assemble the selected sections in order ---------- */
   const sel=new Set(pkSel());
   const allPlayers=printablePlayers(DATA.roster.filter(p=>p.active!=='0'&&p.name)).sort((a,b)=>(+a.num||999)-(+b.num||999));
-  // written bios make the cards vary wildly in height — measure them and pack so
-  // no page spills onto a second sheet
-  const meetCards=allPlayers.map(p=>({p,html:mtpCardHTML(p,hsv,R,red,S)}));
-  const meetPages=packMeasured(meetCards.map(c=>c.html),900)
-    .map(group=>meetTeamPage(group.map(h=>meetCards.find(c=>c.html===h).p),hsv,R,red,S));
+  // written bios make the cards vary wildly in height — they go out as one run
+  // of blocks and the layout engine flows them, two or three to a sheet
+  const meetPages=allPlayers.length?[meetTeamPage(allPlayers,hsv,R,red,S)]:[];
   const opsPage=hockeyOpsPage(red,S);
   const recsPage=recordsPage(red,S);
   let sheetPages=[];
@@ -5087,17 +5492,32 @@ function renderPacket(){
   PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))(secPages[s[0]]||[]).forEach((p,j)=>outPages.push({k:s[0]+':'+j,sec:s[0],html:p}));});
   const stamp=dataStampHTML('packet');
   DATA.pkEdits=DATA.pkEdits||{};
-  document.getElementById('packetDoc').innerHTML=outPages.map((pg2,i)=>{
+  const doc=document.getElementById('packetDoc');
+  doc.classList.toggle('pk-compact',pkPresetName()==='compact');
+  // page numbers wait until the blocks have flowed — they are not knowable yet
+  doc.innerHTML=outPages.map(pg2=>{
     if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
-    let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1));
-    h=h.replace('<div class="page','<div data-sec="'+pg2.sec+'" class="hub-preview__page page');
+    let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"');
     // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
-    if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
-    return h;
+    const edit=pg2.sec!=='meet'?' contenteditable="true" spellcheck="false"':'';
+    return h.replace('<div class="page','<div data-sec="'+pg2.sec+'" data-pk="'+pg2.k+'"'+edit+' class="hub-preview__page page');
   }).join('');
+  [...doc.querySelectorAll('.page')].forEach(pg=>{if(DATA.pkEdits[pg.dataset.pk])pg.dataset.edited='1';});
   stampMissing('packetDoc','packet');
-  pkWireOv();secApplyAll();
-  imagesReady(document.getElementById('packetDoc'),3500).then(()=>mtpDetectDefaults(document.getElementById('packetDoc')));
+  pkWireOv();
+  pkRebuild();
+  if(!PK_LAYOUT_BUSY){
+    PK_LAYOUT_BUSY=true;
+    try{const auto=pkAutoFit();DATA.secAutoLast=auto;}finally{PK_LAYOUT_BUSY=false;}
+  }
+  pkInspect();
+  secRenderBar(null);secApplyAll();
+  imagesReady(doc,3500).then(()=>{mtpDetectDefaults(doc);pkRebuild();pkInspect();secApplyAll();});
+}
+/* one pass of the layout: section sizes, then blocks flowed onto sheets */
+function pkRebuild(){
+  secApplyAll();
+  pkLayout();
 }
 
 function upNextBox(){
@@ -5163,7 +5583,7 @@ function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
     return `<div class="mtp-card">
       <div class="mtp-head"><span class="mtp-name">${esc(display)}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
       ${statHTML}
-      <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br><span class="bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to the player&#39;s media bio">${notes||'Click to write this player&rsquo;s media bio…'}</span></div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}</div></div>
+      <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br><span class="bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to the player&#39;s media bio">${notes||'Click to write this player&rsquo;s media bio…'}</span></div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}${p.bornIn?'<br>Birthplace '+esc(p.bornIn):''}</div></div>
     </div>`;
   }).join('');
   return `<div class="page" style="--havoc-red:${red}">
@@ -6112,7 +6532,11 @@ function renderStandings(){
 const LEAGUE_SHORT=[[/NCAA\s*(Division|Div\.?)?\s*III/i,'NCAA D-III'],[/NCAA\s*(Division|Div\.?)?\s*II/i,'NCAA D-II'],
   [/NCAA\s*(Division|Div\.?)?\s*I\b/i,'NCAA D-I'],[/USports|U\s*Sports/i,'U SPORTS'],
   [/Ontario University Athletics|OUA/i,'OUA'],[/Southern Professional/i,'SPHL'],[/East Coast Hockey/i,'ECHL'],
-  [/Federal Prospects/i,'FPHL'],[/American Hockey League/i,'AHL'],[/National Hockey League/i,'NHL']];
+  [/Federal Prospects/i,'FPHL'],[/American Hockey League/i,'AHL'],[/National Hockey League/i,'NHL'],
+  [/Alberta Colleges|ACAC/i,'ACAC'],[/British Columbia Hockey League|BCHL/i,'BCHL'],
+  [/Alberta Junior|AJHL/i,'AJHL'],[/Central Canada Hockey|CCHL/i,'CCHL'],
+  [/North American Hockey League|NAHL/i,'NAHL'],[/United States Hockey League|USHL/i,'USHL'],
+  [/Ontario Hockey League|OHL/i,'OHL'],[/Quebec Maritimes|QMJHL/i,'QMJHL'],[/Western Hockey League|WHL/i,'WHL']];
 function leagueShort(v){
   let s=String(v||'').trim();
   if(!s)return '';
@@ -6130,8 +6554,16 @@ function isGoalieRow(r,p){
 function bioStatTablesHTML(p,scope){
   const b=p.bioStats;if(!b)return '';
   const n=v=>(v==null||v==='')?'—':v;
+  // a row with no numbers in it is a season the club could not source — a whole
+  // table row per season is wasted height, so they collect into one line
+  const hasNums=r=>['gp','g','a','p','pim','shots','plusMinus','record','gaa','svPct','so','saves']
+    .some(k=>r[k]!=null&&r[k]!=='');
   const one=(rows,title)=>{
     if(!rows||!rows.length)return '';
+    const blanks=rows.filter(r=>!hasNums(r));
+    rows=rows.filter(hasNums);
+    const blankLine=blanks.length?`<div class="bst-none">${esc(blanks.map(r=>[r.season,r.team].filter(Boolean).join(' ')).join(' · '))} — stat line not publicly available</div>`:'';
+    if(!rows.length)return blankLine?`<div class="bst"><div class="bst-h">${esc(title)}</div>${blankLine}</div>`:'';
     const g=rows.some(r=>isGoalieRow(r,p));
     const head=g?'<th class="r c-gp">GP</th><th class="r c-rec">Record</th><th class="r c-n">GAA</th><th class="r c-n">SV%</th><th class="r c-n">SO</th>'
       :'<th class="r c-gp">GP</th><th class="r c-n">G</th><th class="r c-n">A</th><th class="r c-n">PTS</th><th class="r c-n">PIM</th>';
@@ -6142,7 +6574,7 @@ function bioStatTablesHTML(p,scope){
       <table class="pk-t bst-t"><tr><th class="c-season">Season</th><th class="c-team">Team</th><th class="c-lg">League</th>${head}</tr>
       ${rows.map(r=>`<tr><td class="c-season">${esc(r.season||'')}</td><td class="c-team" title="${esc(r.team||'')}">${esc(r.team||'')}</td><td class="c-lg">${esc(leagueShort(r.league))}</td>${cells(r)}</tr>`
         +(r.note?`<tr class="bst-note"><td colspan="8">${esc(r.note)}</td></tr>`:'')).join('')}
-      </table></div>`;
+      </table>${blankLine}</div>`;
   };
   const body=one(b.pro,'Professional')+one(b.playoffs,'Playoffs')+one(b.college,'College');
   if(!body)return '';
@@ -6162,7 +6594,7 @@ function mtpCardHTML(p,teamStats,R,red,S){
     const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" onerror="mtpImgErr(this)"></div>`:'';
     return `<div class="mtp-card${srcs.length?'':' no-photo'}">
       <div class="mtp-flex">${photo}<div class="mtp-main">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.bornIn?' · BORN '+esc(p.bornIn):''}${p.rookie==='1'?' · ROOKIE':''}${p.draft?' · '+esc(p.draft):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — click here to type one, or import the club bios on the Rosters tab. Bios live in this browser, so each device needs its own import.</span>'}</div>
@@ -6499,30 +6931,95 @@ async function htDoResults(){
 function htHeightFmt(h){h=String(h||'').trim();const m=h.match(/^(\d)\.(\d{1,2})$/);if(m)return m[1]+'-'+String(+m[2]);return h;}
 function htDobFmt(b){const m=String(b||'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return '';return m[2]+'/'+m[3]+'/'+m[1].slice(2);}
 function htAgeFrom(b){const m=String(b||'').match(/^(\d{4})-(\d{2})-(\d{2})/);if(!m)return '';const t=new Date();let a=t.getFullYear()-(+m[1]);if((t.getMonth()+1)*100+t.getDate()<(+m[2])*100+(+m[3]))a--;return a>0&&a<60?String(a):'';}
+/* The league feed is the authority on where a player is from. "homeplace" is
+   the populated field — "hometown" usually comes back empty — so read it
+   first and fall back through hometown to the birthplace fields. */
+function htHome(r){
+  const home=String(pick(r,['homeplace','hometown'],'')).trim();
+  if(home)return home;
+  return htBornIn(r);
+}
+function htBornIn(r){
+  const bp=String(pick(r,['birthplace'],'')).trim();
+  if(bp)return bp;
+  const town=String(pick(r,['birthtown','birthcity'],'')).trim();
+  const prov=String(pick(r,['birthprov','birthstate','birthcntry','birthcountry'],'')).trim();
+  return [town,prov].filter(Boolean).join(', ');
+}
 function htRosterRow(r){
   let name=String(pick(r,['name','player_name'],'')).trim();
   if(!name)name=(String(pick(r,['first_name'],''))+' '+String(pick(r,['last_name'],''))).trim();
   const pos=String(pick(r,['position','pos'],'')).toUpperCase().trim();
   if(!name||!/^(F|C|LW|RW|W|D|G)$/.test(pos))return null; // skips staff/coach rows
   const bd=String(pick(r,['birthdate','date_of_birth','dob'],''));
+  const home=htHome(r),born=htBornIn(r);
+  const rk=String(pick(r,['rookie','isRookie','veteran_status'],'')).trim();
   return {name,pos:pos==='W'?'RW':pos,
     htid:String(pick(r,['player_id','id'],'')).trim(),
     num:String(pick(r,['tp_jersey_number','jersey_number','num'],'')).trim(),
     ht:htHeightFmt(pick(r,['height_hyphenated','height','ht'],'')),
     wt:String(pick(r,['weight','wt'],'')).trim(),
     sh:String(pick(r,['shoots','catches','sh'],'')).toUpperCase().replace(/[^LR]/g,'').slice(0,1),
-    dob:htDobFmt(bd),age:htAgeFrom(bd),
-    birth:String(pick(r,['hometown','birthplace','birthtown','birthcity'],'')).trim(),
+    dob:htDobFmt(bd),age:htAgeFrom(bd),dobi:/^\d{4}-\d{2}-\d{2}/.test(bd)?bd.slice(0,10):'',
+    birth:home,
+    bornIn:(born&&born!==home)?born:'',
+    rookie:/^(1|y|yes|true|rookie)$/i.test(rk)?'1':(rk&&/^(0|n|no|false|vet|veteran)$/i.test(rk)?'0':''),
+    draft:String(pick(r,['draft_status','draftinfo','draft_info'],'')).trim(),
+    pron:String(pick(r,['phonetic_name','phonetic'],'')).trim(),
     img:String(pick(r,['player_image','image','photo','headshot'],'')).trim()};
+}
+/* ---- who owns a field ----
+   The league feed outranks the club's bios JSON on every vital. A value the
+   broadcaster typed into the player editor himself outranks both, so a sync
+   never silently undoes his correction. */
+function feedOwns(p,k){return !!((p&&p.feedOwn||{})[k]);}
+function handOwns(p,k){return !!((p&&p.handEdit||{})[k]);}
+function feedSet(p,k,v){
+  if(v==null||String(v).trim()==='')return;
+  p.feedOwn=p.feedOwn||{};
+  p.feedOwn[k]=1;                      // the feed has an opinion here from now on
+  if(handOwns(p,k))return;             // his own correction stands
+  p[k]=String(v);
+}
+/* The feed prints a player's everyday name; the club's bios file prints the
+   name he signed under. Match on the surname and first initial once the exact
+   name misses, so a sync updates the man already on the roster instead of
+   adding him twice — but only when that is unambiguous. */
+function rosterMatch(name,list){
+  const k=norm(name);
+  const hit=list.find(x=>norm(x.name)===k);
+  if(hit)return hit;
+  const bare=s=>norm(String(s||'').replace(/["'“”‘’]/g,'').replace(/\(.*?\)/g,''));
+  const b=bare(name);
+  const same=list.find(x=>bare(x.name)===b);
+  if(same)return same;
+  const parts=String(name||'').trim().split(/\s+/);
+  if(parts.length<2)return null;
+  const last=norm(parts[parts.length-1]),first=norm(parts[0]).charAt(0);
+  const near=list.filter(x=>{
+    const xp=String(x.name||'').trim().split(/\s+/);
+    return xp.length>1&&norm(xp[xp.length-1])===last&&norm(xp[0]).charAt(0)===first;
+  });
+  return near.length===1?near[0]:null;
+}
+/* true when the feed's rookie column varies across the roster — see above */
+function rookieVaries(feedPlayers){
+  const vals=new Set(feedPlayers.map(f=>String(f.rookie||'')).filter(Boolean));
+  return vals.size>1;
 }
 function htMergeRoster(list,feedPlayers,isHavoc){
   list=list||[];
+  const rookieUsable=rookieVaries(feedPlayers);
   const seen=new Set();
   feedPlayers.forEach(fp=>{
-    const k=norm(fp.name);if(!k)return;seen.add(k);
-    let p=list.find(x=>norm(x.name)===k);
+    const k=norm(fp.name);if(!k)return;
+    let p=rosterMatch(fp.name,list);
+    seen.add(norm(p?p.name:fp.name));
     if(!p){p={id:uid(),notes:''};list.push(p);if(isHavoc)p.newFeed=1;} // feed-only arrival — flagged for confirmation
-    p.name=fp.name;
+    // the club's own spelling of a signed player's name outranks the feed's
+    else if(isHavoc&&p.sheet==='2026-27'&&p.name){}
+    else p.name=fp.name;
+    if(!p.name)p.name=fp.name;
     if(isHavoc)p.feed46=1;
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
     if(fp.img)p.img=fp.img;
@@ -6530,12 +7027,20 @@ function htMergeRoster(list,feedPlayers,isHavoc){
       // the club's signed sheet is ahead of the league feed in preseason: keep the
       // sheet number, record the feed's, and let the roster panel settle it
       if(isHavoc&&p.sheet==='2026-27'&&p.numSheet&&String(fp.num)!==String(p.numSheet)){p.numFeed=String(fp.num);p.num=p.numSheet;}
-      else {p.num=fp.num;if(p.numFeed===String(fp.num))delete p.numFeed;}
+      else {feedSet(p,'num',fp.num);if(p.numFeed===String(fp.num))delete p.numFeed;}
+      delete p.numBio;                  // the bios file never settles a number
     }
     // keep a more specific existing position (C/LW/RW) when the feed only says F
-    if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))p.pos=fp.pos;
-    if(fp.ht)p.ht=fp.ht;if(fp.wt)p.wt=fp.wt;if(fp.sh)p.sh=fp.sh;
-    if(fp.dob)p.dob=fp.dob;if(fp.age)p.age=fp.age;if(fp.birth)p.birth=fp.birth;
+    if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))feedSet(p,'pos',fp.pos);
+    // vitals: the league feed is the authority, so these land over anything the
+    // bios file supplied — silently, no conflict markers
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft'].forEach(k=>feedSet(p,k,fp[k]));
+    // the rookie column reads the same for every player on some rosters, which
+    // makes it a formatting flag rather than a fact — only take it when it
+    // actually distinguishes one player from another
+    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
+    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}   // phonetic_name fills the guide
+    else if(!String(p.pron||'').trim())p.pronAsk=1;            // blank here is one to ask the club
     p.active='1';
   });
   // only mark leftovers inactive when the feed clearly returned a full roster —
@@ -6547,12 +7052,13 @@ function htMergeRoster(list,feedPlayers,isHavoc){
 const HT_TEAM_ID={"Peoria Rivermen":1,"Fayetteville Marksmen":2,"Huntsville Havoc":3,"Pensacola Ice Flyers":4,
   "Evansville Thunderbolts":5,"Knoxville Ice Bears":6,"Roanoke Rail Yard Dawgs":7,"Quad City Storm":8,
   "Birmingham Bulls":9,"Macon Mayhem":10,"Athens Rock Lobsters":27,"Pee Dee IceCats":28};
-/* Photos: 2026-27 returns coaches only until the league publishes players, so
-   returning players get their picture from last season's roster, matched by
-   name. Runs on every roster sync; new signings stay text-only until they
-   appear in the feed, and then pick up their photo automatically. */
-async function htPhotoBackfill(){
-  const need=DATA.roster.filter(p=>p.name&&p.active!=='0'&&!p.img);
+/* 2026-27 returns coaches only until the league publishes players, so returning
+   players get their vitals and their picture from last season's roster, matched
+   by name. Runs on every roster sync; new signings stay text-only until they
+   appear in the feed, and then fill in automatically. Season 44 is still the
+   league feed, so it outranks the bios file exactly the same way. */
+async function htVitalsBackfill(){
+  const need=DATA.roster.filter(p=>p.name&&p.active!=='0');
   if(!need.length)return '';
   let rows=[];
   try{
@@ -6560,17 +7066,23 @@ async function htPhotoBackfill(){
     rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
   }catch(e){return '';}
   const by=new Map();
-  rows.map(htRosterRow).filter(Boolean).forEach(fp=>{if(fp.img)by.set(norm(fp.name),fp);});
-  let got=0;
+  rows.map(htRosterRow).filter(Boolean).forEach(fp=>by.set(norm(fp.name),fp));
+  let got=0,pics=0;
+  const fpList=[...by.values()];
+  const rookieUsable=rookieVaries(fpList);
   need.forEach(p=>{
-    const fp=by.get(norm(p.name));
+    const fp=by.get(norm(p.name))||fpList.find(f=>rosterMatch(f.name,[p]));
     if(!fp)return;
-    p.img=fp.img;                         // verbatim, as the feed gives it
     if(!p.htId&&fp.htid)p.htId=fp.htid;
+    if(fp.img&&!p.img){p.img=fp.img;pics++;}   // verbatim, as the feed gives it
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
+    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
+    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
+    else if(!String(p.pron||'').trim())p.pronAsk=1;
     got++;
   });
   if(got){save();renderRoster();}
-  return got?got+' photo'+(got===1?'':'s')+' from 2025-26':'';
+  return got?got+' filled from 2025-26'+(pics?' ('+pics+' photo'+(pics===1?'':'s')+')':''):'';
 }
 async function htDoRosters(){
   const d=await htFetch({feed:'modulekit',view:'teamsbyseason',season_id:htSeason()});
@@ -6600,9 +7112,9 @@ async function htDoRosters(){
   if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
   syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
-  let photos='';
-  try{photos=await htPhotoBackfill();}catch(e){}
-  return teamCount+' team rosters ('+playerCount+' players)'+(photos?' · '+photos:'');
+  let back='';
+  try{back=await htVitalsBackfill();}catch(e){}
+  return teamCount+' team rosters ('+playerCount+' players)'+(back?' · '+back:'');
 }
 
 /* ============================================================
