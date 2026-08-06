@@ -69,7 +69,7 @@ input, select, textarea { font-size: 16px; }
     background: var(--hub-bg);
     border-bottom: 2px solid var(--hub-red);
   }
-  .hub-header__logo { width: 30px; height: 30px; flex: 0 0 auto; }
+  .hub-header .hub-header__logo { width: 30px; height: 30px; flex: 0 0 auto; }
   .hub-header__titles { min-width: 0; }   /* allows ellipsis to work */
   .hub-header .hub-header__title {
     font-size: 15px;
@@ -163,7 +163,10 @@ input, select, textarea { font-size: 16px; }
     padding: 8px 12px;
     position: static;                     /* a sticky grid fights the tab bar */
   }
-  .hub-toolbar > * {
+  .hub-toolbar > *,
+  .hub-toolbar > .btn,
+  .hub-toolbar > .btn.small,
+  .hub-toolbar > .btn.secondary {
     min-height: var(--hub-tap);
     display: inline-flex;
     align-items: center;
@@ -189,18 +192,19 @@ input, select, textarea { font-size: 16px; }
     border-radius: 6px;
   }
 
-  /* ---------- 5. Make the print action read as the primary one ----------
-     The app's button is dark-filled with white text, so it never reads as
-     disabled the way the old pale one did; this keeps that fill and adds a
-     red outline so it stands apart from the secondary actions without
-     competing with the full-width red "Print everything". */
+  /* ---------- 5. Fix the low-contrast "Print / Save PDF" button ----------
+     Dark text on white, bold — a real [disabled] state is the only thing
+     that should ever look faded. */
   .hub-toolbar .hub-btn--print {
-    color: #fff !important;
-    font-weight: 800;
-    border: 2px solid var(--hub-red);
+    background: #fff;
+    color: #111 !important;
+    font-weight: 700;
+    border: 1px solid #fff;
   }
+  .hub-toolbar .hub-btn--print:hover { background: #f2f2f4; }
   .hub-btn--print[disabled],
-  .hub-btn[disabled] {
+  .hub-btn[disabled],
+  .hub-toolbar button[disabled] {
     opacity: .45;                         /* a real disabled state looks different */
     cursor: not-allowed;
   }
@@ -367,8 +371,9 @@ input, select, textarea { font-size: 16px; }
 /* ---------- Landscape phone: reclaim vertical space ---------- */
 @media (max-width: 900px) and (orientation: landscape) {
   .hub-header { padding-top: 4px; padding-bottom: 4px; }
-  .hub-header__logo { width: 24px; height: 24px; }
-  .hub-header__sub { display: none; }
+  .hub-header .hub-header__logo { width: 24px; height: 24px; }
+  .hub-header .hub-header__sub { display: none; }
+  .hub-header .hub-header__title { font-size: 15px; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
 
 /* ---------- Never let any of this touch printed output ---------- */
