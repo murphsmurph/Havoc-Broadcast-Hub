@@ -12,35 +12,47 @@
 <title>Havoc Game Notes Hub</title>
 <style>
   :root{
+    /* brand constants — never themed. --havoc-black is a BACKGROUND as often as it
+       is a text colour (header, chrome bars, printed headers), so it stays black. */
     --havoc-red:#C8102E;--havoc-red-dark:#9E0C24;--havoc-black:#111114;--havoc-charcoal:#1d1d22;
-    --havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--bg:#f4f4f6;
-    --ok:#1d8a4e;--warn:#b8860b;--shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
+    --ok:#1d8a4e;--warn:#b8860b;
     --radius:8px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    /* themed surface tokens — the only things dark mode touches */
+    --ink:#111114;--ink-2:#5c5d66;--havoc-grey:#5c5d66;
+    --surface:#fff;--surface-2:#fafafb;--surface-3:#f4f5f7;
+    --havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--bg:#f4f4f6;
+    --red-text:#C8102E;--tint-red:#fdf2f3;--tint-red-2:#f3cdd4;--tint-neutral:#eeeef1;--tint-row:#fbe6ea;
+    --ok-bg:#e8f3ec;--ok-fg:#2f6b45;--mute-bg:#eceef2;--mute-fg:#5d626c;--bad-bg:#fdecee;
+    --pill-ok-bg:#e3f5ea;--pill-ok-fg:#146c39;--pill-warn-bg:#fbf2dd;--pill-warn-fg:#8a6508;--amber:#8a5a12;
+    --shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
   }
   /* booth: dark palette + a bigger type scale, screen only — print always resets to the light sheet */
-  html[data-theme="dark"]{
-    --havoc-black:#f2f2f5;--havoc-charcoal:#16161a;--havoc-grey:#a2a4ad;
-    --havoc-line:#33343c;--havoc-silver:#25262c;--bg:#101015;
-    --shadow:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.4);
+  @media screen{
+    html[data-theme="dark"]{
+      --ink:#f2f2f5;--ink-2:#a8aab3;--havoc-grey:#a8aab3;
+      --surface:#191a20;--surface-2:#202128;--surface-3:#23242c;
+      --havoc-line:#3a3b44;--havoc-silver:#2a2b33;--bg:#0f0f14;
+      --red-text:#ff7183;--tint-red:#2b1519;--tint-red-2:#3d1a20;--tint-neutral:#26272e;--tint-row:#301619;
+      --ok-bg:#17301f;--ok-fg:#7fd6a0;--mute-bg:#23242c;--mute-fg:#a8aab3;--bad-bg:#331519;
+      --pill-ok-bg:#17301f;--pill-ok-fg:#79d69c;--pill-warn-bg:#33280f;--pill-warn-fg:#e8c46a;--amber:#e0a34e;
+      --shadow:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.4);
+    }
+    html[data-theme="dark"] .danger-zone{background:#2a1418;}
+    html[data-theme="dark"] .danger-zone h4,html[data-theme="dark"] .btn.danger{color:#fff;}
+    html[data-theme="dark"] .btn.danger{background:var(--havoc-red);border-color:var(--red-text);}
+    /* the paper previews are the printed thing — they stay a white sheet in every theme */
+    html[data-theme="dark"] .pstat,html[data-theme="dark"] .pstat *{color:var(--red-text) !important;}
+    html[data-theme="dark"] .page .pstat,html[data-theme="dark"] .page .pstat *{color:var(--havoc-red) !important;}
+    html[data-theme="dark"] .page{color:#1a1a1a;background:#fff;--red-text:#C8102E;--ink:#1a1a1a;--ink-2:#666;--havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--surface:#fff;--surface-2:#fafafb;--surface-3:#f4f5f7;}
+    html[data-booth="1"] body{font-size:17px;}
+    html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td,html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th{padding-top:9px;padding-bottom:9px;}
+    html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
+    html[data-booth="1"] .tab{font-size:14.5px;}
+    html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
   }
-  html[data-theme="dark"] body{background:var(--bg);color:var(--havoc-black);}
-  html[data-theme="dark"] .card,html[data-theme="dark"] .modal,html[data-theme="dark"] .ref-box,
-  html[data-theme="dark"] .rs-box,html[data-theme="dark"] .doc-frame{background:#191a20;color:var(--havoc-black);}
-  html[data-theme="dark"] .doc-toolbar,html[data-theme="dark"] .bk-inline,html[data-theme="dark"] .reset-summary,
-  html[data-theme="dark"] .feed-ages span{background:#212229;color:var(--havoc-black);}
-  html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:#212229;color:var(--havoc-black);border-color:var(--havoc-line);}
-  html[data-theme="dark"] .btn.secondary,html[data-theme="dark"] .icon-btn{background:#212229;color:var(--havoc-black);}
-  html[data-theme="dark"] .empty{color:var(--havoc-grey);}
-  html[data-theme="dark"] .danger-zone{background:#241418;}
-  html[data-theme="dark"] .page{color:#111114;} /* previews stay paper-white — they are the printed thing */
-  html[data-booth="1"] body{font-size:17px;}
-  html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td,html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th{padding-top:9px;padding-bottom:9px;}
-  html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
-  html[data-booth="1"] .tab{font-size:14.5px;}
-  html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
-  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--havoc-black);line-height:1.45;font-size:15px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+  body{margin:0;font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.45;font-size:15px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
   button{min-height:34px;}
   @supports (padding: max(0px)){
     .app-header{padding-left:max(20px, env(safe-area-inset-left));padding-right:max(20px, env(safe-area-inset-right));}
@@ -48,14 +60,15 @@
   }
   h1,h2,h3,h4{margin:0;line-height:1.2;}
   button{font-family:inherit;cursor:pointer;}
-  a{color:var(--havoc-red);}
+  a{color:var(--red-text);}
   .app-header{background:var(--havoc-black);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:4px solid var(--havoc-red);position:sticky;top:0;z-index:50;}
   .app-header .mark{width:34px;height:34px;border-radius:6px;background:var(--havoc-red);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;flex:0 0 auto;overflow:hidden;}
   .app-header .mark img{width:100%;height:100%;object-fit:contain;}
   .app-header h1{font-size:18px;font-weight:800;letter-spacing:.3px;text-transform:uppercase;}
   .app-header .sub{font-size:12px;color:#b9b9c0;font-weight:500;margin-top:1px;}
   .app-header .spacer{flex:1;}
-  .header-status{font-size:12px;color:#b9b9c0;}
+  .header-status{font-size:12px;color:#c9c9d2;}
+  .doc-toolbar .header-status{color:var(--ink-2);}
   .tabs{display:flex;gap:2px;background:var(--havoc-charcoal);padding:0 14px;position:sticky;top:60px;z-index:49;flex-wrap:wrap;}
   @media(max-width:900px){
     .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
@@ -63,17 +76,17 @@
     .tab{flex:0 0 auto;white-space:nowrap;}
   }
   .tab{background:transparent;border:none;color:#cfcfd6;padding:11px 14px;font-size:12.5px;font-weight:600;letter-spacing:.3px;border-bottom:3px solid transparent;text-transform:uppercase;}
-  .tab:hover{color:#fff;} .tab.active{color:#fff;border-bottom-color:var(--havoc-red);}
+  .tab:hover{color:#fff;} .tab.active{color:#fff;border-bottom-color:var(--red-text);}
   .subnav{display:flex;gap:6px;align-items:center;margin:0 0 14px;flex-wrap:wrap;}
   .subnav .subspacer{flex:1;}
-  .subtab{background:#fff;border:1.5px solid #c9c9cf;color:#333;padding:7px 15px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;border-radius:16px;cursor:pointer;}
-  .subtab:hover{border-color:var(--havoc-red);color:var(--havoc-red);}
-  .subtab.active{background:var(--havoc-red);border-color:var(--havoc-red);color:#fff;}
+  .subtab{background:var(--surface);border:1.5px solid var(--havoc-line);color:var(--ink);padding:7px 15px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;border-radius:16px;cursor:pointer;}
+  .subtab:hover{border-color:var(--red-text);color:var(--red-text);}
+  .subtab.active{background:var(--havoc-red);border-color:var(--red-text);color:#fff;}
   .subview{display:none;} .subview.active{display:block;}
   .pstat{font-weight:800;font-size:.82em;white-space:nowrap;margin-left:5px;letter-spacing:.2px;}
   /* verbiage + ice map reference pages */
   .vb-page{display:flex;flex-direction:column;}
-  .vb-credit{font-size:9px;color:#888;margin:2px 0 6px;}
+  .vb-credit{font-size:9px;color:var(--ink-2);margin:2px 0 6px;}
   .vb-grid{flex:1;display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:14px;min-height:0;}
   .vb-col{display:flex;flex-direction:column;min-height:0;}
   .vb-h{font-size:13px;font-weight:900;text-transform:uppercase;border-bottom:2px solid;margin-bottom:5px;letter-spacing:.4px;flex:0 0 auto;}
@@ -109,17 +122,17 @@
   .fd-cols{flex:0 1 auto;min-height:0;overflow:hidden;display:grid;grid-template-columns:1fr 1.05fr;gap:14px;}
   /* NOTES absorbs whatever room remains (fit rule) — ruled every 22px, never under 3 lines */
   .fd-notes{flex:1;min-height:78px;margin-top:6px;display:flex;flex-direction:column;}
-  .fd-notes-label{font-size:12.5px;font-weight:900;color:#888;letter-spacing:.6px;flex:0 0 auto;}
+  .fd-notes-label{font-size:12.5px;font-weight:900;color:var(--ink-2);letter-spacing:.6px;flex:0 0 auto;}
   .fd-notes-rule{flex:1;background:repeating-linear-gradient(to bottom,transparent,transparent 21px,#ccc 21px,#ccc 22px);}
   .ov-mark{color:#C8102E;font-size:14px;margin-left:2px;vertical-align:top;}
   .fv-rv{border:1px solid #ccc;background:#fff;border-radius:3px;font-size:10px;cursor:pointer;margin-left:3px;padding:0 3px;}
-  .pg-stamp{font-size:10.5px;color:#777;text-align:right;margin-top:3px;flex:0 0 auto;}
+  .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
   .fd-pron2{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:12.5px;line-height:1.45;}
   .iv-entry{border:1.5px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:12px;}
   .iv-q{display:flex;gap:6px;align-items:center;padding:2px 0;font-size:13px;}
   .iv-q .iv-qt{flex:1;}
-  .iv-qt.iv-asked{text-decoration:line-through;color:#999;}
+  .iv-qt.iv-asked{text-decoration:line-through;color:var(--ink-2);}
   .iv-star.on{color:#c8a013;}
   .iv-add{display:flex;gap:6px;margin-top:4px;}
   .iv-add input{flex:1;}
@@ -129,12 +142,12 @@
   .ivs-q{font-size:13px;margin:10px 0;}
   .ivs-line{border-bottom:1px solid #bbb;height:22px;}
   .bio-edit{display:block;min-height:12px;}
-  .bio-edit:empty:before{content:'Click to write this player\2019s media bio\2026';color:#999;}
+  .bio-edit:empty:before{content:'Click to write this player\2019s media bio\2026';color:var(--ink-2);}
   .bio-edit:focus,.page[data-pk]:focus-within{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
   .ow-banner{color:#fff;text-align:center;font-size:22px;font-weight:900;letter-spacing:1px;padding:14px 10px;border-radius:6px;margin:8px 0;}
   .ow-banner span{font-size:10.5px;font-weight:700;letter-spacing:.2px;display:block;margin-top:4px;}
   .media-block{margin-left:auto;border:1.5px solid #222;border-radius:5px;padding:5px 9px;font-size:8.5px;line-height:1.5;flex:0 0 auto;align-self:flex-start;}
-  .media-block .mb-h{font-weight:900;font-size:8px;letter-spacing:.6px;color:var(--havoc-red);}
+  .media-block .mb-h{font-weight:900;font-size:8px;letter-spacing:.6px;color:var(--red-text);}
   .fd-col{min-height:0;display:flex;flex-direction:column;}
   .fd-st{display:flex;gap:6px;font-size:13px;line-height:1.5;align-items:baseline;}
   .fd-seed{font-weight:900;width:18px;flex:0 0 auto;}
@@ -154,56 +167,56 @@
   .wrap{max-width:1080px;margin:0 auto;padding:22px 20px 90px;}
   .panel{display:none;} .panel.active{display:block;animation:fade .2s ease;}
   @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
-  .card{background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;}
+  .card{background:var(--surface);border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px;margin-bottom:18px;}
   .card h2{font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
-  .card h2 .accent{color:var(--havoc-red);}
+  .card h2 .accent{color:var(--red-text);}
   .card .desc{font-size:13.5px;color:var(--havoc-grey);margin-bottom:16px;}
   label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--havoc-grey);margin-bottom:4px;}
-  input[type=text],input[type=date],input[type=time],input[type=number],select,textarea{width:100%;padding:9px 11px;border:1px solid var(--havoc-line);border-radius:6px;font-family:inherit;font-size:16px;background:#fff;color:var(--havoc-black);}
+  input[type=text],input[type=date],input[type=time],input[type=number],select,textarea{width:100%;padding:9px 11px;border:1px solid var(--havoc-line);border-radius:6px;font-family:inherit;font-size:16px;background:var(--surface);color:var(--ink);}
   textarea{resize:vertical;line-height:1.5;}
-  input:focus,textarea:focus,select:focus{outline:2px solid var(--havoc-red);outline-offset:-1px;border-color:var(--havoc-red);}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--havoc-red);outline-offset:-1px;border-color:var(--red-text);}
   .grid{display:grid;gap:14px;} .g2{grid-template-columns:1fr 1fr;} .g3{grid-template-columns:1fr 1fr 1fr;} .g4{grid-template-columns:repeat(4,1fr);}
   .field{margin-bottom:14px;}
   @media(max-width:720px){.g2,.g3,.g4{grid-template-columns:1fr;}}
   .btn{background:var(--havoc-red);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-weight:700;font-size:13.5px;letter-spacing:.3px;display:inline-flex;align-items:center;gap:7px;}
   .btn:hover{background:var(--havoc-red-dark);}
-  .btn.secondary{background:#fff;color:var(--havoc-black);border:1px solid var(--havoc-line);} .btn.secondary:hover{background:var(--havoc-silver);}
+  .btn.secondary{background:var(--surface);color:var(--ink);border:1px solid var(--havoc-line);} .btn.secondary:hover{background:var(--havoc-silver);}
   .btn.dark{background:var(--havoc-black);} .btn.dark:hover{background:#000;}
   .btn.small{padding:6px 12px;font-size:12px;}
   .btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px;}
   .pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;}
-  .pill.ok{background:#e3f5ea;color:var(--ok);} .pill.warn{background:#fbf2dd;color:var(--warn);} .pill.grey{background:var(--havoc-silver);color:var(--havoc-grey);}
+  .pill.ok{background:var(--pill-ok-bg);color:var(--pill-ok-fg);} .pill.warn{background:var(--pill-warn-bg);color:var(--pill-warn-fg);} .pill.grey{background:var(--havoc-silver);color:var(--havoc-grey);}
   .note{background:#fbf6ee;border-left:3px solid var(--warn);padding:10px 14px;font-size:13px;color:#6b5520;border-radius:0 6px 6px 0;margin:12px 0;}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--havoc-black);color:#fff;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:.25s;z-index:200;box-shadow:0 6px 20px rgba(0,0,0,.3);}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
   .progress{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px;}
   .progress .chip{background:var(--havoc-silver);border-radius:6px;padding:8px 14px;font-size:13px;font-weight:600;}
-  .progress .chip b{color:var(--havoc-red);}
+  .progress .chip b{color:var(--red-text);}
   table.roster{width:100%;border-collapse:collapse;font-size:13.5px;}
   table.roster th{background:var(--havoc-black);color:#fff;text-align:left;padding:8px 9px;font-size:11px;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0;}
   table.roster td{padding:7px 9px;border-bottom:1px solid var(--havoc-line);vertical-align:top;}
   table.roster tr:hover td{background:#faf6f6;}
-  table.roster .num{font-weight:800;color:var(--havoc-red);width:34px;}
+  table.roster .num{font-weight:800;color:var(--red-text);width:34px;}
   table.roster .nm{font-weight:700;}
   table.roster .bio-has{color:var(--ok);font-weight:700;} table.roster .bio-no{color:var(--havoc-grey);}
   .row-actions{display:flex;gap:6px;}
   .icon-btn{background:none;border:1px solid var(--havoc-line);border-radius:5px;padding:3px 8px;font-size:12px;color:var(--havoc-grey);}
-  .icon-btn:hover{border-color:var(--havoc-red);color:var(--havoc-red);}
+  .icon-btn:hover{border-color:var(--red-text);color:var(--red-text);}
   .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;align-items:flex-start;justify-content:center;padding:40px 16px;overflow:auto;}
   .modal-bg.show{display:flex;}
-  .modal{background:#fff;border-radius:10px;max-width:640px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
+  .modal{background:var(--surface);border-radius:10px;max-width:640px;width:100%;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.3);}
   .modal h3{font-size:17px;font-weight:800;text-transform:uppercase;margin-bottom:14px;}
   .modal .close{float:right;background:none;border:none;font-size:22px;color:var(--havoc-grey);line-height:1;}
   .empty{text-align:center;padding:40px 20px;color:var(--havoc-grey);}
-  .empty .big{font-size:15px;font-weight:700;color:var(--havoc-black);margin-bottom:6px;}
+  .empty .big{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;}
   .help-list{font-size:13.5px;color:#444;padding-left:18px;} .help-list li{margin-bottom:6px;}
-  .section-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--havoc-red);margin:18px 0 8px;border-bottom:2px solid var(--havoc-silver);padding-bottom:4px;}
+  .section-label{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--red-text);margin:18px 0 8px;border-bottom:2px solid var(--havoc-silver);padding-bottom:4px;}
   .logo-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--havoc-silver);}
   .logo-row .lname{flex:1;font-weight:600;font-size:13.5px;}
   .logo-thumb{width:44px;height:44px;border-radius:6px;background:var(--havoc-silver);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:12px;color:var(--havoc-grey);overflow:hidden;}
   .logo-thumb img{width:100%;height:100%;object-fit:contain;}
-  .ref-box{background:#fafafb;border:1px solid var(--havoc-line);border-radius:6px;padding:12px 14px;margin-bottom:10px;}
-  .ref-box h4{font-size:13px;font-weight:800;text-transform:uppercase;color:var(--havoc-red);margin-bottom:6px;}
+  .ref-box{background:var(--surface-2);border:1px solid var(--havoc-line);border-radius:6px;padding:12px 14px;margin-bottom:10px;}
+  .ref-box h4{font-size:13px;font-weight:800;text-transform:uppercase;color:var(--red-text);margin-bottom:6px;}
   .ref-box table{width:100%;border-collapse:collapse;font-size:12.5px;}
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
@@ -211,85 +224,85 @@
   .save-flash{opacity:0;transition:opacity .35s ease;pointer-events:none;}
   .save-flash.on{opacity:1;}
   .tab-temp{font-size:9px;font-weight:900;background:var(--havoc-red);color:#fff;border-radius:8px;padding:1px 5px;margin-left:5px;vertical-align:middle;text-transform:uppercase;}
-  .stnd tr.zeroed td{color:#9a9ea6;}
+  .stnd tr.zeroed td{color:var(--ink-2);}
   .empty-cell{text-align:center;color:var(--havoc-grey);font-size:11px;padding:8px 6px;font-style:normal;}
   /* live-data freshness badges */
-  .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:#e8f3ec;color:#2f6b45;vertical-align:middle;}
-  .upd.none{background:#eceef2;color:#6b7078;}
+  .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:var(--ok-bg);color:var(--ok-fg);vertical-align:middle;}
+  .upd.none{background:var(--mute-bg);color:var(--mute-fg);}
   .sb-state{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;margin-bottom:8px;}
   .sb-state .sb-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
-  .sb-state.loading{color:#6b7078;} .sb-state.loading .sb-dot{background:#c3c7cf;animation:sbpulse 1s ease-in-out infinite;}
-  .sb-state.loaded{color:#2f6b45;} .sb-state.loaded .sb-dot{background:#2f6b45;}
-  .sb-state.failed{color:var(--havoc-red);} .sb-state.failed .sb-dot{background:var(--havoc-red);}
+  .sb-state.loading{color:var(--ink-2);} .sb-state.loading .sb-dot{background:#c3c7cf;animation:sbpulse 1s ease-in-out infinite;}
+  .sb-state.loaded{color:var(--ok-fg);} .sb-state.loaded .sb-dot{background:var(--ok-fg);}
+  .sb-state.failed{color:var(--red-text);} .sb-state.failed .sb-dot{background:var(--havoc-red);}
   @keyframes sbpulse{0%,100%{opacity:.35}50%{opacity:1}}
   .btn.gameday{font-weight:900;font-size:15px;padding:12px 22px;}
   .feed-chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;border-radius:11px;padding:3px 11px;margin-bottom:10px;}
   .feed-chip .fc-dot{width:8px;height:8px;border-radius:50%;}
-  .feed-chip.checking{background:#eceef2;color:#5d626c;} .feed-chip.checking .fc-dot{background:#b6bac2;animation:sbpulse 1s ease-in-out infinite;}
-  .feed-chip.ok{background:#e8f3ec;color:#2f6b45;} .feed-chip.ok .fc-dot{background:#2f6b45;}
-  .feed-chip.off{background:#fdecee;color:var(--havoc-red);} .feed-chip.off .fc-dot{background:var(--havoc-red);}
+  .feed-chip.checking{background:var(--mute-bg);color:var(--mute-fg);} .feed-chip.checking .fc-dot{background:#b6bac2;animation:sbpulse 1s ease-in-out infinite;}
+  .feed-chip.ok{background:var(--ok-bg);color:var(--ok-fg);} .feed-chip.ok .fc-dot{background:#2f6b45;}
+  .feed-chip.off{background:var(--bad-bg);color:var(--red-text);} .feed-chip.off .fc-dot{background:var(--havoc-red);}
   .gd-steps{list-style:none;margin:12px 0 0;padding:0;}
-  .gd-steps li{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:3px 0;color:#6b7078;}
+  .gd-steps li{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:3px 0;color:var(--ink-2);}
   .gd-steps li .gd-mark{width:17px;text-align:center;font-weight:900;}
-  .gd-steps li.run{color:var(--havoc-ink);font-weight:700;} .gd-steps li.run .gd-mark{animation:sbpulse 1s ease-in-out infinite;}
-  .gd-steps li.ok{color:#2f6b45;} .gd-steps li.ok .gd-mark{color:#2f6b45;}
-  .gd-steps li.bad{color:var(--havoc-red);} .gd-steps li.bad .gd-mark{color:var(--havoc-red);}
-  .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
+  .gd-steps li.run{color:var(--ink);font-weight:700;} .gd-steps li.run .gd-mark{animation:sbpulse 1s ease-in-out infinite;}
+  .gd-steps li.ok{color:var(--ok-fg);} .gd-steps li.ok .gd-mark{color:var(--ok-fg);}
+  .gd-steps li.bad{color:var(--red-text);} .gd-steps li.bad .gd-mark{color:var(--red-text);}
+  .gd-steps li .gd-note{color:var(--ink-2);font-weight:400;}
   .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
   .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
   .pr-bar{position:sticky;top:104px;z-index:40;background:var(--bg);align-items:center;gap:6px;}
   html[data-theme="dark"] .pr-bar{background:var(--bg);}
   .pg-badge{font-size:11.5px;font-weight:800;background:var(--havoc-silver);border-radius:9px;padding:3px 10px;color:var(--havoc-grey);}
-  .sec-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow);}
+  .sec-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--havoc-line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow);}
   html[data-theme="dark"] .sec-bar{background:#191a20;}
   .sec-bar h4{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--havoc-grey);width:100%;margin:0;letter-spacing:.04em;}
   .sec-item{display:flex;align-items:center;gap:3px;border:1px solid var(--havoc-line);border-radius:7px;padding:3px 6px;font-size:12px;}
-  .sec-item .sec-nm{font-weight:800;margin-right:4px;}
+  .sec-item{color:var(--ink);} .sec-item .sec-nm{font-weight:800;margin-right:4px;}
   .sec-item button{min-height:24px;padding:1px 7px;font-size:12px;font-weight:800;border:1px solid var(--havoc-line);border-radius:5px;background:transparent;color:inherit;cursor:pointer;}
-  .sec-item button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-item button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
   .sec-item .sec-pt{min-width:40px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
-  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--havoc-red);}
+  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--red-text);}
   .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
   .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
   .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
-  .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
   .sec-tools .sec-pt{font-size:11.5px;font-weight:800;color:#1a1a1a;padding:0 3px;}
   .page.sec-bold{font-weight:700;}
   .lc-page > .sec-zoom,.vb-page > .sec-zoom{display:flex;flex-direction:column;height:100%;}
   .page > .sec-zoom{display:block;}
-  .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:#fffafb;}
-  .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin-bottom:4px;letter-spacing:.04em;}
-  .danger-zone p{font-size:12.5px;color:#6b7078;margin-bottom:10px;}
-  .btn.danger{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);font-weight:800;}
-  .bk-inline{font-size:12.5px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:7px;padding:8px 11px;margin-bottom:14px;}
-  .bk-inline .bk-warn{color:var(--havoc-red);}
-  .reset-summary{font-size:12.5px;background:#f4f5f7;border-radius:7px;padding:9px 11px;margin-bottom:12px;line-height:1.8;}
-  .bk-inline a{color:var(--havoc-red);cursor:pointer;text-decoration:underline;}
+  .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:var(--tint-red);}
+  .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--red-text);margin-bottom:4px;letter-spacing:.04em;}
+  .danger-zone p{font-size:12.5px;color:var(--ink-2);margin-bottom:10px;}
+  .btn.danger{background:var(--havoc-red);color:#fff;border-color:var(--red-text);font-weight:800;}
+  .bk-inline{font-size:12.5px;font-weight:700;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:7px;padding:8px 11px;margin-bottom:14px;}
+  .bk-inline .bk-warn{color:var(--red-text);}
+  .reset-summary{font-size:12.5px;background:var(--surface-3);border-radius:7px;padding:9px 11px;margin-bottom:12px;line-height:1.8;}
+  .bk-inline a{color:var(--red-text);cursor:pointer;text-decoration:underline;}
   .gm-scores{padding-top:12px;}
   .gm-sb-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:8px;}
   .gm-sb-head .spacer{flex:1;}
   .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
-  .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
+  .feed-ages span{font-size:11px;font-weight:700;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:var(--ink-2);}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   /* 2026-27 roster reconcile panel */
   .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
-  .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:#fafafb;}
-  .rs-box.warn{border-left-color:var(--havoc-red);}
+  .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:var(--surface-2);}
+  .rs-box.warn{border-left-color:var(--red-text);}
   .rs-box.wait{border-left-color:#b9bcc4;}
   .rs-box h5{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:5px;}
   .rs-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;padding:2px 0;}
   .rs-num{font-weight:800;min-width:34px;}
   .rs-nm{font-weight:700;min-width:150px;}
-  .rs-note{color:var(--havoc-grey);}
-  .rs-flag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:800;background:#eceef2;color:#5d626c;cursor:help;}
+  .rs-note{color:var(--ink-2);}
+  .rs-flag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:800;background:var(--mute-bg);color:var(--mute-fg);cursor:help;}
   .rs-flag.warn{background:var(--havoc-red);color:#fff;}
-  .unv{color:var(--havoc-red);font-weight:900;cursor:help;}
+  .unv{color:var(--red-text);font-weight:900;cursor:help;}
   .ref-ed{font-size:13px;}
   .ref-ed:focus{outline:2px solid var(--havoc-red);outline-offset:3px;border-radius:4px;}
   .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
 
   /* ---- print doc styles ---- */
-  .doc-frame{background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
+  .doc-frame{background:var(--surface);border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
   .doc-toolbar{display:flex;gap:10px;align-items:center;padding:12px 16px;background:var(--havoc-silver);border-bottom:1px solid var(--havoc-line);flex-wrap:wrap;}
   .doc-toolbar .ttl{font-weight:800;text-transform:uppercase;font-size:13px;}
   .doc-toolbar .spacer{flex:1;}
@@ -301,12 +314,12 @@
   .gn-logo img{width:100%;height:100%;object-fit:contain;background:#fff;}
   .gn-title{flex:1;}
   .gn-title .city{font-size:30px;font-weight:900;color:var(--havoc-black);letter-spacing:1px;line-height:.95;text-transform:uppercase;}
-  .gn-title .team{font-size:30px;font-weight:900;color:var(--havoc-red);letter-spacing:1px;line-height:.95;text-transform:uppercase;}
+  .gn-title .team{font-size:30px;font-weight:900;color:var(--red-text);letter-spacing:1px;line-height:.95;text-transform:uppercase;}
   .gn-bar{background:var(--havoc-black);color:#fff;display:flex;justify-content:space-between;padding:5px 12px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-top:8px;}
   .gn-bar .red{color:#ff6b81;}
   .gn-matchup{display:grid;grid-template-columns:1.1fr 1fr 1.1fr;gap:10px;align-items:center;margin:12px 0;}
   .gn-game-meta{font-size:10px;line-height:1.5;}
-  .gn-game-meta .gname{font-size:22px;font-weight:900;color:var(--havoc-red);text-transform:uppercase;}
+  .gn-game-meta .gname{font-size:22px;font-weight:900;color:var(--red-text);text-transform:uppercase;}
   .gn-game-meta .promo{font-weight:800;text-transform:uppercase;font-size:12px;}
   .gn-vs{text-align:center;}
   .gn-vs .tn{font-size:16px;font-weight:900;text-transform:uppercase;line-height:1.05;}
@@ -319,7 +332,7 @@
   .box{border:1.5px solid var(--havoc-red);border-radius:6px;padding:8px 10px;margin-bottom:9px;}
   .box h3{font-size:14px;font-weight:900;text-transform:uppercase;text-align:center;border-bottom:2px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:5px;letter-spacing:.4px;}
   .news-item{margin-bottom:6px;}
-  .news-item .h{font-weight:900;text-transform:uppercase;color:var(--havoc-red);font-size:10.5px;}
+  .news-item .h{font-weight:900;text-transform:uppercase;color:var(--red-text);font-size:10.5px;}
   .news-item .b{font-size:9.5px;line-height:1.4;text-align:justify;}
   table.standings{width:100%;border-collapse:collapse;font-size:9.5px;}
   table.standings th{text-align:left;font-weight:800;border-bottom:2px solid var(--havoc-black);padding:2px 4px;text-transform:uppercase;}
@@ -333,7 +346,7 @@
   .matchbox table{width:100%;border-collapse:collapse;font-size:9.5px;}
   .matchbox td{padding:2px 4px;text-align:center;border-bottom:1px solid var(--havoc-silver);}
   .matchbox td.stat{font-weight:900;background:var(--havoc-silver);text-transform:uppercase;}
-  .matchbox .hdr td{font-weight:900;text-transform:uppercase;color:var(--havoc-red);}
+  .matchbox .hdr td{font-weight:900;text-transform:uppercase;color:var(--red-text);}
   .h2h{font-size:9.5px;line-height:1.5;}
   .h2h .ln{display:flex;justify-content:space-between;border-bottom:1px solid var(--havoc-silver);padding:1px 0;}
   .h2h .ln span:first-child{color:#555;font-weight:600;}
@@ -341,7 +354,7 @@
   .cupbanner .c{background:var(--havoc-black);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;border-bottom:2px solid var(--havoc-red);}
   .gn-foot{position:absolute;bottom:18px;left:38px;right:38px;border-top:3px solid var(--havoc-red);padding-top:5px;display:flex;justify-content:space-between;font-size:9px;font-weight:700;text-transform:uppercase;color:var(--havoc-grey);}
   .frec{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:9px;}
-  .frec .col h4{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;}
+  .frec .col h4{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;}
   .frec .rr{display:flex;justify-content:space-between;}
   .frec .rr span:first-child{color:#555;}
   /* lineup chart */
@@ -351,13 +364,13 @@
   .lc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:7px;}
   .pcard{border:1.5px solid var(--havoc-black);border-radius:5px;padding:5px 7px;}
   .pcard .ph{display:flex;align-items:baseline;gap:6px;border-bottom:1px solid var(--havoc-silver);padding-bottom:2px;margin-bottom:3px;}
-  .pcard .ph .n{font-size:15px;font-weight:900;color:var(--havoc-red);}
+  .pcard .ph .n{font-size:15px;font-weight:900;color:var(--red-text);}
   .pcard .ph .nm{font-size:12px;font-weight:900;text-transform:uppercase;flex:1;}
   .pcard .ph .meta{font-size:8px;color:#555;}
   .pcard .stat-line{font-size:8.5px;}
-  .pcard .stat-line b{text-transform:uppercase;color:var(--havoc-red);}
+  .pcard .stat-line b{text-transform:uppercase;color:var(--red-text);}
   .pcard .notes{font-size:8px;line-height:1.35;margin-top:3px;color:#333;}
-  .lc-sub{font-size:13px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin:8px 0 3px;border-bottom:2px solid var(--havoc-black);}
+  .lc-sub{font-size:13px;font-weight:900;text-transform:uppercase;color:var(--red-text);margin:8px 0 3px;border-bottom:2px solid var(--havoc-black);}
   /* game sheet (ROA.docx style) */
   .gs-head{color:#fff;padding:8px 12px;border-radius:6px 6px 0 0;}
   .gs-head-t{font-size:20px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;}
@@ -365,14 +378,14 @@
   table.gs-table{width:100%;border-collapse:collapse;font-size:9.5px;margin-top:4px;}
   .gs-table td{border:1px solid #ccc;padding:3px 5px;vertical-align:top;}
   .gs-section td{background:var(--havoc-black);color:#fff;font-weight:900;text-transform:uppercase;font-size:10px;letter-spacing:.5px;padding:3px 6px;}
-  .gs-num{font-weight:900;color:var(--havoc-red);font-size:13px;text-align:center;width:24px;}
+  .gs-num{font-weight:900;color:var(--red-text);font-size:13px;text-align:center;width:24px;}
   .gs-pos{font-weight:700;text-align:center;width:24px;}
   .gs-first{font-size:10px;width:120px;}
   .gs-last{font-weight:900;text-transform:uppercase;font-size:11px;}
-  .gs-home{color:#666;font-size:8px;font-style:italic;}
+  .gs-home{color:var(--ink-2);font-size:8px;font-style:italic;}
   .gs-hw{text-align:center;width:40px;font-size:9px;}
   .gs-stat{text-align:center;width:70px;font-weight:800;}
-  .gs-gp{font-weight:400;color:#666;font-size:8px;}
+  .gs-gp{font-weight:400;color:var(--ink-2);font-size:8px;}
   .gs-bullets{font-size:8.5px;line-height:1.5;text-align:left;}
   .gs-bottom{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
   .gs-box{border:1.5px solid var(--havoc-red);border-radius:5px;padding:6px 9px;}
@@ -414,7 +427,7 @@
   .mtp-num{color:#fff;font-weight:900;font-size:16px;padding:2px 9px;border-radius:4px;}
   .mtp-stats{display:flex;gap:12px;flex-wrap:wrap;background:var(--havoc-silver);padding:3px 7px;border-radius:4px;font-size:9px;font-weight:700;margin-bottom:4px;}
   .mtp-notes-grid{display:grid;grid-template-columns:2fr 1fr;gap:10px;font-size:8.5px;line-height:1.4;}
-  .mtp-notes b,.mtp-personal b{color:var(--havoc-red);text-transform:uppercase;font-size:8px;}
+  .mtp-notes b,.mtp-personal b{color:var(--red-text);text-transform:uppercase;font-size:8px;}
   /* lineup chart v2 (dense, themed) */
   .lc-page{box-sizing:border-box;padding:20px 24px;width:816px;height:1056px;min-height:1056px;overflow:hidden;display:flex;flex-direction:column;} /* letter portrait @96dpi — preview matches print */
   .lcx-head{display:flex;align-items:center;gap:14px;color:#fff;padding:8px 16px;border-radius:6px;}
@@ -454,7 +467,7 @@
   .l10-row .tm{font-weight:800;text-transform:uppercase;font-size:8.5px;color:var(--havoc-grey);display:block;margin-top:4px;}
   .h2h-line{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;border-bottom:1px solid #eee;}
   .leaders-named{font-size:9px;line-height:1.6;}
-  .leaders-named .cat{font-weight:800;text-transform:uppercase;color:var(--havoc-red);font-size:8px;}
+  .leaders-named .cat{font-weight:800;text-transform:uppercase;color:var(--red-text);font-size:8px;}
   /* import segments */
   .seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
   .seg label{display:block;font-size:12px;font-weight:700;margin-bottom:4px;}
@@ -465,22 +478,20 @@
   .quiz-score{margin-top:10px;font-weight:800;font-size:15px;}
   .quiz-q{font-size:22px;font-weight:800;margin:6px 0 14px;}
   .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .quiz-opt{padding:14px 16px;border:2px solid var(--havoc-silver);border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;text-align:left;background:#fff;transition:.1s;}
-  .quiz-opt:hover{border-color:var(--havoc-red);}
+  .quiz-opt{padding:14px 16px;border:2px solid var(--havoc-silver);border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;text-align:left;background:var(--surface);color:var(--ink);transition:.1s;}
+  .quiz-opt:hover{border-color:var(--red-text);}
   .quiz-opt.correct{background:#1b7a3d;color:#fff;border-color:#1b7a3d;}
   .quiz-opt.wrong{background:#b3232c;color:#fff;border-color:#b3232c;}
   .quiz-next{margin-top:16px;}
   .flash-card{border:2px solid var(--havoc-red);border-radius:12px;padding:32px;text-align:center;cursor:pointer;min-height:120px;display:flex;flex-direction:column;justify-content:center;}
   .flash-front{font-size:30px;font-weight:900;}
   .flash-back{font-size:18px;margin-top:12px;color:#444;}
-  .quiz-prog{font-size:13px;color:#666;margin-bottom:8px;}
+  .quiz-prog{font-size:13px;color:var(--ink-2);margin-bottom:8px;}
   @media (max-width:700px){.quiz-opts{grid-template-columns:1fr;}}
   @media print{
-    /* screen themes never reach paper */
-    html[data-theme="dark"],html[data-booth="1"]{--havoc-black:#111114;--havoc-charcoal:#1d1d22;--havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--bg:#fff;}
-    html[data-theme="dark"] body,html[data-booth="1"] body{background:#fff !important;color:#111114 !important;font-size:15px !important;}
-    html[data-theme="dark"] .card,html[data-theme="dark"] .page,html[data-theme="dark"] .doc-frame{background:#fff !important;color:#111114 !important;}
-    html[data-booth="1"] table td,html[data-booth="1"] table th{padding-top:revert;padding-bottom:revert;}
+    /* screen themes live in @media screen, so paper needs no reset — this only
+       guards against a stray inline theme value reaching the sheet */
+    html[data-theme="dark"] body,html[data-booth="1"] body{background:#fff;color:#111114;font-size:15px;}
     body{background:#fff;}
     .app-header,.tabs,.doc-toolbar,.no-print{display:none !important;}
     .wrap{padding:0;max-width:none;}
@@ -507,14 +518,14 @@
   .cal-month{border:1px solid var(--havoc-line);border-radius:8px;overflow:hidden;}
   .cal-mtitle{background:var(--havoc-black);color:#fff;font-weight:900;text-transform:uppercase;font-size:13px;text-align:center;padding:6px;letter-spacing:.5px;}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
-  .cal-dow{font-size:9px;font-weight:800;text-transform:uppercase;color:#888;text-align:center;padding:3px 0;border-bottom:1px solid var(--havoc-silver);}
-  .cal-day{min-height:50px;border-right:1px solid #f0f0f2;border-bottom:1px solid #f0f0f2;padding:2px 3px;font-size:9px;position:relative;}
+  .cal-dow{font-size:9px;font-weight:800;text-transform:uppercase;color:var(--ink-2);text-align:center;padding:3px 0;border-bottom:1px solid var(--havoc-silver);}
+  .cal-day{min-height:50px;border-right:1px solid var(--havoc-line);border-bottom:1px solid var(--havoc-line);padding:2px 3px;font-size:9px;position:relative;}
   .cal-game .promo{display:block;font-size:6.5px;font-weight:600;font-style:italic;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .cal-day .dn{color:#999;font-weight:600;}
-  .cal-day.empty{background:#fafafa;}
+  .cal-day .dn{color:var(--ink-2);font-weight:600;}
+  .cal-day.empty{background:var(--surface-2);}
   .cal-game{margin-top:1px;border-radius:3px;color:#fff;padding:2px 3px;font-weight:800;font-size:8.5px;line-height:1.25;}
   .cal-game.home{background:var(--havoc-red);}
-  .cal-game.away{background:#9a9aa2;}
+  .cal-game.away{background:#63646c;}
   .cal-game .res{display:block;font-weight:600;font-size:8px;opacity:.95;}
   @media (max-width:760px){.cal-months{grid-template-columns:1fr;}}
   /* post-game copy desk */
@@ -524,9 +535,9 @@
   .pg-side input[type=text]{background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.3);color:#fff;text-align:center;font-weight:800;text-transform:uppercase;border-radius:0;}
   .pg-goals{background:transparent;border:0;color:#fff;text-align:center;font-weight:900;font-size:44px;line-height:1;width:100%;-moz-appearance:textfield;}
   .pg-goals::-webkit-outer-spin-button,.pg-goals::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-  .pg-dash{color:var(--havoc-red);font-size:34px;font-weight:900;padding-top:16px;}
+  .pg-dash{color:var(--red-text);font-size:34px;font-weight:900;padding-top:16px;}
   .pg-out h2{font-size:24px;text-transform:uppercase;margin:0 0 6px;line-height:1.1;}
-  .pg-out .deck{font-style:italic;color:#666;border-bottom:1px solid var(--havoc-silver);padding-bottom:10px;margin:0 0 14px;}
+  .pg-out .deck{font-style:italic;color:var(--ink-2);border-bottom:1px solid var(--havoc-silver);padding-bottom:10px;margin:0 0 14px;}
   .pg-out p.story{font-size:15px;line-height:1.65;margin:0 0 12px;}
   .pg-out .notes-head{font-weight:900;text-transform:uppercase;font-size:13px;border-top:2px solid var(--havoc-black);padding-top:10px;margin:18px 0 8px;letter-spacing:.08em;}
   .pg-out ul{margin:0;padding-left:18px;}
@@ -534,23 +545,23 @@
   .pg-err{background:#FDECEF;border:1px solid var(--havoc-red);color:#9E0C24;padding:10px 12px;margin-top:10px;font-size:12px;border-radius:6px;}
   /* schedule matrix */
   table.mx{border-collapse:collapse;font-size:10.5px;}
-  .mx th,.mx td{border:1px solid #e4e2de;padding:3px 6px;text-align:center;min-width:24px;}
-  .mx th{background:#f4f3f1;font-weight:800;}
-  .mx td.dg{background:#eee;color:#bbb;}
-  .mx .hl,.mx tr.hl td,.mx tr.hl th{background:#fbe6ea;}
+  .mx th,.mx td{border:1px solid var(--havoc-line);color:var(--ink);padding:3px 6px;text-align:center;min-width:24px;}
+  .mx th{background:var(--surface-3);font-weight:800;}
+  .mx td.dg{background:var(--tint-neutral);color:var(--ink-2);}
+  .mx .hl,.mx tr.hl td,.mx tr.hl th{background:var(--tint-row);}
   .mx tr.hl th{background:var(--havoc-red);color:#fff;}
-  .mx th.hl{background:var(--havoc-red);color:#fff;}
-  .mx td.tot{font-weight:800;background:#f4f3f1;}
+  .mx th.hl{background:var(--havoc-red);color:#fff !important;}
+  .mx td.tot{font-weight:800;background:var(--surface-3);}
   .mx.series{width:100%;font-size:12px;}
   .mx.series td:first-child{text-align:left;}
   .mx .r{text-align:right;}
   /* lines entry + line card */
-  .ln-sec{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin:10px 0 4px;letter-spacing:.05em;}
-  .ln-sec span{color:#999;font-weight:600;text-transform:none;letter-spacing:0;}
+  .ln-sec{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--red-text);margin:10px 0 4px;letter-spacing:.05em;}
+  .ln-sec span{color:var(--ink-2);font-weight:600;text-transform:none;letter-spacing:0;}
   .ln-row{display:grid;gap:5px;margin-bottom:5px;align-items:center;}
   .ln-row.f{grid-template-columns:18px 1fr 1fr 1fr;}
   .ln-row.d{grid-template-columns:18px 1fr 1fr;}
-  .ln-num{font-size:10px;font-weight:800;color:#999;text-align:center;}
+  .ln-num{font-size:10px;font-weight:800;color:var(--ink-2);text-align:center;}
   .ln-inp{padding:7px 8px !important;}
   .lnc-top{display:flex;justify-content:space-between;font-weight:900;text-transform:uppercase;font-size:13px;border-bottom:3px solid var(--havoc-black);padding-bottom:5px;margin-bottom:10px;letter-spacing:.04em;}
   .lnc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -567,34 +578,36 @@
   /* call log */
   .cl-stats{display:flex;flex-wrap:wrap;gap:8px;}
   .cl-stat{background:var(--havoc-silver);border-radius:14px;padding:4px 11px;font-size:12px;}
-  .cl-season-btn.active{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .cl-season-btn.active{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
   .cl-row{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:6px;margin-bottom:4px;font-size:13px;flex-wrap:wrap;}
-  .cl-row.home{background:#fbe6ea;}
-  .cl-row.road{background:#f1f1f3;}
+  .cl-row.home{background:var(--tint-row);color:var(--ink);}
+  .cl-row.road{background:var(--tint-neutral);color:var(--ink);}
   .cl-row.called{outline:2px solid var(--havoc-red);}
-  .cl-toggle{border:1.5px solid #bbb;background:#fff;border-radius:5px;font-size:10px;font-weight:900;padding:4px 8px;min-width:64px;cursor:pointer;color:#999;}
-  .cl-toggle.on{background:var(--havoc-red);border-color:var(--havoc-red);color:#fff;}
+  .cl-toggle{border:1.5px solid var(--havoc-line);background:var(--surface);border-radius:5px;font-size:10px;font-weight:900;padding:4px 8px;min-width:64px;cursor:pointer;color:var(--ink-2);}
+  .cl-toggle.on{background:var(--havoc-red);border-color:var(--red-text);color:#fff;}
   .cl-date{font-weight:700;width:66px;}
-  .cl-ps{color:#a06a1f;font-size:9px;}
+  .cl-ps{color:var(--amber);font-size:9px;}
   .cl-opp{flex:1;min-width:140px;}
   .cl-score{font-weight:800;width:74px;}
   .cl-score.w{color:#1b7a3d;}
   .cl-score.l{color:#b3232c;}
-  .cl-gc{font-size:10px;color:#666;background:#fff;border-radius:10px;padding:2px 8px;}
+  .cl-gc{font-size:10px;color:var(--ink-2);background:var(--surface);border-radius:10px;padding:2px 8px;}
   .cl-rate{display:flex;gap:2px;}
-  .cl-pip{width:16px;height:16px;border-radius:50%;background:#ddd;font-size:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:#888;}
+  .cl-pip{width:16px;height:16px;border-radius:50%;background:#ddd;font-size:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-2);}
   .cl-pip.on{background:var(--havoc-red);color:#fff;}
   @media (max-width:760px){.cl-rate{width:100%;}}
   /* standings */
   table.stnd{border-collapse:collapse;font-size:13px;min-width:420px;}
-  .stnd th,.stnd td{padding:6px 10px;text-align:center;border-bottom:1px solid #eee;}
+  .stnd th,.stnd td{padding:6px 10px;text-align:center;border-bottom:1px solid var(--havoc-line);}
   .stnd th{background:#16284B;color:#fff;font-weight:800;font-size:12px;}
+  .stnd td{color:var(--ink);}
   .stnd th.tm,.stnd td.tm{text-align:left;font-weight:800;}
   .stnd td.lg{width:36px;padding:3px;}
   .stnd td.lg img{width:30px;height:30px;object-fit:contain;display:block;}
-  .stnd td.pts,.stnd th.pts{background:#e8e8e8;font-weight:900;}
-  .stnd tr.me td{background:#fbe6ea;}
-  .stnd tr.me td.pts{background:#f3cdd4;}
+  .stnd td.pts{background:var(--tint-neutral);font-weight:900;color:var(--ink);}
+  .stnd th.pts{background:#0f1d38;color:#fff;font-weight:900;}
+  .stnd tr.me td{background:var(--tint-row);}
+  .stnd tr.me td.pts{background:var(--tint-red-2);}
   .mtp-blurb{font-size:9.5px;line-height:1.55;}
   .mc-strip{background:var(--havoc-black);color:#fff;text-align:center;font-weight:800;font-size:11px;padding:5px 8px;border-radius:4px;margin-bottom:8px;letter-spacing:.02em;}
   /* --- iOS/Mac mobile overrides (end of cascade so they win) --- */
@@ -609,22 +622,22 @@
   }
   /* live scorebar */
   .sb-strip{display:flex;gap:8px;overflow-x:auto;padding:2px 0;-webkit-overflow-scrolling:touch;}
-  .sb-game{flex:0 0 auto;min-width:132px;border:1px solid var(--havoc-line);border-radius:8px;padding:7px 10px;background:#fafafa;font-size:12px;line-height:1.5;}
+  .sb-game{flex:0 0 auto;min-width:132px;border:1px solid var(--havoc-line);border-radius:8px;padding:7px 10px;background:var(--surface-2);color:var(--ink);font-size:12px;line-height:1.5;}
   .sb-game .sb-row{display:flex;justify-content:space-between;gap:12px;}
   .sb-game .sb-score{font-weight:900;font-variant-numeric:tabular-nums;}
-  .sb-game .sb-status{font-size:10px;color:#888;margin-top:3px;letter-spacing:.03em;text-transform:uppercase;}
-  .sb-game.sb-live{border-color:var(--havoc-red);}
-  .sb-game.sb-live .sb-status{color:var(--havoc-red);font-weight:800;}
-  .sb-game.sb-hav{background:#fdf2f3;}
-  .sb-msg{font-size:12px;color:#888;padding:6px 2px;}
+  .sb-game .sb-status{font-size:10px;color:var(--ink-2);margin-top:3px;letter-spacing:.03em;text-transform:uppercase;}
+  .sb-game.sb-live{border-color:var(--red-text);}
+  .sb-game.sb-live .sb-status{color:var(--red-text);font-weight:800;}
+  .sb-game.sb-hav{background:var(--tint-red);}
+  .sb-msg{font-size:12px;color:var(--ink-2);padding:6px 2px;}
   .ep-link{color:inherit;text-decoration:none;border-bottom:1px dotted #c9c9c9;}
-  .ep-link:hover{color:var(--havoc-red);border-bottom-color:var(--havoc-red);}
+  .ep-link:hover{color:var(--red-text);border-bottom-color:var(--red-text);}
   /* packet: 4-column leaders, splits + log tables, worksheets */
   .ldr4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:8.5px;}
   .ldr4 .ldr-h{font-weight:900;font-size:8px;letter-spacing:.05em;border-bottom:1.5px solid var(--havoc-red);margin-bottom:2px;}
   .ldr4 .ldr-r{display:flex;justify-content:space-between;gap:6px;line-height:1.5;}
   table.pk-t{width:100%;border-collapse:collapse;font-size:8.5px;}
-  table.pk-t th{background:var(--havoc-black);color:#fff;padding:2px 5px;text-align:left;font-size:8px;letter-spacing:.04em;}
+  table.pk-t th{background:var(--havoc-black);color:#fff !important;padding:2px 5px;text-align:left;font-size:8px;letter-spacing:.04em;}
   table.pk-t td{border-bottom:1px solid #ddd;padding:2px 5px;}
   table.pk-t td.r,table.pk-t th.r{text-align:right;}
   table.pk-ws td{border:1px solid #888;height:16px;padding:1px 4px;font-size:8px;}
@@ -714,7 +727,7 @@
       <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
       <div id="sbState" class="sb-state loading"><span class="sb-dot"></span><span id="sbStateMsg">Connecting to the league feed…</span><button class="btn small secondary no-print" id="sbRetry" style="display:none" onclick="sbRetry()">Retry</button></div>
       <div id="sbStrip" class="sb-strip"></div>
-      <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
+      <div id="sbStamp" style="font-size:11px;color:var(--ink-2);margin-top:6px"></div>
     </div>
     <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
@@ -744,11 +757,11 @@
       </details>
       <div id="htFeedAges" class="feed-ages"></div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
-      <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
-      <div id="dailyBadge" style="font-size:11px;color:#999;margin-top:2px"></div>
+      <div id="htLastSync" style="font-size:11px;color:var(--ink-2);margin-top:4px"></div>
+      <div id="dailyBadge" style="font-size:11px;color:var(--ink-2);margin-top:2px"></div>
     </div>
     <div class="card">
-      <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:#888;font-weight:700">same league, alternate source</span></h2>
+      <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:var(--ink-2);font-weight:700">same league, alternate source</span></h2>
       <p class="desc">Elite Prospects' own standings, leaders and schedule, for cross-checking what the SPHL feed gave us above. Off by default — it loads remote widgets and needs internet.</p>
       <div class="btn-row"><button class="btn secondary" id="epViewBtn" onclick="epViewToggle()">Show EP view</button></div>
       <div id="epView" style="display:none">
@@ -965,7 +978,7 @@
         <div>
           <div class="ref-box"><h4>Havoc franchise leaders &amp; records</h4><div id="ref_records"></div></div>
           <div class="ref-box"><h4>2026-27 season series — Havoc vs. everyone</h4><div id="ref_series"></div></div>
-          <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:#888;margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
+          <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:var(--ink-2);margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
         </div>
       </div>
       <div class="section-label">Coaching staff — Elite Prospects career histories</div>
@@ -1128,7 +1141,7 @@
         <div class="field"><label>Next game</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
       </div>
       <div class="field"><label>Game Center page (optional) &mdash; paste it and Read the sheet fills the facts above</label><textarea id="pg_dump" rows="4" placeholder="Paste the whole Game Center page to auto-fill score, teams, date, venue and result."></textarea>
-      <div class="btn-row" style="margin-top:6px"><button class="btn secondary" onclick="pgReadSheet()">Read the sheet</button><span id="pg_readFlag" style="font-size:12px;color:#666"></span></div></div>
+      <div class="btn-row" style="margin-top:6px"><button class="btn secondary" onclick="pgReadSheet()">Read the sheet</button><span id="pg_readFlag" style="font-size:12px;color:var(--ink-2)"></span></div></div>
       <div class="section-label">Report sections &mdash; your words, house structure</div>
       <div class="field"><label>Headline</label><input type="text" id="pg_headline" placeholder="Havoc Steal One Late in Knoxville"></div>
       <div class="field"><label>Lede (one or two sentences under the headline)</label><textarea id="pg_lede" rows="2" placeholder="The one-sentence story of the game."></textarea></div>
@@ -1144,7 +1157,7 @@
       <div class="doc-toolbar no-print" style="margin:-10px -14px 10px"><span class="ttl">Formatted report — preview</span><div class="spacer"></div><span class="header-status">updates as you type · house structure</span></div>
       <div class="btn-row" style="margin-bottom:10px">
         <button class="btn" id="pg_copyBtn" onclick="pgCopy()">Copy report</button>
-        <span id="pg_status" style="font-weight:800;font-size:12px;color:#666"></span>
+        <span id="pg_status" style="font-weight:800;font-size:12px;color:var(--ink-2)"></span>
       </div>
       <div id="pg_out" class="pg-out"></div>
     </div>
@@ -1174,14 +1187,14 @@
   <!-- OPENING WEEKEND (temporary, archivable) -->
   <section class="panel" id="panel-opening">
     <div class="card">
-      <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:#888;font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
+      <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:var(--ink-2);font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
       <p class="desc"><b>Fri, Oct 16, 2026 &middot; 7:15 PM ET (6:15 PM CT) &middot; Florence Center, Florence, SC</b> &mdash; and game two <b>Sat, Oct 17 &middot; 7:15 PM ET (6:15 PM CT)</b>. Zero head-to-head history and zero PD in-season data exist, so this workspace builds a special <b>first-meeting packet</b>: franchise file, how the IceCats were built, connections, and a franchise-firsts watch instead of the usual series history. When the weekend is over, <b>Archive</b> saves everything as the permanent record and retires this tab.</p>
       <div class="note" style="margin-bottom:10px"><b>Temporary tab.</b> It exists for the first-ever Havoc&ndash;Pee Dee meeting on Oct 16-17, 2026. Archive it after the Saturday game and it leaves the nav for good &mdash; the firsts record and everything you write here stays saved.</div>
       <div class="btn-row">
         <button class="btn" onclick="owBuild()">Build first-meeting packet</button>
         <button class="btn dark" onclick="owPrint()">Print / Save PDF</button>
         <button class="btn secondary" onclick="owScan()">Scan EP data for connections</button>
-        <button class="btn secondary" style="color:var(--havoc-red)" onclick="owArchive()">Archive this tab</button>
+        <button class="btn secondary" style="color:var(--red-text)" onclick="owArchive()">Archive this tab</button>
       </div>
     </div>
     <div class="card">
@@ -1328,7 +1341,7 @@
   </div>
   <div class="btn-row"><button class="btn" onclick="savePlayer()">Save player</button>
   <button class="btn secondary" onclick="closeModal('playerModal')">Cancel</button>
-  <button class="btn secondary" style="margin-left:auto;color:var(--havoc-red)" id="delPlayerBtn" onclick="deletePlayer()">Delete</button></div>
+  <button class="btn secondary" style="margin-left:auto;color:var(--red-text)" id="delPlayerBtn" onclick="deletePlayer()">Delete</button></div>
 </div></div>
 
 <!-- EP modal -->
@@ -1346,7 +1359,7 @@
 <!-- RESET confirmation -->
 <div class="modal-bg" id="resetModal"><div class="modal">
   <button class="close" onclick="closeModal('resetModal')">&times;</button>
-  <h3 style="color:var(--havoc-red)">Reset everything</h3>
+  <h3 style="color:var(--red-text)">Reset everything</h3>
   <p class="desc">This erases the roster, bios, game log, call log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
   <div id="resetSummary" class="reset-summary"></div>
   <div class="field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
@@ -2445,14 +2458,14 @@ function renderReference(){renderMatrix();renderSeries();renderStandings();rende
   // cups
   document.getElementById('ref_cups').innerHTML=TEAMS.map(t=>{
     const cups=SPHL_REF.cups[t]||[];const note=SPHL_REF.cupNote[t];
-    return `<div class="cupline"><b>${t}:</b> ${cups.length?cups.length+' ('+cups.join(', ')+')':'0'}${note?` <span style="color:#999">— ${note}</span>`:''}</div>`;
-  }).join('')+(SPHL_REF.cupDefunct?`<div class="cupline" style="color:#888;margin-top:4px">${SPHL_REF.cupDefunct}</div>`:'');
+    return `<div class="cupline"><b>${t}:</b> ${cups.length?cups.length+' ('+cups.join(', ')+')':'0'}${note?` <span style="color:var(--ink-2)">— ${note}</span>`:''}</div>`;
+  }).join('')+(SPHL_REF.cupDefunct?`<div class="cupline" style="color:var(--ink-2);margin-top:4px">${SPHL_REF.cupDefunct}</div>`:'');
   // h2h vs selected opponent
   renderH2H();
   // franchise records
   const R=SPHL_REF.hsvRecords;
   const tbl=(arr)=>'<table>'+arr.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')+'</table>';
-  document.getElementById('ref_records').innerHTML=`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:4px 0">All-Time Career Leaders</div>${tbl(R.career)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Single-Season — Skaters</div>${tbl(R.players)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Single-Season — Goalies</div>${tbl(R.goalies)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:#555;margin:8px 0 4px">Team</div>${tbl(R.team)}`;
+  document.getElementById('ref_records').innerHTML=`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:4px 0">All-Time Career Leaders</div>${tbl(R.career)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Single-Season — Skaters</div>${tbl(R.players)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Single-Season — Goalies</div>${tbl(R.goalies)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Team</div>${tbl(R.team)}`;
 }
 
 /* ---- 2026 season review + New Teams 2026-27 (verified research file, Aug 5 2026) ----
@@ -2461,10 +2474,10 @@ function renderReference(){renderMatrix();renderSeries();renderStandings();rende
 const REF26_SEED={
 recap:`<div style="line-height:1.65">
 <b>2026 President's Cup champion: EVANSVILLE THUNDERBOLTS</b> — beat Peoria 3-2 in the best-of-5 final after trailing 0-2, clinching Game 5 (6-4) on May 9, 2026 at Carver Arena. <b>Back-to-back titles (2025, 2026).</b><br>
-<b>Round 1:</b> #1 Peoria def. #8 Macon &middot; <b style="color:#C8102E">#7 Knoxville UPSET #2 Huntsville</b> &middot; #3 Roanoke def. #6 Birmingham &middot; #4 Evansville def. #5 Pensacola 2-1<br>
+<b>Round 1:</b> #1 Peoria def. #8 Macon &middot; <b style="color:var(--red-text)">#7 Knoxville UPSET #2 Huntsville</b> &middot; #3 Roanoke def. #6 Birmingham &middot; #4 Evansville def. #5 Pensacola 2-1<br>
 <b>Semifinals:</b> Peoria def. Knoxville 2-0 &middot; Evansville def. Roanoke 2-1<br>
 <i>Havoc storyline: 2nd in the regular season, upset in Round 1 — the 2026-27 redemption arc.</i><br>
-<span style="color:#888">The SPHL fields <b>12 teams in 2026-27</b>: the 10 returning clubs plus Athens Rock Lobsters (announced May 13, 2026) and Pee Dee IceCats (approved June 24, 2026), both from the FPHL. Commissioner: Doug Price. League founded 2004.</span>
+<span style="color:var(--ink-2)">The SPHL fields <b>12 teams in 2026-27</b>: the 10 returning clubs plus Athens Rock Lobsters (announced May 13, 2026) and Pee Dee IceCats (approved June 24, 2026), both from the FPHL. Commissioner: Doug Price. League founded 2004.</span>
 </div>`,
 table12:`<table><tr><th>Team</th><th>2025-26 (W-L-OTL-SOL &middot; pts &middot; finish)</th><th>2026 playoffs</th><th>2026-27 head coach</th></tr>
 <tr><td>Peoria Rivermen</td><td>38-17-3-0 &middot; 79 &middot; 1st</td><td>Lost the Final 2-3 to EVV (led 2-0)</td><td>Jean-Guy Trudel</td></tr>
@@ -2568,8 +2581,8 @@ function frH2HHTML(team){
   const conflict=SPHL_REF.hsvVsNote[team];
   return `<table class="pk-t"><tr><th>Line</th><th class="r">Record</th></tr>${baseLine}
     <tr><td>Tracked here since the log began</td><td class="r"><b>${t.n?t.rec+' in '+t.n+' GP'+(t.gf||t.ga?' · '+t.gf+'-'+t.ga+' goals':''):'no games logged yet'}</b></td></tr></table>
-    ${conflict?`<div style="font-size:11.5px;color:#666;margin-top:6px">${frMarks(conflict)}</div>`:''}
-    <div style="font-size:11px;color:#888;margin-top:4px">The tracked line accumulates from your own game log every time a Havoc result is entered — it never resets on a sync.</div>`;
+    ${conflict?`<div style="font-size:11.5px;color:var(--ink-2);margin-top:6px">${frMarks(conflict)}</div>`:''}
+    <div style="font-size:11px;color:var(--ink-2);margin-top:4px">The tracked line accumulates from your own game log every time a Havoc result is entered — it never resets on a sync.</div>`;
 }
 function renderFranchise(){
   const wrap=document.getElementById('frFile');if(!wrap)return;
@@ -2595,11 +2608,11 @@ function renderFranchise(){
    +(team==='Huntsville Havoc'?'':`<div class="ref-box"><h4>Havoc all-time vs ${esc(team.split(' ')[0])}</h4>${frH2HHTML(team)}</div>`)
    +`<div class="ref-box"><h4>Broadcast storylines (yours to edit)</h4>
       <textarea id="frStoryBox" rows="4" style="width:100%" onchange="frStory(this.value)" placeholder="Angles, cross-team notes, anything you want in front of you on air">${esc(story!=null?story:(F.story||''))}</textarea>
-      <div style="font-size:11px;color:#888;margin-top:4px">Pre-filled from the research file&rsquo;s cross-team notes. Edits save to this browser and are never touched by a sync.</div></div>`;
+      <div style="font-size:11px;color:var(--ink-2);margin-top:4px">Pre-filled from the research file&rsquo;s cross-team notes. Edits save to this browser and are never touched by a sync.</div></div>`;
 }
 function renderH2H(){
   const opp=val('g_opp');const box=document.getElementById('ref_h2h');
-  if(!opp){box.innerHTML='<div style="color:#999;font-size:12px">Select an opponent on the This Game tab.</div>';return;}
+  if(!opp){box.innerHTML='<div style="color:var(--ink-2);font-size:12px">Select an opponent on the This Game tab.</div>';return;}
   /* same running line as the franchise file: published baseline + everything our own log has seen */
   box.innerHTML=`<div style="font-size:12.5px;font-weight:800;margin-bottom:4px">${esc(opp)}</div>${frH2HHTML(opp)}`;
 }
@@ -2618,12 +2631,12 @@ function renderNotes(){
   const leadersHtml=leadersBlock(hsv);
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
   const mrow=(stat,h,o)=>`<tr><td>${h||'—'}</td><td class="stat">${stat}</td><td>${o||'—'}</td></tr>`;
-  const news=[[DATA.notes.h1,DATA.notes.b1],[DATA.notes.h2,DATA.notes.b2],[DATA.notes.h3,DATA.notes.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add news headlines above.</div>';
+  const news=[[DATA.notes.h1,DATA.notes.b1],[DATA.notes.h2,DATA.notes.b2],[DATA.notes.h3,DATA.notes.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add news headlines above.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
   // h2h
   const h2h=SPHL_REF.hsvVs[G.opp];
-  const h2hHtml=h2h?`<div class="h2h"><div class="ln"><span>Reg. season</span><span>${h2h.rs}</span></div><div class="ln"><span>Playoffs</span><span>${h2h.po}</span></div></div>`:'<div class="h2h" style="color:#999">Select opponent</div>';
+  const h2hHtml=h2h?`<div class="h2h"><div class="ln"><span>Reg. season</span><span>${h2h.rs}</span></div><div class="ln"><span>Playoffs</span><span>${h2h.po}</span></div></div>`:'<div class="h2h" style="color:var(--ink-2)">Select opponent</div>';
   // cups banner (Havoc)
   const cups=SPHL_REF.cups["Huntsville Havoc"]||[];
   const cupBanner=cups.length?`<div class="cupbanner">${cups.map(y=>`<span class="c">${y} CUP</span>`).join('')}</div>`:'';
@@ -2672,7 +2685,7 @@ function renderNotes(){
     <div class="box"><h3>Havoc Statistical Leaders</h3>${leadersHtml}</div>
     <div class="gn-cols">
       <div class="box"><h3>Havoc Franchise Leaders</h3>${frecHtml}</div>
-      <div class="box"><h3>Opponent Bench</h3>${coachHtml||'<div style="color:#999;font-size:9.5px">Add coach in League Reference.</div>'}</div>
+      <div class="box"><h3>Opponent Bench</h3>${coachHtml||'<div style="color:var(--ink-2);font-size:9.5px">Add coach in League Reference.</div>'}</div>
     </div>
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>PAGE 1</span></div>
   </div>`;
@@ -2996,12 +3009,12 @@ function owBuild(){
   const groups={};org.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
   const builtBody=org.length
     ?Object.keys(groups).map(g=>`<div class="box"><h3>${esc(g)} (${groups[g].length})</h3><table class="pk-t">${groups[g].map(r=>`<tr><td>${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)} ${r.p.pos?'('+esc(r.p.pos)+')':''}</td><td class="r">${esc(r.origin||'—')}</td></tr>`).join('')}</table></div>`).join('')
-    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Not published yet — the SPHL feed has no Pee Dee roster for 2026-27. Run a Game Day Refresh; every player&rsquo;s previous stop then lists here from EP career data (an expansion club&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
+    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:var(--ink-2)">Not published yet — the SPHL feed has no Pee Dee roster for 2026-27. Run a Game Day Refresh; every player&rsquo;s previous stop then lists here from EP career data (an expansion club&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
   pages.push(pgWrap(red,S,'HOW THE ICECATS WERE BUILT',builtBody));
   // ---- connections ----
   const connBody=(o.connections.length
     ?`<div class="box"><h3>Played with / against</h3><table class="pk-t">${o.connections.map(c=>`<tr><td>${esc(c.a)} &amp; ${esc(c.b)}</td><td class="r">${esc(c.note)}</td></tr>`).join('')}</table></div>`
-    :'<div class="box"><h3>Connections</h3><div style="font-size:9.5px;color:#666">No shared history found yet — run the EP scan on the Opening Weekend tab or add pairs by hand.</div></div>');
+    :'<div class="box"><h3>Connections</h3><div style="font-size:9.5px;color:var(--ink-2)">No shared history found yet — run the EP scan on the Opening Weekend tab or add pairs by hand.</div></div>');
   const nums=(o.story.nums||'').split('\n').filter(Boolean);
   const R=DATA.report,hsv=R.teamStats&&R.teamStats['Huntsville'];
   if(hsv&&hsv.players&&hsv.players.length){
@@ -3017,7 +3030,7 @@ function owBuild(){
   // ---- firsts watch ----
   pages.push(pgWrap(red,S,'SPHL FRANCHISE FIRSTS WATCH — PEE DEE ICECATS',`
     <div class="box"><h3>Check them off as they happen</h3><table class="pk-t">${o.firsts.map(f=>`<tr><td>${f.done?'☑':'☐'} ${esc(f.t)}</td><td class="r">${esc(f.detail||'________________________')}</td></tr>`).join('')}</table></div>
-    <div style="font-size:9px;color:#666;margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
+    <div style="font-size:9px;color:var(--ink-2);margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
   const doc=document.getElementById('openingDoc');
   const ostamp=dataStampHTML('opening');
   if(doc)doc.innerHTML=pages.map((p,i)=>p.replace('<div class="gn-foot"',ostamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
@@ -3311,7 +3324,7 @@ function ivEntryHTML(kind,e){
     <div class="iv-add"><input type="text" id="ivu_${e.id}" placeholder="Add a line worth quoting…"><button class="btn small" onclick="ivQuoteAdd('${kind}','${e.id}','ivu_${e.id}')">Add</button></div>
     <div class="btn-row" style="margin-top:8px">
       <button class="btn small secondary" onclick="ivPrint('${kind}','${e.id}')">Print question sheet</button>
-      <button class="btn small secondary" style="color:var(--havoc-red)" onclick="ivDel('${kind}','${e.id}')">Delete</button>
+      <button class="btn small secondary" style="color:var(--red-text)" onclick="ivDel('${kind}','${e.id}')">Delete</button>
     </div>
   </div>`;
 }
@@ -3337,7 +3350,7 @@ function ivArchiveHTML(kind,q){
 function ivRender(kind){
   const wrap=document.getElementById('ivWrap_'+kind);if(!wrap)return;
   const list=ivStore()[kind];
-  wrap.innerHTML=`<div style="font-size:12px;font-weight:700;color:#666;margin-bottom:6px">Game: ${esc(ivKey())}</div>`
+  wrap.innerHTML=`<div style="font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:6px">Game: ${esc(ivKey())}</div>`
     +list.map(e=>ivEntryHTML(kind,e)).join('')
     +`<div class="btn-row"><button class="btn secondary" onclick="ivAdd('${kind}')">+ Add interview</button></div>
     <div class="section-label" style="margin-top:12px">Season archive</div>
@@ -3352,7 +3365,7 @@ function ivSheetHTML(kind,e){
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
       <div class="pg-title" style="color:${red}">${kind==='pre'?'PRE':'POST'}-GAME INTERVIEW</div><div class="pg-num">SHEET</div></div>
     <div style="font-size:14px;font-weight:900;margin:6px 0 2px">${esc(e.person||'____________')} · ${esc(e.role)} · ${esc(e.team)}</div>
-    <div style="font-size:11px;color:#555;margin-bottom:8px">${esc(ivKey())}${e.time?' · scheduled '+esc(e.time):''}</div>
+    <div style="font-size:11px;color:var(--ink-2);margin-bottom:8px">${esc(ivKey())}${e.time?' · scheduled '+esc(e.time):''}</div>
     ${qRows}
     <div style="margin-top:14px">${mediaBlockHTML('media-block')}</div>
     ${dataStampHTML('interview')}
@@ -3805,7 +3818,7 @@ function fdDataPage(side){
   const stRows=(DATA.report.standings||[]).map((t,i)=>{
     const line=`${t.w}-${t.l}-${t.otl}${t.sol!=null?'-'+t.sol:''} · ${t.pts} pts · GR ${t.gp!=null?Math.max(0,60-t.gp):'—'}`;
     return `<div class="fd-st${i===7?' fd-poline':''}"><span class="fd-seed">${i+1}</span><span class="fd-stt">${esc(t.team)}</span>${fdCell(teamFull,'st'+i,line,false)}</div>`;
-  }).join('')||'<div style="color:#999;font-size:12px">Sync live data / import the daily report for standings.</div>';
+  }).join('')||'<div style="color:var(--ink-2);font-size:12px">Sync live data / import the daily report for standings.</div>';
   // per-period table (GF/GA from report where known — every cell editable)
   const gp=isHome?ext.goalsByPeriod:null;
   const per=['p1','p2','p3','ot'];
@@ -3815,7 +3828,7 @@ function fdDataPage(side){
   const recent=gs.slice(-10).map(g=>{
     const d=new Date(g.d+'T12:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
     return `<div class="fd-res"><span>${d}</span><span>${esc(g.a.split(' ')[0])} ${g.ag} @ ${esc(g.h.split(' ')[0])} ${g.hg}${g.ot?' ('+g.ot+')':''}</span><b>${g.wl}</b></div>`;
-  }).join('')||'<div style="color:#999;font-size:12px">No finals yet.</div>';
+  }).join('')||'<div style="color:var(--ink-2);font-size:12px">No finals yet.</div>';
   let next='';
   if(isHome){
     const up=parseScheduleData().filter(x=>!x.result).slice(0,5);
@@ -3823,7 +3836,7 @@ function fdDataPage(side){
   }
   if(!next)next=Array.from({length:5},()=>'<div class="fd-res"><span class="fd-blank" style="width:100%"></span></div>').join('');
   const tx=(isHome?G.txhome:G.txaway)||'';
-  const txRows=tx.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>`<div class="fd-res"><span>${esc(l)}</span></div>`).join('')||'<div style="color:#999;font-size:12px">None entered (This Game tab).</div>';
+  const txRows=tx.split('\n').map(x=>x.trim()).filter(Boolean).map(l=>`<div class="fd-res"><span>${esc(l)}</span></div>`).join('')||'<div style="color:var(--ink-2);font-size:12px">None entered (This Game tab).</div>';
   return `<div class="page lc-page fd-page">
     <div class="lcx-head" style="background:${primary}">${logo?`<div class="lcx-logo"><img src="${logo}"></div>`:''}<div class="lcx-title">${esc(teamFull.toUpperCase())} — DATA</div></div>
     <div class="fd-game">${esc(fdGameLine())}</div>
@@ -3840,7 +3853,7 @@ function fdDataPage(side){
         <div class="fd-sub" style="color:${primary};border-color:${primary}">Pronunciation</div>
         ${(()=>{const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);const es2=teamPronList(list).slice(0,14);
           return es2.length?`<div class="fd-pron2">${es2.map(e=>`<div><b>${esc(e.name.split(' ').pop().toUpperCase())}</b> ${esc(e.say)}</div>`).join('')}</div>`
-          :'<div style="font-size:12px;color:#999">None saved — add on the rosters or the Settings guide.</div>';})()}
+          :'<div style="font-size:12px;color:var(--ink-2)">None saved — add on the rosters or the Settings guide.</div>';})()}
       </div>
     </div>
     <div class="fd-notes"><div class="fd-notes-label">NOTES</div><div class="fd-notes-rule"></div></div>
@@ -4118,7 +4131,7 @@ function hockeyOpsPage(red,S){
   const items=HO_ROLES.map(r=>{
     const k=r[0],title=r[1],e=H[k]||{};
     if(!(e.name||'').trim()&&!(e.bio||'').trim())return '';
-    return `<div class="box"><h3>${title}${e.name?' — '+esc(e.name):''}</h3><div style="font-size:10px;line-height:1.6">${esc(e.bio||'')||'<span style="color:#999">Bio to come.</span>'}</div></div>`;
+    return `<div class="box"><h3>${title}${e.name?' — '+esc(e.name):''}</h3><div style="font-size:10px;line-height:1.6">${esc(e.bio||'')||'<span style="color:var(--ink-2)">Bio to come.</span>'}</div></div>`;
   }).filter(Boolean).join('');
   if(!items)return '';
   return `<div class="page" style="--havoc-red:${red}">
@@ -4293,7 +4306,7 @@ function sheetPageHTML(){
   };
 
   // standings
-  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td>${s.w}-${s.l}-${s.otl}</td><td>${s.pts} pts</td></tr>`;}).join(''):'<tr><td colspan="3" style="color:#999">Import report</td></tr>';
+  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td>${s.w}-${s.l}-${s.otl}</td><td>${s.pts} pts</td></tr>`;}).join(''):'<tr><td colspan="3" style="color:var(--ink-2)">Import report</td></tr>';
   // special teams strip
   const sp=R.special||{};const hs=sp['Huntsville']||{};const oppCity=(G.opp||'').split(' ')[0];const os=sp[oppCity]||{};
   const oppShort=(G.opp||'').replace('Huntsville Havoc','');
@@ -4343,7 +4356,7 @@ function epBulkPreview(){
   EPBULK_PARSED.forEach(p=>{
     const match=list.find(x=>norm(x.name)===norm(p.facts.name));
     const status=match?(match.notes&&match.notes.trim()?'<span class="pill warn">has bio — will skip</span>':'<span class="pill ok">will fill bio</span>'):'<span class="pill grey">no roster match</span>';
-    html+='<div class="ref-box"><h4>'+esc(p.facts.name)+' '+status+'</h4>'+(p.bullets.length?'<div style="font-size:12px">'+p.bullets.map(b=>'• '+esc(b)).join('<br>')+'</div>':'<div style="color:#999;font-size:12px">No career bullets derived</div>')+'</div>';
+    html+='<div class="ref-box"><h4>'+esc(p.facts.name)+' '+status+'</h4>'+(p.bullets.length?'<div style="font-size:12px">'+p.bullets.map(b=>'• '+esc(b)).join('<br>')+'</div>':'<div style="color:var(--ink-2);font-size:12px">No career bullets derived</div>')+'</div>';
   });
   html+='<div class="btn-row"><button class="btn" onclick="epBulkCommit()">Apply bios to matching players</button></div>';
   wrap.innerHTML=html;
@@ -4413,7 +4426,7 @@ function pgWrap(red,S,title,body){
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`;
 }
 function leaders4Block(ts){
-  if(!ts||!ts.players||!ts.players.length)return '<div style="color:#999;font-size:9px">Sync live data or import the daily report for leaders.</div>';
+  if(!ts||!ts.players||!ts.players.length)return '<div style="color:var(--ink-2);font-size:9px">Sync live data or import the daily report for leaders.</div>';
   const activeSet=new Set(DATA.roster.filter(p=>p.active!=='0').map(p=>norm(p.name)));
   const Gx=DATA.game||{};
   const flagged=((Gx.ir||'')+'\n'+(Gx.echl||'')+'\n'+(Gx.scratch||'')).toLowerCase();
@@ -4425,14 +4438,14 @@ function leaders4Block(ts){
     const top=[...ts.players].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,5);
     return `<div><div class="ldr-h">${title}</div>${top.map(p=>`<div class="ldr-r"><span>${esc(p.name)}${star(p.name)}</span><span>${fmt?fmt(p):(p[key]||0)}</span></div>`).join('')}</div>`;
   };
-  return `<div class="ldr4">${col('GOALS','g')}${col('ASSISTS','a')}${col('POINTS','pts')}${col('PLUS-MINUS','pm',p=>((p.pm||0)>=0?'+':'')+(p.pm||0))}</div><div style="font-size:7px;color:#666;margin-top:2px">* not on current active roster</div>`;
+  return `<div class="ldr4">${col('GOALS','g')}${col('ASSISTS','a')}${col('POINTS','pts')}${col('PLUS-MINUS','pm',p=>((p.pm||0)>=0?'+':'')+(p.pm||0))}</div><div style="font-size:7px;color:var(--ink-2);margin-top:2px">* not on current active roster</div>`;
 }
 function splitsPage(red,S){
   const sp=glSplits();
   const R=DATA.report;
   const spSlug=k=>'sp_'+String(k).toLowerCase().replace(/[^a-z0-9]+/g,'_');
   const splitRows=sp?sp.rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${ovCell(spSlug(r[0]),r[1])}</td></tr>`).join(''):naRow('Season splits','no completed games in the log yet');
-  const naNote=`<tr><td>Record when scoring first / leading after 1st &amp; 2nd</td><td class="r" style="color:#999">N/A — tracked from box scores going forward</td></tr>`;
+  const naNote=`<tr><td>Record when scoring first / leading after 1st &amp; 2nd</td><td class="r" style="color:var(--ink-2)">N/A — tracked from box scores going forward</td></tr>`;
   const lt=glLastTime().map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${ovCell(spSlug('lt_'+r[0]),r[1])}</td></tr>`).join('');
   const spc=(R.special||{})['Huntsville']||{};
   const ppVal=(typeof spc.pp==='string'?spc.pp:(spc.ppO&&spc.ppO.pct!=null?spc.ppO.pct+'%':null))||null;
@@ -4457,7 +4470,7 @@ function splitsPage(red,S){
 }
 function gameLogPage(red,S){
   const gs=glGames();
-  if(!gs.length)return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3><div style="color:#999;font-size:10px">No completed games in the log yet — results fill in automatically as the season goes.</div></div>`);
+  if(!gs.length)return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3><div style="color:var(--ink-2);font-size:10px">No completed games in the log yet — results fill in automatically as the season goes.</div></div>`);
   let w=0,l=0,otl=0,sol=0;
   const rows=gs.map(g=>{
     if(g.wl==='W')w++;else if(g.wl==='OTL')otl++;else if(g.wl==='SOL')sol++;else l++;
@@ -4470,7 +4483,7 @@ function gameLogPage(red,S){
   }).join('');
   return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3>
     <table class="pk-t"><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Record</th><th class="r">Pts</th><th class="r">Shots F-A</th><th class="r">PP</th><th class="r">Att.</th></tr>${rows}</table>
-    <div style="font-size:7px;color:#666;margin-top:2px">Shots, PP and attendance come from the Game Log on the Schedule tab — fill as available.</div></div>`);
+    <div style="font-size:7px;color:var(--ink-2);margin-top:2px">Shots, PP and attendance come from the Game Log on the Schedule tab — fill as available.</div></div>`);
 }
 function rosterPronPage(red,S){
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
@@ -4478,14 +4491,14 @@ function rosterPronPage(red,S){
   const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
     ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))} ${statSpan(p,'Huntsville')}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
   const pron=(S.pronounce||'').split('\n').map(s=>s.trim()).filter(Boolean);
-  const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${pron.length?`<table class="pk-t">${pron.map(l=>{const m=l.split(/\s*[-–—]\s*/);return `<tr><td>${esc(m[0]||l)}</td><td class="r">${esc(m.slice(1).join(' - '))}</td></tr>`;}).join('')}</table>`:'<div style="color:#999;font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun).</div>'}</div>`;
+  const pronBox=`<div class="box"><h3>Pronunciation Guide</h3>${pron.length?`<table class="pk-t">${pron.map(l=>{const m=l.split(/\s*[-–—]\s*/);return `<tr><td>${esc(m[0]||l)}</td><td class="r">${esc(m.slice(1).join(' - '))}</td></tr>`;}).join('')}</table>`:'<div style="color:var(--ink-2);font-size:9px">Add pronunciations in Settings (one per line: NAME - pro-nun-see-AY-shun).</div>'}</div>`;
   const H=DATA.hockeyOps||{};
   const staff=HO_ROLES.map(r=>{const e=H[r[0]]||{};return e.name?`<div class="h2h-line"><span>${r[1]}</span><span>${esc(e.name)}</span></div>`:'';}).join('');
   return pgWrap(red,S,'ROSTER',`
     ${grp('Forwards',act.filter(p=>p.pos!=='D'&&p.pos!=='G'))}
     ${grp('Defense',act.filter(p=>p.pos==='D'))}
     ${grp('Goaltenders',act.filter(p=>p.pos==='G'))}
-    <div class="gn-cols">${pronBox}<div class="box"><h3>Hockey Operations</h3>${staff||'<div style="color:#999;font-size:9px">Fill names on the Roster tab.</div>'}</div></div>`);
+    <div class="gn-cols">${pronBox}<div class="box"><h3>Hockey Operations</h3>${staff||'<div style="color:var(--ink-2);font-size:9px">Fill names on the Roster tab.</div>'}</div></div>`);
 }
 function recordsPage(red,S){
   const R=SPHL_REF.hsvRecords;if(!R)return '';
@@ -4517,7 +4530,7 @@ function worksheetsPage(red,S){
 function transPage(red,S){
   const G=DATA.game||{};
   const lines=t=>String(t||'').split('\n').map(x=>x.trim()).filter(Boolean);
-  const list=(arr,empty)=>arr.length?arr.map(l=>`<div class="h2h-line"><span>${esc(l)}</span></div>`).join(''):`<div style="color:#999;font-size:9px">${empty}</div>`;
+  const list=(arr,empty)=>arr.length?arr.map(l=>`<div class="h2h-line"><span>${esc(l)}</span></div>`).join(''):`<div style="color:var(--ink-2);font-size:9px">${empty}</div>`;
   return pgWrap(red,S,'TRANSACTIONS &amp; INACTIVES',`
     <div class="gn-cols">
       <div>
@@ -4549,7 +4562,7 @@ function careerPages(red,S){
         <table class="pk-t"><tr><th>Season</th><th>Team</th>${head}</tr>
         ${reg.map(r=>`<tr><td>${esc(r.season)}</td><td>${esc(r.team)}</td>${row(r)}</tr>`).join('')}
         <tr><td colspan="2"><b>SPHL totals</b></td>${isG?`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.w}</b></td><td class="r"><b>${tot.l}</b></td><td class="r"><b>${tot.otl}</b></td><td class="r"></td><td class="r"></td><td class="r"><b>${tot.so}</b></td>`:`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.g}</b></td><td class="r"><b>${tot.a}</b></td><td class="r"><b>${tot.pts}</b></td><td class="r"></td>`}</tr>
-        ${po.length?`<tr><td colspan="${isG?9:7}" style="color:#666">Playoffs: ${po.map(r=>esc(r.season)+' '+r.gp+' GP'+(isG?'':' '+r.g+'-'+r.a+'-'+r.pts)).join(' · ')}</td></tr>`:''}</table></div>`);
+        ${po.length?`<tr><td colspan="${isG?9:7}" style="color:var(--ink-2)">Playoffs: ${po.map(r=>esc(r.season)+' '+r.gp+' GP'+(isG?'':' '+r.g+'-'+r.a+'-'+r.pts)).join(' · ')}</td></tr>`:''}</table></div>`);
       return;
     }
     const e=(typeof epEntryFor==='function'&&EP_STATIC)?epEntryFor(p):null;
@@ -4560,7 +4573,7 @@ function careerPages(red,S){
       <table class="pk-t"><tr><th>Season</th><th>Team</th><th>League</th><th class="r">GP</th>${isG?'<th class="r">GAA</th><th class="r">SV%</th>':'<th class="r">G</th><th class="r">A</th><th class="r">PTS</th>'}</tr>
       ${rows.map(s=>{const x=s.stats||{};return `<tr><td>${esc(s.year)}</td><td>${esc(s.team)}</td><td>${esc(s.league)}</td><td class="r">${x.gp!=null?x.gp:''}</td>${isG?`<td class="r">${x.gaa!=null?x.gaa:''}</td><td class="r">${x.svp!=null?x.svp:''}</td>`:`<td class="r">${x.g!=null?x.g:''}</td><td class="r">${x.a!=null?x.a:''}</td><td class="r">${x.p!=null?x.p:''}</td>`}</tr>`;}).join('')}
       ${isG?'':`<tr><td colspan="3"><b>Career totals</b></td><td class="r"><b>${totals.gp}</b></td><td class="r"><b>${totals.g}</b></td><td class="r"><b>${totals.a}</b></td><td class="r"><b>${totals.p}</b></td></tr>`}</table>
-      <div style="font-size:7px;color:#666">Career vs. each SPHL opponent, single-game highs and firsts: N/A — builds from per-game data going forward.</div></div>`);
+      <div style="font-size:7px;color:var(--ink-2)">Career vs. each SPHL opponent, single-game highs and firsts: N/A — builds from per-game data going forward.</div></div>`);
   });
   const pages=[];
   for(let i=0;i<blocks.length;i+=4)
@@ -4626,7 +4639,7 @@ function renderPacket(){
 
   /* ---------- PAGE 1: COVER ---------- */
   let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
-  const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add news on the Game Notes tab.</div>';
+  const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add news on the Game Notes tab.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
   const cups=SPHL_REF.cups["Huntsville Havoc"]||[];
@@ -4659,7 +4672,7 @@ function renderPacket(){
 
   /* ---------- PAGE 2: SCOUTING REPORT ---------- */
   const h2h=SPHL_REF.hsvVs[G.opp];
-  const oppNews=[[N.oh1,N.ob1],[N.oh2,N.ob2]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add opponent news on the Full Packet tab.</div>';
+  const oppNews=[[N.oh1,N.ob1],[N.oh2,N.ob2]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add opponent news on the Full Packet tab.</div>';
   // full match up panel, with league-ranked rates appended
   const muRows=matchupRows().concat(rankedMatchupRows());
   const muTable=`<table class="matchup"><thead><tr><th></th><th>${esc(S.city)} ${esc(S.name)}</th><th>${esc(oppShort||'Opponent')}</th></tr></thead><tbody>
@@ -4698,7 +4711,7 @@ function renderPacket(){
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">QUICK FACTS</div><div class="pg-num">__PGNO__</div></div>
     <div class="gn-cols">
-      <div class="box"><h3>2025-26 Schedule</h3><div style="font-size:8px;color:#888">Paste schedule on the Game Notes tab to populate.</div>${scheduleTable()}</div>
+      <div class="box"><h3>2025-26 Schedule</h3><div style="font-size:8px;color:var(--ink-2)">Paste schedule on the Game Notes tab to populate.</div>${scheduleTable()}</div>
       <div>
         <div class="box"><h3>Havoc at a Glance</h3><table class="qf-list">${atGlance.map(r=>`<tr><td>${r[0]}</td><td>${ovCell(r[1],r[2])}</td></tr>`).join('')}</table></div>
         <div class="box"><h3>Special Teams</h3><table class="qf-list"><tr><td>Power play</td><td>${ovCell('qf_pp',hsvSp.pp||null)}</td></tr><tr><td>Penalty kill</td><td>${ovCell('qf_pk',hsvSp.pk||null)}</td></tr></table></div>
@@ -4808,10 +4821,10 @@ function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
     let statHTML='';
     if(isGoalie){
       const g=teamStats?teamStats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
-      statHTML=g?`<div class="mtp-stats"><span>SV%: ${g.svpct}</span><span>GAA: ${g.gaa}</span><span>Record: ${g.w}-${g.l}-${g.otl}</span><span>SO: ${g.so}</span><span>Saves: ${g.svs}</span></div>`:'<div class="mtp-stats" style="color:#999">No report stats</div>';
+      statHTML=g?`<div class="mtp-stats"><span>SV%: ${g.svpct}</span><span>GAA: ${g.gaa}</span><span>Record: ${g.w}-${g.l}-${g.otl}</span><span>SO: ${g.so}</span><span>Saves: ${g.svs}</span></div>`:'<div class="mtp-stats" style="color:var(--ink-2)">No report stats</div>';
     }else{
       const st=teamStats?teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
-      statHTML=st?`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>Shots: ${st.shots!=null?st.shots:'—'}</span><span>PIM: ${st.pim}</span></div>`:'<div class="mtp-stats" style="color:#999">No report stats</div>';
+      statHTML=st?`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>Shots: ${st.shots!=null?st.shots:'—'}</span><span>PIM: ${st.pim}</span></div>`:'<div class="mtp-stats" style="color:var(--ink-2)">No report stats</div>';
     }
     const notes=(p.notes||'').split('\n').filter(Boolean).map(n=>'• '+esc(n)).join('<br>');
     const[lastN,...rest]=(p.name||'').split(' ').reverse();
@@ -4935,7 +4948,7 @@ function lastResults(teamKeyword){
 }
 function last10Block(teamKeyword){
   const rec=lastResults(teamKeyword).slice(-10);
-  if(!rec.length)return '<span style="color:#999">No recent games in report</span>';
+  if(!rec.length)return '<span style="color:var(--ink-2)">No recent games in report</span>';
   return rec.map(g=>`<span class="r10 ${g.wl==='W'?'w':(g.wl==='L'?'l':'t')}">${g.wl} ${g.gf}-${g.ga} ${g.home?'vs':'@'} ${esc(g.opp.split(' ')[0])}</span>`).join(' ');
 }
 function seasonH2HText(){
@@ -4993,7 +5006,7 @@ function glStreak(list){
   return n+kind;
 }
 function fmtDateShort(d){const p=d.split('-');return (+p[1])+'/'+(+p[2])+'/'+p[0].slice(2);}
-function naRow(label,note){return `<tr><td>${label}</td><td class="r" style="color:#999">${note||'N/A'}</td></tr>`;}
+function naRow(label,note){return `<tr><td>${label}</td><td class="r" style="color:var(--ink-2)">${note||'N/A'}</td></tr>`;}
 
 /* season splits — everything derivable from the game log; honest N/A otherwise */
 function glSplits(){
@@ -5209,7 +5222,7 @@ function saveSchedule(){
 function renderCalendar(){
   const el=document.getElementById('schedCalendar');if(!el)return;
   const games=parseScheduleData();
-  if(!games.length){el.innerHTML='<span style="color:#999;font-size:13px">Save a schedule to see the calendar.</span>';return;}
+  if(!games.length){el.innerHTML='<span style="color:var(--ink-2);font-size:13px">Save a schedule to see the calendar.</span>';return;}
   // map games by ISO date; detect home/away from the opp string ("vs X" home, "@ X" away)
   const byDate={};
   games.forEach(g=>{
@@ -5252,7 +5265,7 @@ function renderSchedPreview(){
   renderCalendar();
   const s=parseScheduleData();
   const box=document.getElementById('schedPreview');
-  if(!s.length){box.innerHTML='<span style="color:#999">No games parsed yet. One per line: M/D/YY  vs|@ Opponent  Result</span>';return;}
+  if(!s.length){box.innerHTML='<span style="color:var(--ink-2)">No games parsed yet. One per line: M/D/YY  vs|@ Opponent  Result</span>';return;}
   let w=0,l=0,psw=0,psl=0;
   s.forEach(g=>{
     const W=/^w/i.test(g.result),L=/^(l|otl|sol)/i.test(g.result);
@@ -5261,8 +5274,8 @@ function renderSchedPreview(){
   });
   const psTxt=(psw||psl)?` · preseason ${psw}-${psl}`:'';
   box.innerHTML=`<div style="margin-bottom:6px;font-weight:700">${s.length} games · ${w}-${l} from entered results${psTxt}</div>`+
-    `<div style="font-size:11px;color:#888;margin-bottom:6px">Tap a result cell (or the ＋) to enter a final score any time.</div>`+
-    `<table class="qf-sched" style="font-size:12px">${s.map(g=>`<tr${g.ps?' style="background:#f6f2ee"':''}><td style="width:64px">${g.date}${g.ps?' <b style="color:#a06a1f;font-size:9px">PS</b>':''}</td><td style="width:30px">${g.hv}</td><td>${esc(g.team)}${g.note?` <span style="color:#888;font-size:10px">${esc(g.note)}</span>`:''}</td><td style="color:#C8102E;font-weight:700">${esc(promoFor(g.dateISO))}</td><td style="width:70px;color:#777">${esc(g.time||'')}</td><td style="text-align:right;font-weight:700;cursor:pointer" onclick="setGameResult('${g.dateISO}')" title="Enter final score">${esc(g.result)||'<span style="color:#bbb">＋</span>'}</td></tr>`).join('')}</table>`;
+    `<div style="font-size:11px;color:var(--ink-2);margin-bottom:6px">Tap a result cell (or the ＋) to enter a final score any time.</div>`+
+    `<table class="qf-sched" style="font-size:12px">${s.map(g=>`<tr${g.ps?' style="background:var(--tint-neutral)"':''}><td style="width:64px">${g.date}${g.ps?' <b style="color:var(--amber);font-size:9px">PS</b>':''}</td><td style="width:30px">${g.hv}</td><td>${esc(g.team)}${g.note?` <span style="color:var(--ink-2);font-size:10px">${esc(g.note)}</span>`:''}</td><td style="color:var(--red-text);font-weight:700">${esc(promoFor(g.dateISO))}</td><td style="width:70px;color:var(--ink-2)">${esc(g.time||'')}</td><td style="text-align:right;font-weight:700;cursor:pointer" onclick="setGameResult('${g.dateISO}')" title="Enter final score">${esc(g.result)||'<span style="color:var(--ink-2)">＋</span>'}</td></tr>`).join('')}</table>`;
 }
 
 /* ============================================================
@@ -5307,7 +5320,7 @@ function quizRender(){
     body.innerHTML=prog+`<div class="flash-card" onclick="this.querySelector('.flash-back').style.display='block'">
       <div class="flash-front">${esc(front)}</div>
       <div class="flash-back" style="display:none">${esc(p.pos||'')} · ${esc(p.ht||'')} ${esc(p.wt||'')} · ${esc(p.birth||'')}<br>${esc(st||'No stats imported')}</div>
-      <div style="font-size:11px;color:#999;margin-top:10px">(tap to reveal)</div></div>
+      <div style="font-size:11px;color:var(--ink-2);margin-top:10px">(tap to reveal)</div></div>
       <div class="quiz-next"><button class="btn secondary" onclick="quizFlashNext(false)">Didn't know</button> <button class="btn" onclick="quizFlashNext(true)">Knew it</button></div>`;
     return;
   }
@@ -5415,19 +5428,19 @@ function pgPreview(){
   const r=pgCompose();
   const out=document.getElementById('pg_out');if(!out)return;
   if(!r.headline&&!r.paras.length&&!r.lede){
-    out.innerHTML='<div style="color:#999;font-size:13px;line-height:1.7"><b>Write, then copy.</b> Fill the sections on the left — the finished report builds here in the house structure as you type, and <b>Copy report</b> grabs the whole thing.</div>';
+    out.innerHTML='<div style="color:var(--ink-2);font-size:13px;line-height:1.7"><b>Write, then copy.</b> Fill the sections on the left — the finished report builds here in the house structure as you type, and <b>Copy report</b> grabs the whole thing.</div>';
     return;
   }
   let html='';
   if(r.headline)html+=`<h2>${esc(r.headline)}</h2>`;
   if(r.lede)html+=`<p class="deck">${esc(r.lede)}</p>`;
   html+=`<p class="story" style="font-weight:800">${esc(r.scoreline)}</p>`;
-  if(r.dateline)html+=`<p class="story" style="color:#666;font-size:12px">${esc(r.dateline)}</p>`;
+  if(r.dateline)html+=`<p class="story" style="color:var(--ink-2);font-size:12px">${esc(r.dateline)}</p>`;
   r.paras.forEach(p=>html+=`<p class="story">${esc(p)}</p>`);
   if(r.quotes.length){html+='<div class="notes-head">Quotes</div>';r.quotes.forEach(q=>html+=`<p class="story" style="font-style:italic">${esc(q)}</p>`);}
   if(r.notes.length){html+='<div class="notes-head">Game notes</div><ul>';r.notes.forEach(n=>html+=`<li>${esc(n)}</li>`);html+='</ul>';}
   if(r.next)html+=`<p class="story" style="font-weight:700">NEXT: ${esc(r.next)}</p>`;
-  html+='<p style="text-align:center;letter-spacing:.5em;color:#999;margin-top:22px">###</p>';
+  html+='<p style="text-align:center;letter-spacing:.5em;color:var(--ink-2);margin-top:22px">###</p>';
   out.innerHTML=html;
 }
 async function pgCopy(){
@@ -5697,7 +5710,7 @@ function clRender(){
     Object.keys(st.per).sort().map(s=>`<span class="cl-stat">${s}: <b>${st.per[s]}</b></span>`).join('');
   document.querySelectorAll('.cl-season-btn').forEach(b=>b.classList.toggle('active',b.dataset.s===CL_SEASON));
   const list=DATA.calllog[CL_SEASON]||[];
-  if(!list.length){wrap.innerHTML='<div style="color:#999">No games for this season yet.</div>';return;}
+  if(!list.length){wrap.innerHTML='<div style="color:var(--ink-2)">No games for this season yet.</div>';return;}
   wrap.innerHTML=list.map(g=>{
     const score=(g.hv!=null&&g.og!=null)?`${g.hv}-${g.og}${g.note?' ('+g.note+')':''}`:'';
     const wl=(g.hv!=null&&g.og!=null)?(g.hv>g.og?'W':'L'):'';
@@ -5934,7 +5947,12 @@ async function htEnsureReady(prefix){
   }
 }
 function pick(o,keys,d){for(const k of keys){if(o&&o[k]!=null&&o[k]!=='')return o[k];}return d;}
-function htStatus(msg,ok){const el=document.getElementById('htStatus');if(el){el.textContent=msg;el.style.color=ok?'#1b7a3d':'#b3232c';}}
+function htStatus(msg,ok){
+  const el=document.getElementById('htStatus');if(!el)return;
+  el.textContent=msg;
+  // themed so it reads on the dark booth screen as well as the light one
+  el.style.color=ok===true?'var(--ok-fg)':(ok===false?'var(--red-text)':'var(--ink-2)');
+}
 async function htTest(){
   try{
     htStatus('Testing…','');
