@@ -3261,11 +3261,24 @@ function owArchive(){
    silhouette check below is best-effort: it only works where pixels are
    readable, and degrades silently to load-success detection otherwise.
    HAVOC PLAYERS ONLY — no photo fetching for any other team, anywhere. */
+/* The roster feed hands us player_image verbatim — that is the source of truth.
+   120x160 is small for print, so the one larger size that actually exists is
+   tried first and falls back to what the feed gave us. The filename is the
+   roster "id" (what we store as htId), not person_id.
+   Probed live Aug 6, 2026 against id 3801: 120x160 = 200 (17.5KB) ·
+   240x240 = 200 (37KB) · 240x320 and 360x480 = 404. Don't add sizes back
+   without re-probing — a 404 costs a request and a flash of broken image. */
 function havocHeadSrcs(p){
   const srcs=[];
-  if(p.htId){srcs.push('https://assets.leaguestat.com/sphl/240x240/'+p.htId+'.jpg');
-             srcs.push('https://assets.leaguestat.com/sphl/120x160/'+p.htId+'.jpg');}
-  if(p.img)srcs.push(p.img);
+  const bigger=u=>{
+    const m=String(u||'').match(/^(https?:\/\/[^\s]*\/)(\d+x\d+)(\/[^\/]+)$/);
+    return m?['240x240'].filter(s=>s!==m[2]).map(s=>m[1]+s+m[3]):[];
+  };
+  if(p.img){bigger(p.img).forEach(u=>srcs.push(u));srcs.push(p.img);}
+  if(p.htId){                       // no feed url yet — the documented pattern
+    srcs.push('https://assets.leaguestat.com/sphl/240x240/'+p.htId+'.jpg');
+    srcs.push('https://assets.leaguestat.com/sphl/120x160/'+p.htId+'.jpg');
+  }
   if(p.imgData)srcs.push(p.imgData);
   return [...new Set(srcs)];
 }
@@ -6434,6 +6447,35 @@ function htMergeRoster(list,feedPlayers,isHavoc){
   if(feedPlayers.length>=8)list.forEach(p=>{if(!seen.has(norm(p.name))&&p.sheet!=='2026-27')p.active='0';});
   return list;
 }
+/* team ids confirmed against the league feed */
+const HT_TEAM_ID={"Peoria Rivermen":1,"Fayetteville Marksmen":2,"Huntsville Havoc":3,"Pensacola Ice Flyers":4,
+  "Evansville Thunderbolts":5,"Knoxville Ice Bears":6,"Roanoke Rail Yard Dawgs":7,"Quad City Storm":8,
+  "Birmingham Bulls":9,"Macon Mayhem":10,"Athens Rock Lobsters":27,"Pee Dee IceCats":28};
+/* Photos: 2026-27 returns coaches only until the league publishes players, so
+   returning players get their picture from last season's roster, matched by
+   name. Runs on every roster sync; new signings stay text-only until they
+   appear in the feed, and then pick up their photo automatically. */
+async function htPhotoBackfill(){
+  const need=DATA.roster.filter(p=>p.name&&p.active!=='0'&&!p.img);
+  if(!need.length)return '';
+  let rows=[];
+  try{
+    const r=await htFetch({feed:'modulekit',view:'roster',season_id:'44',team_id:String(HT_TEAM_ID['Huntsville Havoc'])});
+    rows=(r&&r.SiteKit&&r.SiteKit.Roster)||[];
+  }catch(e){return '';}
+  const by=new Map();
+  rows.map(htRosterRow).filter(Boolean).forEach(fp=>{if(fp.img)by.set(norm(fp.name),fp);});
+  let got=0;
+  need.forEach(p=>{
+    const fp=by.get(norm(p.name));
+    if(!fp)return;
+    p.img=fp.img;                         // verbatim, as the feed gives it
+    if(!p.htId&&fp.htid)p.htId=fp.htid;
+    got++;
+  });
+  if(got){save();renderRoster();}
+  return got?got+' photo'+(got===1?'':'s')+' from 2025-26':'';
+}
 async function htDoRosters(){
   const d=await htFetch({feed:'modulekit',view:'teamsbyseason',season_id:htSeason()});
   const teams=(d&&d.SiteKit&&d.SiteKit.Teamsbyseason)||[];
@@ -6462,7 +6504,9 @@ async function htDoRosters(){
   if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
   syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
-  return teamCount+' team rosters ('+playerCount+' players)';
+  let photos='';
+  try{photos=await htPhotoBackfill();}catch(e){}
+  return teamCount+' team rosters ('+playerCount+' players)'+(photos?' · '+photos:'');
 }
 
 /* ============================================================
