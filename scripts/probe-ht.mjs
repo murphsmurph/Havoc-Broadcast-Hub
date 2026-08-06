@@ -128,3 +128,28 @@ for(const season of ['46','44']){
     players.filter(p=>!sheetNames.has(nrm(p.name))).forEach(p=>console.log('   IN FEED ONLY  #'+p.num+' '+p.name+' ('+p.pos+') id='+p.id));
   }
 }
+
+// ---- roster photo pipeline: does player_image come back, and at what sizes? ----
+const HSV=3;
+for(const season of ['46','44']){
+  const rr=await jget('feed=modulekit&view=roster&season_id='+season+'&team_id='+HSV+'&fmt=json&lang=en');
+  const rows=(rr&&rr.SiteKit&&rr.SiteKit.Roster)||[];
+  const players=rows.filter(r=>/^(F|C|LW|RW|W|D|G)$/i.test(String(r.position||'')));
+  const staff=rows.length-players.length;
+  const withImg=players.filter(r=>r.player_image);
+  console.log(`roster s${season}: rows=${rows.length} players=${players.length} staff/coaches=${staff} withPhoto=${withImg.length}`);
+  if(withImg.length){
+    const s=withImg[0];
+    console.log('   sample id='+(s.id||s.player_id)+' person_id='+(s.person_id||'-')+' name='+((s.first_name||'')+' '+(s.last_name||'')).trim());
+    console.log('   player_image='+s.player_image);
+    const idInUrl=String(s.player_image||'').match(/\/(\d+)\.jpg/);
+    console.log('   filename matches id? '+(idInUrl&&idInUrl[1]===String(s.id))+'   matches person_id? '+(idInUrl&&idInUrl[1]===String(s.person_id)));
+    // is a bigger variant available?
+    for(const size of ['120x160','240x320','240x240','360x480']){
+      const u=String(s.player_image).replace(/\/\d+x\d+\//,'/'+size+'/');
+      try{const r=await fetch(u,{headers:{'User-Agent':'Mozilla/5.0'}});
+        console.log('   '+size.padEnd(8)+' HTTP '+r.status+' bytes:'+(r.headers.get('content-length')||'?'));
+      }catch(e){console.log('   '+size+' ERR '+e.message.slice(0,50));}
+    }
+  }
+}
