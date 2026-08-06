@@ -17,6 +17,27 @@
     --ok:#1d8a4e;--warn:#b8860b;--shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);
     --radius:8px;--font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
+  /* booth: dark palette + a bigger type scale, screen only — print always resets to the light sheet */
+  html[data-theme="dark"]{
+    --havoc-black:#f2f2f5;--havoc-charcoal:#16161a;--havoc-grey:#a2a4ad;
+    --havoc-line:#33343c;--havoc-silver:#25262c;--bg:#101015;
+    --shadow:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.4);
+  }
+  html[data-theme="dark"] body{background:var(--bg);color:var(--havoc-black);}
+  html[data-theme="dark"] .card,html[data-theme="dark"] .modal,html[data-theme="dark"] .ref-box,
+  html[data-theme="dark"] .rs-box,html[data-theme="dark"] .doc-frame{background:#191a20;color:var(--havoc-black);}
+  html[data-theme="dark"] .doc-toolbar,html[data-theme="dark"] .bk-inline,html[data-theme="dark"] .reset-summary,
+  html[data-theme="dark"] .feed-ages span{background:#212229;color:var(--havoc-black);}
+  html[data-theme="dark"] input,html[data-theme="dark"] textarea,html[data-theme="dark"] select{background:#212229;color:var(--havoc-black);border-color:var(--havoc-line);}
+  html[data-theme="dark"] .btn.secondary,html[data-theme="dark"] .icon-btn{background:#212229;color:var(--havoc-black);}
+  html[data-theme="dark"] .empty{color:var(--havoc-grey);}
+  html[data-theme="dark"] .danger-zone{background:#241418;}
+  html[data-theme="dark"] .page{color:#111114;} /* previews stay paper-white — they are the printed thing */
+  html[data-booth="1"] body{font-size:17px;}
+  html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td,html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th{padding-top:9px;padding-bottom:9px;}
+  html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
+  html[data-booth="1"] .tab{font-size:14.5px;}
+  html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
   body{margin:0;font-family:var(--font);background:var(--bg);color:var(--havoc-black);line-height:1.45;font-size:15px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
@@ -36,6 +57,11 @@
   .app-header .spacer{flex:1;}
   .header-status{font-size:12px;color:#b9b9c0;}
   .tabs{display:flex;gap:2px;background:var(--havoc-charcoal);padding:0 14px;position:sticky;top:60px;z-index:49;flex-wrap:wrap;}
+  @media(max-width:900px){
+    .tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{flex:0 0 auto;white-space:nowrap;}
+  }
   .tab{background:transparent;border:none;color:#cfcfd6;padding:11px 14px;font-size:12.5px;font-weight:600;letter-spacing:.3px;border-bottom:3px solid transparent;text-transform:uppercase;}
   .tab:hover{color:#fff;} .tab.active{color:#fff;border-bottom-color:var(--havoc-red);}
   .subnav{display:flex;gap:6px;align-items:center;margin:0 0 14px;flex-wrap:wrap;}
@@ -182,6 +208,69 @@
   .ref-box td{padding:3px 6px;border-bottom:1px solid var(--havoc-silver);}
   .ref-box td:first-child{color:var(--havoc-grey);}
   .cupline{font-size:13px;}
+  .save-flash{opacity:0;transition:opacity .35s ease;pointer-events:none;}
+  .save-flash.on{opacity:1;}
+  .tab-temp{font-size:9px;font-weight:900;background:var(--havoc-red);color:#fff;border-radius:8px;padding:1px 5px;margin-left:5px;vertical-align:middle;text-transform:uppercase;}
+  .stnd tr.zeroed td{color:#9a9ea6;}
+  .empty-cell{text-align:center;color:var(--havoc-grey);font-size:11px;padding:8px 6px;font-style:normal;}
+  /* live-data freshness badges */
+  .upd{display:inline-block;margin-left:8px;padding:1px 8px;border-radius:9px;font-size:11px;font-weight:800;background:#e8f3ec;color:#2f6b45;vertical-align:middle;}
+  .upd.none{background:#eceef2;color:#6b7078;}
+  .sb-state{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;margin-bottom:8px;}
+  .sb-state .sb-dot{width:9px;height:9px;border-radius:50%;flex:0 0 auto;}
+  .sb-state.loading{color:#6b7078;} .sb-state.loading .sb-dot{background:#c3c7cf;animation:sbpulse 1s ease-in-out infinite;}
+  .sb-state.loaded{color:#2f6b45;} .sb-state.loaded .sb-dot{background:#2f6b45;}
+  .sb-state.failed{color:var(--havoc-red);} .sb-state.failed .sb-dot{background:var(--havoc-red);}
+  @keyframes sbpulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .btn.gameday{font-weight:900;font-size:15px;padding:12px 22px;}
+  .feed-chip{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:800;border-radius:11px;padding:3px 11px;margin-bottom:10px;}
+  .feed-chip .fc-dot{width:8px;height:8px;border-radius:50%;}
+  .feed-chip.checking{background:#eceef2;color:#5d626c;} .feed-chip.checking .fc-dot{background:#b6bac2;animation:sbpulse 1s ease-in-out infinite;}
+  .feed-chip.ok{background:#e8f3ec;color:#2f6b45;} .feed-chip.ok .fc-dot{background:#2f6b45;}
+  .feed-chip.off{background:#fdecee;color:var(--havoc-red);} .feed-chip.off .fc-dot{background:var(--havoc-red);}
+  .gd-steps{list-style:none;margin:12px 0 0;padding:0;}
+  .gd-steps li{display:flex;align-items:center;gap:9px;font-size:12.5px;padding:3px 0;color:#6b7078;}
+  .gd-steps li .gd-mark{width:17px;text-align:center;font-weight:900;}
+  .gd-steps li.run{color:var(--havoc-ink);font-weight:700;} .gd-steps li.run .gd-mark{animation:sbpulse 1s ease-in-out infinite;}
+  .gd-steps li.ok{color:#2f6b45;} .gd-steps li.ok .gd-mark{color:#2f6b45;}
+  .gd-steps li.bad{color:var(--havoc-red);} .gd-steps li.bad .gd-mark{color:var(--havoc-red);}
+  .gd-steps li .gd-note{color:#8a8f98;font-weight:400;}
+  .gd-adv{margin-top:14px;border-top:1px solid var(--havoc-line);padding-top:10px;}
+  .gd-adv summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--havoc-grey);}
+  .pr-bar{position:sticky;top:104px;z-index:40;background:var(--bg);align-items:center;gap:6px;}
+  html[data-theme="dark"] .pr-bar{background:var(--bg);}
+  .pg-badge{font-size:11.5px;font-weight:800;background:var(--havoc-silver);border-radius:9px;padding:3px 10px;color:var(--havoc-grey);}
+  .sec-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:#fff;border:1px solid var(--havoc-line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px;box-shadow:var(--shadow);}
+  html[data-theme="dark"] .sec-bar{background:#191a20;}
+  .sec-bar h4{font-size:11px;font-weight:900;text-transform:uppercase;color:var(--havoc-grey);width:100%;margin:0;letter-spacing:.04em;}
+  .sec-item{display:flex;align-items:center;gap:3px;border:1px solid var(--havoc-line);border-radius:7px;padding:3px 6px;font-size:12px;}
+  .sec-item .sec-nm{font-weight:800;margin-right:4px;}
+  .sec-item button{min-height:24px;padding:1px 7px;font-size:12px;font-weight:800;border:1px solid var(--havoc-line);border-radius:5px;background:transparent;color:inherit;cursor:pointer;}
+  .sec-item button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-item .sec-pt{min-width:40px;text-align:center;font-variant-numeric:tabular-nums;font-weight:700;}
+  .sec-warn{width:100%;font-size:12px;font-weight:800;color:var(--havoc-red);}
+  .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
+  .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
+  .sec-tools button{min-height:22px;padding:0 6px;font-size:11.5px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#1a1a1a;cursor:pointer;}
+  .sec-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
+  .sec-tools .sec-pt{font-size:11.5px;font-weight:800;color:#1a1a1a;padding:0 3px;}
+  .page.sec-bold{font-weight:700;}
+  .lc-page > .sec-zoom,.vb-page > .sec-zoom{display:flex;flex-direction:column;height:100%;}
+  .page > .sec-zoom{display:block;}
+  .danger-zone{margin-top:18px;border:2px solid var(--havoc-red);border-radius:8px;padding:12px 14px;background:#fffafb;}
+  .danger-zone h4{font-size:12px;font-weight:900;text-transform:uppercase;color:var(--havoc-red);margin-bottom:4px;letter-spacing:.04em;}
+  .danger-zone p{font-size:12.5px;color:#6b7078;margin-bottom:10px;}
+  .btn.danger{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);font-weight:800;}
+  .bk-inline{font-size:12.5px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:7px;padding:8px 11px;margin-bottom:14px;}
+  .bk-inline .bk-warn{color:var(--havoc-red);}
+  .reset-summary{font-size:12.5px;background:#f4f5f7;border-radius:7px;padding:9px 11px;margin-bottom:12px;line-height:1.8;}
+  .bk-inline a{color:var(--havoc-red);cursor:pointer;text-decoration:underline;}
+  .gm-scores{padding-top:12px;}
+  .gm-sb-head{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:8px;}
+  .gm-sb-head .spacer{flex:1;}
+  .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .feed-ages span{font-size:11px;font-weight:700;background:#f4f5f7;border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:#4b5058;}
+  .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   /* 2026-27 roster reconcile panel */
   .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
   .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:#fafafb;}
@@ -387,6 +476,11 @@
   .quiz-prog{font-size:13px;color:#666;margin-bottom:8px;}
   @media (max-width:700px){.quiz-opts{grid-template-columns:1fr;}}
   @media print{
+    /* screen themes never reach paper */
+    html[data-theme="dark"],html[data-booth="1"]{--havoc-black:#111114;--havoc-charcoal:#1d1d22;--havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--bg:#fff;}
+    html[data-theme="dark"] body,html[data-booth="1"] body{background:#fff !important;color:#111114 !important;font-size:15px !important;}
+    html[data-theme="dark"] .card,html[data-theme="dark"] .page,html[data-theme="dark"] .doc-frame{background:#fff !important;color:#111114 !important;}
+    html[data-booth="1"] table td,html[data-booth="1"] table th{padding-top:revert;padding-bottom:revert;}
     body{background:#fff;}
     .app-header,.tabs,.doc-toolbar,.no-print{display:none !important;}
     .wrap{padding:0;max-width:none;}
@@ -550,26 +644,29 @@
 <body>
 <div class="app-header">
   <div class="mark" id="appMark">H</div>
-  <div><h1>Havoc Game Notes Hub</h1><div class="sub">Huntsville Havoc · SPHL 2025-26</div></div>
+  <div><h1>Havoc Game Notes Hub</h1><div class="sub">Huntsville Havoc · SPHL 2026-27</div></div>
   <div class="spacer"></div>
-  <div class="header-status" id="saveStatus">All changes saved locally</div>
+  <div class="header-status save-flash" id="saveStatus" title="Everything is stored in this browser — back it up from Settings"></div>
 </div>
 <div class="tabs" id="tabs">
   <button class="tab active" data-tab="game">This Game</button>
   <button class="tab" data-tab="import">Live Data</button>
   <button class="tab" data-tab="rosters">Rosters</button>
   <button class="tab" data-tab="reference">League Reference</button>
-  <button class="tab" data-tab="widgets">EP Widgets</button>
   <button class="tab" data-tab="print">Print Center</button>
   <button class="tab" data-tab="postgame">Post-Game</button>
   <button class="tab" data-tab="calllog">Call Log</button>
-  <button class="tab" data-tab="opening" id="tab_opening">Opening Weekend</button>
+  <button class="tab" data-tab="opening" id="tab_opening" title="Temporary — archive it after Oct 17">Opening Weekend <span class="tab-temp">temp</span></button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 <div class="wrap">
 
   <!-- THIS GAME -->
   <section class="panel active" id="panel-game">
+    <div class="card gm-scores">
+      <div class="gm-sb-head"><span>Tonight around the league</span><span class="upd" data-sync="scorebar"></span><span class="spacer"></span><button class="btn small secondary no-print" onclick="showTab('import')">Open Live Data</button></div>
+      <div id="gmScorebar" class="sb-strip"></div>
+    </div>
     <div class="card">
       <h2>This <span class="accent">Game</span></h2>
       <p class="desc">Game-specific details the report can't provide. Prints onto the Game Notes cover. Saved automatically.</p>
@@ -613,36 +710,57 @@
   <!-- IMPORT (multi-segment) -->
   <section class="panel" id="panel-import">
     <div class="card">
-      <h2>League <span class="accent">Scorebar</span></h2>
+      <h2>League <span class="accent">Scorebar</span> <span class="upd" data-sync="scorebar"></span></h2>
       <p class="desc">Live SPHL scores — recent finals, tonight's games and the week ahead. Updates every minute while games are on, every 15 minutes otherwise, and pauses when this tab is hidden.</p>
-      <div id="sbStrip" class="sb-strip"><div class="sb-msg">Connecting to the league feed…</div></div>
+      <div id="sbState" class="sb-state loading"><span class="sb-dot"></span><span id="sbStateMsg">Connecting to the league feed…</span><button class="btn small secondary no-print" id="sbRetry" style="display:none" onclick="sbRetry()">Retry</button></div>
+      <div id="sbStrip" class="sb-strip"></div>
       <div id="sbStamp" style="font-size:11px;color:#999;margin-top:6px"></div>
     </div>
     <div class="card">
       <h2>Live <span class="accent">SPHL Data</span></h2>
       <p class="desc">Pulls straight from the league's HockeyTech/LeagueStat feed — the same source as the daily report. The feed key is <b>auto-detected</b> on your first Test or Sync (it tries known public keys until one answers). After the roster pull, an <b>Elite Prospects</b> profile link is attached to every player name (from <i>data/ep-players.json</i>, built weekly by a GitHub Action). <b>Bios are yours to write</b>: each Havoc player has a long media bio (game packet) and a short broadcast bio (lineup chart &amp; sheet); opponent players just the broadcast bio. Only if key auto-detect fails: thesphl.com, right-click Inspect, Network tab, find any <b>lscluster</b> request, copy the <b>key=</b> value, paste below.</p>
-      <div class="grid g3">
-        <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
-        <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
-        <div class="field"><label>&nbsp;</label><button class="btn" onclick="htTest()">Test connection</button></div>
-      </div>
+      <div id="feedChip" class="feed-chip checking"><span class="fc-dot"></span><span id="feedChipMsg">Checking the feed…</span></div>
       <div class="btn-row">
-        <button class="btn" id="htSyncBtn" onclick="htSyncAll()" style="font-weight:900">⟳ Sync all live data</button>
-        <button class="btn" onclick="htPullStandings()">Pull standings</button>
-        <button class="btn" onclick="htPullPlayers()">Pull player + goalie stats</button>
-        <button class="btn" onclick="htPullSchedule()">Pull schedule + results</button>
-        <button class="btn" onclick="htPullRosters()">Pull rosters</button>
-        <button class="btn" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
-        <button class="btn" onclick="htPullCareers(event.shiftKey)">Pull SPHL career stats + photos</button>
-        <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
-        <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Download today's daily report (PDF)</a>
+        <button class="btn gameday" id="htSyncBtn" onclick="htSyncAll()">⟳ Game Day Refresh</button>
+        <a class="btn secondary" href="https://lsadmin.hockeytech.com/download.php?client_code=sphl&file_path=daily-report/daily-report.pdf" target="_blank">Today's daily report (PDF)</a>
       </div>
+      <ol id="htSteps" class="gd-steps"></ol>
+      <details class="gd-adv">
+        <summary>Advanced / refresh individually</summary>
+        <div class="grid g3" style="margin-top:10px">
+          <div class="field"><label>SPHL feed key (auto-detected; manual only if needed)</label><input type="text" id="ht_key" placeholder="e.g. 446521baf8c38984" onchange="DATA.settings.htKey=this.value;save();"></div>
+          <div class="field"><label>Season</label><select id="ht_seasonSel" onchange="DATA.settings.htSeason=this.value;save();"><option value="">Tap Test first</option></select></div>
+          <div class="field"><label>&nbsp;</label><button class="btn secondary" onclick="htTest()">Test connection</button></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn secondary" onclick="htPullStandings()">Pull standings</button>
+          <button class="btn secondary" onclick="htPullPlayers()">Pull player + goalie stats</button>
+          <button class="btn secondary" onclick="htPullSchedule()">Pull schedule + results</button>
+          <button class="btn secondary" onclick="htPullRosters()">Pull rosters</button>
+          <button class="btn secondary" onclick="htPullEPBios()">Link EP profiles (all teams)</button>
+          <button class="btn secondary" onclick="htPullCareers(event.shiftKey)">Pull SPHL career stats + photos</button>
+          <span id="htCareerMsg" style="font-size:12px;font-weight:700"></span>
+        </div>
+      </details>
+      <div id="htFeedAges" class="feed-ages"></div>
       <div id="htStatus" style="font-size:12px;font-weight:700;margin-top:8px"></div>
       <div id="htLastSync" style="font-size:11px;color:#999;margin-top:4px"></div>
       <div id="dailyBadge" style="font-size:11px;color:#999;margin-top:2px"></div>
     </div>
     <div class="card">
-      <h2>Manual <span class="accent">Daily Report</span></h2>
+      <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:#888;font-weight:700">same league, alternate source</span></h2>
+      <p class="desc">Elite Prospects' own standings, leaders and schedule, for cross-checking what the SPHL feed gave us above. Off by default — it loads remote widgets and needs internet.</p>
+      <div class="btn-row"><button class="btn secondary" id="epViewBtn" onclick="epViewToggle()">Show EP view</button></div>
+      <div id="epView" style="display:none">
+        <div class="section-label">League standings</div><div id="wgStandings"></div>
+        <div class="section-label">Scoring leaders</div><div id="wgScoring"></div>
+        <div class="section-label">Goalie leaders</div><div id="wgGoalies"></div>
+        <div class="section-label">Schedule &amp; results</div><div id="wgResults"></div>
+        <div class="section-label">Schedule &amp; standings</div><div id="wgSched"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Manual <span class="accent">Daily Report</span> <span class="upd" data-sync="daily"></span></h2>
       <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
       <div class="btn-row">
         <a class="btn secondary" href="https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html" target="_blank" rel="noopener">Open today's daily report (HTML)</a>
@@ -694,7 +812,7 @@
     </div>
     <div class="subview active" id="panel-roster">
 <div class="card">
-      <h2>Havoc <span class="accent">Roster &amp; Bios</span></h2>
+      <h2>Havoc <span class="accent">Roster &amp; Bios</span> <span class="upd" data-sync="rosters"></span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
       <div class="progress" id="rosterProgress"></div>
       <div id="rosterStatus"></div>
@@ -708,6 +826,30 @@
       </div>
     </div>
     <div class="card" style="padding:0;overflow:hidden"><div id="rosterTableWrap"></div></div>
+    <div class="card">
+      <h2>Elite Prospects <span class="accent">career cards</span></h2>
+      <p class="desc">Live EP cards, embedded straight from widget.eliteprospects.com — a full career card for any mapped player, a roster card for any SPHL club, and lineup decks for the game sheet. Internet required. League slug, season and EP team id live under Settings → Advanced.</p>
+      <div class="grid g2">
+        <div class="field"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
+        <div class="field"><label>Team roster</label>
+          <div class="btn-row" style="margin:0">
+            <select id="wg_team" style="max-width:220px"><option value="">— team —</option></select>
+            <button class="btn small" onclick="wgTeamRoster()">Show</button>
+            <button class="btn small secondary" onclick="wgTeamRosterAll()">All 12</button>
+            <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="wgDeck('home')">Havoc lineup cards</button>
+        <button class="btn secondary" onclick="wgDeck('away')">Opponent lineup cards</button>
+        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
+        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
+      </div>
+      <div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div>
+      <div id="wgTeamWrap"></div>
+      <div id="wgDeckWrap"></div>
+    </div>
     <div class="card">
       <h2>Hockey <span class="accent">Operations</span></h2>
       <p class="desc">Meet the Hockey Operations Team — fill these in yourself. When any name is set, the Game Packet gets its own "Meet the Hockey Operations Team" page.</p>
@@ -773,41 +915,6 @@
   </section>
 
   <!-- EP WIDGETS -->
-  <section class="panel" id="panel-widgets">
-    <div class="card no-print">
-      <h2>Elite Prospects <span class="accent">Widgets</span></h2>
-      <p class="desc">Live embedded EP data, straight from widget.eliteprospects.com — league standings, scoring &amp; goalie leaders, schedule/results, and a career card for any mapped player (players get their EP IDs automatically from the weekly EP action). These complement the SPHL live feed and daily-report data; internet required, styled in Havoc red.</p>
-      <div class="grid g3">
-        <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
-        <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
-        <div class="field"><label>EP team ID (optional — filters schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
-      </div>
-      <div class="field" style="max-width:340px"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
-      <div class="section-label">Team rosters — any SPHL club, via the EP team widget</div>
-      <div class="btn-row">
-        <select id="wg_team" style="max-width:260px"><option value="">— team —</option></select>
-        <button class="btn" onclick="wgTeamRoster()">Show roster</button>
-        <button class="btn secondary" onclick="wgTeamRosterAll()">All SPHL teams</button>
-        <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
-      </div>
-      <div class="section-label">Game-sheet decks — generate a card for every player on the sheet</div>
-      <div class="btn-row">
-        <button class="btn" onclick="wgDeck('home')">Generate Havoc lineup cards</button>
-        <button class="btn secondary" onclick="wgDeck('away')">Generate opponent lineup cards</button>
-        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
-        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
-      </div>
-    </div>
-    <div class="card"><h3>Team rosters</h3><div id="wgTeamWrap"><div class="empty">Pick a team above (or All SPHL teams) — live EP roster widgets with numbers, positions, sizes and season stats. Team IDs come from data/ep-teams.json, resolved by the weekly EP action.</div></div></div>
-    <div class="card"><h3>Lineup card deck</h3><div id="wgDeckWrap"><div class="empty">Generate the Havoc or opponent deck above — one live EP card per active player on the game sheet, in lineup order.</div></div></div>
-    <div class="card"><h3>Player</h3><div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div></div>
-    <div class="card"><h3>Coaching staff</h3><div id="wgStaff"></div></div>
-    <div class="card"><h3>League standings</h3><div id="wgStandings"></div></div>
-    <div class="card"><h3>Scoring leaders</h3><div id="wgScoring"></div></div>
-    <div class="card"><h3>Goalie leaders</h3><div id="wgGoalies"></div></div>
-    <div class="card"><h3>Schedule &amp; results</h3><div id="wgResults"></div></div>
-    <div class="card"><h3>Schedule &amp; standings</h3><div id="wgSched"></div></div>
-  </section>
 
   <!-- SCHEDULE -->
 
@@ -827,7 +934,7 @@
       <div class="note" style="margin-top:10px">League note: SPHL enters its 23rd season with 13 member clubs — 12 playing in 2026-27 (the 10 returning teams plus expansion Athens Rock Lobsters and Pee Dee IceCats), while the <b>Mobile Mysticks</b> are the 13th member and begin play in 2027-28.</div>
     </div>
     <div class="card">
-      <h2>SPHL <span class="accent">Standings</span></h2>
+      <h2>SPHL <span class="accent">Standings</span> <span class="upd" data-sync="standings"></span></h2>
       <p class="desc">Live from the imported daily report; zeroed until the season starts. All 12 teams with the new W-L-OTL-SOL columns.</p>
       <div id="standingsTable" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div>
     </div>
@@ -861,6 +968,8 @@
           <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:#888;margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
         </div>
       </div>
+      <div class="section-label">Coaching staff — Elite Prospects career histories</div>
+      <div id="wgStaff"><div class="empty">Loads with this tab when EP widgets are reachable.</div></div>
       <div class="section-label">Coach blurbs (editable)</div>
       <div class="field" style="max-width:340px"><label>Edit coach for</label>
         <select id="coachTeam" onchange="loadCoach()"><option value="">— select team —</option></select></div>
@@ -882,16 +991,20 @@
 
   <!-- PRINT CENTER: Game Packet + Lineup Chart + Lines -->
   <section class="panel" id="panel-print">
-    <div class="subnav no-print">
+    <div class="subnav no-print pr-bar">
       <button class="subtab active" data-sub="packet">Game Packet</button>
       <button class="subtab" data-sub="chart">Lineup Chart</button>
       <button class="subtab" data-sub="lines">Lines</button>
       <button class="subtab" data-sub="folders">Broadcast Folders</button>
       <button class="subtab" data-sub="verbiage">Verbiage &amp; Ice Map</button>
       <span class="subspacer"></span>
-      <button class="btn" onclick="prRefresh()">Refresh</button>
+      <span class="pg-badge" id="prPages">—</span>
+      <button class="btn small secondary" onclick="prRefresh()">Refresh</button>
+      <button class="btn small secondary" onclick="prClearEdits()">Clear text edits</button>
       <button class="btn dark" onclick="prPrint()">Print / Save PDF</button>
+      <button class="btn" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
     </div>
+    <div class="no-print" id="prSecBar"></div>
     <div class="subview active" id="panel-packet">
 <div class="card no-print">
       <h2>Game <span class="accent">Packet</span></h2>
@@ -914,7 +1027,6 @@
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
         <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
         <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
-        <button class="btn secondary" onclick="pkClearEdits()">Clear text edits</button>
       </div>
       <p class="desc" style="margin-top:6px">Click into any packet page in the preview to edit its text directly &mdash; edits save and survive refreshes (an edited page keeps your wording until you Clear text edits). On Meet the Team pages, editing a player&rsquo;s notes writes straight back to their <b>media bio</b> on the roster.</p>
     </div>
@@ -936,7 +1048,6 @@
         <button class="btn small secondary" title="Smaller text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','1')">A−</button>
         <button class="btn small secondary" title="Normal text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','3')">A</button>
         <button class="btn small secondary" title="Larger text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','5')">A+</button>
-        <button class="btn small secondary" onclick="chartClearEdits()">Clear text edits</button>
       </div>
     </div>
     <div class="doc-frame">
@@ -970,11 +1081,11 @@
       <h2>Broadcast <span class="accent">Folders</span></h2>
       <p class="desc">Four letter-portrait booth pages &mdash; a <b>lineup side</b> (lines with stat lines, pronunciations and your per-player call notes) and a <b>data side</b> (standings with the playoff line, team numbers, per-period, recent &amp; upcoming, transactions) for each team. Click any value or call note in the preview to hand-edit it &mdash; edits save and survive refreshes. Large type, one page each, single-sided.</p>
       <div class="btn-row">
-        <button class="btn dark" onclick="fdPrint('all')">Print Broadcast Folders (4 pages)</button>
-        <button class="btn secondary" onclick="fdPrint('hl')">Havoc lineup</button>
-        <button class="btn secondary" onclick="fdPrint('hd')">Havoc data</button>
-        <button class="btn secondary" onclick="fdPrint('ol')">Opponent lineup</button>
-        <button class="btn secondary" onclick="fdPrint('od')">Opponent data</button>
+        <span style="font-size:12px;font-weight:800;color:var(--havoc-grey);text-transform:uppercase">Print one page:</span>
+        <button class="btn small secondary" onclick="fdPrint('hl')">Havoc lineup</button>
+        <button class="btn small secondary" onclick="fdPrint('hd')">Havoc data</button>
+        <button class="btn small secondary" onclick="fdPrint('ol')">Opponent lineup</button>
+        <button class="btn small secondary" onclick="fdPrint('od')">Opponent data</button>
       </div>
     </div>
     <div class="doc-frame">
@@ -1065,6 +1176,7 @@
     <div class="card">
       <h2>Opening <span class="accent">Weekend</span> <span style="font-size:12px;color:#888;font-weight:700">first-ever Havoc vs Pee Dee IceCats</span></h2>
       <p class="desc"><b>Fri, Oct 16, 2026 &middot; 7:15 PM ET (6:15 PM CT) &middot; Florence Center, Florence, SC</b> &mdash; and game two <b>Sat, Oct 17 &middot; 7:15 PM ET (6:15 PM CT)</b>. Zero head-to-head history and zero PD in-season data exist, so this workspace builds a special <b>first-meeting packet</b>: franchise file, how the IceCats were built, connections, and a franchise-firsts watch instead of the usual series history. When the weekend is over, <b>Archive</b> saves everything as the permanent record and retires this tab.</p>
+      <div class="note" style="margin-bottom:10px"><b>Temporary tab.</b> It exists for the first-ever Havoc&ndash;Pee Dee meeting on Oct 16-17, 2026. Archive it after the Saturday game and it leaves the nav for good &mdash; the firsts record and everything you write here stays saved.</div>
       <div class="btn-row">
         <button class="btn" onclick="owBuild()">Build first-meeting packet</button>
         <button class="btn dark" onclick="owPrint()">Print / Save PDF</button>
@@ -1123,7 +1235,7 @@
         <div class="field"><label>Team name line</label><input type="text" id="s_name" value="HAVOC"></div>
       </div>
       <div class="field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
-      <div class="field"><label>Footer text</label><input type="text" id="s_footer" value="2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
+      <div class="field"><label>Footer text</label><input type="text" id="s_footer" value="2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
       <div class="field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
       <div class="section-label">Official media contact (packet cover, folders, interview sheets)</div>
       <div class="grid g3">
@@ -1138,22 +1250,48 @@
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
     <div class="card">
+      <h2>Booth <span class="accent">display</span></h2>
+      <p class="desc">For the booth: a dark screen next to a live mic, and bigger type for glancing at during play. Neither changes a printed page or a PDF — those always come out on the white sheet at the normal size.</p>
+      <div class="btn-row">
+        <button class="btn secondary" id="themeBtn" onclick="themeCycle()">Theme: System</button>
+        <button class="btn secondary" id="boothBtn" onclick="boothToggle()">Booth mode: Off</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Advanced</h2>
+      <details>
+        <summary style="cursor:pointer;font-weight:800;font-size:13px">Elite Prospects widget configuration</summary>
+        <p class="desc" style="margin-top:8px">Drives the EP career cards on Rosters, the EP view on Live Data and the staff histories in League Reference. Defaults are correct for the SPHL — change the season when EP starts carrying 2026-27.</p>
+        <div class="grid g3">
+          <div class="field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
+          <div class="field"><label>EP team ID (filters the schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from the eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
+        </div>
+      </details>
+    </div>
+    <div class="card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
       <p class="desc">Everything is stored in this browser only and saved locally after every change and every live-data sync. A rolling auto-backup (everything except logos) is also kept in this browser — use Restore if something gets clobbered. Export a file backup regularly too.</p>
+      <div id="bkInline" class="bk-inline"></div>
+      <div class="section-label">Backup &amp; restore</div>
       <div class="btn-row">
         <button class="btn secondary" onclick="exportData()">Export backup (.json)</button>
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
         <input type="file" id="importFile2" accept="application/json" style="display:none" onchange="importData(event)">
         <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
-        <button class="btn secondary" onclick="revertAllOverrides()">Revert all stat overrides</button>
-        <button class="btn secondary" style="color:var(--havoc-red)" onclick="wipeAll()">Reset everything</button>
-      </div>
-      <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
-      <div class="btn-row" style="margin-top:8px">
         <button class="btn secondary" onclick="bkChooseFolder()">Choose auto-backup folder…</button>
         <button class="btn secondary" onclick="bkListBackups()">Show folder backups</button>
       </div>
       <div id="bkList" style="margin-top:6px"></div>
+      <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
+      <div class="danger-zone">
+        <h4>Danger zone</h4>
+        <p>Both of these throw work away. A backup file downloads automatically before either runs.</p>
+        <div class="btn-row">
+          <button class="btn secondary" onclick="revertAllOverridesSafe()">Revert all stat overrides</button>
+          <button class="btn danger" onclick="openModal('resetModal')">Reset everything…</button>
+        </div>
+      </div>
       <p class="desc" style="margin-top:12px">Install as an app: in <b>Chrome</b> use the install icon in the address bar; in <b>Safari on a Mac</b> use File → Add to Dock. The installed app opens like a native Mac app, works offline in the booth, and its storage is treated as more durable.</p>
     </div>
   </section>
@@ -1203,6 +1341,19 @@
   <div class="field"><label>EP text</label><textarea id="ep_text" rows="9"></textarea></div>
   <div class="btn-row"><button class="btn" onclick="parseEP()">Parse &amp; create player</button>
   <button class="btn secondary" onclick="closeModal('epModal')">Cancel</button></div>
+</div></div>
+
+<!-- RESET confirmation -->
+<div class="modal-bg" id="resetModal"><div class="modal">
+  <button class="close" onclick="closeModal('resetModal')">&times;</button>
+  <h3 style="color:var(--havoc-red)">Reset everything</h3>
+  <p class="desc">This erases the roster, bios, game log, call log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
+  <div id="resetSummary" class="reset-summary"></div>
+  <div class="field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
+  <div class="btn-row">
+    <button class="btn danger" id="resetGo" disabled onclick="wipeAll()">Download a backup and reset</button>
+    <button class="btn secondary" onclick="closeModal('resetModal')">Cancel</button>
+  </div>
 </div></div>
 
 <!-- BULK import modal -->
@@ -1493,8 +1644,8 @@ const TEAMS=["Athens Rock Lobsters","Birmingham Bulls","Evansville Thunderbolts"
 const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayetteville":"FAY","Huntsville":"HSV","Knoxville":"KNX","Macon":"MAC","Pee Dee":"PD","Pensacola":"PEN","Peoria":"PEO","Quad City":"QC","Roanoke":"RNK"};
 const KEY="havocHubData_v2";
 const DEFAULT_DATA={
-  settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2025-2026 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:"",
-    mediaName:"Jacob Murphy",mediaTitle:"Play by Play Broadcaster",mediaOrg:"Huntsville Havoc",mediaPhone:"863-430-4410 (cell)",mediaEmail:"jmurphy@huntsvillehavoc.com",mediaWeb:"www.huntsvillehavoc.com"},
+  settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:"",
+    mediaName:"Jacob Murphy",mediaTitle:"Play by Play Broadcaster",mediaOrg:"Huntsville Havoc",mediaPhone:"863-430-4410 (cell)",mediaEmail:"jmurphy@huntsvillehavoc.com",mediaWeb:"www.huntsvillehavoc.com",theme:"system",booth:0},
   game:{},notes:{schedule:"PS 10/9/26  vs Pensacola  Audio only — Radio & YouTube Live\n10/16/26  @ Pee Dee  7:15 PM\n10/17/26  @ Pee Dee  7:15 PM\n10/23/26  vs Pensacola  7:00 PM\n10/24/26  @ Pensacola  7:05 PM\n10/30/26  @ Pensacola  7:05 PM\n10/31/26  vs Macon  7:00 PM\n11/6/26  vs Macon  7:00 PM\n11/7/26  @ Fayetteville  6:00 PM\n11/8/26  @ Knoxville  3:00 PM\n11/13/26  @ Knoxville  7:30 PM\n11/14/26  vs Knoxville  7:00 PM\n11/20/26  vs Fayetteville  7:00 PM\n11/21/26  vs Fayetteville  7:00 PM\n11/25/26  @ Pensacola  7:05 PM\n11/26/26  vs Athens  7:00 PM\n11/27/26  vs Pensacola  7:00 PM\n12/4/26  vs Evansville  7:00 PM\n12/5/26  @ Evansville  7:05 PM\n12/11/26  vs Quad City  7:00 PM\n12/12/26  vs Quad City  7:00 PM\n12/18/26  @ Roanoke  7:05 PM\n12/19/26  @ Roanoke  7:05 PM\n12/20/26  vs Birmingham  5:00 PM\n12/26/26  @ Birmingham  7:00 PM\n12/27/26  @ Birmingham  2:00 PM\n12/29/26  vs Macon  7:00 PM\n12/31/26  @ Macon  6:00 PM\n1/2/27  @ Macon  6:00 PM\n1/8/27  vs Evansville  7:00 PM\n1/9/27  vs Evansville  7:00 PM\n1/15/27  vs Athens  7:00 PM\n1/16/27  vs Athens  7:00 PM\n1/18/27  @ Birmingham  1:00 PM\n1/22/27  vs Pensacola  7:00 PM\n1/23/27  vs Pee Dee  7:00 PM\n1/29/27  @ Evansville  7:05 PM\n1/30/27  @ Evansville  7:05 PM\n2/5/27  vs Knoxville  7:00 PM\n2/6/27  vs Knoxville  7:00 PM\n2/7/27  @ Pensacola  4:05 PM\n2/12/27  vs Quad City  7:00 PM\n2/13/27  vs Quad City  7:00 PM\n2/15/27  @ Birmingham  1:00 PM\n2/19/27  @ Peoria  7:15 PM\n2/20/27  @ Peoria  7:15 PM\n2/21/27  vs Birmingham  5:00 PM\n2/26/27  @ Quad City  7:10 PM\n2/27/27  @ Quad City  7:10 PM\n3/5/27  vs Athens  7:00 PM\n3/6/27  vs Athens  7:00 PM\n3/7/27  @ Evansville  5:00 PM\n3/12/27  @ Fayetteville  7:00 PM\n3/13/27  @ Fayetteville  6:00 PM\n3/19/27  vs Peoria  7:00 PM\n3/20/27  vs Peoria  7:00 PM\n3/25/27  vs Evansville  7:00 PM\n3/26/27  @ Athens  7:05 PM\n3/27/27  @ Athens  7:05 PM\n4/2/27  @ Knoxville  6:00 PM\n4/3/27  vs Knoxville  5:00 PM"},
   roster:[],            // Havoc
   oppRosters:{},        // {teamName:[players]}
@@ -1514,6 +1665,10 @@ const DEFAULT_DATA={
   franchiseEdits:{},     // {team|section:html} — in-place edits to seeded franchise files
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
+  sbCache:null,          // last scorebar payload, so a feed outage still shows something
+  secPt:{},              // {sectionKey:pt} — per-section printed body size
+  secBold:{},            // {sectionKey:1} — per-section bold body text
+  sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
   leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
 };
@@ -1555,7 +1710,14 @@ function save(){
     },4000);
   }catch(e){}
 }
-function flashSaved(){const el=document.getElementById('saveStatus');el.textContent="✓ Saved "+new Date().toLocaleTimeString();setTimeout(()=>el.textContent="All changes saved locally",2500);}
+let SAVE_FADE=null;
+function flashSaved(){
+  const el=document.getElementById('saveStatus');if(!el)return;
+  el.textContent='✓ Saved '+new Date().toLocaleTimeString();
+  el.classList.add('on');
+  clearTimeout(SAVE_FADE);
+  SAVE_FADE=setTimeout(()=>el.classList.remove('on'),2600);
+}
 function uid(){return 'p'+Math.random().toString(36).slice(2,9);}
 
 /* ===== 2026-27 HAVOC OPENING ROSTER — the team's signed-players sheet =====
@@ -1664,11 +1826,32 @@ function renderRosterStatus(){
    +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)));
 }
 
+/* ============ BOOTH DISPLAY (dark mode + type scale) ============
+   Screen only: the print CSS resets both so PDFs are identical either way. */
+const THEMES=['system','light','dark'];
+function themeApply(){
+  const t=DATA.settings.theme||'system';
+  const dark=t==='dark'||(t==='system'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.documentElement.setAttribute('data-booth',DATA.settings.booth?'1':'0');
+  const b=document.getElementById('themeBtn');
+  if(b)b.textContent='Theme: '+({system:'System',light:'Light',dark:'Dark'}[t])+(t==='system'?(dark?' (dark now)':' (light now)'):'');
+  const bb=document.getElementById('boothBtn');
+  if(bb)bb.textContent='Booth mode: '+(DATA.settings.booth?'On':'Off');
+}
+function themeCycle(){
+  const cur=DATA.settings.theme||'system';
+  DATA.settings.theme=THEMES[(THEMES.indexOf(cur)+1)%THEMES.length];
+  save();themeApply();
+}
+function boothToggle(){DATA.settings.booth=DATA.settings.booth?0:1;save();themeApply();toast('Booth mode '+(DATA.settings.booth?'on — bigger type on screen only':'off'));}
+if(window.matchMedia)try{window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if((DATA.settings.theme||'system')==='system')themeApply();});}catch(e){}
+
 /* ============ TABS ============ */
 /* Merged panels (Rosters, Print Center) hold sub-views; last-used sub-view remembered per tab */
 const SUBTABS={rosters:'roster',print:'packet'};
 const SUB_INIT={
-  roster:()=>{renderRoster();loadHockeyOps();},
+  roster:()=>{renderRoster();loadHockeyOps();Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgFillPlayers();wgFillTeams();});},
   opproster:()=>renderOppRoster(),
   quiz:()=>quizInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
@@ -1689,16 +1872,17 @@ function showTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('panel-'+tab);if(el)el.classList.add('active');
-  if(tab==='import'){loadSchedule();renderGameLog();}
+  if(tab==='import'){loadSchedule();renderGameLog();renderSyncBadges();}
+  if(tab==='game'){gmScorebar();renderSyncBadges();}
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
-  if(tab==='widgets'){Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgBuild();wgFillPlayers();wgFillTeams();});}
+  if(tab==='reference')Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild());
   if(tab==='game')ivRender('pre');
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
   if(tab==='calllog')clInit();
   if(tab==='postgame'){pgInit();ivRender('post');}
-  if(tab==='settings')bkStatusRender();
+  if(tab==='settings'){bkStatusRender();wgSettingsFill();themeApply();}
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -1713,7 +1897,7 @@ document.addEventListener('click',e=>{
 document.addEventListener('keydown',e=>{
   if(!(e.metaKey||e.ctrlKey)||e.altKey||e.shiftKey)return;
   const n=parseInt(e.key,10);if(!(n>=1&&n<=9))return;
-  const tabs=[...document.querySelectorAll('#tabs .tab')];
+  const tabs=[...document.querySelectorAll('#tabs .tab')].filter(t=>t.style.display!=='none');
   if(tabs[n-1]){e.preventDefault();showTab(tabs[n-1].dataset.tab);}
 });
 /* Raw Cmd+P (macOS print dialog / Save as PDF) — mark the visible view so the
@@ -1736,6 +1920,142 @@ window.addEventListener('afterprint',()=>{
   const st=document.getElementById('rawPrintLand');if(st)st.remove();
 });
 /* Print Center shared toolbar — acts on the active sub-view */
+/* ============ PRINTED SECTION STYLING (size + bold, per section) ============
+   Each printable page carries data-sec. A section's size is stored in whole
+   points and applied as a proportional zoom, so headers, rows, padding and
+   callout lines all scale together and the PDF matches the preview exactly. */
+const SEC_BASE={packet:8,folders:10,chart:8,lines:8,verbs:8};   // default body size, in pt, per output
+const SEC_LABEL_EXTRA={
+  'fd:hl':'Havoc lineup','fd:hd':'Havoc data','fd:ol':'Opponent lineup','fd:od':'Opponent data',
+  'chart:hsv':'Havoc chart','chart:opp':'Opponent chart',lines:'Line card',
+  'vb:verbs':'Verb list','vb:map':'Ice map'
+};
+function secLabel(key){
+  if(SEC_LABEL_EXTRA[key])return SEC_LABEL_EXTRA[key];
+  const hit=(typeof PACKET_SECTIONS!=='undefined')&&PACKET_SECTIONS.find(s=>s[0]===key);
+  return hit?hit[1]:key;
+}
+function secFamily(key){
+  if(key.indexOf('fd:')===0)return 'folders';
+  if(key.indexOf('chart:')===0)return 'chart';
+  if(key.indexOf('vb:')===0)return 'verbs';
+  if(key==='lines')return 'lines';
+  return 'packet';
+}
+function secBase(key){return SEC_BASE[secFamily(key)]||8;}
+function secPt(key){
+  DATA.secPt=DATA.secPt||{};
+  const v=+DATA.secPt[key];
+  return (v>=6&&v<=16)?v:secBase(key);
+}
+function secBold(key){return !!((DATA.secBold||{})[key]);}
+function secSetPt(key,pt){
+  pt=Math.max(6,Math.min(16,Math.round(pt)));
+  DATA.secPt=DATA.secPt||{};
+  if(pt===secBase(key))delete DATA.secPt[key];else DATA.secPt[key]=pt;
+  save();secApplyAll();
+}
+function secStep(key,d){secSetPt(key,secPt(key)+d);}
+function secToggleBold(key){
+  DATA.secBold=DATA.secBold||{};
+  if(secBold(key))delete DATA.secBold[key];else DATA.secBold[key]=1;
+  save();secApplyAll();
+}
+function secReset(key){
+  if(DATA.secPt)delete DATA.secPt[key];
+  if(DATA.secBold)delete DATA.secBold[key];
+  save();secApplyAll();
+}
+function secToolsHTML(key){
+  const pt=secPt(key);
+  return `<div class="sec-tools no-print">
+    <button title="1 pt smaller" onclick="event.stopPropagation();secStep('${key}',-1)">A&minus;</button>
+    <span class="sec-pt">${pt} pt</span>
+    <button title="1 pt larger" onclick="event.stopPropagation();secStep('${key}',1)">A+</button>
+    <button class="${secBold(key)?'on':''}" title="Bold this section's body text" onclick="event.stopPropagation();secToggleBold('${key}')"><b>B</b></button>
+    <button title="Back to the default" onclick="event.stopPropagation();secReset('${key}')">&#8635;</button>
+  </div>`;
+}
+/* apply stored size/bold to every built page, and warn about anything that overflows */
+function secApplyAll(){
+  const sv=SUBTABS.print;
+  const host=document.querySelector('#panel-'+(sv==='verbiage'?'verbiage':sv)+' .doc-scroll');
+  const pages=[...document.querySelectorAll('#panel-print .subview.active .page')];
+  const over=[];
+  pages.forEach((p,i)=>{
+    const key=p.dataset.sec;if(!key)return;
+    const pt=secPt(key);
+    // scale the CONTENT, never the page box — the sheet stays one letter page,
+    // so a size change can make content stop fitting but can never spill onto
+    // extra printed pages
+    let z=p.querySelector(':scope > .sec-zoom');
+    if(!z){
+      z=document.createElement('div');z.className='sec-zoom';
+      const keep=[...p.childNodes].filter(n=>!(n.nodeType===1&&n.classList.contains('sec-tools')));
+      keep.forEach(n=>z.appendChild(n));
+      p.appendChild(z);
+    }
+    z.style.zoom=(pt/secBase(key)).toFixed(4);
+    p.style.zoom='';
+    p.classList.toggle('sec-bold',secBold(key));
+    if(!p.querySelector(':scope > .sec-tools'))p.insertAdjacentHTML('afterbegin',secToolsHTML(key));
+    else p.querySelector(':scope > .sec-tools').outerHTML=secToolsHTML(key);
+  });
+  secRenderBar(null); // controls appear immediately; the overflow check follows a frame later
+  // measure after the zoom lands
+  requestAnimationFrame(()=>{
+    pages.forEach((p,i)=>{
+      const key=p.dataset.sec;if(!key)return;
+      // a page that grows past one letter sheet, or any block inside it that has
+      // started clipping its own content — both read as "this no longer fits"
+      const z=p.querySelector(':scope > .sec-zoom');
+      const scale=z?(+z.style.zoom||1):1;
+      const grew=p.offsetHeight-1056>2;                              // auto-height page past a sheet
+      const spills=z?(z.scrollHeight*scale)-p.clientHeight>2:false;  // scaled content past the fixed sheet
+      if(grew||spills)over.push({i:i+1,key});
+    });
+    secRenderBar(over);
+  });
+  const badge=document.getElementById('prPages');
+  if(badge)badge.textContent=pages.length+(pages.length===1?' page':' pages');
+}
+function secRenderBar(over){
+  const bar=document.getElementById('prSecBar');if(!bar)return;
+  const keys=[];
+  document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
+    if(p.dataset.sec&&keys.indexOf(p.dataset.sec)<0)keys.push(p.dataset.sec);
+  });
+  if(!keys.length){bar.innerHTML='';return;}
+  bar.innerHTML=`<div class="sec-bar"><h4>Section size &amp; weight — 1 pt per click, saved with your layout</h4>`
+   +keys.map(k=>`<span class="sec-item"><span class="sec-nm">${esc(secLabel(k))}</span>
+      <button title="1 pt smaller" onclick="secStep('${k}',-1)">A&minus;</button>
+      <span class="sec-pt">${secPt(k)} pt</span>
+      <button title="1 pt larger" onclick="secStep('${k}',1)">A+</button>
+      <button class="${secBold(k)?'on':''}" title="Bold the body text" onclick="secToggleBold('${k}')"><b>B</b></button>
+      <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button></span>`).join('')
+   +((over||[]).length?`<div class="sec-warn">${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') overflows — reduce by 1 pt').join('<br>')}</div>`:'')
+   +`</div>`;
+}
+/* toolbar actions that used to be duplicated per section */
+function prClearEdits(){
+  const s=SUBTABS.print;
+  if(s==='packet')pkClearEdits();
+  else if(s==='chart')chartClearEdits();
+  else if(s==='folders'){if(confirm('Clear every hand-edited value on the broadcast folders?')){DATA.folderOv={};save();renderFolders();}}
+  else if(s==='verbiage')vbReset();
+  else toast('Nothing to clear on this view');
+}
+/* packet then folders, in one job — the order the booth folder gets assembled */
+function printTonight(){
+  renderPacket();renderFolders();
+  const panel=document.getElementById('panel-print');
+  const pk=document.getElementById('panel-packet'),fd=document.getElementById('panel-folders');
+  [panel,pk,fd].forEach(el=>el&&el.classList.add('printing'));
+  imagesReady(pk,3500).then(()=>{
+    mtpDetectDefaults(pk);
+    setTimeout(()=>{window.print();[panel,pk,fd].forEach(el=>el&&el.classList.remove('printing'));},120);
+  });
+}
 function prRefresh(){
   const s=SUBTABS.print;
   if(s==='packet'){saveNotesExtra();renderPacket();}
@@ -1745,6 +2065,7 @@ function prRefresh(){
   else renderLinesDoc();
 }
 function prPrint(){printDoc(SUBTABS.print);}
+function prSyncBar(){secApplyAll();}
 
 /* ============ GAME TAB ============ */
 function fillOpponents(){
@@ -2292,7 +2613,7 @@ function renderNotes(){
   DATA.notes={h1:val('n_h1'),b1:val('n_b1'),h2:val('n_h2'),b2:val('n_b2'),h3:val('n_h3'),b3:val('n_b3')};save();
   const S=DATA.settings,G=DATA.game,R=DATA.report,red=S.red||'#C8102E';
   const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
-  let standRows = R.standings.length ? R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join('') : '<tr><td colspan="5" style="text-align:center;color:#999">Import the SPHL report</td></tr>';
+  let standRows = R.standings.length ? R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join('') : emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
   const hsv=findTeamStats('Huntsville');
   const leadersHtml=leadersBlock(hsv);
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
@@ -2358,7 +2679,7 @@ function renderNotes(){
   document.getElementById('notesDoc').innerHTML=doc;
 }
 function leadersBlock(team){
-  if(!team)return '<div style="color:#999;font-size:10px">Import the SPHL report to populate leaders.</div>';
+  if(!team)return '<div class="empty-cell" style="font-size:10px">No 2026-27 stats published yet — leaders fill in after the first games. Run a Game Day Refresh on Live Data.</div>';
   const top=(key)=>[...team.players].sort((a,b)=>b[key]-a[key]).slice(0,5);
   const col=(title,arr,key)=>`<div class="lead-col"><h4>${title}</h4>`+arr.map(p=>`<div class="lr"><span class="nm">${esc(p.name)}</span><span class="vl">${p[key]}</span></div>`).join('')+`</div>`;
   return `<div class="leaders-grid">${col('Goals',top('g'),'g')}${col('Assists',top('a'),'a')}${col('Points',top('pts'),'pts')}${col('Plus/Minus',top('pm'),'pm')}</div>`;
@@ -2421,13 +2742,14 @@ function renderChart(){
   const hsvTheme=teamTheme("Huntsville Havoc");
   const red=S.red||hsvTheme.primary;
   // one letter-landscape page per team
-  const pages=[`<div class="page lc-page">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
+  const pages=[`<div class="page lc-page" data-sec="chart:hsv">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
   if(both&&G.opp){
     const list=DATA.oppRosters[G.opp]||[];
-    pages.push(`<div class="page lc-page">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
+    pages.push(`<div class="page lc-page" data-sec="chart:opp">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
-  document.getElementById('chartDoc').innerHTML=pages.join('');
-  chartWireEdits();
+  const cstamp=dataStampHTML('chart');
+  document.getElementById('chartDoc').innerHTML=pages.map(p=>p.replace(/<\/div>$/,cstamp+'</div>')).join('');
+  chartWireEdits();secApplyAll();
 }
 /* In-place card editing: click into any card, type freely, Cmd/Ctrl+B for bold,
    A−/A/A+ buttons for text size. Edits save per player and survive refreshes. */
@@ -2504,7 +2826,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     <div class="lcx-title">${esc(title)} ${rec?'('+esc(rec)+')':''}</div>
   </div>`;
 
-  if(!active.length)return header+'<div class="empty">No active players. Add roster + import report.</div>';
+  if(!active.length)return header+'<div class="empty">No active players on this roster — apply the 2026-27 signed sheet on the Rosters tab, or add players by hand.</div>';
   // each section grows in proportion to its row count so cards fill the page to the bottom
   const grid=(arr)=>`<div class="lcx-grid" style="flex:${Math.max(1,Math.ceil(arr.length/3))}">${arr.map(card).join('')}</div>`;
   return `${header}
@@ -2674,7 +2996,7 @@ function owBuild(){
   const groups={};org.forEach(r=>{(groups[r.group]=groups[r.group]||[]).push(r);});
   const builtBody=org.length
     ?Object.keys(groups).map(g=>`<div class="box"><h3>${esc(g)} (${groups[g].length})</h3><table class="pk-t">${groups[g].map(r=>`<tr><td>${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)} ${r.p.pos?'('+esc(r.p.pos)+')':''}</td><td class="r">${esc(r.origin||'—')}</td></tr>`).join('')}</table></div>`).join('')
-    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Pull the Pee Dee roster on Live Data — every player&rsquo;s previous stop then lists here from EP career data (an expansion team&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
+    :'<div class="box"><h3>Roster origins</h3><div style="font-size:9.5px;color:#666">Not published yet — the SPHL feed has no Pee Dee roster for 2026-27. Run a Game Day Refresh; every player&rsquo;s previous stop then lists here from EP career data (an expansion club&rsquo;s version of &ldquo;returning players&rdquo;).</div></div>';
   pages.push(pgWrap(red,S,'HOW THE ICECATS WERE BUILT',builtBody));
   // ---- connections ----
   const connBody=(o.connections.length
@@ -2697,7 +3019,8 @@ function owBuild(){
     <div class="box"><h3>Check them off as they happen</h3><table class="pk-t">${o.firsts.map(f=>`<tr><td>${f.done?'☑':'☐'} ${esc(f.t)}</td><td class="r">${esc(f.detail||'________________________')}</td></tr>`).join('')}</table></div>
     <div style="font-size:9px;color:#666;margin-top:6px">This checklist is the permanent record — the in-app tracker feeds first-time/last-time data going forward.</div>`));
   const doc=document.getElementById('openingDoc');
-  if(doc)doc.innerHTML=pages.map((p,i)=>p.replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
+  const ostamp=dataStampHTML('opening');
+  if(doc)doc.innerHTML=pages.map((p,i)=>p.replace('<div class="gn-foot"',ostamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1))).join('');
 }
 function owPrint(){
   owBuild();
@@ -2877,14 +3200,14 @@ function htCareerRow(r,isG){
     so:+pick(r,['shutouts','so'],0),gaa:String(pick(r,['goals_against_average','gaa'],'')),svpct:String(pick(r,['save_percentage','savepct','svpct'],''))};
   return {...base,g:+pick(r,['goals','g'],0),a:+pick(r,['assists','a'],0),pts:+pick(r,['points','pts'],0),pim:+pick(r,['penalty_minutes','pim'],0)};
 }
-async function htPullCareers(force){
+async function htPullCareers(force,quiet){
   const st=document.getElementById('htCareerMsg');
   const say=t=>{if(st)st.textContent=t;};
   DATA.careerHT=DATA.careerHT||{players:{}};
   const list=DATA.roster.filter(p=>p.name&&p.htId);
-  if(!list.length){say('No players with HockeyTech ids — Sync all live data first.');return;}
+  if(!list.length){say('No players with HockeyTech ids — run a Game Day Refresh first.');return 'no players with HockeyTech ids yet';}
   const fresh=DATA.careerHT.at&&(Date.now()-Date.parse(DATA.careerHT.at))<7*86400000;
-  if(fresh&&!force&&Object.keys(DATA.careerHT.players).length){say('Career stats already pulled this week — hold Shift+click to force.');return;}
+  if(fresh&&!force&&Object.keys(DATA.careerHT.players).length){say('Career stats already pulled this week — hold Shift+click to force.');return 'already current this week';}
   let done=0,got=0;
   for(const p of list){
     say('Career stats: '+p.name+' ('+(done+1)+'/'+list.length+')…');
@@ -2901,10 +3224,11 @@ async function htPullCareers(force){
     }catch(e){console.warn('career',p.name,e.message);}
     done++;
   }
-  DATA.careerHT.at=new Date().toISOString();
+  DATA.careerHT.at=new Date().toISOString();syncMark('careers');
   save();
   say('Career stats: '+got+'/'+list.length+' players pulled — on the packet’s career pages.');
-  toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
+  if(!quiet)toast('SPHL career stats pulled for '+got+' player'+(got!==1?'s':''));
+  return got+'/'+list.length+' players';
 }
 function htCareerFor(p){
   const c=DATA.careerHT&&DATA.careerHT.players&&p.htId&&DATA.careerHT.players[p.htId];
@@ -3031,6 +3355,7 @@ function ivSheetHTML(kind,e){
     <div style="font-size:11px;color:#555;margin-bottom:8px">${esc(ivKey())}${e.time?' · scheduled '+esc(e.time):''}</div>
     ${qRows}
     <div style="margin-top:14px">${mediaBlockHTML('media-block')}</div>
+    ${dataStampHTML('interview')}
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>INTERVIEW</span></div>
   </div>`;
 }
@@ -3180,6 +3505,11 @@ function renderVerbiage(){
   const doc=document.getElementById('verbiageDoc');if(!doc)return;
   const S=DATA.settings,red=S.red||'#C8102E';
   doc.innerHTML=(verbsPage(red,S)+iceMapPage(red,S)).replace(/__PGNO__/g,'REFERENCE');
+  stampMissing('verbiageDoc','verbs');
+  const vps=doc.querySelectorAll('.page');
+  if(vps[0])vps[0].dataset.sec='vb:verbs';
+  if(vps[1])vps[1].dataset.sec='vb:map';
+  secApplyAll();
 }
 
 /* ============ BROADCAST FOLDERS (booth pages) ============ */
@@ -3199,21 +3529,69 @@ function fdCell(team,key,computed,isOpp){
   return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>${mark}`;
 }
 function fdRevert(team,key){delete fdOv(team)[key];save();renderFolders();toast('Back to synced value');}
+/* ---- freshness: one timestamp per feed, because they refresh at different rates ---- */
+function syncMark(kind){DATA.sync=DATA.sync||{};DATA.sync[kind]=new Date().toISOString();try{save();}catch(e){}renderSyncBadges();}
+function syncAt(kind){const t=Date.parse(((DATA.sync||{})[kind])||'');return isNaN(t)?0:t;}
+function syncTimeStr(t){
+  const d=new Date(t),now=new Date();
+  const time=d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  return d.toDateString()===now.toDateString()?time:d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+time;
+}
+function syncLabel(kind){const t=syncAt(kind);return t?'Updated '+syncTimeStr(t):'Never updated';}
+/* <span class="upd" data-sync="standings"></span> anywhere = a live freshness badge */
+function renderFeedAges(){
+  const el=document.getElementById('htFeedAges');if(!el)return;
+  const feeds=[['standings','Standings'],['players','Player stats'],['schedule','Schedule'],['rosters','Rosters'],['careers','Career stats'],['scorebar','Scorebar'],['daily','Daily report']];
+  el.innerHTML=feeds.map(([k,label])=>{const t=syncAt(k);return `<span>${label}: <b>${t?syncTimeStr(t):'never'}</b></span>`;}).join('');
+}
+/* one honest empty state everywhere: what is missing, why, and what shows instead */
+function emptyState(what,how){
+  const lbl=(DATA.report&&DATA.report.seasonLabel)||'';
+  const fallback=lbl?' Showing <b>'+esc(lbl)+'</b> until then.':'';
+  return '<div class="empty"><div class="big">'+esc(what)+'</div>'+(how||'')+fallback+'</div>';
+}
+function emptyRow(cols,what,how){
+  return '<tr><td colspan="'+cols+'" class="empty-cell"><b>'+esc(what)+'</b>'+(how?' — '+how:'')+'</td></tr>';
+}
+function preseasonNote(){
+  const lbl=(DATA.report&&DATA.report.seasonLabel)||'';
+  return lbl?'2026-27 hasn&rsquo;t started — these are <b>'+esc(lbl)+'</b> numbers.'
+    :'No 2026-27 games played yet.';
+}
+function renderSyncBadges(){
+  renderFeedAges();
+  document.querySelectorAll('.upd[data-sync]').forEach(el=>{
+    const k=el.dataset.sync,t=syncAt(k);
+    el.textContent=t?syncLabel(k):'Not synced yet';
+    el.className='upd'+(t?'':' none');
+    el.title=t?new Date(t).toLocaleString():'This feed has not been pulled in this browser yet';
+  });
+}
 /* every displayed stat traces to the synced store; a small stamp says how fresh */
 function dataStampHTML(scope){
   const R=DATA.report||{};
-  const dAt=R.daily&&R.daily.at?Date.parse(R.daily.at):0;
-  const lAt=R.live&&R.live.at?Date.parse(R.live.at):0;
-  let src;
-  if(lAt&&lAt>=dAt)src='SPHL live feed '+new Date(lAt).toISOString().slice(0,10);
-  else if(R.daily&&R.daily.date)src='SPHL daily report '+R.daily.date;
-  else if(R.parsedAt)src='SPHL feed sync '+String(R.parsedAt).slice(0,10);
-  else src='no synced data yet';
-  if(R.seasonLabel)src+=' · stats: '+R.seasonLabel;
-  let edited=false;
-  if(scope==='packet')edited=Object.keys(DATA.statOv||{}).some(k=>String(DATA.statOv[k]||'').trim())||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
-  else edited=Object.keys((DATA.folderOv||{})[scope]||{}).some(k=>String(DATA.folderOv[scope][k]||'').trim());
-  return `<div class="pg-stamp">Data: ${esc(src)} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+  const feedAt=Math.max(syncAt('standings'),syncAt('players'),syncAt('schedule'),syncAt('rosters'),
+    (R.live&&Date.parse(R.live.at))||0,(R.parsedAt&&Date.parse(R.parsedAt))||0);
+  const parts=[];
+  parts.push('SPHL feed '+(feedAt?new Date(feedAt).toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'}):'not synced'));
+  if(R.daily&&R.daily.date)parts.push('daily report '+R.daily.date);
+  if(R.seasonLabel)parts.push('stats: '+R.seasonLabel);
+  const edited=stampEdited(scope);
+  return `<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
+}
+function stampMissing(containerId,scope){
+  const root=document.getElementById(containerId);if(!root)return;
+  const html=dataStampHTML(scope);
+  root.querySelectorAll('.page').forEach(p=>{if(!p.querySelector('.pg-stamp'))p.insertAdjacentHTML('beforeend',html);});
+}
+function stampEdited(scope){
+  const any=o=>Object.keys(o||{}).some(k=>String(o[k]||'').trim());
+  if(scope==='packet')return any(DATA.statOv)||Object.keys(DATA.pkEdits||{}).length>0||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
+  if(scope==='chart')return Object.keys(DATA.chartEdits||{}).length>0;
+  if(scope==='verbs')return !!DATA.verbs;
+  if(scope==='lines')return false;
+  if(scope==='opening')return false;
+  return any((DATA.folderOv||{})[scope])||any(DATA.statOv);
 }
 /* packet/stat-display value cell — same rules as the folder cells, global keys */
 function ovCell(key,computed){
@@ -3474,8 +3852,8 @@ function renderFolders(){
   const doc=document.getElementById('foldersDoc');if(!doc)return;
   const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
   const mk={hl:()=>fdLineupPage('home'),hd:()=>fdDataPage('home'),ol:()=>fdLineupPage('opp'),od:()=>fdDataPage('opp')};
-  doc.innerHTML=want.map(k=>mk[k]()).join('');
-  fdWireEdits();
+  doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
+  fdWireEdits();secApplyAll();
 }
 function fdWireEdits(){
   const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
@@ -3537,7 +3915,7 @@ function applyImported(parsed){
   DATA=Object.assign(structuredClone(DEFAULT_DATA),d);
   save();initForms();renderRoster();updateAppMark();
 }
-function exportData(){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast("Backup downloaded");}
+function exportData(tag){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+(tag?'-'+tag:'')+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast(tag?"Safety backup downloaded":"Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{applyImported(JSON.parse(rd.result));toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
 
 /* ============ macOS DATA SAFETY (Part B) ============ */
@@ -3633,7 +4011,18 @@ function bkReminder(){
     document.body.prepend(d);
   }catch(e){}
 }
+async function bkInlineRender(){
+  const el=document.getElementById('bkInline');if(!el)return;
+  const last=+(localStorage.getItem(KEY+'_lastbk')||0);
+  const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
+  const when=last?syncTimeStr(last):null;
+  if(dir&&!BK_NEEDS_PERM)el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · folder connected ✓ (“'+esc(dir.name||'backups')+'”)';
+  else if(dir)el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · <span class="bk-warn">folder access needs a click</span> — <a onclick="bkEnable()">re-enable</a>';
+  else if(bkFSASupported())el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · <span class="bk-warn">No backup folder chosen</span> — <a onclick="bkChooseFolder()">set one up</a>';
+  else el.innerHTML='Last backup: <b>'+(when||'none yet')+'</b> · folder backups aren\u2019t supported in this browser — export by hand.';
+}
 async function bkStatusRender(){
+  bkInlineRender();
   const el=document.getElementById('bkStatus');if(!el)return;
   const bi=browserInfo();
   const dir=bkFSASupported()?await idbGet('bkdir').catch(()=>null):null;
@@ -3674,7 +4063,45 @@ async function bkStatusRender(){
 if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol)){
   navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
-function wipeAll(){if(!confirm("Erase ALL data? Export a backup first if unsure."))return;localStorage.removeItem(KEY);DATA=structuredClone(DEFAULT_DATA);initForms();renderRoster();updateAppMark();toast("All data reset");}
+/* what a reset would actually cost, counted from the live store */
+function resetSummary(){
+  const g=Object.keys(DATA.gamelog||{}).length;
+  const bios=DATA.roster.filter(p=>(p.notes&&p.notes.trim())||(p.bbio&&p.bbio.trim())).length;
+  const iv=Object.keys(DATA.interviews||{}).length;
+  const ov=Object.keys(DATA.statOv||{}).length+Object.keys(DATA.pkEdits||{}).length
+    +Object.keys(DATA.chartEdits||{}).length+Object.keys(DATA.folderOv||{}).length
+    +Object.keys(DATA.refEdits||{}).length+Object.keys(DATA.franchiseEdits||{}).length;
+  const cl=((DATA.calllog&&DATA.calllog.games)||[]).length;
+  return [[DATA.roster.length,'roster players'],[bios,'written bios'],[g,'logged games'],
+    [cl,'call-log games'],[iv,'interview sets'],[ov,'manual edits & overrides']];
+}
+function resetRender(){
+  const el=document.getElementById('resetSummary');if(!el)return;
+  el.innerHTML='<b>What you would lose:</b><br>'+resetSummary().map(r=>'&bull; '+r[0]+' '+r[1]).join('<br>');
+  const inp=document.getElementById('resetConfirm');if(inp)inp.value='';
+  resetCheck();
+}
+function resetCheck(){
+  const btn=document.getElementById('resetGo');if(!btn)return;
+  btn.disabled=(val('resetConfirm')||'').trim().toUpperCase()!=='RESET';
+}
+function safetyBackup(tag){
+  try{exportData(tag);return true;}catch(e){return false;}
+}
+function revertAllOverridesSafe(){
+  if(!confirm('Revert every manual override and hand edit back to the synced values?\n\nA backup file downloads first.'))return;
+  safetyBackup('before-revert');
+  revertAllOverrides();
+}
+function wipeAll(){
+  if((val('resetConfirm')||'').trim().toUpperCase()!=='RESET'){toast('Type RESET to confirm');return;}
+  safetyBackup('before-reset');
+  localStorage.removeItem(KEY);
+  DATA=structuredClone(DEFAULT_DATA);
+  initForms();seedRosterIfEmpty();havocSheetOnce();renderRoster();updateAppMark();
+  closeModal('resetModal');
+  toast('Everything reset — the backup file just downloaded is the way back');
+}
 /* ============ HOCKEY OPERATIONS TEAM ============ */
 const HO_ROLES=[['hc','HEAD COACH'],['ac','ASSISTANT COACH'],['gm','GENERAL MANAGER'],['eq','EQUIPMENT MANAGER']];
 function loadHockeyOps(){
@@ -3716,7 +4143,7 @@ function setv(id,v){const el=document.getElementById(id);if(el)el.value=v==null?
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z]/g,'');}
 function dispName(p){return ((p&&p.name)||'')+(p&&p.capt?' ('+p.capt+')':'');}
 function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.':'A.M.';const h12=((h+11)%12)+1;return `${h12}:${String(m).padStart(2,'0')} ${ap}`;}
-function openModal(id){document.getElementById(id).classList.add('show');}
+function openModal(id){if(id==='resetModal')resetRender();document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
 let toastTimer;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
 function initForms(){fillOpponents();loadGameForm();loadNotesForm();loadSettings();}
@@ -4145,7 +4572,7 @@ function careerPages(red,S){
 function renderGameLog(){
   const wrap=document.getElementById('glTableWrap');if(!wrap)return;
   const gs=glGames();
-  if(!gs.length){wrap.innerHTML='<div class="empty">No completed games yet — results flow in from the schedule automatically.</div>';return;}
+  if(!gs.length){wrap.innerHTML=emptyState('No completed games yet','Final scores fill in from the schedule feed as they are played; shots, power plays and fights are yours to add.');return;}
   wrap.innerHTML=`<table class="gl-edit"><tr><th>Date</th><th>Opp</th><th>Result</th><th>SF</th><th>SA</th><th>PPG</th><th>PP adv</th><th>Att.</th><th>Fights</th></tr>
     ${gs.map(g=>`<tr><td>${fmtDateShort(g.d)}</td><td>${g.ha==='@'?'@ ':''}${esc(g.opp)}</td><td>${g.wl} ${g.us}-${g.them}${g.otso?' ('+g.otso+')':''}</td>
       ${['sf','sa','ppg','ppa','att','fights'].map(f=>`<td><input type="number" value="${g[f]!=null?g[f]:''}" onchange="glSet('${g.d}','${f}',this.value)"></td>`).join('')}</tr>`).join('')}
@@ -4198,7 +4625,7 @@ function renderPacket(){
   const pages=[];
 
   /* ---------- PAGE 1: COVER ---------- */
-  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):'<tr><td colspan="5" style="text-align:center;color:#999">Import report</td></tr>';
+  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
   const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:#999">Add news on the Game Notes tab.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
@@ -4319,11 +4746,13 @@ function renderPacket(){
   document.getElementById('packetDoc').innerHTML=outPages.map((pg2,i)=>{
     if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
     let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"').replace(/__PGNO__/g,'PAGE '+(i+1));
+    h=h.replace('<div class="page','<div data-sec="'+pg2.sec+'" class="page');
     // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
     if(pg2.sec!=='meet')h=h.replace('<div class="page','<div contenteditable="true" spellcheck="false" data-pk="'+pg2.k+'" class="page');
     return h;
   }).join('');
-  pkWireOv();
+  stampMissing('packetDoc','packet');
+  pkWireOv();secApplyAll();
   imagesReady(document.getElementById('packetDoc'),3500).then(()=>mtpDetectDefaults(document.getElementById('packetDoc')));
 }
 
@@ -5184,15 +5613,17 @@ function renderLinesDoc(){
       </table></div>`;
   };
   const oppName=G.opp||'Opponent';
-  const doc=`<div class="page" style="width:816px">
+  const doc=`<div class="page" data-sec="lines" style="width:816px">
     <div class="lnc-top"><span>LINE CARD</span><span>${esc(S.city)} ${esc(S.name)} ${G.homeaway==='@'?'@':'vs.'} ${esc(oppName)}</span><span>${dateStr}</span></div>
     <div class="lnc-grid">
       ${teamBlock('home','Huntsville Havoc',(S.city+' '+S.name).trim(),teamTheme('Huntsville Havoc'))}
       ${teamBlock('opp',oppName,oppName,teamTheme(oppName))}
     </div>
+    ${dataStampHTML('lines')}
     <div class="gs-foot" style="border-color:${S.red||'#C8102E'};margin-top:10px"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span></div>
   </div>`;
   document.getElementById('linesDoc').innerHTML=doc;
+  secApplyAll();
 }
 
 
@@ -5324,9 +5755,10 @@ function renderStandings(){
   }else{
     rows=TEAMS.map(full=>{const city=cityOf(full);return {abbr:TEAM_ABBR[city]||'',full,gp:0,w:0,l:0,otl:0,sol:0,pts:0};});
   }
-  el.innerHTML=`<table class="stnd"><tr><th></th><th class="tm">SPHL</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SOL</th><th class="pts">PTS</th></tr>`+
+  const note=S.length?'':`<div class="empty-cell" style="text-align:left;font-size:12px">${preseasonNote()} These are placeholder zeros for all 12 clubs — nothing has been published for 2026-27 yet.</div>`;
+  el.innerHTML=note+`<table class="stnd"><tr><th></th><th class="tm">SPHL</th><th>GP</th><th>W</th><th>L</th><th>OTL</th><th>SOL</th><th class="pts">PTS</th></tr>`+
     rows.map(r=>{const lg=teamLogoSrc(r.full);const me=/Huntsville/.test(r.full);
-      return `<tr class="${me?'me':''}"><td class="lg">${lg?`<img src="${lg}">`:''}</td><td class="tm">${r.abbr}</td><td>${r.gp}</td><td>${r.w}</td><td>${r.l}</td><td>${r.otl}</td><td>${r.sol}</td><td class="pts">${r.pts}</td></tr>`;}).join('')+`</table>`;
+      return `<tr class="${me?'me':''}${S.length?'':' zeroed'}"><td class="lg">${lg?`<img src="${lg}">`:''}</td><td class="tm">${r.abbr}</td><td>${r.gp}</td><td>${r.w}</td><td>${r.l}</td><td>${r.otl}</td><td>${r.sol}</td><td class="pts">${r.pts}</td></tr>`;}).join('')+`</table>`;
 }
 
 
@@ -5556,7 +5988,7 @@ async function htDoStandings(){
       pts:+pick(r,['points','pts'],0),gf:+pick(r,['goals_for','goalsFor','gf'],0),ga:+pick(r,['goals_against','goalsAgainst','ga'],0)});
   });
   if(!out.length)throw new Error('Standings: no readable rows.');
-  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();
+  DATA.report.standings=out;DATA.report.parsedAt=new Date().toISOString();DATA.report.live={at:DATA.report.parsedAt};save();renderStandings();syncMark('standings');
   return out.length+' teams';
 }
 async function htDoPlayers(){
@@ -5599,7 +6031,7 @@ async function htDoPlayers(){
       sa:+pick(r,['shots_against','sa'],0),svs:+pick(r,['saves','svs'],0),svpct:String(pick(r,['save_percentage','svpct'],''))});
   });
   DATA.report.teamStats=ts;DATA.report.parsedAt=new Date().toISOString();
-  syncRosterStats();save();
+  syncRosterStats();save();syncMark('players');
   return Object.keys(ts).length+' teams of player/goalie stats';
 }
 function htFmtTime(t){const m=String(t||'').match(/^(\d{1,2}):(\d{2})/);if(!m)return '';let h=+m[1];const ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+m[2]+' '+ap;}
@@ -5661,6 +6093,7 @@ async function htDoResults(){
     if(typeof renderSchedPreview==='function'&&document.getElementById('schedPreview'))renderSchedPreview();
     if(DATA.calllog){clCurrentSeason();save();}
   }
+  syncMark('schedule');
   return filled+' new final scores filled'+(added?', '+added+' games added':'');
 }
 /* ---- Rosters: pull every team's roster from the feed ---- */
@@ -5737,7 +6170,7 @@ async function htDoRosters(){
     teamCount++;playerCount+=players.length;
   }
   if(!teamCount)throw new Error('Rosters: no readable rosters returned.');
-  syncRosterStats();save();
+  syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
   return teamCount+' team rosters ('+playerCount+' players)';
 }
@@ -5886,7 +6319,7 @@ function applyDailyReport(rep,label){
   }else counts.push('Special teams ✗');
   if(rep.parsed.leaders)r.leaders=Object.assign(r.leaders||{},rep.leaders);
   r.parsedAt=new Date().toISOString();
-  r.daily={label:label,date:rep.generatedDate||'',at:r.parsedAt};
+  r.daily={label:label,date:rep.generatedDate||'',at:r.parsedAt};syncMark('daily');
   syncRosterStats();save();
   if(typeof renderStandings==='function')try{renderStandings();}catch(e){}
   dailyBadge();
@@ -5951,41 +6384,91 @@ async function htPullRosters(){
   });
 }
 let HT_SYNCING=false;
+/* ---- Game Day Refresh: one button, everything tonight needs, step by step ---- */
+const GD_STEPS=[
+  ['connect','Connect + confirm the season'],
+  ['standings','League standings'],
+  ['players','Player + goalie stats'],
+  ['schedule','Schedule + final scores'],
+  ['rosters','Every team roster'],
+  ['careers','Havoc career stats + headshots'],
+  ['eplinks','Elite Prospects profile links'],
+  ['scorebar','Tonight&rsquo;s scoreboard']
+];
+function gdRender(state){
+  const el=document.getElementById('htSteps');if(!el)return;
+  el.innerHTML=GD_STEPS.map(([k,label])=>{
+    const s=state[k]||{};
+    const mark=s.status==='ok'?'&#10003;':(s.status==='bad'?'&#10007;':(s.status==='run'?'&#9679;':'&#9675;'));
+    return `<li class="${s.status||''}"><span class="gd-mark">${mark}</span><span>${label}</span>${s.note?`<span class="gd-note">— ${esc(s.note)}</span>`:''}</li>`;
+  }).join('');
+}
 async function htSyncAll(){
   if(HT_SYNCING)return;HT_SYNCING=true;
-  const btn=document.getElementById('htSyncBtn');if(btn)btn.disabled=true;
-  const results=[];
-  try{
-    htStatus('Step 1/6: connecting + checking current season…','');
+  const btn=document.getElementById('htSyncBtn');if(btn){btn.disabled=true;btn.textContent='⟳ Refreshing…';}
+  const state={};
+  const run=async(key,fn)=>{
+    state[key]={status:'run'};gdRender(state);
+    try{const note=await fn();state[key]={status:'ok',note:note||'done'};}
+    catch(e){state[key]={status:'bad',note:e.message};}
+    gdRender(state);
+    return state[key].status==='ok';
+  };
+  gdRender(state);
+  await run('connect',async()=>{
     const hadKey=!!htKey();
     try{
-      const seasons=await htGetSeasons('Step 1/6: ');
-      if(!hadKey&&htKey())results.push('key auto-detected');
+      const seasons=await htGetSeasons('');
       const sel=document.getElementById('ht_seasonSel');
       if(sel)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}">${esc(s.season_name)}</option>`).join('');
       let cur=seasons.find(s=>String(s.season_id)===htSeason());
-      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();results.push('season set: '+cur.season_name);}
+      if(!cur){cur=htPickSeason(seasons);DATA.settings.htSeason=String(cur.season_id);save();}
       if(sel)sel.value=String(cur.season_id);
-    }catch(e){if(!htSeason())throw e;}
-    htStatus('Step 2/6: standings…','');
-    try{results.push('standings: '+await htDoStandings());}catch(e){results.push('standings FAILED ('+e.message+')');}
-    htStatus('Step 3/6: player + goalie stats…','');
-    try{results.push('stats: '+await htDoPlayers());}catch(e){results.push('stats FAILED ('+e.message+')');}
-    htStatus('Step 4/6: schedule + results…','');
-    try{results.push('schedule: '+await htDoResults());}catch(e){results.push('schedule FAILED ('+e.message+')');}
-    htStatus('Step 5/6: rosters…','');
-    let rosterOK=false;
-    try{results.push('rosters: '+await htDoRosters());rosterOK=true;}catch(e){results.push('rosters FAILED ('+e.message+')');}
-    if(rosterOK){
-      htStatus('Step 6/6: Elite Prospects profile links…','');
-      try{results.push(await epAutoBios('auto'));}catch(e){results.push('EP links FAILED ('+e.message+')');}
+      return (hadKey?'':'key auto-detected · ')+'season '+cur.season_name;
+    }catch(e){
+      if(!htSeason())throw e;
+      return 'using the saved season ('+htSeason()+')';
     }
-    DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();
-    if(!SB_HASGAMES)sbStart(); // key/season may have just been auto-detected — light the scorebar up
-    const anyFail=results.some(r=>/FAILED/.test(r));
-    htStatus('Sync '+(anyFail?'finished with issues':'complete')+' — '+results.join(' · ')+' · saved locally '+new Date().toLocaleTimeString(),!anyFail);
-  }catch(e){htStatus(e.message,false);}
-  HT_SYNCING=false;if(btn)btn.disabled=false;
+  });
+  await run('standings',()=>htDoStandings());
+  await run('players',()=>htDoPlayers());
+  await run('schedule',()=>htDoResults());
+  const rostersOK=await run('rosters',()=>htDoRosters());
+  await run('careers',async()=>{
+    if(!rostersOK)throw new Error('skipped — rosters did not load');
+    return await htPullCareers(false,true);
+  });
+  await run('eplinks',async()=>{
+    if(!rostersOK)throw new Error('skipped — rosters did not load');
+    return await epAutoBios('auto');
+  });
+  await run('scorebar',async()=>{sbStart();return 'refreshing';});
+  DATA.report.lastSync=new Date().toISOString();BK_LAST=0;save();htShowLastSync();renderSyncBadges();
+  const bad=Object.keys(state).filter(k=>state[k].status==='bad');
+  htStatus(bad.length?('Finished with '+bad.length+' step'+(bad.length>1?'s':'')+' failing — see the list above. Everything that did load is saved.')
+    :('Game Day Refresh complete — saved locally '+new Date().toLocaleTimeString()+'.'),!bad.length);
+  feedChip(bad.length<GD_STEPS.length);
+  HT_SYNCING=false;if(btn){btn.disabled=false;btn.textContent='⟳ Game Day Refresh';}
+}
+/* the connection check runs itself on load and reports as a chip */
+function feedChip(ok,msg){
+  const el=document.getElementById('feedChip'),m=document.getElementById('feedChipMsg');
+  if(!el||!m)return;
+  el.className='feed-chip '+(ok===null?'checking':(ok?'ok':'off'));
+  m.textContent=msg||(ok===null?'Checking the feed…':(ok?'Feed: connected ✓':'Feed: offline — using cached data'));
+}
+async function feedAutoCheck(){
+  feedChip(null);
+  try{
+    const seasons=await Promise.race([htGetSeasons(''),new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),10000))]);
+    const sel=document.getElementById('ht_seasonSel');
+    if(sel&&seasons.length)sel.innerHTML=seasons.map(s=>`<option value="${s.season_id}"${String(s.season_id)===htSeason()?' selected':''}>${esc(s.season_name)}</option>`).join('');
+    feedChip(true);
+  }catch(e){
+    const any=['standings','players','rosters','schedule'].some(k=>syncAt(k));
+    feedChip(false,any?'Feed: offline — showing data saved '+syncTimeStr(Math.max(...['standings','players','rosters','schedule'].map(syncAt)))
+      :'Feed: offline — no data saved in this browser yet');
+  }
 }
 
 
@@ -6063,7 +6546,7 @@ function sbIsLive(g){
 }
 function sbRender(games){
   const el=document.getElementById('sbStrip');if(!el)return;
-  if(!games.length){sbMsg('No SPHL games in the current window.');SB_HASGAMES=false;return;}
+  if(!games.length){sbMsg('No SPHL games scheduled in this window (2 days back → 7 days ahead).');SB_HASGAMES=false;return;}
   SB_HASGAMES=true;
   el.innerHTML=games.map(g=>{
     const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity','visiting_team_city'],'')).slice(0,3).toUpperCase();
@@ -6079,6 +6562,20 @@ function sbRender(games){
       '<div class="sb-status">'+esc(date)+' · '+esc(sbStatusOf(g))+'</div></div>';
   }).join('');
 }
+/* This Game carries a read-only strip: tonight's games only, no controls.
+   The full feed lives on Live Data — one place to pull, one place to view. */
+function gmScorebar(games){
+  const el=document.getElementById('gmScorebar');if(!el)return;
+  const src=(games&&games.length?games:sbCacheGames())||[];
+  const today=new Date().toISOString().slice(0,10);
+  const tonight=src.filter(g=>String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(0,10)===today);
+  if(!src.length){el.innerHTML='<div class="sb-msg">No scores yet — run a Game Day Refresh on Live Data.</div>';return;}
+  if(!tonight.length){el.innerHTML='<div class="sb-msg">No SPHL games today. The week ahead is on the Live Data tab.</div>';return;}
+  const old=document.getElementById('sbStrip').innerHTML;
+  sbRender(tonight);
+  el.innerHTML=document.getElementById('sbStrip').innerHTML;
+  document.getElementById('sbStrip').innerHTML=old;
+}
 function sbInterval(games){
   if(games.some(sbIsLive))return 60000;
   const now=Date.now();
@@ -6090,18 +6587,40 @@ function sbInterval(games){
   });
   return nearGame?60000:15*60000;
 }
+/* three states, always resolved: loading (capped at 10s) → loaded, or failed
+   with a retry and whatever was cached last time */
+function sbState(state,msg,retry){
+  const box=document.getElementById('sbState');if(!box)return;
+  box.className='sb-state '+state;
+  const m=document.getElementById('sbStateMsg');if(m)m.textContent=msg;
+  const r=document.getElementById('sbRetry');if(r)r.style.display=retry?'':'none';
+}
+function sbCacheSave(games){DATA.sbCache={at:new Date().toISOString(),games:games.slice(0,24)};try{save();}catch(e){}}
+function sbCacheGames(){return ((DATA.sbCache||{}).games)||[];}
+function sbRetry(){sbState('loading','Reconnecting to the league feed…',false);sbStart();}
 async function sbTick(){
   if(document.hidden)return; // polling stops here; visibilitychange restarts it
   let games=[];
+  if(!SB_HASGAMES)sbState('loading','Connecting to the league feed…',false);
   try{
-    const d=await htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7});
+    const d=await Promise.race([
+      htFetch({feed:'modulekit',view:'scorebar',numberofdaysback:2,numberofdaysahead:7}),
+      new Promise((_,rej)=>setTimeout(()=>rej(new Error('the feed did not answer within 10 seconds')),10000))
+    ]);
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
-    sbRender(games);
-    SB_LAST=Date.now();
+    sbRender(games);sbCacheSave(games);gmScorebar(games);
+    SB_LAST=Date.now();syncMark('scorebar');
+    sbState('loaded','League feed connected · '+syncLabel('scorebar').toLowerCase(),false);
     const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
   }catch(e){
-    if(!SB_HASGAMES)sbMsg('Scores unavailable — '+esc(e.message)+' They\'ll appear once the feed connects (tap Test connection or Sync below).');
-    const st=document.getElementById('sbStamp');if(st&&SB_LAST)st.textContent='Last updated '+new Date(SB_LAST).toLocaleTimeString()+' — retrying…';
+    const cached=sbCacheGames();
+    if(cached.length){sbRender(cached);SB_HASGAMES=true;}
+    gmScorebar(cached);
+    const when=syncAt('scorebar');
+    sbState('failed',
+      'Live scores unavailable — '+e.message+'.'+(cached.length&&when?' Showing cached data from '+syncTimeStr(when)+'.':' No cached scores to fall back on yet.'),
+      true);
+    const st=document.getElementById('sbStamp');if(st)st.textContent=when?'Cached '+syncTimeStr(when)+' — will keep retrying':'';
   }
   clearTimeout(SB_TIMER);
   SB_TIMER=setTimeout(sbTick,sbInterval(games));
@@ -6126,6 +6645,7 @@ setInterval(async()=>{
    per-snippet embed.js?id= form so it can be swapped on demand.
    ============================================================ */
 function wgSeasonDefault(){return '2025-2026';} // the season EP currently carries SPHL data for — change the Season field when 2026-2027 play begins
+function wgSettingsFill(){const v=wgVals();setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);}
 function wgVals(){
   return {league:(DATA.settings.wgLeague||'sphl'),
           season:(DATA.settings.wgSeason||wgSeasonDefault()),
@@ -6150,7 +6670,6 @@ function wgBuild(force){
   if(WG_BUILT&&!force)return;
   WG_BUILT=true;
   const v=wgVals(),st=wgStyle(v.red);
-  setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);
   const mk=(id,attrs)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div id="epw_${id}" class="ep-widget" ${attrs}${st}></div>`;};
   // Jacob's generated snippet (ep_9391) verbatim, with league/season driven by the fields above;
   // the combined loader mounts it along with the rest, so no per-snippet script is needed
@@ -6175,6 +6694,15 @@ function wgBuild(force){
   if(schd)schd.innerHTML=`<div id="ep_2495" class="ep-widget" data-widget-type="schedule-and-standings" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="1300" data-theme="light" data-font="font-montserrat"></div>`;
   wgFillPlayers();
   wgLoader();
+}
+function epViewToggle(){
+  const box=document.getElementById('epView'),btn=document.getElementById('epViewBtn');
+  if(!box)return;
+  const show=box.style.display==='none';
+  box.style.display=show?'':'none';
+  btn.textContent=show?'Hide EP view':'Show EP view';
+  DATA.settings.epView=show?1:0;save();
+  if(show)Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild(true));
 }
 function wgFillPlayers(){
   const sel=document.getElementById('wg_player');if(!sel)return;
@@ -6289,8 +6817,8 @@ function wgDeck(side){
   if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
 }
 
-seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
+themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;const s=document.getElementById('ht_seasonSel');if(s&&DATA.settings.htSeason)s.innerHTML='<option value="'+DATA.settings.htSeason+'">Season '+DATA.settings.htSeason+' (saved)</option>';htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
 try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
