@@ -125,7 +125,8 @@
   "epId": "220778",
   "epUrl": "https://www.eliteprospects.com/player/220778",
   "name": "Joseph Drapluk",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "261": {
   "epId": "33267",
@@ -186,7 +187,26 @@
   "epId": "220887",
   "epUrl": "https://www.eliteprospects.com/player/220887",
   "name": "Frankie McClendon",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1993-03-14",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 0,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "2726": {
   "epId": "195639",
@@ -252,9 +272,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "1996-10-17",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 44,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 2.11,
+     "svp": 92.3
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .923 SV%, 2.11 GAA in 44 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "2804": {
   "epId": "379526",
@@ -308,9 +344,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1996-08-24",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 57,
+     "g": 19,
+     "a": 23,
+     "p": 42,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "42 points in 57 career pro games (SPHL)",
+   "Best season: 19G-23A-42P in 57 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "2894": {
   "epId": "283502",
@@ -379,9 +432,26 @@
   "team": "Fayetteville Marksmen",
   "dob": "1996-08-31",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 49,
+     "g": 4,
+     "a": 4,
+     "p": 8,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "8 points in 49 career pro games (SPHL)",
+   "Best season: 4G-4A-8P in 49 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3031": {
   "epId": "252745",
@@ -433,7 +503,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3070": {
   "epId": "241362",
@@ -540,9 +611,25 @@
   "team": "Fayetteville Marksmen",
   "dob": "1997-02-19",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 8,
+     "g": 0,
+     "a": 2,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-2A-2P in 8 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3125": {
   "epId": "201709",
@@ -571,7 +658,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3215": {
   "epId": "279865",
@@ -632,9 +720,26 @@
   "team": "Fayetteville Marksmen",
   "dob": "1998-04-11",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 50,
+     "g": 15,
+     "a": 24,
+     "p": 39,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "39 points in 50 career pro games (SPHL)",
+   "Best season: 15G-24A-39P in 50 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3249": {
   "epId": "301194",
@@ -703,9 +808,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-03-03",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 15,
+     "a": 12,
+     "p": 27,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "27 points in 58 career pro games (SPHL)",
+   "Best season: 15G-12A-27P in 58 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3297": {
   "epId": "229615",
@@ -750,7 +872,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3306": {
   "epId": "354666",
@@ -799,9 +922,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "1998-09-11",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Toulouse-Blagnac",
+    "league": "France3",
+    "stats": {
+     "gp": 7,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 2.43,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Toulouse-Blagnac (France3) in 2025-26"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3324": {
   "epId": "468392",
@@ -810,9 +949,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-12-23",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 12,
+     "g": 0,
+     "a": 2,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-2A-2P in 12 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3337": {
   "epId": "460930",
@@ -877,7 +1032,29 @@
   "epId": "674687",
   "epUrl": "https://www.eliteprospects.com/player/674687",
   "name": "Gehrig Lindberg",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2002-12-10",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 8,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Huntsville Havoc (SPHL) in 2025-26",
+   "Best season: 0G-1A-1P in 8 GP with Huntsville Havoc (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3381": {
   "epId": "480498",
@@ -972,9 +1149,26 @@
   "team": "Fayetteville Marksmen",
   "dob": "2000-03-16",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 58,
+     "g": 0,
+     "a": 7,
+     "p": 7,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "7 points in 58 career pro games (SPHL)",
+   "Best season: 0G-7A-7P in 58 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3417": {
   "epId": "474455",
@@ -1026,7 +1220,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3427": {
   "epId": "435401",
@@ -1041,9 +1236,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-05-10",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 51,
+     "g": 3,
+     "a": 8,
+     "p": 11,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "11 points in 51 career pro games (SPHL)",
+   "Best season: 3G-8A-11P in 51 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3439": {
   "epId": "273794",
@@ -1152,7 +1364,8 @@
   "epId": "194820",
   "epUrl": "https://www.eliteprospects.com/player/194820",
   "name": "Colby Muise",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3498": {
   "epId": "507580",
@@ -1161,15 +1374,53 @@
   "team": "Fayetteville Marksmen",
   "dob": "1999-05-30",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Melbourne Ice",
+    "league": "AIHL",
+    "stats": {
+     "gp": 13,
+     "g": 3,
+     "a": 7,
+     "p": 10,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Melbourne Ice (AIHL) in 2025-26",
+   "Best season: 3G-7A-10P in 13 GP with Melbourne Ice (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3499": {
   "epId": "565973",
   "epUrl": "https://www.eliteprospects.com/player/565973",
   "name": "Mason Beaupit",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2003-09-23",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 23,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 2.91,
+     "svp": 90.6
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: .906 SV%, 2.91 GAA in 23 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3503": {
   "epId": "320866",
@@ -1229,7 +1480,8 @@
   "epId": "502934",
   "epUrl": "https://www.eliteprospects.com/player/502934",
   "name": "Cole Crowder",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3534": {
   "epId": "284025",
@@ -1359,9 +1611,25 @@
   "team": "Fayetteville Marksmen",
   "dob": "1999-03-24",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 13,
+     "g": 0,
+     "a": 4,
+     "p": 4,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-4A-4P in 13 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3562": {
   "epId": "483424",
@@ -1370,9 +1638,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2003-03-16",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Niagara Univ.",
+    "league": "NCAA",
+    "stats": {
+     "gp": 12,
+     "g": 1,
+     "a": 1,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Played college hockey at Niagara Univ. (NCAA)",
+   "Best season: 1G-1A-2P in 12 GP with Niagara Univ. (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3563": {
   "epId": "393057",
@@ -1504,13 +1789,56 @@
   "epId": "201485",
   "epUrl": "https://www.eliteprospects.com/player/201485",
   "name": "Chance Gorman",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-01-09",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 11,
+     "g": 2,
+     "a": 3,
+     "p": 5,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 2G-3A-5P in 11 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3601": {
   "epId": "400130",
   "epUrl": "https://www.eliteprospects.com/player/400130",
   "name": "Blake Holmes",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-11-23",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 46,
+     "g": 3,
+     "a": 9,
+     "p": 12,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "12 points in 46 career pro games (SPHL)",
+   "Best season: 3G-9A-12P in 46 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3602": {
   "epId": "393767",
@@ -1697,7 +2025,7 @@
   "epId": "264878",
   "epUrl": "https://www.eliteprospects.com/player/264878",
   "name": "Shane Murphy",
-  "team": "Birmingham Bulls",
+  "team": "Fayetteville Marksmen",
   "dob": "2000-04-03",
   "hometown": "",
   "careerStats": [],
@@ -1821,7 +2149,7 @@
   "epId": "313407",
   "epUrl": "https://www.eliteprospects.com/player/313407",
   "name": "Philippe Caron",
-  "team": "Birmingham Bulls",
+  "team": "Fayetteville Marksmen",
   "dob": "2000-07-23",
   "hometown": "",
   "careerStats": [
@@ -1933,7 +2261,7 @@
   "epId": "693174",
   "epUrl": "https://www.eliteprospects.com/player/693174",
   "name": "John Woernle",
-  "team": "Evansville Thunderbolts",
+  "team": "Fayetteville Marksmen",
   "dob": "2000-07-03",
   "hometown": "",
   "careerStats": [
@@ -1964,9 +2292,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2001-05-04",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Hazelton Wolverines",
+    "league": "CIHL",
+    "stats": {
+     "gp": 10,
+     "g": 20,
+     "a": 19,
+     "p": 39,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Hazelton Wolverines (CIHL) in 2025-26",
+   "Best season: 20G-19A-39P in 10 GP with Hazelton Wolverines (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3654": {
   "epId": "580174",
@@ -1977,7 +2322,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3655": {
   "epId": "396681",
@@ -2014,9 +2360,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-07-05",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Truro Mosaik Bearcats",
+    "league": "NSSHL",
+    "stats": {
+     "gp": 11,
+     "g": 9,
+     "a": 5,
+     "p": 14,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Truro Mosaik Bearcats (NSSHL) in 2025-26",
+   "Best season: 9G-5A-14P in 11 GP with Truro Mosaik Bearcats (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3657": {
   "epId": "451781",
@@ -2025,9 +2388,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "2001-01-26",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 26,
+     "g": 3,
+     "a": 2,
+     "p": 5,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "5 points in 26 career pro games (SPHL)",
+   "Best season: 3G-2A-5P in 26 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3658": {
   "epId": "451856",
@@ -2036,15 +2416,53 @@
   "team": "Evansville Thunderbolts",
   "dob": "2001-11-08",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 22,
+     "g": 0,
+     "a": 4,
+     "p": 4,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-4A-4P in 22 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3659": {
   "epId": "624251",
   "epUrl": "https://www.eliteprospects.com/player/624251",
   "name": "Hlib Varava",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2002-04-19",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Watertown Wolves",
+    "league": "FPHL",
+    "stats": {
+     "gp": 11,
+     "g": 0,
+     "a": 3,
+     "p": 3,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Watertown Wolves (FPHL) in 2025-26",
+   "Best season: 0G-3A-3P in 11 GP with Watertown Wolves (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3660": {
   "epId": "428775",
@@ -2053,9 +2471,27 @@
   "team": "Fayetteville Marksmen",
   "dob": "2001-10-02",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Quad City Storm",
+    "league": "SPHL",
+    "stats": {
+     "gp": 54,
+     "g": 10,
+     "a": 13,
+     "p": 23,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "23 points in 54 career pro games (SPHL)",
+   "Most recently with Quad City Storm (SPHL) in 2025-26",
+   "Best season: 10G-13A-23P in 54 GP with Quad City Storm (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3661": {
   "epId": "364217",
@@ -2064,21 +2500,82 @@
   "team": "Fayetteville Marksmen",
   "dob": "2000-04-03",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 56,
+     "g": 6,
+     "a": 14,
+     "p": 20,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "20 points in 56 career pro games (SPHL)",
+   "Best season: 6G-14A-20P in 56 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3662": {
   "epId": "272066",
   "epUrl": "https://www.eliteprospects.com/player/272066",
   "name": "Paul Maust",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1998-06-24",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 27,
+     "g": 1,
+     "a": 1,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "2 points in 27 career pro games (SPHL)",
+   "Best season: 1G-1A-2P in 27 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3663": {
   "epId": "375712",
   "epUrl": "https://www.eliteprospects.com/player/375712",
   "name": "Alex Davis",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2000-04-20",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Peoria Rivermen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 20,
+     "g": 1,
+     "a": 1,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Peoria Rivermen (SPHL) in 2025-26",
+   "Best season: 1G-1A-2P in 20 GP with Peoria Rivermen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3665": {
   "epId": "313529",
@@ -2251,9 +2748,25 @@
   "team": "Evansville Thunderbolts",
   "dob": "2002-01-31",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 5,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 5 GP with Evansville Thunderbolts (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3686": {
   "epId": "370215",
@@ -2346,7 +2859,8 @@
   "epId": "376334",
   "epUrl": "https://www.eliteprospects.com/player/376334",
   "name": "Caydon Meyer",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3698": {
   "epId": "732202",
@@ -2415,7 +2929,28 @@
   "epId": "587542",
   "epUrl": "https://www.eliteprospects.com/player/587542",
   "name": "Trey Fechko",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2003-10-16",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 15,
+     "g": 9,
+     "a": 7,
+     "p": 16,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 9G-7A-16P in 15 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3712": {
   "epId": "807637",
@@ -2426,7 +2961,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3713": {
   "epId": "617497",
@@ -2513,9 +3049,26 @@
   "team": "Fayetteville Marksmen",
   "dob": "2000-07-22",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 49,
+     "g": 11,
+     "a": 18,
+     "p": 29,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "29 points in 49 career pro games (SPHL)",
+   "Best season: 11G-18A-29P in 49 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3720": {
   "epId": "410974",
@@ -2615,9 +3168,26 @@
   "team": "Evansville Thunderbolts",
   "dob": "1999-12-30",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Rapid City Rush",
+    "league": "ECHL",
+    "stats": {
+     "gp": 6,
+     "g": 1,
+     "a": 3,
+     "p": 4,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Rapid City Rush (ECHL) in 2025-26",
+   "Best season: 1G-3A-4P in 6 GP with Rapid City Rush (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3733": {
   "epId": "359883",
@@ -2674,7 +3244,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3740": {
   "epId": "334755",
@@ -2698,7 +3269,8 @@
   "epId": "285264",
   "epUrl": "https://www.eliteprospects.com/player/285264",
   "name": "Drew Welsch",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3746": {
   "epId": "576286",
@@ -2715,7 +3287,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3748": {
   "epId": "505219",
@@ -2813,7 +3386,8 @@
   "epId": "499157",
   "epUrl": "https://www.eliteprospects.com/player/499157",
   "name": "Matt Sayles",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3757": {
   "epId": "294746",
@@ -2825,7 +3399,26 @@
   "epId": "580620",
   "epUrl": "https://www.eliteprospects.com/player/580620",
   "name": "Max Karlenzig",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "1999-06-12",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 0,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3759": {
   "epId": "298555",
@@ -2837,12 +3430,28 @@
   "epId": "355789",
   "epUrl": "https://www.eliteprospects.com/player/355789",
   "name": "Dash Quartarolo",
-  "team": "Evansville Thunderbolts",
+  "team": "Fayetteville Marksmen",
   "dob": "1999-11-11",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Fayetteville Marksmen (SPHL) in 2025-26"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3761": {
   "epId": "651872",
@@ -2918,12 +3527,29 @@
   "epId": "599777",
   "epUrl": "https://www.eliteprospects.com/player/599777",
   "name": "Ethan Hawes",
-  "team": "Evansville Thunderbolts",
+  "team": "Fayetteville Marksmen",
   "dob": "2002-03-24",
   "hometown": "",
-  "careerStats": [],
-  "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Newcastle Northstars",
+    "league": "AIHL",
+    "stats": {
+     "gp": 25,
+     "g": 0,
+     "a": 18,
+     "p": 18,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Most recently with Newcastle Northstars (AIHL) in 2025-26",
+   "Best season: 0G-18A-18P in 25 GP with Newcastle Northstars (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3772": {
   "epId": "1261126",
@@ -2997,7 +3623,8 @@
   "hometown": "",
   "careerStats": [],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-05T02:54:50.932Z",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3783": {
   "epId": "324973",
@@ -3009,7 +3636,26 @@
   "epId": "495955",
   "epUrl": "https://www.eliteprospects.com/player/495955",
   "name": "Dusty Bergstrom",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2002-03-25",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 8,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3786": {
   "epId": "430007",
@@ -3093,9 +3739,23 @@
   "team": "Evansville Thunderbolts",
   "dob": "2004-07-19",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 10,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3799": {
   "epId": "403442",
@@ -3211,9 +3871,23 @@
   "team": "Evansville Thunderbolts",
   "dob": "2000-05-23",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 6,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3813": {
   "epId": "470081",
@@ -3222,9 +3896,23 @@
   "team": "Evansville Thunderbolts",
   "dob": "2001-02-22",
   "hometown": "",
-  "careerStats": [],
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Evansville Thunderbolts",
+    "league": "SPHL",
+    "stats": {
+     "gp": 3,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T02:54:50.932Z"
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3814": {
   "epId": "75031",
@@ -3291,7 +3979,28 @@
   "epId": "439764",
   "epUrl": "https://www.eliteprospects.com/player/439764",
   "name": "John Musella",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "dob": "2001-08-05",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2025-26",
+    "team": "Fayetteville Marksmen",
+    "league": "SPHL",
+    "stats": {
+     "gp": 3,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 3 GP with Fayetteville Marksmen (2025-26)"
+  ],
+  "fetchedAt": "2026-08-10T07:06:22.214Z"
  },
  "3822": {
   "epId": "440831",
@@ -3367,7 +4076,8 @@
   "epId": "445318",
   "epUrl": "https://www.eliteprospects.com/player/445318",
   "name": "John Werber",
-  "team": "Fayetteville Marksmen"
+  "team": "Fayetteville Marksmen",
+  "statsFailAt": "2026-08-10T07:06:22.214Z"
  },
  "3834": {
   "epId": "557126",
