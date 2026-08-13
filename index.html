@@ -427,6 +427,7 @@
   .rec-row{font-size:13px;line-height:1.5;color:var(--ink);border-left:3px solid var(--havoc-line);padding:4px 10px;margin:3px 0;border-radius:0 6px 6px 0;background:var(--surface-2);}
   .rec-row.rec-soon{border-left-color:var(--havoc-red);background:var(--tint-red,var(--surface-2));font-weight:700;}
   .rec-row.rec-holds{border-left-color:#b48a00;background:#ffefc0;color:#5c4a00;}
+  .rec-row.rec-mine{border-left-color:var(--ok,#1a7f37);background:var(--tint-ok,var(--surface-2));font-weight:700;}
   .rec-none{font-size:12.5px;color:var(--ink-2);line-height:1.55;}
   .rec-src{font-size:11px;color:var(--ink-2);margin-top:4px;}
   .ms-live td{background:var(--tint-ok,transparent);}
@@ -1743,7 +1744,9 @@ const SPHL_REF = {
       ["Points","371 — Sy Nutkevitch (2016-23)"],
       ["Penalty minutes","994 — Luke Phillips (2004-07)"],
       ["Wins (goalie)","92 — Matt Carmichael (2004-08)"],
-      ["Shutouts","7 — Dan McWhinney / Max Milosek"]
+      ["Shutouts","8 — Brian Wilson (2023–present)"], /* active holder — passed McWhinney/Milosek (7) in 2025-26 */
+      ["Games (goalie)","167 — Matt Carmichael (2004-08)"],
+      ["Saves (goalie)","4,988 — Matt Carmichael (2004-08)"]
     ],
     team:[
       ["Most points","84 (2021-22)"],["Fewest points","29 (2014-15)"],
@@ -1758,7 +1761,9 @@ const SPHL_REF = {
     ],
     goalies:[
       ["Lowest GAA, season","1.93 — Hunter Vorva (2021-22)"],
-      ["Best SV%, season",".934 — Hunter Vorva (2021-22)"]
+      ["Best SV%, season",".934 — Hunter Vorva (2021-22)"],
+      ["Most wins, season","26 — Mike Robinson / Matt Carmichael (2024-25 / 2004-05, 2006-07)"],
+      ["Most shutouts, season","4 — Max Milosek / Dan McWhinney / Brian Wilson (2019-20 / 2010-11 / 2025-26)"]
     ]
   },
 
@@ -6548,8 +6553,9 @@ function renderStaff(){
    ============================================================ */
 const REC_WATCH={
   career:{skater:{gp:['Games',25],g:['Goals',10],a:['Assists',10],pts:['Points',15],pim:['Penalty minutes',25]},
-          goalie:{gp:['Games',25],w:['Wins (goalie)',10],so:['Shutouts',2]}},
-  season:{skater:{g:['Most goals, season',10],a:['Most assists, season',10],pts:['Most points, season',15],pim:['Most PIM, season',25]}}
+          goalie:{gp:['Games (goalie)',25],w:['Wins (goalie)',10],so:['Shutouts',2],svs:['Saves (goalie)',150]}},
+  season:{skater:{g:['Most goals, season',10],a:['Most assists, season',10],pts:['Most points, season',15],pim:['Most PIM, season',25]},
+          goalie:{w:['Most wins, season',5],so:['Most shutouts, season',2]}}
 };
 function recParse(label,list){
   const hit=(list||[]).find(r=>r[0]===label);
@@ -6573,7 +6579,7 @@ function recWatchRows(){
     });
     const cur=p.current_season||{};
     Object.entries((REC_WATCH.season[type])||{}).forEach(([k,[label,win]])=>{
-      const rec=recParse(label,R.players);if(!rec)return;
+      const rec=recParse(label,type==='goalie'?R.goalies:R.players);if(!rec)return;
       const val=cur[k];if(val==null||val===0)return;   // preseason: nothing to watch yet
       const away=rec.val-val;
       if(away<=win)out.push({p,scope:'season',k,label,rec,val,away});
@@ -6586,10 +6592,17 @@ function renderRecordWatch(){
   const R=(typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvRecords)||null;
   if(!R||!MS_DATA){el.innerHTML='';return;}
   const rows=recWatchRows();
-  const statName={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts'};
+  const statName={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts',svs:'saves'};
   const line=r=>{
     const last=r.p.name.split(' ').pop();
     const what=(r.scope==='season'?'the single-season record':'the franchise '+statName[r.k]+' record');
+    const mine=!!(r.rec.who&&r.rec.who.indexOf(last)>=0);   // the book's holder IS this player
+    if(r.away<=0&&mine){
+      const one=statName[r.k].replace(/s$/,'');
+      if(r.scope==='season')
+        return `<div class="rec-row rec-mine"><b>${esc(last)}</b> has ${r.away<0?'broken':'matched'} the single-season ${esc(statName[r.k])} record (${r.rec.val}) — a record he already shares</div>`;
+      return `<div class="rec-row rec-mine"><b>${esc(last)}</b> holds the franchise ${esc(statName[r.k])} record — ${r.val} as a Havoc${r.val>r.rec.val?' (the book card still says '+r.rec.val+' — update it)':''}, and every ${esc(one)} extends it</div>`;
+    }
     if(r.away<=0)
       // ahead of the book — either the record is his now, or the seeded number is stale
       return `<div class="rec-row rec-holds"><b>${esc(last)}</b> — ${r.val} ${esc(statName[r.k])} as a Havoc, ahead of ${esc(what)} in the book (${r.rec.val}${r.rec.who?', '+esc(r.rec.who):''}) — verify the record before air</div>`;
