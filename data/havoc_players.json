@@ -1,0 +1,391 @@
+{
+  "meta": {
+    "team": "Huntsville Havoc",
+    "season": "2026-27",
+    "compiled": "2026-08-13",
+    "tracker_asof": "Tracker figures are from Jacob's Havoc Player Milestones sheet, Last Updated APR 4, 2026 (#Game 289). SPHL regular season ended Apr 5, 2026, so late-season games may be missing from tracker-sourced totals.",
+    "pro_leagues": [
+      "SPHL",
+      "ECHL",
+      "FPHL",
+      "AHL",
+      "NHL",
+      "Mestis",
+      "France Division 1",
+      "Coupe de France",
+      "BeNe League",
+      "NIHL National",
+      "Slovak Extraliga"
+    ]
+  },
+  "players": [
+    {
+      "name": "Davis Goukler",
+      "num": "4",
+      "pos": "D",
+      "type": "skater",
+      "from": "Utica University",
+      "seasons": [
+        { "season": "2018-19", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 8, "g": 0, "a": 1, "pts": 1, "pim": 0, "pm": -1 },
+        { "season": "2019-20", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 45, "g": 3, "a": 6, "pts": 9, "pim": 14, "pm": 5 },
+        { "season": "2020-21", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 54, "g": 1, "a": 17, "pts": 18, "pim": 45, "pm": 24, "po": { "gp": 10, "g": 0, "a": 2, "pts": 2, "pim": 0 } },
+        { "season": "2021-22", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 56, "g": 3, "a": 15, "pts": 18, "pim": 133, "pm": 3, "po": { "gp": 4, "g": 1, "a": 3, "pts": 4, "pim": 0 } },
+        { "season": "2022-23", "team": "Alaska-Anchorage", "league": "NCAA", "level": "College", "gp": 18, "g": 2, "a": 1, "pts": 3, "pim": 10, "pm": -3 },
+        { "season": "2023-24", "team": "Alaska-Anchorage", "league": "NCAA", "level": "College", "gp": 24, "g": 1, "a": 2, "pts": 3, "pim": 6, "pm": 13 },
+        { "season": "2024-25", "team": "Alaska-Anchorage", "league": "NCAA", "level": "College", "gp": 22, "g": 1, "a": 2, "pts": 3, "pim": null, "pm": null },
+        { "season": "2025-26", "team": "Utica University", "league": "NCAA III", "level": "College", "gp": 27, "g": 1, "a": 9, "pts": 10, "pim": 4, "pm": 15 },
+        { "season": "2025-26", "team": "Macon Mayhem", "league": "SPHL", "level": "Pro", "gp": 3, "g": 0, "a": 0, "pts": 0, "pim": 0, "pm": 0 }
+      ],
+      "notes": "2022-23 UAA line uses his official bio (2G-1A-3P); hockeydb shows 3G-1A. Late-season 3-game PTO with Macon in 2025-26 was his pro debut. Sources: hockeydb pid 216375, goseawolves.com bio, uticapioneers.com stats, StatsCrew.",
+      "computed_pro_totals": { "gp": 3, "g": 0, "a": 0, "pts": 0, "pim": 0 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Kevin Weaver-Vitale",
+      "num": "8",
+      "pos": "D",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "—", "team": "Fort Erie Meteors / Toronto Patriots", "league": "GOJHL/OJHL", "level": "Junior", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2019-20", "team": "Markham Royals", "league": "OJHL", "level": "Junior", "gp": 43, "g": 11, "a": 27, "pts": 38, "pim": null, "pm": null },
+        { "season": "2021-22", "team": "Plattsburgh State", "league": "NCAA III", "level": "College", "gp": 15, "g": 1, "a": 4, "pts": 5, "pim": 6, "pm": 5 },
+        { "season": "2022-23", "team": "Plattsburgh State", "league": "NCAA III", "level": "College", "gp": 28, "g": 1, "a": 7, "pts": 8, "pim": 22, "pm": 14 },
+        { "season": "2023-24", "team": "Plattsburgh State", "league": "NCAA III", "level": "College", "gp": 23, "g": 3, "a": 12, "pts": 15, "pim": 31, "pm": 16 },
+        { "season": "2024-25", "team": "Plattsburgh State", "league": "NCAA III", "level": "College", "gp": 28, "g": 7, "a": 20, "pts": 27, "pim": 36, "pm": 13 },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 6, "g": 1, "a": 2, "pts": 3, "pim": 2, "pm": 5, "po": { "gp": 3, "g": 0, "a": 1, "pts": 1, "pim": 2 } },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 56, "g": 5, "a": 18, "pts": 23, "pim": 26, "pm": 7, "po": { "gp": 2, "g": 0, "a": 0, "pts": 0, "pim": 2 } }
+      ],
+      "notes": "2020-21 Plattsburgh season canceled (COVID). 2025-26 SPHL All-Rookie Team. Junior stops at Fort Erie (GOJHL) and Toronto Patriots (OJHL) confirmed but stats unavailable. Sources: gocardinalsports.com, StatsCrew, huntsvillehavoc.com, thesphl.com.",
+      "computed_pro_totals": { "gp": 62, "g": 6, "a": 20, "pts": 26, "pim": 28 },
+      "computed_havoc_totals": { "gp": 62, "g": 6, "a": 20, "pts": 26, "pim": 28 }
+    },
+    {
+      "name": "Gio Procopio",
+      "num": "12",
+      "pos": "F",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2019-20", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 35, "g": null, "a": null, "pts": 20, "pim": null, "pm": null },
+        { "season": "2020-21", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": 55, "g": 18, "a": 22, "pts": 40, "pim": null, "pm": null, "po": { "gp": 10, "g": 5, "a": 1, "pts": 6, "pim": null } },
+        { "season": "2021-22", "team": "Aurora University", "league": "NCAA III", "level": "College", "gp": 27, "g": 4, "a": 21, "pts": 25, "pim": null, "pm": null },
+        { "season": "2022-23", "team": "Aurora University", "league": "NCAA III", "level": "College", "gp": 29, "g": 10, "a": 20, "pts": 30, "pim": 39, "pm": 8 },
+        { "season": "2023-24", "team": "Aurora University", "league": "NCAA III", "level": "College", "gp": 27, "g": 7, "a": 8, "pts": 15, "pim": 44, "pm": 1 },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 52, "g": 13, "a": 18, "pts": 31, "pim": 67, "pm": 12, "po": { "gp": 3, "g": 0, "a": 2, "pts": 2, "pim": 0 } },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 58, "g": 12, "a": 22, "pts": 34, "pim": 112, "pm": 19, "po": { "gp": 2, "g": 0, "a": 0, "pts": 0, "pim": 9 } }
+      ],
+      "notes": "2021 Robertson Cup champion (Shreveport). Alternate captain 2025-26; re-signed July 2026. NAHL PIM by season unavailable (130 total over 90 NAHL games per Havoc release). Sources: athletics.aurora.edu, StatsCrew, huntsvillehavoc.com, nahl.com.",
+      "computed_pro_totals": { "gp": 110, "g": 25, "a": 40, "pts": 65, "pim": 179 },
+      "computed_havoc_totals": { "gp": 110, "g": 25, "a": 40, "pts": 65, "pim": 179 }
+    },
+    {
+      "name": "Alex Proctor",
+      "num": "72",
+      "pos": "G",
+      "type": "goalie",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2019-20", "team": "Springfield Jr. Blues", "league": "NAHL", "level": "Junior", "gp": 16, "w": 3, "l": 7, "otl": 2, "so": null, "gaa": 3.75, "svpct": 0.896, "svs": null },
+        { "season": "2020-21", "team": "Philadelphia Hockey Club", "league": "NCDC", "level": "Junior", "gp": 26, "w": 8, "l": 13, "otl": 3, "so": null, "gaa": 3.76, "svpct": 0.889, "svs": null },
+        { "season": "2021-22", "team": "Odessa Jackalopes", "league": "NAHL", "level": "Junior", "gp": 44, "w": 21, "l": 17, "otl": null, "so": 1, "gaa": 2.98, "svpct": 0.912, "svs": 1292 },
+        { "season": "2022-23", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 11, "w": 6, "l": 2, "otl": 2, "so": 1, "gaa": 2.06, "svpct": 0.917, "svs": null },
+        { "season": "2023-24", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 26, "w": 18, "l": 5, "otl": 2, "so": null, "gaa": 2.13, "svpct": 0.923, "svs": null },
+        { "season": "2024-25", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 23, "w": 16, "l": 5, "otl": 2, "so": 3, "gaa": 2.21, "svpct": 0.924, "svs": null },
+        { "season": "2025-26", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 21, "w": 8, "l": 12, "otl": 1, "so": 1, "gaa": 2.47, "svpct": 0.91, "svs": 515 },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 2, "w": 2, "l": 0, "otl": 0, "so": 1, "gaa": 1.0, "svpct": 0.967, "svs": 58 }
+      ],
+      "notes": "Signed with Huntsville Mar 3, 2026; 34-save shutout in pro debut vs Macon; SPHL Co-Player of the Week (Mar 2026). Havoc line (2 GP, 58 saves, 2 W, 1 SO) from Jacob's tracker as of Apr 4 — verify whether he appeared in the Apr 5 finale. 2021-22 Odessa record listed as 21-17-1-3. Sources: athletics.uwsp.edu, oursportscentral.com, jackalopes.org.",
+      "computed_pro_totals": { "gp": 2, "w": 2, "l": 0, "otl": 0, "so": 1, "svs": 58 },
+      "computed_havoc_totals": { "gp": 2, "w": 2, "l": 0, "otl": 0, "so": 1, "svs": 58 }
+    },
+    {
+      "name": "Connor Fries",
+      "num": "91",
+      "pos": "F",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "override_pro": { "gp": 329, "g": 86, "a": 107, "pts": 193, "pim": 502 },
+      "override_havoc": { "gp": 106, "g": 23, "a": 35, "pts": 58, "pim": 198 },
+      "seasons": [
+        { "season": "2015-18", "team": "New England College", "league": "NCAA III", "level": "College", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2018-19", "team": "New England College", "league": "NCAA III", "level": "College", "gp": 26, "g": 15, "a": 10, "pts": 25, "pim": 12, "pm": 4 },
+        { "season": "2019-20", "team": "Peoria Rivermen", "league": "SPHL", "level": "Pro", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2019-20", "team": "Quad City Storm", "league": "SPHL", "level": "Pro", "gp": 37, "g": 12, "a": 14, "pts": 26, "pim": null, "pm": 19 },
+        { "season": "2020-21", "team": "Knoxville Ice Bears", "league": "SPHL", "level": "Pro", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2020-21", "team": "Columbus River Dragons", "league": "FPHL", "level": "Pro", "gp": 21, "g": 12, "a": 14, "pts": 26, "pim": null, "pm": null },
+        { "season": "2021-22", "team": "Quad City Storm", "league": "SPHL", "level": "Pro", "gp": null, "g": 20, "a": 19, "pts": 39, "pim": null, "pm": null },
+        { "season": "2021-22", "team": "Kansas City / Adirondack", "league": "ECHL", "level": "Pro", "gp": 2, "g": 0, "a": 0, "pts": 0, "pim": 0, "pm": -1 },
+        { "season": "2022-23", "team": "Quad City / Fayetteville", "league": "SPHL", "level": "Pro", "gp": 32, "g": null, "a": null, "pts": 10, "pim": 42, "pm": null },
+        { "season": "2023-24", "team": "Fayetteville Marksmen", "league": "SPHL", "level": "Pro", "gp": 46, "g": 12, "a": 12, "pts": 24, "pim": null, "pm": null },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": null, "g": 11, "a": 19, "pts": 30, "pim": null, "pm": null },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": null, "g": 12, "a": 16, "pts": 28, "pim": 117, "pm": null }
+      ],
+      "notes": "NEC career: 105 GP, 41-42-83 (only 2018-19 split retrievable). 2020-21: won FPHL title with Columbus; brief Knoxville PTO stint. Several season GP splits unavailable — PRO/HAVOC totals below use Jacob's tracker (Apr 4, 2026): 329 GP 86-107-193, 502 PIM pro; 106 GP 23-35-58, 198 PIM w/ Havoc. Verify vs Apr 5 finale. Sources: huntsvillehavoc.com, athletics.nec.edu, echl.com, team releases.",
+      "computed_pro_totals": { "gp": 138, "g": 79, "a": 94, "pts": 183, "pim": 159 },
+      "computed_havoc_totals": { "gp": 0, "g": 23, "a": 35, "pts": 58, "pim": 117 }
+    },
+    {
+      "name": "Dawson Sciarrino",
+      "num": "15",
+      "pos": "F",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2019-20", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2020-21", "team": "Shreveport Mudbugs", "league": "NAHL", "level": "Junior", "gp": null, "g": 11, "a": 31, "pts": 42, "pim": null, "pm": null, "po": { "gp": 7, "g": 3, "a": 3, "pts": 6, "pim": null } },
+        { "season": "2021-22", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 11, "g": 3, "a": 8, "pts": 11, "pim": 16, "pm": 11 },
+        { "season": "2022-23", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 25, "g": 8, "a": 13, "pts": 21, "pim": 14, "pm": 20 },
+        { "season": "2023-24", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 25, "g": 4, "a": 19, "pts": 23, "pim": 28, "pm": 6 },
+        { "season": "2024-25", "team": "UW-Stevens Point", "league": "NCAA III", "level": "College", "gp": 26, "g": 16, "a": 16, "pts": 32, "pim": 20, "pm": 9 },
+        { "season": "2025-26", "team": "Pensacola Ice Flyers", "league": "SPHL", "level": "Pro", "gp": 34, "g": 6, "a": 9, "pts": 15, "pim": 34, "pm": null },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 14, "g": 4, "a": 9, "pts": 13, "pim": 11, "pm": null }
+      ],
+      "notes": "2021 Robertson Cup champion (Shreveport); NAHL career 94 GP, 22-41 over two seasons (per-season split unavailable). Traded Pensacola→Huntsville Feb 24, 2026 (for Matt Allen). Pensacola line derived from Jacob's tracker (pro 48 GP 10-18-28, 45 PIM minus Havoc 14 GP 4-9-13, 11 PIM); Pensacola's signing-era reporting said 6-11-17 — flagging the assist discrepancy. Sources: athletics.uwsp.edu, iceflyers.com, oursportscentral.com, tracker.",
+      "computed_pro_totals": { "gp": 48, "g": 10, "a": 18, "pts": 28, "pim": 45 },
+      "computed_havoc_totals": { "gp": 14, "g": 4, "a": 9, "pts": 13, "pim": 11 }
+    },
+    {
+      "name": "Troy Williams",
+      "num": "93",
+      "pos": "D",
+      "type": "skater",
+      "from": "UNIS Flyers Heerenveen",
+      "seasons": [
+        { "season": "2014-15", "team": "Dryden GM Ice Dogs", "league": "SIJHL", "level": "Junior", "gp": 55, "g": 11, "a": 28, "pts": 39, "pim": 72, "pm": null, "po": { "gp": 12, "g": 2, "a": 4, "pts": 6, "pim": 6 } },
+        { "season": "2015-16", "team": "Dryden GM Ice Dogs", "league": "SIJHL", "level": "Junior", "gp": 50, "g": 18, "a": 15, "pts": 33, "pim": 58, "pm": null, "po": { "gp": 12, "g": 0, "a": 8, "pts": 8, "pim": 6 } },
+        { "season": "2016-17", "team": "Steinbach Pistons", "league": "MJHL", "level": "Junior", "gp": 27, "g": 3, "a": 11, "pts": 14, "pim": 12, "pm": null },
+        { "season": "2016-17", "team": "Flin Flon Bombers", "league": "SJHL", "level": "Junior", "gp": 27, "g": 6, "a": 9, "pts": 15, "pim": 24, "pm": null, "po": { "gp": 16, "g": 1, "a": 2, "pts": 3, "pim": 18 } },
+        { "season": "2017-18", "team": "Melville Millionaires", "league": "SJHL", "level": "Junior", "gp": 2, "g": 1, "a": 0, "pts": 1, "pim": 0, "pm": null },
+        { "season": "2017-18", "team": "Portage Terriers", "league": "MJHL", "level": "Junior", "gp": 47, "g": 6, "a": 26, "pts": 32, "pim": 48, "pm": null, "po": { "gp": 6, "g": 1, "a": 3, "pts": 4, "pim": 2 } },
+        { "season": "2018-19", "team": "Steinbach Pistons", "league": "MJHL", "level": "Junior", "gp": 54, "g": 8, "a": 36, "pts": 44, "pim": null, "pm": null, "po": { "gp": 12, "g": 1, "a": 9, "pts": 10, "pim": 3 } },
+        { "season": "2019-20", "team": "Lakehead University", "league": "OUA (U Sports)", "level": "College", "gp": 29, "g": 1, "a": 7, "pts": 8, "pim": 24, "pm": null },
+        { "season": "2021-22", "team": "Lakehead University", "league": "OUA (U Sports)", "level": "College", "gp": 14, "g": 1, "a": 2, "pts": 3, "pim": 33, "pm": null },
+        { "season": "2022-23", "team": "Lakehead University", "league": "OUA (U Sports)", "level": "College", "gp": 40, "g": 1, "a": 2, "pts": 3, "pim": 32, "pm": null },
+        { "season": "2023-24", "team": "Lakehead University", "league": "OUA (U Sports)", "level": "College", "gp": 32, "g": 3, "a": 7, "pts": 10, "pim": 16, "pm": null },
+        { "season": "2023-24", "team": "Wheeling Nailers", "league": "ECHL", "level": "Pro", "gp": 6, "g": 0, "a": 0, "pts": 0, "pim": 6, "pm": 0 },
+        { "season": "2024-25", "team": "HCMP Courchevel-Méribel-Pralognan", "league": "France Division 1", "level": "Pro", "gp": 27, "g": 5, "a": 16, "pts": 21, "pim": 44, "pm": -7, "po": { "gp": 4, "g": 1, "a": 2, "pts": 3, "pim": null } },
+        { "season": "2024-25", "team": "HCMP (Coupe de France)", "league": "Coupe de France", "level": "Pro", "gp": 2, "g": 0, "a": 1, "pts": 1, "pim": 0, "pm": null },
+        { "season": "2025-26", "team": "UNIS Flyers Heerenveen", "league": "BeNe League / Dutch cups", "level": "Pro", "gp": 32, "g": 7, "a": 26, "pts": 33, "pim": null, "pm": null }
+      ],
+      "notes": "First SPHL contract (signed Aug 2026). No 2020-21 season (OUA canceled, COVID). Lakehead totals include playoff/exhibition games. Heerenveen line is combined BeNe League + Dutch cup competitions per the Havoc signing release. Junior lines reconstructed from eurohockey.com — medium confidence on PIM. Sources: oursportscentral.com signing release, eurohockey.com, thunderwolveshockey.com.",
+      "computed_pro_totals": { "gp": 67, "g": 12, "a": 43, "pts": 55, "pim": 50 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Austin Alger",
+      "num": "18",
+      "pos": "F",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "override_pro": { "gp": 200, "g": 97, "a": 105, "pts": 202, "pim": 47 },
+      "override_havoc": { "gp": 96, "g": 53, "a": 53, "pts": 106, "pim": 8 },
+      "seasons": [
+        { "season": "2015-16", "team": "Omaha Lancers", "league": "USHL", "level": "Junior", "gp": 56, "g": 11, "a": 12, "pts": 23, "pim": null, "pm": null },
+        { "season": "2016-17", "team": "Omaha / Muskegon", "league": "USHL", "level": "Junior", "gp": 57, "g": 16, "a": 27, "pts": 43, "pim": null, "pm": null },
+        { "season": "2017-18", "team": "Miami University", "league": "NCAA", "level": "College", "gp": 18, "g": 2, "a": 2, "pts": 4, "pim": null, "pm": null },
+        { "season": "2018-19", "team": "Canisius College", "league": "NCAA", "level": "College", "gp": 37, "g": 12, "a": 16, "pts": 28, "pim": null, "pm": null },
+        { "season": "2019-20", "team": "Canisius College", "league": "NCAA", "level": "College", "gp": 34, "g": 5, "a": 16, "pts": 21, "pim": null, "pm": null },
+        { "season": "2020-21", "team": "Canisius College", "league": "NCAA", "level": "College", "gp": 17, "g": 3, "a": 4, "pts": 7, "pim": null, "pm": null },
+        { "season": "2021-22", "team": "Canisius College", "league": "NCAA", "level": "College", "gp": 33, "g": 11, "a": 10, "pts": 21, "pim": null, "pm": null },
+        { "season": "2021-22", "team": "Idaho Steelheads", "league": "ECHL", "level": "Pro", "gp": 5, "g": 1, "a": 0, "pts": 1, "pim": 0, "pm": null },
+        { "season": "2022-23", "team": "Fayetteville Marksmen", "league": "SPHL", "level": "Pro", "gp": 54, "g": 21, "a": 30, "pts": 51, "pim": null, "pm": null },
+        { "season": "2023-24", "team": "IPK Iisalmi", "league": "Mestis", "level": "Pro", "gp": 38, "g": 22, "a": 19, "pts": 41, "pim": 10, "pm": null, "po": { "gp": 20, "g": 10, "a": 13, "pts": 23, "pim": 4 } },
+        { "season": "2024-25", "team": "HK Nitra", "league": "Slovak Extraliga", "level": "Pro", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 42, "g": 23, "a": 30, "pts": 53, "pim": null, "pm": null },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 54, "g": 30, "a": 23, "pts": 53, "pim": null, "pm": null }
+      ],
+      "notes": "2022-23 SPHL Rookie of the Year; 2024 Mestis champion + playoff MVP; All-SPHL Second Team 2025 & 2026. Brief HK Nitra stint Oct 2024 (games unconfirmed) before joining Havoc Nov 14, 2024. 2025-26 GP/A derived from 96 career Havoc GP & 106 pts per July 2026 re-signing release. PRO totals from Jacob's tracker (Apr 4, 2026). Sources: gogriffs.com, thesphl.com, huntsvillehavoc.com, mestis.fi.",
+      "computed_pro_totals": { "gp": 193, "g": 97, "a": 102, "pts": 199, "pim": 10 },
+      "computed_havoc_totals": { "gp": 96, "g": 53, "a": 53, "pts": 106, "pim": 0 }
+    },
+    {
+      "name": "Landry Schmuck",
+      "num": "86",
+      "pos": "F",
+      "type": "skater",
+      "from": "Aurora University",
+      "seasons": [
+        { "season": "2021-22", "team": "Aberdeen Wings", "league": "NAHL", "level": "Junior", "gp": 54, "g": 11, "a": 11, "pts": 22, "pim": 14, "pm": null },
+        { "season": "2022-23", "team": "Oklahoma Warriors", "league": "NAHL", "level": "Junior", "gp": 7, "g": 0, "a": 0, "pts": 0, "pim": 0, "pm": null },
+        { "season": "2022-23", "team": "Springfield Jr. Blues", "league": "NAHL", "level": "Junior", "gp": 30, "g": 7, "a": 4, "pts": 11, "pim": 10, "pm": null },
+        { "season": "2023-24", "team": "Springfield Jr. Blues", "league": "NAHL", "level": "Junior", "gp": 58, "g": 17, "a": 13, "pts": 30, "pim": 20, "pm": -21 },
+        { "season": "2024-25", "team": "Aurora University", "league": "NCAA III", "level": "College", "gp": 28, "g": 31, "a": 13, "pts": 44, "pim": 26, "pm": 25 },
+        { "season": "2025-26", "team": "Aurora University", "league": "NCAA III", "level": "College", "gp": 28, "g": 11, "a": 18, "pts": 29, "pim": 18, "pm": 14 }
+      ],
+      "notes": "Huntsville, AL native. 2024-25: led all NCAA D3 with 31 goals; AHCA Second-Team All-American; DIIIHockeyNews Rookie of the Year. No pro games yet — 2026-27 with the Havoc would be his pro debut. Sources: athletics.aurora.edu, StatsCrew, nahl.com.",
+      "computed_pro_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Ben Schultheis",
+      "num": "3",
+      "pos": "D",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2017-18", "team": "Minnesota Magicians", "league": "NAHL", "level": "Junior", "gp": 51, "g": 2, "a": 3, "pts": 5, "pim": 50, "pm": -13, "po": { "gp": 3, "g": 0, "a": 2, "pts": 2, "pim": 0 } },
+        { "season": "2018-19", "team": "Green Bay Gamblers", "league": "USHL", "level": "Junior", "gp": 22, "g": 0, "a": 3, "pts": 3, "pim": 4, "pm": -3 },
+        { "season": "2018-19", "team": "Minnesota Magicians", "league": "NAHL", "level": "Junior", "gp": 27, "g": 3, "a": 10, "pts": 13, "pim": 58, "pm": -5, "po": { "gp": 7, "g": 1, "a": 2, "pts": 3, "pim": 4 } },
+        { "season": "2019-20", "team": "Dubuque Fighting Saints", "league": "USHL", "level": "Junior", "gp": 48, "g": 6, "a": 7, "pts": 13, "pim": 47, "pm": 20 },
+        { "season": "2020-21", "team": "Ferris State", "league": "NCAA", "level": "College", "gp": 25, "g": 0, "a": 5, "pts": 5, "pim": 12, "pm": -6 },
+        { "season": "2021-22", "team": "Ferris State", "league": "NCAA", "level": "College", "gp": 28, "g": 0, "a": 5, "pts": 5, "pim": 20, "pm": -10 },
+        { "season": "2022-23", "team": "Ferris State", "league": "NCAA", "level": "College", "gp": 33, "g": 1, "a": 6, "pts": 7, "pim": 16, "pm": -8 },
+        { "season": "2023-24", "team": "Ferris State", "league": "NCAA", "level": "College", "gp": 21, "g": 0, "a": 1, "pts": 1, "pim": 6, "pm": -8 },
+        { "season": "2024-25", "team": "Utica University", "league": "NCAA III", "level": "College", "gp": 30, "g": 3, "a": 9, "pts": 12, "pim": 6, "pm": 11 },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 51, "g": 5, "a": 14, "pts": 19, "pim": 22, "pm": 5, "po": { "gp": 2, "g": 0, "a": 0, "pts": 0, "pim": 0 } }
+      ],
+      "notes": "Ferris State career 107 GP, 1-17-18 (confirmed by Kalamazoo release). Kalamazoo ECHL PTO Sep 2025, no games. Sources: EP team pages, uticapioneers.com, ccha.com, kwings.com.",
+      "computed_pro_totals": { "gp": 51, "g": 5, "a": 14, "pts": 19, "pim": 22 },
+      "computed_havoc_totals": { "gp": 51, "g": 5, "a": 14, "pts": 19, "pim": 22 }
+    },
+    {
+      "name": "Craig McCabe",
+      "num": "63",
+      "pos": "D",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2018-19", "team": "New Jersey Titans", "league": "NAHL", "level": "Junior", "gp": 32, "g": 2, "a": 9, "pts": 11, "pim": 109, "pm": 0 },
+        { "season": "2019-20", "team": "SUNY Fredonia", "league": "NCAA III", "level": "College", "gp": 22, "g": 0, "a": 4, "pts": 4, "pim": 53, "pm": null },
+        { "season": "2021-22", "team": "SUNY Fredonia", "league": "NCAA III", "level": "College", "gp": 21, "g": 3, "a": 5, "pts": 8, "pim": 28, "pm": 3 },
+        { "season": "2022-23", "team": "SUNY Fredonia", "league": "NCAA III", "level": "College", "gp": 25, "g": 2, "a": 5, "pts": 7, "pim": 50, "pm": -23 },
+        { "season": "2023-24", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 25, "g": 3, "a": 11, "pts": 14, "pim": 6, "pm": 18, "po": { "gp": 8, "g": 2, "a": 2, "pts": 4, "pim": 10 } },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 54, "g": 12, "a": 15, "pts": 27, "pim": 56, "pm": 16, "po": { "gp": 3, "g": 1, "a": 0, "pts": 1, "pim": 2 } },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 48, "g": 5, "a": 11, "pts": 16, "pim": 56, "pm": 14, "po": { "gp": 2, "g": 0, "a": 0, "pts": 0, "pim": 2 } },
+        { "season": "2025-26", "team": "Tahoe Knight Monsters", "league": "ECHL", "level": "Pro", "gp": 6, "g": 0, "a": 2, "pts": 2, "pim": 2, "pm": -1 }
+      ],
+      "notes": "2020-21 Fredonia season canceled (COVID). 2023-24 was a partial rookie season (joined mid-year). Re-signed with Huntsville Aug 4, 2026. Sources: EP team pages, fredoniabluedevils.com, knightmonstershockey.com, huntsvillehavoc.com.",
+      "computed_pro_totals": { "gp": 133, "g": 20, "a": 39, "pts": 59, "pim": 120 },
+      "computed_havoc_totals": { "gp": 127, "g": 20, "a": 37, "pts": 57, "pim": 118 }
+    },
+    {
+      "name": "Cade Helmer",
+      "num": "20",
+      "pos": "F",
+      "type": "skater",
+      "from": "Lebanon Valley College",
+      "seasons": [
+        { "season": "2022-23", "team": "Univ. of New England", "league": "NCAA III", "level": "College", "gp": 5, "g": 0, "a": 2, "pts": 2, "pim": 0, "pm": 1 },
+        { "season": "2023-24", "team": "Univ. of New England", "league": "NCAA III", "level": "College", "gp": 3, "g": 0, "a": 0, "pts": 0, "pim": 0, "pm": 1 },
+        { "season": "2023-24", "team": "Lebanon Valley College", "league": "NCAA III", "level": "College", "gp": 11, "g": 3, "a": 4, "pts": 7, "pim": 8, "pm": -2 },
+        { "season": "2024-25", "team": "Lebanon Valley College", "league": "NCAA III", "level": "College", "gp": 22, "g": 5, "a": 13, "pts": 18, "pim": 37, "pm": -10 },
+        { "season": "2025-26", "team": "Lebanon Valley College", "league": "NCAA III", "level": "College", "gp": 23, "g": 6, "a": 17, "pts": 23, "pim": 6, "pm": -4 },
+        { "season": "2025-26", "team": "Roanoke Rail Yard Dawgs", "league": "SPHL", "level": "Pro", "gp": 4, "g": 0, "a": 0, "pts": 0, "pim": 4, "pm": 1 }
+      ],
+      "notes": "Transferred UNE→LVC mid-2023-24. Pro debut Mar 7, 2026 with Roanoke (#91 there). Signed with Huntsville Aug 11, 2026. College career: 64 GP, 14-36-50, 51 PIM. Sources: godutchmen.com, athletics.une.edu, railyarddawgs.com game notes, oursportscentral.com.",
+      "computed_pro_totals": { "gp": 4, "g": 0, "a": 0, "pts": 0, "pim": 4 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Michael Hodge",
+      "num": "11",
+      "pos": "F",
+      "type": "skater",
+      "from": "Solway Sharks",
+      "seasons": [
+        { "season": "2018-19", "team": "Trail Smoke Eaters", "league": "BCHL", "level": "Junior", "gp": 35, "g": 5, "a": 7, "pts": 12, "pim": 16, "pm": null },
+        { "season": "2018-19", "team": "Alberni Valley Bulldogs", "league": "BCHL", "level": "Junior", "gp": 18, "g": 5, "a": 8, "pts": 13, "pim": 4, "pm": null },
+        { "season": "2019-20", "team": "Fort McMurray Oil Barons", "league": "AJHL", "level": "Junior", "gp": 58, "g": 30, "a": 27, "pts": 57, "pim": 22, "pm": null },
+        { "season": "2020-21", "team": "Fort McMurray Oil Barons", "league": "AJHL", "level": "Junior", "gp": 16, "g": 10, "a": 19, "pts": 29, "pim": 14, "pm": null },
+        { "season": "2021-22", "team": "Union College", "league": "NCAA", "level": "College", "gp": 34, "g": 5, "a": 5, "pts": 10, "pim": 12, "pm": -17 },
+        { "season": "2022-23", "team": "Union College", "league": "NCAA", "level": "College", "gp": 2, "g": 1, "a": 0, "pts": 1, "pim": 0, "pm": 0 },
+        { "season": "2023-24", "team": "Holy Cross", "league": "NCAA", "level": "College", "gp": 33, "g": 0, "a": 4, "pts": 4, "pim": 18, "pm": 2 },
+        { "season": "2024-25", "team": "Holy Cross", "league": "NCAA", "level": "College", "gp": 25, "g": 3, "a": 1, "pts": 4, "pim": 2, "pm": 3 },
+        { "season": "2025-26", "team": "Solway Sharks", "league": "NIHL National", "level": "Pro", "gp": 15, "g": 9, "a": 14, "pts": 23, "pim": 10, "pm": null }
+      ],
+      "notes": "Joined Solway (UK) mid-season, Jan 2026. Solway playoff stats not found. Sources: unionathletics.com, goholycross.com, EP team pages, nihlnational.com.",
+      "computed_pro_totals": { "gp": 15, "g": 9, "a": 14, "pts": 23, "pim": 10 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Kadin Ilott",
+      "num": "",
+      "pos": "D",
+      "type": "skater",
+      "from": "Univ. of Southern Maine",
+      "seasons": [
+        { "season": "2019-20", "team": "Dauphin Kings", "league": "MJHL", "level": "Junior", "gp": 55, "g": 3, "a": 9, "pts": 12, "pim": 20, "pm": null },
+        { "season": "2020-21", "team": "Dauphin / Waywayseecappo", "league": "MJHL", "level": "Junior", "gp": 6, "g": 0, "a": 3, "pts": 3, "pim": 2, "pm": null },
+        { "season": "2021-22", "team": "Islanders Hockey Club", "league": "USPHL Premier", "level": "Junior", "gp": 6, "g": 2, "a": 1, "pts": 3, "pim": 2, "pm": null },
+        { "season": "2021-22", "team": "Islanders Hockey Club", "league": "NCDC", "level": "Junior", "gp": 38, "g": 5, "a": 6, "pts": 11, "pim": 33, "pm": null },
+        { "season": "2022-23", "team": "Univ. of Southern Maine", "league": "NCAA III", "level": "College", "gp": 25, "g": 3, "a": 8, "pts": 11, "pim": 4, "pm": null },
+        { "season": "2023-24", "team": "Univ. of Southern Maine", "league": "NCAA III", "level": "College", "gp": 27, "g": 2, "a": 9, "pts": 11, "pim": 8, "pm": null },
+        { "season": "2024-25", "team": "Univ. of Southern Maine", "league": "NCAA III", "level": "College", "gp": 23, "g": 2, "a": 4, "pts": 6, "pim": 6, "pm": null },
+        { "season": "2025-26", "team": "Univ. of Southern Maine", "league": "NCAA III", "level": "College", "gp": 25, "g": 3, "a": 7, "pts": 10, "pim": 6, "pm": null },
+        { "season": "2025-26", "team": "Monroe Moccasins", "league": "FPHL", "level": "Pro", "gp": 11, "g": 0, "a": 2, "pts": 2, "pim": 4, "pm": 1 }
+      ],
+      "notes": "Kenora, ON native. Turned pro with Monroe (FPHL) after USM's season ended, spring 2026. Sources: southernmainehuskies.com, neutralzone.com, EP team pages.",
+      "computed_pro_totals": { "gp": 11, "g": 0, "a": 2, "pts": 2, "pim": 4 },
+      "computed_havoc_totals": { "gp": 0, "g": 0, "a": 0, "pts": 0, "pim": 0 }
+    },
+    {
+      "name": "Terry Ryder",
+      "num": "43",
+      "pos": "D",
+      "type": "skater",
+      "from": "Peoria Rivermen",
+      "seasons": [
+        { "season": "2017-18", "team": "Idaho IceCats", "league": "WSHL", "level": "Junior", "gp": 49, "g": 11, "a": 44, "pts": 55, "pim": 25, "pm": null },
+        { "season": "2018-19", "team": "Austin Bruins", "league": "NAHL", "level": "Junior", "gp": 53, "g": 0, "a": 5, "pts": 5, "pim": 32, "pm": -3 },
+        { "season": "2019-20", "team": "Adrian College", "league": "NCAA III", "level": "College", "gp": 19, "g": 2, "a": 6, "pts": 8, "pim": 19, "pm": 14 },
+        { "season": "2020-21", "team": "Adrian College", "league": "NCAA III", "level": "College", "gp": 23, "g": 0, "a": 10, "pts": 10, "pim": 42, "pm": 5 },
+        { "season": "2021-22", "team": "Adrian College", "league": "NCAA III", "level": "College", "gp": 31, "g": 2, "a": 10, "pts": 12, "pim": 20, "pm": 23 },
+        { "season": "2022-23", "team": "Adrian College", "league": "NCAA III", "level": "College", "gp": 29, "g": 0, "a": 3, "pts": 3, "pim": 40, "pm": 15 },
+        { "season": "2023-24", "team": "UW-Superior", "league": "NCAA III", "level": "College", "gp": 13, "g": 1, "a": 5, "pts": 6, "pim": 18, "pm": 3 },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 40, "g": 0, "a": 14, "pts": 14, "pim": 41, "pm": 27 },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 11, "g": 0, "a": 4, "pts": 4, "pim": 6, "pm": 4 },
+        { "season": "2025-26", "team": "Peoria Rivermen", "league": "SPHL", "level": "Pro", "gp": 41, "g": 0, "a": 6, "pts": 6, "pim": 16, "pm": 10 }
+      ],
+      "notes": "Won the 2022 NCAA D3 national title with Adrian. Traded Huntsville→Peoria Nov 24, 2025. Named to playoff rosters in 2025 (HSV) and 2026 (PEO); playoff stat lines unavailable. Sources: adrianbulldogs.com, uwsyellowjackets.com, EP team pages, oursportscentral.com.",
+      "computed_pro_totals": { "gp": 92, "g": 0, "a": 24, "pts": 24, "pim": 63 },
+      "computed_havoc_totals": { "gp": 51, "g": 0, "a": 18, "pts": 18, "pim": 47 }
+    },
+    {
+      "name": "Brian Wilson",
+      "num": "50",
+      "pos": "G",
+      "type": "goalie",
+      "from": "Huntsville Havoc",
+      "override_pro_goalie": { "gp": 164, "svs": 4544, "w": 95, "so": 10 },
+      "override_havoc_goalie": { "gp": 92, "svs": 2566, "w": 49, "so": 8 },
+      "seasons": [
+        { "season": "2014-16", "team": "Kanata Stallions", "league": "CCHL2", "level": "Junior", "gp": null, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2016-17", "team": "Powell River Kings", "league": "BCHL", "level": "Junior", "gp": 38, "w": 22, "l": 11, "otl": 1, "so": 3, "gaa": 2.7, "svpct": 0.917, "svs": null },
+        { "season": "2017-18", "team": "Niagara University", "league": "NCAA", "level": "College", "gp": 31, "w": 9, "l": 19, "otl": 2, "so": null, "gaa": 2.72, "svpct": 0.9, "svs": null },
+        { "season": "2018-19", "team": "Niagara University", "league": "NCAA", "level": "College", "gp": 31, "w": 15, "l": 14, "otl": 5, "so": 2, "gaa": 2.77, "svpct": 0.91, "svs": null },
+        { "season": "2019-20", "team": "Niagara University", "league": "NCAA", "level": "College", "gp": 16, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": 0.916, "svs": null },
+        { "season": "2020-21", "team": "Niagara University", "league": "NCAA", "level": "College", "gp": 3, "w": null, "l": null, "otl": null, "so": null, "gaa": 6.1, "svpct": 0.757, "svs": null },
+        { "season": "2021-22", "team": "Evansville / Vermilion Co. / Birmingham", "league": "SPHL", "level": "Pro", "gp": 6, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2021-22", "team": "Cincinnati / Worcester", "league": "ECHL", "level": "Pro", "gp": null, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2021-22", "team": "Danbury Hat Tricks", "league": "FPHL", "level": "Pro", "gp": 16, "w": 11, "l": 5, "otl": 0, "so": 1, "gaa": 3.1, "svpct": 0.894, "svs": null },
+        { "season": "2022-23", "team": "Danbury Hat Tricks", "league": "FPHL", "level": "Pro", "gp": 41, "w": null, "l": null, "otl": null, "so": null, "gaa": 2.68, "svpct": 0.919, "svs": null },
+        { "season": "2023-24", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 32, "w": null, "l": null, "otl": null, "so": null, "gaa": 2.63, "svpct": 0.907, "svs": null },
+        { "season": "2023-24", "team": "Newfoundland Growlers", "league": "ECHL", "level": "Pro", "gp": 3, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2024-25", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 15, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2024-25", "team": "Jacksonville / Bloomington / Idaho", "league": "ECHL", "level": "Pro", "gp": 6, "w": null, "l": null, "otl": null, "so": null, "gaa": null, "svpct": null, "svs": null },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 45, "w": 24, "l": null, "otl": null, "so": 4, "gaa": 2.35, "svpct": 0.924, "svs": null }
+      ],
+      "notes": "2022-23 FPHL champion + FPHL Goaltender of the Year (Danbury). 2025-26: led SPHL in wins (24), saves and minutes; SPHL Goaltender of the Month Mar/Apr 2026. 2021-22 SPHL GP=6, 2024-25 Havoc GP=15 and 2025-26 GP=45 are derived from club-stated career totals & Jacob's tracker (92 career Havoc GP), not from a stats table. CAREER/HAVOC goalie totals below are from Jacob's tracker (Apr 4, 2026): 164 GP, 4544 SVS, 95 W, 10 SO pro; 92 GP, 2566 SVS, 49 W, 8 SO w/ Havoc. Sources: purpleeagles.com, huntsvillehavoc.com, danburyhattricks.com, thesphl.com, Wikipedia SPHL season pages.",
+      "computed_pro_totals": { "gp": 164, "w": 35, "l": 5, "otl": 0, "so": 5, "svs": 0 },
+      "computed_havoc_totals": { "gp": 92, "w": 24, "l": 0, "otl": 0, "so": 4, "svs": 0 }
+    },
+    {
+      "name": "Ethan Lindsay",
+      "num": "28",
+      "pos": "LW",
+      "type": "skater",
+      "from": "Huntsville Havoc",
+      "seasons": [
+        { "season": "2021-22", "team": "Pickering Panthers", "league": "OJHL", "level": "Junior", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2022-23", "team": "Pickering Panthers", "league": "OJHL", "level": "Junior", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2023-24", "team": "Aurora Tigers / Toronto Jr. Canadiens", "league": "OJHL", "level": "Junior", "gp": null, "g": null, "a": null, "pts": null, "pim": null, "pm": null },
+        { "season": "2024-25", "team": "Briercrest College", "league": "ACAC", "level": "College", "gp": 24, "g": 9, "a": 14, "pts": 23, "pim": null, "pm": null },
+        { "season": "2025-26", "team": "Huntsville Havoc", "league": "SPHL", "level": "Pro", "gp": 53, "g": 8, "a": 9, "pts": 17, "pim": 78, "pm": 7 }
+      ],
+      "notes": "Barrie, ON. OHL draft pick (Owen Sound, 2019, Rd 12) — never played OHL. Captain at Pickering 2022-23. OJHL per-season stats unavailable from accessible sources. 2025-26 was his first pro season. Sources: StatsCrew, QuantHockey, oursportscentral.com, ojhl.ca.",
+      "computed_pro_totals": { "gp": 53, "g": 8, "a": 9, "pts": 17, "pim": 78 },
+      "computed_havoc_totals": { "gp": 53, "g": 8, "a": 9, "pts": 17, "pim": 78 }
+    }
+  ]
+}

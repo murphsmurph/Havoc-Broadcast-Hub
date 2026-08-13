@@ -1,0 +1,44 @@
+name: Refresh career stats from EliteProspects
+
+# Opens a PR with the diff — NEVER pushes to main, so bad API data can't
+# silently reach the broadcast. Weekly during the season, or on demand.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * 10-12,1-4 1'   # Mondays 12:00 UTC, Oct–Apr (in-season only)
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Refresh from the EP API
+        env:
+          EP_API_KEY: ${{ secrets.EP_API_KEY }}
+        run: node scripts/update_stats.mjs | tee /tmp/ep-diff.txt
+      - name: Open a PR with the diff
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet data/havoc_players.json; then
+            echo "No changes — no PR."
+            exit 0
+          fi
+          BRANCH="ep-refresh-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add data/havoc_players.json
+          git commit -m "Refresh career stats from the EliteProspects API"
+          git push -u origin "$BRANCH" --force
+          gh pr create --base main --head "$BRANCH" \
+            --title "EP career-stats refresh $(date -u +%Y-%m-%d)" \
+            --body "$(printf 'Automated weekly refresh. Review before merging — the site reads this file on the air.\n\n```\n%s\n```' "$(cat /tmp/ep-diff.txt)")" \
+            || echo "PR already open for $BRANCH"
