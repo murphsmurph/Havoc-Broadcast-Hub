@@ -437,6 +437,13 @@
   .fr-yrs{font-size:11px;color:var(--ink-2);white-space:nowrap;}
   .fr-chip{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:5px;vertical-align:middle;}
   .fr-climb{font-size:10px;font-weight:900;color:var(--ok,#1a7f37);margin-left:4px;}
+  .ts-h{cursor:pointer;user-select:none;}
+  .ts-h:hover{background:var(--surface-2);text-decoration:underline;}
+  .ts-i{font-size:9px;margin-left:3px;}
+  .st-chips{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 10px;}
+  .st-chip{border:1px solid var(--havoc-line);border-left:4px solid var(--havoc-red);border-radius:8px;padding:7px 12px;font-size:13px;background:var(--surface-2);cursor:help;}
+  .st-chip b{display:block;font-size:14px;}
+  .st-chip span{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);margin:1px 0 2px;}
   .ms-livetag{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle;}
 
   .pal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--havoc-line);}
@@ -1161,6 +1168,7 @@
         <button class="btn small secondary ms-view dark" data-msv="pro" onclick="msView('pro')">Overall Pro Career</button>
         <button class="btn small secondary ms-view" data-msv="havoc" onclick="msView('havoc')">Milestones w/ Havoc</button>
         <button class="btn small secondary ms-view" data-msv="alltime" onclick="msView('alltime')">All-Time Havoc</button>
+        <button class="btn small secondary ms-view" data-msv="staff" onclick="msView('staff')">Staff</button>
         <input type="file" id="msFile" accept="application/json" style="display:none" onchange="msImportFile(event)">
         <button class="btn small secondary" onclick="document.getElementById('msFile').click()">Import havoc_players.json</button>
       </div>
@@ -3170,6 +3178,8 @@ function renderRosterTable(side,wrapId){
     html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}${flags}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
+  // the reference default is jersey order; every column re-sorts from there
+  tsWire(wrap,'roster:'+side,{def:{col:0,dir:1}});
 }
 function bioPrompt(){
   const el=document.getElementById('bioStatus');if(!el||DATA.bioMeta)return;
@@ -3195,7 +3205,10 @@ function openPlayer(side,id){
   window._pPhotoData=(p&&p.imgData)||'';
   document.getElementById('delPlayerBtn').style.display=id?'inline-flex':'none';
   const bs=document.getElementById('p_bioStats');
-  if(bs)bs.innerHTML=(p&&p.bioStats)?`<div class="section-label" style="margin-top:6px">Club stat tables (read-only)</div>${bioStatTablesHTML(p,'modal')}${p.junior?`<div style="font-size:11.5px;color:var(--ink-2);margin-top:4px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}${(p.awards||[]).length?`<div style="font-size:11.5px;margin-top:3px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}${p.unannounced?'<div style="font-size:11.5px;color:var(--havoc-red);font-weight:800;margin-top:4px">Unannounced — withheld from distribution copies</div>':''}`:'';
+  if(bs){
+    bs.innerHTML=(p&&p.bioStats)?`<div class="section-label" style="margin-top:6px">Club stat tables (read-only)</div>${bioStatTablesHTML(p,'modal')}${p.junior?`<div style="font-size:11.5px;color:var(--ink-2);margin-top:4px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}${(p.awards||[]).length?`<div style="font-size:11.5px;margin-top:3px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}${p.unannounced?'<div style="font-size:11.5px;color:var(--havoc-red);font-weight:800;margin-top:4px">Unannounced — withheld from distribution copies</div>':''}`:'';
+    tsWire(bs,'pmodal');
+  }
   openModal('playerModal');
 }
 function pPhotoPick(e){
@@ -5965,7 +5978,102 @@ function careerPages(red,S){
    as "—", never zero, never invented; an override from Jacob's tracker
    beats a computed sum until the season rows are complete.
    ============================================================ */
-let MS_DATA=null,MS_VIEW='pro',MS_SORT={col:null,dir:-1};
+/* ============================================================
+   SHARED TABLE SORT — every stats table runs through this one
+   utility. tsWire(container,key) after a render makes headers
+   clickable: first click is leaders-first for stat columns,
+   A-to-Z for names / seasons / ranks / jersey numbers, and GAA
+   starts low-is-good; a second click reverses, and ▲/▼ marks
+   the active column. Sorting moves the rendered rows themselves,
+   so badges, chips, row highlights and info popovers travel with
+   their row (and nth-child striping recomputes on its own).
+   Group headers and totals rows hold position — the runs of data
+   rows between them sort independently. A blank or — always
+   sinks to the bottom in either direction: a missing number is
+   not a 0. State is per table key, so each tab keeps its own
+   last sort across switches.
+   ============================================================ */
+const TSORT={};
+const TS_COLS={ /* header label -> [value type, ascending-first] */
+  '#':['num',1],'RANK':['num',1],
+  'PLAYER':['text',1],'NAME':['text',1],'GOALIE':['text',1],'COACH':['text',1],
+  'TEAM':['text',1],'LEAGUE':['text',1],'OPP':['text',1],'POS':['text',1],
+  'YEARS':['text',1],'HOMETOWN':['text',1],'SH':['text',1],'HT':['text',1],'LVL':['text',1],
+  'SEASON':['season',1],
+  'GAA':['num',1],
+  'GP':['num',0],'G':['num',0],'A':['num',0],'PTS':['num',0],'PIM':['num',0],'+/-':['num',0],
+  'W':['num',0],'L':['num',0],'T':['num',0],'OTL':['num',0],'SO':['num',0],
+  'SV%':['num',0],'SVS':['num',0],'S':['num',0],'PPG':['num',0],'GWG':['num',0],'SHG':['num',0],
+  'P/GP':['num',0],'WT':['num',0],'AGE':['num',0],'SEASONS':['num',0],'CUPS':['num',0]
+};
+function tsSpec(th){
+  const label=th.textContent.replace(/[▴▾▲▼]/g,'').trim().toUpperCase();
+  return TS_COLS[label]||null;
+}
+function tsVal(td,type){
+  const raw=(td?td.textContent:'').trim();
+  if(!raw||raw==='—'||raw==='–')return null;
+  if(type==='text')return raw.replace(/^#\d+\s*/,'').toLowerCase();  // "#12 Gio…" sorts by the name
+  if(type==='season'){const m=raw.match(/\d{4}/);return m?+m[0]:null;}
+  const m=raw.replace(/^T-/,'').match(/[+-]?\d*\.?\d+/);
+  return m?parseFloat(m[0]):null;
+}
+function tsWire(root,prefix,opts){
+  if(!root)return;
+  [...root.querySelectorAll('table')].forEach((t,i)=>{
+    if(t.classList.contains('ts-skip'))return;
+    const hrow=t.rows[0];
+    if(!hrow||!hrow.querySelector('th'))return;
+    const key=prefix+':'+i;
+    t.dataset.tskey=key;
+    [...hrow.cells].forEach(th=>{
+      if(!tsSpec(th))return;
+      th.classList.add('ts-h');
+      th.addEventListener('click',tsClick);
+    });
+    const st=TSORT[key]||(opts&&opts.def);
+    if(st&&hrow.cells[st.col]&&tsSpec(hrow.cells[st.col])){
+      TSORT[key]=TSORT[key]||{col:st.col,dir:st.dir};
+      tsApply(t,st.col,st.dir);
+    }
+  });
+}
+function tsClick(e){
+  const th=e.currentTarget,t=th.closest('table');
+  const key=t.dataset.tskey,ci=th.cellIndex,spec=tsSpec(th);
+  if(!spec)return;
+  const cur=TSORT[key];
+  const dir=(cur&&cur.col===ci)?-cur.dir:(spec[1]?1:-1);
+  TSORT[key]={col:ci,dir};
+  tsApply(t,ci,dir);
+}
+function tsApply(t,ci,dir){
+  const hrow=t.rows[0];const spec=tsSpec(hrow.cells[ci]);if(!spec)return;
+  const type=spec[0];
+  [...hrow.cells].forEach((h,i)=>{
+    h.querySelectorAll('.ts-i').forEach(x=>x.remove());
+    if(i===ci)h.insertAdjacentHTML('beforeend',`<span class="ts-i">${dir>0?'▲':'▼'}</span>`);
+  });
+  const body=t.tBodies[0]||t;
+  const isAnchor=r=>r.classList.contains('ms-grp')||r.classList.contains('ms-tot')||!!r.querySelector('th');
+  const rows=[...body.rows].filter(r=>r!==hrow);
+  const cmp=(a,b)=>{
+    const av=tsVal(a.cells[ci],type),bv=tsVal(b.cells[ci],type);
+    if(av==null&&bv==null)return 0;
+    if(av==null)return 1;                      // nulls sink, both directions
+    if(bv==null)return -1;
+    if(type==='text')return dir*String(av).localeCompare(String(bv));
+    return av<bv?-dir:(av>bv?dir:0);
+  };
+  const segs=[];let run=[];
+  rows.forEach(r=>{if(isAnchor(r)){segs.push({rows:run,end:r});run=[];}else run.push(r);});
+  segs.push({rows:run,end:null});
+  segs.forEach(s=>{
+    if(s.rows.length<2)return;
+    [...s.rows].sort(cmp).forEach(r=>body.insertBefore(r,s.end));
+  });
+}
+let MS_DATA=null,MS_VIEW='pro';
 function msProLeagues(){return ((MS_DATA||{}).meta||{}).pro_leagues||[];}
 function msIsPro(row){return msProLeagues().indexOf(row.league)>=0||row.level==='Pro';}
 function msIsHavoc(row){return row.team==='Huntsville Havoc';}
@@ -6056,11 +6164,6 @@ function msView(v){
   document.querySelectorAll('.ms-view').forEach(b=>b.classList.toggle('dark',b.dataset.msv===v));
   renderMilestones();
 }
-function msSort(col){
-  if(MS_SORT.col===col)MS_SORT.dir=-MS_SORT.dir;
-  else MS_SORT={col,dir:1};      // first click: biggest number (or A→Z) on top
-  renderMilestones();
-}
 async function msInit(){
   const d=await msLoad();
   const meta=document.getElementById('msMeta');
@@ -6082,6 +6185,7 @@ async function msInit(){
 }
 function renderMilestones(){
   const el=document.getElementById('msBoard');if(!el||!MS_DATA)return;
+  if(MS_VIEW==='staff'){renderStaff();return;}
   if(MS_VIEW==='alltime'){
     renderAllTime();
     const watch=document.getElementById('msWatch');
@@ -6098,17 +6202,10 @@ function renderMilestones(){
     return {p,vals:t.vals,ov:t.ov,flags:msFlags(p,t.vals)};
   });
   const sk=rows.filter(r=>r.p.type!=='goalie'),gl=rows.filter(r=>r.p.type==='goalie');
-  const sortRows=(list,cols)=>{
-    const c=MS_SORT.col;
-    if(!c)return list;
-    if(c==='name')return [...list].sort((a,b)=>MS_SORT.dir*a.p.name.localeCompare(b.p.name));
-    if(cols.indexOf(c)<0)return list;
-    return [...list].sort((a,b)=>MS_SORT.dir*(((b.vals[c]??-1))-((a.vals[c]??-1))));
-  };
   const table=(list,cols,labels)=>{
     if(!list.length)return '';
-    const head=`<tr><th onclick="msSort('name')" class="s">Player</th>${cols.map((c,i)=>`<th class="r s" onclick="msSort('${c}')">${labels[i]}${MS_SORT.col===c?(MS_SORT.dir<0?' ▾':' ▴'):''}</th>`).join('')}<th>Watch</th></tr>`;
-    const body=sortRows(list,cols).map(r=>{
+    const head=`<tr><th class="s">Player</th>${cols.map((c,i)=>`<th class="r s">${labels[i]}</th>`).join('')}<th>Watch</th></tr>`;
+    const body=list.map(r=>{
       const badges=Object.keys(r.flags).map(k=>msBadge(k,r.flags[k])
         .replace('">','">'+k.toUpperCase()+': ')).join(' ')
         +(scope==='havoc'?' '+(r.p.type==='goalie'?frgPassBadge(r.p):frPassBadge(r.p)):'');
@@ -6124,6 +6221,7 @@ function renderMilestones(){
    +`<div class="section-label hub-sectionhead">Goalies — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
    +`<div class="hub-tablewrap" style="overflow-x:auto">${table(gl,['gp','svs','w','so'],['GP','SVS','W','SO'])}</div>`
    +`<p class="desc" style="margin-top:6px">${esc(((MS_DATA.meta||{}).tracker_asof)||'')}</p>`;
+  tsWire(el,'ms:'+scope);
   // the broadcast line that has to jump off the screen
   const watch=document.getElementById('msWatch');
   if(watch){
@@ -6224,6 +6322,7 @@ function renderAllTime(){
    +`<div class="section-label hub-sectionhead">Goalie career leaders${frgLeaders().length?' — click GP, W, SO, GAA, SV% or SVS to re-rank':''}</div>`
    +frgTableHTML()
    +`<p class="desc" style="margin-top:6px">${esc(meta._source||'')}</p>`;
+  tsWire(el,'ms:alltime');
 }
 /* the pass badge for the Havoc milestone board's watch column */
 function frPassBadge(p){
@@ -6266,9 +6365,13 @@ function frBannerLines(){
    rate columns qualify at 25 Havoc games per the club's note. The game-night
    counters carry GP, W, SO and saves live; GAA and SV% stay as of 2025-26
    because the counters don't track goals-against or minutes. ---- */
-var FRG_SORT='gp';
+var FRG_SORT='gp',FRG_REV=false,FRG_ALL=false;
 const FRG_ASC={gaa:true};        // every other column: bigger is better
-function frgSort(c){FRG_SORT=c;renderMilestones();}
+function frgSort(c){
+  if(FRG_SORT===c)FRG_REV=!FRG_REV;else{FRG_SORT=c;FRG_REV=false;}
+  renderMilestones();
+}
+function frgShowAll(){FRG_ALL=!FRG_ALL;renderMilestones();}
 function frgLeaders(){
   const fr=((MS_DATA||{}).franchise_records||{}).career_leaders_goalies;
   return (fr&&fr.leaders)||[];
@@ -6289,7 +6392,7 @@ function frgRanked(col){
   const better=(a,b)=>a==null?false:(b==null?true:(asc?a<b:a>b));
   const rate=col==='gaa'||col==='svpct';
   let rows=frgLive(),hidden=0;
-  if(rate){const n=rows.length;rows=rows.filter(r=>(r.gp||0)>=25);hidden=n-rows.length;}
+  if(rate&&!FRG_ALL){const n=rows.length;rows=rows.filter(r=>(r.gp||0)>=25);hidden=n-rows.length;}
   rows.sort((x,y)=>better(x[col],y[col])?-1:(better(y[col],x[col])?1:((x.e.rank||99)-(y.e.rank||99))));
   rows.forEach(r=>{
     r.rank=1+rows.filter(x=>better(x[col],r[col])).length;
@@ -6315,18 +6418,125 @@ function frgTableHTML(){
   if(!frgLeaders().length)
     return `<div class="rec-none">Not yet provided — Wilson (92 GP, 49 W as a Havoc) is likely already top-5 in franchise wins. This section fills in when the club supplies the goalie list.</div>`;
   const gr=frgRanked(FRG_SORT);
+  const rate=FRG_SORT==='gaa'||FRG_SORT==='svpct';
   const cols=[['gp','GP',1],['w','W',1],['l','L',0],['t','T',0],['so','SO',1],['gaa','GAA',1],['svpct','SV%',1],['svs','SVS',1]];
   const fmt=(c,v)=>v==null?'<span class="ms-null">—</span>'
     :(c==='gaa'?v.toFixed(2):(c==='svpct'?'.'+String(Math.round(v*1000)).padStart(3,'0'):v));
-  const head=`<tr><th class="r">#</th><th>Goalie</th>${cols.map(([c,l,s])=>`<th class="r${s?' s':''}"${s?` onclick="frgSort('${c}')"`:''}>${l}${FRG_SORT===c?' ▾':''}</th>`).join('')}<th>Years</th></tr>`;
-  const body=gr.rows.map(r=>`<tr class="${r.live?'fr-me':''}">
+  // the indicator reads by row order: best-first is ▼ for counting stats, ▲ for GAA
+  const ind=c=>FRG_SORT===c?`<span class="ts-i">${(!!FRG_ASC[c])!==FRG_REV?'▲':'▼'}</span>`:'';
+  const head=`<tr><th class="r">#</th><th>Goalie</th>${cols.map(([c,l,s])=>`<th class="r${s?' s ts-h':''}"${s?` onclick="frgSort('${c}')"`:''}>${l}${ind(c)}</th>`).join('')}<th>Years</th></tr>`;
+  const list=FRG_REV?[...gr.rows].reverse():gr.rows;
+  const body=list.map(r=>`<tr class="${r.live?'fr-me':''}">
     <td class="r fr-rk">${(r.tied?'T-':'')+r.rank}${r.live&&r.climb>0?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the static list">&#9650;${r.climb}</span>`:''}</td>
     <td class="ms-nm">${r.live?`<a href="javascript:void 0" onclick="msOpen('${esc(r.live.name).replace(/'/g,"\\'")}')">${esc(r.e.name)}</a> <span class="fr-chip">ROSTER</span>`:esc(r.e.name)}</td>
     ${cols.map(([c])=>`<td class="r${c===FRG_SORT?' fr-pts':''}">${fmt(c,r[c])}</td>`).join('')}
     <td class="fr-yrs">${esc(r.e.years||'')}</td></tr>`).join('');
-  return `<div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t">${head}${body}</table></div>`
-    +(gr.hidden?`<p class="desc" style="margin-top:4px">Rate columns qualify at 25 Havoc games — ${gr.hidden} goalies under the line are off this sort.</p>`:'')
+  return `<div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t ts-skip">${head}${body}</table></div>`
+    +(rate?(gr.hidden?`<p class="desc" style="margin-top:4px">Rate columns qualify at 25 Havoc games — ${gr.hidden} goalies under the line are off this sort. <a href="javascript:void 0" onclick="frgShowAll()">Show all ${gr.hidden+gr.rows.length}</a></p>`
+      :`<p class="desc" style="margin-top:4px">Showing all ${gr.rows.length} — rate ranks under 25 Havoc games are small samples. <a href="javascript:void 0" onclick="frgShowAll()">Apply the 25-GP line</a></p>`):'')
     +`<p class="desc" style="margin-top:4px">${esc(gm._source||'')} GP, wins, shutouts and saves run live off the game-night counters; GAA and SV% are through 2025-26.</p>`;
+}
+/* ============================================================
+   STAFF — the coaching side of the franchise book, from
+   franchise_history.coaching_milestones. The head-coach table ranks by
+   career Havoc wins; the sitting coach's row is live off the team record
+   counters (current_season.team_w / team_l / team_otl / team_gp — edited on
+   game nights right beside the player counters). Milestone watch per the
+   club's note: coaching wins on the 50s (soon ≤5 / upcoming ≤15), games
+   coached on the 100s (window 10), and the pass chase up the wins list —
+   Gibson's 113 for second-most in franchise history is the season's story.
+   ============================================================ */
+function stCM(){return (((MS_DATA||{}).franchise_history||{}).coaching_milestones)||null;}
+function stTenure(){return (stCM()||{}).staff_tenure_entering_2026_27||{};}
+function stTeamCur(){return (stCM()||{}).current_season||{};}
+function stOrd(n){return n+(n%10===1&&n%100!==11?'st':n%10===2&&n%100!==12?'nd':n%10===3&&n%100!==13?'rd':'th');}
+function stCoaches(){
+  const hc=(stCM()||{}).head_coach_career_totals||{};
+  const rows=Object.keys(hc).filter(k=>!k.startsWith('_')).map(name=>{
+    const c=hc[name];
+    const s26=c.season_2025_26;
+    const baseW=(c.w??0)+(s26?(s26.w||0):0);
+    const baseGp=(c.gp??0)+(s26?(s26.gp||0):0);
+    const live=name==='Stuart Stefan';          // the sitting HC rides the live team record
+    const cur=live?stTeamCur():{};
+    return {name,c,live,baseW,baseGp,
+      w:baseW+(cur.team_w||0),gp:baseGp+(cur.team_gp||0),
+      seasons:c.seasons??null,cups:c.cups_as_hc??null,years:c.years||''};
+  });
+  rows.sort((a,b)=>b.w-a.w);
+  rows.forEach(r=>{
+    r.rank=1+rows.filter(x=>x.w>r.w).length;
+    r.tied=rows.filter(x=>x.w===r.w).length>1;
+    r.climb=(1+rows.filter(x=>x.baseW>r.baseW).length)-r.rank;
+  });
+  return rows;
+}
+function stWatch(){
+  const out={badges:[],lines:[]};
+  const rows=stCoaches();
+  const me=rows.find(r=>r.live);
+  if(!me)return out;
+  const chase=(next,away,label,unit)=>{
+    out.badges.push(`<span class="ms-badge ${msTier(away)}">${label}: ${away} ${unit}${away===1?'':'s'} away</span>`);
+  };
+  // coaching wins on the 50s
+  const wNext=Math.ceil((me.w+1)/50)*50,wAway=wNext-me.w;
+  chase(wNext,wAway,wNext+' coaching wins','win');
+  if(wAway<=5)out.lines.push({away:wAway,html:`<b>Stefan</b> is ${wAway} win${wAway===1?'':'s'} from ${wNext} as Havoc head coach`});
+  // games coached on the 100s
+  const gNext=Math.ceil((me.gp+1)/100)*100,gAway=gNext-me.gp;
+  out.badges.push(`<span class="ms-badge ${gAway<=5?'soon':(gAway<=10?'up':'far')}">${gNext} games coached: ${gAway} away</span>`);
+  if(gAway<=5)out.lines.push({away:gAway,html:`<b>Stefan</b> coaches his ${stOrd(gNext)} Havoc game ${gAway===1?'tonight — next game':'in '+gAway+' games'}`});
+  // the pass chase up the wins list
+  const above=[...rows].reverse().find(x=>x.w>me.w);
+  if(above){
+    const need=above.w+1-me.w;
+    const spot=1+rows.filter(x=>x.w>above.w).length;
+    out.badges.push(`<span class="ms-badge ${msTier(need)}" title="${esc(above.name)} — ${above.w} career coaching wins">passes ${esc(above.name.split(' ').pop())} (${above.w}) for ${stOrd(spot)} in ${need} W</span>`);
+    if(need<=3)out.lines.push({away:need,html:`<b>Stefan</b> passes ${esc(above.name)} for ${stOrd(spot)}-most coaching wins in franchise history in ${need} win${need===1?'':'s'}`});
+  }
+  return out;
+}
+function renderStaff(){
+  const el=document.getElementById('msBoard');if(!el)return;
+  const watchEl=document.getElementById('msWatch');
+  const cm=stCM();
+  if(!cm){
+    el.innerHTML=emptyState('No coaching data in the file','franchise_history.coaching_milestones is missing — re-import havoc_players.json.');
+    if(watchEl)watchEl.innerHTML='';
+    const recEl=document.getElementById('msRecords');if(recEl)recEl.innerHTML='';
+    return;
+  }
+  const rows=stCoaches();
+  const ten=stTenure();
+  const chips=Object.keys(ten).map(name=>{
+    const t=ten[name];
+    const sn=t.hc_season_number||t.gm_season_number||t.staff_season_number;
+    const what=t.hc_season_number?'season as HC':(t.gm_season_number?'season as GM':'season on staff');
+    const org=(String(t.org_note||'').match(/^(\d+)[a-z]{2} year in org/)||[])[1];
+    return `<div class="st-chip" title="${esc(t.org_note||'')}"><b>${esc(name)}</b><span>${esc(t.role||'')}</span>${sn?stOrd(sn)+' '+what:''}${org?' · '+stOrd(+org)+' in org':''}</div>`;
+  }).join('');
+  const cur=stTeamCur();
+  const watch=stWatch();
+  const body=rows.map(r=>`<tr class="${r.live?'fr-me':''}">
+    <td class="r fr-rk">${(r.tied?'T-':'')+r.rank}${r.live&&r.climb>0?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the wins list">&#9650;${r.climb}</span>`:''}</td>
+    <td class="ms-nm">${esc(r.name)}${r.live?' <span class="fr-chip">HC</span>':''}${r.name==='Glenn Detulleo'?' <span class="ms-src" title="Also the sitting GM — franchise-record 312 coaching wins, back-to-back Cups 2018 and 2019">GM</span>':''}</td>
+    <td class="r">${msCell(r.seasons)}</td><td class="r">${msCell(r.gp)}</td><td class="r fr-pts">${msCell(r.w)}</td>
+    <td class="r">${r.cups!=null?r.cups:'<span class="ms-null">—</span>'}</td><td class="fr-yrs">${esc(r.years)}</td></tr>`).join('');
+  el.innerHTML=
+   `<div class="section-label hub-sectionhead">Bench &amp; front office — entering 2026-27</div>
+    <div class="st-chips">${chips}</div>
+    <div class="section-label hub-sectionhead">Head coaches, all-time — career Havoc wins</div>
+    <div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t">
+      <tr><th class="r">#</th><th>Coach</th><th class="r">Seasons</th><th class="r">GP</th><th class="r">W</th><th class="r">Cups</th><th>Years</th></tr>${body}</table></div>
+    <div style="margin-top:7px">${watch.badges.join(' ')}</div>
+    <p class="desc" style="margin-top:6px">2026-27 under Stefan so far: <b>${cur.team_w||0}-${cur.team_l||0}-${cur.team_otl||0}</b> — the team record counters (<i>franchise_history.coaching_milestones.current_season</i>) are edited on game nights right beside the player counters, and Stefan's live totals ride them. The franchise-best season is the benchmark: 41 wins / 84 points, 2021-22. ${esc(((cm.head_coach_career_totals||{})._note)||'')}</p>`;
+  tsWire(el,'ms:staff');
+  if(watchEl){
+    const lines=watch.lines.sort((a,b)=>a.away-b.away);
+    watchEl.innerHTML=lines.length?`<div class="ms-urgent">${lines.map(x=>`<div class="ms-call">${x.html}</div>`).join('')}</div>`:'';
+  }
+  renderRecordWatch();
 }
 /* ============================================================
    FRANCHISE RECORD WATCH — the same idea as the milestone board, aimed at
@@ -6450,6 +6660,7 @@ function renderCareerPage(idx){
       ${tot('havoc','HAVOC TOTALS (regular season)')}
     </table></div>
     ${p.notes?`<div class="ms-notes">&#9432; ${esc(p.notes)}</div>`:''}`;
+  tsWire(el,'career');
 }
 /* ============ GAME LOG EDITOR (Schedule tab) ============ */
 function renderGameLog(){
