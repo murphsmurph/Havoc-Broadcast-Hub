@@ -12,6 +12,12 @@
 // written back into the JSON after the first lookup, so a weekly in-season
 // refresh stays around 80 calls/month. Never poll from the site.
 //
+// v2 structure note: seasons[] is FROZEN career history through 2025-26 —
+// this script may complete its gaps but the in-season workflow never edits it.
+// baseline_pro/baseline_havoc and current_season belong to Jacob's game-night
+// flow and are NEVER touched here. After a season, he folds current_season
+// into seasons[] as a new row, recomputes baselines and zeroes the counters.
+//
 // Merge rules, mirroring the site's:
 //  - The site computes everything; this script only maintains the season rows.
 //  - EP fills gaps: it may fill a null and append a season the file lacks.
@@ -144,6 +150,8 @@ export function overrideNowRemovable(player, proLeagues) {
 async function main() {
   const data = JSON.parse(fs.readFileSync(FILE, 'utf8'));
   const pro = data.meta.pro_leagues;
+  // hard stop if the API merge would ever reach the live-counter fields
+  const frozen = JSON.stringify(data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season]));
   const changes = [];
   const log = m => changes.push(m);
   for (const p of data.players) {
@@ -176,6 +184,10 @@ async function main() {
   }
   console.log(changes.length ? changes.join('\n') : 'No changes — the file already matches EP.');
   console.log('\nEP calls used: ' + CALLS);
+  if (frozen !== JSON.stringify(data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season]))) {
+    console.error('BUG: the refresh touched baseline/current_season fields — nothing written.');
+    process.exit(1);
+  }
   if (!DRY && changes.some(c => /^  [~+]/.test(c))) {
     fs.writeFileSync(FILE, JSON.stringify(data, null, 2) + '\n');
     console.log('Wrote ' + path.relative(ROOT, FILE) + ' — review the diff above, then commit.');
