@@ -428,6 +428,8 @@
   .rec-row.rec-soon{border-left-color:var(--havoc-red);background:var(--tint-red,var(--surface-2));font-weight:700;}
   .rec-row.rec-holds{border-left-color:#b48a00;background:#ffefc0;color:#5c4a00;}
   .rec-row.rec-mine{border-left-color:var(--ok,#1a7f37);background:var(--tint-ok,var(--surface-2));font-weight:700;}
+  .rec-chase{font-size:10.5px;color:var(--ink-2);font-weight:400;line-height:1.4;margin-top:1px;}
+  .rk-off{display:block;font-size:9px;color:var(--ink-2);font-weight:400;line-height:1.15;}
   .rec-none{font-size:12.5px;color:var(--ink-2);line-height:1.55;}
   .rec-src{font-size:11px;color:var(--ink-2);margin-top:4px;}
   .ms-live td{background:var(--tint-ok,transparent);}
@@ -3378,6 +3380,49 @@ function logoHTML(team,fallbackClass,abbr){const l=DATA.logos[team]||(typeof DEF
 function teamLogoSrc(team){return DATA.logos[team]||(typeof DEFAULT_LOGOS!=='undefined'?DEFAULT_LOGOS[team]:null);}
 
 /* ============ REFERENCE ============ */
+/* The franchise record book renders from the data file's league_reference
+   block (the corrected book — career shutouts: 8, Brian Wilson, active) and
+   falls back to the seeded copy until the file loads. Rows stay editable in
+   place; an edit persists in DATA.recEdits by section+label and wins over
+   both sources, and everything downstream — the League Reference card, the
+   Game Notes minis, the packet records page and the record watch — reads
+   through this one accessor, so an edit follows everywhere. */
+function recBook(){
+  const L=(MS_DATA||{}).league_reference;
+  let R;
+  if(L){
+    const nm=v=>v==null?'—':(typeof v==='number'&&v>=1000?v.toLocaleString('en-US'):String(v));
+    const pc=v=>(v!=null&&v<1)?('.'+String(Math.round(v*1000)).padStart(3,'0')):nm(v);
+    const f=(o,lbl,fmt)=>o?[lbl,(fmt||nm)(o.value)+(o.holder?' — '+o.holder:'')
+      +(o.years?' ('+o.years+')':(o.year?' ('+o.year+')':(o.period?' ('+o.period+')':'')))]:null;
+    const c=L.havoc_career_leaders||{},s=L.single_season_skaters||{},g=L.single_season_goalies||{},t=L.team_records||{};
+    R={
+      career:[f(c.games,'Games'),f(c.goals,'Goals'),f(c.assists,'Assists'),f(c.points,'Points'),f(c.pim,'Penalty minutes'),
+        f(c.goalie_wins,'Wins (goalie)'),f(c.shutouts,'Shutouts'),f(c.goalie_games,'Games (goalie)'),f(c.goalie_saves,'Saves (goalie)')].filter(Boolean),
+      players:[f(s.points,'Most points, season'),f(s.goals,'Most goals, season'),f(s.assists,'Most assists, season'),f(s.pim,'Most PIM, season')].filter(Boolean),
+      goalies:[f(g.gaa,'Lowest GAA, season'),f(g.sv_pct,'Best SV%, season',pc),f(g.wins,'Most wins, season'),f(g.shutouts,'Most shutouts, season')].filter(Boolean),
+      team:[f(t.most_points,'Most points'),f(t.fewest_points,'Fewest points'),f(t.most_wins,'Most wins'),f(t.most_goals,'Most goals scored'),
+        f(t.fewest_goals_allowed,'Fewest goals allowed'),f(t.longest_win_streak,'Longest win streak')].filter(Boolean),
+      notes:Object.fromEntries([['Games',c.games],['Goals',c.goals],['Assists',c.assists],['Points',c.points],['Penalty minutes',c.pim],
+        ['Wins (goalie)',c.goalie_wins],['Shutouts',c.shutouts],['Games (goalie)',c.goalie_games],['Saves (goalie)',c.goalie_saves],
+        ['Most wins, season',g.wins],['Most shutouts, season',g.shutouts]].filter(x=>x[1]&&x[1].note).map(x=>[x[0],x[1].note])),
+      src:L._source||''
+    };
+  }else{
+    R={career:SPHL_REF.hsvRecords.career,players:SPHL_REF.hsvRecords.players,
+       goalies:SPHL_REF.hsvRecords.goalies,team:SPHL_REF.hsvRecords.team,notes:{},src:''};
+  }
+  const ed=DATA.recEdits||{};
+  ['career','players','goalies','team'].forEach(k=>{R[k]=(R[k]||[]).map(r=>ed[k+'|'+r[0]]!=null?[r[0],ed[k+'|'+r[0]]]:r);});
+  return R;
+}
+function recEditSave(sec,label,el){
+  const v=el.textContent.trim();
+  DATA.recEdits=DATA.recEdits||{};
+  DATA.recEdits[sec+'|'+label]=v;save();
+  toast('Record saved — the watch, Game Notes and packet follow');
+}
+function recEditsReset(){DATA.recEdits={};save();renderReference();toast('Records restored to the data file');}
 function renderPalettes(){
   const el=document.getElementById('palList');if(!el)return;
   const label={primary:'Primary',secondary:'Secondary',accent:'Accent (D)',goalie:'Goalies',textOn:'Text on primary'};
@@ -3392,17 +3437,33 @@ function renderPalettes(){
   }).join('');
 }
 function renderReference(){renderMatrix();renderSeries();renderStandings();renderRef26();renderPalettes();
-  // cups
+  // the data file carries the corrected book — load it, then paint again
+  if(!MS_DATA)msLoad().then(d=>{if(d)renderReference();});
+  // cups — from league_reference when the file is loaded, seeded copy until then
+  const LC=((MS_DATA||{}).league_reference||{}).presidents_cup_wins;
   document.getElementById('ref_cups').innerHTML=TEAMS.map(t=>{
-    const cups=SPHL_REF.cups[t]||[];const note=SPHL_REF.cupNote[t];
-    return `<div class="cupline"><b>${t}:</b> ${cups.length?cups.length+' ('+cups.join(', ')+')':'0'}${note?` <span style="color:var(--ink-2)">— ${note}</span>`:''}</div>`;
-  }).join('')+(SPHL_REF.cupDefunct?`<div class="cupline" style="color:var(--ink-2);margin-top:4px">${SPHL_REF.cupDefunct}</div>`:'');
+    const e=LC?LC[t]:null;
+    const cups=e?(e.years||[]).map(String):(SPHL_REF.cups[t]||[]);
+    const count=e?e.count:cups.length;
+    const note=e?e.note:SPHL_REF.cupNote[t];
+    return `<div class="cupline"><b>${t}:</b> ${count?count+(cups.length?' ('+cups.join(', ')+')':''):'0'}${note?` <span style="color:var(--ink-2)">— ${esc(note)}</span>`:''}</div>`;
+  }).join('')+((LC&&LC._defunct_note)||SPHL_REF.cupDefunct?`<div class="cupline" style="color:var(--ink-2);margin-top:4px">${esc((LC&&LC._defunct_note)||SPHL_REF.cupDefunct)}</div>`:'');
   // h2h vs selected opponent
   renderH2H();
-  // franchise records
-  const R=SPHL_REF.hsvRecords;
-  const tbl=(arr)=>'<table>'+arr.map(r=>`<tr><td>${r[0]}</td><td><b>${r[1]}</b></td></tr>`).join('')+'</table>';
-  document.getElementById('ref_records').innerHTML=`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:4px 0">All-Time Career Leaders</div>${tbl(R.career)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Single-Season — Skaters</div>${tbl(R.players)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Single-Season — Goalies</div>${tbl(R.goalies)}<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">Team</div>${tbl(R.team)}`;
+  // franchise records — from the data file's league_reference, editable in place
+  const R=recBook();
+  const edited=k=>Object.keys(DATA.recEdits||{}).some(x=>x.indexOf(k+'|')===0);
+  const tbl=(key,arr)=>'<table>'+arr.map(r=>
+    `<tr><td>${esc(r[0])}</td><td><b contenteditable="true" title="Click to edit — the record watch, Game Notes and packet follow" onblur="recEditSave('${key}','${esc(r[0]).replace(/'/g,"\\'")}',this)">${esc(r[1])}</b>${R.notes[r[0]]?`<div class="rec-chase">${esc(R.notes[r[0]])}</div>`:''}</td></tr>`).join('')+'</table>';
+  const head=(t,k)=>`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">${t}${edited(k)?' <span class="unv" title="Carries your in-app edits — Restore book puts the data file&#39;s values back">edited</span>':''}</div>`;
+  document.getElementById('ref_records').innerHTML=
+    head('All-Time Career Leaders','career')+tbl('career',R.career)
+    +head('Single-Season — Skaters','players')+tbl('players',R.players)
+    +head('Single-Season — Goalies','goalies')+tbl('goalies',R.goalies)
+    +head('Team','team')+tbl('team',R.team)
+    +`<div style="display:flex;gap:8px;align-items:center;margin-top:7px">
+       ${Object.keys(DATA.recEdits||{}).length?'<button class="icon-btn" onclick="recEditsReset()">&#8635; Restore book values</button>':''}
+       <span style="font-size:10.5px;color:var(--ink-2)">${esc(R.src||'Seeded copy — loads from data/havoc_players.json when hosted.')}</span></div>`;
 }
 
 /* ---- 2026 season review + New Teams 2026-27 (verified research file, Aug 5 2026) ----
@@ -3578,7 +3639,7 @@ function renderNotes(){
   const cups=SPHL_REF.cups["Huntsville Havoc"]||[];
   const cupBanner=cups.length?`<div class="cupbanner">${cups.map(y=>`<span class="c">${y} CUP</span>`).join('')}</div>`:'';
   // franchise leaders mini
-  const FR=SPHL_REF.hsvRecords;
+  const FR=recBook();
   const frecHtml=`<div class="frec"><div class="col"><h4>All-Time Leaders</h4>${FR.career.slice(0,5).map(r=>`<div class="rr"><span>${r[0]}</span><span>${r[1].split(' — ')[1]||r[1]}</span></div>`).join('')}</div><div class="col"><h4>Single-Season</h4>${FR.players.slice(0,4).map(r=>`<div class="rr"><span>${r[0].replace(', season','')}</span><span>${(r[1].split(' — ')[1]||'').split(' (')[0]}</span></div>`).join('')}</div></div>`;
   // opponent coach
   const oc=getCoach(G.opp);
@@ -5867,7 +5928,7 @@ function rosterPronPage(red,S){
     <div class="gn-cols">${pronBox}<div class="box"><h3>Hockey Operations</h3>${staff||'<div style="color:var(--ink-2);font-size:9px">Fill names on the Roster tab.</div>'}</div></div>`);
 }
 function recordsPage(red,S){
-  const R=SPHL_REF.hsvRecords;if(!R)return '';
+  const R=recBook();if(!R)return '';
   const tab=(t,rows)=>`<div class="box"><h3>${t}</h3><table class="pk-t">${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${esc(r[1])}</td></tr>`).join('')}</table></div>`;
   return pgWrap(red,S,'FRANCHISE RECORDS',`
     <div class="gn-cols">
@@ -6036,6 +6097,12 @@ function tsWire(root,prefix,opts){
       th.classList.add('ts-h');
       th.addEventListener('click',tsClick);
     });
+    // remember each row's official rank (the # cell as rendered) so dynamic
+    // re-ranking can restore it and show it as the small gray second line
+    [...(t.tBodies[0]||t).rows].forEach(r=>{
+      const c=[...r.cells].find(x=>x.classList&&x.classList.contains('fr-rk'));
+      if(c&&c.dataset.rk0html==null){c.dataset.rk0html=c.innerHTML;c.dataset.rk0=(c.textContent.split('▲')[0]||'').trim();}
+    });
     const st=TSORT[key]||(opts&&opts.def);
     if(st&&hrow.cells[st.col]&&tsSpec(hrow.cells[st.col])){
       TSORT[key]=TSORT[key]||{col:st.col,dir:st.dir};
@@ -6062,8 +6129,14 @@ function tsApply(t,ci,dir){
   const body=t.tBodies[0]||t;
   const isAnchor=r=>r.classList.contains('ms-grp')||r.classList.contains('ms-tot')||!!r.querySelector('th');
   const rows=[...body.rows].filter(r=>r!==hrow);
+  // a rank cell's display is dynamic — sort it by its stamped canonical rank
+  const cellVal=r=>{
+    const c=r.cells[ci];
+    if(c&&c.dataset&&c.dataset.rk0!=null){const m=String(c.dataset.rk0).replace(/^T-/,'').match(/\d+/);return m?+m[0]:null;}
+    return tsVal(c,type);
+  };
   const cmp=(a,b)=>{
-    const av=tsVal(a.cells[ci],type),bv=tsVal(b.cells[ci],type);
+    const av=cellVal(a),bv=cellVal(b);
     if(av==null&&bv==null)return 0;
     if(av==null)return 1;                      // nulls sink, both directions
     if(bv==null)return -1;
@@ -6076,6 +6149,35 @@ function tsApply(t,ci,dir){
   segs.forEach(s=>{
     if(s.rows.length<2)return;
     [...s.rows].sort(cmp).forEach(r=>body.insertBefore(r,s.end));
+  });
+  tsRanks(t,ci,type);
+}
+/* The # column on ranked lists is never stored data — it recomputes for
+   whatever stat the table is sorted by: ties on the sorted value share a
+   rank (T-45, T-45, then 47), a row with — in that column gets — for a
+   rank, and a name/season sort blanks the ranks entirely, because a rank
+   only means something on a stat. The official list rank survives as a
+   small gray second line whenever it differs, so the canonical order is
+   never lost. Sorting by # itself restores the canonical cells. */
+function tsRanks(t,ci,type){
+  const body=t.tBodies[0]||t;
+  const rows=[...body.rows].filter(r=>r!==t.rows[0]&&!r.querySelector('th'));
+  const cells=rows.map(r=>[...r.cells].find(c=>c.classList.contains('fr-rk'))||null);
+  if(!cells.some(Boolean))return;
+  const rkIdx=cells.find(Boolean).cellIndex;
+  const off=c=>c.dataset.rk0?`<span class="rk-off" title="official rank on the list's default sort">${c.dataset.rk0}</span>`:'';
+  if(ci===rkIdx){cells.forEach(c=>{if(c&&c.dataset.rk0html!=null)c.innerHTML=c.dataset.rk0html;});return;}
+  if(type!=='num'){cells.forEach(c=>{if(c)c.innerHTML='—'+off(c);});return;}
+  const spec=tsSpec(t.rows[0].cells[ci])||['num',0];
+  const betterLow=!!spec[1];                       // GAA-style: lower is better
+  const vals=rows.map(r=>tsVal(r.cells[ci],'num'));
+  rows.forEach((r,i)=>{
+    const c=cells[i];if(!c)return;
+    const v=vals[i];
+    if(v==null){c.innerHTML='—'+off(c);return;}
+    const rk=1+vals.filter(x=>x!=null&&(betterLow?x<v:x>v)).length;
+    const txt=(vals.filter(x=>x===v).length>1?'T-':'')+rk;
+    c.innerHTML=txt+(c.dataset.rk0&&c.dataset.rk0!==txt?off(c):'');
   });
 }
 let MS_DATA=null,MS_VIEW='pro';
@@ -6431,8 +6533,14 @@ function frgTableHTML(){
   const ind=c=>FRG_SORT===c?`<span class="ts-i">${(!!FRG_ASC[c])!==FRG_REV?'▲':'▼'}</span>`:'';
   const head=`<tr><th class="r">#</th><th>Goalie</th>${cols.map(([c,l,s])=>`<th class="r${s?' s ts-h':''}"${s?` onclick="frgSort('${c}')"`:''}>${l}${ind(c)}</th>`).join('')}<th>Years</th></tr>`;
   const list=FRG_REV?[...gr.rows].reverse():gr.rows;
+  const rkCell=r=>{
+    const dyn=r[FRG_SORT]==null?'—':(r.tied?'T-':'')+r.rank;   // a — in the sorted column ranks as —
+    const climb=r.live&&r.climb>0&&r[FRG_SORT]!=null?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the static list">&#9650;${r.climb}</span>`:'';
+    const offN=FRG_SORT!=='gp'&&r.e.rank?`<span class="rk-off" title="official all-time rank, by games played">#${r.e.rank}</span>`:'';
+    return dyn+climb+offN;
+  };
   const body=list.map(r=>`<tr class="${r.live?'fr-me':''}">
-    <td class="r fr-rk">${(r.tied?'T-':'')+r.rank}${r.live&&r.climb>0?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the static list">&#9650;${r.climb}</span>`:''}</td>
+    <td class="r fr-rk">${rkCell(r)}</td>
     <td class="ms-nm">${r.live?`<a href="javascript:void 0" onclick="msOpen('${esc(r.live.name).replace(/'/g,"\\'")}')">${esc(r.e.name)}</a> <span class="fr-chip">ROSTER</span>`:esc(r.e.name)}</td>
     ${cols.map(([c])=>`<td class="r${c===FRG_SORT?' fr-pts':''}">${fmt(c,r[c])}</td>`).join('')}
     <td class="fr-yrs">${esc(r.e.years||'')}</td></tr>`).join('');
@@ -6565,7 +6673,7 @@ function recParse(label,list){
   return {val:parseFloat(m[0].replace(/,/g,'')),who:String(hit[1]).replace(m[0],'').replace(/^[\s—-]+/,'').trim()};
 }
 function recWatchRows(){
-  const R=(typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvRecords)||null;
+  const R=recBook();
   if(!R||!MS_DATA)return [];
   const out=[];
   MS_DATA.players.forEach(p=>{
@@ -6589,7 +6697,7 @@ function recWatchRows(){
 }
 function renderRecordWatch(){
   const el=document.getElementById('msRecords');if(!el)return;
-  const R=(typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvRecords)||null;
+  const R=recBook();
   if(!R||!MS_DATA){el.innerHTML='';return;}
   const rows=recWatchRows();
   const statName={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts',svs:'saves'};
