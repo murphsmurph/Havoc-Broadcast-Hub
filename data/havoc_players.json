@@ -832,7 +832,11 @@
           "a": 0,
           "pts": 0,
           "pim": 0,
-          "pm": 0
+          "pm": 0,
+          "shots": 1,
+          "ppg": 0,
+          "gwg": 0,
+          "shg": 0
         },
         {
           "season": "2019-20",
@@ -844,7 +848,11 @@
           "a": 14,
           "pts": 26,
           "pim": 34,
-          "pm": 0
+          "pm": 0,
+          "shots": 75,
+          "ppg": 1,
+          "gwg": 2,
+          "shg": 0
         },
         {
           "season": "2020-21",
@@ -882,7 +890,11 @@
             "a": 0,
             "pts": 0,
             "pim": 5
-          }
+          },
+          "shots": 9,
+          "ppg": 0,
+          "gwg": 0,
+          "shg": 0
         },
         {
           "season": "2021-22",
@@ -901,7 +913,11 @@
             "a": 1,
             "pts": 3,
             "pim": 2
-          }
+          },
+          "shots": 171,
+          "ppg": 6,
+          "gwg": 3,
+          "shg": 1
         },
         {
           "season": "2021-22",
@@ -937,7 +953,11 @@
           "a": 6,
           "pts": 8,
           "pim": 50,
-          "pm": -7
+          "pm": -7,
+          "shots": 51,
+          "ppg": 2,
+          "gwg": 0,
+          "shg": 0
         },
         {
           "season": "2022-23",
@@ -956,7 +976,11 @@
             "a": 1,
             "pts": 1,
             "pim": 0
-          }
+          },
+          "shots": 60,
+          "ppg": 0,
+          "gwg": 1,
+          "shg": 0
         },
         {
           "season": "2023-24",
@@ -968,7 +992,11 @@
           "a": 12,
           "pts": 24,
           "pim": 92,
-          "pm": 4
+          "pm": 4,
+          "shots": 75,
+          "ppg": 3,
+          "gwg": 2,
+          "shg": 1
         },
         {
           "season": "2024-25",
@@ -987,7 +1015,11 @@
             "a": 0,
             "pts": 0,
             "pim": 2
-          }
+          },
+          "shots": 87,
+          "ppg": 4,
+          "gwg": 1,
+          "shg": 1
         },
         {
           "season": "2025-26",
@@ -1006,10 +1038,14 @@
             "a": 0,
             "pts": 0,
             "pim": 0
-          }
+          },
+          "shots": 121,
+          "ppg": 3,
+          "gwg": 1,
+          "shg": 0
         }
       ],
-      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) — totals now computed directly from season rows and match the Apr 2026 tracker on GP/G/A/PTS (329 GP, 86-107-193 pro; 106 GP, 23-35-58, 198 PIM w/ Havoc). Pro PIM is 504: the SPHL website's official career table (pulled Aug 2026) lists 2019-20 Quad City at 34 PIM and +/- 0 where EP had 32 and +19; the league's own table wins, and its SPHL-only line (306 GP, 74-93-167, 485 PIM) now reconciles exactly. The tracker's 502 predates this correction. Captain at Fayetteville 2023-24; won 2021 FPHL title with Columbus. 2020-21 Knoxville and 2021-22 ECHL stints were loans.",
+      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) — totals now computed directly from season rows and match the Apr 2026 tracker on GP/G/A/PTS (329 GP, 86-107-193 pro; 106 GP, 23-35-58, 198 PIM w/ Havoc). Pro PIM is 504 — the SPHL's official table has 2019-20 Quad City at 34 PIM where EP had 32; the tracker's 502 predates that correction. Captain at Fayetteville 2023-24; won 2021 FPHL title with Columbus. 2020-21 Knoxville and 2021-22 ECHL stints were loans. Verified vs SPHL official stats (306 GP, 74-93-167, 485 PIM SPHL career; 14 GP playoff career). SPHL seasons include shots/PPG/GWG/SHG from league stats.",
       "computed_pro_totals": {
         "gp": 329,
         "g": 86,
@@ -3407,5 +3443,866 @@
         "league": "SPHL"
       }
     }
-  ]
+  ],
+  "franchise_records": {
+    "_source": "2025-26 SPHL Media Guide (records through 2024-25 season). Single-season and single-game Havoc records. NOTE: all-time CAREER franchise leaders (most career GP/G/A/PTS as a Havoc) are NOT published in the guide — get from team or build from season archives.",
+    "player_single_season": {
+      "points": {
+        "record": 78,
+        "holder": "James Patterson",
+        "year": "2006-07"
+      },
+      "goals": {
+        "record": 37,
+        "holder": "Travis Kauffeldt",
+        "year": "2008-09"
+      },
+      "assists": {
+        "record": 52,
+        "holder": "James Patterson",
+        "year": "2006-07"
+      },
+      "pim": {
+        "record": 396,
+        "holder": "Luke Phillips",
+        "year": "2005-06"
+      },
+      "pp_goals": {
+        "record": 17,
+        "holder": "Bill Monkman",
+        "year": "2005-06"
+      },
+      "sh_goals": {
+        "record": 6,
+        "holder": "James Patterson",
+        "year": "2005-06"
+      },
+      "gw_goals": {
+        "record": 9,
+        "holder": "Christian Powers",
+        "year": "2018-19"
+      },
+      "plus_minus": {
+        "record": 35,
+        "holder": "Rob Darrar",
+        "year": "2021-22"
+      }
+    },
+    "player_single_game": {
+      "points": {
+        "record": 6,
+        "holder": "Justin Keller vs. Columbus",
+        "date": "2007-11-24"
+      },
+      "goals": {
+        "record": 4,
+        "holder": "Craig Miller / Bill Monkman / Dan Buccella (3x)",
+        "date": "multiple"
+      },
+      "assists": {
+        "record": 5,
+        "holder": "Justin Keller / Tristan Senior (2x)",
+        "date": "multiple"
+      },
+      "pim": {
+        "record": 35,
+        "holder": "Corey Bellamy (2x)",
+        "date": "2014-15 season"
+      }
+    },
+    "goalie_single_season": {
+      "appearances": {
+        "record": 48,
+        "holder": "Matt Carmichael",
+        "year": "2004-05 & 2006-07"
+      },
+      "wins": {
+        "record": 26,
+        "holder": "Mike Robinson / Matt Carmichael",
+        "year": "2024-25 / 2004-05, 2006-07"
+      },
+      "shutouts": {
+        "record": 4,
+        "holder": "Max Milosek / Dan McWhinney",
+        "year": "2019-20 / 2010-11"
+      },
+      "gaa": {
+        "record": 1.93,
+        "holder": "Hunter Vorva",
+        "year": "2021-22",
+        "direction": "lower_is_better"
+      },
+      "sv_pct": {
+        "record": 0.934,
+        "holder": "Hunter Vorva",
+        "year": "2021-22",
+        "direction": "higher_is_better"
+      },
+      "minutes": {
+        "record": "2834:35",
+        "holder": "Matt Carmichael",
+        "year": "2004-05"
+      }
+    },
+    "team_single_season": {
+      "points": {
+        "record": 84,
+        "year": "2021-22"
+      },
+      "wins": {
+        "record": 41,
+        "year": "2021-22"
+      },
+      "goals_for": {
+        "record": 221,
+        "year": "2006-07"
+      },
+      "fewest_goals_against": {
+        "record": 124,
+        "year": "2021-22"
+      },
+      "longest_win_streak": {
+        "record": 12,
+        "year": "Oct 15 - Nov 19, 2021"
+      }
+    },
+    "_ui_note": "Record Watch logic: compare each player's current_season values against player_single_season records (e.g. Alger had 30 G in 2025-26 — pace vs Kauffeldt's 37 is a live storyline). Goalie wins record (26) is within reach for Wilson, who won 24 in 2025-26.",
+    "career_leaders_points": {
+      "_source": "Havoc all-time skater career scoring leaders (top 52 by points), provided by Jacob Aug 2026 — current through end of 2025-26. Entries with active players include the 2026-27 season in their year range.",
+      "_ui_note": "All-Time Chase feature: for each current roster player on/near this list, show current all-time rank and the next name(s) above them, using baseline_havoc.pts + current_season.pts. Entering 2026-27: Alger #17 (106 pts — a typical 50-pt season lifts him into the top 10; Bushey 109, O'Sullivan 111, Barber 112, Powers 124 ahead); Gio Procopio #42 (65 pts — Kubaliak/Elgstam/Rohr at 71 within one hot month); Fries #52 (58 pts — just cracked the list; Sicard 58, Trask 59, deGuehery 61 next). Also track GP ranks (Fries/Gio/Alger climbing) and PIM list (Gio at 179 Havoc PIM). Goalie career leaders not yet provided — Wilson (92 GP, 49 W) is likely already top-5 in franchise wins; add when available.",
+      "leaders": [
+        {
+          "rank": 1,
+          "name": "Sy Nutkevitch",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 352,
+          "g": 115,
+          "a": 256,
+          "pts": 371,
+          "ppg": 1.05,
+          "pim": 178,
+          "years": "2016-2023",
+          "seasons": 7
+        },
+        {
+          "rank": 2,
+          "name": "James Patterson",
+          "pos": "LW",
+          "nation": "USA",
+          "gp": 220,
+          "g": 110,
+          "a": 179,
+          "pts": 289,
+          "ppg": 1.31,
+          "pim": 221,
+          "years": "2004-2008",
+          "seasons": 4
+        },
+        {
+          "rank": 3,
+          "name": "Rob Darrar",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 244,
+          "g": 98,
+          "a": 151,
+          "pts": 249,
+          "ppg": 1.02,
+          "pim": 91,
+          "years": "2018-2023",
+          "seasons": 5
+        },
+        {
+          "rank": 4,
+          "name": "Stuart Stefan",
+          "pos": "D/F",
+          "nation": "CAN",
+          "gp": 379,
+          "g": 84,
+          "a": 164,
+          "pts": 248,
+          "ppg": 0.65,
+          "pim": 239,
+          "years": "2011-2018",
+          "seasons": 7
+        },
+        {
+          "rank": 5,
+          "name": "Tyler Piacentini",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 281,
+          "g": 110,
+          "a": 124,
+          "pts": 234,
+          "ppg": 0.83,
+          "pim": 132,
+          "years": "2017-2023",
+          "seasons": 6
+        },
+        {
+          "rank": 6,
+          "name": "Travis Kauffeldt",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 185,
+          "g": 85,
+          "a": 121,
+          "pts": 206,
+          "ppg": 1.11,
+          "pim": 448,
+          "years": "2006-2013",
+          "seasons": 5
+        },
+        {
+          "rank": 7,
+          "name": "Ray Ortiz",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 327,
+          "g": 79,
+          "a": 126,
+          "pts": 205,
+          "ppg": 0.63,
+          "pim": 123,
+          "years": "2008-2015",
+          "seasons": 7
+        },
+        {
+          "rank": 8,
+          "name": "Nolan Kaiser",
+          "pos": "D",
+          "nation": "CAN",
+          "gp": 281,
+          "g": 50,
+          "a": 137,
+          "pts": 187,
+          "ppg": 0.67,
+          "pim": 555,
+          "years": "2015-2022",
+          "seasons": 7
+        },
+        {
+          "rank": 9,
+          "name": "Mike MacDonald",
+          "pos": "F",
+          "nation": "CAN",
+          "gp": 184,
+          "g": 58,
+          "a": 89,
+          "pts": 147,
+          "ppg": 0.8,
+          "pim": 62,
+          "years": "2009-2013",
+          "seasons": 4
+        },
+        {
+          "rank": 10,
+          "name": "Justin Fox",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 138,
+          "g": 58,
+          "a": 77,
+          "pts": 135,
+          "ppg": 0.98,
+          "pim": 91,
+          "years": "2011-2018",
+          "seasons": 4
+        },
+        {
+          "rank": 11,
+          "name": "Kyle Sharkey",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 150,
+          "g": 50,
+          "a": 80,
+          "pts": 130,
+          "ppg": 0.87,
+          "pim": 134,
+          "years": "2016-2020",
+          "seasons": 4
+        },
+        {
+          "rank": 12,
+          "name": "Billy McCreary",
+          "pos": "F/D",
+          "nation": "CAN",
+          "gp": 209,
+          "g": 21,
+          "a": 109,
+          "pts": 130,
+          "ppg": 0.62,
+          "pim": 556,
+          "years": "2006-2011",
+          "seasons": 5
+        },
+        {
+          "rank": 13,
+          "name": "Christian Powers",
+          "pos": "RW",
+          "nation": "CAN",
+          "gp": 161,
+          "g": 67,
+          "a": 57,
+          "pts": 124,
+          "ppg": 0.77,
+          "pim": 40,
+          "years": "2016-2019",
+          "seasons": 3
+        },
+        {
+          "rank": 14,
+          "name": "Jacob Barber",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 106,
+          "g": 54,
+          "a": 58,
+          "pts": 112,
+          "ppg": 1.06,
+          "pim": 39,
+          "years": "2021-2023",
+          "seasons": 2
+        },
+        {
+          "rank": 15,
+          "name": "Mike O'Sullivan",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 137,
+          "g": 47,
+          "a": 64,
+          "pts": 111,
+          "ppg": 0.81,
+          "pim": 122,
+          "years": "2005-2009",
+          "seasons": 4
+        },
+        {
+          "rank": 16,
+          "name": "Craig Bushey",
+          "pos": "RW",
+          "nation": "CAN",
+          "gp": 131,
+          "g": 51,
+          "a": 58,
+          "pts": 109,
+          "ppg": 0.83,
+          "pim": 153,
+          "years": "2005-2008",
+          "seasons": 3
+        },
+        {
+          "rank": 17,
+          "name": "Austin Alger",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 96,
+          "g": 53,
+          "a": 53,
+          "pts": 106,
+          "ppg": 1.1,
+          "pim": 8,
+          "years": "2024-2027",
+          "seasons": 3,
+          "active_2026_27_roster": true
+        },
+        {
+          "rank": 18,
+          "name": "Glenn Detulleo",
+          "pos": "F",
+          "nation": "CAN",
+          "gp": 102,
+          "g": 25,
+          "a": 80,
+          "pts": 105,
+          "ppg": 1.03,
+          "pim": 107,
+          "years": "2010-2012",
+          "seasons": 2
+        },
+        {
+          "rank": 19,
+          "name": "Derek Perl",
+          "pos": "D",
+          "nation": "CAN",
+          "gp": 269,
+          "g": 21,
+          "a": 80,
+          "pts": 101,
+          "ppg": 0.38,
+          "pim": 64,
+          "years": "2017-2024",
+          "seasons": 6
+        },
+        {
+          "rank": 20,
+          "name": "Buster Larsson",
+          "pos": "F",
+          "nation": "SWE",
+          "gp": 93,
+          "g": 37,
+          "a": 61,
+          "pts": 98,
+          "ppg": 1.05,
+          "pim": 65,
+          "years": "2023-2025",
+          "seasons": 2
+        },
+        {
+          "rank": 21,
+          "name": "Bill Monkman",
+          "pos": "RW",
+          "nation": "CAN",
+          "gp": 109,
+          "g": 61,
+          "a": 36,
+          "pts": 97,
+          "ppg": 0.89,
+          "pim": 326,
+          "years": "2005-2007",
+          "seasons": 2
+        },
+        {
+          "rank": 22,
+          "name": "Dan Buccella",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 135,
+          "g": 46,
+          "a": 51,
+          "pts": 97,
+          "ppg": 0.72,
+          "pim": 257,
+          "years": "2004-2008",
+          "seasons": 3
+        },
+        {
+          "rank": 23,
+          "name": "Jeff Dams",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 106,
+          "g": 34,
+          "a": 60,
+          "pts": 94,
+          "ppg": 0.89,
+          "pim": 68,
+          "years": "2004-2006",
+          "seasons": 2
+        },
+        {
+          "rank": 24,
+          "name": "Jack Jaunich",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 124,
+          "g": 39,
+          "a": 54,
+          "pts": 93,
+          "ppg": 0.75,
+          "pim": 53,
+          "years": "2023-2026",
+          "seasons": 3
+        },
+        {
+          "rank": 25,
+          "name": "Jon Lounsbury",
+          "pos": "D",
+          "nation": "USA",
+          "gp": 180,
+          "g": 14,
+          "a": 78,
+          "pts": 92,
+          "ppg": 0.51,
+          "pim": 201,
+          "years": "2005-2009",
+          "seasons": 4
+        },
+        {
+          "rank": 26,
+          "name": "Robbie Fisher",
+          "pos": "F/D",
+          "nation": "CAN",
+          "gp": 211,
+          "g": 50,
+          "a": 41,
+          "pts": 91,
+          "ppg": 0.43,
+          "pim": 80,
+          "years": "2021-2025",
+          "seasons": 4
+        },
+        {
+          "rank": 27,
+          "name": "Shawn Bates",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 88,
+          "g": 36,
+          "a": 54,
+          "pts": 90,
+          "ppg": 1.02,
+          "pim": 84,
+          "years": "2017-2020",
+          "seasons": 2
+        },
+        {
+          "rank": 28,
+          "name": "B.J. Radovich",
+          "pos": "C",
+          "nation": "USA",
+          "gp": 111,
+          "g": 34,
+          "a": 54,
+          "pts": 88,
+          "ppg": 0.79,
+          "pim": 44,
+          "years": "2008-2010",
+          "seasons": 2
+        },
+        {
+          "rank": 29,
+          "name": "Dominick Procopio",
+          "pos": "D",
+          "nation": "USA",
+          "gp": 258,
+          "g": 12,
+          "a": 74,
+          "pts": 86,
+          "ppg": 0.33,
+          "pim": 388,
+          "years": "2021-2026",
+          "seasons": 5
+        },
+        {
+          "rank": 30,
+          "name": "Nick Lazorko",
+          "pos": "LW",
+          "nation": "USA",
+          "gp": 107,
+          "g": 51,
+          "a": 33,
+          "pts": 84,
+          "ppg": 0.79,
+          "pim": 55,
+          "years": "2012-2018",
+          "seasons": 4
+        },
+        {
+          "rank": 31,
+          "name": "Cole Reginato",
+          "pos": "F",
+          "nation": "CAN",
+          "gp": 195,
+          "g": 39,
+          "a": 45,
+          "pts": 84,
+          "ppg": 0.43,
+          "pim": 581,
+          "years": "2020-2026",
+          "seasons": 6
+        },
+        {
+          "rank": 32,
+          "name": "John Schiavo",
+          "pos": "RW",
+          "nation": "USA",
+          "gp": 122,
+          "g": 34,
+          "a": 49,
+          "pts": 83,
+          "ppg": 0.68,
+          "pim": 36,
+          "years": "2016-2021",
+          "seasons": 4
+        },
+        {
+          "rank": 33,
+          "name": "Ryan Kretzer",
+          "pos": "C",
+          "nation": "USA",
+          "gp": 83,
+          "g": 36,
+          "a": 46,
+          "pts": 82,
+          "ppg": 0.99,
+          "pim": 100,
+          "years": "2010-2012",
+          "seasons": 2
+        },
+        {
+          "rank": 34,
+          "name": "Mike Carter",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 93,
+          "g": 29,
+          "a": 52,
+          "pts": 81,
+          "ppg": 0.87,
+          "pim": 62,
+          "years": "2009-2011",
+          "seasons": 2
+        },
+        {
+          "rank": 35,
+          "name": "Tristan Senior",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 69,
+          "g": 28,
+          "a": 52,
+          "pts": 80,
+          "ppg": 1.16,
+          "pim": 44,
+          "years": "2006-2008",
+          "seasons": 2
+        },
+        {
+          "rank": 36,
+          "name": "Kyle Clarke",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 121,
+          "g": 27,
+          "a": 50,
+          "pts": 77,
+          "ppg": 0.64,
+          "pim": 52,
+          "years": "2021-2024",
+          "seasons": 3
+        },
+        {
+          "rank": 37,
+          "name": "Dylan Stewart",
+          "pos": "C/LW",
+          "nation": "CAN",
+          "gp": 87,
+          "g": 27,
+          "a": 45,
+          "pts": 72,
+          "ppg": 0.83,
+          "pim": 36,
+          "years": "2023-2025",
+          "seasons": 2
+        },
+        {
+          "rank": 38,
+          "name": "Justin Rohr",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 70,
+          "g": 31,
+          "a": 40,
+          "pts": 71,
+          "ppg": 1.01,
+          "pim": 100,
+          "years": "2008-2010",
+          "seasons": 2
+        },
+        {
+          "rank": 39,
+          "name": "Philip Elgstam",
+          "pos": "RW",
+          "nation": "SWE",
+          "gp": 102,
+          "g": 30,
+          "a": 41,
+          "pts": 71,
+          "ppg": 0.7,
+          "pim": 117,
+          "years": "2023-2026",
+          "seasons": 3
+        },
+        {
+          "rank": 40,
+          "name": "Martin Kubaliak",
+          "pos": "D",
+          "nation": "SVK",
+          "gp": 156,
+          "g": 17,
+          "a": 54,
+          "pts": 71,
+          "ppg": 0.46,
+          "pim": 347,
+          "years": "2006-2010",
+          "seasons": 3
+        },
+        {
+          "rank": 41,
+          "name": "Alex Kielczewski",
+          "pos": "D/F",
+          "nation": "USA",
+          "gp": 153,
+          "g": 13,
+          "a": 56,
+          "pts": 69,
+          "ppg": 0.45,
+          "pim": 89,
+          "years": "2021-2024",
+          "seasons": 3
+        },
+        {
+          "rank": 42,
+          "name": "Giovanni Procopio",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 110,
+          "g": 25,
+          "a": 40,
+          "pts": 65,
+          "ppg": 0.59,
+          "pim": 179,
+          "years": "2024-2027",
+          "seasons": 3,
+          "active_2026_27_roster": true
+        },
+        {
+          "rank": 43,
+          "name": "Mike Gurtler",
+          "pos": "LW",
+          "nation": "USA",
+          "gp": 75,
+          "g": 22,
+          "a": 43,
+          "pts": 65,
+          "ppg": 0.87,
+          "pim": 44,
+          "years": "2012-2015",
+          "seasons": 3
+        },
+        {
+          "rank": 44,
+          "name": "Mike DeGurse",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 101,
+          "g": 31,
+          "a": 33,
+          "pts": 64,
+          "ppg": 0.63,
+          "pim": 442,
+          "years": "2004-2007",
+          "seasons": 3
+        },
+        {
+          "rank": 45,
+          "name": "Karlis Zirnis",
+          "pos": "LW",
+          "nation": "LAT",
+          "gp": 54,
+          "g": 21,
+          "a": 43,
+          "pts": 64,
+          "ppg": 1.19,
+          "pim": 112,
+          "years": "2008-2010",
+          "seasons": 2
+        },
+        {
+          "rank": 46,
+          "name": "Justin Cseter",
+          "pos": "F",
+          "nation": "HUN",
+          "gp": 104,
+          "g": 13,
+          "a": 51,
+          "pts": 64,
+          "ppg": 0.62,
+          "pim": 70,
+          "years": "2012-2015",
+          "seasons": 3
+        },
+        {
+          "rank": 47,
+          "name": "Ryan Salkeld",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 55,
+          "g": 28,
+          "a": 34,
+          "pts": 62,
+          "ppg": 1.13,
+          "pim": 40,
+          "years": "2018-2019",
+          "seasons": 1
+        },
+        {
+          "rank": 48,
+          "name": "Trevor Karasiewicz",
+          "pos": "C",
+          "nation": "CAN",
+          "gp": 61,
+          "g": 18,
+          "a": 44,
+          "pts": 62,
+          "ppg": 1.02,
+          "pim": 84,
+          "years": "2006-2008",
+          "seasons": 2
+        },
+        {
+          "rank": 49,
+          "name": "Jason deGuehery",
+          "pos": "D",
+          "nation": "USA",
+          "gp": 160,
+          "g": 10,
+          "a": 51,
+          "pts": 61,
+          "ppg": 0.38,
+          "pim": 693,
+          "years": "2004-2008",
+          "seasons": 4
+        },
+        {
+          "rank": 50,
+          "name": "Scott Trask",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 133,
+          "g": 22,
+          "a": 37,
+          "pts": 59,
+          "ppg": 0.44,
+          "pim": 378,
+          "years": "2017-2020",
+          "seasons": 3
+        },
+        {
+          "rank": 51,
+          "name": "Dennis Sicard",
+          "pos": "LW",
+          "nation": "CAN",
+          "gp": 87,
+          "g": 34,
+          "a": 24,
+          "pts": 58,
+          "ppg": 0.67,
+          "pim": 471,
+          "years": "2008-2012",
+          "seasons": 3
+        },
+        {
+          "rank": 52,
+          "name": "Connor Fries",
+          "pos": "F",
+          "nation": "USA",
+          "gp": 106,
+          "g": 23,
+          "a": 35,
+          "pts": 58,
+          "ppg": 0.55,
+          "pim": 198,
+          "years": "2024-2027",
+          "seasons": 3,
+          "active_2026_27_roster": true
+        }
+      ]
+    }
+  }
 }
