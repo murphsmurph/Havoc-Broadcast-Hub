@@ -5331,5 +5331,204 @@
         "_ui_note": "Coaching Milestone Watch (same badge pattern as players): 1) Stefan career coaching WINS — at 66 + (2025-26 W, likely ~30s) he enters 2026-27 right around 100 career wins: '100 coaching wins' fires early UNLESS he already crossed it late in 2025-26 — resolve once the 2025-26 record is added. 2) Stefan chases Gibson (113 W) for 2nd-most coaching wins in franchise history — passes him THIS SEASON on any normal pace; Detulleo's 312 is the long game. 3) Stefan games coached: 112 + ~56 = passes 200 career games mid-season. 4) Round-number team milestones under Stefan: track vs franchise team records (41-win / 84-pt season, 2021-22). 5) Tenure banners for broadcast opens: Stefan 4th yr as HC / 18th in org; Detulleo 12th yr as GM / 17th in org; Piacentini 4th yr on staff / 10th in org. Thresholds: wins 50s within 5 = soon, within 15 = upcoming; games 100s within 10."
       }
     }
+  },
+  "league_reference": {
+    "_source": "Jacob's League Reference tab content (Aug 2026), corrected against the all-time lists he supplied. Feeds Game Notes.",
+    "presidents_cup_wins": {
+      "Athens Rock Lobsters": {
+        "count": 0
+      },
+      "Birmingham Bulls": {
+        "count": 0,
+        "note": "Finalists in 2019 and 2023."
+      },
+      "Evansville Thunderbolts": {
+        "count": 2,
+        "years": [
+          2025,
+          2026
+        ],
+        "note": "Back-to-back champions, 2025 & 2026."
+      },
+      "Fayetteville Marksmen": {
+        "count": 0,
+        "note": "The FireAntz won the 2007 President's Cup; the current Marksmen franchise has yet to win."
+      },
+      "Huntsville Havoc": {
+        "count": 3,
+        "years": [
+          2010,
+          2018,
+          2019
+        ]
+      },
+      "Knoxville Ice Bears": {
+        "count": 4,
+        "years": [
+          2006,
+          2008,
+          2009,
+          2015
+        ]
+      },
+      "Macon Mayhem": {
+        "count": 1,
+        "years": [
+          2017
+        ]
+      },
+      "Pee Dee IceCats": {
+        "count": 0
+      },
+      "Pensacola Ice Flyers": {
+        "count": 4,
+        "years": [
+          2013,
+          2014,
+          2016,
+          2021
+        ]
+      },
+      "Peoria Rivermen": {
+        "count": 2,
+        "years": [
+          2022,
+          2024
+        ]
+      },
+      "Quad City Storm": {
+        "count": 0
+      },
+      "Roanoke Rail Yard Dawgs": {
+        "count": 1,
+        "years": [
+          2023
+        ]
+      },
+      "_defunct_note": "Defunct franchises also won titles: Columbus 2 · Mississippi 1."
+    },
+    "havoc_career_leaders": {
+      "games": {
+        "value": 379,
+        "holder": "Stuart Stefan",
+        "years": "2011-18"
+      },
+      "goals": {
+        "value": 115,
+        "holder": "Sy Nutkevitch",
+        "years": "2016-23"
+      },
+      "assists": {
+        "value": 256,
+        "holder": "Sy Nutkevitch",
+        "years": "2016-23"
+      },
+      "points": {
+        "value": 371,
+        "holder": "Sy Nutkevitch",
+        "years": "2016-23"
+      },
+      "pim": {
+        "value": 994,
+        "holder": "Luke Phillips",
+        "years": "2004-07"
+      },
+      "goalie_games": {
+        "value": 167,
+        "holder": "Matt Carmichael",
+        "years": "2004-08",
+        "note": "active: Wilson 92, on pace for 2nd this season"
+      },
+      "goalie_wins": {
+        "value": 92,
+        "holder": "Matt Carmichael",
+        "years": "2004-08",
+        "note": "active: Wilson 49 — 3rd all-time within 2 wins"
+      },
+      "goalie_saves": {
+        "value": 4988,
+        "holder": "Matt Carmichael",
+        "years": "2004-08",
+        "note": "active: Wilson 2,566"
+      },
+      "shutouts": {
+        "value": 8,
+        "holder": "Brian Wilson",
+        "years": "2023-present",
+        "note": "ACTIVE record-holder — passed McWhinney & Milosek (7) in 2025-26; extends his own record with every SO."
+      }
+    },
+    "single_season_skaters": {
+      "points": {
+        "value": 78,
+        "holder": "James Patterson",
+        "year": "2006-07"
+      },
+      "goals": {
+        "value": 37,
+        "holder": "Travis Kauffeldt",
+        "year": "2008-09"
+      },
+      "assists": {
+        "value": 52,
+        "holder": "James Patterson",
+        "year": "2006-07"
+      },
+      "pim": {
+        "value": 396,
+        "holder": "Luke Phillips",
+        "year": "2005-06"
+      }
+    },
+    "single_season_goalies": {
+      "gaa": {
+        "value": 1.93,
+        "holder": "Hunter Vorva",
+        "year": "2021-22"
+      },
+      "sv_pct": {
+        "value": 0.934,
+        "holder": "Hunter Vorva",
+        "year": "2021-22"
+      },
+      "wins": {
+        "value": 26,
+        "holder": "Mike Robinson / Matt Carmichael",
+        "year": "2024-25 / 2004-05, 2006-07",
+        "note": "Wilson won 24 in 2025-26 — record watch."
+      },
+      "shutouts": {
+        "value": 4,
+        "holder": "Max Milosek / Dan McWhinney / Brian Wilson",
+        "year": "2019-20 / 2010-11 / 2025-26",
+        "note": "Wilson tied it with 4 SO in 2025-26."
+      }
+    },
+    "team_records": {
+      "most_points": {
+        "value": 84,
+        "year": "2021-22"
+      },
+      "fewest_points": {
+        "value": 29,
+        "year": "2014-15"
+      },
+      "most_wins": {
+        "value": 41,
+        "year": "2021-22"
+      },
+      "most_goals": {
+        "value": 221,
+        "year": "2006-07"
+      },
+      "fewest_goals_allowed": {
+        "value": 124,
+        "year": "2021-22"
+      },
+      "longest_win_streak": {
+        "value": 12,
+        "period": "Oct 15 - Nov 19, 2021"
+      }
+    }
   }
 }
