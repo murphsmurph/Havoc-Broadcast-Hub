@@ -397,6 +397,34 @@
   .season-warn{font-size:13px;font-weight:800;color:#fff;background:var(--havoc-red);border-radius:8px;padding:6px 10px;margin:4px 0;}
   .season-fell{font-size:12px;font-weight:800;color:#8a6a00;background:#ffefc0;border:1px solid #e2c96b;border-radius:7px;padding:4px 8px;margin:4px 0;}
   .season-of{font-size:12px;font-weight:800;color:var(--ink-2);margin:2px 0 4px;}
+  /* ---- career stats & milestone tracker ---- */
+  .ms-t{width:100%;border-collapse:collapse;font-size:13px;}
+  .ms-t th{background:var(--surface-3);color:var(--ink);text-align:left;padding:5px 8px;font-size:11px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;}
+  .ms-t th.s{cursor:pointer;user-select:none;}
+  .ms-t th.r,.ms-t td.r{text-align:right;font-variant-numeric:tabular-nums;}
+  .ms-t td{border-bottom:1px solid var(--havoc-line);padding:4px 8px;color:var(--ink);}
+  .ms-nm{white-space:nowrap;font-weight:700;}
+  .ms-nm a{color:inherit;text-decoration:none;border-bottom:1px dotted var(--red-text);}
+  .ms-null{color:var(--ink-2);}
+  .ms-src{font-size:9px;font-weight:900;text-transform:uppercase;color:#8a6a00;background:#ffefc0;border-radius:4px;padding:0 4px;margin-left:5px;vertical-align:middle;}
+  .ms-note-i{margin-left:4px;color:var(--ink-2);cursor:help;font-size:12px;}
+  .ms-watch{font-size:11px;}
+  .ms-badge{display:inline-block;font-size:11px;font-weight:900;border-radius:5px;padding:1px 7px;margin:1px 2px 1px 0;white-space:nowrap;}
+  .ms-badge.soon{background:var(--havoc-red);color:#fff;}
+  .ms-badge.up{background:#ffefc0;color:#8a6a00;border:1px solid #e2c96b;}
+  .ms-badge.far{background:var(--surface-3);color:var(--ink-2);border:1px solid var(--havoc-line);}
+  .ms-urgent{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 10px;}
+  .ms-call{background:var(--havoc-red);color:#fff;font-size:15px;font-weight:900;letter-spacing:.01em;border-radius:9px;padding:8px 14px;}
+  .ms-head{display:flex;align-items:center;gap:9px;margin:4px 0 8px;font-size:17px;color:var(--ink);}
+  .ms-num2{background:var(--havoc-red);color:#fff;font-weight:900;border-radius:6px;padding:2px 9px;font-size:15px;}
+  .ms-meta{font-size:12px;color:var(--ink-2);font-weight:700;}
+  .ms-career td.ms-team{max-width:210px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .ms-grp td{background:var(--surface-3);font-size:10px;font-weight:900;letter-spacing:.09em;color:var(--ink-2);}
+  .ms-pro td{font-weight:600;}
+  .ms-tot td{border-top:2px solid var(--havoc-red);font-weight:900;background:var(--tint-red,transparent);}
+  .ms-po{font-size:11px;color:var(--ink-2);white-space:nowrap;}
+  .ms-notes{font-size:12px;line-height:1.55;color:var(--ink-2);border:1px solid var(--havoc-line);border-left:3px solid var(--havoc-red);border-radius:6px;padding:8px 11px;margin-top:8px;}
+
   .pal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--havoc-line);}
   .pal-nm{min-width:190px;font-weight:800;font-size:13px;color:var(--ink);}
   .pal-chip{font-size:11px;font-weight:900;letter-spacing:.05em;padding:3px 9px;border-radius:5px;}
@@ -1003,6 +1031,7 @@
       <button class="subtab active" data-sub="roster">Havoc</button>
       <button class="subtab" data-sub="opproster">Opponent</button>
       <button class="subtab" data-sub="quiz">Learn the Roster</button>
+      <button class="subtab" data-sub="careers">Career &amp; Milestones</button>
     </div>
     <div class="subview active" id="panel-roster">
 <div class="card hub-card">
@@ -1109,6 +1138,26 @@
       <div id="quizBody"></div>
     </div>
   
+    </div>
+    <div class="subview" id="panel-careers">
+    <div class="card hub-card">
+      <h2>Milestone <span class="accent">Tracker</span> <span id="msMeta" class="upd"></span></h2>
+      <p class="desc">Two boards from <i>data/havoc_players.json</i>: <b>Overall Pro Career</b> counts pro leagues only (SPHL, ECHL, FPHL, AHL, NHL and European pro) — never NCAA or juniors — and <b>w/ Havoc</b> counts Huntsville games only. Regular season only; playoffs live on the career pages. Skaters track GP / G / A / PTS / PIM, goalies GP / SVS / W / SO. A badge means a milestone is in reach: <span class="ms-badge soon">soon</span> = 5 or fewer away, <span class="ms-badge up">upcoming</span> = within 15, <span class="ms-badge far">this season</span> = inside the watch window. Click any column head to sort; click a name for the career page. &ldquo;&mdash;&rdquo; means not published anywhere — never zero.</p>
+      <div class="btn-row">
+        <button class="btn small secondary ms-view dark" data-msv="pro" onclick="msView('pro')">Overall Pro Career</button>
+        <button class="btn small secondary ms-view" data-msv="havoc" onclick="msView('havoc')">Milestones w/ Havoc</button>
+        <input type="file" id="msFile" accept="application/json" style="display:none" onchange="msImportFile(event)">
+        <button class="btn small secondary" onclick="document.getElementById('msFile').click()">Import havoc_players.json</button>
+      </div>
+      <div id="msWatch"></div>
+      <div id="msBoard"></div>
+    </div>
+    <div class="card hub-card">
+      <h2>Player <span class="accent">Career Pages</span></h2>
+      <p class="desc">Year by year — juniors, college, pro — with playoff lines, PRO TOTALS and HAVOC TOTALS. Data caveats from the research file print as a footnote, never deleted.</p>
+      <div class="field hub-field" style="max-width:340px"><label>Player</label><select id="msPlayerSel" onchange="renderCareerPage(this.value)"></select></div>
+      <div id="msCareer"></div>
+    </div>
     </div>
   </section>
 
@@ -2258,6 +2307,7 @@ const SUB_INIT={
   roster:()=>{renderRoster();loadHockeyOps();Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgFillPlayers();wgFillTeams();});},
   opproster:()=>renderOppRoster(),
   quiz:()=>quizInit(),
+  careers:()=>msInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
   chart:()=>renderChart(),
   lines:()=>linesInit(),
@@ -5889,6 +5939,214 @@ function careerPages(red,S){
   return blocks.length?[pgWrap(red,S,'PLAYER CAREER STATS',blocks.join(''))]:[];
 }
 
+/* ============================================================
+   CAREER STATS & MILESTONE TRACKER — driven by data/havoc_players.json.
+   The site only ever reads the committed JSON; the EliteProspects key
+   lives in .env / a GitHub secret and is used by scripts/update_stats.mjs
+   on a machine, never in this file. Rules from the build brief:
+   Pro = league in meta.pro_leagues (never NCAA/juniors); Havoc = rows
+   where team === "Huntsville Havoc"; regular season only; null prints
+   as "—", never zero, never invented; an override from Jacob's tracker
+   beats a computed sum until the season rows are complete.
+   ============================================================ */
+let MS_DATA=null,MS_VIEW='pro',MS_SORT={col:null,dir:-1};
+function msProLeagues(){return ((MS_DATA||{}).meta||{}).pro_leagues||[];}
+function msIsPro(row){return msProLeagues().indexOf(row.league)>=0||row.level==='Pro';}
+function msIsHavoc(row){return row.team==='Huntsville Havoc';}
+/* null-respecting sum: null in means unknown, and an unknown never becomes 0 */
+function msSum(rows,keys){
+  const out={};
+  keys.forEach(k=>{
+    let any=false,t=0;
+    rows.forEach(r=>{if(r[k]!=null){any=true;t+=r[k];}});
+    out[k]=any?t:0;
+  });
+  return out;
+}
+function msTotals(p,scope){
+  const ov=scope==='pro'
+    ?(p.override_pro||p.override_pro_goalie)
+    :(p.override_havoc||p.override_havoc_goalie);
+  const rows=(p.seasons||[]).filter(r=>scope==='pro'?msIsPro(r):(msIsPro(r)&&msIsHavoc(r)));
+  const keys=p.type==='goalie'?['gp','svs','w','so']:['gp','g','a','pts','pim'];
+  const computed=msSum(rows,keys);
+  // an override wins while season rows are incomplete; incomplete = any Pro
+  // (or Havoc) row in scope missing its GP
+  const incomplete=rows.some(r=>r.gp==null);
+  return {vals:ov?Object.assign({},computed,ov):computed,ov:!!ov,incomplete};
+}
+/* the single shared milestone function from the brief */
+function msWithin(val,step,window){
+  if(val==null)return null;
+  const next=Math.ceil((val+1)/step)*step;
+  return next-val<=window?{next,away:next-val}:null;
+}
+const MS_RULES={
+  skater:{gp:[100,25],g:[50,10],a:[50,10],pts:[50,15]},
+  goalie:{gp:[100,25],w:[50,10]}
+};
+function msTier(away){return away<=5?'soon':(away<=15?'up':'far');}
+function msTierLabel(away){return away<=5?'soon':(away<=15?'upcoming':'this season');}
+function msFlags(p,vals){
+  const rules=MS_RULES[p.type==='goalie'?'goalie':'skater'];
+  const out={};
+  Object.keys(rules).forEach(k=>{
+    const hit=msWithin(vals[k],rules[k][0],rules[k][1]);
+    if(hit)out[k]=hit;
+  });
+  return out;
+}
+function msCell(v){return v==null?'<span class="ms-null">—</span>':String(v);}
+/* "away" counts in games only make sense for GP; for scoring stats it is
+   simply how many more he needs — the brief's rule */
+function msBadge(k,hit){
+  const unit=k==='gp'?(hit.away===1?'game':'games'):(k==='w'?(hit.away===1?'win':'wins'):'');
+  return `<span class="ms-badge ${msTier(hit.away)}" title="${msTierLabel(hit.away)}">${hit.away}${unit?' '+unit:''} from ${hit.next}</span>`;
+}
+async function msLoad(){
+  if(MS_DATA)return MS_DATA;
+  if(DATA.careersFile){MS_DATA=DATA.careersFile;return MS_DATA;}
+  try{
+    const r=await fetch('data/havoc_players.json');
+    if(r.ok){MS_DATA=await r.json();return MS_DATA;}
+  }catch(e){}
+  return null;
+}
+function msImportFile(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{
+      const j=JSON.parse(rd.result);
+      if(!j||!Array.isArray(j.players))throw new Error('no players array');
+      MS_DATA=j;DATA.careersFile=j;save();
+      msInit();toast('Career data loaded — '+j.players.length+' players');
+    }catch(e){toast('Could not read that file: '+e.message);}
+  };
+  rd.readAsText(f);ev.target.value='';
+}
+function msView(v){
+  MS_VIEW=v;
+  document.querySelectorAll('.ms-view').forEach(b=>b.classList.toggle('dark',b.dataset.msv===v));
+  renderMilestones();
+}
+function msSort(col){
+  if(MS_SORT.col===col)MS_SORT.dir=-MS_SORT.dir;
+  else MS_SORT={col,dir:1};      // first click: biggest number (or A→Z) on top
+  renderMilestones();
+}
+async function msInit(){
+  const d=await msLoad();
+  const meta=document.getElementById('msMeta');
+  if(!d){
+    const el=document.getElementById('msBoard');
+    if(el)el.innerHTML=emptyState('data/havoc_players.json not loaded',
+      'Hosted, it loads by itself; opened as a local file, import it with the button above.');
+    if(meta)meta.textContent='';
+    return;
+  }
+  if(meta)meta.textContent='compiled '+((d.meta||{}).compiled||'')+' · '+d.players.length+' players';
+  renderMilestones();
+  const sel=document.getElementById('msPlayerSel');
+  if(sel){
+    sel.innerHTML=d.players.map((p,i)=>`<option value="${i}">${p.num?'#'+esc(p.num)+' ':''}${esc(p.name)}</option>`).join('');
+    renderCareerPage(sel.value||0);
+  }
+}
+function renderMilestones(){
+  const el=document.getElementById('msBoard');if(!el||!MS_DATA)return;
+  const scope=MS_VIEW;
+  const rows=MS_DATA.players.map(p=>{
+    const t=msTotals(p,scope);
+    return {p,vals:t.vals,ov:t.ov,flags:msFlags(p,t.vals)};
+  });
+  const sk=rows.filter(r=>r.p.type!=='goalie'),gl=rows.filter(r=>r.p.type==='goalie');
+  const sortRows=(list,cols)=>{
+    const c=MS_SORT.col;
+    if(!c)return list;
+    if(c==='name')return [...list].sort((a,b)=>MS_SORT.dir*a.p.name.localeCompare(b.p.name));
+    if(cols.indexOf(c)<0)return list;
+    return [...list].sort((a,b)=>MS_SORT.dir*(((b.vals[c]??-1))-((a.vals[c]??-1))));
+  };
+  const table=(list,cols,labels)=>{
+    if(!list.length)return '';
+    const head=`<tr><th onclick="msSort('name')" class="s">Player</th>${cols.map((c,i)=>`<th class="r s" onclick="msSort('${c}')">${labels[i]}${MS_SORT.col===c?(MS_SORT.dir<0?' ▾':' ▴'):''}</th>`).join('')}<th>Watch</th></tr>`;
+    const body=sortRows(list,cols).map(r=>{
+      const badges=Object.keys(r.flags).map(k=>msBadge(k,r.flags[k])
+        .replace('">','">'+k.toUpperCase()+': ')).join(' ');
+      return `<tr><td class="ms-nm"><a href="javascript:void 0" onclick="msOpen('${esc(r.p.name).replace(/'/g,"\\'")}')">${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)}</a>${r.ov?'<span class="ms-src" title="Totals from Jacob&#39;s tracker (Apr 4, 2026) — season rows are incomplete, the override wins until the API refresh completes them">tracker</span>':''}${r.p.notes?'<span class="ms-note-i" title="'+esc(r.p.notes)+'">&#9432;</span>':''}</td>
+        ${cols.map(c=>`<td class="r">${msCell(r.vals[c])}</td>`).join('')}
+        <td class="ms-watch">${badges||''}</td></tr>`;
+    }).join('');
+    return `<table class="ms-t">${head}${body}</table>`;
+  };
+  el.innerHTML=
+    `<div class="section-label hub-sectionhead">Skaters — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
+   +`<div class="hub-tablewrap" style="overflow-x:auto">${table(sk,['gp','g','a','pts','pim'],['GP','G','A','PTS','PIM'])}</div>`
+   +`<div class="section-label hub-sectionhead">Goalies — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
+   +`<div class="hub-tablewrap" style="overflow-x:auto">${table(gl,['gp','svs','w','so'],['GP','SVS','W','SO'])}</div>`
+   +`<p class="desc" style="margin-top:6px">${esc(((MS_DATA.meta||{}).tracker_asof)||'')}</p>`;
+  // the broadcast line that has to jump off the screen
+  const watch=document.getElementById('msWatch');
+  if(watch){
+    const urgent=[];
+    rows.forEach(r=>Object.keys(r.flags).forEach(k=>{
+      if(r.flags[k].away<=5)urgent.push({r,k,hit:r.flags[k]});
+    }));
+    urgent.sort((a,b)=>a.hit.away-b.hit.away);
+    watch.innerHTML=urgent.length?`<div class="ms-urgent">${urgent.map(u=>{
+      const last=u.r.p.name.split(' ').pop();
+      const what=u.k==='gp'?(u.hit.away+' game'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
+        :(u.k==='w'?(u.hit.away+' win'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
+        :(u.hit.away+' '+({g:'goal',a:'assist',pts:'point'})[u.k]+(u.hit.away===1?'':'s')+' from '+u.hit.next));
+      return `<div class="ms-call"><b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}</div>`;
+    }).join('')}</div>`:'';
+  }
+}
+function msOpen(name){
+  const i=MS_DATA.players.findIndex(p=>p.name===name);
+  if(i<0)return;
+  const sel=document.getElementById('msPlayerSel');
+  if(sel)sel.value=String(i);
+  renderCareerPage(i);
+  const card=document.getElementById('msCareer');
+  if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function renderCareerPage(idx){
+  const el=document.getElementById('msCareer');if(!el||!MS_DATA)return;
+  const p=MS_DATA.players[+idx];if(!p)return;
+  const G=p.type==='goalie';
+  const n=msCell;
+  const cols=G?['gp','w','l','otl','so','gaa','svpct','svs']:['gp','g','a','pts','pim','pm'];
+  const labels=G?['GP','W','L','OTL','SO','GAA','SV%','SVS']:['GP','G','A','PTS','PIM','+/-'];
+  const po=r=>r.po?`${n(r.po.gp)} · ${G?'':n(r.po.g)+'-'+n(r.po.a)+'-'}${n(r.po.pts!=null?r.po.pts:null)}`:'';
+  const row=r=>`<tr class="${msIsPro(r)?'ms-pro':''}"><td>${esc(r.season)}</td><td class="ms-team">${esc(r.team)}</td><td>${esc(r.league)}</td>
+    ${cols.map(c=>`<td class="r">${n(r[c])}</td>`).join('')}<td class="r ms-po">${r.po?po(r):''}</td></tr>`;
+  const group=(lvl,label)=>{
+    const rs=(p.seasons||[]).filter(r=>r.level===lvl);
+    if(!rs.length)return '';
+    return `<tr class="ms-grp"><td colspan="${cols.length+4}">${label}</td></tr>`+rs.map(row).join('');
+  };
+  const tot=(scope,label)=>{
+    const t=msTotals(p,scope);
+    const keys=G?['gp','svs','w','so']:['gp','g','a','pts','pim'];
+    const map=G?{gp:'gp',w:'w',so:'so',svs:'svs'}:{gp:'gp',g:'g',a:'a',pts:'pts',pim:'pim'};
+    return `<tr class="ms-tot"><td colspan="3">${label}${t.ov?' <span class="ms-src">tracker</span>':''}</td>
+      ${cols.map(c=>{const k=Object.keys(map).find(x=>map[x]===c);return `<td class="r">${k&&t.vals[k]!=null?t.vals[k]:''}</td>`;}).join('')}<td></td></tr>`;
+  };
+  el.innerHTML=`
+    <div class="ms-head"><span class="ms-num2">${esc(p.num||'')}</span><b>${esc(p.name.toUpperCase())}</b>
+      <span class="ms-meta">${esc(p.pos||'')}${p.from?' · from '+esc(p.from):''}</span></div>
+    <div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t ms-career">
+      <tr><th>Season</th><th>Team</th><th>League</th>${labels.map(l=>`<th class="r">${l}</th>`).join('')}<th class="r">Playoffs ${G?'GP · PTS':'GP · G-A-P'}</th></tr>
+      ${group('Junior','JUNIORS')}
+      ${group('College','COLLEGE')}
+      ${group('Pro','PRO')}
+      ${tot('pro','PRO TOTALS (regular season)')}
+      ${tot('havoc','HAVOC TOTALS (regular season)')}
+    </table></div>
+    ${p.notes?`<div class="ms-notes">&#9432; ${esc(p.notes)}</div>`:''}`;
+}
 /* ============ GAME LOG EDITOR (Schedule tab) ============ */
 function renderGameLog(){
   const wrap=document.getElementById('glTableWrap');if(!wrap)return;
