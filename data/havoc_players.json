@@ -5111,5 +5111,225 @@
         }
       ]
     }
+  },
+  "franchise_history": {
+    "coaching_staff": {
+      "_source": "Provided by Jacob Aug 2026 (EP historic staff table), reconciled against the 2025-26 SPHL Media Guide year-by-year results — head-coach assignments follow the media guide where the EP table's columns were ambiguous (2015-23: Detulleo HC/GM with Kallechy then Stefan as assistants; 2011-12 had three HCs in-season: Murphy 19-26-5, Jeffries 1-0-0, Detulleo 2-2-1).",
+      "_ui_note": "Broadcast gold: the entire current staff are franchise legends — HC Stuart Stefan is #4 on the all-time scoring list (379 GP, both franchise records-adjacent) and won the 2018 title as a player; GM Glenn Detulleo is #18 all-time as a player AND the winningest coach in franchise history (2012-2023, 2018 + 2019 Cups); asst Tyler Piacentini is #5 all-time in scoring. Former asst Jesse Kallechy is #8 on the all-time goalie list. 2026-27 is Stefan's 4th season as HC.",
+      "by_season": [
+        {
+          "season": "2004-05",
+          "hc": "John Gibson",
+          "asst": null,
+          "gm": null
+        },
+        {
+          "season": "2005-06",
+          "hc": "John Gibson",
+          "asst": "Todd Dougherty",
+          "gm": "Kevin Walker"
+        },
+        {
+          "season": "2006-07",
+          "hc": "John Gibson",
+          "asst": "Todd Dougherty",
+          "gm": "Kevin Walker"
+        },
+        {
+          "season": "2007-08",
+          "hc": "John Gibson",
+          "asst": "Todd Dougherty",
+          "gm": "Kevin Walker"
+        },
+        {
+          "season": "2008-09",
+          "hc": "Eric Soltys",
+          "asst": "Paul Snell",
+          "gm": "Kevin Walker"
+        },
+        {
+          "season": "2009-10",
+          "hc": "Randy Murphy",
+          "asst": "Paul Snell",
+          "gm": null
+        },
+        {
+          "season": "2010-11",
+          "hc": "Randy Murphy",
+          "asst": null,
+          "gm": null
+        },
+        {
+          "season": "2011-12",
+          "hc": "Randy Murphy -> Keith Jeffries -> Glenn Detulleo (in-season changes)",
+          "asst": null,
+          "gm": null
+        },
+        {
+          "season": "2012-13",
+          "hc": "Glenn Detulleo",
+          "asst": "Jordan Little",
+          "gm": null
+        },
+        {
+          "season": "2013-14",
+          "hc": "Glenn Detulleo",
+          "asst": null,
+          "gm": null
+        },
+        {
+          "season": "2014-15",
+          "hc": "Glenn Detulleo",
+          "asst": "John McCabe",
+          "gm": null
+        },
+        {
+          "season": "2015-16",
+          "hc": "Glenn Detulleo",
+          "asst": "Jesse Kallechy",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2016-17",
+          "hc": "Glenn Detulleo",
+          "asst": "Jesse Kallechy",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2017-18",
+          "hc": "Glenn Detulleo",
+          "asst": "Jesse Kallechy",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2018-19",
+          "hc": "Glenn Detulleo",
+          "asst": "Stuart Stefan",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2019-20",
+          "hc": "Glenn Detulleo",
+          "asst": "Stuart Stefan",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2020-21",
+          "hc": "Glenn Detulleo",
+          "asst": "Stuart Stefan",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2021-22",
+          "hc": "Glenn Detulleo",
+          "asst": "Stuart Stefan",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2022-23",
+          "hc": "Glenn Detulleo",
+          "asst": "Stuart Stefan",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2023-24",
+          "hc": "Stuart Stefan",
+          "asst": "Tyler Piacentini",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2024-25",
+          "hc": "Stuart Stefan",
+          "asst": "Chris Blaisuis / Tyler Piacentini",
+          "gm": "Glenn Detulleo"
+        },
+        {
+          "season": "2025-26",
+          "hc": "Stuart Stefan",
+          "asst": "Tyler Piacentini",
+          "gm": "Glenn Detulleo"
+        }
+      ]
+    },
+    "coaching_milestones": {
+      "head_coach_career_totals": {
+        "_note": "Havoc regular-season totals computed from the SPHL Media Guide year-by-year table (through 2024-25). Stefan's 2025-26 was missing from the guide and is completed in season_2025_26 from the verified League Reference year-by-year (32-20-5-1); his entering-2026-27 baseline = totals + season_2025_26.",
+        "Glenn Detulleo": {
+          "seasons": 12,
+          "gp": 597,
+          "w": 312,
+          "years": "2011-12 (partial) - 2022-23",
+          "cups_as_hc": 2,
+          "cup_years": "2018, 2019"
+        },
+        "John Gibson": {
+          "seasons": 4,
+          "gp": 220,
+          "w": 113,
+          "years": "2004-05 - 2007-08"
+        },
+        "Randy Murphy": {
+          "seasons": 3,
+          "gp": 162,
+          "w": 80,
+          "years": "2009-10 - 2011-12 (partial)"
+        },
+        "Stuart Stefan": {
+          "seasons": 3,
+          "gp": 112,
+          "w": 66,
+          "years": "2023-24 - present",
+          "note": "gp/w are THROUGH 2024-25 (30-19-7, then 36-15-5); season_2025_26 completes the record — entering 2026-27 he is 98 W over 170 GP (66+32, 112+58).",
+          "season_2025_26": {
+            "gp": 58,
+            "w": 32,
+            "l": 20,
+            "otl": 5,
+            "sol": 1,
+            "source": "League Reference year-by-year (2025-26 SPHL Media Guide research file): 32-20-5-1, 70 pts, 2nd"
+          }
+        },
+        "Eric Soltys": {
+          "seasons": 1,
+          "gp": 60,
+          "w": 29,
+          "years": "2008-09"
+        },
+        "Keith Jeffries": {
+          "seasons": 1,
+          "gp": 1,
+          "w": 1,
+          "years": "2011-12 (partial)"
+        }
+      },
+      "staff_tenure_entering_2026_27": {
+        "Stuart Stefan": {
+          "role": "Head Coach",
+          "hc_season_number": 4,
+          "org_note": "18th year in org overall: player 2011-18 (#4 all-time scorer, 2018 Cup as player), asst coach 2018-23, HC since 2023"
+        },
+        "Glenn Detulleo": {
+          "role": "GM",
+          "gm_season_number": 12,
+          "org_note": "17th year in org: player 2010-12 (#18 all-time), HC 2011-2023 (franchise-record 312 coaching wins, 2018+2019 Cups), GM since 2015-16"
+        },
+        "Tyler Piacentini": {
+          "role": "Assistant Coach",
+          "staff_season_number": 4,
+          "org_note": "10th year in org: player 2017-23 (#5 all-time scorer), asst since 2023-24"
+        }
+      },
+      "current_season": {
+        "season": "2026-27",
+        "team_gp": 0,
+        "team_w": 0,
+        "team_l": 0,
+        "team_otl": 0,
+        "_note": "Update alongside player current_season on game nights. Stefan's live career totals = career baseline + these."
+      },
+      "milestone_watch": {
+        "_ui_note": "Coaching Milestone Watch (same badge pattern as players): 1) Stefan career coaching WINS — at 66 + (2025-26 W, likely ~30s) he enters 2026-27 right around 100 career wins: '100 coaching wins' fires early UNLESS he already crossed it late in 2025-26 — resolve once the 2025-26 record is added. 2) Stefan chases Gibson (113 W) for 2nd-most coaching wins in franchise history — passes him THIS SEASON on any normal pace; Detulleo's 312 is the long game. 3) Stefan games coached: 112 + ~56 = passes 200 career games mid-season. 4) Round-number team milestones under Stefan: track vs franchise team records (41-win / 84-pt season, 2021-22). 5) Tenure banners for broadcast opens: Stefan 4th yr as HC / 18th in org; Detulleo 12th yr as GM / 17th in org; Piacentini 4th yr on staff / 10th in org. Thresholds: wins 50s within 5 = soon, within 15 = upcoming; games 100s within 10."
+      }
+    }
   }
 }
