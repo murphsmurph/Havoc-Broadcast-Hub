@@ -424,6 +424,8 @@
   .ms-tot td{border-top:2px solid var(--havoc-red);font-weight:900;background:var(--tint-red,transparent);}
   .ms-po{font-size:11px;color:var(--ink-2);white-space:nowrap;}
   .ms-notes{font-size:12px;line-height:1.55;color:var(--ink-2);border:1px solid var(--havoc-line);border-left:3px solid var(--havoc-red);border-radius:6px;padding:8px 11px;margin-top:8px;}
+  .ms-live td{background:var(--tint-ok,transparent);}
+  .ms-livetag{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle;}
 
   .pal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--havoc-line);}
   .pal-nm{min-width:190px;font-weight:800;font-size:13px;color:var(--ink);}
@@ -5964,14 +5966,24 @@ function msSum(rows,keys){
   return out;
 }
 function msTotals(p,scope){
+  const keys=p.type==='goalie'?['gp','svs','w','so']:['gp','g','a','pts','pim'];
   const ov=scope==='pro'
     ?(p.override_pro||p.override_pro_goalie)
     :(p.override_havoc||p.override_havoc_goalie);
+  // v2 structure: seasons[] is frozen history, baseline_* is the career total
+  // entering 2026-27, and current_season is the live counter edited on game
+  // nights. Career = baseline + current — 2026-27 is Havoc SPHL hockey, so the
+  // live counters count in BOTH scopes. Milestones run off these live sums.
+  const base=scope==='pro'?p.baseline_pro:p.baseline_havoc;
+  if(base&&p.current_season){
+    const cur=p.current_season;
+    const vals={};
+    keys.forEach(k=>{vals[k]=(base[k]==null?0:base[k])+(cur[k]==null?0:cur[k]);});
+    return {vals,ov:!!ov,live:cur,base};
+  }
+  // v1 fallback: override beats a computed sum while season rows are incomplete
   const rows=(p.seasons||[]).filter(r=>scope==='pro'?msIsPro(r):(msIsPro(r)&&msIsHavoc(r)));
-  const keys=p.type==='goalie'?['gp','svs','w','so']:['gp','g','a','pts','pim'];
   const computed=msSum(rows,keys);
-  // an override wins while season rows are incomplete; incomplete = any Pro
-  // (or Havoc) row in scope missing its GP
   const incomplete=rows.some(r=>r.gp==null);
   return {vals:ov?Object.assign({},computed,ov):computed,ov:!!ov,incomplete};
 }
@@ -6045,7 +6057,8 @@ async function msInit(){
     if(meta)meta.textContent='';
     return;
   }
-  if(meta)meta.textContent='compiled '+((d.meta||{}).compiled||'')+' · '+d.players.length+' players';
+  if(meta)meta.textContent='compiled '+((d.meta||{}).compiled||'')+' · '+d.players.length+' players'
+    +((d.meta||{}).current_season?' · career = through 2025-26 + live '+d.meta.current_season+' counters':'');
   renderMilestones();
   const sel=document.getElementById('msPlayerSel');
   if(sel){
@@ -6074,7 +6087,7 @@ function renderMilestones(){
     const body=sortRows(list,cols).map(r=>{
       const badges=Object.keys(r.flags).map(k=>msBadge(k,r.flags[k])
         .replace('">','">'+k.toUpperCase()+': ')).join(' ');
-      return `<tr><td class="ms-nm"><a href="javascript:void 0" onclick="msOpen('${esc(r.p.name).replace(/'/g,"\\'")}')">${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)}</a>${r.ov?'<span class="ms-src" title="Totals from Jacob&#39;s tracker (Apr 4, 2026) — season rows are incomplete, the override wins until the API refresh completes them">tracker</span>':''}${r.p.notes?'<span class="ms-note-i" title="'+esc(r.p.notes)+'">&#9432;</span>':''}</td>
+      return `<tr><td class="ms-nm"><a href="javascript:void 0" onclick="msOpen('${esc(r.p.name).replace(/'/g,"\\'")}')">${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)}</a>${r.ov?'<span class="ms-src" title="Totals from Jacob&#39;s tracker (Apr 4, 2026) — this career baseline comes from the tracking sheet, not a season-row sum, because some rows are still missing GP">tracker</span>':''}${r.p.notes?'<span class="ms-note-i" title="'+esc(r.p.notes)+'">&#9432;</span>':''}</td>
         ${cols.map(c=>`<td class="r">${msCell(r.vals[c])}</td>`).join('')}
         <td class="ms-watch">${badges||''}</td></tr>`;
     }).join('');
@@ -6127,6 +6140,15 @@ function renderCareerPage(idx){
     if(!rs.length)return '';
     return `<tr class="ms-grp"><td colspan="${cols.length+4}">${label}</td></tr>`+rs.map(row).join('');
   };
+  // the live 2026-27 counters, once anything has been entered on a game night
+  const liveRow=()=>{
+    const cur=p.current_season;
+    if(!cur)return '';
+    const any=cols.some(c=>cur[c]!=null&&cur[c]!==0&&c!=='gaa'&&c!=='svpct');
+    if(!any)return '';
+    return `<tr class="ms-pro ms-live"><td>${esc(cur.season||'2026-27')}</td><td class="ms-team">${esc(cur.team||'Huntsville Havoc')} <span class="ms-livetag">live</span></td><td>${esc(cur.league||'SPHL')}</td>
+      ${cols.map(c=>`<td class="r">${n(cur[c])}</td>`).join('')}<td class="r ms-po">${cur.po&&cur.po.gp?po(cur):''}</td></tr>`;
+  };
   const tot=(scope,label)=>{
     const t=msTotals(p,scope);
     const keys=G?['gp','svs','w','so']:['gp','g','a','pts','pim'];
@@ -6139,9 +6161,12 @@ function renderCareerPage(idx){
       <span class="ms-meta">${esc(p.pos||'')}${p.from?' · from '+esc(p.from):''}</span></div>
     <div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t ms-career">
       <tr><th>Season</th><th>Team</th><th>League</th>${labels.map(l=>`<th class="r">${l}</th>`).join('')}<th class="r">Playoffs ${G?'GP · PTS':'GP · G-A-P'}</th></tr>
+      ${group('Youth','YOUTH')}
+      ${group('High School','HIGH SCHOOL')}
       ${group('Junior','JUNIORS')}
       ${group('College','COLLEGE')}
       ${group('Pro','PRO')}
+      ${liveRow()}
       ${tot('pro','PRO TOTALS (regular season)')}
       ${tot('havoc','HAVOC TOTALS (regular season)')}
     </table></div>
