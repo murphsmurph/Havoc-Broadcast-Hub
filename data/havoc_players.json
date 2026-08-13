@@ -18,7 +18,7 @@
       "Slovak Extraliga"
     ],
     "current_season": "2026-27",
-    "_readme": "STRUCTURE: seasons[] = frozen career history through 2025-26 (never edit in-season). baseline_pro / baseline_havoc = career totals entering 2026-27 (pre-computed, trust these). current_season = 2026-27 live counters \u2014 the ONLY thing edited on game nights. Site must display: career = baseline + current_season (pro career adds current_season since SPHL is pro; Havoc career adds current_season since all 2026-27 games are Havoc games). Milestone flags computed off those live sums. After the season, fold current_season into seasons[] as a new row, recompute baselines, zero the counters for 2027-28."
+    "_readme": "STRUCTURE: seasons[] = frozen career history through 2025-26 (never edit in-season). baseline_pro / baseline_havoc = career totals entering 2026-27 (pre-computed, trust these). current_season = 2026-27 live counters — the ONLY thing edited on game nights. Site must display: career = baseline + current_season (pro career adds current_season since SPHL is pro; Havoc career adds current_season since all 2026-27 games are Havoc games). Milestone flags computed off those live sums. After the season, fold current_season into seasons[] as a new row, recompute baselines, zero the counters for 2027-28."
   },
   "players": [
     {
@@ -207,7 +207,7 @@
       "from": "Huntsville Havoc",
       "seasons": [
         {
-          "season": "\u2014",
+          "season": "—",
           "team": "Fort Erie Meteors / Toronto Patriots",
           "league": "GOJHL/OJHL",
           "level": "Junior",
@@ -646,7 +646,7 @@
           "svs": 58
         }
       ],
-      "notes": "Signed with Huntsville Mar 3, 2026; 34-save shutout in pro debut vs Macon; SPHL Co-Player of the Week (Mar 2026). Havoc line (2 GP, 58 saves, 2 W, 1 SO) from Jacob's tracker as of Apr 4 \u2014 verify whether he appeared in the Apr 5 finale. 2021-22 Odessa record listed as 21-17-1-3. Sources: athletics.uwsp.edu, oursportscentral.com, jackalopes.org.",
+      "notes": "Signed with Huntsville Mar 3, 2026; 34-save shutout in pro debut vs Macon; SPHL Co-Player of the Week (Mar 2026). Havoc line (2 GP, 58 saves, 2 W, 1 SO) from Jacob's tracker as of Apr 4 — verify whether he appeared in the Apr 5 finale. 2021-22 Odessa record listed as 21-17-1-3. Sources: athletics.uwsp.edu, oursportscentral.com, jackalopes.org.",
       "computed_pro_totals": {
         "gp": 2,
         "w": 2,
@@ -843,8 +843,8 @@
           "g": 12,
           "a": 14,
           "pts": 26,
-          "pim": 32,
-          "pm": 19
+          "pim": 34,
+          "pm": 0
         },
         {
           "season": "2020-21",
@@ -1009,13 +1009,13 @@
           }
         }
       ],
-      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) \u2014 totals now computed directly from season rows and match the Apr 2026 tracker exactly (329 GP, 86-107-193, 502 PIM pro; 106 GP, 23-35-58, 198 PIM w/ Havoc). Captain at Fayetteville 2023-24; won 2021 FPHL title with Columbus. 2020-21 Knoxville and 2021-22 ECHL stints were loans.",
+      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) — totals now computed directly from season rows and match the Apr 2026 tracker on GP/G/A/PTS (329 GP, 86-107-193 pro; 106 GP, 23-35-58, 198 PIM w/ Havoc). Pro PIM is 504: the SPHL website's official career table (pulled Aug 2026) lists 2019-20 Quad City at 34 PIM and +/- 0 where EP had 32 and +19; the league's own table wins, and its SPHL-only line (306 GP, 74-93-167, 485 PIM) now reconciles exactly. The tracker's 502 predates this correction. Captain at Fayetteville 2023-24; won 2021 FPHL title with Columbus. 2020-21 Knoxville and 2021-22 ECHL stints were loans.",
       "computed_pro_totals": {
         "gp": 329,
         "g": 86,
         "a": 107,
         "pts": 193,
-        "pim": 502
+        "pim": 504
       },
       "computed_havoc_totals": {
         "gp": 106,
@@ -1029,7 +1029,7 @@
         "g": 86,
         "a": 107,
         "pts": 193,
-        "pim": 502
+        "pim": 504
       },
       "baseline_havoc": {
         "gp": 106,
@@ -1168,7 +1168,7 @@
           "pm": null
         }
       ],
-      "notes": "2021 Robertson Cup champion (Shreveport); NAHL career 94 GP, 22-41 over two seasons (per-season split unavailable). Traded Pensacola\u2192Huntsville Feb 24, 2026 (for Matt Allen). Pensacola line derived from Jacob's tracker (pro 48 GP 10-18-28, 45 PIM minus Havoc 14 GP 4-9-13, 11 PIM); Pensacola's signing-era reporting said 6-11-17 \u2014 flagging the assist discrepancy. Sources: athletics.uwsp.edu, iceflyers.com, oursportscentral.com, tracker.",
+      "notes": "2021 Robertson Cup champion (Shreveport); NAHL career 94 GP, 22-41 over two seasons (per-season split unavailable). Traded Pensacola→Huntsville Feb 24, 2026 (for Matt Allen). Pensacola line derived from Jacob's tracker (pro 48 GP 10-18-28, 45 PIM minus Havoc 14 GP 4-9-13, 11 PIM); Pensacola's signing-era reporting said 6-11-17 — flagging the assist discrepancy. Sources: athletics.uwsp.edu, iceflyers.com, oursportscentral.com, tracker.",
       "computed_pro_totals": {
         "gp": 48,
         "g": 10,
@@ -1404,7 +1404,7 @@
         },
         {
           "season": "2024-25",
-          "team": "HCMP Courchevel-M\u00e9ribel-Pralognan",
+          "team": "HCMP Courchevel-Méribel-Pralognan",
           "league": "France Division 1",
           "level": "Pro",
           "gp": 27,
@@ -1446,7 +1446,7 @@
           "pm": null
         }
       ],
-      "notes": "First SPHL contract (signed Aug 2026). No 2020-21 season (OUA canceled, COVID). Lakehead totals include playoff/exhibition games. Heerenveen line is combined BeNe League + Dutch cup competitions per the Havoc signing release. Junior lines reconstructed from eurohockey.com \u2014 medium confidence on PIM. Sources: oursportscentral.com signing release, eurohockey.com, thunderwolveshockey.com.",
+      "notes": "First SPHL contract (signed Aug 2026). No 2020-21 season (OUA canceled, COVID). Lakehead totals include playoff/exhibition games. Heerenveen line is combined BeNe League + Dutch cup competitions per the Havoc signing release. Junior lines reconstructed from eurohockey.com — medium confidence on PIM. Sources: oursportscentral.com signing release, eurohockey.com, thunderwolveshockey.com.",
       "computed_pro_totals": {
         "gp": 67,
         "g": 12,
@@ -1807,7 +1807,7 @@
           "pm": 14
         }
       ],
-      "notes": "Huntsville, AL native. 2024-25: led all NCAA D3 with 31 goals; AHCA Second-Team All-American; DIIIHockeyNews Rookie of the Year. No pro games yet \u2014 2026-27 with the Havoc would be his pro debut. Sources: athletics.aurora.edu, StatsCrew, nahl.com.",
+      "notes": "Huntsville, AL native. 2024-25: led all NCAA D3 with 31 goals; AHCA Second-Team All-American; DIIIHockeyNews Rookie of the Year. No pro games yet — 2026-27 with the Havoc would be his pro debut. Sources: athletics.aurora.edu, StatsCrew, nahl.com.",
       "computed_pro_totals": {
         "gp": 0,
         "g": 0,
@@ -2305,7 +2305,7 @@
           "pm": 1
         }
       ],
-      "notes": "Transferred UNE\u2192LVC mid-2023-24. Pro debut Mar 7, 2026 with Roanoke (#91 there). Signed with Huntsville Aug 11, 2026. College career: 64 GP, 14-36-50, 51 PIM. Sources: godutchmen.com, athletics.une.edu, railyarddawgs.com game notes, oursportscentral.com.",
+      "notes": "Transferred UNE→LVC mid-2023-24. Pro debut Mar 7, 2026 with Roanoke (#91 there). Signed with Huntsville Aug 11, 2026. College career: 64 GP, 14-36-50, 51 PIM. Sources: godutchmen.com, athletics.une.edu, railyarddawgs.com game notes, oursportscentral.com.",
       "computed_pro_totals": {
         "gp": 4,
         "g": 0,
@@ -2809,7 +2809,7 @@
           "pm": 10
         }
       ],
-      "notes": "Won the 2022 NCAA D3 national title with Adrian. Traded Huntsville\u2192Peoria Nov 24, 2025. Named to playoff rosters in 2025 (HSV) and 2026 (PEO); playoff stat lines unavailable. Sources: adrianbulldogs.com, uwsyellowjackets.com, EP team pages, oursportscentral.com.",
+      "notes": "Won the 2022 NCAA D3 national title with Adrian. Traded Huntsville→Peoria Nov 24, 2025. Named to playoff rosters in 2025 (HSV) and 2026 (PEO); playoff stat lines unavailable. Sources: adrianbulldogs.com, uwsyellowjackets.com, EP team pages, oursportscentral.com.",
       "computed_pro_totals": {
         "gp": 92,
         "g": 0,
@@ -3241,7 +3241,7 @@
           }
         }
       ],
-      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) \u2014 computed pro totals now match the tracker exactly: 164 GP, 95 W, 10 SO pro; 92 GP, 49 W, 8 SO w/ Havoc. Career SAVES totals (4544 pro / 2566 Havoc) still come from Jacob's Apr 4, 2026 tracker \u2014 EP doesn't publish per-season saves. 2022-23 FPHL champion + FPHL Goaltender of the Year (Danbury). 2025-26: led SPHL in wins (24), saves and minutes; SPHL Goaltender of the Month Mar/Apr 2026. Sources: EliteProspects, purpleeagles.com, huntsvillehavoc.com, danburyhattricks.com, thesphl.com.",
+      "notes": "Complete career data from EliteProspects (provided by Jacob, Aug 2026) — computed pro totals now match the tracker exactly: 164 GP, 95 W, 10 SO pro; 92 GP, 49 W, 8 SO w/ Havoc. Career SAVES totals (4544 pro / 2566 Havoc) still come from Jacob's Apr 4, 2026 tracker — EP doesn't publish per-season saves. 2022-23 FPHL champion + FPHL Goaltender of the Year (Danbury). 2025-26: led SPHL in wins (24), saves and minutes; SPHL Goaltender of the Month Mar/Apr 2026. Sources: EliteProspects, purpleeagles.com, huntsvillehavoc.com, danburyhattricks.com, thesphl.com.",
       "computed_pro_totals": {
         "gp": 164,
         "w": 95,
@@ -3359,7 +3359,7 @@
           "pm": 7
         }
       ],
-      "notes": "Barrie, ON. OHL draft pick (Owen Sound, 2019, Rd 12) \u2014 never played OHL. Captain at Pickering 2022-23. OJHL per-season stats unavailable from accessible sources. 2025-26 was his first pro season. Sources: StatsCrew, QuantHockey, oursportscentral.com, ojhl.ca.",
+      "notes": "Barrie, ON. OHL draft pick (Owen Sound, 2019, Rd 12) — never played OHL. Captain at Pickering 2022-23. OJHL per-season stats unavailable from accessible sources. 2025-26 was his first pro season. Sources: StatsCrew, QuantHockey, oursportscentral.com, ojhl.ca.",
       "computed_pro_totals": {
         "gp": 53,
         "g": 8,
