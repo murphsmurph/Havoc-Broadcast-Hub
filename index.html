@@ -430,6 +430,13 @@
   .rec-none{font-size:12.5px;color:var(--ink-2);line-height:1.55;}
   .rec-src{font-size:11px;color:var(--ink-2);margin-top:4px;}
   .ms-live td{background:var(--tint-ok,transparent);}
+  .fr-t td{padding:3px 8px;}
+  .fr-me td{background:var(--tint-red,rgba(200,16,46,.07));font-weight:700;}
+  .fr-rk{white-space:nowrap;font-variant-numeric:tabular-nums;}
+  .fr-pts{font-weight:900;}
+  .fr-yrs{font-size:11px;color:var(--ink-2);white-space:nowrap;}
+  .fr-chip{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:5px;vertical-align:middle;}
+  .fr-climb{font-size:10px;font-weight:900;color:var(--ok,#1a7f37);margin-left:4px;}
   .ms-livetag{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle;}
 
   .pal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid var(--havoc-line);}
@@ -1149,10 +1156,11 @@
     <div class="subview" id="panel-careers">
     <div class="card hub-card">
       <h2>Milestone <span class="accent">Tracker</span> <span id="msMeta" class="upd"></span></h2>
-      <p class="desc">Two boards from <i>data/havoc_players.json</i>: <b>Overall Pro Career</b> counts pro leagues only (SPHL, ECHL, FPHL, AHL, NHL and European pro) — never NCAA or juniors — and <b>w/ Havoc</b> counts Huntsville games only. Regular season only; playoffs live on the career pages. Skaters track GP / G / A / PTS / PIM, goalies GP / SVS / W / SO. A badge means a milestone is in reach: <span class="ms-badge soon">soon</span> = 5 or fewer away, <span class="ms-badge up">upcoming</span> = within 15, <span class="ms-badge far">this season</span> = inside the watch window. Click any column head to sort; click a name for the career page. &ldquo;&mdash;&rdquo; means not published anywhere — never zero.</p>
+      <p class="desc">Two boards from <i>data/havoc_players.json</i>: <b>Overall Pro Career</b> counts pro leagues only (SPHL, ECHL, FPHL, AHL, NHL and European pro) — never NCAA or juniors — and <b>w/ Havoc</b> counts Huntsville games only. Regular season only; playoffs live on the career pages. Skaters track GP / G / A / PTS / PIM, goalies GP / SVS / W / SO. A badge means a milestone is in reach: <span class="ms-badge soon">soon</span> = 5 or fewer away, <span class="ms-badge up">upcoming</span> = within 15, <span class="ms-badge far">this season</span> = inside the watch window. Click any column head to sort; click a name for the career page. &ldquo;&mdash;&rdquo; means not published anywhere — never zero. <b>All-Time Havoc</b> is the franchise scoring list: roster players carry their live career and the board re-ranks itself as they score.</p>
       <div class="btn-row">
         <button class="btn small secondary ms-view dark" data-msv="pro" onclick="msView('pro')">Overall Pro Career</button>
         <button class="btn small secondary ms-view" data-msv="havoc" onclick="msView('havoc')">Milestones w/ Havoc</button>
+        <button class="btn small secondary ms-view" data-msv="alltime" onclick="msView('alltime')">All-Time Havoc</button>
         <input type="file" id="msFile" accept="application/json" style="display:none" onchange="msImportFile(event)">
         <button class="btn small secondary" onclick="document.getElementById('msFile').click()">Import havoc_players.json</button>
       </div>
@@ -6074,6 +6082,16 @@ async function msInit(){
 }
 function renderMilestones(){
   const el=document.getElementById('msBoard');if(!el||!MS_DATA)return;
+  if(MS_VIEW==='alltime'){
+    renderAllTime();
+    const watch=document.getElementById('msWatch');
+    if(watch){
+      const fr=frBannerLines().sort((a,b)=>a.away-b.away);
+      watch.innerHTML=fr.length?`<div class="ms-urgent">${fr.map(x=>`<div class="ms-call">${x.html}</div>`).join('')}</div>`:'';
+    }
+    renderRecordWatch();
+    return;
+  }
   const scope=MS_VIEW;
   const rows=MS_DATA.players.map(p=>{
     const t=msTotals(p,scope);
@@ -6092,7 +6110,8 @@ function renderMilestones(){
     const head=`<tr><th onclick="msSort('name')" class="s">Player</th>${cols.map((c,i)=>`<th class="r s" onclick="msSort('${c}')">${labels[i]}${MS_SORT.col===c?(MS_SORT.dir<0?' ▾':' ▴'):''}</th>`).join('')}<th>Watch</th></tr>`;
     const body=sortRows(list,cols).map(r=>{
       const badges=Object.keys(r.flags).map(k=>msBadge(k,r.flags[k])
-        .replace('">','">'+k.toUpperCase()+': ')).join(' ');
+        .replace('">','">'+k.toUpperCase()+': ')).join(' ')
+        +(scope==='havoc'&&r.p.type!=='goalie'?' '+frPassBadge(r.p):'');
       return `<tr><td class="ms-nm"><a href="javascript:void 0" onclick="msOpen('${esc(r.p.name).replace(/'/g,"\\'")}')">${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)}</a>${r.ov?'<span class="ms-src" title="Totals from Jacob&#39;s tracker (Apr 4, 2026) — this career baseline comes from the tracking sheet, not a season-row sum, because some rows are still missing GP">tracker</span>':''}${r.p.notes?'<span class="ms-note-i" title="'+esc(r.p.notes)+'">&#9432;</span>':''}</td>
         ${cols.map(c=>`<td class="r">${msCell(r.vals[c])}</td>`).join('')}
         <td class="ms-watch">${badges||''}</td></tr>`;
@@ -6114,14 +6133,119 @@ function renderMilestones(){
     }));
     renderRecordWatch();
     urgent.sort((a,b)=>a.hit.away-b.hit.away);
-    watch.innerHTML=urgent.length?`<div class="ms-urgent">${urgent.map(u=>{
+    const lines=urgent.map(u=>{
       const last=u.r.p.name.split(' ').pop();
       const what=u.k==='gp'?(u.hit.away+' game'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
         :(u.k==='w'?(u.hit.away+' win'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
         :(u.hit.away+' '+({g:'goal',a:'assist',pts:'point'})[u.k]+(u.hit.away===1?'':'s')+' from '+u.hit.next));
-      return `<div class="ms-call"><b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}</div>`;
-    }).join('')}</div>`:'';
+      return {away:u.hit.away,html:`<b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}`};
+    });
+    // the franchise-list races ride along on the Havoc board
+    if(scope==='havoc')lines.push(...frBannerLines());
+    lines.sort((a,b)=>a.away-b.away);
+    watch.innerHTML=lines.length?`<div class="ms-urgent">${lines.map(x=>`<div class="ms-call">${x.html}</div>`).join('')}</div>`:'';
   }
+}
+/* ============================================================
+   FRANCHISE RACE — the all-time Havoc scoring list from
+   franchise_records.career_leaders_points, joined to the current roster by
+   name. Roster players ride their LIVE Havoc career (baseline + the
+   game-night counters) and the list re-ranks itself, so a two-point night
+   moves a man up the board before the Zamboni is done. Ties share a rank.
+   ============================================================ */
+function frLeaders(){
+  const fr=((MS_DATA||{}).franchise_records||{}).career_leaders_points;
+  return (fr&&fr.leaders)||[];
+}
+/* join a leaders entry to a roster player: the pre-set flag plus a name match
+   that survives "Giovanni Procopio" vs "Gio Procopio" */
+function frJoin(entry){
+  if(!MS_DATA)return null;
+  const exact=MS_DATA.players.find(p=>p.name===entry.name);
+  if(exact)return exact;
+  if(!entry.active_2026_27_roster)return null;
+  return (typeof rosterMatch==='function'?rosterMatch(entry.name,MS_DATA.players):null)||null;
+}
+/* the list with live numbers on roster rows, re-ranked; competition ranking,
+   so equal points share a rank and the next one skips */
+function frLive(){
+  const L=frLeaders();
+  // static rank under the same shared-rank rule, so a tie the club numbered
+  // sequentially (…51, 52 on equal points) doesn't read as a day-one climb
+  const statRank=e=>1+L.filter(x=>x.pts>e.pts).length;
+  const rows=L.map(e=>{
+    const p=frJoin(e);
+    if(!p)return {e,live:null,pts:e.pts,gp:e.gp,g:e.g,a:e.a,pim:e.pim};
+    const t=msTotals(p,'havoc').vals;
+    return {e,live:p,pts:t.pts??e.pts,gp:t.gp??e.gp,g:t.g??e.g,a:t.a??e.a,pim:t.pim??e.pim};
+  });
+  rows.sort((x,y)=>(y.pts-x.pts)||((x.e.rank||99)-(y.e.rank||99)));
+  rows.forEach(r=>{
+    r.rank=1+rows.filter(x=>x.pts>r.pts).length;
+    r.tied=rows.filter(x=>x.pts===r.pts).length>1;
+    r.climb=statRank(r.e)-r.rank;
+  });
+  return rows;
+}
+/* the next man strictly above a roster player, and what it takes to pass him */
+function frNextPass(row,rows){
+  const above=[...rows].reverse().find(x=>x.pts>row.pts);
+  if(!above)return null;
+  return {name:above.e.name,need:above.pts+1-row.pts};
+}
+/* distance to the all-time top 15 (a tie at #15's points shares the rank) */
+function frTop15(row,rows){
+  const r15=rows.filter(x=>x.rank<=15);
+  if(!r15.length||row.rank<=15)return null;
+  const bar=Math.min(...r15.map(x=>x.pts));
+  return {need:bar-row.pts,bar};
+}
+function renderAllTime(){
+  const el=document.getElementById('msBoard');if(!el)return;
+  const rows=frLive();
+  if(!rows.length){el.innerHTML=emptyState('No franchise leaders list in the data file','franchise_records.career_leaders_points is missing.');return;}
+  const meta=((MS_DATA.franchise_records||{}).career_leaders_points||{});
+  const rk=r=>(r.tied?'T-':'')+r.rank;
+  const body=rows.map(r=>{
+    const ppg=r.live?(r.gp?(r.pts/r.gp).toFixed(2):'—'):(r.e.ppg!=null?r.e.ppg.toFixed(2):'—');
+    return `<tr class="${r.live?'fr-me':''}">
+      <td class="r fr-rk">${rk(r)}${r.live&&r.climb>0?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the static list">&#9650;${r.climb}</span>`:''}</td>
+      <td class="ms-nm">${r.live?`<a href="javascript:void 0" onclick="msOpen('${esc(r.live.name).replace(/'/g,"\\'")}')">${esc(r.e.name)}</a> <span class="fr-chip">ROSTER</span>`:esc(r.e.name)}</td>
+      <td>${esc(r.e.pos||'')}</td>
+      <td class="r">${msCell(r.gp)}</td><td class="r">${msCell(r.g)}</td><td class="r">${msCell(r.a)}</td>
+      <td class="r fr-pts">${msCell(r.pts)}</td><td class="r">${ppg}</td><td class="r">${msCell(r.pim)}</td>
+      <td class="fr-yrs">${esc(r.e.years||'')}</td></tr>`;
+  }).join('');
+  el.innerHTML=
+    `<div class="section-label hub-sectionhead">All-time Havoc scoring — skaters, through 2025-26, live for the 2026-27 roster</div>`
+   +`<div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t">
+      <tr><th class="r">#</th><th>Player</th><th>Pos</th><th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th><th class="r">P/GP</th><th class="r">PIM</th><th>Years</th></tr>
+      ${body}</table></div>`
+   +`<div class="section-label hub-sectionhead">Goalie career leaders</div>
+     <div class="rec-none">Not yet provided — Wilson (92 GP, 49 W as a Havoc) is likely already top-5 in franchise wins. This section fills in when the club supplies the goalie list.</div>`
+   +`<p class="desc" style="margin-top:6px">${esc(meta._source||'')}</p>`;
+}
+/* the pass badge for the Havoc milestone board's watch column */
+function frPassBadge(p){
+  const rows=frLive();
+  const mine=rows.find(r=>r.live===p);
+  if(!mine)return '';
+  const pass=frNextPass(mine,rows);
+  if(!pass||pass.need>15)return '';
+  return `<span class="ms-badge ${pass.need<=5?'soon':'up'}" title="all-time Havoc scoring — currently ${(mine.tied?'T-':'')+mine.rank}">passes ${esc(pass.name.split(' ').pop())} in ${pass.need} PTS</span>`;
+}
+/* banner lines: a pass inside 3 points, or the top 15 inside 10 */
+function frBannerLines(){
+  const out=[];
+  const rows=frLive();
+  rows.filter(r=>r.live).forEach(r=>{
+    const last=r.live.name.split(' ').pop();
+    const pass=frNextPass(r,rows);
+    if(pass&&pass.need<=3)out.push({away:pass.need,html:`<b>${esc(last)}</b> passes ${esc(pass.name)} on the all-time Havoc list in ${pass.need} point${pass.need===1?'':'s'}`});
+    const t15=frTop15(r,rows);
+    if(t15&&t15.need<=10)out.push({away:t15.need,html:`<b>${esc(last)}</b> is ${t15.need} point${t15.need===1?'':'s'} from the all-time Havoc top 15`});
+  });
+  return out;
 }
 /* ============================================================
    FRANCHISE RECORD WATCH — the same idea as the milestone board, aimed at
