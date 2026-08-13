@@ -6111,7 +6111,7 @@ function renderMilestones(){
     const body=sortRows(list,cols).map(r=>{
       const badges=Object.keys(r.flags).map(k=>msBadge(k,r.flags[k])
         .replace('">','">'+k.toUpperCase()+': ')).join(' ')
-        +(scope==='havoc'&&r.p.type!=='goalie'?' '+frPassBadge(r.p):'');
+        +(scope==='havoc'?' '+(r.p.type==='goalie'?frgPassBadge(r.p):frPassBadge(r.p)):'');
       return `<tr><td class="ms-nm"><a href="javascript:void 0" onclick="msOpen('${esc(r.p.name).replace(/'/g,"\\'")}')">${r.p.num?'#'+esc(r.p.num)+' ':''}${esc(r.p.name)}</a>${r.ov?'<span class="ms-src" title="Totals from Jacob&#39;s tracker (Apr 4, 2026) — this career baseline comes from the tracking sheet, not a season-row sum, because some rows are still missing GP">tracker</span>':''}${r.p.notes?'<span class="ms-note-i" title="'+esc(r.p.notes)+'">&#9432;</span>':''}</td>
         ${cols.map(c=>`<td class="r">${msCell(r.vals[c])}</td>`).join('')}
         <td class="ms-watch">${badges||''}</td></tr>`;
@@ -6221,8 +6221,8 @@ function renderAllTime(){
    +`<div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t">
       <tr><th class="r">#</th><th>Player</th><th>Pos</th><th class="r">GP</th><th class="r">G</th><th class="r">A</th><th class="r">PTS</th><th class="r">P/GP</th><th class="r">PIM</th><th>Years</th></tr>
       ${body}</table></div>`
-   +`<div class="section-label hub-sectionhead">Goalie career leaders</div>
-     <div class="rec-none">Not yet provided — Wilson (92 GP, 49 W as a Havoc) is likely already top-5 in franchise wins. This section fills in when the club supplies the goalie list.</div>`
+   +`<div class="section-label hub-sectionhead">Goalie career leaders${frgLeaders().length?' — click GP, W, SO, GAA, SV% or SVS to re-rank':''}</div>`
+   +frgTableHTML()
    +`<p class="desc" style="margin-top:6px">${esc(meta._source||'')}</p>`;
 }
 /* the pass badge for the Havoc milestone board's watch column */
@@ -6245,7 +6245,88 @@ function frBannerLines(){
     const t15=frTop15(r,rows);
     if(t15&&t15.need<=10)out.push({away:t15.need,html:`<b>${esc(last)}</b> is ${t15.need} point${t15.need===1?'':'s'} from the all-time Havoc top 15`});
   });
+  // goalie chases — only a pass into the top 10 of a column makes the banner,
+  // so a two-win rookie passing the bottom of the list doesn't drown the board
+  [['w','wins list',3,'win'],['gp','games list',3,'game'],['svs','saves list',25,'save']].forEach(([col,label,win,unit])=>{
+    const g=frgLive().filter(x=>x[col]!=null).sort((a,b)=>b[col]-a[col]);
+    g.filter(x=>x.live).forEach(r=>{
+      const above=[...g].reverse().find(x=>x[col]>r[col]);
+      if(!above)return;
+      const need=above[col]+1-r[col];
+      const aboveRank=1+g.filter(x=>x[col]>above[col]).length;
+      if(need<=win&&aboveRank<=10){
+        const last=r.live.name.split(' ').pop();
+        out.push({away:need,html:`<b>${esc(last)}</b> passes ${esc(above.e.name)} on the all-time Havoc ${label} in ${need} ${unit}${need===1?'':'s'}`});
+      }
+    });
+  });
   return out;
+}
+/* ---- the goalie side of the race — ranked by GP by default, re-sortable;
+   rate columns qualify at 25 Havoc games per the club's note. The game-night
+   counters carry GP, W, SO and saves live; GAA and SV% stay as of 2025-26
+   because the counters don't track goals-against or minutes. ---- */
+var FRG_SORT='gp';
+const FRG_ASC={gaa:true};        // every other column: bigger is better
+function frgSort(c){FRG_SORT=c;renderMilestones();}
+function frgLeaders(){
+  const fr=((MS_DATA||{}).franchise_records||{}).career_leaders_goalies;
+  return (fr&&fr.leaders)||[];
+}
+function frgLive(){
+  return frgLeaders().map(e=>{
+    const p=frJoin(e);
+    const r={e,live:null,gp:e.gp,w:e.w,l:e.l,t:e.t,so:e.so,svs:e.svs,gaa:e.gaa,svpct:e.svpct};
+    if(p&&p.type==='goalie'){
+      const t=msTotals(p,'havoc').vals;
+      r.live=p;r.gp=t.gp??e.gp;r.w=t.w??e.w;r.so=t.so??e.so;r.svs=t.svs??e.svs;
+    }
+    return r;
+  });
+}
+function frgRanked(col){
+  const asc=!!FRG_ASC[col];
+  const better=(a,b)=>a==null?false:(b==null?true:(asc?a<b:a>b));
+  const rate=col==='gaa'||col==='svpct';
+  let rows=frgLive(),hidden=0;
+  if(rate){const n=rows.length;rows=rows.filter(r=>(r.gp||0)>=25);hidden=n-rows.length;}
+  rows.sort((x,y)=>better(x[col],y[col])?-1:(better(y[col],x[col])?1:((x.e.rank||99)-(y.e.rank||99))));
+  rows.forEach(r=>{
+    r.rank=1+rows.filter(x=>better(x[col],r[col])).length;
+    r.tied=r[col]!=null&&rows.filter(x=>x[col]===r[col]).length>1;
+    r.climb=(1+rows.filter(x=>better(x.e[col],r.e[col])).length)-r.rank;
+  });
+  return {rows,hidden};
+}
+/* the goalie pass badge rides the wins chase — that is the story the club's
+   note tells (49, one behind McWhinney for 3rd) */
+function frgPassBadge(p){
+  const rows=frgLive().filter(r=>r.w!=null).sort((a,b)=>b.w-a.w);
+  const mine=rows.find(r=>r.live===p);
+  if(!mine)return '';
+  const above=[...rows].reverse().find(x=>x.w>mine.w);
+  if(!above)return '';
+  const need=above.w+1-mine.w;
+  if(need>15)return '';
+  return `<span class="ms-badge ${need<=5?'soon':'up'}" title="all-time Havoc wins list">passes ${esc(above.e.name.split(' ').pop())} in ${need} W</span>`;
+}
+function frgTableHTML(){
+  const gm=((MS_DATA.franchise_records||{}).career_leaders_goalies||{});
+  if(!frgLeaders().length)
+    return `<div class="rec-none">Not yet provided — Wilson (92 GP, 49 W as a Havoc) is likely already top-5 in franchise wins. This section fills in when the club supplies the goalie list.</div>`;
+  const gr=frgRanked(FRG_SORT);
+  const cols=[['gp','GP',1],['w','W',1],['l','L',0],['t','T',0],['so','SO',1],['gaa','GAA',1],['svpct','SV%',1],['svs','SVS',1]];
+  const fmt=(c,v)=>v==null?'<span class="ms-null">—</span>'
+    :(c==='gaa'?v.toFixed(2):(c==='svpct'?'.'+String(Math.round(v*1000)).padStart(3,'0'):v));
+  const head=`<tr><th class="r">#</th><th>Goalie</th>${cols.map(([c,l,s])=>`<th class="r${s?' s':''}"${s?` onclick="frgSort('${c}')"`:''}>${l}${FRG_SORT===c?' ▾':''}</th>`).join('')}<th>Years</th></tr>`;
+  const body=gr.rows.map(r=>`<tr class="${r.live?'fr-me':''}">
+    <td class="r fr-rk">${(r.tied?'T-':'')+r.rank}${r.live&&r.climb>0?`<span class="fr-climb" title="up ${r.climb} spot${r.climb===1?'':'s'} on the static list">&#9650;${r.climb}</span>`:''}</td>
+    <td class="ms-nm">${r.live?`<a href="javascript:void 0" onclick="msOpen('${esc(r.live.name).replace(/'/g,"\\'")}')">${esc(r.e.name)}</a> <span class="fr-chip">ROSTER</span>`:esc(r.e.name)}</td>
+    ${cols.map(([c])=>`<td class="r${c===FRG_SORT?' fr-pts':''}">${fmt(c,r[c])}</td>`).join('')}
+    <td class="fr-yrs">${esc(r.e.years||'')}</td></tr>`).join('');
+  return `<div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t fr-t">${head}${body}</table></div>`
+    +(gr.hidden?`<p class="desc" style="margin-top:4px">Rate columns qualify at 25 Havoc games — ${gr.hidden} goalies under the line are off this sort.</p>`:'')
+    +`<p class="desc" style="margin-top:4px">${esc(gm._source||'')} GP, wins, shutouts and saves run live off the game-night counters; GAA and SV% are through 2025-26.</p>`;
 }
 /* ============================================================
    FRANCHISE RECORD WATCH — the same idea as the milestone board, aimed at
