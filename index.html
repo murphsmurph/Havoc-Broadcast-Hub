@@ -424,6 +424,11 @@
   .ms-tot td{border-top:2px solid var(--havoc-red);font-weight:900;background:var(--tint-red,transparent);}
   .ms-po{font-size:11px;color:var(--ink-2);white-space:nowrap;}
   .ms-notes{font-size:12px;line-height:1.55;color:var(--ink-2);border:1px solid var(--havoc-line);border-left:3px solid var(--havoc-red);border-radius:6px;padding:8px 11px;margin-top:8px;}
+  .rec-row{font-size:13px;line-height:1.5;color:var(--ink);border-left:3px solid var(--havoc-line);padding:4px 10px;margin:3px 0;border-radius:0 6px 6px 0;background:var(--surface-2);}
+  .rec-row.rec-soon{border-left-color:var(--havoc-red);background:var(--tint-red,var(--surface-2));font-weight:700;}
+  .rec-row.rec-holds{border-left-color:#b48a00;background:#ffefc0;color:#5c4a00;}
+  .rec-none{font-size:12.5px;color:var(--ink-2);line-height:1.55;}
+  .rec-src{font-size:11px;color:var(--ink-2);margin-top:4px;}
   .ms-live td{background:var(--tint-ok,transparent);}
   .ms-livetag{font-size:9px;font-weight:900;text-transform:uppercase;color:#fff;background:var(--havoc-red);border-radius:4px;padding:0 5px;margin-left:4px;vertical-align:middle;}
 
@@ -1153,6 +1158,7 @@
       </div>
       <div id="msWatch"></div>
       <div id="msBoard"></div>
+      <div id="msRecords"></div>
     </div>
     <div class="card hub-card">
       <h2>Player <span class="accent">Career Pages</span></h2>
@@ -6106,6 +6112,7 @@ function renderMilestones(){
     rows.forEach(r=>Object.keys(r.flags).forEach(k=>{
       if(r.flags[k].away<=5)urgent.push({r,k,hit:r.flags[k]});
     }));
+    renderRecordWatch();
     urgent.sort((a,b)=>a.hit.away-b.hit.away);
     watch.innerHTML=urgent.length?`<div class="ms-urgent">${urgent.map(u=>{
       const last=u.r.p.name.split(' ').pop();
@@ -6115,6 +6122,68 @@ function renderMilestones(){
       return `<div class="ms-call"><b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}</div>`;
     }).join('')}</div>`:'';
   }
+}
+/* ============================================================
+   FRANCHISE RECORD WATCH — the same idea as the milestone board, aimed at
+   the club's own book. Career records compare against the live Havoc career
+   (baseline + current); single-season records compare against the 2026-27
+   counters, so it stays quiet until the season starts and then wakes up on
+   its own. Record values parse from the seeded League Reference strings, so
+   an edit to the records card feeds straight through.
+   ============================================================ */
+const REC_WATCH={
+  career:{skater:{gp:['Games',25],g:['Goals',10],a:['Assists',10],pts:['Points',15],pim:['Penalty minutes',25]},
+          goalie:{gp:['Games',25],w:['Wins (goalie)',10],so:['Shutouts',2]}},
+  season:{skater:{g:['Most goals, season',10],a:['Most assists, season',10],pts:['Most points, season',15],pim:['Most PIM, season',25]}}
+};
+function recParse(label,list){
+  const hit=(list||[]).find(r=>r[0]===label);
+  if(!hit)return null;
+  const m=String(hit[1]).match(/-?[\d,]+(?:\.\d+)?/);
+  if(!m)return null;
+  return {val:parseFloat(m[0].replace(/,/g,'')),who:String(hit[1]).replace(m[0],'').replace(/^[\s—-]+/,'').trim()};
+}
+function recWatchRows(){
+  const R=(typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvRecords)||null;
+  if(!R||!MS_DATA)return [];
+  const out=[];
+  MS_DATA.players.forEach(p=>{
+    const type=p.type==='goalie'?'goalie':'skater';
+    const hav=msTotals(p,'havoc').vals;
+    Object.entries(REC_WATCH.career[type]||{}).forEach(([k,[label,win]])=>{
+      const rec=recParse(label,R.career);if(!rec)return;
+      const val=hav[k];if(val==null)return;
+      const away=rec.val-val;
+      if(away<=win)out.push({p,scope:'career',k,label,rec,val,away});
+    });
+    const cur=p.current_season||{};
+    Object.entries((REC_WATCH.season[type])||{}).forEach(([k,[label,win]])=>{
+      const rec=recParse(label,R.players);if(!rec)return;
+      const val=cur[k];if(val==null||val===0)return;   // preseason: nothing to watch yet
+      const away=rec.val-val;
+      if(away<=win)out.push({p,scope:'season',k,label,rec,val,away});
+    });
+  });
+  return out.sort((a,b)=>a.away-b.away);
+}
+function renderRecordWatch(){
+  const el=document.getElementById('msRecords');if(!el)return;
+  const R=(typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvRecords)||null;
+  if(!R||!MS_DATA){el.innerHTML='';return;}
+  const rows=recWatchRows();
+  const statName={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts'};
+  const line=r=>{
+    const last=r.p.name.split(' ').pop();
+    const what=(r.scope==='season'?'the single-season record':'the franchise '+statName[r.k]+' record');
+    if(r.away<=0)
+      // ahead of the book — either the record is his now, or the seeded number is stale
+      return `<div class="rec-row rec-holds"><b>${esc(last)}</b> — ${r.val} ${esc(statName[r.k])} as a Havoc, ahead of ${esc(what)} in the book (${r.rec.val}${r.rec.who?', '+esc(r.rec.who):''}) — verify the record before air</div>`;
+    return `<div class="rec-row ${r.away<=5?'rec-soon':''}"><b>${esc(last)}</b> is <b>${r.away}</b> ${esc(statName[r.k])} from ${esc(what)} — ${r.rec.val}${r.rec.who?', held by '+esc(r.rec.who):''}</div>`;
+  };
+  el.innerHTML=`<div class="section-label hub-sectionhead">Franchise record watch — the club book vs. live Havoc careers</div>`
+    +(rows.length?rows.map(line).join('')
+      :`<div class="rec-none">Nobody is inside the watch window on any franchise record. Career records check against live Havoc careers (closest today: Wilson's ${(function(){const w=MS_DATA.players.find(x=>x.name==='Brian Wilson');const r=recParse('Wins (goalie)',R.career);return w&&r?msTotals(w,'havoc').vals.w+' wins vs '+r.val+' ('+r.who+')':'—';})()}); single-season records wake up once the 2026-27 counters start moving.</div>`)
+    +`<div class="rec-src">Record book from League Reference → Franchise records — edit it there and this watch follows.</div>`;
 }
 function msOpen(name){
   const i=MS_DATA.players.findIndex(p=>p.name===name);
