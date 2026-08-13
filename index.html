@@ -6130,8 +6130,13 @@ function renderCareerPage(idx){
   const p=MS_DATA.players[+idx];if(!p)return;
   const G=p.type==='goalie';
   const n=msCell;
-  const cols=G?['gp','w','l','otl','so','gaa','svpct','svs']:['gp','g','a','pts','pim','pm'];
-  const labels=G?['GP','W','L','OTL','SO','GAA','SV%','SVS']:['GP','G','A','PTS','PIM','+/-'];
+  // league-stat extras (shots, PPG, GWG, SHG) print only when this player's
+  // rows actually carry them — today that is Fries's SPHL seasons
+  const hasExtras=!G&&(p.seasons||[]).some(r=>r.shots!=null||r.ppg!=null||r.gwg!=null||r.shg!=null);
+  const cols=G?['gp','w','l','otl','so','gaa','svpct','svs']
+    :(hasExtras?['gp','g','a','pts','pim','pm','shots','ppg','gwg','shg']:['gp','g','a','pts','pim','pm']);
+  const labels=G?['GP','W','L','OTL','SO','GAA','SV%','SVS']
+    :(hasExtras?['GP','G','A','PTS','PIM','+/-','S','PPG','GWG','SHG']:['GP','G','A','PTS','PIM','+/-']);
   const po=r=>r.po?`${n(r.po.gp)} · ${G?'':n(r.po.g)+'-'+n(r.po.a)+'-'}${n(r.po.pts!=null?r.po.pts:null)}`:'';
   const row=r=>`<tr class="${msIsPro(r)?'ms-pro':''}"><td>${esc(r.season)}</td><td class="ms-team">${esc(r.team)}</td><td>${esc(r.league)}</td>
     ${cols.map(c=>`<td class="r">${n(r[c])}</td>`).join('')}<td class="r ms-po">${r.po?po(r):''}</td></tr>`;
