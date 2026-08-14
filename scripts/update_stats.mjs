@@ -37,20 +37,25 @@ const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
 const FILE = process.env.HAVOC_FILE || path.join(ROOT, 'data', 'havoc_players.json');
 
 // ---- key: env first, then .env (never committed — .gitignore has it) ----
-function apiKey() {
+export function findKey() {
   if (process.env.EP_API_KEY) return process.env.EP_API_KEY.trim();
   try {
     const env = fs.readFileSync(path.join(ROOT, '.env'), 'utf8');
     const m = env.match(/^EP_API_KEY=(.+)$/m);
     if (m) return m[1].trim();
   } catch (e) {}
+  return null;
+}
+function apiKey() {
+  const k = findKey();
+  if (k) return k;
   console.error('No EP_API_KEY in the environment or .env — nothing fetched.');
   process.exit(1);
 }
 
 const BASE = 'https://api.eliteprospects.com/v1';
 let CALLS = 0;
-async function ep(pathname, params = {}) {
+export async function ep(pathname, params = {}) {
   CALLS++;
   const u = new URL(BASE + pathname);
   Object.entries(params).forEach(([k, v]) => u.searchParams.set(k, v));

@@ -356,11 +356,13 @@ async function main(){
     pick=players.find(x=>x.name===wantP)||players.find(x=>slug(x.name)===slug(wantP));
     if(!pick&&staff.find(n=>n===wantP||slug(n)===slug(wantP))){mode='s';pick=staff.find(n=>n===wantP||slug(n)===slug(wantP));}
     if(!pick){
-      if(D.players.find(x=>x.name===wantP||slug(x.name)===slug(wantP))){
+      // an embargoed hit and an unknown name both stop here — a mistyped or
+      // not-yet-added player must never silently render someone else's page
+      if((wantS||wantP).trim()){
         document.getElementById('page').innerHTML='<div class="err">This page is not available.</div>';
         return;
       }
-      pick=players[0];
+      pick=players[0];  // bare player.html with no query lands on the first player
     }
   }
   const nav=document.getElementById('nav');
