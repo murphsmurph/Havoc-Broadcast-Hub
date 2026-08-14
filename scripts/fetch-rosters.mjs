@@ -68,12 +68,15 @@ async function resolveKey(){
 // current-flag
 const yes=v=>/^(1|y|yes|true)$/i.test(String(v==null?'':v).trim());
 function pickSeason(seasons){
+  // the live feed sets career="1" on EVERY season (it means "counts toward
+  // career stats") — a career pseudo-season is detected by NAME only
   const norm=seasons.map(s=>({
     id:String(s.season_id??s.id??'').trim(),
     name:String(s.season_name??s.name??'').trim(),
-    playoff:yes(s&&s.playoff),career:yes(s&&s.career)}))
+    both:(String(s.season_name??s.name??'')+' '+String(s.shortname??'')).trim(),
+    playoff:yes(s&&s.playoff)}))
     .filter(s=>s.id);
-  const reg=norm.filter(s=>!s.playoff&&!s.career&&!/playoff|career/i.test(s.name));
+  const reg=norm.filter(s=>!s.playoff&&!/playoff|career/i.test(s.both));
   reg.sort((a,b)=>(+b.id)-(+a.id));
   if(!reg.length)console.log('  seasons seen (first 5): '+JSON.stringify(seasons.slice(0,5)));
   return reg[0]?{season_id:reg[0].id,season_name:reg[0].name}:null;
