@@ -107,13 +107,17 @@ const pmf=v=>v==null?'—':(v>0?'+'+v:String(v));
    else the item is OMITTED — never guessed */
 function vitals(p){
   const bio=p.bio||{};
-  // data/sphl-rosters.json carries the raw feed rows — normalize one here
+  // data/sphl-rosters.json carries the raw feed rows — normalize one here.
+  // The feed prints formal names ("Giovanni Procopio"), so the bios file's
+  // formal_name joins too.
   let feed=null;
+  const B=(BIOS&&BIOS.players&&BIOS.players[p.name])||{};
+  const want=[p.name,B.formal_name].filter(Boolean).map(slug);
   const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   const rname=x=>String(x.name||x.player_name||((x.first_name||'')+' '+(x.last_name||''))).trim();
   const lists=ROSTERS?(Array.isArray(ROSTERS.teams)?ROSTERS.teams.map(t=>t.roster||[]):Object.values(ROSTERS.teams||{})):[];
   for(const l of lists){
-    const hit=(l||[]).find(x=>rname(x)===p.name||slug(rname(x))===slug(p.name));
+    const hit=(l||[]).find(x=>want.includes(slug(rname(x))));
     if(hit){
       const sh=String(hit.shoots||hit.catches||hit.sh||'').toUpperCase().replace(/[^LR]/g,'').slice(0,1);
       const bd=String(hit.birthdate||hit.date_of_birth||hit.dob||'');
