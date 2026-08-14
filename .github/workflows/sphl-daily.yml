@@ -14,6 +14,12 @@ on:
 permissions:
   contents: write
 
+# one run at a time — two runs racing to commit sphl-daily.json ends in a
+# rebase conflict on the fetchedAt line (seen live: run 31765395835)
+concurrency:
+  group: sphl-daily
+  cancel-in-progress: false
+
 jobs:
   fetch-daily-report:
     runs-on: ubuntu-latest
@@ -45,8 +51,13 @@ jobs:
           [ -f data/sphl-rosters.json ] && git add data/sphl-rosters.json
           if git diff --staged --quiet; then
             echo "No data changes."
-          else
-            git commit -m "Update SPHL daily report data (scheduled)"
-            git pull --rebase origin "$GITHUB_REF_NAME" || true
-            git push
+            exit 0
           fi
+          git commit -m "Update SPHL daily report data (scheduled)"
+          # push with retry; on a race, rebase preferring OUR fresh data
+          for i in 1 2 3; do
+            git push && exit 0
+            git pull --rebase -X theirs origin "$GITHUB_REF_NAME" || git rebase --abort
+          done
+          echo "Push failed after 3 attempts."
+          exit 1
