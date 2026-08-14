@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Huntsville Havoc — Player Bio</title>
+<!--
+  Auto-generated player bio page, one URL per player: player.html?p=<name or slug>.
+  Everything renders from data/havoc_players.json — the written prose from each
+  player's bio block, the career table from the frozen seasons[], and the
+  2026-27 section live from current_season, so a game-night counter bump
+  updates this page the moment the file lands. The print stylesheet is letter
+  sized with the same look as the game-notes packet: the website page and the
+  packet page are the same page.
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root { --red:#C8102E; --dkred:#8B1A1A; --blk:#111; --lt:#f3f3f3; }
+  body { font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif; background:#fff; color:var(--blk);
+         max-width:8.5in; margin:0 auto; padding:.4in .5in .3in; }
+  /* one letter page, always: --pz is computed after render so a long bio
+     scales down to fit rather than spilling to a second sheet */
+  @media print { body{padding:.3in .4in; zoom:var(--pz,1)} @page{size:letter; margin:0} .noprint{display:none!important} }
+
+  .noprint { display:flex; gap:10px; align-items:center; margin-bottom:10px; font-family:Oswald; font-size:13px; }
+  .noprint a { color:var(--red); font-weight:600; text-decoration:none; }
+  .noprint select { font-family:inherit; font-size:13px; padding:3px 6px; }
+  .noprint button { font-family:Oswald; font-size:12px; padding:3px 10px; cursor:pointer; }
+
+  .masthead { display:flex; align-items:center; gap:14px; border-bottom:6px solid var(--blk); padding-bottom:8px; }
+  .logo-circle { width:70px; height:70px; border-radius:50%; background:var(--red); color:#fff; display:flex;
+                 align-items:center; justify-content:center; font-family:Oswald; font-weight:700; font-size:14px;
+                 text-align:center; line-height:1.05; border:3px solid var(--blk); flex-shrink:0; }
+  .team-title h1 { font-family:Oswald; font-weight:700; font-size:32px; text-transform:uppercase; letter-spacing:.5px; }
+  .team-title h2 { font-family:Oswald; font-weight:500; font-size:18px; letter-spacing:2px; text-transform:uppercase; color:#333; }
+
+  .grid { display:grid; grid-template-columns:2.15in 1fr; gap:18px; margin-top:14px; }
+
+  /* sidebar */
+  .photo { width:100%; height:2.6in; background:#e2e2e2; border:1px solid #bbb; display:flex; align-items:center;
+           justify-content:center; font-family:Oswald; color:#999; font-size:13px; text-transform:uppercase; letter-spacing:1px; }
+  .sidehead { font-family:Oswald; font-weight:700; font-size:19px; letter-spacing:1.2px; text-transform:uppercase;
+              color:var(--red); text-align:center; margin:12px 0 5px; line-height:1.1; }
+  table.side { width:100%; border-collapse:collapse; font-size:13px; }
+  table.side td { border:1px solid #bbb; padding:3.5px 6px; }
+  table.side td.k { background:var(--blk); color:#fff; font-family:Oswald; font-weight:600; font-size:11px;
+                    text-transform:uppercase; letter-spacing:.5px; width:44%; }
+  table.side tr.hl td { background:var(--red); color:#fff; font-weight:700; border-color:var(--dkred); }
+
+  /* main column */
+  .playerbar { display:flex; align-items:center; gap:12px; }
+  .numblock { background:var(--blk); color:#fff; font-family:Oswald; font-weight:700; font-size:44px;
+              padding:0 14px; line-height:1.25; border-bottom:5px solid var(--red); }
+  .pname { font-family:Oswald; font-weight:700; font-size:42px; text-transform:uppercase; letter-spacing:.5px; line-height:1; }
+  .bioline { font-size:16.5px; font-weight:600; margin-top:8px; }
+  .bioline b { font-weight:700; }
+  .joined { margin-top:9px; font-size:15.5px; font-weight:600; }
+  .joined .lab { font-family:Oswald; font-weight:600; color:var(--red); text-transform:uppercase; font-size:13.5px; letter-spacing:.5px; }
+  .counters { margin-top:5px; font-size:15.5px; font-weight:700; }
+  .counters .lab { font-family:Oswald; font-weight:600; color:var(--red); text-transform:uppercase; font-size:13.5px; letter-spacing:.5px; }
+  .counters span.sep { color:#999; margin:0 6px; }
+  .tbd { color:#999; }
+
+  .sechead { font-family:Oswald; font-weight:700; font-size:21px; letter-spacing:1.2px; text-transform:uppercase;
+             color:var(--red); margin:14px 0 3px; border-top:1px solid #ddd; padding-top:9px; }
+  .body-copy { font-size:14.5px; line-height:1.42; text-align:justify; }
+  .body-copy p { text-indent:.35in; margin-bottom:4px; }
+
+  /* career table */
+  .seclabel { font-family:Oswald; font-weight:700; font-size:20px; letter-spacing:1.5px; text-transform:uppercase;
+              color:var(--red); margin:14px 0 4px; }
+  table.stats { width:100%; border-collapse:collapse; font-size:13px; }
+  table.stats th { background:var(--blk); color:#fff; font-family:Oswald; font-weight:600; font-size:11.5px;
+                   padding:3.5px 5px; text-transform:uppercase; letter-spacing:.5px; }
+  table.stats th.gsplit, table.stats td.gsplit { border-left:3px double #999; }
+  table.stats td { border:1px solid #bbb; padding:3px 5px; text-align:center; }
+  table.stats td.l { text-align:left; font-weight:600; }
+  table.stats tr.band td { background:var(--lt); }
+  table.stats tr.grp td { background:#dcdcdc; font-family:Oswald; font-weight:600; text-transform:uppercase;
+                          font-size:11px; letter-spacing:1px; text-align:left; padding:2px 6px; }
+  table.stats tr.live td { background:#fff4f4; }
+  table.stats tr.tot td { background:var(--red); color:#fff; font-weight:700; border-color:var(--dkred); }
+  .footer { display:flex; justify-content:space-between; border-top:5px solid var(--blk); margin-top:14px; padding-top:4px;
+            font-family:Oswald; font-weight:600; font-size:13px; text-transform:uppercase; letter-spacing:1px; }
+  .err { margin:40px auto; max-width:5in; font-size:15px; line-height:1.5; }
+</style>
+</head>
+<body>
+
+<div class="noprint" id="nav"></div>
+<div id="page"></div>
+
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const slug=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const ord=n=>n+(n%10===1&&n%100!==11?'st':n%10===2&&n%100!==12?'nd':n%10===3&&n%100!==13?'rd':'th');
+const cell=v=>v==null?'—':v;
+const tbd=v=>v?esc(v):'<span class="tbd">TBD</span>';
+const POS={F:'Forward',C:'Center',LW:'Left Wing',RW:'Right Wing',D:'Defenseman',G:'Goaltender'};
+
+function seasonsCount(p,pick){
+  return new Set((p.seasons||[]).filter(pick).map(r=>r.season)).size+1;  // +1: 2026-27
+}
+function sum(rows,k){let any=false,t=0;rows.forEach(r=>{if(r&&r[k]!=null){any=true;t+=r[k];}});return any?t:null;}
+function pm(v){return v==null?'—':(v>0?'+'+v:String(v));}
+
+function render(d,p){
+  const bio=p.bio||{};
+  const G=p.type==='goalie';
+  const cur=p.current_season||{};
+  const live=['gp','g','a','pts','pim','w','so','svs'].some(k=>cur[k]);
+  const havocN=seasonsCount(p,r=>/Huntsville/.test(r.team||'')),
+        sphlN=seasonsCount(p,r=>r.league==='SPHL'),
+        proN=seasonsCount(p,r=>r.level==='Pro');
+  const lastSeason=[...(p.seasons||[])].reverse().find(r=>r.season&&r.season!=='—');
+
+  document.title='#'+(p.num||'')+' '+p.name+' — Huntsville Havoc Game Notes';
+
+  // career table
+  const groups=[['Youth','Youth'],['High School','High School'],['Junior','Juniors'],['College','College'],['Pro','Pro']];
+  const cols=G?['gp','w','l','otl','so','gaa','svpct','svs']:['gp','g','a','pts','pm','pim'];
+  const heads=G?['GP','W','L','OTL','SO','GAA','SV%','SVS']:['GP','G','A','PTS','+/-','PIM'];
+  const poCols=G?['gp','w','svs']:['gp','g','a','pts','pim'];
+  const poHeads=G?['GP','W','SVS']:['GP','G','A','P','PIM'];
+  const fmt=(k,v)=>v==null?'—':(k==='pm'?pm(v):(k==='gaa'?(+v).toFixed(2):(k==='svpct'?('.'+String(Math.round(v*1000)).padStart(3,'0')):v)));
+  let band=false;
+  const row=(r,cls)=>{
+    band=!band;
+    return `<tr class="${band?'band ':''}${cls||''}"><td class="l">${esc(r.season)}</td><td class="l">${esc(r.team)}</td><td>${esc(r.league)}</td>`
+      +cols.map(k=>`<td>${fmt(k,r[k])}</td>`).join('')
+      +poCols.map((k,i)=>`<td${i===0?' class="gsplit"':''}>${r.po?cell(r.po[k]):'—'}</td>`).join('')+'</tr>';
+  };
+  let table='';
+  groups.forEach(([lvl,label])=>{
+    const rs=(p.seasons||[]).filter(r=>r.level===lvl);
+    if(!rs.length)return;
+    band=false;
+    table+=`<tr class="grp"><td colspan="${3+cols.length}">${label}</td><td class="gsplit" colspan="${poCols.length}" style="text-align:center">Playoffs</td></tr>`
+      +rs.map(r=>row(r)).join('');
+  });
+  if(live)table+=row({...cur,season:cur.season||'2026-27',team:(cur.team||'Huntsville Havoc')+' (live)',league:cur.league||'SPHL'},'live');
+  // totals: baselines + the live counters; +/- and playoffs summed from the rows
+  const proRows=(p.seasons||[]).filter(r=>r.level==='Pro').concat(live?[cur]:[]);
+  const havRows=proRows.filter(r=>/Huntsville/.test(r.team||'')||r===cur);
+  const tot=(base,rows,label)=>{
+    const t={};
+    // the baselines are careers through 2025-26 — the live counters ride on top
+    cols.forEach(k=>{
+      t[k]=(base&&base[k]!=null)?base[k]:null;
+      if(t[k]!=null&&cur[k]!=null&&k!=='gaa'&&k!=='svpct')t[k]+=cur[k];
+    });
+    if(!G)t.pm=sum(rows,'pm');
+    const po={};poCols.forEach(k=>po[k]=sum(rows.map(r=>r.po),k));
+    return `<tr class="tot"><td colspan="3" class="l">${label}</td>`
+      +cols.map(k=>`<td>${k==='pm'?pm(t.pm):(k==='gaa'||k==='svpct'?'—':cell(t[k]))}</td>`).join('')
+      +poCols.map((k,i)=>`<td${i===0?' class="gsplit"':''}>${cell(po[k])}</td>`).join('')+'</tr>';
+  };
+  const bp=p.baseline_pro||p.computed_pro_totals,bh=p.baseline_havoc||p.computed_havoc_totals;
+  const same=bp&&bh&&['gp','g','a','pts','w','so'].every(k=>bp[k]===bh[k]);
+  table+=tot(bp,proRows,same?'HAVOC / SPHL / PRO TOTALS':'PRO TOTALS');
+  if(!same)table+=tot(bh,havRows,'HAVOC TOTALS');
+
+  const liveLine=`<div class="counters" style="margin:2px 0 6px">`
+    +(G?`Games: <b>${cell(cur.gp??0)}</b> <span class="sep">•</span> Wins: <b>${cell(cur.w??0)}</b> <span class="sep">•</span> Shutouts: <b>${cell(cur.so??0)}</b> <span class="sep">•</span> Saves: <b>${cell(cur.svs??0)}</b>`
+       :`Games: <b>${cur.gp??0}</b> <span class="sep">•</span> Goals: <b>${cur.g??0}</b> <span class="sep">•</span> Assists: <b>${cur.a??0}</b> <span class="sep">•</span> Points: <b>${cur.pts??0}</b> <span class="sep">•</span> PIM: <b>${cur.pim??0}</b>`)
+    +`</div>`;
+
+  document.getElementById('page').innerHTML=`
+  <div class="masthead">
+    <div class="logo-circle">HSV<br>HAVOC</div>
+    <div class="team-title">
+      <h1>Huntsville Havoc</h1>
+      <h2>2026-27 Hockey Game Notes</h2>
+    </div>
+  </div>
+  <div class="grid">
+    <div>
+      <div class="photo">Player Photo</div>
+    </div>
+    <div>
+      <div class="playerbar">
+        <div class="numblock">${esc(p.num||'')}</div>
+        <div class="pname">${esc(p.name)}</div>
+      </div>
+      <div class="bioline">
+        Height: <b>${tbd(bio.height)}</b> &nbsp;•&nbsp; Weight: <b>${tbd(bio.weight)}</b> &nbsp;•&nbsp; Position: <b>${esc(POS[p.pos]||p.pos||'')}</b> &nbsp;•&nbsp; ${G?'Catches':'Shoots'}: <b>${tbd(bio.shoots)}</b><br>
+        Born: <b>${tbd(bio.born)}</b> &nbsp;•&nbsp; Birthdate: <b>${tbd(bio.birthdate)}</b>
+      </div>
+      <div class="joined"><span class="lab">Joined the Havoc:</span> ${tbd(bio.joined_blurb)}</div>
+      <div class="counters">
+        <span class="lab">Season with the Havoc:</span> ${ord(havocN)} <span class="sep">|</span>
+        <span class="lab">Season in the SPHL:</span> ${ord(sphlN)} <span class="sep">|</span>
+        <span class="lab">Season as a Pro:</span> ${ord(proN)}
+      </div>
+      <div class="sechead">2026-27 Season</div>
+      ${liveLine}
+      <div class="sechead">${lastSeason?esc(lastSeason.season)+' Season':'Last Season'}</div>
+      <div class="body-copy"><p>${bio.season_recap?esc(bio.season_recap):'<span class="tbd">TBD</span>'}</p></div>
+      <div class="sechead">Career Highlights</div>
+      <div class="body-copy"><p>${bio.career_highlights?esc(bio.career_highlights):'<span class="tbd">TBD</span>'}</p></div>
+      <div class="seclabel">Career Stats</div>
+      <table class="stats">
+        <tr>
+          <th style="text-align:left">Season</th><th style="text-align:left">Club</th><th>League</th>
+          ${heads.map(h=>`<th>${h}</th>`).join('')}
+          ${poHeads.map((h,i)=>`<th${i===0?' class="gsplit"':''}>${h}</th>`).join('')}
+        </tr>
+        ${table}
+      </table>
+    </div>
+  </div>
+  <div class="footer">
+    <div>2026-27 Huntsville Havoc Hockey</div>
+    <div>WWW.HUNTSVILLEHAVOC.COM</div>
+  </div>`;
+}
+
+async function main(){
+  let d=null;
+  try{const r=await fetch('data/havoc_players.json');if(r.ok)d=await r.json();}catch(e){}
+  if(!d||!Array.isArray(d.players)){
+    document.getElementById('page').innerHTML='<div class="err"><b>Could not load data/havoc_players.json.</b><br>Open this page from the hosted site (the browser blocks local file reads), or serve the folder with any web server.</div>';
+    return;
+  }
+  const want=new URLSearchParams(location.search).get('p')||'';
+  const p=d.players.find(x=>x.name===want)||d.players.find(x=>slug(x.name)===slug(want))||d.players[0];
+  const nav=document.getElementById('nav');
+  nav.innerHTML=`<a href="index.html">&larr; Broadcast Hub</a>
+    <select onchange="location.search='?p='+encodeURIComponent(this.value)">${d.players.map(x=>`<option${x.name===p.name?' selected':''}>${esc(x.name)}</option>`).join('')}</select>
+    <button onclick="print()">Print / PDF</button>
+    <span style="color:#999">One page per player — the packet page and the website are the same page.</span>`;
+  render(d,p);
+  // print fit: the page prints at a zoom that lands everything on one letter
+  // sheet (screen height ≈ print height, since the body is capped at 8.5in)
+  const navH=nav.offsetHeight||0;
+  const h=document.body.scrollHeight-navH;
+  const pz=h>1040?Math.max(.6,1040/h):1;
+  document.documentElement.style.setProperty('--pz',pz.toFixed(3));
+}
+main();
+</script>
+</body>
+</html>

@@ -4,37 +4,37 @@
 // read from the environment (EP_API_KEY, or .env in the repo root, which is
 // git-ignored) and never written anywhere.
 //
-//   node scripts/update_stats.mjs            # refresh + diff summary
-//   node scripts/update_stats.mjs --dry-run  # show what would change, write nothing
+//   node scripts/update_stats.mjs             # IN-SEASON: sync current_season, print before/after
+//   node scripts/update_stats.mjs --dry-run   # show what would change, write nothing
+//   node scripts/update_stats.mjs --backfill  # off-season: fill gaps in the frozen history
 //
-// Call budget (Explorer plan, 1,000/month): one refresh is ~17 stats calls.
-// Search calls only happen for players with no cached ep_id — the id is
-// written back into the JSON after the first lookup, so a weekly in-season
-// refresh stays around 80 calls/month. Never poll from the site.
+// IN-SEASON MODE (the default — Layer 1 of the season workflow):
+//  - Pulls each player's 2026-27 Huntsville line from EP and updates ONLY the
+//    current_season counter block. It never touches the frozen seasons[], the
+//    baselines, or the bio prose — a hard guard refuses to write if it would.
+//  - It NEVER LOWERS a counter. EP can lag a day behind SPHL games, and the
+//    game-night manual bump (Layer 3) is often ahead of the API; a lagging
+//    value prints a warning instead of clobbering fresher numbers.
+//  - Every change prints as before -> after, so the first run of the season
+//    can be eyeballed for player-mapping mistakes before trusting autopilot.
 //
-// v2 structure note: seasons[] is FROZEN career history through 2025-26 —
-// this script may complete its gaps but the in-season workflow never edits it.
-// baseline_pro/baseline_havoc and current_season belong to Jacob's game-night
-// flow and are NEVER touched here. After a season, he folds current_season
-// into seasons[] as a new row, recomputes baselines and zeroes the counters.
-//
-// Merge rules, mirroring the site's:
-//  - The site computes everything; this script only maintains the season rows.
-//  - EP fills gaps: it may fill a null and append a season the file lacks.
-//    It NEVER overwrites a hand-curated non-null value — the curated data
-//    carries caveats the API doesn't know about.
+// BACKFILL MODE (--backfill) keeps the old behavior for off-season research:
+//  - EP fills gaps in seasons[]: it may fill a null and append a season the
+//    file lacks. It NEVER overwrites a hand-curated non-null value.
+//  - baselines and current_season are never touched here.
 //  - League names map into meta.pro_leagues explicitly; anything unknown
 //    defaults to non-pro and logs a warning for review.
-//  - Overrides are left alone. When a refresh completes every GP in a scope,
-//    the diff summary says the override is now removable — removing it is
-//    Jacob's call, not the script's.
+//
+// Call budget (Explorer plan, 1,000/month): one run is ~17 stats calls.
+// Search calls only happen for players with no cached ep_id — the id is
+// written back into the JSON after the first lookup. Twice a week in-season
+// is ~150 calls/month. Never poll from the site.
 
 import fs from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.join(path.dirname(new URL(import.meta.url).pathname), '..');
-const FILE = path.join(ROOT, 'data', 'havoc_players.json');
-const DRY = process.argv.includes('--dry-run');
+const FILE = process.env.HAVOC_FILE || path.join(ROOT, 'data', 'havoc_players.json');
 
 // ---- key: env first, then .env (never committed — .gitignore has it) ----
 function apiKey() {
@@ -70,8 +70,6 @@ const KNOWN_IDS = {
 };
 
 // ---- league mapping: EP's names onto the file's, and pro/not-pro ----
-// EP prints league names its own way ("NCAA III" vs "ACHA", France's
-// "Division 1"). Everything must resolve explicitly; unknown = non-pro + warn.
 export const LEAGUE_MAP = {
   'SPHL': 'SPHL', 'ECHL': 'ECHL', 'FPHL': 'FPHL', 'AHL': 'AHL', 'NHL': 'NHL',
   'Mestis': 'Mestis',
@@ -118,14 +116,44 @@ export function mapSeason(epRow, proLeagues, warn) {
   return row;
 }
 
-// ---- merge: fill nulls, append missing seasons, never overwrite curated ----
+// ---- in-season: EP's 2026-27 Huntsville line onto current_season only ----
+// Counters only ever move UP: the game-night manual bump beats a lagging API.
+export function syncCurrent(player, epRows, log) {
+  const season = (player.current_season && player.current_season.season) || '2026-27';
+  const hit = epRows.find(r => r.season === season && /Huntsville/.test(r.team) && r.league === 'SPHL');
+  if (!hit) return false;
+  const cur = player.current_season;
+  const keys = player.type === 'goalie'
+    ? ['gp', 'w', 'l', 'otl', 'so', 'svs'] : ['gp', 'g', 'a', 'pts', 'pim', 'pm'];
+  const before = keys.map(k => cur[k] ?? 0).join('-');
+  let changed = false, lag = [];
+  keys.forEach(k => {
+    const v = hit[k];
+    if (v == null) return;
+    if ((cur[k] ?? 0) > v) { lag.push(k.toUpperCase() + ' ' + cur[k] + '>' + v); return; }  // EP is behind — keep ours
+    if ((cur[k] ?? 0) !== v) { cur[k] = v; changed = true; }
+  });
+  // goalie rates come straight from EP (not counters — no regress rule)
+  if (player.type === 'goalie') ['gaa', 'svpct'].forEach(k => {
+    if (hit[k] != null && cur[k] !== hit[k]) { cur[k] = hit[k]; changed = true; }
+  });
+  if (hit.po && cur.po) Object.keys(cur.po).forEach(k => {
+    const v = hit.po[k];
+    if (v != null && (cur.po[k] ?? 0) < v) { cur.po[k] = v; changed = true; }
+  });
+  if (changed) log('  ~ current_season ' + before + ' -> ' + keys.map(k => cur[k] ?? 0).join('-') + '  (' + keys.map(k => k.toUpperCase()).join('-') + ')');
+  if (lag.length) log('  ! EP is behind the game-night counters (' + lag.join(', ') + ') — kept ours; the next EP run should catch up');
+  return changed;
+}
+
+// ---- backfill: fill nulls, append missing seasons, never overwrite curated ----
 export function mergeSeasons(player, epRows, log) {
   const key = r => [r.season, r.team.toLowerCase(), r.league].join('|');
   const have = new Map(player.seasons.map(r => [key(r), r]));
   epRows.forEach(er => {
+    if (er.season === ((player.current_season && player.current_season.season) || '2026-27')) return; // the live season is not history
     const cur = have.get(key(er));
     if (!cur) {
-      // a season the file does not have at all — appended for review
       player.seasons.push(er);
       log('  + added ' + er.season + ' ' + er.team + ' (' + er.league + ')');
       return;
@@ -147,17 +175,21 @@ export function overrideNowRemovable(player, proLeagues) {
   return scopes;
 }
 
-async function main() {
+export async function main(opts = {}) {
+  const DRY = !!opts.dryRun, BACKFILL = !!opts.backfill;
   const data = JSON.parse(fs.readFileSync(FILE, 'utf8'));
   const pro = data.meta.pro_leagues;
-  // hard stop if the API merge would ever reach the live-counter fields
-  const frozen = JSON.stringify(data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season]));
+  // the hard guard: freeze everything this mode must not touch
+  const frozen = JSON.stringify(BACKFILL
+    ? data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season, p.bio])
+    : data.players.map(p => [p.seasons, p.baseline_pro, p.baseline_havoc, p.bio]));
   const changes = [];
   const log = m => changes.push(m);
+  console.log(BACKFILL ? 'BACKFILL — completing the frozen history (current_season untouched)'
+                       : 'IN-SEASON — syncing current_season only (history and baselines untouched)');
   for (const p of data.players) {
     log(p.name + ':');
     const before = changes.length;
-    // resolve + cache the EP id — the join key for everything after this
     if (!p.ep_id) {
       if (KNOWN_IDS[p.name]) { p.ep_id = KNOWN_IDS[p.name]; log('  ~ ep_id seeded: ' + p.ep_id); }
       else {
@@ -176,16 +208,21 @@ async function main() {
       const rows = ((res && (res.data || res.stats)) || [])
         .filter(r => (r.gameType || r.type || 'REGULAR_SEASON').toUpperCase().indexOf('REGULAR') >= 0 || r.postseasonStats)
         .map(r => mapSeason(r, pro, w => log('  ! ' + w)));
-      mergeSeasons(p, rows, log);
+      if (BACKFILL) mergeSeasons(p, rows, log);
+      else syncCurrent(p, rows, log);
     } catch (e) { log('  ! EP stats failed: ' + e.message); }
-    overrideNowRemovable(p, pro).forEach(s =>
+    if (BACKFILL) overrideNowRemovable(p, pro).forEach(s =>
       log('  * every ' + s.toUpperCase() + ' season row now has a GP — the ' + s + ' override can be deleted so computed sums take over'));
-    if (changes.length === before) changes.pop(); // nothing to say about this player
+    if (changes.length === before) changes.pop();
   }
   console.log(changes.length ? changes.join('\n') : 'No changes — the file already matches EP.');
   console.log('\nEP calls used: ' + CALLS);
-  if (frozen !== JSON.stringify(data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season]))) {
-    console.error('BUG: the refresh touched baseline/current_season fields — nothing written.');
+  const frozenAfter = JSON.stringify(BACKFILL
+    ? data.players.map(p => [p.baseline_pro, p.baseline_havoc, p.current_season, p.bio])
+    : data.players.map(p => [p.seasons, p.baseline_pro, p.baseline_havoc, p.bio]));
+  if (frozen !== frozenAfter) {
+    console.error('BUG: the refresh touched fields this mode must never edit — nothing written.');
+    if (opts.throwOnGuard) throw new Error('guard');
     process.exit(1);
   }
   if (!DRY && changes.some(c => /^  [~+]/.test(c))) {
@@ -194,9 +231,11 @@ async function main() {
   } else if (DRY) {
     console.log('(dry run — nothing written)');
   }
+  return changes;
 }
 
-// only run when invoked directly, so the mapping functions stay testable
+// only run when invoked directly, so the functions stay testable
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
-  main().catch(e => { console.error(e.message); process.exit(1); });
+  main({ dryRun: process.argv.includes('--dry-run'), backfill: process.argv.includes('--backfill') })
+    .catch(e => { console.error(e.message); process.exit(1); });
 }
