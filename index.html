@@ -683,6 +683,8 @@
   .stnd tr.me td{background:var(--tint-row);}
   .stnd tr.me td.pts{background:var(--tint-red-2);}
   .mtp-blurb{font-size:9.5px;line-height:1.55;}
+  .mtp-para{margin-bottom:2px;}
+  .mtp-foot{font-size:7px;font-style:italic;color:var(--ink-2);margin-top:2px;line-height:1.4;}
   .mtp-nobio{color:#8a8f98;font-style:italic;}
   .mc-strip{background:var(--havoc-black);color:#fff;text-align:center;font-weight:800;font-size:11px;padding:5px 8px;border-radius:4px;margin-bottom:8px;letter-spacing:.02em;}
   /* --- iOS/Mac mobile overrides (end of cascade so they win) --- */
@@ -2410,7 +2412,13 @@ function getRoster(side){
   const t=val('oppRosterTeam');if(!t)return [];
   DATA.oppRosters[t]=DATA.oppRosters[t]||[];return DATA.oppRosters[t];
 }
-function renderRoster(){rosterFileLoad();renderRosterTable('home','rosterTableWrap');renderRosterProgress();}
+function renderRoster(){
+  // baselines, in rising authority: committed spine, committed roster file,
+  // live feed overlay, hand edits — each layer only fills what's beneath it
+  if(MS_DATA)spineRosterApply();else msLoad().then(d=>{if(d)spineRosterApply();});
+  rosterFileLoad();
+  renderRosterTable('home','rosterTableWrap');renderRosterProgress();
+}
 function renderOppRoster(){renderRosterTable('away','oppRosterTableWrap');}
 function renderRosterTable(side,wrapId){
   const wrap=document.getElementById(wrapId);
@@ -2939,8 +2947,10 @@ function statRevert(side,id){
    broadcast bio (bbio), at most 2 short lines. Falls back to the first
    lines of the media bio only so older saved data still shows something. */
 function chartBio(p){
-  let lines=(p.bbio||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
-  if(!lines.length)lines=(p.notes||'').split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
+  // authored broadcast_bio from data/bios.json first, then the hand-typed
+  // bbio, then the media bio — oldest fallback last
+  const src=bioLine((biosFor(p)||{}).broadcast_bio)||p.bbio||p.notes||'';
+  const lines=String(src).split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
   return lines.slice(0,2).map(t=>t.length>92?t.slice(0,89).replace(/\s+\S*$/,'')+'…':t);
 }
 function renderChart(){
@@ -3343,7 +3353,8 @@ function teamPronList(list){
   const guide=(DATA.settings.pronounce||'').split('\n').map(l=>{const m2=l.split(/\s*[-–—]\s*/);return {name:(m2[0]||'').trim(),say:m2.slice(1).join('-').trim()};}).filter(x=>x.name&&x.say);
   const out=[];
   (list||[]).filter(p=>p.name).forEach(p=>{
-    let say=(p.pron||'').trim();
+    let say=(p.pron||'').trim();                                 // the feed's phonetic_name wins
+    if(!say)say=bioLine((biosFor(p)||{}).pronunciation);         // then the authored bios file
     if(!say){const lastNm=p.name.trim().split(/\s+/).pop().toLowerCase();
       const hit=guide.find(g2=>g2.name.toLowerCase().indexOf(lastNm)>=0);
       if(hit)say=hit.say;}
@@ -3716,7 +3727,8 @@ function fdCell(team,key,computed,isOpp){
 /* one line off the club's notes when you haven't written your own — the booth
    card is a fixed sheet, so it takes the headline note, not the whole file */
 function fdNoteSeed(p){
-  const n=(p.bioNotes||[])[0];if(!n)return '';
+  const b=bioLine((biosFor(p)||{}).broadcast_bio).split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean)[0];
+  const n=b||(p.bioNotes||[])[0];if(!n)return '';
   const t=String(n).replace(/^[A-Z][A-Z \-']{3,}:\s*/,'');
   return t.length>96?t.slice(0,93).replace(/\s+\S*$/,'')+'…':t;
 }
@@ -3848,6 +3860,7 @@ function fdRankOf(map,kw,dir){ // rank of team kw within {city:val}; dir 1 = hig
 }
 function fdPron(p){
   if(p.pron)return p.pron;
+  const b=bioLine((biosFor(p)||{}).pronunciation);if(b)return b;
   const lastNm=(p.name||'').trim().split(/\s+/).pop();
   if(!lastNm)return '';
   const hit=(DATA.settings.pronounce||'').split('\n').find(l=>l.toLowerCase().indexOf(lastNm.toLowerCase())>=0);
@@ -3935,6 +3948,8 @@ function fdCareerLine(p){
 }
 /* the prose blurb — the club's broadcast notes, his to rewrite in place */
 function fdNotesText(p){
+  const b=bioLine((biosFor(p)||{}).broadcast_bio);
+  if(b)return b.split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean).join(' ');
   if(p.callNote!=null&&String(p.callNote).trim())return String(p.callNote);
   const n=(p.bioNotes||[]).slice(0,2).join(' ');
   return n||'';
@@ -4519,10 +4534,19 @@ function saveHockeyOps(){
 }
 function hockeyOpsPage(red,S){
   const H=DATA.hockeyOps||{};
+  // hand-typed entries win; an empty role fills from the authored staff bios
+  const SB=((BIOS_FILE||{}).staff)||{};
+  const staffFor=re=>{
+    const k=Object.keys(SB).find(n=>re.test(SB[n].role||''));
+    if(!k)return null;
+    return {name:k,bio:bioLine(SB[k].season_recap)||bioLine(SB[k].coaching_career).split('\n')[0]||''};
+  };
+  const FILL={hc:staffFor(/^hc$|head coach/i),ac:staffFor(/^ac$|assistant/i),gm:staffFor(/^gm$|general manager/i),eq:null};
   const items=HO_ROLES.map(r=>{
-    const k=r[0],title=r[1],e=H[k]||{};
-    if(!(e.name||'').trim()&&!(e.bio||'').trim())return '';
-    return `<div class="box"><h3>${title}${e.name?' — '+esc(e.name):''}</h3><div style="font-size:10px;line-height:1.6">${esc(e.bio||'')||'<span style="color:var(--ink-2)">Bio to come.</span>'}</div></div>`;
+    const k=r[0],title=r[1],e=H[k]||{},f=FILL[k]||{};
+    const name=(e.name||'').trim()||f.name||'',bio=(e.bio||'').trim()||f.bio||'';
+    if(!name&&!bio)return '';
+    return `<div class="box"><h3>${title}${name?' — '+esc(name):''}</h3><div style="font-size:10px;line-height:1.6">${esc(bio)||'<span style="color:var(--ink-2)">Bio to come.</span>'}</div></div>`;
   }).filter(Boolean).join('');
   if(!items)return '';
   return `<div class="page" style="--havoc-red:${red}">
@@ -5237,6 +5261,59 @@ async function msLoad(){
     if(r.ok){MS_DATA=await r.json();return MS_DATA;}
   }catch(e){}
   return null;
+}
+/* ---- authored prose: data/bios.json — written on the Mac, committed, and
+   NEVER edited by the site. The hub only reads it. ---- */
+let BIOS_FILE=null,BIOS_TRIED=false,BIOS_IDX=null;
+async function biosLoad(){
+  if(BIOS_FILE||BIOS_TRIED)return BIOS_FILE;
+  BIOS_TRIED=true;
+  try{
+    const r=await fetch('data/bios.json',{cache:'no-cache'});
+    if(r.ok)BIOS_FILE=await r.json();
+  }catch(e){}
+  return BIOS_FILE;
+}
+/* roster player -> his authored entry. The bios key is the spine name;
+   formal_name is the alias the feed prints (Gio ↔ Giovanni Procopio).
+   An embargoed entry answers null — the prose renders nowhere until flipped. */
+function biosFor(p){
+  const P=(BIOS_FILE||{}).players;if(!P||!p||!p.name)return null;
+  if(!BIOS_IDX){
+    BIOS_IDX={};
+    Object.keys(P).forEach(k=>{
+      BIOS_IDX[norm(k)]=k;
+      if(P[k].formal_name)BIOS_IDX[norm(P[k].formal_name)]=k;
+    });
+  }
+  let k=BIOS_IDX[norm(p.name)];
+  if(!k){const hit=rosterMatch(p.name,Object.keys(P).map(n=>({name:n})));if(hit)k=hit.name;}
+  if(!k)return null;
+  const B=P[k];
+  return B.embargoed?null:B;
+}
+function bioLine(v){return String(v||'').trim();}
+/* The committed spine (data/havoc_players.json) is the roster's baseline:
+   before the league publishes 2026-27, every browser still shows the signed
+   roster. Creates missing players and fills only EMPTY fields — hand edits
+   and feed values always win. Idempotent; only saves on a real change. */
+function spineRosterApply(){
+  if(!MS_DATA||!Array.isArray(MS_DATA.players))return;
+  const before=JSON.stringify(DATA.roster);
+  MS_DATA.players.forEach(sp=>{
+    if(!sp.name)return;
+    let p=DATA.roster.find(x=>norm(x.name)===norm(sp.name))||rosterMatch(sp.name,DATA.roster);
+    if(!p){p={id:uid(),name:sp.name,notes:'',bbio:'',active:'1'};DATA.roster.push(p);}
+    if(!p.num&&sp.num)p.num=String(sp.num);
+    if(!p.pos&&sp.pos)p.pos=sp.pos;
+    const b=sp.bio||{};
+    if(!p.ht&&b.height)p.ht=b.height;
+    if(!p.wt&&b.weight)p.wt=String(b.weight);
+    if(!p.sh&&b.shoots)p.sh=b.shoots;
+    if(!p.birth&&b.born)p.birth=b.born;
+    if(!p.dob&&b.birthdate)p.dob=b.birthdate;
+  });
+  if(JSON.stringify(DATA.roster)!==before){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
 }
 function msImportFile(ev){
   const f=ev.target.files[0];if(!f)return;
@@ -6645,18 +6722,26 @@ function mtpCardHTML(p,teamStats,R,red,S){
     else{const st=teamStats?teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
       if(st)stripe=`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>PIM: ${st.pim}</span></div>`;}
     const auto=mediaBio(p,teamStats,R,true);
-    const notesHtml=(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
+    // authored prose from data/bios.json first (joined line, season recap,
+    // career highlights — the bio page's structure); hand-typed notes fall back
+    const B=biosFor(p)||{};
+    const para=t=>bioLine(t)?`<div class="mtp-para">${esc(bioLine(t))}</div>`:'';
+    const authored=para(B.joined_blurb)+para(B.season_recap)+para(B.career_highlights);
+    const notesHtml=authored||(p.notes||'').split('\n').map(x=>x.trim()).filter(Boolean).map(esc).join('<br>');
+    const bioFns=[].concat(B.footnotes||[]).map(bioLine).filter(Boolean);
+    const bioFoot=bioFns.length?`<div class="mtp-foot">${bioFns.map(esc).join(' · ')}</div>`:'';
     const srcs=havocHeadSrcs(p);
     const photo=srcs.length?`<div class="mtp-photo-wrap"><img class="mtp-photo" src="${esc(srcs[0])}" data-alts="${esc(srcs.slice(1).join('|'))}" onerror="mtpImgErr(this)"></div>`:'';
     return `<div class="mtp-card${srcs.length?'':' no-photo'}">
       <div class="mtp-flex">${photo}<div class="mtp-main">
-      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.bornIn?' · BORN '+esc(p.bornIn):''}${p.rookie==='1'?' · ROOKIE':''}${p.draft?' · '+esc(p.draft):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
+      <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${(B.nickname||p.nickname)?`<span class="mtp-nick">&ldquo;${esc(B.nickname||p.nickname)}&rdquo;</span>`:''}${(p.pron||bioLine(B.pronunciation))?`<span class="mtp-pron">${esc(p.pron||bioLine(B.pronunciation))}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.bornIn?' · BORN '+esc(p.bornIn):''}${p.rookie==='1'?' · ROOKIE':''}${p.draft?' · '+esc(p.draft):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
       <div class="mtp-blurb">${notesHtml||'<span class="mtp-nobio">No written bio yet — authored bios live in data/bios.json.</span>'}</div>
       ${p.acquired?`<div class="mtp-line"><b>Acquired</b> ${esc(p.acquired)}</div>`:''}
       ${(p.awards||[]).length?`<div class="mtp-line"><b>Awards</b> ${esc(p.awards.join(' · '))}</div>`:''}
       ${p.junior?`<div class="mtp-line"><b>Junior</b> ${esc(p.junior)}</div>`:''}
+      ${bioFoot}
       </div></div>
     </div>`;
   }).join('');
@@ -7903,7 +7988,7 @@ setInterval(async()=>{
 },3600000);
 
 hubPageScale();themeApply();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});Promise.all([msLoad(),biosLoad()]).then(([d])=>{if(d)spineRosterApply();});})();
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
 
