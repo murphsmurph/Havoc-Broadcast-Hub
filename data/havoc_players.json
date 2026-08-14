@@ -19,7 +19,7 @@
     ],
     "current_season": "2026-27",
     "_readme": "STRUCTURE: seasons[] = frozen career history through 2025-26 (never edit in-season). baseline_pro / baseline_havoc = career totals entering 2026-27 (pre-computed, trust these). current_season = 2026-27 live counters — the ONLY thing edited on game nights. Site must display: career = baseline + current_season (pro career adds current_season since SPHL is pro; Havoc career adds current_season since all 2026-27 games are Havoc games). Milestone flags computed off those live sums. After the season, fold current_season into seasons[] as a new row, recompute baselines, zero the counters for 2027-28.",
-    "_bio_note": "bio per player = VITALS fallback only (height/weight/shoots/born/birthdate) used when the roster feed file is absent. All authored prose lives in data/bios.json — written externally, the site never edits it."
+    "_bio_note": "bio per player = VITALS fallback (height/weight/shoots/born/birthdate) used when the roster feed file is absent — filled Aug 2026 from the booth browser's last SPHL feed sync. All authored prose lives in data/bios.json."
   },
   "players": [
     {
@@ -373,11 +373,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
-        "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "height": "5-11",
+        "weight": "201",
+        "shoots": "Left",
+        "born": "Toronto, ON",
+        "birthdate": "December 19, 1999"
       }
     },
     {
@@ -541,7 +541,7 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "6-0",
+        "height": "5-11",
         "weight": "185",
         "shoots": "Left",
         "born": "Grosse Pointe, Michigan",
@@ -722,11 +722,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
-        "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "height": "6-3",
+        "weight": "185",
+        "shoots": "Left",
+        "born": "Dallas, TX",
+        "birthdate": "December 12, 2001"
       }
     },
     {
@@ -1122,11 +1122,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "5-10",
+        "weight": "177",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Centerville, MA",
+        "birthdate": "March 15, 1995"
       }
     },
     {
@@ -1288,11 +1288,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
-        "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "height": "5-11",
+        "weight": "174",
+        "shoots": "Right",
+        "born": "Greensburg, PA",
+        "birthdate": "June 6, 2000"
       }
     },
     {
@@ -1576,8 +1576,8 @@
         "height": "",
         "weight": "",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Dryden, ON",
+        "birthdate": "February 8, 1998"
       }
     },
     {
@@ -1813,11 +1813,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "6-0",
+        "weight": "181",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Livonia, MI",
+        "birthdate": "September 23, 1997"
       }
     },
     {
@@ -1951,7 +1951,7 @@
         "height": "",
         "weight": "",
         "shoots": "",
-        "born": "",
+        "born": "Huntsville, AL",
         "birthdate": ""
       }
     },
@@ -2152,11 +2152,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "6-3",
+        "weight": "205",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Mount Juliet, TN",
+        "birthdate": "February 17, 2000"
       }
     },
     {
@@ -2332,11 +2332,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "5-10",
+        "weight": "180",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Webster, NY",
+        "birthdate": "March 9, 1998"
       }
     },
     {
@@ -2467,11 +2467,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "6-2",
+        "weight": "200",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Hershey, PA",
+        "birthdate": "May 3, 2001"
       }
     },
     {
@@ -2992,11 +2992,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "6-0",
+        "weight": "184",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Kalamazoo, MI",
+        "birthdate": "July 11, 1998"
       }
     },
     {
@@ -3433,11 +3433,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
-        "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "height": "6-4",
+        "weight": "189",
+        "shoots": "Left",
+        "born": "Mississauga, ON",
+        "birthdate": "September 27, 1996"
       }
     },
     {
@@ -3556,11 +3556,11 @@
         "league": "SPHL"
       },
       "bio": {
-        "height": "",
-        "weight": "",
+        "height": "5-11",
+        "weight": "180",
         "shoots": "",
-        "born": "",
-        "birthdate": ""
+        "born": "Barrie, ON",
+        "birthdate": "May 17, 2003"
       }
     }
   ],
