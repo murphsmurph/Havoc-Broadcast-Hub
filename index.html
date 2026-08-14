@@ -3169,7 +3169,7 @@ function getRoster(side){
   const t=val('oppRosterTeam');if(!t)return [];
   DATA.oppRosters[t]=DATA.oppRosters[t]||[];return DATA.oppRosters[t];
 }
-function renderRoster(){seedRosterIfEmpty();renderRosterTable('home','rosterTableWrap');renderRosterProgress();renderRosterStatus();}
+function renderRoster(){seedRosterIfEmpty();rosterFileLoad();renderRosterTable('home','rosterTableWrap');renderRosterProgress();renderRosterStatus();}
 function renderOppRoster(){renderRosterTable('away','oppRosterTableWrap');}
 function renderRosterTable(side,wrapId){
   const wrap=document.getElementById(wrapId);
@@ -3199,7 +3199,7 @@ function bioPrompt(){
 function renderRosterProgress(){
   const f=DATA.roster.filter(p=>['C','LW','RW'].includes(p.pos)),d=DATA.roster.filter(p=>p.pos==='D'),g=DATA.roster.filter(p=>p.pos==='G');
   const bio=a=>a.filter(p=>p.notes&&p.notes.trim()).length;
-  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goalies <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>`;
+  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goalies <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>${rosterFileStampHTML()}`;
 }
 function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
@@ -8760,6 +8760,52 @@ const HT_TEAM_ID={"Peoria Rivermen":1,"Fayetteville Marksmen":2,"Huntsville Havo
    by name. Runs on every roster sync; new signings stay text-only until they
    appear in the feed, and then fill in automatically. Season 44 is still the
    league feed, so it outranks the bios file exactly the same way. */
+/* ---- the committed roster file (cleanup Phase 2) ----
+   data/sphl-rosters.json is fetched nightly by the Action and committed.
+   The site loads it FIRST as the roster baseline; the in-browser live sync
+   is an overlay on top. Both flow through feedSet, so a hand edit in the
+   player editor still beats either, and a later live sync wins over the
+   file simply by running later. */
+let ROSTER_FILE=null,ROSTER_FILE_TRIED=false;
+async function rosterFileLoad(){
+  if(ROSTER_FILE||ROSTER_FILE_TRIED)return ROSTER_FILE;
+  ROSTER_FILE_TRIED=true;
+  try{
+    const r=await fetch('data/sphl-rosters.json',{cache:'no-cache'});
+    if(r.ok)ROSTER_FILE=await r.json();
+  }catch(e){}
+  if(ROSTER_FILE)rosterFileApply();
+  return ROSTER_FILE;
+}
+function rosterFileStampHTML(){
+  if(!ROSTER_FILE)return '';
+  const d=new Date(ROSTER_FILE.fetchedAt);
+  return `<div class="chip" title="data/sphl-rosters.json — every SPHL roster, fetched nightly by the league-roster Action; the live sync overlays it">Roster file <b>${isNaN(d)?esc(ROSTER_FILE.fetchedAt||'—'):d.toLocaleDateString()+' '+d.toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</b>${ROSTER_FILE.seasonLabel?' · '+esc(ROSTER_FILE.seasonLabel):''}</div>`;
+}
+function rosterFileApply(){
+  if(!ROSTER_FILE||!Array.isArray(ROSTER_FILE.teams))return;
+  const hav=ROSTER_FILE.teams.find(t=>/Huntsville/.test(t.name||''));
+  if(!hav||!(hav.roster||[]).length)return;
+  const fps=hav.roster.map(htRosterRow).filter(Boolean);
+  if(!fps.length)return;
+  const by=new Map();fps.forEach(fp=>by.set(norm(fp.name),fp));
+  const rookieUsable=rookieVaries(fps);
+  let got=0;
+  (DATA.roster||[]).forEach(p=>{
+    if(!p.name)return;
+    const fp=by.get(norm(p.name))||fps.find(f=>rosterMatch(f.name,[p]));
+    if(!fp)return;
+    if(!p.htId&&fp.htid)p.htId=fp.htid;
+    if(fp.img&&!p.img)p.img=fp.img;
+    if(fp.num&&p.num&&fp.num!==p.num&&!p.numFeed)p.numFeed=fp.num;  // flag, never overwrite
+    if(fp.num&&!p.num)p.num=fp.num;
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
+    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
+    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
+    got++;
+  });
+  if(got){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
+}
 async function htVitalsBackfill(){
   // only reach back a season when the chosen one left something out
   const need=DATA.roster.filter(p=>p.name&&p.active!=='0'&&(!p.img||!p.birth||!p.ht||!p.wt||!p.dob));

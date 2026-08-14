@@ -8,6 +8,7 @@ on:
     paths:                  # self-test whenever the pipeline itself changes
       - '.github/workflows/sphl-daily.yml'
       - 'scripts/fetch-daily-report.mjs'
+      - 'scripts/fetch-rosters.mjs'
       - 'js/daily-report-parser.js'
 
 permissions:
@@ -26,11 +27,19 @@ jobs:
       - name: Fetch + parse daily report
         run: node scripts/fetch-daily-report.mjs
 
+      # cleanup Phase 2 — every team's roster from the HockeyTech feed.
+      # The script fails SOFT (exit 0, last good file kept) so a feed hiccup
+      # never blocks the daily report commit or replaces a good roster file.
+      - name: Fetch league rosters
+        env:
+          HT_KEY: ${{ secrets.HT_KEY }}
+        run: node scripts/fetch-rosters.mjs
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sphl-daily.json data/sphl-daily.html
+          git add data/sphl-daily.json data/sphl-daily.html data/sphl-rosters.json
           if git diff --staged --quiet; then
             echo "No data changes."
           else
