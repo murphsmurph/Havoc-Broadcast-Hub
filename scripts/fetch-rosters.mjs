@@ -30,6 +30,19 @@ async function jget(qs,key){
   if(t.startsWith('('))t=t.replace(/^\(/,'').replace(/\)$/,'');
   return JSON.parse(t);
 }
+// the feed answers flaky under load — a list call gets three tries
+async function jgetRetry(qs,key,check){
+  let last=null;
+  for(let i=0;i<3;i++){
+    try{
+      const j=await jget(qs,key);
+      if(!check||check(j))return j;
+      last=j;
+    }catch(e){last=null;}
+    await new Promise(r=>setTimeout(r,1500*(i+1)));
+  }
+  return last;
+}
 
 async function resolveKey(){
   const tryKey=async k=>{
@@ -73,14 +86,14 @@ const isPlayer=r=>/^(F|C|LW|RW|W|D|G)$/i.test(String(r.position||r.pos||'').trim
 async function main(){
   const key=await resolveKey();
   if(!key)softExit('no working feed key (env, known and auto-detect all failed)');
-  let seasons=[];
-  try{const j=await jget('feed=modulekit&view=seasons&fmt=json&lang=en',key);seasons=((j||{}).SiteKit||{}).Seasons||[];}catch(e){}
+  const sj=await jgetRetry('feed=modulekit&view=seasons&fmt=json&lang=en',key,j=>((j||{}).SiteKit||{}).Seasons?.length);
+  const seasons=((sj||{}).SiteKit||{}).Seasons||[];
   const season=pickSeason(seasons);
   if(!season)softExit('seasons list empty or all playoff/career');
   const sid=String(season.season_id),sname=String(season.season_name||'');
   console.log('Season: '+sid+' ('+sname+')');
-  let teams=[];
-  try{const j=await jget('feed=modulekit&view=teamsbyseason&season_id='+sid+'&fmt=json&lang=en',key);teams=((j||{}).SiteKit||{}).Teamsbyseason||[];}catch(e){}
+  const tj=await jgetRetry('feed=modulekit&view=teamsbyseason&season_id='+sid+'&fmt=json&lang=en',key,j=>((j||{}).SiteKit||{}).Teamsbyseason?.length);
+  const teams=((tj||{}).SiteKit||{}).Teamsbyseason||[];
   if(!teams.length)softExit('teamsbyseason returned no teams for season '+sid);
   const out={fetchedAt:new Date().toISOString(),seasonId:sid,seasonLabel:sname,
     source:'lscluster modulekit roster, per team',teams:[]};
@@ -89,10 +102,9 @@ async function main(){
     const tid=String(t.id||t.team_id||'').trim(),tname=String(t.name||t.team_name||'').trim();
     if(!tid||!tname)continue;
     let rows=[];
-    try{
-      const j=await jget('feed=modulekit&view=roster&season_id='+sid+'&team_id='+tid+'&fmt=json&lang=en',key);
-      rows=(((j||{}).SiteKit||{}).Roster||[]).filter(isPlayer).map(trim);
-    }catch(e){console.log('  ! '+tname+': roster fetch failed ('+e.message+') — team kept with 0 players');}
+    const j=await jgetRetry('feed=modulekit&view=roster&season_id='+sid+'&team_id='+tid+'&fmt=json&lang=en',key,x=>((x||{}).SiteKit||{}).Roster?.length);
+    if(j)rows=(((j||{}).SiteKit||{}).Roster||[]).filter(isPlayer).map(trim);
+    else console.log('  ! '+tname+': roster fetch failed after retries — team kept with 0 players');
     out.teams.push({id:tid,name:tname,city:String(t.city||'').trim(),roster:rows});
     total+=rows.length;
     console.log('  '+tname+': '+rows.length+' players');

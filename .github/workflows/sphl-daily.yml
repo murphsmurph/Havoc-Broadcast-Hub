@@ -39,7 +39,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/sphl-daily.json data/sphl-daily.html data/sphl-rosters.json
+          git add data/sphl-daily.json data/sphl-daily.html
+          # the roster file may not exist until its first successful fetch
+          [ -f data/sphl-rosters.json ] && git add data/sphl-rosters.json
           if git diff --staged --quiet; then
             echo "No data changes."
           else
