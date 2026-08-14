@@ -107,15 +107,28 @@ const pmf=v=>v==null?'—':(v>0?'+'+v:String(v));
    else the item is OMITTED — never guessed */
 function vitals(p){
   const bio=p.bio||{};
+  // data/sphl-rosters.json carries the raw feed rows — normalize one here
   let feed=null;
-  if(ROSTERS){
-    const lists=ROSTERS.teams?Object.values(ROSTERS.teams):[ROSTERS.havoc||ROSTERS.players||[]];
-    for(const l of lists){const hit=(l||[]).find(x=>x.name===p.name||slug(x.name)===slug(p.name));if(hit){feed=hit;break;}}
+  const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const rname=x=>String(x.name||x.player_name||((x.first_name||'')+' '+(x.last_name||''))).trim();
+  const lists=ROSTERS?(Array.isArray(ROSTERS.teams)?ROSTERS.teams.map(t=>t.roster||[]):Object.values(ROSTERS.teams||{})):[];
+  for(const l of lists){
+    const hit=(l||[]).find(x=>rname(x)===p.name||slug(rname(x))===slug(p.name));
+    if(hit){
+      const sh=String(hit.shoots||hit.catches||hit.sh||'').toUpperCase().replace(/[^LR]/g,'').slice(0,1);
+      const bd=String(hit.birthdate||hit.date_of_birth||hit.dob||'');
+      const m=bd.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      feed={ht:hit.height_hyphenated||hit.height||hit.ht||'',wt:hit.weight||hit.wt||'',
+        sh:sh==='L'?'Left':(sh==='R'?'Right':''),
+        born:hit.homeplace||hit.hometown||hit.birthplace||'',
+        birthdate:m?MON[+m[2]-1]+' '+(+m[3])+', '+m[1]:'',
+        photo:hit.player_image||hit.photo||''};
+      break;
+    }
   }
-  const g=(fk,bk)=>((feed&&(feed[fk[0]]||feed[fk[1]]))||bio[bk]||'');
-  return {height:g(['ht','height'],'height'),weight:g(['wt','weight'],'weight'),
-    shoots:g(['sh','shoots'],'shoots'),born:g(['hometown','birthplace'],'born'),
-    birthdate:g(['dob','birthdate'],'birthdate'),photo:feed&&(feed.player_image||feed.photo)||''};
+  const g=(fk,bk)=>((feed&&feed[fk])||bio[bk]||'');
+  return {height:g('ht','height'),weight:g('wt','weight'),shoots:g('sh','shoots'),
+    born:g('born','born'),birthdate:g('birthdate','birthdate'),photo:(feed&&feed.photo)||''};
 }
 function bioItems(items){
   const out=items.filter(([,v])=>v).map(([k,v])=>`${k}: <b>${esc(v)}</b>`);
@@ -151,7 +164,8 @@ function renderPlayer(p){
         sphlN=seasonsCount(p,r=>r.league==='SPHL'),
         proN=seasonsCount(p,r=>r.level==='Pro');
   const lastSeason=[...(p.seasons||[])].reverse().find(r=>r.season&&r.season!=='—');
-  document.title='#'+(p.num||'')+' '+p.name+' — Huntsville Havoc Game Notes';
+  const disp=B.formal_name||p.name;   // the header prints the formal name; the nickname is on-air shorthand
+  document.title='#'+(p.num||'')+' '+disp+' — Huntsville Havoc Game Notes';
 
   const cols=G?['gp','w','l','otl','so','gaa','svpct','svs']:['gp','g','a','pts','pm','pim'];
   const heads=G?['GP','W','L','OTL','SO','GAA','SV%','SVS']:['GP','G','A','PTS','+/-','PIM'];
@@ -206,7 +220,7 @@ function renderPlayer(p){
   document.getElementById('page').innerHTML=shell(v.photo?`<img src="${esc(v.photo)}" alt="${esc(p.name)}">`:'Player Photo',`
       <div class="playerbar">
         <div class="numblock">${esc(p.num||'—')}</div>
-        <div class="pname">${esc(p.name)}</div>
+        <div class="pname">${esc(disp)}</div>
       </div>
       ${vline1||vline2?`<div class="bioline">${vline1}${vline1&&vline2?'<br>':''}${vline2}</div>`:''}
       <div class="joined"><span class="lab">Joined the Havoc:</span> ${prose(B.joined_blurb)}</div>
@@ -229,7 +243,7 @@ function renderPlayer(p){
         </tr>
         ${table}
       </table>
-      ${p.notes?`<div class="fnote">&#9432; ${esc(p.notes)}</div>`:''}`);
+      ${B.footnotes||p.notes?`<div class="fnote"><i>&#9432; ${esc(B.footnotes||p.notes)}</i></div>`:''}`);
 }
 
 /* ---------------- staff pages ---------------- */
@@ -315,7 +329,8 @@ function renderStaffPage(name){
       <div class="sechead">Playing Career &amp; Havoc Legacy</div>
       <div class="body-copy"><p>${prose(B.playing_legacy)}</p></div>
       ${coachTable}
-      ${playTable}`,'Hockey Operations');
+      ${playTable}
+      ${B.footnotes?`<div class="fnote"><i>&#9432; ${esc(B.footnotes)}</i></div>`:''}`,'Hockey Operations');
 }
 
 async function main(){

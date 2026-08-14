@@ -52,7 +52,10 @@ const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;'
   const emb=n=>!!(B&&B.players&&B.players[n]&&B.players[n].embargoed);
   const players=[...D.players].filter(p=>!emb(p.name))
     .sort((a,b)=>((+a.num||999)-(+b.num||999)))
-    .map(p=>`<li><span class="num">${p.num?'#'+esc(p.num):'—'}</span><a href="player.html?p=${encodeURIComponent(p.name)}">${esc(p.name)}</a>${p.type==='goalie'?' <span class="writ">G</span>':''}${wrote(B&&B.players&&B.players[p.name])}</li>`).join('');
+    .map(p=>{
+      const e=(B&&B.players&&B.players[p.name])||{};
+      return `<li><span class="num">${p.num?'#'+esc(p.num):'—'}</span><a href="player.html?p=${encodeURIComponent(p.name)}">${esc(e.formal_name||p.name)}</a>${e.nickname?` <span class="writ">&ldquo;${esc(e.nickname)}&rdquo;</span>`:''}${p.type==='goalie'?' <span class="writ">G</span>':''}${wrote(e)}</li>`;
+    }).join('');
   document.getElementById('list').innerHTML=
     `<div class="sechead">Hockey Operations</div><ul class="idx">${staff}</ul>
      <div class="sechead">Players</div><ul class="idx">${players}</ul>`;
