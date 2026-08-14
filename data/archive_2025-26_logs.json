@@ -1,0 +1,5041 @@
+{
+  "_readme": "2025-26 broadcast history rescued from the booth browser before the Call Log tab and game-log editor leave the site (cleanup Phases 3-4). calllog = games Jacob called; gamelog = per-game results/attendance he entered; leagueLog = the 2025-26 league results log.",
+  "exported": "2026-08-14",
+  "calllog": {
+    "2025-26": [
+      {
+        "id": "2526-0",
+        "date": "2025-10-17",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 4,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-1",
+        "date": "2025-10-24",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 6,
+        "og": 2,
+        "note": "",
+        "called": true,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-2",
+        "date": "2025-10-25",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-3",
+        "date": "2025-10-28",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 6,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-4",
+        "date": "2025-11-01",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-5",
+        "date": "2025-11-02",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 4,
+        "og": 6,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-6",
+        "date": "2025-11-07",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-7",
+        "date": "2025-11-09",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 5,
+        "og": 4,
+        "note": "SO",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-8",
+        "date": "2025-11-14",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-9",
+        "date": "2025-11-16",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 2,
+        "og": 3,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-10",
+        "date": "2025-11-21",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 7,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-11",
+        "date": "2025-11-22",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 7,
+        "og": 3,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-12",
+        "date": "2025-11-26",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 1,
+        "og": 8,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-13",
+        "date": "2025-11-27",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-14",
+        "date": "2025-11-28",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-15",
+        "date": "2025-12-05",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 2,
+        "og": 4,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-16",
+        "date": "2025-12-06",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 1,
+        "og": 4,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-17",
+        "date": "2025-12-07",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-18",
+        "date": "2025-12-11",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-19",
+        "date": "2025-12-12",
+        "opp": "Fayetteville Marksmen",
+        "home": true,
+        "hv": 2,
+        "og": 5,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-20",
+        "date": "2025-12-18",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 1,
+        "og": 0,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-21",
+        "date": "2025-12-19",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 2,
+        "og": 0,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-22",
+        "date": "2025-12-20",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-23",
+        "date": "2025-12-26",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 1,
+        "og": 4,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-24",
+        "date": "2025-12-27",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-25",
+        "date": "2025-12-30",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-26",
+        "date": "2026-01-02",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 8,
+        "og": 0,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-27",
+        "date": "2026-01-03",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 4,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-28",
+        "date": "2026-01-09",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 5,
+        "og": 4,
+        "note": "SO",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-29",
+        "date": "2026-01-10",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 2,
+        "og": 3,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-30",
+        "date": "2026-01-16",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": 0,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-31",
+        "date": "2026-01-17",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 4,
+        "og": 3,
+        "note": "SO",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-32",
+        "date": "2026-01-19",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-33",
+        "date": "2026-01-23",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-34",
+        "date": "2026-01-24",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "OT",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-35",
+        "date": "2026-01-30",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": 1,
+        "og": 2,
+        "note": "SO",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-36",
+        "date": "2026-01-31",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": 0,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-37",
+        "date": "2026-02-06",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-38",
+        "date": "2026-02-07",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 4,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-39",
+        "date": "2026-02-13",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 0,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-40",
+        "date": "2026-02-15",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-41",
+        "date": "2026-02-16",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 0,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-42",
+        "date": "2026-02-20",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-43",
+        "date": "2026-02-21",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-44",
+        "date": "2026-02-27",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-45",
+        "date": "2026-02-28",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-46",
+        "date": "2026-03-01",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-47",
+        "date": "2026-03-06",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-48",
+        "date": "2026-03-07",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 1,
+        "og": 0,
+        "note": "SO",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-49",
+        "date": "2026-03-14",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-50",
+        "date": "2026-03-15",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-51",
+        "date": "2026-03-20",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 5,
+        "og": 3,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-52",
+        "date": "2026-03-21",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 1,
+        "og": 3,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-53",
+        "date": "2026-03-27",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-54",
+        "date": "2026-03-28",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-55",
+        "date": "2026-03-29",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 3,
+        "og": 0,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-56",
+        "date": "2026-04-03",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2526-57",
+        "date": "2026-04-04",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "called": false,
+        "rating": null,
+        "goals": []
+      }
+    ],
+    "2026-27": [
+      {
+        "id": "2627-2025-10-17",
+        "date": "2025-10-17",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 4,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-10-24",
+        "date": "2025-10-24",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 6,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-10-25",
+        "date": "2025-10-25",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-10-28",
+        "date": "2025-10-28",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 6,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-01",
+        "date": "2025-11-01",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-02",
+        "date": "2025-11-02",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 4,
+        "og": 6,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-07",
+        "date": "2025-11-07",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-09",
+        "date": "2025-11-09",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 5,
+        "og": 4,
+        "note": "SO",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-14",
+        "date": "2025-11-14",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-16",
+        "date": "2025-11-16",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 2,
+        "og": 3,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-21",
+        "date": "2025-11-21",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 7,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-22",
+        "date": "2025-11-22",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 7,
+        "og": 3,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-26",
+        "date": "2025-11-26",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 1,
+        "og": 8,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-27",
+        "date": "2025-11-27",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-11-28",
+        "date": "2025-11-28",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-05",
+        "date": "2025-12-05",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 2,
+        "og": 4,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-06",
+        "date": "2025-12-06",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 1,
+        "og": 4,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-07",
+        "date": "2025-12-07",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-11",
+        "date": "2025-12-11",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 3,
+        "og": 4,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-12",
+        "date": "2025-12-12",
+        "opp": "Fayetteville Marksmen",
+        "home": true,
+        "hv": 2,
+        "og": 5,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-18",
+        "date": "2025-12-18",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 1,
+        "og": 0,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-19",
+        "date": "2025-12-19",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 2,
+        "og": 0,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-20",
+        "date": "2025-12-20",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-26",
+        "date": "2025-12-26",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": 1,
+        "og": 4,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-27",
+        "date": "2025-12-27",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2025-12-30",
+        "date": "2025-12-30",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 5,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-02",
+        "date": "2026-01-02",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 8,
+        "og": 0,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-03",
+        "date": "2026-01-03",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 4,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-09",
+        "date": "2026-01-09",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 5,
+        "og": 4,
+        "note": "SO",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-10",
+        "date": "2026-01-10",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": 2,
+        "og": 3,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-16",
+        "date": "2026-01-16",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": 0,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-17",
+        "date": "2026-01-17",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 4,
+        "og": 3,
+        "note": "SO",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-19",
+        "date": "2026-01-19",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-23",
+        "date": "2026-01-23",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-24",
+        "date": "2026-01-24",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "OT",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-30",
+        "date": "2026-01-30",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": 1,
+        "og": 2,
+        "note": "SO",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-01-31",
+        "date": "2026-01-31",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": 0,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-06",
+        "date": "2026-02-06",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-07",
+        "date": "2026-02-07",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": 4,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-13",
+        "date": "2026-02-13",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 0,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-15",
+        "date": "2026-02-15",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-16",
+        "date": "2026-02-16",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": 0,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-20",
+        "date": "2026-02-20",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-21",
+        "date": "2026-02-21",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": 3,
+        "og": 4,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-27",
+        "date": "2026-02-27",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-02-28",
+        "date": "2026-02-28",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-01",
+        "date": "2026-03-01",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-06",
+        "date": "2026-03-06",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 1,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-07",
+        "date": "2026-03-07",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": 1,
+        "og": 0,
+        "note": "SO",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-14",
+        "date": "2026-03-14",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": 3,
+        "og": 6,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-15",
+        "date": "2026-03-15",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": 3,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-20",
+        "date": "2026-03-20",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 5,
+        "og": 3,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-21",
+        "date": "2026-03-21",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": true,
+        "hv": 1,
+        "og": 3,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-27",
+        "date": "2026-03-27",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-28",
+        "date": "2026-03-28",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": 2,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-03-29",
+        "date": "2026-03-29",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": 3,
+        "og": 0,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-04-03",
+        "date": "2026-04-03",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 5,
+        "og": 2,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-04-04",
+        "date": "2026-04-04",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": 6,
+        "og": 1,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-09",
+        "date": "2026-10-09",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": true,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-16",
+        "date": "2026-10-16",
+        "opp": "Pee Dee IceCats",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-17",
+        "date": "2026-10-17",
+        "opp": "Pee Dee IceCats",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-23",
+        "date": "2026-10-23",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-24",
+        "date": "2026-10-24",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-30",
+        "date": "2026-10-30",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-10-31",
+        "date": "2026-10-31",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-06",
+        "date": "2026-11-06",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-07",
+        "date": "2026-11-07",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-08",
+        "date": "2026-11-08",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-13",
+        "date": "2026-11-13",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-14",
+        "date": "2026-11-14",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-20",
+        "date": "2026-11-20",
+        "opp": "Fayetteville Marksmen",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-21",
+        "date": "2026-11-21",
+        "opp": "Fayetteville Marksmen",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-25",
+        "date": "2026-11-25",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-26",
+        "date": "2026-11-26",
+        "opp": "Athens Rock Lobsters",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-11-27",
+        "date": "2026-11-27",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-04",
+        "date": "2026-12-04",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-05",
+        "date": "2026-12-05",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-11",
+        "date": "2026-12-11",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-12",
+        "date": "2026-12-12",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-18",
+        "date": "2026-12-18",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-19",
+        "date": "2026-12-19",
+        "opp": "Roanoke Rail Yard Dawgs",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-20",
+        "date": "2026-12-20",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-26",
+        "date": "2026-12-26",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-27",
+        "date": "2026-12-27",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-29",
+        "date": "2026-12-29",
+        "opp": "Macon Mayhem",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2026-12-31",
+        "date": "2026-12-31",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-02",
+        "date": "2027-01-02",
+        "opp": "Macon Mayhem",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-08",
+        "date": "2027-01-08",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-09",
+        "date": "2027-01-09",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-15",
+        "date": "2027-01-15",
+        "opp": "Athens Rock Lobsters",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-16",
+        "date": "2027-01-16",
+        "opp": "Athens Rock Lobsters",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-18",
+        "date": "2027-01-18",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-22",
+        "date": "2027-01-22",
+        "opp": "Pensacola Ice Flyers",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-23",
+        "date": "2027-01-23",
+        "opp": "Pee Dee IceCats",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-29",
+        "date": "2027-01-29",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-01-30",
+        "date": "2027-01-30",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-05",
+        "date": "2027-02-05",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-06",
+        "date": "2027-02-06",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-07",
+        "date": "2027-02-07",
+        "opp": "Pensacola Ice Flyers",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-12",
+        "date": "2027-02-12",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-13",
+        "date": "2027-02-13",
+        "opp": "Quad City Storm",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-15",
+        "date": "2027-02-15",
+        "opp": "Birmingham Bulls",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-19",
+        "date": "2027-02-19",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-20",
+        "date": "2027-02-20",
+        "opp": "Peoria Rivermen",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-21",
+        "date": "2027-02-21",
+        "opp": "Birmingham Bulls",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-26",
+        "date": "2027-02-26",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-02-27",
+        "date": "2027-02-27",
+        "opp": "Quad City Storm",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-05",
+        "date": "2027-03-05",
+        "opp": "Athens Rock Lobsters",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-06",
+        "date": "2027-03-06",
+        "opp": "Athens Rock Lobsters",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-07",
+        "date": "2027-03-07",
+        "opp": "Evansville Thunderbolts",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-12",
+        "date": "2027-03-12",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-13",
+        "date": "2027-03-13",
+        "opp": "Fayetteville Marksmen",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-19",
+        "date": "2027-03-19",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-20",
+        "date": "2027-03-20",
+        "opp": "Peoria Rivermen",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-25",
+        "date": "2027-03-25",
+        "opp": "Evansville Thunderbolts",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-26",
+        "date": "2027-03-26",
+        "opp": "Athens Rock Lobsters",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-03-27",
+        "date": "2027-03-27",
+        "opp": "Athens Rock Lobsters",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-04-02",
+        "date": "2027-04-02",
+        "opp": "Knoxville Ice Bears",
+        "home": false,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      },
+      {
+        "id": "2627-2027-04-03",
+        "date": "2027-04-03",
+        "opp": "Knoxville Ice Bears",
+        "home": true,
+        "hv": null,
+        "og": null,
+        "note": "",
+        "ps": false,
+        "called": false,
+        "rating": null,
+        "goals": []
+      }
+    ]
+  },
+  "gamelog": {
+    "2025-10-17": {
+      "opp": "Roanoke",
+      "ha": "@",
+      "us": 4,
+      "them": 2,
+      "otso": "",
+      "att": 6162
+    },
+    "2025-10-24": {
+      "opp": "Pensacola",
+      "ha": "vs",
+      "us": 6,
+      "them": 2,
+      "otso": "",
+      "att": 6065
+    },
+    "2025-10-25": {
+      "opp": "Macon",
+      "ha": "@",
+      "us": 3,
+      "them": 2,
+      "otso": "",
+      "att": 2591
+    },
+    "2025-10-28": {
+      "opp": "Evansville",
+      "ha": "@",
+      "us": 6,
+      "them": 2,
+      "otso": "",
+      "att": 6852
+    },
+    "2025-11-01": {
+      "opp": "Quad City",
+      "ha": "@",
+      "us": 2,
+      "them": 1,
+      "otso": "",
+      "att": 2722
+    },
+    "2025-11-02": {
+      "opp": "Quad City",
+      "ha": "@",
+      "us": 4,
+      "them": 6,
+      "otso": "",
+      "att": 2137
+    },
+    "2025-11-07": {
+      "opp": "Evansville",
+      "ha": "@",
+      "us": 1,
+      "them": 2,
+      "otso": "",
+      "att": 3449
+    },
+    "2025-11-09": {
+      "opp": "Birmingham",
+      "ha": "vs",
+      "us": 5,
+      "them": 4,
+      "otso": "SO",
+      "att": 6247
+    },
+    "2025-11-14": {
+      "opp": "Macon",
+      "ha": "vs",
+      "us": 5,
+      "them": 1,
+      "otso": "",
+      "att": 6034
+    },
+    "2025-11-16": {
+      "opp": "Birmingham",
+      "ha": "vs",
+      "us": 2,
+      "them": 3,
+      "otso": "OT",
+      "att": 5467
+    },
+    "2025-11-21": {
+      "opp": "Pensacola",
+      "ha": "vs",
+      "us": 7,
+      "them": 1,
+      "otso": "",
+      "att": 5401
+    },
+    "2025-11-22": {
+      "opp": "Pensacola",
+      "ha": "vs",
+      "us": 7,
+      "them": 3,
+      "otso": "",
+      "att": 5923
+    },
+    "2025-11-26": {
+      "opp": "Pensacola",
+      "ha": "@",
+      "us": 1,
+      "them": 8,
+      "otso": "",
+      "att": 8082
+    },
+    "2025-11-27": {
+      "opp": "Knoxville",
+      "ha": "vs",
+      "us": 3,
+      "them": 4,
+      "otso": "OT",
+      "att": 6273
+    },
+    "2025-11-28": {
+      "opp": "Quad City",
+      "ha": "vs",
+      "us": 5,
+      "them": 2,
+      "otso": "",
+      "att": 6285
+    },
+    "2025-12-05": {
+      "opp": "Birmingham",
+      "ha": "@",
+      "us": 2,
+      "them": 4,
+      "otso": "",
+      "att": 3305
+    },
+    "2025-12-06": {
+      "opp": "Macon",
+      "ha": "@",
+      "us": 1,
+      "them": 4,
+      "otso": "",
+      "att": 2762
+    },
+    "2025-12-07": {
+      "opp": "Roanoke",
+      "ha": "vs",
+      "us": 3,
+      "them": 4,
+      "otso": "OT",
+      "att": 5814
+    },
+    "2025-12-11": {
+      "opp": "Pensacola",
+      "ha": "@",
+      "us": 3,
+      "them": 4,
+      "otso": "OT",
+      "att": 3173
+    },
+    "2025-12-12": {
+      "opp": "Fayetteville",
+      "ha": "vs",
+      "us": 2,
+      "them": 5,
+      "otso": "",
+      "att": 5759
+    },
+    "2025-12-18": {
+      "opp": "Quad City",
+      "ha": "vs",
+      "us": 1,
+      "them": 0,
+      "otso": "",
+      "att": 5978
+    },
+    "2025-12-19": {
+      "opp": "Evansville",
+      "ha": "vs",
+      "us": 2,
+      "them": 0,
+      "otso": "",
+      "att": 5532
+    },
+    "2025-12-20": {
+      "opp": "Pensacola",
+      "ha": "@",
+      "us": 5,
+      "them": 1,
+      "otso": "",
+      "att": 6266
+    },
+    "2025-12-26": {
+      "opp": "Pensacola",
+      "ha": "vs",
+      "us": 1,
+      "them": 4,
+      "otso": "",
+      "att": 6273
+    },
+    "2025-12-27": {
+      "opp": "Pensacola",
+      "ha": "@",
+      "us": 2,
+      "them": 1,
+      "otso": "",
+      "att": 8082
+    },
+    "2025-12-30": {
+      "opp": "Knoxville",
+      "ha": "vs",
+      "us": 5,
+      "them": 1,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-01-02": {
+      "opp": "Birmingham",
+      "ha": "vs",
+      "us": 8,
+      "them": 0,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-01-03": {
+      "opp": "Birmingham",
+      "ha": "@",
+      "us": 4,
+      "them": 1,
+      "otso": "",
+      "att": 4177
+    },
+    "2026-01-09": {
+      "opp": "Evansville",
+      "ha": "vs",
+      "us": 5,
+      "them": 4,
+      "otso": "SO",
+      "att": 6273
+    },
+    "2026-01-10": {
+      "opp": "Evansville",
+      "ha": "vs",
+      "us": 2,
+      "them": 3,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-01-16": {
+      "opp": "Knoxville",
+      "ha": "@",
+      "us": 0,
+      "them": 2,
+      "otso": "",
+      "att": 5229
+    },
+    "2026-01-17": {
+      "opp": "Knoxville",
+      "ha": "vs",
+      "us": 4,
+      "them": 3,
+      "otso": "SO",
+      "att": 6273
+    },
+    "2026-01-19": {
+      "opp": "Birmingham",
+      "ha": "@",
+      "us": 3,
+      "them": 6,
+      "otso": "",
+      "att": 4177
+    },
+    "2026-01-23": {
+      "opp": "Fayetteville",
+      "ha": "@",
+      "us": 1,
+      "them": 2,
+      "otso": "OT",
+      "att": 2546
+    },
+    "2026-01-24": {
+      "opp": "Fayetteville",
+      "ha": "@",
+      "us": 3,
+      "them": 2,
+      "otso": "OT",
+      "att": 3750
+    },
+    "2026-01-30": {
+      "opp": "Peoria",
+      "ha": "vs",
+      "us": 1,
+      "them": 2,
+      "otso": "SO",
+      "att": 6273
+    },
+    "2026-01-31": {
+      "opp": "Peoria",
+      "ha": "vs",
+      "us": 0,
+      "them": 1,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-02-06": {
+      "opp": "Quad City",
+      "ha": "vs",
+      "us": 5,
+      "them": 2,
+      "otso": "",
+      "att": 6085
+    },
+    "2026-02-07": {
+      "opp": "Quad City",
+      "ha": "vs",
+      "us": 4,
+      "them": 2,
+      "otso": "",
+      "att": 6122
+    },
+    "2026-02-13": {
+      "opp": "Evansville",
+      "ha": "@",
+      "us": 0,
+      "them": 1,
+      "otso": "",
+      "att": 4459
+    },
+    "2026-02-15": {
+      "opp": "Knoxville",
+      "ha": "vs",
+      "us": 3,
+      "them": 4,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-02-16": {
+      "opp": "Birmingham",
+      "ha": "@",
+      "us": 0,
+      "them": 2,
+      "otso": "",
+      "att": 2979
+    },
+    "2026-02-20": {
+      "opp": "Macon",
+      "ha": "vs",
+      "us": 1,
+      "them": 2,
+      "otso": "",
+      "att": 6268
+    },
+    "2026-02-21": {
+      "opp": "Macon",
+      "ha": "vs",
+      "us": 3,
+      "them": 4,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-02-27": {
+      "opp": "Peoria",
+      "ha": "@",
+      "us": 3,
+      "them": 6,
+      "otso": "",
+      "att": 4059
+    },
+    "2026-02-28": {
+      "opp": "Peoria",
+      "ha": "@",
+      "us": 3,
+      "them": 2,
+      "otso": "",
+      "att": 5206
+    },
+    "2026-03-01": {
+      "opp": "Quad City",
+      "ha": "@",
+      "us": 3,
+      "them": 2,
+      "otso": "",
+      "att": 2770
+    },
+    "2026-03-06": {
+      "opp": "Roanoke",
+      "ha": "@",
+      "us": 1,
+      "them": 2,
+      "otso": "",
+      "att": 4436
+    },
+    "2026-03-07": {
+      "opp": "Roanoke",
+      "ha": "@",
+      "us": 1,
+      "them": 0,
+      "otso": "SO",
+      "att": 6439
+    },
+    "2026-03-14": {
+      "opp": "Knoxville",
+      "ha": "@",
+      "us": 3,
+      "them": 6,
+      "otso": "",
+      "att": 4689
+    },
+    "2026-03-15": {
+      "opp": "Evansville",
+      "ha": "@",
+      "us": 3,
+      "them": 2,
+      "otso": "",
+      "att": 2437
+    },
+    "2026-03-20": {
+      "opp": "Roanoke",
+      "ha": "vs",
+      "us": 5,
+      "them": 3,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-03-21": {
+      "opp": "Roanoke",
+      "ha": "vs",
+      "us": 1,
+      "them": 3,
+      "otso": "",
+      "att": 6163
+    },
+    "2026-03-27": {
+      "opp": "Birmingham",
+      "ha": "vs",
+      "us": 5,
+      "them": 2,
+      "otso": "",
+      "att": 6253
+    },
+    "2026-03-28": {
+      "opp": "Birmingham",
+      "ha": "vs",
+      "us": 2,
+      "them": 1,
+      "otso": "",
+      "att": 6273
+    },
+    "2026-03-29": {
+      "opp": "Macon",
+      "ha": "@",
+      "us": 3,
+      "them": 0,
+      "otso": "",
+      "att": 2911
+    },
+    "2026-04-03": {
+      "opp": "Quad City",
+      "ha": "@",
+      "us": 5,
+      "them": 2,
+      "otso": "",
+      "att": 3290
+    },
+    "2026-04-04": {
+      "opp": "Quad City",
+      "ha": "@",
+      "us": 6,
+      "them": 1,
+      "otso": "",
+      "att": 3094
+    }
+  },
+  "leagueLog": [
+    {
+      "d": "2025-10-17",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-17",
+      "h": "Birmingham Bulls",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-10-18",
+      "h": "Fayetteville Marksmen",
+      "a": "Knoxville Ice Bears",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-18",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 1,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-10-18",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-24",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 0,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-24",
+      "h": "Huntsville Havoc",
+      "a": "Pensacola Ice Flyers",
+      "hg": 6,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-24",
+      "h": "Birmingham Bulls",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-10-24",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-24",
+      "h": "Peoria Rivermen",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-25",
+      "h": "Macon Mayhem",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-25",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-25",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-25",
+      "h": "Pensacola Ice Flyers",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-25",
+      "h": "Peoria Rivermen",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 1,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-10-28",
+      "h": "Evansville Thunderbolts",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-30",
+      "h": "Birmingham Bulls",
+      "a": "Pensacola Ice Flyers",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-31",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-10-31",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-01",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-01",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-01",
+      "h": "Birmingham Bulls",
+      "a": "Knoxville Ice Bears",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-01",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 1,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-11-01",
+      "h": "Quad City Storm",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-02",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-02",
+      "h": "Quad City Storm",
+      "a": "Huntsville Havoc",
+      "hg": 6,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-07",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 1,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-07",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-07",
+      "h": "Evansville Thunderbolts",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-07",
+      "h": "Birmingham Bulls",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-07",
+      "h": "Peoria Rivermen",
+      "a": "Quad City Storm",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-08",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-08",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-08",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 7,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-09",
+      "h": "Huntsville Havoc",
+      "a": "Birmingham Bulls",
+      "hg": 5,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-11-14",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-11-14",
+      "h": "Knoxville Ice Bears",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 4,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-14",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-14",
+      "h": "Huntsville Havoc",
+      "a": "Macon Mayhem",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-14",
+      "h": "Pensacola Ice Flyers",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-15",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Peoria Rivermen",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-15",
+      "h": "Pensacola Ice Flyers",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-15",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-16",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-16",
+      "h": "Huntsville Havoc",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-21",
+      "h": "Macon Mayhem",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 0,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-21",
+      "h": "Birmingham Bulls",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-21",
+      "h": "Huntsville Havoc",
+      "a": "Pensacola Ice Flyers",
+      "hg": 7,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-21",
+      "h": "Evansville Thunderbolts",
+      "a": "Knoxville Ice Bears",
+      "hg": 6,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-21",
+      "h": "Peoria Rivermen",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-22",
+      "h": "Macon Mayhem",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-22",
+      "h": "Birmingham Bulls",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-22",
+      "h": "Huntsville Havoc",
+      "a": "Pensacola Ice Flyers",
+      "hg": 7,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-22",
+      "h": "Evansville Thunderbolts",
+      "a": "Knoxville Ice Bears",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-22",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 0,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-23",
+      "h": "Macon Mayhem",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-26",
+      "h": "Macon Mayhem",
+      "a": "Evansville Thunderbolts",
+      "hg": 4,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-11-26",
+      "h": "Fayetteville Marksmen",
+      "a": "Birmingham Bulls",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-26",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Knoxville Ice Bears",
+      "hg": 4,
+      "ag": 7,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-26",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-26",
+      "h": "Pensacola Ice Flyers",
+      "a": "Huntsville Havoc",
+      "hg": 8,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-27",
+      "h": "Huntsville Havoc",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 4,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-11-28",
+      "h": "Knoxville Ice Bears",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-28",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-28",
+      "h": "Birmingham Bulls",
+      "a": "Pensacola Ice Flyers",
+      "hg": 2,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-11-28",
+      "h": "Huntsville Havoc",
+      "a": "Quad City Storm",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-28",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-29",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-29",
+      "h": "Macon Mayhem",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-29",
+      "h": "Pensacola Ice Flyers",
+      "a": "Birmingham Bulls",
+      "hg": 4,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-11-29",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 4,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-04",
+      "h": "Knoxville Ice Bears",
+      "a": "Quad City Storm",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-04",
+      "h": "Birmingham Bulls",
+      "a": "Pensacola Ice Flyers",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-05",
+      "h": "Fayetteville Marksmen",
+      "a": "Peoria Rivermen",
+      "hg": 5,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-05",
+      "h": "Knoxville Ice Bears",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-05",
+      "h": "Birmingham Bulls",
+      "a": "Huntsville Havoc",
+      "hg": 4,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-05",
+      "h": "Evansville Thunderbolts",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-12-05",
+      "h": "Pensacola Ice Flyers",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-06",
+      "h": "Fayetteville Marksmen",
+      "a": "Peoria Rivermen",
+      "hg": 0,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-06",
+      "h": "Macon Mayhem",
+      "a": "Huntsville Havoc",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-06",
+      "h": "Evansville Thunderbolts",
+      "a": "Birmingham Bulls",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-06",
+      "h": "Pensacola Ice Flyers",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-07",
+      "h": "Fayetteville Marksmen",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-07",
+      "h": "Huntsville Havoc",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 3,
+      "ag": 4,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-11",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 1,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-11",
+      "h": "Pensacola Ice Flyers",
+      "a": "Huntsville Havoc",
+      "hg": 4,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-12",
+      "h": "Huntsville Havoc",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-12",
+      "h": "Quad City Storm",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-12",
+      "h": "Peoria Rivermen",
+      "a": "Knoxville Ice Bears",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-13",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-13",
+      "h": "Quad City Storm",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-13",
+      "h": "Peoria Rivermen",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-14",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 4,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-18",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-18",
+      "h": "Huntsville Havoc",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-19",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-19",
+      "h": "Macon Mayhem",
+      "a": "Quad City Storm",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-19",
+      "h": "Knoxville Ice Bears",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-19",
+      "h": "Huntsville Havoc",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-20",
+      "h": "Fayetteville Marksmen",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-20",
+      "h": "Macon Mayhem",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-20",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Birmingham Bulls",
+      "hg": 5,
+      "ag": 6,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-20",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-20",
+      "h": "Pensacola Ice Flyers",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-21",
+      "h": "Macon Mayhem",
+      "a": "Pensacola Ice Flyers",
+      "hg": 4,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-23",
+      "h": "Pensacola Ice Flyers",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 4,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-26",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 6,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-26",
+      "h": "Huntsville Havoc",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-26",
+      "h": "Birmingham Bulls",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 0,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-26",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 5,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2025-12-26",
+      "h": "Peoria Rivermen",
+      "a": "Fayetteville Marksmen",
+      "hg": 5,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-27",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Knoxville Ice Bears",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-27",
+      "h": "Birmingham Bulls",
+      "a": "Macon Mayhem",
+      "hg": 7,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-27",
+      "h": "Pensacola Ice Flyers",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-27",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-27",
+      "h": "Peoria Rivermen",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-28",
+      "h": "Peoria Rivermen",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-30",
+      "h": "Huntsville Havoc",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-31",
+      "h": "Macon Mayhem",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-31",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2025-12-31",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2025-12-31",
+      "h": "Evansville Thunderbolts",
+      "a": "Birmingham Bulls",
+      "hg": 1,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-02",
+      "h": "Macon Mayhem",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-02",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-02",
+      "h": "Huntsville Havoc",
+      "a": "Birmingham Bulls",
+      "hg": 8,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-02",
+      "h": "Pensacola Ice Flyers",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-02",
+      "h": "Peoria Rivermen",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-03",
+      "h": "Macon Mayhem",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 2,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-03",
+      "h": "Birmingham Bulls",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-03",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 4,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-03",
+      "h": "Pensacola Ice Flyers",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-03",
+      "h": "Peoria Rivermen",
+      "a": "Knoxville Ice Bears",
+      "hg": 4,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-04",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-04",
+      "h": "Peoria Rivermen",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-08",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-08",
+      "h": "Knoxville Ice Bears",
+      "a": "Macon Mayhem",
+      "hg": 0,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-09",
+      "h": "Fayetteville Marksmen",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-09",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-09",
+      "h": "Birmingham Bulls",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-09",
+      "h": "Huntsville Havoc",
+      "a": "Evansville Thunderbolts",
+      "hg": 5,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-09",
+      "h": "Quad City Storm",
+      "a": "Pensacola Ice Flyers",
+      "hg": 7,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-10",
+      "h": "Fayetteville Marksmen",
+      "a": "Knoxville Ice Bears",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-10",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Macon Mayhem",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-10",
+      "h": "Birmingham Bulls",
+      "a": "Peoria Rivermen",
+      "hg": 0,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-10",
+      "h": "Huntsville Havoc",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-10",
+      "h": "Quad City Storm",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-11",
+      "h": "Quad City Storm",
+      "a": "Pensacola Ice Flyers",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-14",
+      "h": "Evansville Thunderbolts",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-16",
+      "h": "Macon Mayhem",
+      "a": "Birmingham Bulls",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-16",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-16",
+      "h": "Knoxville Ice Bears",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-16",
+      "h": "Pensacola Ice Flyers",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-16",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-17",
+      "h": "Macon Mayhem",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-17",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-17",
+      "h": "Huntsville Havoc",
+      "a": "Knoxville Ice Bears",
+      "hg": 4,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-17",
+      "h": "Pensacola Ice Flyers",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-17",
+      "h": "Peoria Rivermen",
+      "a": "Quad City Storm",
+      "hg": 4,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-18",
+      "h": "Peoria Rivermen",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 1,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-18",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 2,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-19",
+      "h": "Birmingham Bulls",
+      "a": "Huntsville Havoc",
+      "hg": 6,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-23",
+      "h": "Fayetteville Marksmen",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 1,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-23",
+      "h": "Macon Mayhem",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 5,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-23",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 4,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-23",
+      "h": "Evansville Thunderbolts",
+      "a": "Birmingham Bulls",
+      "hg": 1,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-23",
+      "h": "Peoria Rivermen",
+      "a": "Quad City Storm",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-24",
+      "h": "Fayetteville Marksmen",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-01-24",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-24",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-24",
+      "h": "Macon Mayhem",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-25",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-30",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-30",
+      "h": "Knoxville Ice Bears",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-30",
+      "h": "Huntsville Havoc",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 2,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-01-30",
+      "h": "Birmingham Bulls",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-30",
+      "h": "Pensacola Ice Flyers",
+      "a": "Fayetteville Marksmen",
+      "hg": 6,
+      "ag": 8,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-31",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Quad City Storm",
+      "hg": 4,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-31",
+      "h": "Huntsville Havoc",
+      "a": "Peoria Rivermen",
+      "hg": 0,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-31",
+      "h": "Birmingham Bulls",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-01-31",
+      "h": "Pensacola Ice Flyers",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-01",
+      "h": "Knoxville Ice Bears",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-04",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-05",
+      "h": "Macon Mayhem",
+      "a": "Pensacola Ice Flyers",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-05",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-06",
+      "h": "Macon Mayhem",
+      "a": "Evansville Thunderbolts",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-06",
+      "h": "Fayetteville Marksmen",
+      "a": "Birmingham Bulls",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-06",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-06",
+      "h": "Huntsville Havoc",
+      "a": "Quad City Storm",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-06",
+      "h": "Pensacola Ice Flyers",
+      "a": "Knoxville Ice Bears",
+      "hg": 0,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-07",
+      "h": "Huntsville Havoc",
+      "a": "Quad City Storm",
+      "hg": 4,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-07",
+      "h": "Macon Mayhem",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-07",
+      "h": "Fayetteville Marksmen",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-07",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-07",
+      "h": "Pensacola Ice Flyers",
+      "a": "Knoxville Ice Bears",
+      "hg": 1,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-02-12",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 4,
+      "ag": 7,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-13",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-13",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 7,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-13",
+      "h": "Evansville Thunderbolts",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-13",
+      "h": "Birmingham Bulls",
+      "a": "Macon Mayhem",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-13",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-14",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-14",
+      "h": "Knoxville Ice Bears",
+      "a": "Pensacola Ice Flyers",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-14",
+      "h": "Birmingham Bulls",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-02-14",
+      "h": "Quad City Storm",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-15",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-15",
+      "h": "Huntsville Havoc",
+      "a": "Knoxville Ice Bears",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-16",
+      "h": "Birmingham Bulls",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-19",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 3,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-20",
+      "h": "Fayetteville Marksmen",
+      "a": "Pensacola Ice Flyers",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-20",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Quad City Storm",
+      "hg": 8,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-20",
+      "h": "Birmingham Bulls",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-20",
+      "h": "Huntsville Havoc",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-20",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-21",
+      "h": "Fayetteville Marksmen",
+      "a": "Pensacola Ice Flyers",
+      "hg": 4,
+      "ag": 3,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-02-21",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 8,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-21",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-21",
+      "h": "Birmingham Bulls",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-21",
+      "h": "Huntsville Havoc",
+      "a": "Macon Mayhem",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-22",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-26",
+      "h": "Macon Mayhem",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-26",
+      "h": "Knoxville Ice Bears",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-26",
+      "h": "Birmingham Bulls",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-27",
+      "h": "Macon Mayhem",
+      "a": "Fayetteville Marksmen",
+      "hg": 1,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-27",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Knoxville Ice Bears",
+      "hg": 6,
+      "ag": 5,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-02-27",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-27",
+      "h": "Pensacola Ice Flyers",
+      "a": "Birmingham Bulls",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-27",
+      "h": "Peoria Rivermen",
+      "a": "Huntsville Havoc",
+      "hg": 6,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-28",
+      "h": "Macon Mayhem",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-28",
+      "h": "Knoxville Ice Bears",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-28",
+      "h": "Pensacola Ice Flyers",
+      "a": "Birmingham Bulls",
+      "hg": 0,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-02-28",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 2,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-02-28",
+      "h": "Peoria Rivermen",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-01",
+      "h": "Quad City Storm",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-05",
+      "h": "Birmingham Bulls",
+      "a": "Knoxville Ice Bears",
+      "hg": 7,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-05",
+      "h": "Peoria Rivermen",
+      "a": "Pensacola Ice Flyers",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-06",
+      "h": "Macon Mayhem",
+      "a": "Birmingham Bulls",
+      "hg": 0,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-06",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-06",
+      "h": "Knoxville Ice Bears",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-06",
+      "h": "Quad City Storm",
+      "a": "Fayetteville Marksmen",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-06",
+      "h": "Peoria Rivermen",
+      "a": "Pensacola Ice Flyers",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-07",
+      "h": "Macon Mayhem",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-07",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Huntsville Havoc",
+      "hg": 0,
+      "ag": 1,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-03-07",
+      "h": "Knoxville Ice Bears",
+      "a": "Evansville Thunderbolts",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-07",
+      "h": "Quad City Storm",
+      "a": "Fayetteville Marksmen",
+      "hg": 4,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-08",
+      "h": "Evansville Thunderbolts",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-08",
+      "h": "Peoria Rivermen",
+      "a": "Pensacola Ice Flyers",
+      "hg": 3,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-12",
+      "h": "Fayetteville Marksmen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-13",
+      "h": "Fayetteville Marksmen",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-03-13",
+      "h": "Evansville Thunderbolts",
+      "a": "Knoxville Ice Bears",
+      "hg": 5,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-13",
+      "h": "Birmingham Bulls",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 5,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-13",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 5,
+      "ag": 6,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-03-14",
+      "h": "Fayetteville Marksmen",
+      "a": "Quad City Storm",
+      "hg": 3,
+      "ag": 4,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-03-14",
+      "h": "Knoxville Ice Bears",
+      "a": "Huntsville Havoc",
+      "hg": 6,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-14",
+      "h": "Birmingham Bulls",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 4,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-03-14",
+      "h": "Pensacola Ice Flyers",
+      "a": "Macon Mayhem",
+      "hg": 4,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-15",
+      "h": "Evansville Thunderbolts",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-20",
+      "h": "Macon Mayhem",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-20",
+      "h": "Knoxville Ice Bears",
+      "a": "Peoria Rivermen",
+      "hg": 0,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-20",
+      "h": "Birmingham Bulls",
+      "a": "Pensacola Ice Flyers",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-03-20",
+      "h": "Huntsville Havoc",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 5,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-21",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 6,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-21",
+      "h": "Knoxville Ice Bears",
+      "a": "Peoria Rivermen",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-21",
+      "h": "Birmingham Bulls",
+      "a": "Pensacola Ice Flyers",
+      "hg": 6,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-21",
+      "h": "Huntsville Havoc",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-21",
+      "h": "Evansville Thunderbolts",
+      "a": "Quad City Storm",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-22",
+      "h": "Fayetteville Marksmen",
+      "a": "Knoxville Ice Bears",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-22",
+      "h": "Quad City Storm",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-27",
+      "h": "Macon Mayhem",
+      "a": "Knoxville Ice Bears",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-27",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 6,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-27",
+      "h": "Evansville Thunderbolts",
+      "a": "Peoria Rivermen",
+      "hg": 3,
+      "ag": 2,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-03-27",
+      "h": "Huntsville Havoc",
+      "a": "Birmingham Bulls",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-27",
+      "h": "Pensacola Ice Flyers",
+      "a": "Quad City Storm",
+      "hg": 5,
+      "ag": 2,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-28",
+      "h": "Macon Mayhem",
+      "a": "Knoxville Ice Bears",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-28",
+      "h": "Roanoke Rail Yard Dawgs",
+      "a": "Fayetteville Marksmen",
+      "hg": 2,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-28",
+      "h": "Huntsville Havoc",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-28",
+      "h": "Pensacola Ice Flyers",
+      "a": "Quad City Storm",
+      "hg": 1,
+      "ag": 2,
+      "ot": "SO"
+    },
+    {
+      "d": "2026-03-28",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-29",
+      "h": "Macon Mayhem",
+      "a": "Huntsville Havoc",
+      "hg": 0,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-03-29",
+      "h": "Peoria Rivermen",
+      "a": "Evansville Thunderbolts",
+      "hg": 2,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-02",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 1,
+      "ag": 4,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-03",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 2,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-03",
+      "h": "Knoxville Ice Bears",
+      "a": "Birmingham Bulls",
+      "hg": 2,
+      "ag": 3,
+      "ot": "OT"
+    },
+    {
+      "d": "2026-04-03",
+      "h": "Evansville Thunderbolts",
+      "a": "Pensacola Ice Flyers",
+      "hg": 3,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-03",
+      "h": "Quad City Storm",
+      "a": "Huntsville Havoc",
+      "hg": 2,
+      "ag": 5,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-03",
+      "h": "Peoria Rivermen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-04",
+      "h": "Knoxville Ice Bears",
+      "a": "Birmingham Bulls",
+      "hg": 1,
+      "ag": 3,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-04",
+      "h": "Fayetteville Marksmen",
+      "a": "Macon Mayhem",
+      "hg": 6,
+      "ag": 0,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-04",
+      "h": "Evansville Thunderbolts",
+      "a": "Pensacola Ice Flyers",
+      "hg": 4,
+      "ag": 1,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-04",
+      "h": "Quad City Storm",
+      "a": "Huntsville Havoc",
+      "hg": 1,
+      "ag": 6,
+      "ot": ""
+    },
+    {
+      "d": "2026-04-04",
+      "h": "Peoria Rivermen",
+      "a": "Roanoke Rail Yard Dawgs",
+      "hg": 1,
+      "ag": 2,
+      "ot": "OT"
+    }
+  ]
+}
