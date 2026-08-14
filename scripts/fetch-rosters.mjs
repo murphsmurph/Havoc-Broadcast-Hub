@@ -79,7 +79,7 @@ function pickSeason(seasons){
   const reg=norm.filter(s=>!s.playoff&&!/playoff|career/i.test(s.both));
   reg.sort((a,b)=>(+b.id)-(+a.id));
   if(!reg.length)console.log('  seasons seen (first 5): '+JSON.stringify(seasons.slice(0,5)));
-  return reg[0]?{season_id:reg[0].id,season_name:reg[0].name}:null;
+  return reg.map(s=>({season_id:s.id,season_name:s.name}));
 }
 
 // only what the site's htRosterRow reader needs — keeps the file small
@@ -94,28 +94,47 @@ async function main(){
   if(!key)softExit('no working feed key (env, known and auto-detect all failed)');
   const sj=await jgetRetry('feed=modulekit&view=seasons&fmt=json&lang=en',key,j=>((j||{}).SiteKit||{}).Seasons?.length);
   const seasons=((sj||{}).SiteKit||{}).Seasons||[];
-  const season=pickSeason(seasons);
-  if(!season)softExit('seasons list empty or all playoff/career');
-  const sid=String(season.season_id),sname=String(season.season_name||'');
-  console.log('Season: '+sid+' ('+sname+')');
-  const tj=await jgetRetry('feed=modulekit&view=teamsbyseason&season_id='+sid+'&fmt=json&lang=en',key,j=>((j||{}).SiteKit||{}).Teamsbyseason?.length);
-  const teams=((tj||{}).SiteKit||{}).Teamsbyseason||[];
-  if(!teams.length)softExit('teamsbyseason returned no teams for season '+sid);
-  const out={fetchedAt:new Date().toISOString(),seasonId:sid,seasonLabel:sname,
-    source:'lscluster modulekit roster, per team',teams:[]};
-  let total=0;
-  for(const t of teams){
-    const tid=String(t.id||t.team_id||'').trim(),tname=String(t.name||t.team_name||'').trim();
-    if(!tid||!tname)continue;
-    let rows=[];
-    const j=await jgetRetry('feed=modulekit&view=roster&season_id='+sid+'&team_id='+tid+'&fmt=json&lang=en',key,x=>((x||{}).SiteKit||{}).Roster?.length);
-    if(j)rows=(((j||{}).SiteKit||{}).Roster||[]).filter(isPlayer).map(trim);
-    else console.log('  ! '+tname+': roster fetch failed after retries — team kept with 0 players');
-    out.teams.push({id:tid,name:tname,city:String(t.city||'').trim(),roster:rows});
-    total+=rows.length;
-    console.log('  '+tname+': '+rows.length+' players');
+  const regular=pickSeason(seasons);
+  if(!regular.length)softExit('seasons list empty or all playoff/career');
+
+  // one full sweep of a season: every team's roster, players only
+  async function sweep(sid,sname){
+    console.log('Season: '+sid+' ('+sname+')');
+    const tj=await jgetRetry('feed=modulekit&view=teamsbyseason&season_id='+sid+'&fmt=json&lang=en',key,j=>((j||{}).SiteKit||{}).Teamsbyseason?.length);
+    const teams=((tj||{}).SiteKit||{}).Teamsbyseason||[];
+    if(!teams.length){console.log('  teamsbyseason returned no teams');return null;}
+    const out={seasonId:sid,seasonLabel:sname,teams:[],total:0};
+    for(const t of teams){
+      const tid=String(t.id||t.team_id||'').trim(),tname=String(t.name||t.team_name||'').trim();
+      if(!tid||!tname)continue;
+      let rows=[];
+      const j=await jgetRetry('feed=modulekit&view=roster&season_id='+sid+'&team_id='+tid+'&fmt=json&lang=en',key,x=>((x||{}).SiteKit||{}).Roster?.length);
+      if(j)rows=(((j||{}).SiteKit||{}).Roster||[]).filter(isPlayer).map(trim);
+      else console.log('  ! '+tname+': roster fetch failed after retries — team kept with 0 players');
+      out.teams.push({id:tid,name:tname,city:String(t.city||'').trim(),roster:rows});
+      out.total+=rows.length;
+      console.log('  '+tname+': '+rows.length+' players');
+    }
+    console.log('Total players: '+out.total+' across '+out.teams.length+' teams');
+    return out;
   }
-  console.log('Total players: '+total+' across '+out.teams.length+' teams');
+
+  // newest regular season first; before the league publishes its player
+  // rosters (preseason: the feed answers with staff-only rows), fall back to
+  // the previous regular season — labelled, exactly like the site's season
+  // fallback — so vitals and headshots for returning players flow now and
+  // the sweep flips to the new season by itself once it is published
+  let sweepRes=await sweep(String(regular[0].season_id),String(regular[0].season_name||''));
+  let note='';
+  if(sweepRes&&sweepRes.total===0&&regular[1]){
+    note=String(regular[0].season_name||'')+' rosters not yet published — previous regular season used';
+    console.log('FALLBACK: '+note);
+    sweepRes=await sweep(String(regular[1].season_id),String(regular[1].season_name||''));
+  }
+  if(!sweepRes)softExit('no teams returned for any regular season');
+  const total=sweepRes.total;
+  const out={fetchedAt:new Date().toISOString(),seasonId:sweepRes.seasonId,seasonLabel:sweepRes.seasonLabel,
+    ...(note?{note}:{}),source:'lscluster modulekit roster, per team',teams:sweepRes.teams};
   // never let a thin fetch replace a good file
   let prev=null;
   try{prev=JSON.parse(fs.readFileSync(OUT,'utf8'));}catch(e){}
@@ -123,7 +142,7 @@ async function main(){
   if(total===0)softExit('zero players fetched');
   if(prev&&total<prevTotal*0.5)softExit('fetched '+total+' players but the last good file has '+prevTotal+' — refusing to shrink by more than half');
   fs.writeFileSync(OUT,JSON.stringify(out,null,1)+'\n');
-  console.log('Wrote data/sphl-rosters.json');
+  console.log('Wrote data/sphl-rosters.json ('+out.seasonLabel+(note?' — FALLBACK':'')+')');
 }
 
 main().catch(e=>softExit('unexpected error: '+e.message));
