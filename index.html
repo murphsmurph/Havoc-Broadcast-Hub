@@ -6768,7 +6768,8 @@ function renderCareerPage(idx){
   };
   el.innerHTML=`
     <div class="ms-head"><span class="ms-num2">${esc(p.num||'')}</span><b>${esc(p.name.toUpperCase())}</b>
-      <span class="ms-meta">${esc(p.pos||'')}${p.from?' · from '+esc(p.from):''}</span></div>
+      <span class="ms-meta">${esc(p.pos||'')}${p.from?' · from '+esc(p.from):''}</span>
+      <a class="btn small secondary" style="margin-left:auto" href="player.html?p=${encodeURIComponent(p.name)}" target="_blank" rel="noopener" title="The game-notes bio page — website and packet page in one; prints letter-size">Bio page &#8599;</a></div>
     <div class="hub-tablewrap" style="overflow-x:auto"><table class="ms-t ms-career">
       <tr><th>Season</th><th>Team</th><th>League</th>${labels.map(l=>`<th class="r">${l}</th>`).join('')}<th class="r">Playoffs ${G?'GP · PTS':'GP · G-A-P'}</th></tr>
       ${group('Youth','YOUTH')}

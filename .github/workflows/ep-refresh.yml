@@ -1,11 +1,15 @@
-name: Refresh career stats from EliteProspects
+name: Refresh stats from EliteProspects
 
 # Opens a PR with the diff — NEVER pushes to main, so bad API data can't
-# silently reach the broadcast. Weekly during the season, or on demand.
+# silently reach the broadcast. Runs the morning after game nights
+# (Fri/Sat/Sun 11:00 UTC ≈ 5-6am Central) during the season, or on demand.
+# Default mode syncs current_season ONLY — the frozen history, baselines and
+# bio prose are guarded. Counters never go down: a game-night manual bump
+# stays ahead of a lagging API.
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 12 * 10-12,1-4 1'   # Mondays 12:00 UTC, Oct–Apr (in-season only)
+    - cron: '0 11 * 10-12,1-4 5,6,0'   # Fri, Sat, Sun 11:00 UTC, Oct–Apr
 
 permissions:
   contents: write
@@ -19,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Refresh from the EP API
+      - name: Sync current_season from the EP API
         env:
           EP_API_KEY: ${{ secrets.EP_API_KEY }}
         run: node scripts/update_stats.mjs | tee /tmp/ep-diff.txt
@@ -36,9 +40,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add data/havoc_players.json
-          git commit -m "Refresh career stats from the EliteProspects API"
+          git commit -m "Sync current_season counters from the EliteProspects API"
           git push -u origin "$BRANCH" --force
           gh pr create --base main --head "$BRANCH" \
-            --title "EP career-stats refresh $(date -u +%Y-%m-%d)" \
-            --body "$(printf 'Automated weekly refresh. Review before merging — the site reads this file on the air.\n\n```\n%s\n```' "$(cat /tmp/ep-diff.txt)")" \
+            --title "EP current-season sync $(date -u +%Y-%m-%d)" \
+            --body "$(printf 'Automated post-game-night sync — current_season counters only. Review before merging — the site and the bio pages read this file on the air.\n\n```\n%s\n```' "$(cat /tmp/ep-diff.txt)")" \
             || echo "PR already open for $BRANCH"
