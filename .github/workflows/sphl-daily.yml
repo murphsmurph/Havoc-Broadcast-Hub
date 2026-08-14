@@ -36,6 +36,7 @@ jobs:
         run: node scripts/fetch-rosters.mjs
 
       - name: Commit updated data
+        if: github.ref == 'refs/heads/main'   # self-test runs on branches fetch but never push data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
