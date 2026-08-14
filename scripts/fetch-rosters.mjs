@@ -63,17 +63,20 @@ async function resolveKey(){
   return null;
 }
 
-// the site's season rule: newest REGULAR season by numeric id — never a
-// playoff or career pseudo-season, never trust the current-flag
+// the site's season rule (mirrors seasonNorm/seasonDefault): newest REGULAR
+// season by numeric id — never a playoff or career pseudo-season, never the
+// current-flag
+const yes=v=>/^(1|y|yes|true)$/i.test(String(v==null?'':v).trim());
 function pickSeason(seasons){
-  const reg=seasons.filter(s=>{
-    const n=String(s.season_name||s.name||'');
-    if(/playoff|career/i.test(n))return false;
-    if(String(s.playoff)==='1'||String(s.career)==='1')return false;
-    return true;
-  });
-  reg.sort((a,b)=>(+b.season_id||0)-(+a.season_id||0));
-  return reg[0]||null;
+  const norm=seasons.map(s=>({
+    id:String(s.season_id??s.id??'').trim(),
+    name:String(s.season_name??s.name??'').trim(),
+    playoff:yes(s&&s.playoff),career:yes(s&&s.career)}))
+    .filter(s=>s.id);
+  const reg=norm.filter(s=>!s.playoff&&!s.career&&!/playoff|career/i.test(s.name));
+  reg.sort((a,b)=>(+b.id)-(+a.id));
+  if(!reg.length)console.log('  seasons seen (first 5): '+JSON.stringify(seasons.slice(0,5)));
+  return reg[0]?{season_id:reg[0].id,season_name:reg[0].name}:null;
 }
 
 // only what the site's htRosterRow reader needs — keeps the file small
