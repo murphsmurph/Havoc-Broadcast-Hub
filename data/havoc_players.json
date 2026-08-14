@@ -19,7 +19,7 @@
     ],
     "current_season": "2026-27",
     "_readme": "STRUCTURE: seasons[] = frozen career history through 2025-26 (never edit in-season). baseline_pro / baseline_havoc = career totals entering 2026-27 (pre-computed, trust these). current_season = 2026-27 live counters — the ONLY thing edited on game nights. Site must display: career = baseline + current_season (pro career adds current_season since SPHL is pro; Havoc career adds current_season since all 2026-27 games are Havoc games). Milestone flags computed off those live sums. After the season, fold current_season into seasons[] as a new row, recompute baselines, zero the counters for 2027-28.",
-    "_bio_note": "bio per player: height/weight/shoots/born/birthdate + joined_blurb/season_recap/career_highlights, written by Jacob. Empty string = not written yet, renders TBD on player.html. player.html?p=<name> builds the game-notes bio page from this block + seasons[] + current_season."
+    "_bio_note": "bio per player = VITALS fallback only (height/weight/shoots/born/birthdate) used when the roster feed file is absent. All authored prose lives in data/bios.json — written externally, the site never edits it."
   },
   "players": [
     {
@@ -204,10 +204,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -380,10 +377,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -551,10 +545,7 @@
         "weight": "185",
         "shoots": "Left",
         "born": "Grosse Pointe, Michigan",
-        "birthdate": "April 29, 2000",
-        "joined_blurb": "Signed as a free agent ahead of the 2024-25 season, reuniting with older brother Dominick in Huntsville",
-        "season_recap": "Suited up in all 58 regular-season games in his second professional season, one of the club's ironmen while setting career pro highs with 22 assists and 34 points to go with 12 goals and a +19 rating, third-most points on the roster among returning 2026-27 skaters ... Wore a letter for the first time as a pro, serving as an alternate captain ... Brought a harder edge to his game with 112 penalty minutes, nearly doubling his rookie total, while still finishing among the team leaders in plus-minus ... Appeared in both playoff games against Knoxville ... Crossed the 100-game and 60-point marks as a Havoc during the season, and re-signed for a third year in Huntsville on July 26, 2026.",
-        "career_highlights": "A Grosse Pointe, Michigan native who came up through the Oakland Jr. Grizzlies 18U AAA program before heading to the North American Hockey League, where he spent two seasons with the Shreveport Mudbugs from 2019-21, totaling 60 points and 130 penalty minutes in 90 career NAHL games ... Broke out as a 20-year-old in 2020-21 with 18 goals, 22 assists and 40 points in 55 games, then caught fire in the postseason — his five playoff goals helped power Shreveport to the 2021 Robertson Cup national championship ... Committed to Aurora University (NCAA III), where he played three seasons from 2021-24 and produced 70 points (21 goals, 49 assists) in 83 career college games, including a 25-point freshman year highlighted by 21 assists and a team-best 30-point sophomore campaign in 2022-23 ... Turned pro in the summer of 2024, signing with Huntsville to join his older brother, defenseman Dominick Procopio — reuniting the Procopio brothers in Rocket City, where Dominick ranks among the franchise's top 30 all-time scorers ... Made an immediate impact as a rookie in 2024-25 with 13 goals and 31 points in 52 games and a +12 rating, then chipped in two assists in three playoff games during Huntsville's postseason run ... Enters 2026-27 ranked 42nd on the Havoc's all-time scoring list with 65 points in 110 games — all with Huntsville — sitting just 10 assists shy of 50 as a pro, and one point from moving up the franchise leaderboard."
+        "birthdate": "April 29, 2000"
       }
     },
     {
@@ -735,10 +726,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -1138,10 +1126,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -1307,10 +1292,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -1595,10 +1577,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -1838,10 +1817,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -1976,10 +1952,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -2183,10 +2156,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -2366,10 +2336,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -2504,10 +2471,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -2678,10 +2642,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -2852,10 +2813,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -3038,10 +2996,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -3482,10 +3437,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     },
     {
@@ -3608,10 +3560,7 @@
         "weight": "",
         "shoots": "",
         "born": "",
-        "birthdate": "",
-        "joined_blurb": "",
-        "season_recap": "",
-        "career_highlights": ""
+        "birthdate": ""
       }
     }
   ],
@@ -5477,7 +5426,8 @@
         "Stuart Stefan": {
           "role": "Head Coach",
           "hc_season_number": 4,
-          "org_note": "18th year in org overall: player 2011-18 (#4 all-time scorer, 2018 Cup as player), asst coach 2018-23, HC since 2023"
+          "org_note": "16th year in org overall: player 2011-18 (7 seasons, #4 all-time scorer, 2018 Cup as player), asst coach 2018-23 (5 seasons, 2019 Cup staff), HC since 2023",
+          "bench_season_number": 9
         },
         "Glenn Detulleo": {
           "role": "GM",
@@ -5500,6 +5450,68 @@
       },
       "milestone_watch": {
         "_ui_note": "Coaching Milestone Watch (same badge pattern as players): 1) Stefan career coaching WINS — at 66 + (2025-26 W, likely ~30s) he enters 2026-27 right around 100 career wins: '100 coaching wins' fires early UNLESS he already crossed it late in 2025-26 — resolve once the 2025-26 record is added. 2) Stefan chases Gibson (113 W) for 2nd-most coaching wins in franchise history — passes him THIS SEASON on any normal pace; Detulleo's 312 is the long game. 3) Stefan games coached: 112 + ~56 = passes 200 career games mid-season. 4) Round-number team milestones under Stefan: track vs franchise team records (41-win / 84-pt season, 2021-22). 5) Tenure banners for broadcast opens: Stefan 4th yr as HC / 18th in org; Detulleo 12th yr as GM / 17th in org; Piacentini 4th yr on staff / 10th in org. Thresholds: wins 50s within 5 = soon, within 15 = upcoming; games 100s within 10."
+      },
+      "head_coach_season_records": {
+        "_source": "Per-season records from the verified League Reference year-by-year (2025-26 SPHL Media Guide research file + 2025-26 completion). PCT = points / (2 x GP).",
+        "Stuart Stefan": [
+          {
+            "season": "2023-24",
+            "gp": 56,
+            "w": 30,
+            "l": 19,
+            "otlsol": 7,
+            "playoffs": "Lost Cup Final 2-1 (PEO)"
+          },
+          {
+            "season": "2024-25",
+            "gp": 56,
+            "w": 36,
+            "l": 15,
+            "otlsol": 5,
+            "playoffs": "Lost First Round 2-1 (EVV)"
+          },
+          {
+            "season": "2025-26",
+            "gp": 58,
+            "w": 32,
+            "l": 20,
+            "otlsol": 6,
+            "playoffs": "Lost First Round 2-0 (KNX)"
+          }
+        ]
+      }
+    },
+    "staff_pages": {
+      "_note": "Computed-page facts for the hockey-ops bio pages (player.html staff mode). Prose lives in data/bios.json.",
+      "Stuart Stefan": {
+        "nationality": "Canadian",
+        "played_pos": "D/F",
+        "assistant_line": {
+          "years": "2018-23",
+          "label": "Assistant Coach (5 seasons)",
+          "playoffs": "2019 President's Cup CHAMPIONS"
+        },
+        "playing_note": "Captain · 2018 Cup Champion",
+        "playing_pim": 239,
+        "totals_note": "3 berths · 1 Cup Final"
+      },
+      "Glenn Detulleo": {
+        "nationality": "Canadian",
+        "played_pos": "F",
+        "coach_summary": {
+          "years": "2011-12 (partial) - 2022-23",
+          "seasons": 12,
+          "gp": 597,
+          "w": 312,
+          "note": "2018 + 2019 President's Cups — winningest coach in franchise history"
+        },
+        "gm_note": "General Manager since 2015-16",
+        "playing_note": "#18 on the all-time scoring list"
+      },
+      "Tyler Piacentini": {
+        "played_pos": "F",
+        "playing_note": "#5 on the all-time scoring list",
+        "staff_note": "Assistant coach since 2023-24"
       }
     }
   },

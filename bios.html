@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bios — Huntsville Havoc Game Notes</title>
+<!-- The bio index: hockey ops at the top, players in jersey order, every
+     entry a link to its generated page. embargoed players never appear. -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap');
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root { --red:#C8102E; --blk:#111; }
+  body { font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif; background:#fff; color:var(--blk);
+         max-width:8.5in; margin:0 auto; padding:.4in .5in .3in; }
+  .masthead { display:flex; align-items:center; gap:14px; border-bottom:6px solid var(--blk); padding-bottom:8px; }
+  .logo-circle { width:70px; height:70px; border-radius:50%; background:var(--red); color:#fff; display:flex;
+                 align-items:center; justify-content:center; font-family:Oswald; font-weight:700; font-size:14px;
+                 text-align:center; line-height:1.05; border:3px solid var(--blk); flex-shrink:0; }
+  .team-title h1 { font-family:Oswald; font-weight:700; font-size:32px; text-transform:uppercase; }
+  .team-title h2 { font-family:Oswald; font-weight:500; font-size:18px; letter-spacing:2px; text-transform:uppercase; color:#333; }
+  .back { font-family:Oswald; font-size:13px; margin:8px 0; }
+  .back a { color:var(--red); font-weight:600; text-decoration:none; }
+  .sechead { font-family:Oswald; font-weight:700; font-size:21px; letter-spacing:1.2px; text-transform:uppercase;
+             color:var(--red); margin:16px 0 6px; border-top:1px solid #ddd; padding-top:9px; }
+  ul.idx { list-style:none; column-count:2; column-gap:30px; font-size:16px; font-weight:600; }
+  ul.idx li { margin:3px 0; break-inside:avoid; }
+  ul.idx a { color:var(--blk); text-decoration:none; }
+  ul.idx a:hover { color:var(--red); }
+  ul.idx .num { display:inline-block; min-width:30px; font-family:Oswald; color:var(--red); font-weight:700; }
+  ul.idx .writ { font-size:11px; color:#999; font-family:Oswald; text-transform:uppercase; margin-left:6px; }
+</style>
+</head>
+<body>
+<div class="masthead">
+  <div class="logo-circle">HSV<br>HAVOC</div>
+  <div class="team-title"><h1>Huntsville Havoc</h1><h2>2026-27 Game Notes — Bios</h2></div>
+</div>
+<div class="back"><a href="index.html">&larr; Broadcast Hub</a></div>
+<div id="list"></div>
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+(async()=>{
+  let D=null,B=null;
+  try{const r=await fetch('data/havoc_players.json');if(r.ok)D=await r.json();}catch(e){}
+  try{const r=await fetch('data/bios.json');if(r.ok)B=await r.json();}catch(e){}
+  if(!D){document.getElementById('list').innerHTML='<p>Could not load data/havoc_players.json — open from the hosted site.</p>';return;}
+  const wrote=b=>b&&(b.season_recap||b.career_highlights||b.coaching_career)?'':'<span class="writ">bio to come</span>';
+  const staff=Object.keys((B&&B.staff)||{}).map(n=>{
+    const role=(B.staff[n].role)||'';
+    return `<li><span class="num">${esc(role)}</span><a href="player.html?s=${encodeURIComponent(n)}">${esc(n)}</a>${wrote(B.staff[n])}</li>`;
+  }).join('');
+  const emb=n=>!!(B&&B.players&&B.players[n]&&B.players[n].embargoed);
+  const players=[...D.players].filter(p=>!emb(p.name))
+    .sort((a,b)=>((+a.num||999)-(+b.num||999)))
+    .map(p=>`<li><span class="num">${p.num?'#'+esc(p.num):'—'}</span><a href="player.html?p=${encodeURIComponent(p.name)}">${esc(p.name)}</a>${p.type==='goalie'?' <span class="writ">G</span>':''}${wrote(B&&B.players&&B.players[p.name])}</li>`).join('');
+  document.getElementById('list').innerHTML=
+    `<div class="sechead">Hockey Operations</div><ul class="idx">${staff}</ul>
+     <div class="sechead">Players</div><ul class="idx">${players}</ul>`;
+})();
+</script>
+</body>
+</html>
