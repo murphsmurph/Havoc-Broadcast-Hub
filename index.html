@@ -153,9 +153,6 @@
   .iv-arch-body{padding:4px 0 4px 14px;font-size:12.5px;line-height:1.5;color:#444;}
   .ivs-q{font-size:13px;margin:10px 0;}
   .ivs-line{border-bottom:1px solid #bbb;height:22px;}
-  .bio-edit{display:block;min-height:12px;}
-  .bio-edit:empty:before{content:'Click to write this player\2019s media bio\2026';color:var(--ink-2);}
-  .bio-edit:focus,.page[data-pk]:focus-within{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
   .ow-banner{color:#fff;text-align:center;font-size:22px;font-weight:900;letter-spacing:1px;padding:14px 10px;border-radius:6px;margin:8px 0;}
   .ow-banner span{font-size:10.5px;font-weight:700;letter-spacing:.2px;display:block;margin-top:4px;}
   .media-block{margin-left:auto;border:1.5px solid #222;border-radius:5px;padding:5px 9px;font-size:8.5px;line-height:1.5;flex:0 0 auto;align-self:flex-start;}
@@ -168,7 +165,7 @@
   .fd-dr{display:flex;gap:8px;font-size:13px;line-height:1.55;align-items:baseline;border-bottom:1px dotted #ddd;}
   .fd-dl{font-weight:800;flex:0 0 46%;}
   .fd-dr .fv{flex:1;min-height:15px;}
-  .fv:focus,.fd-note:focus{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
+  .fv:focus{outline:1.5px dashed #b5b5bd;outline-offset:1px;}
   .fd-blank{display:inline-block;min-width:120px;border-bottom:1px solid #555;height:13px;}
   /* ---- broadcast folder call sheet: one team, one page ---- */
   .cs-page{display:flex;flex-direction:column;padding:14px 16px;}
@@ -191,7 +188,6 @@
   .cs-lab{font-size:6.4px;font-weight:900;text-decoration:underline;text-transform:uppercase;letter-spacing:.04em;margin-top:2px;color:#222;}
   .cs-note{font-size:6.8px;line-height:1.3;text-align:justify;hyphens:auto;overflow-wrap:break-word;color:#111;
     display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden;}
-  .cs-note:focus{display:block;overflow:visible;-webkit-line-clamp:unset;outline:1px dashed var(--havoc-red);}
   .cs-note b,.cs-note strong{font-weight:900;text-transform:uppercase;}
   .cs-pers{color:#333;-webkit-line-clamp:3;}
   .cs-ph{color:#999;font-style:italic;}
@@ -205,27 +201,6 @@
   .cs-write{background:repeating-linear-gradient(to bottom,transparent,transparent 12px,#d8d8d8 12px,#d8d8d8 13px);min-height:52px;}
   .cs-write-grow{flex:1 1 auto;min-height:60px;}
   .cs-bold,.cs-bold .cs-note,.cs-bold .cs-stat{font-weight:700;}
-  .cs-pad0 .cs-card{padding:1px 2px;} .cs-pad0 .cs-grid{gap:2px;}
-  .cs-pad1 .cs-card{padding:2px 3px;} .cs-pad1 .cs-grid{gap:3px;}
-  .cs-pad3 .cs-card{padding:5px 6px;} .cs-pad3 .cs-grid{gap:6px;}
-  .cs-pad4 .cs-card{padding:7px 8px;} .cs-pad4 .cs-grid{gap:8px;}
-  /* edit mode */
-  .fd-editing .cs-card{position:relative;}
-  .fd-editing .cs-card:hover{outline:1px dashed var(--havoc-red);outline-offset:1px;}
-  .fd-editing .cs-card{cursor:grab;}
-  .cs-dragging{opacity:.45;}
-  .fd-ct{position:absolute;top:-9px;right:2px;z-index:8;display:none;gap:2px;background:#fff;border:1px solid var(--havoc-line);border-radius:5px;padding:0 2px;box-shadow:var(--shadow);}
-  .cs-card:hover > .fd-ct{display:flex;}
-  .fd-ct button{min-height:17px;padding:0 4px;font-size:10px;font-weight:800;line-height:1;border:1px solid var(--havoc-line);border-radius:3px;background:#fff;color:#222;cursor:pointer;}
-  .fd-ct button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
-  .fd-hidden{font-size:11px;font-weight:700;color:var(--ink-2);margin-bottom:4px;}
-  .fd-editbar{margin-top:6px;}
-  .fd-eb{display:flex;flex-wrap:wrap;align-items:center;gap:8px;border:1px solid var(--havoc-line);border-radius:9px;padding:7px 10px;background:var(--surface-2);}
-  .fd-eb-t{font-size:12px;font-weight:800;color:var(--ink);}
-  .fd-eb-item{display:flex;align-items:center;gap:3px;font-size:11px;color:var(--ink-2);}
-  .fd-eb-item b{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--ink);}
-  .fd-eb-v{min-width:56px;text-align:center;font-weight:800;font-variant-numeric:tabular-nums;color:var(--ink);}
-  .fd-eb-note{flex:1 0 100%;font-size:11px;color:var(--ink-2);line-height:1.4;}
   .fd-fit{font-size:12px;font-weight:800;padding:3px 8px;border-radius:6px;}
   .fd-fit.ok{color:var(--ok-fg);background:var(--tint-ok);}
   .fd-fit.bad{color:#fff;background:var(--havoc-red);}
@@ -342,39 +317,6 @@
   .pg-overtag button{font-size:11px;font-weight:800;border:1px solid #fff;border-radius:5px;background:#fff;color:var(--havoc-red);padding:1px 7px;cursor:pointer;}
   .sec-tools{position:absolute;top:6px;right:6px;z-index:5;display:none;gap:3px;background:rgba(255,255,255,.96);border:1px solid var(--havoc-line);border-radius:7px;padding:2px 5px;box-shadow:var(--shadow);}
   .page:hover > .sec-tools,.page:focus-within > .sec-tools{display:flex;}
-  /* a page that is mostly empty while the section still has blocks to come */
-  .page.pg-under{outline:2px dashed #b48a00;outline-offset:2px;}
-  .pg-filltag{position:absolute;top:0;left:0;right:0;background:#b48a00;color:#fff;font-size:11px;font-weight:800;padding:3px 8px;display:flex;gap:8px;align-items:center;justify-content:center;z-index:6;}
-  .pg-filltag button{font-size:11px;font-weight:800;border:1px solid #fff;border-radius:5px;background:#fff;color:#8a6a00;padding:1px 7px;cursor:pointer;}
-  /* Per-block controls: on hover in the preview, never on paper. They sit
-     beside the block rather than inside it — a printed block's own children
-     are styled by position, so nothing may be inserted among them. */
-  .blk-tools{position:absolute;z-index:7;display:none;gap:2px;background:rgba(255,255,255,.97);border:1px solid var(--havoc-line);border-radius:6px;padding:1px 3px;box-shadow:var(--shadow);}
-  .blk:hover + .blk-tools,.blk-tools:hover{display:flex;}
-  .blk-tools button{min-height:20px;padding:0 5px;font-size:11px;font-weight:800;line-height:1;border:1px solid var(--havoc-line);border-radius:4px;background:#fff;color:#222;cursor:pointer;}
-  .blk-tools button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
-  .blk-tools button[disabled]{opacity:.35;cursor:default;}
-  .blk-tools .blk-pt{font-size:10px;font-weight:700;color:#555;min-width:30px;text-align:center;font-variant-numeric:tabular-nums;}
-  /* Compact preset: the tightest rhythm that still reads at 8 pt */
-  .pk-compact .box{padding:4px 7px;margin-bottom:4px;}
-  .pk-compact .box h3{font-size:12px;padding-bottom:1px;margin-bottom:2px;}
-  .pk-compact table.pk-t td{padding:1px 4px;}
-  .pk-compact table.pk-t th{padding:1px 4px;}
-  .pk-compact .mtp-card{padding:4px 6px;margin-bottom:3px;}
-  .pk-compact .pg-head{padding-bottom:3px;margin-bottom:5px;}
-  .pk-compact .gn-cols{gap:9px;margin-top:3px;}
-  .blk-bold{font-weight:700;}
-  .blk-bold td,.blk-bold p,.blk-bold div,.blk-bold span{font-weight:700;}
-  .blk-list{width:100%;margin-top:4px;}
-  .blk-list h4{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:0 0 3px;}
-  .blk-row{display:flex;align-items:center;gap:4px;font-size:11px;padding:1px 0;color:var(--ink);}
-  .blk-row .bl-pg{min-width:52px;color:var(--ink-2);font-weight:700;}
-  .blk-row .bl-nm{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .blk-row.off .bl-nm{opacity:.5;text-decoration:line-through;}
-  .blk-row button{min-height:20px;padding:0 5px;font-size:11px;font-weight:800;border:1px solid var(--havoc-line);border-radius:4px;background:transparent;color:inherit;cursor:pointer;}
-  .blk-row button.on{background:var(--havoc-red);color:#fff;border-color:var(--havoc-red);}
-  .blk-list summary{cursor:pointer;list-style:none;}
-  .blk-list summary::-webkit-details-marker{display:none;}
   .sec-auto{font-size:10px;font-weight:800;text-transform:uppercase;color:#8a6a00;background:#ffefc0;border-radius:4px;padding:0 4px;margin-left:3px;}
   /* the active season is never buried in a log line again */
   .season-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:8px 0 4px;}
@@ -468,7 +410,6 @@
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   .unv{color:var(--red-text);font-weight:900;cursor:help;}
   .ref-ed{font-size:13px;}
-  .ref-ed:focus{outline:2px solid var(--havoc-red);outline-offset:3px;border-radius:4px;}
   .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
 
   /* ---- print doc styles ---- */
@@ -674,9 +615,8 @@
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
-    .lcx-card{outline:none !important;}
     .ws-page{height:10.45in !important;overflow:hidden;}
-    .fv,.fd-note,.bio-edit,.page[data-pk]{outline:none !important;}
+    .fv{outline:none !important;}
     #panel-opening.printing .card{display:none !important;}
   }
   /* season calendar */
@@ -1132,7 +1072,7 @@
       <span class="subspacer"></span>
       <span class="pg-badge hub-pagecount" id="prPages">—</span>
       <button class="btn small secondary" onclick="prRefresh()">Refresh</button>
-      <button class="btn small secondary" onclick="prClearEdits()">Clear text edits</button>
+      <button class="btn small secondary" onclick="prClearEdits()" title="Folders: clears hand-edited values &middot; Verbiage: restores the default lists">Clear hand overrides</button>
       <button class="btn dark hub-btn hub-btn--print is-primary" onclick="prPrint()">Print / Save PDF</button>
       <button class="btn hub-print-all" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
     </div>
@@ -1158,10 +1098,8 @@
       <div class="btn-row">
         <button class="btn secondary" onclick="pkPreset('full')">Full packet preset</button>
         <button class="btn secondary" onclick="pkPreset('booth')">Booth packet preset</button>
-        <button class="btn secondary" onclick="pkPreset('compact')" title="Everything, at the tightest size that still reads">Compact preset</button>
         <button class="btn secondary" onclick="autoDraftNews()">Auto-draft news blurbs</button>
       </div>
-      <p class="desc" style="margin-top:6px">Click into any packet page in the preview to edit its text directly &mdash; edits save and survive refreshes (an edited page keeps your wording until you Clear text edits). On Meet the Team pages, editing a player&rsquo;s notes writes straight back to their <b>media bio</b> on the roster.</p>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Game Packet — preview</span><div class="spacer"></div><span class="header-status">Multi-page · prints to PDF</span></div>
@@ -1172,16 +1110,9 @@
     <div class="subview" id="panel-chart">
 <div class="card no-print">
       <h2>Lineup <span class="accent">Chart</span></h2>
-      <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — <b>last name first in large type</b>, with season stats + your broadcast bio. Captains show their letter. Cards stretch to fill the page. Click into any card to edit its text (Cmd/Ctrl+B for bold, size buttons below); your edits are saved and survive refreshes. Prints <b>letter vertical (portrait), one page per team</b>.</p>
+      <p class="desc">Player cards in numerical order — forwards first, then a divider where the defense starts, then goalies — <b>last name first in large type</b>, with season stats + your broadcast bio. Captains show their letter. Cards stretch to fill the page. Prints <b>letter vertical (portrait), one page per team</b>.</p>
       <div class="field hub-field" style="max-width:280px"><label>Include opponent side?</label>
         <select id="chartSides"><option value="home">Havoc only</option><option value="both">Havoc + opponent</option></select></div>
-      <div class="btn-row" style="align-items:center">
-        <span style="font-size:12px;font-weight:700">Selected text:</span>
-        <button class="btn small secondary" title="Bold (Cmd/Ctrl+B)" onmousedown="event.preventDefault()" onclick="chartCmd('bold')"><b>B</b></button>
-        <button class="btn small secondary" title="Smaller text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','1')">A−</button>
-        <button class="btn small secondary" title="Normal text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','3')">A</button>
-        <button class="btn small secondary" title="Larger text" onmousedown="event.preventDefault()" onclick="chartCmd('fontSize','5')">A+</button>
-      </div>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Lineup Chart — preview</span><div class="spacer"></div><span class="header-status">Prints letter vertical · one page per team</span></div>
@@ -1224,11 +1155,8 @@
       <div class="btn-row">
         <button class="btn small secondary" onclick="fdPrint(FD_FILTER||'all')">Print this page</button>
         <button class="btn small secondary" onclick="fdPrint('all')">Print all four</button>
-        <button class="btn small secondary" id="fdEditBtn" onclick="fdEditToggle()">Edit layout</button>
-        <button class="btn small secondary" onclick="fdTmplReset(fdSideOfView())">Reset this page</button>
         <span id="fdFit" class="fd-fit"></span>
       </div>
-      <div id="fdEditBar" class="fd-editbar" style="display:none"></div>
     </div>
     <div class="doc-frame">
       <div class="doc-toolbar no-print"><span class="ttl">Broadcast Folders — preview</span><div class="spacer"></div><span class="header-status">4 pages · letter vertical · one page per side</span></div>
@@ -1356,9 +1284,9 @@
       <div id="bkList" style="margin-top:6px"></div>
       <div class="section-label hub-sectionhead">Packet layout</div>
       <div class="btn-row">
-        <button class="btn secondary" onclick="pkLayoutReset()">Reset all layout</button>
+        <button class="btn secondary" onclick="pkLayoutReset()">Reset packet sizing</button>
       </div>
-      <p class="desc">Puts every packet block back to its default size, weight, order, page break and visibility, and clears anything auto-fit changed. Your text edits and data are untouched.</p>
+      <p class="desc">Puts every packet section back to its default printed size and weight, and clears anything auto-fit changed. Your data is untouched.</p>
       <div id="bkStatus" style="font-size:12.5px;line-height:1.9;margin-top:12px"></div>
       <div class="danger-zone">
         <h4>Danger zone</h4>
@@ -1734,15 +1662,11 @@ const DEFAULT_DATA={
   report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
   epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
   hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
-  chartEdits:{},         // {teamName:{playerKey:html}} — hand edits to lineup-chart cards
   folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
   statOv:{},             // {key:value} — hand overrides on packet/stat displays
-  pkEdits:{},            // {pageKey:outerHTML} — free-text edits on whole packet pages
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
   interviews:{},         // {gameKey:{pre:[],post:[]}} — interview prep + quotes archive
   venues:{},             // {teamName:{arena,city,tz,cap,notes}} — overrides of VENUES_DEFAULT
-  refEdits:{},           // {blockKey:html} — in-place edits to seeded League Reference blocks
-  franchiseEdits:{},     // {team|section:html} — in-place edits to seeded franchise files
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
   sbCache:null,          // last scorebar payload, so a feed outage still shows something
@@ -2090,7 +2014,7 @@ function secRenderBar(over){
       <button title="Back to the default" onclick="secReset('${k}')">&#8635;</button>${secAutoPt(k)&&!((DATA.secPt||{})[k])?`<span class="sec-auto" title="Auto-fitted to save a page">auto</span>`:''}</span>`).join('')
    +((over||[]).length?`<div class="sec-warn"><button class="sec-fix" style="margin-bottom:4px" onclick="secFitAll()">Fit every page (steps the offenders down until they fit)</button><br>${over.map(o=>'Page '+o.i+' ('+esc(secLabel(o.key))+') '+(o.wide?'runs '+o.wide+'px past the right edge':'overflows the page')+' — <button class="sec-fix" onclick="secStep(\''+o.key+'\',-1)">reduce by 1 pt</button>').join('<br>')}</div>`:'')
    +autoFitNoteHTML()
-   +`</div>`+pkBlockListHTML();
+   +`</div>`;
 }
 /* what auto-fit did, said plainly */
 function autoFitNoteHTML(){
@@ -2098,37 +2022,6 @@ function autoFitNoteHTML(){
   const ks=Object.keys(a).filter(k=>!((DATA.secPt||{})[k]));
   if(!ks.length)return '';
   return `<div class="sec-auto-note">${ks.map(k=>esc(secLabel(k))+' auto-fit to '+a[k]+' pt').join(' · ')}</div>`;
-}
-/* the sidebar list of every block on the packet — the controls without hovering */
-function pkBlockListHTML(){
-  if(SUBTABS.print!=='packet')return '';
-  const doc=document.getElementById('packetDoc');if(!doc)return '';
-  const pageOf=new Map();
-  [...doc.querySelectorAll('.page')].forEach((pg,i)=>{pg.querySelectorAll('[data-blk]').forEach(el=>pageOf.set(el.dataset.blk,i+1));});
-  const rows=[];
-  const bySec={};
-  doc.querySelectorAll('[data-blk]').forEach(el=>{const s=el.dataset.blksec||'';(bySec[s]=bySec[s]||[]).push(el);});
-  const hidden=Object.keys(blkAll()).filter(id=>blkAll()[id].hide);
-  Object.keys(bySec).forEach(sec=>{
-    bySec[sec].forEach((el,i)=>{
-      const id=el.dataset.blk,c=blkGet(id),last=i===bySec[sec].length-1;
-      rows.push(`<div class="blk-row"><span class="bl-pg">p${pageOf.get(id)||'—'}</span><span class="bl-nm">${esc(blkLabel(el))}</span>
-        <button title="1 pt smaller" onclick="blkStep('${id}',-1)">A&minus;</button><span class="blk-pt">${c.pt||secPt(sec)} pt</span>
-        <button title="1 pt larger" onclick="blkStep('${id}',1)">A+</button>
-        <button class="${c.bold?'on':''}" title="Bold" onclick="blkBold('${id}')"><b>B</b></button>
-        <button title="Move earlier" ${i===0?'disabled':''} onclick="blkMove('${id}',-1)">&uarr;</button>
-        <button title="Move later" ${last?'disabled':''} onclick="blkMove('${id}',1)">&darr;</button>
-        <button class="${c.brk?'on':''}" title="Start a new page here" onclick="blkBreak('${id}')">&#9166;</button>
-        <button title="Hide from print" onclick="blkHide('${id}')">&#128065;</button>
-        <button title="Reset" onclick="blkReset('${id}')">&#8635;</button></div>`);
-    });
-  });
-  hidden.forEach(id=>{
-    rows.push(`<div class="blk-row off"><span class="bl-pg">hidden</span><span class="bl-nm">${esc(id.split('#').pop().replace(/-/g,' '))}</span>
-      <button title="Show again" onclick="blkHide('${id}')">&#128065;</button></div>`);
-  });
-  if(!rows.length)return '';
-  return `<details class="blk-list"><summary><h4 style="display:inline">Blocks on these pages (${rows.length}) — size, weight, order, page break, hide</h4></summary>${rows.join('')}</details>`;
 }
 /* Collect a printed page's furniture into one stacked block at the foot of
    the sheet, and reserve the same height in the flow above it. Before this,
@@ -2157,29 +2050,15 @@ function pgFooterFix(root){
    Every printable page is built from blocks — a stat table, a bio card, a
    news box, a worksheet. This lays them out: it flows blocks onto as few
    sheets as they fit on, never splits one across a page break, and keeps a
-   per-block size / weight / order / break / hide setting saved per preset.
+   The per-section sizes plus "Fit every page" are the whole layout system.
    Pages the club's layout depends on (the cover, the game sheet, the ice
    map, the worksheets) are left exactly as they were built.
    ============================================================ */
 const PK_NOFLOW={cover:1,gamesheet:1,worksheets:1,verbs:1};
-const PK_CHROME=['pg-head','gn-foot','pg-footer','pg-footpad','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp'];
-function pkPresetName(){const n=(DATA.settings||{}).packetPreset;return (n==='booth'||n==='compact')?n:'full';}
-function blkAll(){DATA.blk=DATA.blk||{};const k=pkPresetName();return (DATA.blk[k]=DATA.blk[k]||{});}
-function blkGet(id){return blkAll()[id]||{};}
-function blkSet(id,patch){
-  const all=blkAll(),c=Object.assign({},all[id]||{},patch);
-  Object.keys(c).forEach(k=>{if(!c[k])delete c[k];});
-  if(Object.keys(c).length)all[id]=c;else delete all[id];
-  save();renderPacket();
-}
-function blkStep(id,d){const c=blkGet(id);blkSet(id,{pt:Math.max(6,Math.min(16,(+c.pt||0)+d||(secBase('packet')+d)))});}
-function blkBold(id){blkSet(id,{bold:blkGet(id).bold?0:1});}
-function blkHide(id){blkSet(id,{hide:blkGet(id).hide?0:1});}
-function blkBreak(id){blkSet(id,{brk:blkGet(id).brk?0:1});}
-function blkReset(id){const all=blkAll();delete all[id];save();renderPacket();}
+const PK_CHROME=['pg-head','gn-foot','pg-footer','pg-footpad','mc-strip','sec-tools','pg-overtag','pg-stamp'];
 function pkLayoutReset(){
-  if(!confirm('Put every packet block back to its default size, order and visibility?'))return;
-  DATA.blk={};DATA.secAuto={};save();renderPacket();toast('Packet layout reset');
+  if(!confirm('Put every packet section back to its default printed size and weight?'))return;
+  DATA.secPt={};DATA.secBold={};DATA.secAuto={};save();renderPacket();toast('Packet sizing reset');
 }
 /* the blocks that make up a page, in print order — page furniture excluded */
 function pkFlowKids(host){
@@ -2187,59 +2066,14 @@ function pkFlowKids(host){
     &&!PK_CHROME.some(c=>el.classList.contains(c)));
 }
 function pkZone(pg){return pg.querySelector(':scope > .sec-zoom')||pg;}
-function blkSlug(el,sec){
-  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,h3,.h');
-  let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim().slice(0,44);
-  if(!t)t=(el.className||'').split(/\s+/)[0]||'block';
-  return sec+'#'+t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,44);
-}
-function blkLabel(el){
-  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,h3,.h');
-  let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim();
-  return t.slice(0,38)||'block';
-}
-/* Tag every block with a stable id. Ids are assigned before anything is
-   hidden or reordered, so a block keeps the same id whatever the layout. */
+/* every flowable block on the packet, in build order */
 function pkTag(){
-  const seen={},out=[];
+  const out=[];
   document.querySelectorAll('#packetDoc .page').forEach(pg=>{
     const sec=pg.dataset.sec||'';
-    pkFlowKids(pkZone(pg)).forEach(el=>{
-      let id=blkSlug(el,sec);
-      seen[id]=(seen[id]||0)+1;
-      if(seen[id]>1)id+='~'+seen[id];
-      el.dataset.blk=id;el.dataset.blksec=sec;
-      out.push({id,sec,el,cfg:blkGet(id)});
-    });
+    pkFlowKids(pkZone(pg)).forEach(el=>{out.push({sec,el});});
   });
   return out;
-}
-/* per-block size and weight ride on the block itself, so the printed sheet
-   gets exactly what the preview shows */
-function pkApplyBlock(b){
-  const base=secPt(b.sec)||secBase('packet');
-  b.el.style.zoom=b.cfg.pt?(b.cfg.pt/base).toFixed(4):'';
-  b.el.classList.toggle('blk-bold',!!b.cfg.bold);
-  b.el.classList.toggle('blk-brk',!!b.cfg.brk);
-}
-/* sort a section's blocks by his order, falling back to build order */
-function pkOrdered(blocks){
-  return blocks.map((b,i)=>({b,i})).sort((x,y)=>{
-    const a=x.b.cfg.ord==null?x.i:x.b.cfg.ord, c=y.b.cfg.ord==null?y.i:y.b.cfg.ord;
-    return a===c?x.i-y.i:a-c;
-  }).map(x=>x.b);
-}
-function blkMove(id,d){
-  const el=document.querySelector('#packetDoc [data-blk="'+CSS.escape(id)+'"]');
-  if(!el)return;
-  const sec=el.dataset.blksec;
-  const list=pkOrdered(pkTag().filter(b=>b.sec===sec));
-  const i=list.findIndex(b=>b.id===id),j=i+d;
-  if(i<0||j<0||j>=list.length)return;
-  list.splice(j,0,list.splice(i,1)[0]);
-  const all=blkAll();
-  list.forEach((b,k)=>{all[b.id]=Object.assign({},all[b.id]||{},{ord:k+1});});
-  save();renderPacket();
 }
 /* Measure in heights, never in page positions: a scrolling preview or a
    phone-scaled page moves every coordinate, but a height is a height. */
@@ -2265,11 +2099,11 @@ function pkFlowSection(pages,blocks){
   const host=pages[0].parentNode,after=pages[pages.length-1].nextSibling;
   const tmpl=pages[0].cloneNode(true);
   pkFlowKids(pkZone(tmpl)).forEach(k=>k.remove());
-  const tag=pkZone(tmpl).querySelector('.pg-overtag, .pg-filltag');if(tag)tag.remove();
+  const tag=pkZone(tmpl).querySelector('.pg-overtag');if(tag)tag.remove();
   pages.slice(1).forEach(p=>p.remove());
   const first=pages[0];
   pkFlowKids(pkZone(first)).forEach(k=>k.remove());
-  first.classList.remove('pg-over','pg-under');
+  first.classList.remove('pg-over');
   const out=[first];
   let pg=first,zone=pkZone(pg),room=pkRoom(pg);
   // the footer block and its spacer stay at the end of the page; body blocks
@@ -2281,7 +2115,6 @@ function pkFlowSection(pages,blocks){
     zone=pkZone(pg);room=pkRoom(pg);
   };
   blocks.forEach(b=>{
-    if(b.cfg.brk&&pkFlowKids(zone).length)nextPage();
     put(b.el);
     // a block never splits: if it puts the page over, it moves whole
     if(pkFlowKids(zone).length>1&&pkUsed(pg)>room){nextPage();put(b.el);}
@@ -2300,11 +2133,6 @@ let PK_LAYOUT_BUSY=false;
 function pkLayout(){
   const doc=document.getElementById('packetDoc');if(!doc)return;
   const blocks=pkTag();
-  blocks.forEach(b=>{
-    if(b.cfg.hide){b.el.remove();return;}
-    pkApplyBlock(b);
-  });
-  const live=blocks.filter(b=>!b.cfg.hide);
   // group each section's pages together, then reflow the ones that may flow
   const bySec={};
   [...doc.querySelectorAll('.page')].forEach(pg=>{
@@ -2312,92 +2140,17 @@ function pkLayout(){
   });
   Object.keys(bySec).forEach(sec=>{
     if(PK_NOFLOW[sec])return;
-    if(bySec[sec].some(p=>p.dataset.edited==='1'))return;   // a hand-edited page keeps its shape
-    const mine=pkOrdered(live.filter(b=>b.sec===sec));
+    const mine=blocks.filter(b=>b.sec===sec);
     if(!mine.length)return;
     pkFlowSection(bySec[sec],mine);
   });
   pkNumberPages();
-  pkBlockTools();
-}
-/* the inline toolbar each block carries in the preview, never in print */
-function blkToolsHTML(id,pt,c,first,last){
-  const on=k=>c[k]?' class="on"':'';
-  return `<div class="blk-tools no-print">
-    <button title="1 pt smaller" onclick="event.stopPropagation();blkStep('${id}',-1)">A&minus;</button>
-    <span class="blk-pt">${pt} pt</span>
-    <button title="1 pt larger" onclick="event.stopPropagation();blkStep('${id}',1)">A+</button>
-    <button${on('bold')} title="Bold this block" onclick="event.stopPropagation();blkBold('${id}')"><b>B</b></button>
-    <button title="Move earlier"${first?' disabled':''} onclick="event.stopPropagation();blkMove('${id}',-1)">&uarr;</button>
-    <button title="Move later"${last?' disabled':''} onclick="event.stopPropagation();blkMove('${id}',1)">&darr;</button>
-    <button${on('brk')} title="Start a new page before this block" onclick="event.stopPropagation();blkBreak('${id}')">&#9166;</button>
-    <button title="Hide from print (keeps the data)" onclick="event.stopPropagation();blkHide('${id}')">&#128065;</button>
-    <button title="Back to defaults" onclick="event.stopPropagation();blkReset('${id}')">&#8635;</button>
-  </div>`;
-}
-function pkBlockTools(){
-  document.querySelectorAll('#packetDoc .blk-tools').forEach(t=>t.remove());
-  const bySec={};
-  document.querySelectorAll('#packetDoc [data-blk]').forEach(el=>{
-    const s=el.dataset.blksec||'';(bySec[s]=bySec[s]||[]).push(el);
-  });
-  Object.keys(bySec).forEach(sec=>{
-    const list=bySec[sec];
-    list.forEach((el,i)=>{
-      const id=el.dataset.blk,c=blkGet(id);
-      const pt=c.pt||secPt(sec)||secBase('packet');
-      el.classList.add('blk');
-      el.insertAdjacentHTML('afterend',blkToolsHTML(id,pt,c,i===0,i===list.length-1));
-      const tool=el.nextElementSibling;
-      if(tool&&tool.classList.contains('blk-tools')){
-        tool.setAttribute('contenteditable','false');
-        tool.style.top=(el.offsetTop+2)+'px';
-        tool.style.right='2px';
-      }
-    });
-  });
-}
-/* ---- the page inspector: what overflows, and what is mostly empty ---- */
-function pkInspect(){
-  const doc=document.getElementById('packetDoc');if(!doc)return [];
-  const pages=[...doc.querySelectorAll('.page')];
-  const out=[];
-  pages.forEach((pg,i)=>{
-    const sec=pg.dataset.sec||'';
-    const zone=pkZone(pg),kids=pkFlowKids(zone),s=pkScale(pg);
-    const room=pkRoom(pg);
-    const chrome=[...zone.children].filter(c=>kids.indexOf(c)<0)
-      .reduce((t,c)=>t+c.getBoundingClientRect().height/s,0);
-    const body=kids.reduce((t,k)=>t+k.getBoundingClientRect().height/s,0);
-    const fill=room>chrome?Math.max(0,Math.min(1,body/(room-chrome))):1;
-    // is there another block of this section waiting on a later page?
-    const next=pages.slice(i+1).find(p=>(p.dataset.sec||'')===sec);
-    const wasted=!PK_NOFLOW[sec]&&fill<0.40&&!!next;
-    pg.classList.toggle('pg-under',wasted);
-    const tag=pg.querySelector(':scope > .pg-filltag');
-    if(wasted){
-      const html='<div class="pg-filltag no-print">This page is '+Math.round(fill*100)+'% full'
-        +' <button onclick="event.stopPropagation();pkPullUp(\''+sec+'\')">pull the next block up</button></div>';
-      if(tag)tag.outerHTML=html;else pg.insertAdjacentHTML('afterbegin',html);
-    }else if(tag)tag.remove();
-    out.push({i:i+1,sec,fill:Math.round(fill*100),wasted});
-  });
-  return out;
-}
-/* the honest lever for wasted space: the next block does not fit at this size,
-   so take the section down a point and let it come up */
-function pkPullUp(sec){
-  const pt=secPt(sec);
-  if(pt<=7){toast(secLabel(sec)+' is already at its smallest readable size');return;}
-  secSetPt(sec,pt-1);
-  toast(secLabel(sec)+' reduced to '+(pt-1)+' pt to pull the next block up');
 }
 /* Auto-fit: when a section is within ~10% of fitting on one fewer sheet, take
    it down a point rather than print a nearly empty page. Never below 7 pt. */
 function pkAutoFit(){
   const doc=document.getElementById('packetDoc');if(!doc)return {};
   const changed={};
-  const compact=pkPresetName()==='compact';
   for(let pass=0;pass<6;pass++){
     const bySec={};
     [...doc.querySelectorAll('.page')].forEach(pg=>{
@@ -2429,7 +2182,7 @@ function pkAutoFit(){
       const chrome=[...pkZone(pages[0]).children].filter(c=>kids0.indexOf(c)<0)
         .reduce((t,c)=>t+c.getBoundingClientRect().height/s,0);
       const target=(pages.length-1)*Math.max(1,pkRoom(pages[0])-chrome);
-      if(compact||used<=target*1.10){
+      if(used<=target*1.10){
         DATA.secAuto=DATA.secAuto||{};
         DATA.secAuto[sec]=secPt(sec)-1;
         changed[sec]=DATA.secAuto[sec];
@@ -2445,11 +2198,9 @@ function pkAutoFit(){
 /* toolbar actions that used to be duplicated per section */
 function prClearEdits(){
   const s=SUBTABS.print;
-  if(s==='packet')pkClearEdits();
-  else if(s==='chart')chartClearEdits();
-  else if(s==='folders'){if(confirm('Clear every hand-edited value on the broadcast folders?')){DATA.folderOv={};save();renderFolders();}}
+  if(s==='folders'){if(confirm('Clear every hand-edited value on the broadcast folders?')){DATA.folderOv={};save();renderFolders();}}
   else if(s==='verbiage')vbReset();
-  else toast('Nothing to clear on this view');
+  else toast('Nothing to clear here — this content comes from the data files');
 }
 /* packet then folders, in one job — the order the booth folder gets assembled */
 function printTonight(){
@@ -2860,11 +2611,10 @@ function teamLogoSrc(team){return DATA.logos[team]||(typeof DEFAULT_LOGOS!=='und
 /* ============ REFERENCE ============ */
 /* The franchise record book renders from the data file's league_reference
    block (the corrected book — career shutouts: 8, Brian Wilson, active) and
-   falls back to the seeded copy until the file loads. Rows stay editable in
-   place; an edit persists in DATA.recEdits by section+label and wins over
-   both sources, and everything downstream — the League Reference card, the
-   Game Notes minis, the packet records page and the record watch — reads
-   through this one accessor, so an edit follows everywhere. */
+   falls back to the seeded copy until the file loads. Everything downstream —
+   the League Reference card, the Game Notes minis, the packet records page and
+   the record watch — reads through this one accessor; corrections go into the
+   committed data file. */
 function recBook(){
   const L=(MS_DATA||{}).league_reference;
   let R;
@@ -2890,17 +2640,8 @@ function recBook(){
     R={career:SPHL_REF.hsvRecords.career,players:SPHL_REF.hsvRecords.players,
        goalies:SPHL_REF.hsvRecords.goalies,team:SPHL_REF.hsvRecords.team,notes:{},src:''};
   }
-  const ed=DATA.recEdits||{};
-  ['career','players','goalies','team'].forEach(k=>{R[k]=(R[k]||[]).map(r=>ed[k+'|'+r[0]]!=null?[r[0],ed[k+'|'+r[0]]]:r);});
   return R;
 }
-function recEditSave(sec,label,el){
-  const v=el.textContent.trim();
-  DATA.recEdits=DATA.recEdits||{};
-  DATA.recEdits[sec+'|'+label]=v;save();
-  toast('Record saved — the watch, Game Notes and packet follow');
-}
-function recEditsReset(){DATA.recEdits={};save();renderReference();toast('Records restored to the data file');}
 function renderPalettes(){
   const el=document.getElementById('palList');if(!el)return;
   const label={primary:'Primary',secondary:'Secondary',accent:'Accent (D)',goalie:'Goalies',textOn:'Text on primary'};
@@ -2928,25 +2669,23 @@ function renderReference(){renderMatrix();renderSeries();renderStandings();rende
   }).join('')+((LC&&LC._defunct_note)||SPHL_REF.cupDefunct?`<div class="cupline" style="color:var(--ink-2);margin-top:4px">${esc((LC&&LC._defunct_note)||SPHL_REF.cupDefunct)}</div>`:'');
   // h2h vs selected opponent
   renderH2H();
-  // franchise records — from the data file's league_reference, editable in place
+  // franchise records — from the data file's league_reference
   const R=recBook();
-  const edited=k=>Object.keys(DATA.recEdits||{}).some(x=>x.indexOf(k+'|')===0);
   const tbl=(key,arr)=>'<table>'+arr.map(r=>
-    `<tr><td>${esc(r[0])}</td><td><b contenteditable="true" title="Click to edit — the record watch, Game Notes and packet follow" onblur="recEditSave('${key}','${esc(r[0]).replace(/'/g,"\\'")}',this)">${esc(r[1])}</b>${R.notes[r[0]]?`<div class="rec-chase">${esc(R.notes[r[0]])}</div>`:''}</td></tr>`).join('')+'</table>';
-  const head=(t,k)=>`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">${t}${edited(k)?' <span class="unv" title="Carries your in-app edits — Restore book puts the data file&#39;s values back">edited</span>':''}</div>`;
+    `<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b>${R.notes[r[0]]?`<div class="rec-chase">${esc(R.notes[r[0]])}</div>`:''}</td></tr>`).join('')+'</table>';
+  const head=(t,k)=>`<div style="font-size:11px;font-weight:800;text-transform:uppercase;color:var(--ink-2);margin:8px 0 4px">${t}</div>`;
   document.getElementById('ref_records').innerHTML=
     head('All-Time Career Leaders','career')+tbl('career',R.career)
     +head('Single-Season — Skaters','players')+tbl('players',R.players)
     +head('Single-Season — Goalies','goalies')+tbl('goalies',R.goalies)
     +head('Team','team')+tbl('team',R.team)
     +`<div style="display:flex;gap:8px;align-items:center;margin-top:7px">
-       ${Object.keys(DATA.recEdits||{}).length?'<button class="icon-btn" onclick="recEditsReset()">&#8635; Restore book values</button>':''}
        <span style="font-size:10.5px;color:var(--ink-2)">${esc(R.src||'Seeded copy — loads from data/havoc_players.json when hosted.')}</span></div>`;
 }
 
 /* ---- 2026 season review + New Teams 2026-27 (verified research file, Aug 5 2026) ----
-   Seeded blocks are contenteditable; edits persist in DATA.refEdits per block, with a
-   per-block restore. "•" (.unv) marks UNVERIFIED numbers per the file's quality flags. */
+   Blocks render from the seed; content changes go through the committed data files.
+   "•" (.unv) marks UNVERIFIED numbers per the file's quality flags. */
 const REF26_SEED={
 recap:`<div style="line-height:1.65">
 <b>2026 President's Cup champion: EVANSVILLE THUNDERBOLTS</b> — beat Peoria 3-2 in the best-of-5 final after trailing 0-2, clinching Game 5 (6-4) on May 9, 2026 at Carver Arena. <b>Back-to-back titles (2025, 2026).</b><br>
@@ -2999,25 +2738,12 @@ function renderRef26(){
     ['pd','New team 2026-27 · Pee Dee IceCats — FPHL file (feeds Opening Weekend)'],
     ['ath','New team 2026-27 · Athens Rock Lobsters — FPHL file']
   ];
-  el.innerHTML=blocks.map(([k,title])=>{
-    const ed=(DATA.refEdits||{})[k];
-    return `<div class="ref-box"><h4 style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>${title}</span>${ed?`<button class="icon-btn" title="Restore the seeded text" onclick="refReset('${k}')">↺ seeded</button>`:''}</h4>
-      <div class="ref-ed" contenteditable="true" data-refkey="${k}" onblur="refEdit(this)">${ed||REF26_SEED[k]}</div></div>`;
-  }).join('');
+  el.innerHTML=blocks.map(([k,title])=>`<div class="ref-box"><h4>${title}</h4>
+      <div class="ref-ed">${REF26_SEED[k]}</div></div>`).join('');
 }
-function refEdit(el){
-  const k=el.dataset.refkey,cur=el.innerHTML;
-  DATA.refEdits=DATA.refEdits||{};
-  if(DATA.refEdits[k]===cur||(!(k in DATA.refEdits)&&cur===REF26_SEED[k]))return;
-  DATA.refEdits[k]=cur;save();renderRef26();
-}
-function refReset(k){
-  if(DATA.refEdits)delete DATA.refEdits[k];
-  save();renderRef26();toast('Seeded text restored');
-}
-/* ---- franchise files: render, edit, and the running Havoc head-to-head ----
-   Reliability marks in the seed text convert to the manual-edit •; ✅ renders
-   clean. Every section is contenteditable and saves per team + section. */
+/* ---- franchise files: render + the running Havoc head-to-head ----
+   Reliability marks in the seed text convert to the review •; ✅ renders clean.
+   Content changes go through the committed data files. */
 const FR_MARK={'➗':'COMPUTED by summing season tables — arithmetic-checked, but not a published figure. Verify before air.',
   '⚠️':'SINGLE SOURCE — verify before air.',
   '❌':'UNVERIFIED or disputed — do not state as fact.'};
@@ -3026,19 +2752,11 @@ function frMarks(s){
     .replace(/\s*(➗|⚠️|❌)/g,(m,c)=>` <span class="unv" title="${FR_MARK[c]}">•</span>`);
 }
 function frTeam(){return DATA.frTeam||'Huntsville Havoc';}
-function frEdit(el){
-  const k=el.dataset.frkey,cur=el.innerHTML;
-  DATA.franchiseEdits=DATA.franchiseEdits||{};
-  if(DATA.franchiseEdits[k]===cur)return;
-  DATA.franchiseEdits[k]=cur;save();renderFranchise();
-}
-function frReset(k){if(DATA.franchiseEdits)delete DATA.franchiseEdits[k];save();renderFranchise();toast('Seeded text restored');}
 function frStory(v){DATA.franchiseStory=DATA.franchiseStory||{};DATA.franchiseStory[frTeam()]=v;save();}
 function frPick(t){DATA.frTeam=t;save();renderFranchise();}
 function frSection(team,key,title,html){
-  const k=team+'|'+key,ed=(DATA.franchiseEdits||{})[k];
-  return `<div class="ref-box"><h4 style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>${title}</span>${ed?`<button class="icon-btn" title="Restore the seeded text" onclick="frReset('${esc(k).replace(/'/g,"&#39;")}')">↺ seeded</button>`:''}</h4>
-    <div class="ref-ed" contenteditable="true" data-frkey="${esc(k)}" onblur="frEdit(this)">${ed||html}</div></div>`;
+  return `<div class="ref-box"><h4>${title}</h4>
+    <div class="ref-ed">${html}</div></div>`;
 }
 /* Havoc all-time vs a club: an editable baseline plus everything our own game log has seen. */
 function frH2HRows(team){
@@ -3238,30 +2956,7 @@ function renderChart(){
   }
   const cstamp=dataStampHTML('chart');
   document.getElementById('chartDoc').innerHTML=pages.map(p=>p.replace(/<\/div>$/,cstamp+'</div>')).join('');
-  chartWireEdits();secApplyAll();
-}
-/* In-place card editing: click into any card, type freely, Cmd/Ctrl+B for bold,
-   A−/A/A+ buttons for text size. Edits save per player and survive refreshes. */
-function chartWireEdits(){
-  const doc=document.getElementById('chartDoc');if(!doc||doc._editWired)return;
-  doc._editWired=true;
-  doc.addEventListener('input',e=>{
-    const card=e.target.closest?e.target.closest('.lcx-card[data-ek]'):null;if(!card)return;
-    clearTimeout(doc._et);
-    doc._et=setTimeout(()=>{
-      DATA.chartEdits=DATA.chartEdits||{};
-      const t=card.dataset.team,k=card.dataset.ek;
-      (DATA.chartEdits[t]=DATA.chartEdits[t]||{})[k]=card.innerHTML;
-      save();
-    },600);
-  });
-}
-function chartCmd(cmd,arg){try{document.execCommand('styleWithCSS',false,false);document.execCommand(cmd,false,arg||null);}catch(e){}}
-function chartClearEdits(){
-  const n=Object.values(DATA.chartEdits||{}).reduce((a,t)=>a+Object.keys(t).length,0);
-  if(!n){toast('No card text edits to clear');return;}
-  if(!confirm('Clear your text edits on '+n+' card(s) and regenerate them from roster data?'))return;
-  DATA.chartEdits={};save();renderChart();toast('Card edits cleared');
+  secApplyAll();
 }
 function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
   const primary=theme.primary,secondary=theme.secondary||'#111';
@@ -3291,9 +2986,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
     let first='',last='';
     if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
     const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
-    const editKey=p.id||norm(p.name);
-    const saved=(DATA.chartEdits&&DATA.chartEdits[teamFull]&&DATA.chartEdits[teamFull][editKey])||null;
-    const inner=saved!==null?saved:`
+    const inner=`
       <div class="lcx-ph" style="background:${secondary}">
         <span class="lcx-num" style="color:#fff">${p.num||''}</span>
         <span class="lcx-last" style="color:#fff">${esc(last.toUpperCase())}</span>
@@ -3303,7 +2996,7 @@ function teamChartHTML(teamFull,cityKeyword,list,title,rec,theme,isHome,G){
       <div class="lcx-meta">${p.pos} · ${p.ht||'—'} · ${p.wt||'—'} · ${p.pos==='G'?'G':'Sh'} ${p.sh||'—'}${p.age?' · '+p.age+'y':''} · ${esc(p.birth||'')}</div>
       ${season?`<div class="lcx-stat" style="color:${primary}">${season}</div>`:''}
       ${notes?`<div class="lcx-notes">${notes}</div>`:''}`;
-    return `<div class="lcx-card" contenteditable="true" spellcheck="false" data-team="${esc(teamFull)}" data-ek="${esc(editKey)}" style="border-color:${secondary}">${inner}</div>`;
+    return `<div class="lcx-card" style="border-color:${secondary}">${inner}</div>`;
   };
 
   // IR / ECHL / scratches moved to the packet's Quick Facts page — the chart
@@ -4086,8 +3779,8 @@ function stampMissing(containerId,scope){
 }
 function stampEdited(scope){
   const any=o=>Object.keys(o||{}).some(k=>String(o[k]||'').trim());
-  if(scope==='packet')return any(DATA.statOv)||Object.keys(DATA.pkEdits||{}).length>0||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
-  if(scope==='chart')return Object.keys(DATA.chartEdits||{}).length>0;
+  if(scope==='packet')return any(DATA.statOv)||DATA.roster.some(p=>p.statOverride&&p.statOverride.trim());
+  if(scope==='chart')return false;
   if(scope==='verbs')return !!DATA.verbs;
   if(scope==='lines')return false;
   if(scope==='opening')return false;
@@ -4108,26 +3801,13 @@ function pkWireOv(){
   const doc=document.getElementById('packetDoc');if(!doc||doc._pvWired)return;
   doc._pvWired=true;
   doc.addEventListener('input',e=>{
-    const pv=e.target.closest?e.target.closest('.pv[data-k]'):null;
-    const bio=e.target.closest?e.target.closest('.bio-edit[data-bio-pid]'):null;
-    const page=e.target.closest?e.target.closest('.page[data-pk]'):null;
+    const pv=e.target.closest?e.target.closest('.pv[data-k]'):null;if(!pv)return;
     clearTimeout(doc._pvt);
     doc._pvt=setTimeout(()=>{
-      if(pv){DATA.statOv=DATA.statOv||{};DATA.statOv[pv.dataset.k]=pv.innerText.trim();}
-      if(bio){ // media bio edited right on the packet page — save back to the roster
-        const p=DATA.roster.find(x=>x.id===bio.dataset.bioPid);
-        if(p)p.notes=bio.innerText.split('\n').map(l=>l.replace(/^[•\s]+/,'').trim()).filter(Boolean).join('\n');
-      }
-      if(page&&!bio){DATA.pkEdits=DATA.pkEdits||{};DATA.pkEdits[page.dataset.pk]=page.outerHTML;}
+      DATA.statOv=DATA.statOv||{};DATA.statOv[pv.dataset.k]=pv.innerText.trim();
       save();
     },600);
   });
-}
-function pkClearEdits(){
-  const n=Object.keys(DATA.pkEdits||{}).length;
-  if(!n){toast('No packet text edits to clear');return;}
-  if(!confirm('Clear your text edits on '+n+' packet page(s) and regenerate them from data?'))return;
-  DATA.pkEdits={};save();renderPacket();toast('Packet edits cleared');
 }
 function revertAllOverrides(){
   const n1=Object.values(DATA.folderOv||{}).reduce((a,t)=>a+Object.keys(t).filter(k=>String(t[k]||'').trim()).length,0);
@@ -4187,7 +3867,7 @@ function fdPlayerHTML(p,kw,side){
   return `<div class="fd-pl">
     <div class="fd-nm">#${esc(p.num||'')} <b>${esc(last.toUpperCase())}</b> ${esc(first)}${letter} ${statSpan(p,kw)}</div>
     ${pron?`<div class="fd-pron">${esc(pron)}</div>`:''}
-    <div class="fd-note" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}">${esc(p.callNote||fdNoteSeed(p))}</div>
+    <div class="fd-note">${esc(p.callNote||fdNoteSeed(p))}</div>
   </div>`;
 }
 /* ============================================================
@@ -4278,16 +3958,11 @@ function fdCard(p,side,pal,group){
   if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
   const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
   const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const bid='cs:'+(p.id||p.num||last);
-  const cfg=fdBlk(side,bid);
-  const zoom=cfg.pt?(1+(+cfg.pt)*0.09).toFixed(3):'';
   const ts=findTeamStats(side==='home'?'Huntsville':String(DATA.game.opp||'').split(' ')[0]);
   const season=fdSeasonLine(p,ts),career=fdCareerLine(p);
   const notes=fdNotesText(p),personal=fdPersonalText(p);
-  const ed=(k,cls,html)=>`<div class="${cls}" contenteditable="true" spellcheck="false" data-side="${side}" data-pid="${esc(p.id||'')}" data-fdk="${k}">${html}</div>`;
-  return `<div class="cs-card${cfg.bold?' cs-bold':''}" style="border-color:${edge}${zoom?';zoom:'+zoom:''}"
-      data-fdid="${esc(bid)}" data-fdside="${side}" data-fdgroup="${group}" draggable="${FD_EDIT?'true':'false'}">
-    ${FD_EDIT?fdCardTools(side,bid):''}
+  const ed=(k,cls,html)=>`<div class="${cls}">${html}</div>`;
+  return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
       <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(p.num||'')}</span>
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}${letter}</span>
@@ -4318,24 +3993,13 @@ function fdCallSheet(side){
   const fwd=(list.filter(p=>p.pos!=='D'&&p.pos!=='G')).sort(byNum);
   const def=(list.filter(p=>p.pos==='D')).sort(byNum);
   const gls=(list.filter(p=>p.pos==='G')).sort(byNum);
-  const cols=k=>fdCols(side,k);
-  const tmpl=fdTmpl(side),ord=tmpl.order||{},blk=tmpl.blk||{};
-  const bidOf=p=>'cs:'+(p.id||p.num||String(p.name||'').split(/\s+/).pop());
-  const arrange=arr=>arr.filter(p=>!(blk[bidOf(p)]||{}).hide)
-    .map((p,i)=>({p,i})).sort((a,b)=>{
-      const x=ord[bidOf(a.p)]==null?a.i:ord[bidOf(a.p)],y=ord[bidOf(b.p)]==null?b.i:ord[bidOf(b.p)];
-      return x===y?a.i-b.i:x-y;
-    }).map(x=>x.p);
-  const grid=(arr,group,key)=>{
-    const use=arrange(arr);
-    return use.length
-      ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols(key)},minmax(0,1fr))" data-fdgrid="${key}">${use.map(p=>fdCard(p,side,pal,group)).join('')}</div>`
+  const grid=(arr,group,key)=>arr.length
+      ?`<div class="cs-grid" style="grid-template-columns:repeat(${({f:3,d:2,g:2})[key]},minmax(0,1fr))">${arr.map(p=>fdCard(p,side,pal,group)).join('')}</div>`
       :'<div class="cs-none">No players in this group.</div>';
-  };
   const rec=fdTeamRec(team),place=fdPlace(team);
   const coach=fdCoachLine(team);
   const susp=(isHome?(G.susp||''):(G.oppSusp||'')).trim();
-  const sb=`<aside class="cs-side" style="width:${fdSideW(side)}px">
+  const sb=`<aside class="cs-side" style="width:170px">
     ${fdSideList('IR',isHome?G.ir:G.oppIr)}
     ${fdSideList('ECHL',isHome?G.echl:G.oppEchl)}
     ${susp?`<div class="cs-susp">*** ${esc(susp.toUpperCase())} ***</div>`:''}
@@ -4343,8 +4007,7 @@ function fdCallSheet(side){
     <div class="cs-sb-box"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
     <div class="cs-sb-box cs-grow"><div class="cs-sb-h">NOTES</div><div class="cs-write cs-write-grow"></div></div>
   </aside>`;
-  return `<div class="page lc-page cs-page cs-pad${fdPad(side)}">
-    ${FD_EDIT?fdHiddenHTML(side):''}
+  return `<div class="page lc-page cs-page">
     <div class="cs-head" style="background:${primary};color:${pal.textOn}">
       <div class="cs-h1">${esc(team.toUpperCase())}${rec?' ('+esc(rec)+')':''}${place?' – '+esc(place):''}</div>
       ${coach?`<div class="cs-h2">${esc(coach)}</div>`:''}
@@ -4361,34 +4024,6 @@ function fdCallSheet(side){
     <div class="fd-contact">${esc(S.mediaName||'')} | ${esc(S.mediaTitle||'')} · ${esc(S.mediaPhone||'')} · ${esc(S.mediaEmail||'')}</div>
     ${dataStampHTML(team)}
   </div>`;
-}
-/* per-team layout choices — columns per group and the sidebar width */
-function fdTmplKey(side){
-  return side==='home'?'Huntsville Havoc':(DATA.game.opp||'Opponent');
-}
-function fdTmpl(side){
-  DATA.fdTmpl=DATA.fdTmpl||{};
-  const k=fdTmplKey(side);
-  return (DATA.fdTmpl[k]=DATA.fdTmpl[k]||{});
-}
-function fdCols(side,key){
-  const t=fdTmpl(side).cols||{};
-  const d={f:3,d:2,g:2};
-  const v=+t[key];
-  return (v>=1&&v<=4)?v:d[key];
-}
-function fdSetCols(side,key,v){
-  const t=fdTmpl(side);t.cols=t.cols||{};
-  t.cols[key]=Math.max(1,Math.min(4,+v||1));save();renderFolders();
-}
-function fdSideW(side){const v=+fdTmpl(side).sideW;return (v>=130&&v<=280)?v:170;}
-function fdSetSideW(side,v){
-  const t=fdTmpl(side);
-  t.sideW=Math.max(130,Math.min(280,Math.round(v/10)*10));save();renderFolders();
-}
-function fdTmplReset(side){
-  DATA.fdTmpl=DATA.fdTmpl||{};delete DATA.fdTmpl[fdTmplKey(side)];
-  save();renderFolders();toast('Layout for '+fdTmplKey(side)+' reset');
 }
 function fdLineupPage(side){
   const S=DATA.settings,G=DATA.game;
@@ -4559,43 +4194,8 @@ function renderFolders(){
   const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
   const mk={hl:()=>fdCallSheet('home'),hd:()=>fdDataPage('home'),ol:()=>fdCallSheet('opp'),od:()=>fdDataPage('opp')};
   doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
-  fdWireEdits();fdWireDrag();secApplyAll();fdViewSync();fdEditBar();
+  fdWireEdits();secApplyAll();fdViewSync();
   imagesReady(doc,2500).then(()=>fitActiveAuto().then(fdFitReport));
-}
-/* Drag reordering, within a group only — this is a flow, not a canvas, so a
-   drag can never leave a card floating somewhere it will not print. */
-function fdWireDrag(){
-  const doc=document.getElementById('foldersDoc');if(!doc||doc._fdDrag)return;
-  doc._fdDrag=true;
-  let from=null;
-  doc.addEventListener('dragstart',e=>{
-    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
-    if(!c||!FD_EDIT){e.preventDefault();return;}
-    from=c;c.classList.add('cs-dragging');
-    e.dataTransfer.effectAllowed='move';
-    try{e.dataTransfer.setData('text/plain',c.dataset.fdid);}catch(x){}
-  });
-  doc.addEventListener('dragover',e=>{
-    if(!from)return;
-    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
-    if(c&&c!==from&&c.dataset.fdgroup===from.dataset.fdgroup&&c.dataset.fdside===from.dataset.fdside)e.preventDefault();
-  });
-  doc.addEventListener('drop',e=>{
-    if(!from)return;
-    const c=e.target.closest&&e.target.closest('.cs-card[data-fdid]');
-    if(!c||c===from||c.dataset.fdgroup!==from.dataset.fdgroup)return;
-    e.preventDefault();
-    const side=from.dataset.fdside;
-    const t=fdTmpl(side);t.order=t.order||{};
-    const ids=[...doc.querySelectorAll('.cs-card[data-fdid]')]
-      .filter(x=>x.dataset.fdside===side&&x.dataset.fdgroup===from.dataset.fdgroup)
-      .map(x=>x.dataset.fdid);
-    const i=ids.indexOf(from.dataset.fdid),j=ids.indexOf(c.dataset.fdid);
-    ids.splice(j,0,ids.splice(i,1)[0]);
-    ids.forEach((x,k)=>{t.order[x]=k+1;});
-    save();renderFolders();
-  });
-  doc.addEventListener('dragend',()=>{if(from)from.classList.remove('cs-dragging');from=null;});
 }
 function fdWireEdits(){
   const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
@@ -4603,20 +4203,8 @@ function fdWireEdits(){
   doc.addEventListener('input',e=>{
     clearTimeout(doc._ft);
     doc._ft=setTimeout(()=>{
-      const t=e.target.closest?e.target.closest('.fv,[data-pid]'):null;if(!t)return;
-      if(t.classList.contains('fv')){
-        fdOv(t.dataset.t)[t.dataset.k]=t.innerText.trim();save();
-      }else if(t.dataset.pid!==undefined){
-        const side=t.dataset.side;
-        const list=side==='home'?DATA.roster:((DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[]);
-        const p=list.find(x=>x.id===t.dataset.pid);
-        if(p){
-          // the call sheet has two written fields per player; the older lineup
-          // page had one, so an unmarked edit still means the call note
-          const k=t.dataset.fdk==='personal'?'callPersonal':'callNote';
-          p[k]=t.innerText.trim();save();fdFitReport();
-        }
-      }
+      const t=e.target.closest?e.target.closest('.fv'):null;if(!t)return;
+      fdOv(t.dataset.t)[t.dataset.k]=t.innerText.trim();save();
     },600);
   });
 }
@@ -4634,8 +4222,6 @@ function fdViewSync(){
     b.setAttribute('aria-pressed',on?'true':'false');
   });
 }
-/* which team's sheet is on screen — the edit controls act on that one */
-function fdSideOfView(){return (FD_FILTER==='ol'||FD_FILTER==='od')?'opp':'home';}
 /* live fit indicator: does the visible sheet still land on one page? */
 function fdFitReport(){
   const el=document.getElementById('fdFit');if(!el)return;
@@ -4655,90 +4241,6 @@ function fdFitReport(){
     el.className='fd-fit bad';
     el.textContent=who+' overflows by ~'+(worst/96).toFixed(1)+'in — reduce type or hide a block';
   }
-}
-/* ---- Edit layout: flow-based, so it cannot produce a sheet that won't print.
-   Every text element is editable, every block gets a handle, and the column
-   count and sidebar width are per team and kept for good. ---- */
-let FD_EDIT=false;
-function fdEditToggle(){
-  FD_EDIT=!FD_EDIT;
-  const b=document.getElementById('fdEditBtn');
-  if(b){b.classList.toggle('dark',FD_EDIT);b.textContent=FD_EDIT?'Editing layout ✓':'Edit layout';}
-  document.getElementById('foldersDoc').classList.toggle('fd-editing',FD_EDIT);
-  document.getElementById('fdEditBar').style.display=FD_EDIT?'':'none';
-  renderFolders();
-}
-function fdEditBar(){
-  const el=document.getElementById('fdEditBar');if(!el||!FD_EDIT)return;
-  const side=fdSideOfView(),team=fdTmplKey(side);
-  const col=(k,label)=>`<span class="fd-eb-item"><b>${label}</b>
-    <button class="icon-btn" onclick="fdSetCols('${side}','${k}',${fdCols(side,k)-1})">&minus;</button>
-    <span class="fd-eb-v">${fdCols(side,k)} across</span>
-    <button class="icon-btn" onclick="fdSetCols('${side}','${k}',${fdCols(side,k)+1})">+</button></span>`;
-  el.innerHTML=`<div class="fd-eb">
-    <span class="fd-eb-t">Editing <b>${esc(team)}</b></span>
-    ${col('f','Forwards')}${col('d','Defense')}${col('g','Goalies')}
-    <span class="fd-eb-item"><b>Sidebar</b>
-      <button class="icon-btn" onclick="fdSetSideW('${side}',${fdSideW(side)-20})">&minus;</button>
-      <span class="fd-eb-v">${fdSideW(side)}px</span>
-      <button class="icon-btn" onclick="fdSetSideW('${side}',${fdSideW(side)+20})">+</button></span>
-    <span class="fd-eb-item"><b>Spacing</b>
-      <button class="icon-btn" onclick="fdSetPad('${side}',-1)">tighter</button>
-      <span class="fd-eb-v">${fdPad(side)}</span>
-      <button class="icon-btn" onclick="fdSetPad('${side}',1)">looser</button></span>
-    <button class="btn small secondary" onclick="fdSaveTemplate('${side}')">Save as template for ${esc(team.split(' ')[0])}</button>
-    <span class="fd-eb-note">Click any text to rewrite it. Drag a card by its handle to reorder. Nothing here can push content off the sheet — the fit line above updates as you go.</span>
-  </div>`;
-}
-function fdPad(side){const v=+fdTmpl(side).pad;return (v>=0&&v<=4)?v:2;}
-function fdSetPad(side,d){
-  const t=fdTmpl(side);t.pad=Math.max(0,Math.min(4,fdPad(side)+d));save();renderFolders();
-}
-function fdSaveTemplate(side){
-  const t=fdTmpl(side);t.saved=new Date().toISOString();save();
-  toast('Layout saved for '+fdTmplKey(side)+' — it applies to every future game against them');
-}
-/* per-card handle: size, bold, hide, move, and a page break before it */
-function fdBlk(side,id){
-  const t=fdTmpl(side);t.blk=t.blk||{};
-  return (t.blk[id]=t.blk[id]||{});
-}
-function fdBlkSet(side,id,patch){
-  const c=fdBlk(side,id);Object.assign(c,patch);
-  Object.keys(c).forEach(k=>{if(!c[k])delete c[k];});
-  save();renderFolders();
-}
-function fdCardTools(side,id){
-  const c=fdBlk(side,id);
-  return `<div class="fd-ct no-print" contenteditable="false">
-    <button title="1 pt smaller" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:(${+c.pt||0})-1})">A&minus;</button>
-    <button title="1 pt larger" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:(${+c.pt||0})+1})">A+</button>
-    <button class="${c.bold?'on':''}" title="Bold" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{bold:${c.bold?0:1}})"><b>B</b></button>
-    <button title="Move earlier" onclick="event.stopPropagation();fdMove('${side}','${id}',-1)">&uarr;</button>
-    <button title="Move later" onclick="event.stopPropagation();fdMove('${side}','${id}',1)">&darr;</button>
-    <button title="Hide from print" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{hide:1})">&#128065;</button>
-    <button title="Reset" onclick="event.stopPropagation();fdBlkSet('${side}','${id}',{pt:0,bold:0,hide:0,ord:0})">&#8635;</button>
-  </div>`;
-}
-function fdMove(side,id,d){
-  const t=fdTmpl(side);t.order=t.order||{};
-  const cards=[...document.querySelectorAll('#foldersDoc .cs-card[data-fdid]')]
-    .filter(el=>el.dataset.fdside===side&&el.dataset.fdgroup===
-      (document.querySelector('#foldersDoc .cs-card[data-fdid="'+CSS.escape(id)+'"]')||{dataset:{}}).dataset.fdgroup);
-  const ids=cards.map(el=>el.dataset.fdid);
-  const i=ids.indexOf(id),j=i+d;
-  if(i<0||j<0||j>=ids.length)return;
-  ids.splice(j,0,ids.splice(i,1)[0]);
-  ids.forEach((x,k)=>{t.order[x]=k+1;});
-  save();renderFolders();
-}
-/* hidden cards are listed so they can come back */
-function fdHiddenHTML(side){
-  const t=fdTmpl(side),blk=t.blk||{};
-  const ids=Object.keys(blk).filter(k=>blk[k].hide);
-  if(!ids.length)return '';
-  return `<div class="fd-hidden no-print">Hidden: ${ids.map(id=>
-    `<button class="icon-btn" onclick="fdBlkSet('${side}','${id}',{hide:0})">${esc(id.replace(/^cs:/,''))} &#128065;</button>`).join(' ')}</div>`;
 }
 function fdPrint(which){
   const keep=FD_FILTER;
@@ -4973,9 +4475,7 @@ function resetSummary(){
   const g=Object.keys(DATA.gamelog||{}).length;
   const bios=DATA.roster.filter(p=>(p.notes&&p.notes.trim())||(p.bbio&&p.bbio.trim())).length;
   const iv=Object.keys(DATA.interviews||{}).length;
-  const ov=Object.keys(DATA.statOv||{}).length+Object.keys(DATA.pkEdits||{}).length
-    +Object.keys(DATA.chartEdits||{}).length+Object.keys(DATA.folderOv||{}).length
-    +Object.keys(DATA.refEdits||{}).length+Object.keys(DATA.franchiseEdits||{}).length;
+  const ov=Object.keys(DATA.statOv||{}).length+Object.keys(DATA.folderOv||{}).length;
   return [[DATA.roster.length,'roster players'],[bios,'written bios'],[g,'logged games'],
 [iv,'interview sets'],[ov,'manual edits & overrides']];
 }
@@ -6294,9 +5794,7 @@ const PACKET_SECTIONS=[
 ];
 const PACKET_PRESETS={
   full:PACKET_SECTIONS.map(s=>s[0]),
-  booth:['cover','scout','facts','splits','gamelog','roster','worksheets','gamesheet'],
-  // everything the full packet carries, laid out as tight as it still reads
-  compact:PACKET_SECTIONS.map(s=>s[0])
+  booth:['cover','scout','facts','splits','gamelog','roster','worksheets','gamesheet']
 };
 function pkSel(){
   const sel=DATA.settings.packetSel;
@@ -6315,11 +5813,9 @@ function pkToggle(k,on){
 }
 function pkPreset(name){
   DATA.settings.packetSel=PACKET_PRESETS[name].slice();
-  DATA.settings.packetPreset=name;
   DATA.secAuto={};                     // each preset auto-fits on its own terms
   save();pkRenderPicker();renderPacket();
-  toast(name==='compact'?'Compact preset — auto-fitting to the fewest readable pages'
-    :(name==='booth'?'Booth packet preset applied':'Full packet preset applied'));
+  toast(name==='booth'?'Booth packet preset applied':'Full packet preset applied');
 }
 
 function renderPacket(){
@@ -6447,18 +5943,12 @@ function renderPacket(){
   const outPages=[];
   PACKET_SECTIONS.forEach(s=>{if(sel.has(s[0]))(secPages[s[0]]||[]).forEach((p,j)=>outPages.push({k:s[0]+':'+j,sec:s[0],html:p}));});
   const stamp=dataStampHTML('packet');
-  DATA.pkEdits=DATA.pkEdits||{};
   const doc=document.getElementById('packetDoc');
-  doc.classList.toggle('pk-compact',pkPresetName()==='compact');
   // page numbers wait until the blocks have flowed — they are not knowable yet
   doc.innerHTML=outPages.map(pg2=>{
-    if(DATA.pkEdits[pg2.k])return DATA.pkEdits[pg2.k]; // hand-edited page wins until cleared
     let h=pg2.html.replace('<div class="gn-foot"',stamp+'<div class="gn-foot"');
-    // meet pages keep structured bio editing (writes back to the roster) — the rest free-edit
-    const edit=pg2.sec!=='meet'?' contenteditable="true" spellcheck="false"':'';
-    return h.replace('<div class="page','<div data-sec="'+pg2.sec+'" data-pk="'+pg2.k+'"'+edit+' class="hub-preview__page page');
+    return h.replace('<div class="page','<div data-sec="'+pg2.sec+'" data-pk="'+pg2.k+'" class="hub-preview__page page');
   }).join('');
-  [...doc.querySelectorAll('.page')].forEach(pg=>{if(DATA.pkEdits[pg.dataset.pk])pg.dataset.edited='1';});
   stampMissing('packetDoc','packet');
   pkWireOv();
   pkRebuild();
@@ -6466,9 +5956,8 @@ function renderPacket(){
     PK_LAYOUT_BUSY=true;
     try{const auto=pkAutoFit();DATA.secAutoLast=auto;}finally{PK_LAYOUT_BUSY=false;}
   }
-  pkInspect();
   secRenderBar(null);secApplyAll();
-  imagesReady(doc,3500).then(()=>{mtpDetectDefaults(doc);pkRebuild();pkInspect();secApplyAll();});
+  imagesReady(doc,3500).then(()=>{mtpDetectDefaults(doc);pkRebuild();secApplyAll();});
 }
 /* one pass of the layout: section sizes, then blocks flowed onto sheets */
 function pkRebuild(){
@@ -6522,32 +6011,6 @@ function scheduleTable(){
   const s=parseScheduleData();if(!s.length)return '';
   return `<table class="qf-sched">${s.map(r=>`<tr><td>${r.date}</td><td>${esc(r.opp)}</td><td>${esc(r.result)}</td></tr>`).join('')}</table>`;
 }
-
-function playerPage(label,title,players,teamStats,R,red,S,isGoalie){
-  const cards=players.map(p=>{
-    let statHTML='';
-    if(isGoalie){
-      const g=teamStats?teamStats.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
-      statHTML=g?`<div class="mtp-stats"><span>SV%: ${g.svpct}</span><span>GAA: ${g.gaa}</span><span>Record: ${g.w}-${g.l}-${g.otl}</span><span>SO: ${g.so}</span><span>Saves: ${g.svs}</span></div>`:'<div class="mtp-stats" style="color:var(--ink-2)">No report stats</div>';
-    }else{
-      const st=teamStats?teamStats.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name)):null;
-      statHTML=st?`<div class="mtp-stats"><span>G: ${st.g}</span><span>A: ${st.a}</span><span>P: ${st.pts}</span><span>+/-: ${st.pm>=0?'+':''}${st.pm}</span><span>Shots: ${st.shots!=null?st.shots:'—'}</span><span>PIM: ${st.pim}</span></div>`:'<div class="mtp-stats" style="color:var(--ink-2)">No report stats</div>';
-    }
-    const notes=(p.notes||'').split('\n').filter(Boolean).map(n=>'• '+esc(n)).join('<br>');
-    const[lastN,...rest]=(p.name||'').split(' ').reverse();
-    const display=dispName(p).toUpperCase();
-    return `<div class="mtp-card">
-      <div class="mtp-head"><span class="mtp-name">${esc(display)}</span> ${statSpan(p,'Huntsville')}<span class="mtp-meta">HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isGoalie?'GLOVE':'SHOOTS'}: ${p.sh||'—'} · AGE: ${p.age||'—'}</span><span class="mtp-num" style="background:${red}">${p.num||''}</span></div>
-      ${statHTML}
-      <div class="mtp-notes-grid"><div class="mtp-notes"><b>SEASON / CAREER NOTES:</b><br><span class="bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to the player&#39;s media bio">${notes||'Click to write this player&rsquo;s media bio…'}</span></div><div class="mtp-personal"><b>PERSONAL:</b><br>Born ${esc(p.dob||'—')} · ${esc(p.birth||'—')}${p.bornIn?'<br>Birthplace '+esc(p.bornIn):''}</div></div>
-    </div>`;
-  }).join('');
-  return `<div class="page" style="--havoc-red:${red}">
-    <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">${title}</div><div class="pg-num"></div></div>
-    ${cards||'<div class="empty">No players in this group.</div>'}
-    <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span></span></div></div>`;
-}
-
 
 /* notes extra (opponent news + schedule) */
 function loadNotesExtra(){const n=DATA.notes||{};['h1','b1','h2','b2','h3','b3','oh1','ob1','oh2','ob2'].forEach(k=>{if(n[k]!==undefined)setv('n_'+k,n[k]);});}
@@ -7190,7 +6653,7 @@ function mtpCardHTML(p,teamStats,R,red,S){
       <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.bornIn?' · BORN '+esc(p.bornIn):''}${p.rookie==='1'?' · ROOKIE':''}${p.draft?' · '+esc(p.draft):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
-      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — authored bios live in data/bios.json; click here to type one for this browser.</span>'}</div>
+      <div class="mtp-blurb">${notesHtml||'<span class="mtp-nobio">No written bio yet — authored bios live in data/bios.json.</span>'}</div>
       ${p.acquired?`<div class="mtp-line"><b>Acquired</b> ${esc(p.acquired)}</div>`:''}
       ${(p.awards||[]).length?`<div class="mtp-line"><b>Awards</b> ${esc(p.awards.join(' · '))}</div>`:''}
       ${p.junior?`<div class="mtp-line"><b>Junior</b> ${esc(p.junior)}</div>`:''}
