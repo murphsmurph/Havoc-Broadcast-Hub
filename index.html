@@ -131,27 +131,14 @@
   /* the sheet itself keeps its fixed width — only its contents are capped */
   .page *{max-width:100%;}
   .page{overflow-wrap:break-word;}
-  table.bst-t{table-layout:fixed;}
-  .bst-t .c-season{width:52px;} .bst-t .c-lg{width:54px;} .bst-t .c-gp{width:26px;}
-  .bst-t .c-n{width:30px;} .bst-t .c-rec{width:46px;}
-  .bst-t .c-team{max-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .bst-t td,.bst-t th{overflow:hidden;text-overflow:ellipsis;}
-  .bst-note td{color:var(--ink-2);font-size:7.5px;border-bottom:0;padding-top:0;white-space:normal;}
   .mtp-nick{font-size:9px;font-weight:800;color:var(--ink-2);margin-left:4px;}
   .mtp-pron{font-size:8.5px;font-style:italic;color:var(--ink-2);margin-left:5px;}
   .mtp-line{font-size:8.5px;line-height:1.45;margin-top:2px;}
   .mtp-line b{text-transform:uppercase;font-size:7.5px;letter-spacing:.04em;color:var(--red-text);margin-right:3px;}
-  .mtp-adv{font-size:7.5px;line-height:1.4;color:var(--ink-2);margin-top:2px;}
   .mtp-head{flex-wrap:wrap;}
-  .bst-h{font-size:8px;font-weight:900;text-transform:uppercase;color:var(--ink-2);margin:3px 0 1px;letter-spacing:.04em;}
-  .bst-mtp{margin-top:3px;}
-  .bst-mtp .pk-t{font-size:7.5px;}
-  .bst-none{font-size:7.5px;font-style:italic;color:var(--ink-2);line-height:1.35;margin:1px 0 2px;}
   .fd-note{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-  .pg-embargo{background:var(--havoc-red);color:#fff;font-size:9px;font-weight:900;letter-spacing:.06em;text-align:center;padding:3px 6px;border-radius:3px;margin-top:4px;flex:0 0 auto;}
   .pg-stamp{font-size:10.5px;color:var(--ink-2);text-align:right;margin-top:3px;flex:0 0 auto;}
   .pg-footer .pg-stamp{font-size:8px;line-height:1.3;text-align:left;}
-  .pg-footer .pg-embargo{font-size:8px;}
   .fd-contact{font-size:11px;color:#444;font-weight:700;margin-top:4px;flex:0 0 auto;}
   .fd-pron2{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:12.5px;line-height:1.45;}
   .iv-entry{border:1.5px solid #ddd;border-radius:6px;padding:10px 12px;margin-bottom:12px;}
@@ -479,24 +466,6 @@
   .feed-ages{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
   .feed-ages span{font-size:11px;font-weight:700;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:var(--ink-2);}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
-  /* 2026-27 roster reconcile panel */
-  .embargo-bar{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;background:var(--havoc-red);color:#fff;border-radius:7px;padding:9px 13px;margin-bottom:14px;font-size:12px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;}
-  .embargo-bar span{font-weight:600;text-transform:none;letter-spacing:0;font-size:12px;opacity:.95;}
-  .bio-panel{border:1px solid var(--havoc-line);border-left:4px solid var(--havoc-red);border-radius:6px;padding:9px 12px;margin-bottom:10px;background:var(--surface-2);font-size:12.5px;}
-  .bio-panel h5{font-size:11.5px;font-weight:900;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:5px;}
-  .bio-panel ul{margin:4px 0 0 16px;padding:0;} .bio-panel li{margin-bottom:2px;}
-  .bio-panel .src{color:var(--ink-2);font-size:11.5px;margin-top:6px;}
-  .rs-head{font-size:13px;font-weight:800;margin:10px 0 6px;}
-  .rs-box{border:1px solid var(--havoc-line);border-left-width:4px;border-radius:6px;padding:8px 10px;margin-bottom:8px;background:var(--surface-2);}
-  .rs-box.warn{border-left-color:var(--red-text);}
-  .rs-box.wait{border-left-color:#b9bcc4;}
-  .rs-box h5{font-size:11.5px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);margin-bottom:5px;}
-  .rs-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;padding:2px 0;}
-  .rs-num{font-weight:800;min-width:34px;}
-  .rs-nm{font-weight:700;min-width:150px;}
-  .rs-note{color:var(--ink-2);}
-  .rs-flag{display:inline-block;margin-left:6px;padding:1px 6px;border-radius:9px;font-size:10.5px;font-weight:800;background:var(--mute-bg);color:var(--mute-fg);cursor:help;}
-  .rs-flag.warn{background:var(--havoc-red);color:#fff;}
   .unv{color:var(--red-text);font-weight:900;cursor:help;}
   .ref-ed{font-size:13px;}
   .ref-ed:focus{outline:2px solid var(--havoc-red);outline-offset:3px;border-radius:4px;}
@@ -554,7 +523,7 @@
   .cupbanner{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin:3px 0;}
   .cupbanner .c{background:var(--havoc-black);color:#fff;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;border-bottom:2px solid var(--havoc-red);}
   /* The page furniture is one stacked block pinned to the foot of the sheet:
-     the embargo stripe, then the freshness line, then the rule and the footer
+     the freshness line, then the rule and the footer
      row — each on its own row, so they cannot print on top of one another.
      A spacer of the same height sits in the flow above it, so body content
      cannot run underneath either. */
@@ -686,20 +655,6 @@
   .seg textarea{width:100%;font-family:ui-monospace,monospace;font-size:11px;}
   .seg .btn.small{margin-top:6px;}
   @media (max-width:700px){.seg-grid{grid-template-columns:1fr;}}
-  /* quiz */
-  .quiz-score{margin-top:10px;font-weight:800;font-size:15px;}
-  .quiz-q{font-size:22px;font-weight:800;margin:6px 0 14px;}
-  .quiz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .quiz-opt{padding:14px 16px;border:2px solid var(--havoc-silver);border-radius:8px;cursor:pointer;font-size:16px;font-weight:600;text-align:left;background:var(--surface);color:var(--ink);transition:.1s;}
-  .quiz-opt:hover{border-color:var(--red-text);}
-  .quiz-opt.correct{background:#1b7a3d;color:#fff;border-color:#1b7a3d;}
-  .quiz-opt.wrong{background:#b3232c;color:#fff;border-color:#b3232c;}
-  .quiz-next{margin-top:16px;}
-  .flash-card{border:2px solid var(--havoc-red);border-radius:12px;padding:32px;text-align:center;cursor:pointer;min-height:120px;display:flex;flex-direction:column;justify-content:center;}
-  .flash-front{font-size:30px;font-weight:900;}
-  .flash-back{font-size:18px;margin-top:12px;color:#444;}
-  .quiz-prog{font-size:13px;color:var(--ink-2);margin-bottom:8px;}
-  @media (max-width:700px){.quiz-opts{grid-template-columns:1fr;}}
   @page{size:letter portrait;margin:0;}
   @media print{
     /* screen themes live in @media screen, so paper needs no reset — this only
@@ -743,21 +698,6 @@
   .cal-game.away{background:#63646c;}
   .cal-game .res{display:block;font-weight:600;font-size:8px;opacity:.95;}
   @media (max-width:760px){.cal-months{grid-template-columns:1fr;}}
-  /* post-game copy desk */
-  .pg-scorebar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;background:var(--havoc-black);padding:14px 16px;border-radius:8px;margin-bottom:14px;}
-  .pg-side{text-align:center;}
-  .pg-side label{color:rgba(255,255,255,.6);font-size:10px;text-transform:uppercase;letter-spacing:.12em;display:block;margin-bottom:5px;}
-  .pg-side input[type=text]{background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.3);color:#fff;text-align:center;font-weight:800;text-transform:uppercase;border-radius:0;}
-  .pg-goals{background:transparent;border:0;color:#fff;text-align:center;font-weight:900;font-size:44px;line-height:1;width:100%;-moz-appearance:textfield;}
-  .pg-goals::-webkit-outer-spin-button,.pg-goals::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
-  .pg-dash{color:var(--red-text);font-size:34px;font-weight:900;padding-top:16px;}
-  .pg-out h2{font-size:24px;text-transform:uppercase;margin:0 0 6px;line-height:1.1;}
-  .pg-out .deck{font-style:italic;color:var(--ink-2);border-bottom:1px solid var(--havoc-silver);padding-bottom:10px;margin:0 0 14px;}
-  .pg-out p.story{font-size:15px;line-height:1.65;margin:0 0 12px;}
-  .pg-out .notes-head{font-weight:900;text-transform:uppercase;font-size:13px;border-top:2px solid var(--havoc-black);padding-top:10px;margin:18px 0 8px;letter-spacing:.08em;}
-  .pg-out ul{margin:0;padding-left:18px;}
-  .pg-out li{font-size:13.5px;line-height:1.55;margin-bottom:6px;}
-  .pg-err{background:#FDECEF;border:1px solid var(--havoc-red);color:#9E0C24;padding:10px 12px;margin-top:10px;font-size:12px;border-radius:6px;}
   /* schedule matrix */
   table.mx{border-collapse:collapse;font-size:10.5px;}
   .mx th,.mx td{border:1px solid var(--havoc-line);color:var(--ink);padding:3px 6px;text-align:center;min-width:24px;}
@@ -790,27 +730,6 @@
   .lnc-sub td{background:var(--acc) !important;color:#fff;font-weight:900;font-size:9.5px;letter-spacing:.08em;padding:3px 8px;height:auto;border-color:var(--acc);}
   .lnc-sub td span{font-weight:600;opacity:.85;letter-spacing:0;}
   @media (max-width:760px){.lnc-grid{grid-template-columns:1fr;}}
-  /* call log */
-  .cl-stats{display:flex;flex-wrap:wrap;gap:8px;}
-  .cl-stat{background:var(--havoc-silver);border-radius:14px;padding:4px 11px;font-size:12px;}
-  .cl-season-btn.active{background:var(--havoc-red);color:#fff;border-color:var(--red-text);}
-  .cl-row{display:flex;align-items:center;gap:9px;padding:6px 9px;border-radius:6px;margin-bottom:4px;font-size:13px;flex-wrap:wrap;}
-  .cl-row.home{background:var(--tint-row);color:var(--ink);}
-  .cl-row.road{background:var(--tint-neutral);color:var(--ink);}
-  .cl-row.called{outline:2px solid var(--havoc-red);}
-  .cl-toggle{border:1.5px solid var(--havoc-line);background:var(--surface);border-radius:5px;font-size:10px;font-weight:900;padding:4px 8px;min-width:64px;cursor:pointer;color:var(--ink-2);}
-  .cl-toggle.on{background:var(--havoc-red);border-color:var(--red-text);color:#fff;}
-  .cl-date{font-weight:700;width:66px;}
-  .cl-ps{color:var(--amber);font-size:9px;}
-  .cl-opp{flex:1;min-width:140px;}
-  .cl-score{font-weight:800;width:74px;}
-  .cl-score.w{color:#1b7a3d;}
-  .cl-score.l{color:#b3232c;}
-  .cl-gc{font-size:10px;color:var(--ink-2);background:var(--surface);border-radius:10px;padding:2px 8px;}
-  .cl-rate{display:flex;gap:2px;}
-  .cl-pip{width:16px;height:16px;border-radius:50%;background:#ddd;font-size:8px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-2);}
-  .cl-pip.on{background:var(--havoc-red);color:#fff;}
-  @media (max-width:760px){.cl-rate{width:100%;}}
   /* standings */
   table.stnd{border-collapse:collapse;font-size:13px;min-width:420px;}
   .stnd th,.stnd td{padding:6px 10px;text-align:center;border-bottom:1px solid var(--havoc-line);}
@@ -884,8 +803,6 @@
   <button class="tab" data-tab="rosters">Rosters</button>
   <button class="tab" data-tab="reference">League Reference</button>
   <button class="tab" data-tab="print">Print Center</button>
-  <button class="tab" data-tab="postgame">Post-Game</button>
-  <button class="tab" data-tab="calllog">Call Log</button>
   <button class="tab" data-tab="opening" id="tab_opening" title="Temporary — archive it after Oct 17">Opening Weekend <span class="tab-temp">temp</span></button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
@@ -994,18 +911,6 @@
       <div id="dailyBadge" style="font-size:11px;color:var(--ink-2);margin-top:2px"></div>
     </div>
     <div class="card hub-card">
-      <h2>EP <span class="accent">view</span> <span style="font-size:12px;color:var(--ink-2);font-weight:700">same league, alternate source</span></h2>
-      <p class="desc">Elite Prospects' own standings, leaders and schedule, for cross-checking what the SPHL feed gave us above. Off by default — it loads remote widgets and needs internet.</p>
-      <div class="btn-row"><button class="btn secondary" id="epViewBtn" onclick="epViewToggle()">Show EP view</button></div>
-      <div id="epView" style="display:none">
-        <div class="section-label hub-sectionhead">League standings</div><div id="wgStandings"></div>
-        <div class="section-label hub-sectionhead">Scoring leaders</div><div id="wgScoring"></div>
-        <div class="section-label hub-sectionhead">Goalie leaders</div><div id="wgGoalies"></div>
-        <div class="section-label hub-sectionhead">Schedule &amp; results</div><div id="wgResults"></div>
-        <div class="section-label hub-sectionhead">Schedule &amp; standings</div><div id="wgSched"></div>
-      </div>
-    </div>
-    <div class="card hub-card">
       <h2>Manual <span class="accent">Daily Report</span> <span class="upd" data-sync="daily"></span></h2>
       <p class="desc">The league's daily report needs <b>no key at all</b> and covers standings, skater/goalie stats, leaders and special teams. A GitHub Action fetches it nightly as the site's baseline data; you can also load it by hand any time — open the HTML report below and either <b>save the page and upload the file</b>, or Select All → Copy → paste here (the PDF's text paste still works too). Works fully offline once the page is open.</p>
       <div class="btn-row">
@@ -1054,53 +959,22 @@
     <div class="subnav no-print">
       <button class="subtab active" data-sub="roster">Havoc</button>
       <button class="subtab" data-sub="opproster">Opponent</button>
-      <button class="subtab" data-sub="quiz">Learn the Roster</button>
       <button class="subtab" data-sub="careers">Career &amp; Milestones</button>
     </div>
     <div class="subview active" id="panel-roster">
 <div class="card hub-card">
       <h2>Havoc <span class="accent">Roster &amp; Bios</span> <span class="upd" data-sync="rosters"></span></h2>
       <p class="desc">Set once, reused every game. Header facts + two bios per player: a long <b>media bio</b> for the game packet and a short <b>broadcast bio</b> for the lineup chart &amp; sheet. Mark captains with C / A in the player editor.</p>
-      <div class="embargo-slot"></div>
       <div class="progress" id="rosterProgress"></div>
-      <div id="bioStatus"></div>
-      <div id="rosterStatus"></div>
       <div class="btn-row" style="margin-top:14px">
         <button class="btn" onclick="openBulk('home')">Bulk import roster</button>
         <button class="btn secondary" onclick="openEPBulk('home')">Bulk EP → auto-bios</button>
         <button class="btn secondary" onclick="openPlayer('home')">+ Add one player</button>
-        <button class="btn secondary" onclick="loadHavoc2627()">Apply 2026-27 signed sheet</button>
         <button class="btn secondary" onclick="epFillHome()">Fill facts from Elite Prospects</button>
-        <button class="btn secondary" onclick="document.getElementById('bioFile').click()">Import bios JSON…</button>
-        <input type="file" id="bioFile" accept="application/json,.json" style="display:none" onchange="bioImportFile(event)">
         <button class="btn secondary" onclick="openPasteEP('home')">Paste Elite Prospects text</button>
       </div>
     </div>
     <div class="card hub-card" style="padding:0;overflow:hidden"><div id="rosterTableWrap" class="hub-tablewrap"></div></div>
-    <div class="card hub-card">
-      <h2>Elite Prospects <span class="accent">career cards</span></h2>
-      <p class="desc">Live EP cards, embedded straight from widget.eliteprospects.com — a full career card for any mapped player, a roster card for any SPHL club, and lineup decks for the game sheet. Internet required. League slug, season and EP team id live under Settings → Advanced.</p>
-      <div class="grid g2">
-        <div class="field hub-field"><label>Player career card</label><select id="wg_player" onchange="wgPlayer()"><option value="">— pick a mapped player —</option></select></div>
-        <div class="field hub-field"><label>Team roster</label>
-          <div class="btn-row" style="margin:0">
-            <select id="wg_team" style="max-width:220px"><option value="">— team —</option></select>
-            <button class="btn small" onclick="wgTeamRoster()">Show</button>
-            <button class="btn small secondary" onclick="wgTeamRosterAll()">All 12</button>
-            <span id="wgTeamMsg" style="font-size:12px;font-weight:700"></span>
-          </div>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn secondary" onclick="wgDeck('home')">Havoc lineup cards</button>
-        <button class="btn secondary" onclick="wgDeck('away')">Opponent lineup cards</button>
-        <button class="btn secondary" onclick="document.getElementById('wgDeckWrap').innerHTML='';document.getElementById('wgDeckMsg').textContent='';">Clear deck</button>
-        <span id="wgDeckMsg" style="font-size:12px;font-weight:700"></span>
-      </div>
-      <div id="wgPlayerWrap"><div class="empty">Pick a mapped player above — every Havoc player with an EP link gets a live career card.</div></div>
-      <div id="wgTeamWrap"></div>
-      <div id="wgDeckWrap"></div>
-    </div>
     <div class="card hub-card">
       <h2>Hockey <span class="accent">Operations</span></h2>
       <p class="desc">Meet the Hockey Operations Team — fill these in yourself. When any name is set, the Game Packet gets its own "Meet the Hockey Operations Team" page.</p>
@@ -1139,28 +1013,6 @@
       </div>
     </div>
     <div class="card hub-card" style="padding:0;overflow:hidden"><div id="oppRosterTableWrap" class="hub-tablewrap"></div></div>
-  
-    </div>
-    <div class="subview" id="panel-quiz">
-<div class="card hub-card">
-      <h2>Learn the <span class="accent">Roster</span></h2>
-      <p class="desc">A study tool for play-by-play prep. Drills you on numbers, names, positions, and stats for the Havoc roster (or a selected opponent). Build your roster first, then quiz.</p>
-      <div class="grid g3">
-        <div class="field hub-field"><label>Quiz which team?</label><select id="quizTeam"><option value="home">Huntsville Havoc</option></select></div>
-        <div class="field hub-field"><label>Quiz mode</label><select id="quizMode">
-          <option value="num2name">Number → Name</option>
-          <option value="name2num">Name → Number</option>
-          <option value="num2pos">Number → Position</option>
-          <option value="name2stat">Name → Season stat line</option>
-          <option value="flash">Flashcards (self-check)</option>
-        </select></div>
-        <div class="field hub-field"><label>&nbsp;</label><button class="btn" onclick="quizStart()">Start / Restart</button></div>
-      </div>
-      <div class="quiz-score" id="quizScore"></div>
-    </div>
-    <div class="card hub-card" id="quizCard" style="display:none">
-      <div id="quizBody"></div>
-    </div>
   
     </div>
     <div class="subview" id="panel-careers">
@@ -1248,8 +1100,6 @@
           <div class="ref-box"><h4>2026-27 league schedule matrix</h4><div style="font-size:10px;color:var(--ink-2);margin-bottom:4px">Home games in columns, away in rows. Havoc highlighted.</div><div id="ref_matrix" class="hub-tablewrap" style="overflow-x:auto;-webkit-overflow-scrolling:touch"></div></div>
         </div>
       </div>
-      <div class="section-label hub-sectionhead">Coaching staff — Elite Prospects career histories</div>
-      <div id="wgStaff"><div class="empty">Loads with this tab when EP widgets are reachable.</div></div>
       <div class="section-label hub-sectionhead">Coach blurbs (editable)</div>
       <div class="field hub-field" style="max-width:340px"><label>Edit coach for</label>
         <select id="coachTeam" onchange="loadCoach()"><option value="">— select team —</option></select></div>
@@ -1283,7 +1133,6 @@
       <span class="pg-badge hub-pagecount" id="prPages">—</span>
       <button class="btn small secondary" onclick="prRefresh()">Refresh</button>
       <button class="btn small secondary" onclick="prClearEdits()">Clear text edits</button>
-      <button class="btn small secondary" id="distBtn" onclick="distToggle()" title="Distribution copies leave out players the club has not announced">Copy: internal prep</button>
       <button class="btn dark hub-btn hub-btn--print is-primary" onclick="prPrint()">Print / Save PDF</button>
       <button class="btn hub-print-all" onclick="printTonight()" title="Game packet then broadcast folders, in one job">Print everything for tonight</button>
     </div>
@@ -1404,66 +1253,6 @@
     </div>
   </section>
 
-  <!-- POST-GAME FORMATTER -->
-  <section class="panel hub-panel" id="panel-postgame">
-    <div class="card hub-card">
-      <h2>Post-Game <span class="accent">Copy Desk</span></h2>
-      <p class="desc">You write it — this desk formats it. Fill the game facts, write each section in its own box, and the preview assembles the finished report in the same house structure every time. <b>Copy report</b> puts the whole thing on the clipboard. Everything auto-saves as a draft in this browser.</p>
-      <div class="pg-scorebar">
-        <div class="pg-side"><label>Away</label><input type="text" id="pg_awayTeam" placeholder="Visitor"><input type="number" class="pg-goals" id="pg_awayGoals" placeholder="0"></div>
-        <div class="pg-dash">&ndash;</div>
-        <div class="pg-side"><label>Home</label><input type="text" id="pg_homeTeam" placeholder="Home"><input type="number" class="pg-goals" id="pg_homeGoals" placeholder="0"></div>
-      </div>
-      <div class="grid g4">
-        <div class="field hub-field"><label>Date</label><input type="date" id="pg_date"></div>
-        <div class="field hub-field"><label>Venue</label><input type="text" id="pg_venue"></div>
-        <div class="field hub-field"><label>Result</label><select id="pg_result"><option value="regulation">Regulation</option><option value="overtime">Overtime</option><option value="shootout">Shootout</option></select></div>
-        <div class="field hub-field"><label>Next game</label><input type="text" id="pg_next" placeholder="Saturday vs Knoxville, 7:00"></div>
-      </div>
-      <div class="field hub-field"><label>Game Center page (optional) &mdash; paste it and Read the sheet fills the facts above</label><textarea id="pg_dump" rows="4" placeholder="Paste the whole Game Center page to auto-fill score, teams, date, venue and result."></textarea>
-      <div class="btn-row" style="margin-top:6px"><button class="btn secondary" onclick="pgReadSheet()">Read the sheet</button><span id="pg_readFlag" style="font-size:12px;color:var(--ink-2)"></span></div></div>
-      <div class="section-label hub-sectionhead">Report sections &mdash; your words, house structure</div>
-      <div class="field hub-field"><label>Headline</label><input type="text" id="pg_headline" placeholder="Havoc Steal One Late in Knoxville"></div>
-      <div class="field hub-field"><label>Lede (one or two sentences under the headline)</label><textarea id="pg_lede" rows="2" placeholder="The one-sentence story of the game."></textarea></div>
-      <div class="field hub-field"><label>Body (blank line = new paragraph)</label><textarea id="pg_body" rows="10" placeholder="The game story, top to bottom. Leave a blank line between paragraphs."></textarea></div>
-      <div class="field hub-field"><label>Quotes (one per line, attribution included &mdash; leave empty to skip the section)</label><textarea id="pg_quotes" rows="3" placeholder='"We found a way." — Head coach ...'></textarea></div>
-      <div class="field hub-field"><label>Game notes (one bullet per line &mdash; special teams, goalie line, stars, attendance)</label><textarea id="pg_notesb" rows="3" placeholder="PP 1-for-4; PK 5-for-5&#10;Wilson 31 saves"></textarea></div>
-      <details style="margin:10px 0"><summary style="cursor:pointer;font-weight:700;font-size:13px">Shorthand key &amp; voice rules (writing aid)</summary>
-        <div class="field hub-field" style="margin-top:10px"><label>What your shorthand means</label><textarea id="pg_shorthand" rows="5"></textarea></div>
-        <div class="field hub-field"><label>Voice rules</label><textarea id="pg_voice" rows="4"></textarea></div>
-      </details>
-    </div>
-    <div class="card hub-card">
-      <div class="doc-toolbar no-print" style="margin:-10px -14px 10px"><span class="ttl">Formatted report — preview</span><div class="spacer"></div><span class="header-status">updates as you type · house structure</span></div>
-      <div class="btn-row" style="margin-bottom:10px">
-        <button class="btn" id="pg_copyBtn" onclick="pgCopy()">Copy report</button>
-        <span id="pg_status" style="font-weight:800;font-size:12px;color:var(--ink-2)"></span>
-      </div>
-      <div id="pg_out" class="pg-out"></div>
-    </div>
-    <div class="card hub-card">
-      <h2>Post-Game <span class="accent">Interviews</span></h2>
-      <p class="desc">Same sheet, after the horn — star the quotes you can use and hit &ldquo;&rarr; report&rdquo; to drop one straight into the formatter&rsquo;s Quotes box.</p>
-      <div id="ivWrap_post"></div>
-    </div>
-  </section>
-
-  <!-- CALL LOG -->
-  <section class="panel hub-panel" id="panel-calllog">
-    <div class="card hub-card">
-      <h2>Broadcast <span class="accent">Call Log</span></h2>
-      <p class="desc">Your career game log — 2025-26 seeded with the real season results, 2026-27 built live from the hub schedule (scores flow in as you enter results). Tap CALLED on games you broadcast, rate your call 1-10, and import your call-log app backup to bring in your full history including goal calls.</p>
-      <div id="clStats" class="cl-stats"></div>
-      <div class="btn-row" style="margin:10px 0">
-        <button class="btn secondary cl-season-btn" data-s="2025-26" onclick="clSetSeason('2025-26')">2025-26</button>
-        <button class="btn secondary cl-season-btn" data-s="2026-27" onclick="clSetSeason('2026-27')">2026-27</button>
-        <button class="btn secondary" onclick="document.getElementById('clImport').click()">Import call-log app backup</button>
-        <input type="file" id="clImport" accept=".json,application/json" style="display:none" onchange="clImportBackup(event)">
-      </div>
-      <div id="clList"></div>
-    </div>
-  </section>
-
   <!-- OPENING WEEKEND (temporary, archivable) -->
   <section class="panel hub-panel" id="panel-opening">
     <div class="card hub-card">
@@ -1542,12 +1331,6 @@
       <div class="field hub-field"><label>Pronunciation guide (one per line: NAME - pronunciation)</label><textarea id="s_pronounce" rows="3"></textarea></div>
       <div class="btn-row"><button class="btn" onclick="saveSettings()">Save settings</button></div>
     </div>
-    <div class="card hub-card" id="embargoCard">
-      <h2>Embargoed <span class="accent">material</span></h2>
-      <div class="embargo-slot"></div>
-      <p class="desc">Club material that has not been publicly announced is held here. While the embargo is on, every printed page carries a warning stripe and the app shows the banner above. Nothing embargoed is ever written to the site's public repository — imported bios live in this browser only.</p>
-      <div class="btn-row"><button class="btn secondary" onclick="embargoLift()">Lift embargo (club has announced)</button></div>
-    </div>
     <div class="card hub-card">
       <h2>Booth <span class="accent">display</span></h2>
       <p class="desc">For the booth: a dark screen next to a live mic, and bigger type for glancing at during play. Neither changes a printed page or a PDF — those always come out on the white sheet at the normal size.</p>
@@ -1555,18 +1338,6 @@
         <button class="btn secondary" id="themeBtn" onclick="themeCycle()">Theme: System</button>
         <button class="btn secondary" id="boothBtn" onclick="boothToggle()">Booth mode: Off</button>
       </div>
-    </div>
-    <div class="card hub-card">
-      <h2>Advanced</h2>
-      <details>
-        <summary style="cursor:pointer;font-weight:800;font-size:13px">Elite Prospects widget configuration</summary>
-        <p class="desc" style="margin-top:8px">Drives the EP career cards on Rosters, the EP view on Live Data and the staff histories in League Reference. Defaults are correct for the SPHL — change the season when EP starts carrying 2026-27.</p>
-        <div class="grid g3">
-          <div class="field hub-field"><label>League slug</label><input type="text" id="wg_league" placeholder="sphl" onchange="DATA.settings.wgLeague=this.value.trim();save();wgBuild(true)"></div>
-          <div class="field hub-field"><label>Season</label><input type="text" id="wg_season" placeholder="2026-2027" onchange="DATA.settings.wgSeason=this.value.trim();save();wgBuild(true)"></div>
-          <div class="field hub-field"><label>EP team ID (filters the schedule to the Havoc)</label><input type="text" id="wg_teamid" placeholder="from the eliteprospects.com team URL" onchange="DATA.settings.wgTeamId=this.value.trim();save();wgBuild(true)"></div>
-        </div>
-      </details>
     </div>
     <div class="card hub-card">
       <h2>Data &amp; <span class="accent">backup</span></h2>
@@ -1601,7 +1372,6 @@
     </div>
   </section>
 
-  <!-- LEARN THE ROSTER (quiz) -->
 </div>
 
 <div class="modal-bg" id="playerModal"><div class="modal">
@@ -1632,7 +1402,6 @@
     <div class="field hub-field"><label>Captain / Alternate</label><select id="p_capt"><option value="">—</option><option value="C">C — Captain</option><option value="A">A — Alternate captain</option></select></div>
     <div class="field hub-field"><label>Active for upcoming game?</label><select id="p_active"><option value="1">Active</option><option value="0">Inactive</option></select></div>
   </div>
-  <div id="p_bioStats"></div>
   <div class="btn-row"><button class="btn" onclick="savePlayer()">Save player</button>
   <button class="btn secondary" onclick="closeModal('playerModal')">Cancel</button>
   <button class="btn secondary" style="margin-left:auto;color:var(--red-text)" id="delPlayerBtn" onclick="deletePlayer()">Delete</button></div>
@@ -1654,7 +1423,7 @@
 <div class="modal-bg" id="resetModal"><div class="modal">
   <button class="close" onclick="closeModal('resetModal')">&times;</button>
   <h3 style="color:var(--red-text)">Reset everything</h3>
-  <p class="desc">This erases the roster, bios, game log, call log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
+  <p class="desc">This erases the roster, bios, game log, interviews, overrides, franchise edits and settings from this browser. A backup file downloads first, and the rolling auto-backup is left alone — but the only sure way back is that file.</p>
   <div id="resetSummary" class="reset-summary"></div>
   <div class="field hub-field"><label>Type <b>RESET</b> to confirm</label><input type="text" id="resetConfirm" autocomplete="off" oninput="resetCheck()" placeholder="RESET"></div>
   <div class="btn-row">
@@ -1977,8 +1746,6 @@ const DEFAULT_DATA={
   franchiseStory:{},     // {team:text} — per-team broadcast storylines
   frTeam:'',             // last franchise file viewed
   sbCache:null,          // last scorebar payload, so a feed outage still shows something
-  bioMeta:null,          // provenance + open items from the club's bios file (browser only)
-  embargo:null,          // {on,text} — club material not yet announced
   secPt:{},              // {sectionKey:pt} — per-section printed body size
   secBold:{},            // {sectionKey:1} — per-section bold body text
   sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
@@ -2033,269 +1800,6 @@ function flashSaved(){
 }
 function uid(){return 'p'+Math.random().toString(36).slice(2,9);}
 
-/* ===== 2026-27 HAVOC OPENING ROSTER — the team's signed-players sheet =====
-   Numbers come from the club's internal sheet (Aug 2026) and OUTRANK the league
-   feed in preseason. Vitals (pos/ht/wt/dob/hometown) and HockeyTech ids for the
-   returning players are the league's own season-44 roster values, pulled by the
-   ht-probe Action on Aug 6, 2026 — the season-46 roster was still empty then.
-   New arrivals carry only what the sheet and Elite Prospects know so far. */
-const HAVOC_2627=[
- {num:"3",name:"Ben Schultheis",pos:"D",ht:"6-3",wt:"205",sh:"",dobi:"2000-02-17",birth:"Mount Juliet, TN",htId:"3666",epUrl:"https://www.eliteprospects.com/player/335882"},
- {num:"4",name:"Davis Goukler",pos:"D",ht:"",wt:"",sh:"",dobi:"",birth:"",htId:"3837",epUrl:"https://www.eliteprospects.com/player/370024",from:"Macon Mayhem"},
- {num:"8",name:"Kevin Weaver-Vitale",pos:"D",ht:"5-11",wt:"201",sh:"L",dobi:"1999-12-19",birth:"Toronto, ON",htId:"3622",epUrl:"https://www.eliteprospects.com/player/519479"},
- {num:"11",name:"Michael Hodge",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"",epUrl:"https://www.eliteprospects.com/player/412351",from:"Solway IHC (NIHL)"},
- {num:"12",name:"Gio Procopio",pos:"C",ht:"5-11",wt:"185",sh:"",dobi:"2000-04-29",birth:"Grosse Pointe, MI",htId:"3465",epUrl:"https://www.eliteprospects.com/player/285339"},
- {num:"15",name:"Dawson Sciarrino",pos:"RW",ht:"5-11",wt:"174",sh:"R",dobi:"2000-06-06",birth:"Greensburg, PA",htId:"3686",epUrl:"https://www.eliteprospects.com/player/370215"},
- {num:"18",name:"Austin Alger",pos:"RW",ht:"6-0",wt:"181",sh:"",dobi:"1997-09-23",birth:"Livonia, MI",htId:"3089",epUrl:"https://www.eliteprospects.com/player/248427"},
- {num:"20",name:"Cade Helmer",pos:"F",ht:"6-2",wt:"200",sh:"",dobi:"",birth:"Hershey, PA",htId:"3817",epUrl:"https://www.eliteprospects.com/player/398852",from:"Roanoke Rail Yard Dawgs"},
- {num:"43",name:"Terry Ryder",pos:"D",ht:"6-0",wt:"184",sh:"",dobi:"1998-07-11",birth:"Kalamazoo, MI",htId:"3468",epUrl:"https://www.eliteprospects.com/player/350433"},
- {num:"63",name:"Craig McCabe",pos:"D",ht:"5-10",wt:"180",sh:"",dobi:"1998-03-09",birth:"Webster, NY",htId:"3371",epUrl:"https://www.eliteprospects.com/player/349555"},
- {num:"72",name:"Alex Proctor",pos:"G",ht:"6-3",wt:"185",sh:"L",dobi:"2001-12-12",birth:"Dallas, TX",htId:"3801",epUrl:"https://www.eliteprospects.com/player/482047"},
- {num:"86",name:"Landry Schmuck",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"Huntsville, AL",epUrl:"https://www.eliteprospects.com/player/551018",from:"Aurora Univ. (NCAA III)"},
- {num:"91",name:"Connor Fries",pos:"C",ht:"5-10",wt:"177",sh:"",dobi:"1995-03-15",birth:"Centerville, MA",htId:"288",epUrl:"https://www.eliteprospects.com/player/215887"},
- {num:"93",name:"Troy Williams",pos:"F",ht:"",wt:"",sh:"",dobi:"",birth:"Dryden, ON",epUrl:"https://www.eliteprospects.com/player/271639",from:"Heerenveen Flyers (CEHL)"},
- {num:"",name:"Kadin Ilot",pos:"",ht:"",wt:"",sh:"",dobi:"",birth:"",from:"number not assigned yet"}
-];
-/* the sheet is partial — anything already on the roster that isn't on it is parked,
-   never deleted, until you confirm or remove it */
-function havocSheetApply(){
-  const bySheet=new Map(HAVOC_2627.map(t=>[norm(t.name),t]));
-  const out=[];let added=0,updated=0,parked=0;
-  DATA.roster.forEach(p=>{
-    const t=bySheet.get(norm(p.name));
-    if(t){
-      bySheet.delete(norm(p.name));
-      havocSheetFill(p,t);updated++;
-    }else if(p.sheet!=='2026-27'){
-      p.unconf='2026-27';p.active='0';parked++;
-    }
-    out.push(p);
-  });
-  bySheet.forEach(t=>{const p={id:uid(),notes:"",bbio:"",capt:"",pron:""};havocSheetFill(p,t);out.push(p);added++;});
-  DATA.roster=out;save();
-  return {added,updated,parked};
-}
-function havocSheetFill(p,t){
-  p.name=t.name;p.sheet='2026-27';p.numSheet=t.num||'';delete p.unconf;delete p.newFeed;
-  p.num=t.num||'';                       // the sheet's number wins over the feed
-  if(p.numFeed&&p.numFeed===p.num)delete p.numFeed;
-  p.active='1';
-  ['pos','ht','wt','sh','birth'].forEach(k=>{if(t[k])p[k]=t[k];else p[k]=p[k]||'';});
-  if(t.dobi){p.dob=htDobFmt(t.dobi);p.dobi=t.dobi;p.age=htAgeFrom(t.dobi);}
-  else if(p.dobi)p.age=htAgeFrom(p.dobi);
-  if(t.htId)p.htId=t.htId;
-  if(t.epUrl)p.epUrl=p.epUrl||t.epUrl;
-  if(t.from)p.from=t.from;
-}
-/* apply the club's signed sheet once per revision, on the browser that already holds
-   a roster — nothing is deleted, prior players are parked for review, bios are kept */
-const SHEET_REV='2026-27a';
-function havocSheetOnce(){
-  if(DATA.sheetRev===SHEET_REV)return;
-  const r=havocSheetApply();
-  DATA.sheetRev=SHEET_REV;save();
-  if(r.added||r.parked)setTimeout(()=>toast(`2026-27 signed sheet applied — ${r.added} added, ${r.updated} updated${r.parked?', '+r.parked+' parked for review on the Rosters tab':''}`),900);
-}
-function loadHavoc2627(){
-  const r=havocSheetApply();
-  renderRoster();
-  toast(`2026-27 sheet applied — ${r.updated} updated, ${r.added} added${r.parked?', '+r.parked+' parked for review':''}`);
-}
-function seedRosterIfEmpty(){
-  if(DATA.roster.length)return;
-  DATA.roster=[];havocSheetApply();
-}
-/* ============ TEAM BIOS IMPORT (media-team JSON) ============
-   Written bios, vitals, pronunciations, awards, broadcast notes and college /
-   pro stat tables, matched to the roster by name. The file itself never lands
-   in this repo — it is embargoed club material and this repo is public, so it
-   lives in the browser only, behind the embargo banner below. */
-/* fields the club file uses to caveat a value — shown as notes, never as data */
-const BIO_ADVISORY=['dobNote','weightNote','hometownNote','vitalsNote','numberNote','injuryNote','nameCorrection','identityConfidence','returningNote'];
-const BIO_ADVISORY_LABEL={dobNote:'DOB',weightNote:'Weight',hometownNote:'Hometown',vitalsNote:'Vitals',
-  numberNote:'Number',injuryNote:'Injury',nameCorrection:'Name',identityConfidence:'Identity',returningNote:'Returning'};
-function bioNorm(n){return norm(String(n||'').replace(/["'"]/g,'').replace(/\(.*?\)/g,''));}
-function bioMatch(entry){
-  const want=[entry.name,entry.fullName,entry.nameCorrection,(entry.name||'').replace(/\s*".*?"\s*/,' ')]
-    .filter(Boolean).map(bioNorm);
-  // the sheet's spelling may differ from the club's ("Ilot"/"Ilott") — match on the surname too
-  const last=bioNorm(String(entry.name||'').split(/\s+/).pop());
-  return DATA.roster.find(p=>want.indexOf(bioNorm(p.name))>=0)
-    || DATA.roster.find(p=>{const pl=bioNorm(String(p.name).split(/\s+/).pop());return pl&&(pl===last||pl.indexOf(last)===0||last.indexOf(pl)===0);});
-}
-function bioApply(json){
-  if(!json||!Array.isArray(json.players))throw new Error('That file has no players array.');
-  const meta=json._meta||{};
-  const out={matched:0,added:0,unmatched:[],renamed:[],flags:[]};
-  DATA.bioMeta={compiled:meta.compiled||'',source:meta.source||'',statsNote:meta.statsNote||'',
-    openItems:meta.openItemsForTheClub||[],corrections:meta.spellingCorrections||[],knownError:meta.knownError||'',
-    at:new Date().toISOString()};
-  if(meta.EMBARGO)DATA.embargo={on:true,text:meta.EMBARGO,at:new Date().toISOString()};
-  json.players.forEach(e=>{
-    let p=bioMatch(e);
-    if(!p){p={id:uid(),name:e.name,notes:'',bbio:'',sheet:'2026-27',numSheet:String(e.number==null?'':e.number),active:'1',newFeed:0};DATA.roster.push(p);out.added++;}
-    else out.matched++;
-    // the club's spelling wins over the sheet's
-    if(meta.EMBARGO)p.unannounced=1;         // not yet announced by the club
-    if(e.name&&e.name!==p.name){out.renamed.push(p.name+' → '+e.name);p.name=e.name;}
-    const air=airNameOf(p.name);if(air)p.airName=air;
-    if(e.number!=null&&!feedOwns(p,'num')&&String(e.number)!==String(p.num||''))p.numBio=String(e.number);
-    // Header facts. The league feed is the authority on every vital, so the
-    // bios file only fills a gap the feed has not answered — and only where
-    // the file is actually sure.
-    const set=(k,v)=>{
-      if(feedOwns(p,k)||handOwns(p,k))return;                       // SPHL, then his own edit
-      if(v!=null&&String(v).trim()&&!/UNVERIFIED|UNCONFIRMED|UNRESOLVED/i.test(String(v)))p[k]=String(v);
-    };
-    set('pos',e.position&&e.position.replace(/\s*\(.*\)/,''));
-    set('ht',e.height&&String(e.height).replace(/'/,'-').replace(/"/,''));
-    set('wt',e.weight);
-    const hand=String(e.shoots||e.catches||'');
-    if(/^[LR]$/i.test(hand.trim()))set('sh',hand.trim().toUpperCase());
-    set('birth',e.hometown);
-    if(e.dob&&/^\d{4}-\d{2}-\d{2}$/.test(e.dob)&&!feedOwns(p,'dob')&&!handOwns(p,'dob')){p.dobi=e.dob;p.dob=htDobFmt(e.dob);set('age',htAgeFrom(e.dob));}
-    else if(e.age)set('age',e.age);
-    // bios: the long one prints in the packet, the short one on the chart
-    if(e.bio)p.notes=e.bio;
-    if(!String(p.bbio||'').trim()&&Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length)p.bbio=e.broadcastNotes[0];
-    if(Array.isArray(e.broadcastNotes)&&e.broadcastNotes.length){
-      p.bioNotes=e.broadcastNotes;
-      p.callNote=e.broadcastNotes.join(' · ');   // the booth card's per-player call note
-    }
-    if(Array.isArray(e.awards)&&e.awards.length)p.awards=e.awards;
-    if(e.letter)p.capt=e.letter;
-    if(e.juniorSummary)p.junior=e.juniorSummary;
-    if(e.nickname)p.nickname=e.nickname;
-    if(e.acquired)p.acquired=e.acquired;
-    if(e.seasonWithTeam!=null)p.seasonWithTeam=String(e.seasonWithTeam);
-    if(e.returning!=null)p.returning=e.returning?1:0;
-    if(e.returningNote)p.returningNote=e.returningNote;
-    // advisory fields print as small italics, never as data
-    p.bioNotesAdvisory=BIO_ADVISORY.map(k=>e[k]?{k,v:String(e[k])}:null).filter(Boolean);
-    if(!p.bioNotesAdvisory.length)delete p.bioNotesAdvisory;
-    // pronunciation: the feed's phonetic_name wins; otherwise take the file's
-    // only where it is sure, and queue the rest to ask the club
-    const pr=String(e.pronunciation||'');
-    if(feedOwns(p,'pron')){}
-    else if(pr&&!/UNVERIFIED/i.test(pr)&&!/as spelled/i.test(pr))p.pron=pr;
-    else if(!String(p.pron||'').trim())p.pronAsk=1;
-    // stat tables the league feed cannot give us in preseason
-    if((e.collegeStats||[]).length||(e.proStats||[]).length||(e.playoffStats||[]).length)
-      p.bioStats={college:e.collegeStats||[],pro:e.proStats||[],playoffs:e.playoffStats||[]};
-    // anything the file flags for the club
-    if(e.identityStatus==='UNRESOLVED'||/UNRESOLVED/i.test(e.position||'')){p.identityUnresolved=e.warning||'Identity unresolved — confirm with the club.';out.flags.push(p.name+': identity unresolved');}
-    if(e.identityConfidence&&/MODERATE|LOW/i.test(e.identityConfidence)){p.identityNote=e.identityConfidence;out.flags.push(p.name+': '+e.identityConfidence);}
-    if(e.numberNote){p.numberNote=e.numberNote;out.flags.push(p.name+': '+e.numberNote);}
-    if(e.nameCorrection)out.flags.push(e.nameCorrection);
-  });
-  save();renderRoster();
-  return out;
-}
-function bioImportFile(ev){
-  const f=ev.target.files[0];if(!f)return;
-  const rd=new FileReader();
-  rd.onload=()=>{
-    try{
-      const r=bioApply(JSON.parse(rd.result));
-      toast('Bios imported — '+r.matched+' matched'+(r.added?', '+r.added+' added':'')+(r.flags.length?', '+r.flags.length+' to confirm':''));
-    }catch(e){toast('Could not read that file: '+e.message);}
-  };
-  rd.readAsText(f);ev.target.value='';
-}
-function bioImportPaste(){
-  const t=prompt('Paste the bios JSON:');if(!t)return;
-  try{const r=bioApply(JSON.parse(t));toast('Bios imported — '+r.matched+' matched');}
-  catch(e){toast('Could not read that: '+e.message);}
-}
-/* embargoed material: visible everywhere it could reach air or print, until lifted */
-function embargoOn(){return !!((DATA.embargo||{}).on);}
-function embargoBarHTML(){
-  if(!embargoOn())return '';
-  return `<div class="embargo-bar">EMBARGOED — INTERNAL PREP ONLY<span>${esc(DATA.embargo.text||'')}</span></div>`;
-}
-function embargoLift(){
-  const n=DATA.roster.filter(p=>p.unannounced).length;
-  if(!confirm('Clear the unannounced flag on '+n+' player'+(n===1?'':'s')+'?\n\nOnly do this once the club has publicly announced them. They then print on distribution copies like anyone else, and the warning comes off the app and every printed page.'))return;
-  DATA.roster.forEach(p=>{delete p.unannounced;});
-  DATA.embargo={on:false,liftedAt:new Date().toISOString()};save();
-  renderRoster();renderEmbargo();
-  if(SUBTABS.print)prRefresh();
-  toast('Embargo cleared on '+n+' player'+(n===1?'':'s'));
-}
-/* distribution copies leave unannounced players out entirely */
-function distMode(){return !!DATA.settings.distCopy;}
-function distToggle(){
-  DATA.settings.distCopy=distMode()?0:1;save();
-  const b=document.getElementById('distBtn');
-  if(b){b.textContent=distMode()?'Copy: for distribution':'Copy: internal prep';b.classList.toggle('dark',distMode());}
-  prRefresh();
-  toast(distMode()?'Distribution copy — unannounced players are left out':'Internal prep copy — everything shows, marked embargoed');
-}
-function printablePlayers(list){
-  return (list||[]).filter(p=>!(distMode()&&p.unannounced));
-}
-function distNoteHTML(){
-  const n=DATA.roster.filter(p=>p.unannounced).length;
-  return (distMode()&&n)?`<div class="pg-stamp" style="color:var(--havoc-red)">${n} unannounced player${n===1?'':'s'} withheld from this distribution copy.</div>`:'';
-}
-function renderEmbargo(){
-  document.querySelectorAll('.embargo-slot').forEach(el=>{el.innerHTML=embargoBarHTML();});
-}
-/* ---- roster reconcile: sheet vs league feed ---- */
-function rosterStatus(){
-  const R=DATA.roster||[];
-  return {
-    sheet:R.filter(p=>p.sheet==='2026-27'),
-    inFeed:R.filter(p=>p.sheet==='2026-27'&&p.htId&&p.feed46),
-    awaiting:R.filter(p=>p.sheet==='2026-27'&&!p.feed46),
-    conflicts:R.filter(p=>p.numFeed&&p.numFeed!==p.num),
-    feedOnly:R.filter(p=>p.newFeed),
-    parked:R.filter(p=>p.unconf)
-  };
-}
-function rosterConfirm(id){const p=DATA.roster.find(x=>x.id===id);if(!p)return;delete p.unconf;delete p.newFeed;p.active='1';p.sheet='2026-27';p.numSheet=p.num||'';save();renderRoster();}
-function rosterDrop(id){
-  const p=DATA.roster.find(x=>x.id===id);if(!p)return;
-  if(!confirm('Remove '+p.name+' from the roster?\n\nBios and notes go with them — this cannot be undone from here.'))return;
-  DATA.roster=DATA.roster.filter(x=>x.id!==id);save();renderRoster();
-}
-function numTakeFeed(id){const p=DATA.roster.find(x=>x.id===id);if(!p||!p.numFeed)return;p.num=p.numFeed;p.numSheet=p.numFeed;delete p.numFeed;save();renderRoster();}
-function numKeepSheet(id){const p=DATA.roster.find(x=>x.id===id);if(!p)return;delete p.numFeed;save();renderRoster();}
-function renderBioStatus(){
-  const el=document.getElementById('bioStatus');if(!el)return;
-  const m=DATA.bioMeta;
-  if(!m){el.innerHTML='';return;}
-  const flagged=DATA.roster.filter(p=>p.identityUnresolved||p.identityNote||p.numberNote||p.pronAsk);
-  const li=a=>(a||[]).map(x=>'<li>'+esc(typeof x==='string'?x:(x.sheet+' → '+x.correct+(x.note?' ('+x.note+')':''))) +'</li>').join('');
-  el.innerHTML=`<div class="bio-panel">
-    <h5>Club bios loaded${m.compiled?' — compiled '+esc(m.compiled):''}</h5>
-    ${m.knownError?`<div><b>Known error in a club release:</b> ${esc(m.knownError)}</div>`:''}
-    ${(m.corrections||[]).length?`<div style="margin-top:5px"><b>Spelling:</b><ul>${li(m.corrections)}</ul></div>`:''}
-    ${flagged.length?`<div style="margin-top:5px"><b>Confirm before air:</b><ul>${flagged.map(p=>'<li>'+esc(p.name)+' — '+esc(p.identityUnresolved||p.numberNote||p.identityNote||'pronunciation not verified')+'</li>').join('')}</ul></div>`:''}
-    ${(m.openItems||[]).length?`<div style="margin-top:5px"><b>Open items for the club:</b><ul>${li(m.openItems)}</ul></div>`:''}
-    <div class="src">${esc(m.source||'')} Stats tables from this file print on the career pages until the league feed has 2026-27 numbers.</div>
-  </div>`;
-}
-function renderRosterStatus(){
-  renderBioStatus();bioPrompt();renderEmbargo();
-  const el=document.getElementById('rosterStatus');if(!el)return;
-  const s=rosterStatus();
-  if(!s.sheet.length&&!s.parked.length&&!s.feedOnly.length){el.innerHTML='';return;}
-  const line=(p,extra)=>`<div class="rs-row"><span class="rs-num">${p.num?'#'+esc(p.num):'—'}</span><span class="rs-nm">${esc(p.name)}</span>${extra||''}</div>`;
-  const box=(title,cls,rows)=>rows.length?`<div class="rs-box ${cls}"><h5>${title} (${rows.length})</h5>${rows.join('')}</div>`:'';
-  el.innerHTML=
-    `<div class="rs-head">2026-27 opening roster — <b>${s.sheet.length}</b> signed${s.inFeed.length?` · ${s.inFeed.length} confirmed in the league feed`:''}</div>`
-   +box('Awaiting the league feed','wait',s.awaiting.map(p=>line(p,'<span class="rs-note">not published on the SPHL feed yet — vitals from the sheet + last season</span>')))
-   +box('Jersey-number conflicts — your sheet is showing','warn',s.conflicts.map(p=>line(p,`<span class="rs-note">feed says <b>#${esc(p.numFeed)}</b></span><button class="icon-btn" onclick="numTakeFeed('${p.id}')">use feed #</button><button class="icon-btn" onclick="numKeepSheet('${p.id}')">keep mine</button>`)))
-   +box('In the feed but not on your sheet','warn',s.feedOnly.map(p=>line(p,`<span class="rs-note">added by a sync — confirm to include in the packet</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)))
-   +box('Unconfirmed for 2026-27 — parked, not printing','wait',s.parked.map(p=>line(p,`<span class="rs-note">on the roster before the sheet; kept for review</span><button class="icon-btn" onclick="rosterConfirm('${p.id}')">confirm</button><button class="icon-btn" onclick="rosterDrop('${p.id}')">remove</button>`)))
-   +(function(){
-      // the feed's phonetic_name fills the guide; these are the ones it left blank
-      const ask=DATA.roster.filter(p=>p.name&&p.active!=='0'&&!String(p.pron||'').trim());
-      return box('Pronunciations to get from the club','wait',ask.map(p=>line(p,'<span class="rs-note">no phonetic_name on the league feed — prints as “— ask him —”</span>')));
-    })();
-}
-
 /* Preview scaling on phones: CSS can't divide a length by a length, so the
    ratio that fits an 816px sheet into the viewport is published here and kept
    current on resize. mobile.css consumes it; print ignores it entirely. */
@@ -2336,9 +1840,8 @@ if(window.matchMedia)try{window.matchMedia('(prefers-color-scheme: dark)').addEv
 /* Merged panels (Rosters, Print Center) hold sub-views; last-used sub-view remembered per tab */
 const SUBTABS={rosters:'roster',print:'packet'};
 const SUB_INIT={
-  roster:()=>{renderRoster();loadHockeyOps();Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>{wgFillPlayers();wgFillTeams();});},
+  roster:()=>{renderRoster();loadHockeyOps();},
   opproster:()=>renderOppRoster(),
-  quiz:()=>quizInit(),
   careers:()=>msInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
   chart:()=>renderChart(),
@@ -2364,13 +1867,9 @@ function showTab(tab){
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
   if(tab==='print')subShow('print',SUBTABS.print);
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
-  if(tab==='reference')Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild());
   if(tab==='game')ivRender('pre');
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
-  if(tab==='calllog')clInit();
-  if(tab==='postgame'){pgInit();ivRender('post');}
-  if(tab==='settings'){bkStatusRender();wgSettingsFill();themeApply();renderEmbargo();
-    const ec=document.getElementById('embargoCard');if(ec)ec.style.display=(DATA.embargo?'':'none');}
+  if(tab==='settings'){bkStatusRender();themeApply();}
 }
 document.getElementById('tabs').addEventListener('click',e=>{
   if(!e.target.classList.contains('tab'))return;
@@ -2643,9 +2142,8 @@ function pgFooterFix(root){
     if(!foot)return;                       // pages without a footer rule are laid out their own way
     let box=zone.querySelector(':scope > .pg-footer');
     if(!box){box=document.createElement('div');box.className='pg-footer';zone.appendChild(box);}
-    // order: embargo stripe, freshness line, then the rule and the footer row
-    [...zone.children].filter(el=>el!==box&&(el.classList.contains('pg-embargo')
-      ||el.classList.contains('embargo-bar')||el.classList.contains('pg-stamp')))
+    // order: freshness line, then the rule and the footer row
+    [...zone.children].filter(el=>el!==box&&el.classList.contains('pg-stamp'))
       .forEach(el=>box.appendChild(el));
     box.appendChild(foot);
     let pad=zone.querySelector(':scope > .pg-footpad');
@@ -2664,7 +2162,7 @@ function pgFooterFix(root){
    map, the worksheets) are left exactly as they were built.
    ============================================================ */
 const PK_NOFLOW={cover:1,gamesheet:1,worksheets:1,verbs:1};
-const PK_CHROME=['pg-head','gn-foot','pg-footer','pg-footpad','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp','embargo-bar','pg-embargo'];
+const PK_CHROME=['pg-head','gn-foot','pg-footer','pg-footpad','mc-strip','sec-tools','pg-overtag','pg-filltag','blk-tools','pg-stamp'];
 function pkPresetName(){const n=(DATA.settings||{}).packetPreset;return (n==='booth'||n==='compact')?n:'full';}
 function blkAll(){DATA.blk=DATA.blk||{};const k=pkPresetName();return (DATA.blk[k]=DATA.blk[k]||{});}
 function blkGet(id){return blkAll()[id]||{};}
@@ -2690,13 +2188,13 @@ function pkFlowKids(host){
 }
 function pkZone(pg){return pg.querySelector(':scope > .sec-zoom')||pg;}
 function blkSlug(el,sec){
-  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,.bst-h,h3,.h');
+  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,h3,.h');
   let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim().slice(0,44);
   if(!t)t=(el.className||'').split(/\s+/)[0]||'block';
   return sec+'#'+t.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,44);
 }
 function blkLabel(el){
-  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,.bst-h,h3,.h');
+  const h=el.querySelector(':scope > h3')||el.querySelector('.mtp-name,h3,.h');
   let t=(h?h.textContent:(el.textContent||'')).replace(/\s+/g,' ').trim();
   return t.slice(0,38)||'block';
 }
@@ -2964,15 +2462,7 @@ function printTonight(){
     setTimeout(()=>{window.print();[panel,pk,fd].forEach(el=>el&&el.classList.remove('printing'));},120);
   });
 }
-function distBtnSync(){
-  const b=document.getElementById('distBtn');if(!b)return;
-  const any=DATA.roster.some(p=>p.unannounced);
-  b.style.display=any?'':'none';
-  b.textContent=distMode()?'Copy: for distribution':'Copy: internal prep';
-  b.classList.toggle('dark',distMode());
-}
 function prRefresh(){
-  distBtnSync();
   const s=SUBTABS.print;
   if(s==='packet'){saveNotesExtra();renderPacket();}
   else if(s==='chart')renderChart();
@@ -3169,7 +2659,7 @@ function getRoster(side){
   const t=val('oppRosterTeam');if(!t)return [];
   DATA.oppRosters[t]=DATA.oppRosters[t]||[];return DATA.oppRosters[t];
 }
-function renderRoster(){seedRosterIfEmpty();rosterFileLoad();renderRosterTable('home','rosterTableWrap');renderRosterProgress();renderRosterStatus();}
+function renderRoster(){rosterFileLoad();renderRosterTable('home','rosterTableWrap');renderRosterProgress();}
 function renderOppRoster(){renderRosterTable('away','oppRosterTableWrap');}
 function renderRosterTable(side,wrapId){
   const wrap=document.getElementById(wrapId);
@@ -3182,19 +2672,11 @@ function renderRosterTable(side,wrapId){
   sorted.forEach(p=>{
     const hasBio=(p.notes&&p.notes.trim())?'<span class="bio-has">✓</span>':'<span class="bio-no">—</span>';
     const manual=!!(p.statOverride&&p.statOverride.trim());
-    const flags=(side==='home')?`${p.numFeed&&p.numFeed!==p.num?`<span class="rs-flag warn" title="Your sheet says #${esc(p.num||'--')}, the league feed says #${esc(p.numFeed)} — resolve it in the roster status panel">#${esc(p.numFeed)}?</span>`:''}${p.unconf?'<span class="rs-flag wait" title="Not on the 2026-27 signed sheet — parked for your review, not printing">unconfirmed '+esc(p.unconf)+'</span>':''}${p.newFeed?'<span class="rs-flag warn" title="Added by a league-feed sync, not on your sheet — confirm it">new from feed</span>':''}`:'';
-    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}${flags}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
+    html+=`<tr><td class="num">${p.num||''}</td><td class="nm"><a class="ep-link" href="${epLinkFor(p)}" target="_blank" rel="noopener" title="Open on Elite Prospects">${esc(dispName(p))}</a> <span style="cursor:pointer" title="Click to hand-edit this stat line" onclick="statEdit('${side}','${p.id}')">${statSpan(p,statTeamKeyword(side))}</span>${manual?`<button class="icon-btn" style="margin-left:4px" title="Revert to synced stats" onclick="statRevert('${side}','${p.id}')">↺ synced</button>`:''}</td><td>${p.pos||''}</td><td>${p.ht||''}</td><td>${p.wt||''}</td><td>${p.sh||''}</td><td>${p.age||''}</td><td>${esc(p.birth||'')}</td><td>${hasBio}</td><td>${p.active==='0'?'<span class="pill grey">No</span>':'<span class="pill ok">Yes</span>'}</td><td><div class="row-actions"><button class="icon-btn" onclick="openPlayer('${side}','${p.id}')">Edit</button></div></td></tr>`;
   });
   wrap.innerHTML=html+'</tbody></table>';
   // the reference default is jersey order; every column re-sorts from there
   tsWire(wrap,'roster:'+side,{def:{col:0,dir:1}});
-}
-function bioPrompt(){
-  const el=document.getElementById('bioStatus');if(!el||DATA.bioMeta)return;
-  const n=DATA.roster.filter(p=>(p.notes||'').trim()).length;
-  el.innerHTML=n?'':`<div class="bio-panel"><h5>No player bios in this browser</h5>
-    Written bios live in this browser's storage, so every device needs its own copy — importing on your Mac does not carry to the phone.
-    Use <b>Import bios JSON…</b> above with the club file, or type a media bio into any player. ${DATA.roster.length} players are on the roster with header facts only.</div>`;
 }
 function renderRosterProgress(){
   const f=DATA.roster.filter(p=>['C','LW','RW'].includes(p.pos)),d=DATA.roster.filter(p=>p.pos==='D'),g=DATA.roster.filter(p=>p.pos==='G');
@@ -3212,11 +2694,6 @@ function openPlayer(side,id){
   const pp=document.getElementById('p_photo_preview');if(pp)pp.innerHTML=(p&&p.imgData)?'<img src="'+p.imgData+'" style="width:44px;height:44px;object-fit:cover;border-radius:6px"> uploaded photo on file':'';
   window._pPhotoData=(p&&p.imgData)||'';
   document.getElementById('delPlayerBtn').style.display=id?'inline-flex':'none';
-  const bs=document.getElementById('p_bioStats');
-  if(bs){
-    bs.innerHTML=(p&&p.bioStats)?`<div class="section-label" style="margin-top:6px">Club stat tables (read-only)</div>${bioStatTablesHTML(p,'modal')}${p.junior?`<div style="font-size:11.5px;color:var(--ink-2);margin-top:4px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}${(p.awards||[]).length?`<div style="font-size:11.5px;margin-top:3px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}${p.unannounced?'<div style="font-size:11.5px;color:var(--havoc-red);font-weight:800;margin-top:4px">Unannounced — withheld from distribution copies</div>':''}`:'';
-    tsWire(bs,'pmodal');
-  }
   openModal('playerModal');
 }
 function pPhotoPick(e){
@@ -4297,16 +3774,6 @@ function ivQuoteAdd(kind,id,inputId){
 function ivQuoteStar(kind,id,i){const q=ivFind(kind,id).quotes[i];q.star=q.star?0:1;save();ivRender(kind);}
 function ivQuoteDel(kind,id,i){ivFind(kind,id).quotes.splice(i,1);save();ivRender(kind);}
 function ivField(kind,id,f,v){const e=ivFind(kind,id);if(e){e[f]=v;save();}}
-function ivInsertQuote(kind,id,i){
-  const e=ivFind(kind,id);const q=e&&e.quotes[i];if(!q)return;
-  const who=e.person?(' — '+e.person+(e.role==='coach'?' (head coach)':'')):'';
-  const line='"'+q.t.replace(/^"|"$/g,'')+'"'+who;
-  const box=document.getElementById('pg_quotes');
-  if(box){box.value=(box.value.trim()?box.value.trim()+'\n':'')+line;box.dispatchEvent(new Event('input'));}
-  DATA.postgame=DATA.postgame||{};DATA.postgame.draft=DATA.postgame.draft||{};
-  DATA.postgame.draft.quotes=(DATA.postgame.draft.quotes?DATA.postgame.draft.quotes+'\n':'')+line;
-  save();toast('Quote added to the report');
-}
 function ivEntryHTML(kind,e){
   const qs=e.questions.map((q,i)=>`<div class="iv-q">
     <button class="icon-btn" onclick="ivQMove('${kind}','${e.id}',${i},-1)">▲</button>
@@ -4318,7 +3785,6 @@ function ivEntryHTML(kind,e){
   const quotes=e.quotes.map((q,i)=>`<div class="iv-q">
     <button class="icon-btn iv-star${q.star?' on':''}" title="usable quote" onclick="ivQuoteStar('${kind}','${e.id}',${i})">${q.star?'★':'☆'}</button>
     <span class="iv-qt">${esc(q.t)}</span>
-    ${kind==='post'&&q.star?`<button class="icon-btn" title="insert into the report's Quotes" onclick="ivInsertQuote('${kind}','${e.id}',${i})">→ report</button>`:''}
     <button class="icon-btn" onclick="ivQuoteDel('${kind}','${e.id}',${i})">✕</button>
   </div>`).join('');
   return `<div class="iv-entry">
@@ -4332,7 +3798,7 @@ function ivEntryHTML(kind,e){
     ${qs||'<div class="empty" style="padding:6px">No questions yet.</div>'}
     <div class="iv-add"><input type="text" id="ivq_${e.id}" placeholder="Add a question…"><button class="btn small" onclick="ivQAdd('${kind}','${e.id}','ivq_${e.id}')">Add</button></div>
     <div class="field hub-field" style="margin-top:8px"><label>Answers / notes</label><textarea rows="3" onchange="ivField('${kind}','${e.id}','notes',this.value)">${esc(e.notes)}</textarea></div>
-    <div class="section-label hub-sectionhead">Quotable lines ${kind==='post'?'(★ then “→ report”)':'(★ = usable)'}</div>
+    <div class="section-label hub-sectionhead">Quotable lines (★ = usable)</div>
     ${quotes||''}
     <div class="iv-add"><input type="text" id="ivu_${e.id}" placeholder="Add a line worth quoting…"><button class="btn small" onclick="ivQuoteAdd('${kind}','${e.id}','ivu_${e.id}')">Add</button></div>
     <div class="btn-row" style="margin-top:8px">
@@ -4611,12 +4077,7 @@ function dataStampHTML(scope){
   parts.push('season '+seasonShortOf(activeSeasonId()));
   if(R.seasonLabel)parts.push('stats: '+R.seasonLabel);
   const edited=stampEdited(scope);
-  return embargoStampHTML()+`<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
-}
-function embargoStampHTML(){
-  if(!embargoOn())return '';
-  if(distMode())return distNoteHTML();
-  return '<div class="pg-embargo">EMBARGOED — INTERNAL PREP ONLY · NOT FOR DISTRIBUTION OR AIR UNTIL THE CLUB ANNOUNCES</div>';
+  return `<div class="pg-stamp">Data: ${esc(parts.join(' · '))} · printed ${new Date().toLocaleString('en-US',{month:'numeric',day:'numeric',year:'2-digit',hour:'numeric',minute:'2-digit'})}${edited?' · (includes manual edits)':''}</div>`;
 }
 function stampMissing(containerId,scope){
   const root=document.getElementById(containerId);if(!root)return;
@@ -4854,9 +4315,9 @@ function fdCallSheet(side){
   const primary=isHome?(S.red||pal.primary):pal.primary;
   const list=(isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[])).filter(p=>p.active!=='0'&&p.name);
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
-  const fwd=printablePlayers(list.filter(p=>p.pos!=='D'&&p.pos!=='G')).sort(byNum);
-  const def=printablePlayers(list.filter(p=>p.pos==='D')).sort(byNum);
-  const gls=printablePlayers(list.filter(p=>p.pos==='G')).sort(byNum);
+  const fwd=(list.filter(p=>p.pos!=='D'&&p.pos!=='G')).sort(byNum);
+  const def=(list.filter(p=>p.pos==='D')).sort(byNum);
+  const gls=(list.filter(p=>p.pos==='G')).sort(byNum);
   const cols=k=>fdCols(side,k);
   const tmpl=fdTmpl(side),ord=tmpl.order||{},blk=tmpl.blk||{};
   const bidOf=p=>'cs:'+(p.id||p.num||String(p.name||'').split(/\s+/).pop());
@@ -5515,9 +4976,8 @@ function resetSummary(){
   const ov=Object.keys(DATA.statOv||{}).length+Object.keys(DATA.pkEdits||{}).length
     +Object.keys(DATA.chartEdits||{}).length+Object.keys(DATA.folderOv||{}).length
     +Object.keys(DATA.refEdits||{}).length+Object.keys(DATA.franchiseEdits||{}).length;
-  const cl=((DATA.calllog&&DATA.calllog.games)||[]).length;
   return [[DATA.roster.length,'roster players'],[bios,'written bios'],[g,'logged games'],
-    [cl,'call-log games'],[iv,'interview sets'],[ov,'manual edits & overrides']];
+[iv,'interview sets'],[ov,'manual edits & overrides']];
 }
 function resetRender(){
   const el=document.getElementById('resetSummary');if(!el)return;
@@ -5542,7 +5002,7 @@ function wipeAll(){
   safetyBackup('before-reset');
   localStorage.removeItem(KEY);
   DATA=structuredClone(DEFAULT_DATA);
-  initForms();seedRosterIfEmpty();havocSheetOnce();renderRoster();updateAppMark();
+  initForms();renderRoster();updateAppMark();
   closeModal('resetModal');
   toast('Everything reset — the backup file just downloaded is the way back');
 }
@@ -5587,10 +5047,6 @@ function setv(id,v){const el=document.getElementById(id);if(el)el.value=v==null?
 function norm(s){return (s||'').toLowerCase().replace(/[^a-z]/g,'');}
 function dispName(p){return ((p&&(p.airName||p.name))||'')+(p&&p.capt?' ('+p.capt+')':'');}
 /* Giovanni "Gio" Procopio → Gio Procopio for anything that goes on air or in print */
-function airNameOf(full){
-  const m=String(full||'').match(/^(\S+)\s+["“']([^"”']+)["”']\s+(.+)$/);
-  return m?m[2]+' '+m[3]:'';
-}
 function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.':'A.M.';const h12=((h+11)%12)+1;return `${h12}:${String(m).padStart(2,'0')} ${ap}`;}
 function openModal(id){if(id==='resetModal')resetRender();document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
@@ -5946,7 +5402,7 @@ function gameLogPage(red,S){
 }
 function rosterPronPage(red,S){
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
-  const act=printablePlayers(DATA.roster.filter(p=>p.active!=='0'));
+  const act=(DATA.roster.filter(p=>p.active!=='0'));
   const grp=(t,list)=>list.length?`<div class="box"><h3>${t}</h3><table class="pk-t"><tr><th>#</th><th>Player</th><th>Sh</th><th class="r">Ht</th><th class="r">Wt</th><th>DOB</th><th class="r">Age</th><th>Hometown</th></tr>
     ${list.sort(byNum).map(p=>`<tr><td>${p.num||''}</td><td>${esc(dispName(p))} ${statSpan(p,'Huntsville')}</td><td>${p.sh||''}</td><td class="r">${p.ht||''}</td><td class="r">${p.wt||''}</td><td>${p.dob||''}</td><td class="r">${p.age||''}</td><td>${esc(p.birth||'')}</td></tr>`).join('')}</table></div>`:'';
   // per-player pronunciations first (imported or typed), then any extra Settings lines
@@ -6029,7 +5485,7 @@ function packMeasured(blocks,limitPx){
   return pages;
 }
 function careerPages(red,S){
-  const act=printablePlayers(DATA.roster.filter(p=>p.active!=='0'&&p.name));
+  const act=(DATA.roster.filter(p=>p.active!=='0'&&p.name));
   const blocks=[];
   act.forEach(p=>{
     const isG=p.pos==='G';
@@ -6047,15 +5503,6 @@ function careerPages(red,S){
         ${reg.map(r=>`<tr><td>${esc(r.season)}</td><td>${esc(r.team)}</td>${row(r)}</tr>`).join('')}
         <tr><td colspan="2"><b>SPHL totals</b></td>${isG?`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.w}</b></td><td class="r"><b>${tot.l}</b></td><td class="r"><b>${tot.otl}</b></td><td class="r"></td><td class="r"></td><td class="r"><b>${tot.so}</b></td>`:`<td class="r"><b>${tot.gp}</b></td><td class="r"><b>${tot.g}</b></td><td class="r"><b>${tot.a}</b></td><td class="r"><b>${tot.pts}</b></td><td class="r"></td>`}</tr>
         ${po.length?`<tr><td colspan="${isG?9:7}" style="color:var(--ink-2)">Playoffs: ${po.map(r=>esc(r.season)+' '+r.gp+' GP'+(isG?'':' '+r.g+'-'+r.a+'-'+r.pts)).join(' · ')}</td></tr>`:''}</table></div>`);
-      return;
-    }
-    if(p.bioStats&&((p.bioStats.pro||[]).length||(p.bioStats.college||[]).length)){
-      // club-supplied tables — what we have until the league publishes 2026-27
-      blocks.push(`<div class="box"><h3>${p.img?`<img class="pk-mug" src="${esc(p.img)}">`:''}#${p.num||''} ${esc(dispName(p))} — Career</h3>
-        ${bioStatTablesHTML(p,'career')}
-        ${p.junior?`<div style="font-size:7.5px;color:var(--ink-2);margin-top:3px"><b>Junior:</b> ${esc(p.junior)}</div>`:''}
-        ${(p.awards||[]).length?`<div style="font-size:7.5px;margin-top:2px"><b>Awards:</b> ${esc(p.awards.join(' · '))}</div>`:''}
-        <div style="font-size:7px;color:var(--ink-2);margin-top:2px">Club-supplied tables — the league feed has no 2026-27 numbers yet.</div></div>`);
       return;
     }
     const e=(typeof epEntryFor==='function'&&EP_STATIC)?epEntryFor(p):null;
@@ -6973,7 +6420,7 @@ function renderPacket(){
 
   /* ---------- assemble the selected sections in order ---------- */
   const sel=new Set(pkSel());
-  const allPlayers=printablePlayers(DATA.roster.filter(p=>p.active!=='0'&&p.name)).sort((a,b)=>(+a.num||999)-(+b.num||999));
+  const allPlayers=(DATA.roster.filter(p=>p.active!=='0'&&p.name)).sort((a,b)=>(+a.num||999)-(+b.num||999));
   // written bios make the cards vary wildly in height — they go out as one run
   // of blocks and the layout engine flows them, two or three to a sheet
   const meetPages=allPlayers.length?[meetTeamPage(allPlayers,hsv,R,red,S)]:[];
@@ -7069,7 +6516,6 @@ function setGameResult(iso){
   DATA.notes.schedule=rebuildScheduleText(games);save();
   const box=document.getElementById('sched_text');if(box)box.value=DATA.notes.schedule;
   renderSchedPreview();
-  if(DATA.calllog){clCurrentSeason();save();if(document.getElementById('panel-calllog').classList.contains('active'))clRender();}
   toast(g.result?'Result saved':'Result cleared');
 }
 function scheduleTable(){
@@ -7477,7 +6923,6 @@ function saveSchedule(){
   DATA.notes=DATA.notes||{};
   DATA.notes.schedule=document.getElementById('sched_text').value;
   save();renderSchedPreview();
-  if(DATA.calllog){clCurrentSeason();save();}
   const m=document.getElementById('schedMsg');m.textContent='Saved.';setTimeout(()=>m.textContent='',1500);
   toast('Schedule saved');
 }
@@ -7541,213 +6986,10 @@ function renderSchedPreview(){
     `<table class="qf-sched" style="font-size:12px">${s.map(g=>`<tr${g.ps?' style="background:var(--tint-neutral)"':''}><td style="width:64px">${g.date}${g.ps?' <b style="color:var(--amber);font-size:9px">PS</b>':''}</td><td style="width:30px">${g.hv}</td><td>${esc(g.team)}${g.note?` <span style="color:var(--ink-2);font-size:10px">${esc(g.note)}</span>`:''}</td><td style="color:var(--red-text);font-weight:700">${esc(promoFor(g.dateISO))}</td><td style="width:70px;color:var(--ink-2)">${esc(g.time||'')}</td><td style="text-align:right;font-weight:700;cursor:pointer" onclick="setGameResult('${g.dateISO}')" title="Enter final score">${esc(g.result)||'<span style="color:var(--ink-2)">＋</span>'}</td></tr>`).join('')}</table>`;
 }
 
-/* ============================================================
-   LEARN THE ROSTER — quiz
-   ============================================================ */
-let QUIZ={list:[],i:0,score:0,asked:0,answered:false};
-function quizInit(){
-  // populate team dropdown: home + any opponent rosters
-  const sel=document.getElementById('quizTeam');if(!sel)return;
-  const opts=['<option value="home">Huntsville Havoc</option>'];
-  Object.keys(DATA.oppRosters||{}).forEach(t=>{if((DATA.oppRosters[t]||[]).length)opts.push(`<option value="opp:${esc(t)}">${esc(t)}</option>`);});
-  sel.innerHTML=opts.join('');
-  document.getElementById('quizScore').textContent='';
-  document.getElementById('quizCard').style.display='none';
-}
-function quizRoster(){
-  const v=val('quizTeam');
-  if(v&&v.indexOf('opp:')===0)return (DATA.oppRosters[v.slice(4)]||[]);
-  return DATA.roster;
-}
-function quizStart(){
-  const roster=quizRoster().filter(p=>p.num&&p.name);
-  if(roster.length<2){toast("Add at least 2 players to that roster first");return;}
-  QUIZ={list:shuffle(roster.slice()),i:0,score:0,asked:0,answered:false,mode:val('quizMode'),pool:roster};
-  document.getElementById('quizCard').style.display='block';
-  quizRender();
-}
-function quizRender(){
-  const body=document.getElementById('quizBody');
-  if(QUIZ.i>=QUIZ.list.length){
-    const pct=QUIZ.asked?Math.round(100*QUIZ.score/QUIZ.asked):0;
-    body.innerHTML=`<div class="quiz-q">Done! ${QUIZ.score} / ${QUIZ.asked} correct (${pct}%)</div><button class="btn" onclick="quizStart()">Go again</button>`;
-    document.getElementById('quizScore').textContent='';
-    return;
-  }
-  const p=QUIZ.list[QUIZ.i];const mode=QUIZ.mode;QUIZ.answered=false;
-  document.getElementById('quizScore').textContent=`Score: ${QUIZ.score} / ${QUIZ.asked}`;
-  const prog=`<div class="quiz-prog">Card ${QUIZ.i+1} of ${QUIZ.list.length}</div>`;
-  if(mode==='flash'){
-    const front=`#${p.num} — ${p.name}`;
-    const st=playerStatLine(p);
-    body.innerHTML=prog+`<div class="flash-card" onclick="this.querySelector('.flash-back').style.display='block'">
-      <div class="flash-front">${esc(front)}</div>
-      <div class="flash-back" style="display:none">${esc(p.pos||'')} · ${esc(p.ht||'')} ${esc(p.wt||'')} · ${esc(p.birth||'')}<br>${esc(st||'No stats imported')}</div>
-      <div style="font-size:11px;color:var(--ink-2);margin-top:10px">(tap to reveal)</div></div>
-      <div class="quiz-next"><button class="btn secondary" onclick="quizFlashNext(false)">Didn't know</button> <button class="btn" onclick="quizFlashNext(true)">Knew it</button></div>`;
-    return;
-  }
-  // multiple choice
-  let q='',correct='',optionsPool=[];
-  if(mode==='num2name'){q=`Who wears #${p.num}?`;correct=p.name;optionsPool=QUIZ.pool.map(x=>x.name);}
-  else if(mode==='name2num'){q=`What number does ${p.name} wear?`;correct=String(p.num);optionsPool=QUIZ.pool.map(x=>String(x.num));}
-  else if(mode==='num2pos'){q=`What position does #${p.num} ${p.name} play?`;correct=p.pos||'?';optionsPool=['C','LW','RW','D','G'];}
-  else if(mode==='name2stat'){q=`${p.name} (#${p.num}) — pick the correct season line:`;correct=playerStatLine(p)||'No stats';optionsPool=QUIZ.pool.map(x=>playerStatLine(x)).filter(Boolean);}
-  const opts=buildOptions(correct,optionsPool);
-  body.innerHTML=prog+`<div class="quiz-q">${esc(q)}</div><div class="quiz-opts">${opts.map(o=>`<button class="quiz-opt" onclick="quizAnswer(this,'${encodeURIComponent(o)}','${encodeURIComponent(correct)}')">${esc(o)}</button>`).join('')}</div><div class="quiz-next" id="quizNext"></div>`;
-}
-function playerStatLine(p){
-  const ts=findTeamStats(quizTeamKeyword());if(!ts)return '';
-  if(p.pos==='G'){const g=ts.goalies.find(x=>x.num===p.num||norm(x.name)===norm(p.name));return g?`${g.w}-${g.l}-${g.otl}, ${g.gaa} GAA, ${g.svpct} SV%`:'';}
-  const s=ts.players.find(x=>x.num===p.num||norm(x.name)===norm(p.name));return s?`${s.g}G-${s.a}A-${s.pts}P, ${s.pm>=0?'+':''}${s.pm}`:'';
-}
-function quizTeamKeyword(){const v=val('quizTeam');if(v&&v.indexOf('opp:')===0)return v.slice(4).split(' ')[0];return 'Huntsville';}
-function buildOptions(correct,pool){
-  const uniq=[...new Set(pool.filter(x=>x&&x!==correct))];
-  shuffle(uniq);
-  const opts=[correct,...uniq.slice(0,3)];
-  return shuffle(opts);
-}
-function quizAnswer(btn,choiceEnc,correctEnc){
-  if(QUIZ.answered)return;QUIZ.answered=true;
-  const choice=decodeURIComponent(choiceEnc),correct=decodeURIComponent(correctEnc);
-  QUIZ.asked++;
-  document.querySelectorAll('.quiz-opt').forEach(b=>{if(b.textContent===correct)b.classList.add('correct');});
-  if(choice===correct){QUIZ.score++;}
-  else{btn.classList.add('wrong');}
-  document.getElementById('quizScore').textContent=`Score: ${QUIZ.score} / ${QUIZ.asked}`;
-  document.getElementById('quizNext').innerHTML=`<button class="btn" onclick="quizNext()">Next →</button>`;
-}
-function quizNext(){QUIZ.i++;quizRender();}
-function quizFlashNext(knew){QUIZ.asked++;if(knew)QUIZ.score++;QUIZ.i++;quizRender();}
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
-
-
 const SCHEDULE_2026="PS 10/9/26  vs Pensacola  Audio only — Radio & YouTube Live\n10/16/26  @ Pee Dee  7:15 PM\n10/17/26  @ Pee Dee  7:15 PM\n10/23/26  vs Pensacola  7:00 PM\n10/24/26  @ Pensacola  7:05 PM\n10/30/26  @ Pensacola  7:05 PM\n10/31/26  vs Macon  7:00 PM\n11/6/26  vs Macon  7:00 PM\n11/7/26  @ Fayetteville  6:00 PM\n11/8/26  @ Knoxville  3:00 PM\n11/13/26  @ Knoxville  7:30 PM\n11/14/26  vs Knoxville  7:00 PM\n11/20/26  vs Fayetteville  7:00 PM\n11/21/26  vs Fayetteville  7:00 PM\n11/25/26  @ Pensacola  7:05 PM\n11/26/26  vs Athens  7:00 PM\n11/27/26  vs Pensacola  7:00 PM\n12/4/26  vs Evansville  7:00 PM\n12/5/26  @ Evansville  7:05 PM\n12/11/26  vs Quad City  7:00 PM\n12/12/26  vs Quad City  7:00 PM\n12/18/26  @ Roanoke  7:05 PM\n12/19/26  @ Roanoke  7:05 PM\n12/20/26  vs Birmingham  5:00 PM\n12/26/26  @ Birmingham  7:00 PM\n12/27/26  @ Birmingham  2:00 PM\n12/29/26  vs Macon  7:00 PM\n12/31/26  @ Macon  6:00 PM\n1/2/27  @ Macon  6:00 PM\n1/8/27  vs Evansville  7:00 PM\n1/9/27  vs Evansville  7:00 PM\n1/15/27  vs Athens  7:00 PM\n1/16/27  vs Athens  7:00 PM\n1/18/27  @ Birmingham  1:00 PM\n1/22/27  vs Pensacola  7:00 PM\n1/23/27  vs Pee Dee  7:00 PM\n1/29/27  @ Evansville  7:05 PM\n1/30/27  @ Evansville  7:05 PM\n2/5/27  vs Knoxville  7:00 PM\n2/6/27  vs Knoxville  7:00 PM\n2/7/27  @ Pensacola  4:05 PM\n2/12/27  vs Quad City  7:00 PM\n2/13/27  vs Quad City  7:00 PM\n2/15/27  @ Birmingham  1:00 PM\n2/19/27  @ Peoria  7:15 PM\n2/20/27  @ Peoria  7:15 PM\n2/21/27  vs Birmingham  5:00 PM\n2/26/27  @ Quad City  7:10 PM\n2/27/27  @ Quad City  7:10 PM\n3/5/27  vs Athens  7:00 PM\n3/6/27  vs Athens  7:00 PM\n3/7/27  @ Evansville  5:00 PM\n3/12/27  @ Fayetteville  7:00 PM\n3/13/27  @ Fayetteville  6:00 PM\n3/19/27  vs Peoria  7:00 PM\n3/20/27  vs Peoria  7:00 PM\n3/25/27  vs Evansville  7:00 PM\n3/26/27  @ Athens  7:05 PM\n3/27/27  @ Athens  7:05 PM\n4/2/27  @ Knoxville  6:00 PM\n4/3/27  vs Knoxville  5:00 PM";
 function seedScheduleIfEmpty(){DATA.notes=DATA.notes||{};const cur=DATA.notes.schedule||"";const hasResults=/\s(W|L|OTL|SOL)[\s,]/i.test(cur);if(!cur.trim()||(!hasResults&&cur!==SCHEDULE_2026)){DATA.notes.schedule=SCHEDULE_2026;save();}}
 
 function setTouchIcon(){try{const l=teamLogoSrc("Huntsville Havoc");if(!l)return;const link=document.createElement('link');link.rel='apple-touch-icon';link.href=l;document.head.appendChild(link);}catch(e){}}
-/* ============================================================
-   POST-GAME COPY DESK — recap generator (requires user API key)
-   ============================================================ */
-const PG_DEFAULT_SHORTHAND=`F1/F2/F3 = first, second, third forechecker
-d-zone / o-zone / nz = defensive, offensive, neutral zone
-gr A = grade-A scoring chance
-EV/PP/SH/EN = even strength, power play, shorthanded, empty net
-GWG = game-winning goal
-b2b = back-to-back
-+ / - after a name = strong or poor night
-"chasing" = losing puck races, second to loose pucks`;
-const PG_DEFAULT_VOICE=`Play-by-play broadcaster's recap. Confident, plain, specific.
-Lead with what decided the game, not the final score.
-Short sentences beat long ones. No hype words.
-Never say: all cylinders, biscuit in the basket, gritty, dug deep, statement win.
-Credit players by last name after first full reference.`;
-let PG_T=null;
-function pgInit(){
-  const P=(DATA.postgame=DATA.postgame||{});
-  delete P.key; // the AI writer is gone — drop any stored API key
-  const D=P.draft||{};
-  setv('pg_shorthand',P.shorthand||PG_DEFAULT_SHORTHAND);
-  setv('pg_voice',P.voice||PG_DEFAULT_VOICE);
-  const F=['awayTeam','awayGoals','homeTeam','homeGoals','date','venue','result','next','dump','headline','lede','body','quotes','notesb'];
-  F.forEach(k=>{if(D[k]!==undefined)setv('pg_'+k,D[k]);});
-  if(!val('pg_homeTeam'))setv('pg_homeTeam',(DATA.settings.city+' '+DATA.settings.name).trim()||'Huntsville Havoc');
-  if(!val('pg_awayTeam')&&DATA.game.opp)setv('pg_awayTeam',DATA.game.opp);
-  if(!val('pg_venue'))setv('pg_venue',DATA.game.venue||DATA.settings.venue||'Von Braun Center');
-  if(!val('pg_date'))setv('pg_date',new Date().toISOString().slice(0,10));
-  [...F,'shorthand','voice'].forEach(k=>{
-    const el=document.getElementById('pg_'+k);
-    if(el&&!el._pgWired){el._pgWired=true;el.addEventListener('input',pgChanged);el.addEventListener('change',pgChanged);}
-  });
-  pgPreview();
-}
-function pgChanged(){
-  clearTimeout(PG_T);
-  PG_T=setTimeout(()=>{
-    DATA.postgame=DATA.postgame||{};
-    DATA.postgame.shorthand=val('pg_shorthand');DATA.postgame.voice=val('pg_voice');
-    const D={};['awayTeam','awayGoals','homeTeam','homeGoals','date','venue','result','next','dump','headline','lede','body','quotes','notesb'].forEach(k=>D[k]=val('pg_'+k));
-    DATA.postgame.draft=D;save();
-    pgPreview();
-  },500);
-}
-/* the one fixed house structure every report comes out in */
-function pgCompose(){
-  const away=val('pg_awayTeam').trim()||'Away',home=val('pg_homeTeam').trim()||'Home';
-  const ag=val('pg_awayGoals')||'0',hg=val('pg_homeGoals')||'0';
-  const res=val('pg_result');
-  const tag=res==='overtime'?' (OT)':res==='shootout'?' (SO)':'';
-  const dt=val('pg_date')?new Date(val('pg_date')+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'';
-  const scoreline=`${away} ${ag}, ${home} ${hg}${tag}`;
-  const dateline=[dt,val('pg_venue').trim()].filter(Boolean).join(' · ');
-  const paras=val('pg_body').split(/\n\s*\n/).map(t=>t.replace(/\s*\n\s*/g,' ').trim()).filter(Boolean);
-  const quotes=val('pg_quotes').split('\n').map(t=>t.trim()).filter(Boolean);
-  const notes=val('pg_notesb').split('\n').map(t=>t.trim()).filter(Boolean);
-  return {headline:val('pg_headline').trim(),lede:val('pg_lede').replace(/\s*\n\s*/g,' ').trim(),
-    scoreline,dateline,paras,quotes,notes,next:val('pg_next').trim()};
-}
-function pgPreview(){
-  const r=pgCompose();
-  const out=document.getElementById('pg_out');if(!out)return;
-  if(!r.headline&&!r.paras.length&&!r.lede){
-    out.innerHTML='<div style="color:var(--ink-2);font-size:13px;line-height:1.7"><b>Write, then copy.</b> Fill the sections on the left — the finished report builds here in the house structure as you type, and <b>Copy report</b> grabs the whole thing.</div>';
-    return;
-  }
-  let html='';
-  if(r.headline)html+=`<h2>${esc(r.headline)}</h2>`;
-  if(r.lede)html+=`<p class="deck">${esc(r.lede)}</p>`;
-  html+=`<p class="story" style="font-weight:800">${esc(r.scoreline)}</p>`;
-  if(r.dateline)html+=`<p class="story" style="color:var(--ink-2);font-size:12px">${esc(r.dateline)}</p>`;
-  r.paras.forEach(p=>html+=`<p class="story">${esc(p)}</p>`);
-  if(r.quotes.length){html+='<div class="notes-head">Quotes</div>';r.quotes.forEach(q=>html+=`<p class="story" style="font-style:italic">${esc(q)}</p>`);}
-  if(r.notes.length){html+='<div class="notes-head">Game notes</div><ul>';r.notes.forEach(n=>html+=`<li>${esc(n)}</li>`);html+='</ul>';}
-  if(r.next)html+=`<p class="story" style="font-weight:700">NEXT: ${esc(r.next)}</p>`;
-  html+='<p style="text-align:center;letter-spacing:.5em;color:var(--ink-2);margin-top:22px">###</p>';
-  out.innerHTML=html;
-}
-async function pgCopy(){
-  const r=pgCompose();
-  const L=[];
-  if(r.headline)L.push(r.headline);
-  if(r.lede)L.push(r.lede);
-  L.push(r.scoreline+(r.dateline?'\n'+r.dateline:''));
-  r.paras.forEach(p=>L.push(p));
-  if(r.quotes.length)L.push('QUOTES\n'+r.quotes.join('\n'));
-  if(r.notes.length)L.push('GAME NOTES\n'+r.notes.map(n=>'• '+n).join('\n'));
-  if(r.next)L.push('NEXT: '+r.next);
-  L.push('###');
-  const btn=document.getElementById('pg_copyBtn');
-  try{await navigator.clipboard.writeText(L.join('\n\n'));btn.textContent='Copied';document.getElementById('pg_status').textContent='FILED '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'});}
-  catch(e){btn.textContent='Copy failed';}
-  setTimeout(()=>btn.textContent='Copy report',1600);
-}
-
-function pgReadSheet(){
-  const raw=val('pg_dump');const flag=document.getElementById('pg_readFlag');
-  if(!raw.trim()){flag.textContent='Paste the page first';return;}
-  const lines=raw.split('\n').map(l=>l.replace(/\t/g,' ').trim()).filter(Boolean);
-  let found=[];
-  const si=lines.findIndex(l=>/^\d+\s*[-–]\s*\d+$/.test(l));
-  if(si>-1){
-    const m=lines[si].match(/(\d+)\s*[-–]\s*(\d+)/);
-    setv('pg_awayGoals',m[1]);setv('pg_homeGoals',m[2]);found.push('score');
-    const skip=/^(final|game\s*#|watch|[A-Z]{2,3}$|\d)/i;
-    for(let i=si-1;i>=0&&i>=si-4;i--){if(!skip.test(lines[i])&&lines[i].length>4){setv('pg_awayTeam',lines[i]);break;}}
-    for(let i=si+1;i<Math.min(lines.length,si+8);i++){if(!skip.test(lines[i])&&!/day,/.test(lines[i])&&lines[i].length>4){setv('pg_homeTeam',lines[i]);break;}}
-    if(val('pg_homeTeam')&&val('pg_awayTeam'))found.push('teams');
-  }
-  const d=raw.match(/([A-Z][a-z]+day),\s+([A-Z][a-z]+)\s+(\d{1,2}),\s+(\d{4})/);
-  if(d){const dt=new Date(`${d[2]} ${d[3]}, ${d[4]}`);if(!isNaN(dt)){setv('pg_date',dt.toISOString().slice(0,10));found.push('date');}}
-  const v=raw.match(/\n\s*([A-Za-z .'\-]*(?:Center|Centre|Arena|Coliseum|Civic|Forum|Rink|Ice)[A-Za-z .'\-]*)\s+(\d{3,6})\s/);
-  if(v){setv('pg_venue',v[1].trim());found.push('venue');}
-  if(/\bshootout\b/i.test(raw))setv('pg_result','shootout');
-  else if(/\b(overtime|\bOT\b)/.test(raw))setv('pg_result','overtime');
-  flag.textContent=found.length?'Read: '+found.join(', '):'Could not read it — fill the score by hand';
-  setTimeout(()=>flag.textContent='',5000);
-}
-
-
 /* 2026-27 promo nights (all 30 home games) */
 const PROMOS_2026={
 "2026-10-23":"Opening Night","2026-10-31":"Hall-O-Wiener Dog Races",
@@ -7903,120 +7145,6 @@ function renderLinesDoc(){
 }
 
 
-/* ============================================================
-   BROADCAST CALL LOG — career game tracking (2025-26 + current)
-   ============================================================ */
-const CALLLOG_2526=[{"d":"2025-10-17","o":"Roanoke Rail Yard Dawgs","h":0,"hv":4,"og":2,"n":""},{"d":"2025-10-24","o":"Pensacola Ice Flyers","h":1,"hv":6,"og":2,"n":""},{"d":"2025-10-25","o":"Macon Mayhem","h":0,"hv":3,"og":2,"n":""},{"d":"2025-10-28","o":"Evansville Thunderbolts","h":0,"hv":6,"og":2,"n":""},{"d":"2025-11-01","o":"Quad City Storm","h":0,"hv":2,"og":1,"n":""},{"d":"2025-11-02","o":"Quad City Storm","h":0,"hv":4,"og":6,"n":""},{"d":"2025-11-07","o":"Evansville Thunderbolts","h":0,"hv":1,"og":2,"n":""},{"d":"2025-11-09","o":"Birmingham Bulls","h":1,"hv":5,"og":4,"n":"SO"},{"d":"2025-11-14","o":"Macon Mayhem","h":1,"hv":5,"og":1,"n":""},{"d":"2025-11-16","o":"Birmingham Bulls","h":1,"hv":2,"og":3,"n":"OT"},{"d":"2025-11-21","o":"Pensacola Ice Flyers","h":1,"hv":7,"og":1,"n":""},{"d":"2025-11-22","o":"Pensacola Ice Flyers","h":1,"hv":7,"og":3,"n":""},{"d":"2025-11-26","o":"Pensacola Ice Flyers","h":0,"hv":1,"og":8,"n":""},{"d":"2025-11-27","o":"Knoxville Ice Bears","h":1,"hv":3,"og":4,"n":"OT"},{"d":"2025-11-28","o":"Quad City Storm","h":1,"hv":5,"og":2,"n":""},{"d":"2025-12-05","o":"Birmingham Bulls","h":0,"hv":2,"og":4,"n":""},{"d":"2025-12-06","o":"Macon Mayhem","h":0,"hv":1,"og":4,"n":""},{"d":"2025-12-07","o":"Roanoke Rail Yard Dawgs","h":1,"hv":3,"og":4,"n":"OT"},{"d":"2025-12-11","o":"Pensacola Ice Flyers","h":0,"hv":3,"og":4,"n":"OT"},{"d":"2025-12-12","o":"Fayetteville Marksmen","h":1,"hv":2,"og":5,"n":""},{"d":"2025-12-18","o":"Quad City Storm","h":1,"hv":1,"og":0,"n":""},{"d":"2025-12-19","o":"Evansville Thunderbolts","h":1,"hv":2,"og":0,"n":""},{"d":"2025-12-20","o":"Pensacola Ice Flyers","h":0,"hv":5,"og":1,"n":""},{"d":"2025-12-26","o":"Pensacola Ice Flyers","h":1,"hv":1,"og":4,"n":""},{"d":"2025-12-27","o":"Pensacola Ice Flyers","h":0,"hv":2,"og":1,"n":""},{"d":"2025-12-30","o":"Knoxville Ice Bears","h":1,"hv":5,"og":1,"n":""},{"d":"2026-01-02","o":"Birmingham Bulls","h":1,"hv":8,"og":0,"n":""},{"d":"2026-01-03","o":"Birmingham Bulls","h":0,"hv":4,"og":1,"n":""},{"d":"2026-01-09","o":"Evansville Thunderbolts","h":1,"hv":5,"og":4,"n":"SO"},{"d":"2026-01-10","o":"Evansville Thunderbolts","h":1,"hv":2,"og":3,"n":""},{"d":"2026-01-16","o":"Knoxville Ice Bears","h":0,"hv":0,"og":2,"n":""},{"d":"2026-01-17","o":"Knoxville Ice Bears","h":1,"hv":4,"og":3,"n":"SO"},{"d":"2026-01-19","o":"Birmingham Bulls","h":0,"hv":3,"og":6,"n":""},{"d":"2026-01-23","o":"Fayetteville Marksmen","h":0,"hv":1,"og":2,"n":"OT"},{"d":"2026-01-24","o":"Fayetteville Marksmen","h":0,"hv":3,"og":2,"n":"OT"},{"d":"2026-01-30","o":"Peoria Rivermen","h":1,"hv":1,"og":2,"n":"SO"},{"d":"2026-01-31","o":"Peoria Rivermen","h":1,"hv":0,"og":1,"n":""},{"d":"2026-02-06","o":"Quad City Storm","h":1,"hv":5,"og":2,"n":""},{"d":"2026-02-07","o":"Quad City Storm","h":1,"hv":4,"og":2,"n":""},{"d":"2026-02-13","o":"Evansville Thunderbolts","h":0,"hv":0,"og":1,"n":""},{"d":"2026-02-15","o":"Knoxville Ice Bears","h":1,"hv":3,"og":4,"n":""},{"d":"2026-02-16","o":"Birmingham Bulls","h":0,"hv":0,"og":2,"n":""},{"d":"2026-02-20","o":"Macon Mayhem","h":1,"hv":1,"og":2,"n":""},{"d":"2026-02-21","o":"Macon Mayhem","h":1,"hv":3,"og":4,"n":""},{"d":"2026-02-27","o":"Peoria Rivermen","h":0,"hv":3,"og":6,"n":""},{"d":"2026-02-28","o":"Peoria Rivermen","h":0,"hv":3,"og":2,"n":""},{"d":"2026-03-01","o":"Quad City Storm","h":0,"hv":3,"og":2,"n":""},{"d":"2026-03-06","o":"Roanoke Rail Yard Dawgs","h":0,"hv":1,"og":2,"n":""},{"d":"2026-03-07","o":"Roanoke Rail Yard Dawgs","h":0,"hv":1,"og":0,"n":"SO"},{"d":"2026-03-14","o":"Knoxville Ice Bears","h":0,"hv":3,"og":6,"n":""},{"d":"2026-03-15","o":"Evansville Thunderbolts","h":0,"hv":3,"og":2,"n":""},{"d":"2026-03-20","o":"Roanoke Rail Yard Dawgs","h":1,"hv":5,"og":3,"n":""},{"d":"2026-03-21","o":"Roanoke Rail Yard Dawgs","h":1,"hv":1,"og":3,"n":""},{"d":"2026-03-27","o":"Birmingham Bulls","h":1,"hv":5,"og":2,"n":""},{"d":"2026-03-28","o":"Birmingham Bulls","h":1,"hv":2,"og":1,"n":""},{"d":"2026-03-29","o":"Macon Mayhem","h":0,"hv":3,"og":0,"n":""},{"d":"2026-04-03","o":"Quad City Storm","h":0,"hv":5,"og":2,"n":""},{"d":"2026-04-04","o":"Quad City Storm","h":0,"hv":null,"og":null,"n":""}];
-function clData(){
-  DATA.calllog=DATA.calllog||{};
-  if(!DATA.calllog['2025-26']){
-    DATA.calllog['2025-26']=CALLLOG_2526.map((g,i)=>({id:'2526-'+i,date:g.d,opp:g.o,home:!!g.h,hv:g.hv,og:g.og,note:g.n,called:false,rating:null,goals:[]}));
-  }
-  return DATA.calllog;
-}
-function clCurrentSeason(){
-  // build 2026-27 rows live from the hub schedule (incl. preseason)
-  const sched=parseScheduleData();
-  const stored=DATA.calllog['2026-27']||[];
-  const byDate={};stored.forEach(g=>byDate[g.date]=g);
-  const fullOpp=(t)=>TEAMS.find(x=>x.indexOf(t)===0)||t;
-  const rows=sched.map(g=>{
-    const prev=byDate[g.dateISO]||{};
-    let hv=null,og=null,note='';
-    const rm=(g.result||'').match(/^(W|L|OTL|SOL|T)\b[.,]?\s*(\d+)?\s*-\s*(\d+)?\s*(\((OT|SO)\))?/i);
-    if(rm){
-      const a=rm[2]!=null?+rm[2]:null,b=rm[3]!=null?+rm[3]:null;
-      if(a!=null&&b!=null){const won=/^w/i.test(rm[1]);hv=won?Math.max(a,b):Math.min(a,b);og=won?Math.min(a,b):Math.max(a,b);}
-      if(rm[5])note=rm[5].toUpperCase();else if(/^otl/i.test(rm[1]))note='OT';else if(/^sol/i.test(rm[1]))note='SO';
-    }
-    return {id:'2627-'+g.dateISO,date:g.dateISO,opp:fullOpp(g.team),home:g.hv==='vs',hv,og,note,ps:g.ps,
-            called:prev.called||false,rating:prev.rating!=null?prev.rating:null,goals:prev.goals||[]};
-  });
-  DATA.calllog['2026-27']=rows;
-  return rows;
-}
-let CL_SEASON='2026-27';
-function clInit(){clData();clCurrentSeason();save();clRender();}
-function clSetSeason(s){CL_SEASON=s;clRender();}
-function clToggle(season,id){
-  const g=DATA.calllog[season].find(x=>x.id===id);if(!g)return;
-  g.called=!g.called;save();clRender();
-}
-function clRate(season,id,n){
-  const g=DATA.calllog[season].find(x=>x.id===id);if(!g)return;
-  g.rating=(g.rating===n)?null:n;save();clRender();
-}
-function clStats(){
-  clData();if(!DATA.calllog['2026-27'])clCurrentSeason();
-  let called=0,home=0,road=0,w=0,l=0,goals=0,starred=0;
-  const per={};
-  Object.keys(DATA.calllog).forEach(season=>{
-    let sc=0;
-    (DATA.calllog[season]||[]).forEach(g=>{
-      goals+=(g.goals||[]).length;starred+=(g.goals||[]).filter(x=>x.fav).length;
-      if(!g.called)return;
-      called++;sc++;if(g.home)home++;else road++;
-      if(g.hv!=null&&g.og!=null){if(g.hv>g.og)w++;else if(g.hv<g.og)l++;}
-    });
-    per[season]=sc;
-  });
-  return {called,home,road,w,l,goals,starred,per};
-}
-function clRender(){
-  const wrap=document.getElementById('clList');if(!wrap)return;
-  const st=clStats();
-  document.getElementById('clStats').innerHTML=
-    `<span class="cl-stat"><b>${st.called}</b> career games called</span>`+
-    `<span class="cl-stat"><b>${st.home}</b> home · <b>${st.road}</b> road</span>`+
-    `<span class="cl-stat">Team <b>${st.w}-${st.l}</b> when called</span>`+
-    (st.goals?`<span class="cl-stat"><b>${st.goals}</b> goal calls logged · <b>${st.starred}</b> reel-worthy</span>`:'')+
-    Object.keys(st.per).sort().map(s=>`<span class="cl-stat">${s}: <b>${st.per[s]}</b></span>`).join('');
-  document.querySelectorAll('.cl-season-btn').forEach(b=>b.classList.toggle('active',b.dataset.s===CL_SEASON));
-  const list=DATA.calllog[CL_SEASON]||[];
-  if(!list.length){wrap.innerHTML='<div style="color:var(--ink-2)">No games for this season yet.</div>';return;}
-  wrap.innerHTML=list.map(g=>{
-    const score=(g.hv!=null&&g.og!=null)?`${g.hv}-${g.og}${g.note?' ('+g.note+')':''}`:'';
-    const wl=(g.hv!=null&&g.og!=null)?(g.hv>g.og?'W':'L'):'';
-    const d=new Date(g.date+'T00:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric',year:'2-digit'});
-    const pips=[...Array(10)].map((_,i)=>`<span class="cl-pip ${g.rating!=null&&i<g.rating?'on':''}" onclick="clRate('${CL_SEASON}','${g.id}',${i+1})">${i+1}</span>`).join('');
-    const gc=(g.goals||[]).length?`<span class="cl-gc">${g.goals.length} goal calls${g.goals.filter(x=>x.fav).length?' · '+g.goals.filter(x=>x.fav).length+' ★':''}</span>`:'';
-    return `<div class="cl-row ${g.home?'home':'road'} ${g.called?'called':''}">
-      <button class="cl-toggle ${g.called?'on':''}" onclick="clToggle('${CL_SEASON}','${g.id}')">${g.called?'CALLED':'—'}</button>
-      <span class="cl-date">${d}${g.ps?' <b class="cl-ps">PS</b>':''}</span>
-      <span class="cl-opp">${g.home?'vs':'@'} ${esc(g.opp)}</span>
-      <span class="cl-score ${wl==='W'?'w':(wl==='L'?'l':'')}">${score}</span>
-      ${gc}
-      <span class="cl-rate">${g.called?pips:''}</span>
-    </div>`;
-  }).join('');
-}
-function clImportBackup(e){
-  const f=e.target.files[0];if(!f)return;
-  const rd=new FileReader();
-  rd.onload=()=>{
-    try{
-      const data=JSON.parse(rd.result);
-      const seasons=data.seasons||data;
-      if(typeof seasons!=='object')throw new Error('bad');
-      clData();clCurrentSeason();
-      let matched=0,added=0;
-      Object.keys(seasons).forEach(season=>{
-        const incoming=seasons[season];if(!Array.isArray(incoming))return;
-        if(!DATA.calllog[season]){DATA.calllog[season]=incoming.map(g=>({id:g.id||season+'-'+g.date,date:g.date,opp:g.opp,home:!!g.home,hv:g.hv,og:g.og,note:g.note||'',called:!!g.called,rating:g.rating!=null?g.rating:null,goals:g.goals||[]}));added+=incoming.length;return;}
-        const mine=DATA.calllog[season];
-        incoming.forEach(ig=>{
-          const m=mine.find(x=>x.date===ig.date);
-          if(m){m.called=!!ig.called;if(ig.rating!=null)m.rating=ig.rating;if(ig.goals&&ig.goals.length)m.goals=ig.goals;if(ig.hv!=null){m.hv=ig.hv;m.og=ig.og;m.note=ig.note||m.note;}matched++;}
-          else{mine.push({id:ig.id||season+'-'+ig.date,date:ig.date,opp:ig.opp,home:!!ig.home,hv:ig.hv,og:ig.og,note:ig.note||'',called:!!ig.called,rating:ig.rating!=null?ig.rating:null,goals:ig.goals||[],ps:ig.type==='preseason'});added++;}
-        });
-      });
-      save();clRender();toast('Imported: '+matched+' matched, '+added+' added');
-    }catch(err){toast('Not a valid call-log backup');}
-  };
-  rd.readAsText(f);e.target.value='';
-}
-
-
 /* league standings display w/ logos + abbreviations */
 function renderStandings(){
   const el=document.getElementById('standingsTable');if(!el)return;
@@ -8045,60 +7173,6 @@ function renderStandings(){
 }
 
 
-/* the club file keeps college and pro apart, so they print apart — never merged */
-/* League names are the widest thing in these tables and will push a printed
-   page past its content box, so they print in their short form. */
-const LEAGUE_SHORT=[[/NCAA\s*(Division|Div\.?)?\s*III/i,'NCAA D-III'],[/NCAA\s*(Division|Div\.?)?\s*II/i,'NCAA D-II'],
-  [/NCAA\s*(Division|Div\.?)?\s*I\b/i,'NCAA D-I'],[/USports|U\s*Sports/i,'U SPORTS'],
-  [/Ontario University Athletics|OUA/i,'OUA'],[/Southern Professional/i,'SPHL'],[/East Coast Hockey/i,'ECHL'],
-  [/Federal Prospects/i,'FPHL'],[/American Hockey League/i,'AHL'],[/National Hockey League/i,'NHL'],
-  [/Alberta Colleges|ACAC/i,'ACAC'],[/British Columbia Hockey League|BCHL/i,'BCHL'],
-  [/Alberta Junior|AJHL/i,'AJHL'],[/Central Canada Hockey|CCHL/i,'CCHL'],
-  [/North American Hockey League|NAHL/i,'NAHL'],[/United States Hockey League|USHL/i,'USHL'],
-  [/Ontario Hockey League|OHL/i,'OHL'],[/Quebec Maritimes|QMJHL/i,'QMJHL'],[/Western Hockey League|WHL/i,'WHL']];
-function leagueShort(v){
-  let s=String(v||'').trim();
-  if(!s)return '';
-  for(const [re,short] of LEAGUE_SHORT)if(re.test(s))return short;
-  s=s.replace(/\s*\(.*?\)\s*/g,' ').trim();      // drop parentheticals like "(NCHC)"
-  return s.length>12?s.slice(0,11)+'…':s;
-}
-/* A row is a goalie row if it carries goalie keys — the club file uses a
-   different shape for them, and reading skater keys yields empty cells. */
-function isGoalieRow(r,p){
-  if(r&&(r.record!=null||r.gaa!=null||r.svPct!=null||r.saves!=null))return true;
-  if(r&&(r.g!=null||r.a!=null||r.p!=null||r.pim!=null))return false;
-  return !!(p&&p.pos==='G');
-}
-function bioStatTablesHTML(p,scope){
-  const b=p.bioStats;if(!b)return '';
-  const n=v=>(v==null||v==='')?'—':v;
-  // a row with no numbers in it is a season the club could not source — a whole
-  // table row per season is wasted height, so they collect into one line
-  const hasNums=r=>['gp','g','a','p','pim','shots','plusMinus','record','gaa','svPct','so','saves']
-    .some(k=>r[k]!=null&&r[k]!=='');
-  const one=(rows,title)=>{
-    if(!rows||!rows.length)return '';
-    const blanks=rows.filter(r=>!hasNums(r));
-    rows=rows.filter(hasNums);
-    const blankLine=blanks.length?`<div class="bst-none">${esc(blanks.map(r=>[r.season,r.team].filter(Boolean).join(' ')).join(' · '))} — stat line not publicly available</div>`:'';
-    if(!rows.length)return blankLine?`<div class="bst"><div class="bst-h">${esc(title)}</div>${blankLine}</div>`:'';
-    const g=rows.some(r=>isGoalieRow(r,p));
-    const head=g?'<th class="r c-gp">GP</th><th class="r c-rec">Record</th><th class="r c-n">GAA</th><th class="r c-n">SV%</th><th class="r c-n">SO</th>'
-      :'<th class="r c-gp">GP</th><th class="r c-n">G</th><th class="r c-n">A</th><th class="r c-n">PTS</th><th class="r c-n">PIM</th>';
-    const cells=r=>g
-      ?`<td class="r">${n(r.gp)}</td><td class="r">${esc(String(n(r.record)))}</td><td class="r">${n(r.gaa)}</td><td class="r">${esc(String(n(r.svPct)))}</td><td class="r">${n(r.so)}</td>`
-      :`<td class="r">${n(r.gp)}</td><td class="r">${n(r.g)}</td><td class="r">${n(r.a)}</td><td class="r">${n(r.p)}</td><td class="r">${n(r.pim)}</td>`;
-    return `<div class="bst"><div class="bst-h">${esc(title)}</div>
-      <table class="pk-t bst-t"><tr><th class="c-season">Season</th><th class="c-team">Team</th><th class="c-lg">League</th>${head}</tr>
-      ${rows.map(r=>`<tr><td class="c-season">${esc(r.season||'')}</td><td class="c-team" title="${esc(r.team||'')}">${esc(r.team||'')}</td><td class="c-lg">${esc(leagueShort(r.league))}</td>${cells(r)}</tr>`
-        +(r.note?`<tr class="bst-note"><td colspan="8">${esc(r.note)}</td></tr>`:'')).join('')}
-      </table>${blankLine}</div>`;
-  };
-  const body=one(b.pro,'Professional')+one(b.playoffs,'Playoffs')+one(b.college,'College');
-  if(!body)return '';
-  return `<div class="bst-wrap${scope==='mtp'?' bst-mtp':''}">${body}</div>`;
-}
 function mtpCardHTML(p,teamStats,R,red,S){
   return [p].map(p=>{
     const isG=p.pos==='G';
@@ -8116,12 +7190,10 @@ function mtpCardHTML(p,teamStats,R,red,S){
       <div class="mtp-head"><span class="mtp-num" style="background:${red}">${p.num||''}</span><span class="mtp-name">${esc(dispName(p).toUpperCase())}</span>${p.nickname?`<span class="mtp-nick">&ldquo;${esc(p.nickname)}&rdquo;</span>`:''}${p.pron?`<span class="mtp-pron">${esc(p.pron)}</span>`:''} ${statSpan(p,'Huntsville')}<span class="mtp-meta">${p.pos||''} · HT: ${p.ht||'—'} · WT: ${p.wt||'—'} · ${isG?'GLOVE':'SHOOTS'}: ${p.sh||'—'}${p.age?' · AGE: '+p.age:''}${p.birth?' · '+esc(p.birth):''}${p.bornIn?' · BORN '+esc(p.bornIn):''}${p.rookie==='1'?' · ROOKIE':''}${p.draft?' · '+esc(p.draft):''}${p.seasonWithTeam?' · SEASON '+esc(p.seasonWithTeam)+' WITH HSV':''}${p.returning===0?' · NEW':''}</span></div>
       ${stripe}
       <div class="mtp-blurb">${esc(auto)}</div>
-      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — click here to type one, or import the club bios on the Rosters tab. Bios live in this browser, so each device needs its own import.</span>'}</div>
+      <div class="mtp-blurb bio-edit" contenteditable="true" spellcheck="false" data-bio-pid="${esc(p.id||'')}" title="Click to edit — saves to this player's media bio on the roster">${notesHtml||'<span class="mtp-nobio">No written bio yet — authored bios live in data/bios.json; click here to type one for this browser.</span>'}</div>
       ${p.acquired?`<div class="mtp-line"><b>Acquired</b> ${esc(p.acquired)}</div>`:''}
       ${(p.awards||[]).length?`<div class="mtp-line"><b>Awards</b> ${esc(p.awards.join(' · '))}</div>`:''}
-      ${bioStatTablesHTML(p,'mtp')}
       ${p.junior?`<div class="mtp-line"><b>Junior</b> ${esc(p.junior)}</div>`:''}
-      ${(p.bioNotesAdvisory||[]).length?`<div class="mtp-adv">${p.bioNotesAdvisory.map(a=>'<i>'+esc((BIO_ADVISORY_LABEL[a.k]||a.k)+': '+a.v)+'</i>').join('<br>')}</div>`:''}
       </div></div>
     </div>`;
   }).join('');
@@ -8614,7 +7686,6 @@ async function htDoResults(){
     DATA.notes.schedule=rebuildScheduleText(mySched);save();
     const box=document.getElementById('sched_text');if(box)box.value=DATA.notes.schedule;
     if(typeof renderSchedPreview==='function'&&document.getElementById('schedPreview'))renderSchedPreview();
-    if(DATA.calllog){clCurrentSeason();save();}
   }
   syncMark('schedule');
   return seasonStepNote('schedule',filled+' new final scores filled'+(added?', '+added+' games added':''));
@@ -8723,21 +7794,14 @@ function htMergeRoster(list,feedPlayers,isHavoc){
     const k=norm(fp.name);if(!k)return;
     let p=rosterMatch(fp.name,list);
     seen.add(norm(p?p.name:fp.name));
-    if(!p){p={id:uid(),notes:''};list.push(p);if(isHavoc)p.newFeed=1;} // feed-only arrival — flagged for confirmation
-    // the club's own spelling of a signed player's name outranks the feed's
-    else if(isHavoc&&p.sheet==='2026-27'&&p.name){}
+    if(!p){p={id:uid(),notes:''};list.push(p);}
+    // an existing Havoc name is the spine's join key (bios, milestones) — keep it
+    else if(isHavoc&&p.name){}
     else p.name=fp.name;
     if(!p.name)p.name=fp.name;
-    if(isHavoc)p.feed46=1;
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
     if(fp.img)p.img=fp.img;
-    if(fp.num){
-      // the club's signed sheet is ahead of the league feed in preseason: keep the
-      // sheet number, record the feed's, and let the roster panel settle it
-      if(isHavoc&&p.sheet==='2026-27'&&p.numSheet&&String(fp.num)!==String(p.numSheet)){p.numFeed=String(fp.num);p.num=p.numSheet;}
-      else {feedSet(p,'num',fp.num);if(p.numFeed===String(fp.num))delete p.numFeed;}
-      delete p.numBio;                  // the bios file never settles a number
-    }
+    if(fp.num)feedSet(p,'num',fp.num);
     // keep a more specific existing position (C/LW/RW) when the feed only says F
     if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))feedSet(p,'pos',fp.pos);
     // vitals: the league feed is the authority, so these land over anything the
@@ -8802,8 +7866,7 @@ function rosterFileApply(){
     if(!fp)return;
     if(!p.htId&&fp.htid)p.htId=fp.htid;
     if(fp.img&&!p.img)p.img=fp.img;
-    if(fp.num&&p.num&&fp.num!==p.num&&!p.numFeed)p.numFeed=fp.num;  // flag, never overwrite
-    if(fp.num&&!p.num)p.num=fp.num;
+    if(fp.num&&!p.num)p.num=fp.num;   // the committed file may lag a season — never overwrite a set number
     ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
     if(rookieUsable)feedSet(p,'rookie',fp.rookie);
     if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
@@ -9374,189 +8437,8 @@ setInterval(async()=>{
   try{await htDoPlayers();}catch(e){}
 },3600000);
 
-/* ============================================================
-   ELITE PROSPECTS WIDGETS — live embeds per EP's widget docs.
-   Containers carry data-* attributes; the combined loader
-   (widget-loader-combined.js, guarded by #ep-widget-loader)
-   mounts every .ep-widget in one pass. The player card uses the
-   per-snippet embed.js?id= form so it can be swapped on demand.
-   ============================================================ */
-function wgSeasonDefault(){return '2025-2026';} // the season EP currently carries SPHL data for — change the Season field when 2026-2027 play begins
-function wgSettingsFill(){const v=wgVals();setv('wg_league',v.league);setv('wg_season',v.season);setv('wg_teamid',v.team);}
-function wgVals(){
-  return {league:(DATA.settings.wgLeague||'sphl'),
-          season:(DATA.settings.wgSeason||wgSeasonDefault()),
-          team:(DATA.settings.wgTeamId||'').trim(),
-          red:DATA.settings.red||'#C8102E'};
-}
-function wgStyle(red){
-  return ` data-background-color="${red}" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="${red}" data-height="800" data-theme="light" data-font="font-montserrat"`;
-}
-function wgLoader(){
-  // the docs' guard checks for #ep-widget-loader; we remove + re-add so a
-  // rebuilt set of containers gets a fresh discovery pass
-  const old=document.getElementById('ep-widget-loader');
-  if(old)old.remove();
-  const s=document.createElement('script');
-  s.id='ep-widget-loader';s.async=true;
-  s.src='https://widget.eliteprospects.com/widget-loader-combined.js';
-  document.head.appendChild(s);
-}
-let WG_BUILT=false;
-function wgBuild(force){
-  if(WG_BUILT&&!force)return;
-  WG_BUILT=true;
-  const v=wgVals(),st=wgStyle(v.red);
-  const mk=(id,attrs)=>{const el=document.getElementById(id);if(el)el.innerHTML=`<div id="epw_${id}" class="ep-widget" ${attrs}${st}></div>`;};
-  // Jacob's generated snippet (ep_9391) verbatim, with league/season driven by the fields above;
-  // the combined loader mounts it along with the rest, so no per-snippet script is needed
-  const stand=document.getElementById('wgStandings');
-  if(stand)stand.innerHTML=`<div id="ep_9391" class="ep-widget" data-widget-type="league" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-  // Jacob's generated scoring-leaders snippet (ep_0561) verbatim, league/season from the fields
-  const scor=document.getElementById('wgScoring');
-  if(scor)scor.innerHTML=`<div id="ep_0561" class="ep-widget" data-widget-type="scoring-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-position-filter="all" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-  // Jacob's generated goalie-leaders snippet (ep_4438) verbatim
-  const goal=document.getElementById('wgGoalies');
-  if(goal)goal.innerHTML=`<div id="ep_4438" class="ep-widget" data-widget-type="goalie-leaders" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-nationality-filter="all" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-  // Jacob's generated staff snippets verbatim — ep_9988 + ep_1895 career histories
-  const stf=document.getElementById('wgStaff');
-  const staffWidget=(wid,sid)=>`<div id="${wid}" class="ep-widget" data-widget-type="staff" data-staff-id="${sid}" data-view-mode="history" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="396" data-theme="light" data-font="font-montserrat"></div>`;
-  if(stf)stf.innerHTML=staffWidget('ep_9988','30642')+'<div style="height:10px"></div>'+staffWidget('ep_1895','92371');
-  // Jacob's generated schedule-and-results snippet (ep_1677) verbatim
-  const res=document.getElementById('wgResults');
-  if(res)res.innerHTML=`<div id="ep_1677" class="ep-widget" data-widget-type="schedule-and-results" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="900" data-theme="light" data-font="font-montserrat"></div>`;
-  // Jacob's generated schedule-and-standings snippet (ep_2495) verbatim, league/season from
-  // the fields, optional team-id filter preserved
-  const schd=document.getElementById('wgSched');
-  if(schd)schd.innerHTML=`<div id="ep_2495" class="ep-widget" data-widget-type="schedule-and-standings" data-league-slug="${esc(v.league)}" data-season="${esc(v.season)}" data-game-type="both"${v.team?` data-team-id="${esc(v.team)}"`:''} data-selected-columns='{"Rank":true,"team":true,"GP":true,"W":true,"L":true,"T":false,"OTW":false,"OTL":false,"GF":false,"GA":false,"GD":true,"TP":true,"PPG":false}' data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-display-order="home" data-height="1300" data-theme="light" data-font="font-montserrat"></div>`;
-  wgFillPlayers();
-  wgLoader();
-}
-function epViewToggle(){
-  const box=document.getElementById('epView'),btn=document.getElementById('epViewBtn');
-  if(!box)return;
-  const show=box.style.display==='none';
-  box.style.display=show?'':'none';
-  btn.textContent=show?'Hide EP view':'Show EP view';
-  DATA.settings.epView=show?1:0;save();
-  if(show)Promise.all([epLoadStatic(),epLoadTeams()]).then(()=>wgBuild(true));
-}
-function wgFillPlayers(){
-  const sel=document.getElementById('wg_player');if(!sel)return;
-  const cur=sel.value;
-  const opts=DATA.roster.filter(p=>p.name).map(p=>{
-    const e=(typeof epEntryFor==='function')?epEntryFor(p):null;
-    const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
-    return id?`<option value="${esc(String(id))}">${esc(dispName(p))}</option>`:null;
-  }).filter(Boolean);
-  sel.innerHTML='<option value="">— pick a mapped player —</option>'+opts.join('');
-  if(cur)sel.value=cur;
-}
-/* Jacob's generated player snippet (ep_9834) verbatim — full career stats
-   for every mapped player, used by the single card and both decks */
-function epPlayerCareerWidget(domId,pid){
-  return `<div id="${domId}" class="ep-widget" data-widget-type="player" data-player-id="${esc(String(pid))}" data-game-limit="5" data-view-mode="career" data-show-summary="false" data-measurement-unit="metric" data-background-color="#0D2F49" data-text-color="#000000" data-table-background-color="#FFFFFF" data-header-text-color="#FFFFFF" data-name-text-color="#0D73A6" data-accent-color="#0D2F49" data-height="800" data-theme="light" data-font="font-montserrat"></div>`;
-}
-function wgPlayer(){
-  const id=val('wg_player');
-  const wrap=document.getElementById('wgPlayerWrap');if(!wrap)return;
-  if(!id){wrap.innerHTML='<div class="empty">Pick a mapped player above.</div>';return;}
-  const wid='epw_player_'+id;
-  wrap.innerHTML=epPlayerCareerWidget(wid,id);
-  const s=document.createElement('script');
-  s.async=true;s.src='https://widget.eliteprospects.com/embed.js?id='+encodeURIComponent(wid);
-  document.head.appendChild(s);
-}
-/* Team rosters via the EP team widget — EP team ids come from
-   data/ep-teams.json, resolved once by the weekly EP action. */
-let EP_TEAMS=null;
-async function epLoadTeams(){
-  if(EP_TEAMS)return EP_TEAMS;
-  try{
-    const res=await fetch('data/ep-teams.json',{cache:'no-cache'});
-    if(res.ok){const j=await res.json();if(j&&typeof j==='object')EP_TEAMS=j;}
-  }catch(e){}
-  // bonus: auto-fill the schedule widgets' team filter with the Havoc's EP id
-  if(EP_TEAMS&&!DATA.settings.wgTeamId){
-    const hsv=Object.keys(EP_TEAMS).find(n=>/Huntsville/i.test(n));
-    if(hsv&&EP_TEAMS[hsv].epId){DATA.settings.wgTeamId=String(EP_TEAMS[hsv].epId);save();}
-  }
-  return EP_TEAMS;
-}
-/* All 12 SPHL clubs from the site's own list, Havoc first — never gated on EP data */
-function wgAllTeamNames(){
-  return [...TEAMS].sort((a,b)=>(/Huntsville/i.test(b)?1:0)-(/Huntsville/i.test(a)?1:0)||a.localeCompare(b));
-}
-function wgFillTeams(){
-  const sel=document.getElementById('wg_team');if(!sel)return;
-  const cur=sel.value;
-  sel.innerHTML='<option value="">— team —</option>'+wgAllTeamNames().map(n=>`<option value="${esc(n)}">${esc(n)}</option>`).join('');
-  if(cur)sel.value=cur;
-}
-/* Section header always carries the SPHL logo (site's embedded set), never EP branding */
-function wgTeamHeaderHTML(name){
-  const lg=teamLogoSrc(name);
-  return `<div class="ldr-h" style="font-size:11px;margin:8px 0 4px;display:flex;align-items:center;gap:6px">${lg?`<img src="${lg}" style="height:22px;width:22px;object-fit:contain">`:''}<span>${esc(name.toUpperCase())}</span></div>`;
-}
-function wgTeamWidgetHTML(name,ent,v){
-  const head=wgTeamHeaderHTML(name);
-  if(!ent||!ent.epId)return head+`<div class="empty" style="margin:0 0 8px">No Elite Prospects roster widget for this club yet — it appears automatically once the weekly EP action matches the team. Their stored roster is still on Live Data → rosters.</div>`;
-  return head+`<div id="epw_team_${esc(String(ent.epId))}" class="ep-widget" data-widget-type="team" data-team-id="${esc(String(ent.epId))}" data-season="${esc(v.season)}" data-default-stats-type="regular" data-measurement-unit="imperial" data-selected-columns='{"Name":true,"Number":true,"Position":true,"Age":true,"Birth Year":false,"Birth Place":true,"Weight":true,"Height":true,"Shoots/Catches":true,"Games":true,"Goals":true,"Assists":true,"Points":true,"Exclude Goaltenders":false}'${wgStyle(v.red)}></div>`;
-}
-function wgTeamRoster(){
-  const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
-  const name=val('wg_team');
-  if(!name){if(msg)msg.textContent='Pick a team first.';return;}
-  wrap.innerHTML=wgTeamWidgetHTML(name,(EP_TEAMS||{})[name],wgVals());
-  wgLoader();
-  if(msg)msg.textContent='';
-}
-function wgTeamRosterAll(){
-  const wrap=document.getElementById('wgTeamWrap'),msg=document.getElementById('wgTeamMsg');
-  const v=wgVals();
-  const names=wgAllTeamNames();
-  wrap.innerHTML=names.map(n=>wgTeamWidgetHTML(n,(EP_TEAMS||{})[n],v)).join('');
-  wgLoader();
-  const nEp=names.filter(n=>(EP_TEAMS||{})[n]).length;
-  if(msg)msg.textContent=names.length+' SPHL clubs · '+nEp+' with live EP rosters';
-}
-
-/* Game-sheet decks: one player widget per active player, same numerical
-   order as the game sheet (forwards, defense, goalies). */
-function wgDeck(side){
-  const wrap=document.getElementById('wgDeckWrap'),msg=document.getElementById('wgDeckMsg');
-  if(!wrap)return;
-  let list,label;
-  if(side==='home'){list=DATA.roster;label='Havoc';}
-  else{
-    const opp=(DATA.game&&DATA.game.opp)||'';
-    if(!opp){if(msg)msg.textContent='Pick tonight\'s opponent on the This Game tab first.';return;}
-    list=(DATA.oppRosters||{})[opp]||[];label=opp;
-    if(!list.length){if(msg)msg.textContent='No stored roster for '+opp+' — Pull rosters on Live Data first.';return;}
-  }
-  const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
-  const act=list.filter(p=>p.active!=='0'&&p.name);
-  const ordered=[...act.filter(p=>p.pos!=='D'&&p.pos!=='G').sort(byNum),
-                 ...act.filter(p=>p.pos==='D').sort(byNum),
-                 ...act.filter(p=>p.pos==='G').sort(byNum)];
-  const v=wgVals();const missing=[];const cards=[];
-  const teamLg=teamLogoSrc(side==='home'?'Huntsville Havoc':label);
-  ordered.forEach(p=>{
-    const e=(typeof epEntryFor==='function')?epEntryFor(p):null;
-    const id=e&&e.epId?e.epId:(p.epUrl?(p.epUrl.match(/\/player\/(\d+)/)||[])[1]:null);
-    if(!id){missing.push(dispName(p));return;}
-    cards.push(`<div class="ldr-h" style="font-size:11px;margin:8px 0 4px;display:flex;align-items:center;gap:6px">${teamLg?`<img src="${teamLg}" style="height:20px;width:20px;object-fit:contain">`:''}<span>#${esc(p.num||'')} ${esc(dispName(p).toUpperCase())}</span></div>
-      `+epPlayerCareerWidget('epw_deck_'+esc(String(id)),id));
-  });
-  if(!cards.length){wrap.innerHTML='<div class="empty">No EP-mapped players on that roster yet — run the weekly EP action / Link EP profiles first.</div>';if(msg)msg.textContent='';return;}
-  wrap.innerHTML=cards.join('');
-  wgLoader(); // fresh discovery pass mounts the whole deck
-  if(msg)msg.textContent=label+': '+cards.length+' cards'+(missing.length?' · no EP link: '+missing.join(', '):'');
-}
-
-hubPageScale();themeApply();seedRosterIfEmpty();havocSheetOnce();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
+hubPageScale();themeApply();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
 (function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});})();
-try{clData();clCurrentSeason();save();}catch(e){console.error('calllog preload',e);}
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
 
