@@ -8154,10 +8154,15 @@ function htKey(){
 const SEASON_STALE_MONTHS=18;
 function seasonNorm(s){
   const yes=v=>/^(1|y|yes|true)$/i.test(String(v==null?'':v).trim());
+  const name=String(pick(s,['season_name','name'],'')).trim();
+  const short=String(pick(s,['shortname','short_name'],'')).trim();
+  // the live feed sets career="1" on EVERY season (it means "counts toward
+  // career stats", not "career pseudo-season") — so a career row is detected
+  // by NAME, never by the flag. Playoffs keep the flag plus the name check.
   return {id:String(pick(s,['season_id','id'],'')).trim(),
-    name:String(pick(s,['season_name','name'],'')).trim(),
-    short:String(pick(s,['shortname','short_name'],'')).trim(),
-    playoff:yes(s&&s.playoff),career:yes(s&&s.career),
+    name,short,
+    playoff:yes(s&&s.playoff)||/playoff/i.test(name),
+    career:/career/i.test(name)||/career/i.test(short),
     start:String(pick(s,['start_date'],'')).slice(0,10),
     end:String(pick(s,['end_date'],'')).slice(0,10)};
 }
