@@ -7837,7 +7837,10 @@ const HT_TEAM_ID={"Peoria Rivermen":1,"Fayetteville Marksmen":2,"Huntsville Havo
    file simply by running later. */
 let ROSTER_FILE=null,ROSTER_FILE_TRIED=false;
 async function rosterFileLoad(){
-  if(ROSTER_FILE||ROSTER_FILE_TRIED)return ROSTER_FILE;
+  // re-apply on every render, not just first load: a player who joins the
+  // roster later (live sync, hand add, a mid-season signing) still gets the
+  // committed baseline — the apply is idempotent and hand edits win inside it
+  if(ROSTER_FILE||ROSTER_FILE_TRIED){if(ROSTER_FILE)rosterFileApply();return ROSTER_FILE;}
   ROSTER_FILE_TRIED=true;
   try{
     const r=await fetch('data/sphl-rosters.json',{cache:'no-cache'});
@@ -7859,7 +7862,7 @@ function rosterFileApply(){
   if(!fps.length)return;
   const by=new Map();fps.forEach(fp=>by.set(norm(fp.name),fp));
   const rookieUsable=rookieVaries(fps);
-  let got=0;
+  const before=JSON.stringify(DATA.roster);   // apply runs on every render — only save/re-render on a real change
   (DATA.roster||[]).forEach(p=>{
     if(!p.name)return;
     const fp=by.get(norm(p.name))||fps.find(f=>rosterMatch(f.name,[p]));
@@ -7870,9 +7873,8 @@ function rosterFileApply(){
     ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
     if(rookieUsable)feedSet(p,'rookie',fp.rookie);
     if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
-    got++;
   });
-  if(got){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
+  if(JSON.stringify(DATA.roster)!==before){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
 }
 async function htVitalsBackfill(){
   // only reach back a season when the chosen one left something out
