@@ -1575,6 +1575,7 @@
       <div class="section-label hub-sectionhead">Backup &amp; restore</div>
       <div class="btn-row">
         <button class="btn secondary" onclick="exportData()">Export backup (.json)</button>
+        <button class="btn" onclick="cleanupExport()" title="TEMPORARY (cleanup Phase 1): downloads every edit this browser has ever made — League Reference, franchise file, colours, bios, storylines, layout — in one grouped file. Run it in EVERY browser you have edited in, especially the booth machine.">Export all local edits</button>
         <button class="btn secondary" onclick="document.getElementById('importFile2').click()">Import backup</button>
         <input type="file" id="importFile2" accept="application/json" style="display:none" onchange="importData(event)">
         <button class="btn secondary" onclick="restoreBackup()">Restore auto-backup</button>
@@ -5320,6 +5321,43 @@ function applyImported(parsed){
   if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('not a backup');
   DATA=Object.assign(structuredClone(DEFAULT_DATA),d);
   save();initForms();renderRoster();updateAppMark();
+}
+/* TEMPORARY — cleanup Phase 1. One-shot rescue of every browser-local edit
+   before the in-place editors move out of the site: everything is grouped by
+   feature for the merge into committed JSON, and the complete DATA object
+   plus the raw localStorage payload ride along so nothing can be missed.
+   Removed again in cleanup Phase 7. */
+function cleanupExport(){
+  const g=k=>DATA[k]===undefined?null:DATA[k];
+  const payload={
+    app:'havoc-hub-local-edits',
+    schema:'cleanup-export-1',
+    exportedAt:new Date().toISOString(),
+    userAgent:navigator.userAgent,
+    grouped:{
+      league_reference:{refBlocks:g('refEdits'),recordBook:g('recEdits'),coaches:g('coaches'),venues:g('venues'),
+        franchiseEdits:g('franchiseEdits'),franchiseStory:g('franchiseStory'),franchiseRecords:g('franchise_records')},
+      team_colors:{palettes:g('palettes'),logos:g('logos')},
+      bios:{havocRoster:g('roster'),oppRosters:g('oppRosters'),bioMeta:g('bioMeta'),embargo:g('embargo'),
+        statOverrides:g('statOv'),staff:g('staff'),hockeyOps:g('hockeyOps')},
+      storylines:{gameNotes:g('notes'),interviews:g('interviews'),postgame:g('postgame'),opening:g('opening'),
+        lines:g('lines'),verbs:g('verbs')},
+      franchise_file:{careersFile:g('careersFile'),careerHT:g('careerHT'),frTeam:g('frTeam')},
+      layout_prefs:{packetBlocks:g('blk'),sectionSizes:g('secPt'),sectionBold:g('secBold'),autoFit:g('secAuto'),
+        folderTemplates:g('fdTmpl'),folderOverrides:g('folderOv'),packetEdits:g('pkEdits'),chartEdits:g('chartEdits'),sheetRev:g('sheetRev')},
+      game_night:{game:g('game'),report:g('report'),gamelog:g('gamelog'),calllog:g('calllog'),leagueLog:g('leagueLog'),
+        seasons:g('seasons'),sync:g('sync'),settings:g('settings')}
+    },
+    data_full:DATA,
+    raw_localStorage:{}
+  };
+  try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);payload.raw_localStorage[k]=localStorage.getItem(k);}}catch(e){}
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='havoc-local-edits-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  toast('Local edits exported — send this file to the cleanup, one per browser you have edited in');
 }
 function exportData(tag){const blob=new Blob([JSON.stringify(exportPayload(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='havoc-hub-backup-'+new Date().toISOString().slice(0,10)+(tag?'-'+tag:'')+'.json';a.click();try{localStorage.setItem(KEY+'_lastbk',String(Date.now()));}catch(e){}bkStatusRender();toast(tag?"Safety backup downloaded":"Backup downloaded");}
 function importData(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{applyImported(JSON.parse(rd.result));toast("Backup imported");}catch(err){toast("Invalid backup file");}};rd.readAsText(f);e.target.value='';}
