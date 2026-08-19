@@ -409,6 +409,8 @@
   .feed-ages span{font-size:11px;font-weight:700;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:9px;padding:2px 9px;color:var(--ink-2);}
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   .unv{color:var(--red-text);font-weight:900;cursor:help;}
+  .guard-banner{flex:1 0 100%;border:2px solid #b48a00;border-radius:7px;background:#ffefc0;color:#5c4a00;font-size:12px;font-weight:700;line-height:1.6;padding:8px 11px;margin-top:6px;}
+  html[data-theme="dark"] .guard-banner{background:#3a3010;color:#ffd76a;border-color:#8a6a00;}
   .ref-ed{font-size:13px;}
   .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
 
@@ -2440,7 +2442,7 @@ function renderRosterTable(side,wrapId){
 function renderRosterProgress(){
   const f=DATA.roster.filter(p=>['C','LW','RW'].includes(p.pos)),d=DATA.roster.filter(p=>p.pos==='D'),g=DATA.roster.filter(p=>p.pos==='G');
   const bio=a=>a.filter(p=>p.notes&&p.notes.trim()).length;
-  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goalies <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>${rosterFileStampHTML()}`;
+  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goalies <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>${rosterFileStampHTML()}${guardBannerHTML()}`;
 }
 function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
@@ -7334,38 +7336,78 @@ function rookieVaries(feedPlayers){
   const vals=new Set(feedPlayers.map(f=>String(f.rookie||'')).filter(Boolean));
   return vals.size>1;
 }
-function htMergeRoster(list,feedPlayers,isHavoc){
+/* ===== INTERIM STALE-SEASON GUARD (P0A tourniquet) =====
+   Until real provenance lands, any feed apply REFUSES to (a) deactivate a
+   sheet-owned player (= a player on the committed spine), or (b) overwrite
+   internal data with rows from a season OLDER than the active one — and it
+   says so loudly. Stale data may only fill a gap, never replace. */
+let GUARD_LOG=[];
+function guardIsSheet(p){
+  const P=(MS_DATA&&MS_DATA.players)||[];
+  return !!(p&&p.name&&P.some(x=>norm(x.name)===norm(p.name)));
+}
+function guardNote(msg){if(GUARD_LOG.indexOf(msg)<0)GUARD_LOG.push(msg);}
+let GUARD_FILLS=0;   // count of stale field overwrites refused (too many to list)
+function staleSet(p,k,v){ // stale-season value: fill an empty field only
+  if(v==null||String(v).trim()==='')return;
+  if(p[k]!=null&&String(p[k]).trim()!==''){if(String(p[k])!==String(v))GUARD_FILLS++;return;}
+  feedSet(p,k,v);
+}
+function guardBannerHTML(){
+  if(!GUARD_LOG.length&&!GUARD_FILLS)return '';
+  const items=GUARD_LOG.slice(0,14).map(esc).join('<br>');
+  return `<div class="guard-banner"><b>Stale-season guard</b> — refused:<br>${items}${GUARD_LOG.length>14?'<br>… and '+(GUARD_LOG.length-14)+' more':''}${GUARD_FILLS?`<br>+ ${GUARD_FILLS} field overwrite${GUARD_FILLS===1?'':'s'} from an older season (existing values kept)`:''}</div>`;
+}
+function htMergeRoster(list,feedPlayers,isHavoc,stale){
   list=list||[];
   const rookieUsable=rookieVaries(feedPlayers);
+  const guardHavoc=!!(stale&&isHavoc);   // stale rows may not reshape the internal roster
   const seen=new Set();
   feedPlayers.forEach(fp=>{
     const k=norm(fp.name);if(!k)return;
     let p=rosterMatch(fp.name,list);
     seen.add(norm(p?p.name:fp.name));
-    if(!p){p={id:uid(),notes:''};list.push(p);}
+    if(!p){
+      if(guardHavoc){guardNote('add '+fp.name+' — older-season roster row');return;}
+      p={id:uid(),notes:''};list.push(p);
+    }
     // an existing Havoc name is the spine's join key (bios, milestones) — keep it
     else if(isHavoc&&p.name){}
     else p.name=fp.name;
     if(!p.name)p.name=fp.name;
+    const set=guardHavoc?staleSet:feedSet;
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
-    if(fp.img)p.img=fp.img;
-    if(fp.num)feedSet(p,'num',fp.num);
+    if(fp.img&&!(guardHavoc&&p.img))p.img=fp.img;
+    if(fp.num){
+      if(guardHavoc&&p.num&&String(p.num)!==String(fp.num))guardNote('jersey #'+fp.num+' on '+p.name+' — older-season number (keeping #'+p.num+')');
+      else set(p,'num',fp.num);
+    }
     // keep a more specific existing position (C/LW/RW) when the feed only says F
-    if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))feedSet(p,'pos',fp.pos);
-    // vitals: the league feed is the authority, so these land over anything the
-    // bios file supplied — silently, no conflict markers
-    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft'].forEach(k=>feedSet(p,k,fp[k]));
+    if(fp.pos&&!(fp.pos==='F'&&/^(C|LW|RW|F)$/.test(p.pos||'')))set(p,'pos',fp.pos);
+    // vitals: the CURRENT season's league feed is the authority; an older
+    // season's rows may only fill gaps
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft'].forEach(k=>set(p,k,fp[k]));
     // the rookie column reads the same for every player on some rosters, which
     // makes it a formatting flag rather than a fact — only take it when it
     // actually distinguishes one player from another
-    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
-    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}   // phonetic_name fills the guide
+    if(rookieUsable)set(p,'rookie',fp.rookie);
+    if(fp.pron){set(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}   // phonetic_name fills the guide
     else if(!String(p.pron||'').trim())p.pronAsk=1;            // blank here is one to ask the club
-    p.active='1';
+    if(!guardHavoc)p.active='1';                               // stale rows never flip a scratch back on
+    else if(p.active==null)p.active='1';
   });
-  // only mark leftovers inactive when the feed clearly returned a full roster —
-  // never a player the club's own sheet says is signed
-  if(feedPlayers.length>=8)list.forEach(p=>{if(!seen.has(norm(p.name))&&p.sheet!=='2026-27')p.active='0';});
+  // only mark leftovers inactive when the feed clearly returned a full roster
+  // FOR THE ACTIVE SEASON — and never a player the internal sheet says is signed
+  if(feedPlayers.length>=8&&!stale){
+    list.forEach(p=>{
+      if(seen.has(norm(p.name)))return;
+      if(isHavoc&&guardIsSheet(p)){guardNote('deactivate '+p.name+' — signed on the internal sheet');return;}
+      p.active='0';
+    });
+  }else if(feedPlayers.length>=8&&stale&&isHavoc){
+    const would=list.filter(p=>!seen.has(norm(p.name))&&p.active!=='0');
+    if(would.length)guardNote('deactivate '+would.length+' player'+(would.length===1?'':'s')+' ('+would.map(p=>p.name).join(', ')+') — the roster came from an older season');
+  }
   return list;
 }
 /* team ids confirmed against the league feed */
@@ -7410,6 +7452,7 @@ function rosterFileApply(){
   if(!fps.length)return;
   const by=new Map();fps.forEach(fp=>by.set(norm(fp.name),fp));
   const rookieUsable=rookieVaries(fps);
+  const fileStale=+(ROSTER_FILE.seasonId||0)<+(activeSeasonId()||0);   // preseason fallback content
   const before=JSON.stringify(DATA.roster);   // apply runs on every render — only save/re-render on a real change
   (DATA.roster||[]).forEach(p=>{
     if(!p.name)return;
@@ -7418,9 +7461,12 @@ function rosterFileApply(){
     if(!p.htId&&fp.htid)p.htId=fp.htid;
     if(fp.img&&!p.img)p.img=fp.img;
     if(fp.num&&!p.num)p.num=fp.num;   // the committed file may lag a season — never overwrite a set number
-    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
-    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
-    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
+    // when the committed file carries an OLDER season than the active one
+    // (preseason fallback), its rows may fill gaps but never overwrite
+    const fset=fileStale?staleSet:feedSet;
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>fset(p,k,fp[k]));
+    if(rookieUsable)fset(p,'rookie',fp.rookie);
+    if(fp.pron){fset(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}
   });
   if(JSON.stringify(DATA.roster)!==before){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
 }
@@ -7444,9 +7490,10 @@ async function htVitalsBackfill(){
     if(!fp)return;
     if(!p.htId&&fp.htid)p.htId=fp.htid;
     if(fp.img&&!p.img){p.img=fp.img;pics++;}   // verbatim, as the feed gives it
-    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>feedSet(p,k,fp[k]));
-    if(rookieUsable)feedSet(p,'rookie',fp.rookie);
-    if(fp.pron){feedSet(p,'pron',fp.pron);delete p.pronAsk;}
+    // this whole path reaches back a season BY DESIGN — stale data fills gaps only
+    ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>staleSet(p,k,fp[k]));
+    if(rookieUsable)staleSet(p,'rookie',fp.rookie);
+    if(fp.pron){staleSet(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}
     else if(!String(p.pron||'').trim())p.pronAsk=1;
     got++;
   });
@@ -7479,18 +7526,24 @@ async function htRosterSweep(season){
   return {teams:teams.length,out,empty:!out.length};
 }
 async function htDoRosters(){
+  await msLoad();   // the guard needs the internal sheet to know who is protected
+  const guardBefore=GUARD_LOG.length;
   const got=await seasonTry('rosters',se=>htRosterSweep(se));
+  // rows that came from the previous-season fallback are STALE — they may fill
+  // gaps but never reshape the internal roster (the tourniquet, until provenance)
+  const stale=!!(((DATA.report||{}).seasonFallback||{}).rosters);
   let teamCount=0,playerCount=0;
   (got.out||[]).forEach(({tname,players})=>{
     if(/Huntsville/i.test(tname)){
-      DATA.roster=htMergeRoster(DATA.roster,players,true);
+      DATA.roster=htMergeRoster(DATA.roster,players,true,stale);
     }else{
       const full=TEAMS.find(x=>x===tname)||TEAMS.find(x=>tname.indexOf(x.split(' ')[0])===0)||tname;
       DATA.oppRosters=DATA.oppRosters||{};
-      DATA.oppRosters[full]=htMergeRoster(DATA.oppRosters[full],players);
+      DATA.oppRosters[full]=htMergeRoster(DATA.oppRosters[full],players,false,stale);
     }
     teamCount++;playerCount+=players.length;
   });
+  if(GUARD_LOG.length>guardBefore)toast('Stale-season guard blocked '+(GUARD_LOG.length-guardBefore)+' change'+((GUARD_LOG.length-guardBefore)===1?'':'s')+' — details on the Rosters tab');
   if(!teamCount)throw new Error('Rosters: no club has published a roster for '+seasonLabelOf(activeSeasonId())+' yet.');
   syncRosterStats();save();syncMark('rosters');
   renderRoster();if(typeof renderOppRoster==='function')renderOppRoster();
