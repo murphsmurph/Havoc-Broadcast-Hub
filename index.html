@@ -2480,7 +2480,7 @@ function savePlayer(){
     // remember which vitals he changed by hand so the next roster sync leaves
     // his correction alone; everything else the league feed still owns
     const he=Object.assign({},cur.handEdit||{});
-    ['num','pos','ht','wt','sh','age','birth','dob'].forEach(k=>{
+    ['num','pos','ht','wt','sh','age','birth','dob','active'].forEach(k=>{
       if(String(obj[k]||'')!==String(cur[k]||''))he[k]=1;
     });
     if(Object.keys(he).length)obj.handEdit=he;
@@ -3258,12 +3258,12 @@ function havocHeadSrcs(p){
     const m=String(u||'').match(/^(https?:\/\/[^\s]*\/)(\d+x\d+)(\/[^\/]+)$/);
     return m?['240x240'].filter(s=>s!==m[2]).map(s=>m[1]+s+m[3]):[];
   };
+  if(p.imgData)srcs.push(p.imgData);   // his own upload outranks every feed URL
   if(p.img){bigger(p.img).forEach(u=>srcs.push(u));srcs.push(p.img);}
   if(p.htId){                       // no feed url yet — the documented pattern
     srcs.push('https://assets.leaguestat.com/sphl/240x240/'+p.htId+'.jpg');
     srcs.push('https://assets.leaguestat.com/sphl/120x160/'+p.htId+'.jpg');
   }
-  if(p.imgData)srcs.push(p.imgData);
   return [...new Set(srcs)];
 }
 function mtpImgErr(el){
@@ -5299,6 +5299,7 @@ function bioLine(v){return String(v||'').trim();}
    before the league publishes 2026-27, every browser still shows the signed
    roster. Creates missing players and fills only EMPTY fields — hand edits
    and feed values always win. Idempotent; only saves on a real change. */
+function sheetSeason(){return String(((MS_DATA||{}).meta||{}).season||'2026-27');}
 function spineRosterApply(){
   if(!MS_DATA||!Array.isArray(MS_DATA.players))return;
   const before=JSON.stringify(DATA.roster);
@@ -5306,6 +5307,7 @@ function spineRosterApply(){
     if(!sp.name)return;
     let p=DATA.roster.find(x=>norm(x.name)===norm(sp.name))||rosterMatch(sp.name,DATA.roster);
     if(!p){p={id:uid(),name:sp.name,notes:'',bbio:'',active:'1'};DATA.roster.push(p);}
+    p.sheet=sheetSeason();   // PROVENANCE: this player is on the internal signed sheet
     if(!p.num&&sp.num)p.num=String(sp.num);
     if(!p.pos&&sp.pos)p.pos=sp.pos;
     const b=sp.bio||{};
@@ -7379,7 +7381,11 @@ function htMergeRoster(list,feedPlayers,isHavoc,stale){
     if(fp.htid)p.htId=fp.htid; // HockeyTech player ID — the join key for the EP data file
     if(fp.img&&!(guardHavoc&&p.img))p.img=fp.img;
     if(fp.num){
-      if(guardHavoc&&p.num&&String(p.num)!==String(fp.num))guardNote('jersey #'+fp.num+' on '+p.name+' — older-season number (keeping #'+p.num+')');
+      // PRECEDENCE (master doc §5): the internal sheet's number outranks the
+      // feed in ANY season — the feed's number is reported, never applied
+      const sheetOwn=isHavoc&&(p.sheet===sheetSeason()||guardIsSheet(p));
+      if(p.num&&String(p.num)!==String(fp.num)&&(guardHavoc||sheetOwn))
+        guardNote('jersey #'+fp.num+' on '+p.name+' — '+(guardHavoc?'older-season number':'internal sheet number stands')+' (keeping #'+p.num+')');
       else set(p,'num',fp.num);
     }
     // keep a more specific existing position (C/LW/RW) when the feed only says F
@@ -7393,15 +7399,16 @@ function htMergeRoster(list,feedPlayers,isHavoc,stale){
     if(rookieUsable)set(p,'rookie',fp.rookie);
     if(fp.pron){set(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}   // phonetic_name fills the guide
     else if(!String(p.pron||'').trim())p.pronAsk=1;            // blank here is one to ask the club
-    if(!guardHavoc)p.active='1';                               // stale rows never flip a scratch back on
-    else if(p.active==null)p.active='1';
+    if(!guardHavoc){if(!handOwns(p,'active'))p.active='1';}    // a hand-set scratch survives a sync
+    else if(p.active==null)p.active='1';                       // stale rows never flip a scratch back on
   });
   // only mark leftovers inactive when the feed clearly returned a full roster
   // FOR THE ACTIVE SEASON — and never a player the internal sheet says is signed
   if(feedPlayers.length>=8&&!stale){
     list.forEach(p=>{
       if(seen.has(norm(p.name)))return;
-      if(isHavoc&&guardIsSheet(p)){guardNote('deactivate '+p.name+' — signed on the internal sheet');return;}
+      if(isHavoc&&(p.sheet===sheetSeason()||guardIsSheet(p))){guardNote('deactivate '+p.name+' — signed on the internal sheet');return;}
+      if(handOwns(p,'active'))return;   // his hand-set active state stands
       p.active='0';
     });
   }else if(feedPlayers.length>=8&&stale&&isHavoc){
