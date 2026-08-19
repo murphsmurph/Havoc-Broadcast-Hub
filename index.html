@@ -5257,11 +5257,14 @@ function msBadge(k,hit){
 }
 async function msLoad(){
   if(MS_DATA)return MS_DATA;
-  if(DATA.careersFile){MS_DATA=DATA.careersFile;return MS_DATA;}
+  // the COMMITTED file always outranks a browser snapshot — an old import must
+  // never permanently shadow committed counter updates and corrections
   try{
-    const r=await fetch('data/havoc_players.json');
+    const r=await fetch('data/havoc_players.json',{cache:'no-cache'});
     if(r.ok){MS_DATA=await r.json();return MS_DATA;}
   }catch(e){}
+  // offline / file:// only: the last imported copy is better than nothing
+  if(DATA.careersFile){MS_DATA=DATA.careersFile;return MS_DATA;}
   return null;
 }
 /* ---- authored prose: data/bios.json — written on the Mac, committed, and
