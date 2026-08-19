@@ -87,6 +87,7 @@
 <div class="noprint" id="nav"></div>
 <div id="page"></div>
 
+<script src="js/career-math.js"></script>
 <script>
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slug=s=>String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
@@ -197,22 +198,23 @@ function renderPlayer(p){
   if(live)table+=row({...cur,season:cur.season||'2026-27',team:(cur.team||'Huntsville Havoc')+' (live)',league:cur.league||'SPHL'},'live');
   const proRows=(p.seasons||[]).filter(r=>r.level==='Pro').concat(live?[cur]:[]);
   const havRows=proRows.filter(r=>/Huntsville/.test(r.team||'')||r===cur);
-  const tot=(base,rows,label)=>{
-    const t={};
-    cols.forEach(k=>{
-      t[k]=(base&&base[k]!=null)?base[k]:null;
-      if(t[k]!=null&&cur[k]!=null&&k!=='gaa'&&k!=='svpct')t[k]+=cur[k];
-    });
+  // totals come from THE canonical career function (js/career-math.js) — the
+  // same math the hub's boards use. nullAsZero:false keeps this page's rule:
+  // an unknown baseline key prints "—", never an invented 0.
+  const totKeys=cols.filter(k=>k!=='gaa'&&k!=='svpct'&&k!=='pm');
+  const tot=(scope,rows,label)=>{
+    const t=CareerMath.totals(p,scope,(D||{}).meta,{keys:totKeys,nullAsZero:false}).vals;
     if(!G)t.pm=sum(rows,'pm');
     const po={};poCols.forEach(k=>po[k]=sum(rows.map(r=>r.po),k));
     return `<tr class="tot"><td colspan="3" class="l">${label}</td>`
       +cols.map(k=>`<td>${k==='pm'?pmf(t.pm):(k==='gaa'||k==='svpct'?'—':cell(t[k]))}</td>`).join('')
       +poCols.map((k,i)=>`<td${i===0?' class="gsplit"':''}>${cell(po[k])}</td>`).join('')+'</tr>';
   };
-  const bp=p.baseline_pro||p.computed_pro_totals,bh=p.baseline_havoc||p.computed_havoc_totals;
-  const same=bp&&bh&&['gp','g','a','pts','w','so'].every(k=>bp[k]===bh[k]);
-  table+=tot(bp,proRows,same?'HAVOC / SPHL / PRO TOTALS':'PRO TOTALS');
-  if(!same)table+=tot(bh,havRows,'HAVOC TOTALS');
+  const tp=CareerMath.totals(p,'pro',(D||{}).meta,{nullAsZero:false}).vals,
+        th=CareerMath.totals(p,'havoc',(D||{}).meta,{nullAsZero:false}).vals;
+  const same=['gp','g','a','pts','w','so'].every(k=>tp[k]===th[k]);
+  table+=tot('pro',proRows,same?'HAVOC / SPHL / PRO TOTALS':'PRO TOTALS');
+  if(!same)table+=tot('havoc',havRows,'HAVOC TOTALS');
 
   const toDate=live?`<div class="counters" style="margin-top:8px"><span class="lab">2026-27 to date:</span> `
     +(G?`${cur.gp} GP, ${cur.w??0}-${cur.l??0}-${cur.otl??0}, ${cur.so??0} SO`

@@ -137,7 +137,6 @@ async function main() {
     notes: 'Scaffolded ' + new Date().toISOString().slice(0, 10) + ' by scripts/add_player.mjs from ' +
       [row ? 'sphl-rosters.json' : null, epId ? 'EP #' + epId : null].filter(Boolean).join(' + ') +
       (seasons.length ? ' — verify the season rows before air.' : ' — career history still to research.'),
-    computed_pro_totals: { ...basePro }, computed_havoc_totals: { ...baseHav },
     baseline_pro: basePro, baseline_havoc: baseHav,
     current_season: current,
     bio: { height: ht, weight: wt, shoots: sh, born, birthdate: dobIso ? dobFmt(dobIso) : '' },

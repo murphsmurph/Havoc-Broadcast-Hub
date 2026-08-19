@@ -1646,6 +1646,7 @@ const FRANCHISES={
 }};
 </script>
 <script src="js/daily-report-parser.js"></script>
+<script src="js/career-math.js"></script>
 <script>
 /* ============ COMPAT (older iOS/macOS Safari) ============ */
 if(typeof structuredClone!=='function')window.structuredClone=o=>JSON.parse(JSON.stringify(o));
@@ -5192,41 +5193,17 @@ function tsRanks(t,ci,type){
   });
 }
 let MS_DATA=null,MS_VIEW='pro';
-function msProLeagues(){return ((MS_DATA||{}).meta||{}).pro_leagues||[];}
-function msIsPro(row){return msProLeagues().indexOf(row.league)>=0||row.level==='Pro';}
-function msIsHavoc(row){return row.team==='Huntsville Havoc';}
+/* career math is CANONICAL in js/career-math.js — these are thin delegates
+   so every existing call site keeps its name (P0A consolidation, audit D-1) */
+function msProLeagues(){return CareerMath.proLeagues((MS_DATA||{}).meta);}
+function msIsPro(row){return CareerMath.isPro(row,msProLeagues());}
+function msIsHavoc(row){return CareerMath.isHavoc(row);}
 /* null-respecting sum: null in means unknown, and an unknown never becomes 0 */
-function msSum(rows,keys){
-  const out={};
-  keys.forEach(k=>{
-    let any=false,t=0;
-    rows.forEach(r=>{if(r[k]!=null){any=true;t+=r[k];}});
-    out[k]=any?t:0;
-  });
-  return out;
-}
-function msTotals(p,scope){
-  const keys=p.type==='goalie'?['gp','svs','w','so']:['gp','g','a','pts','pim'];
-  const ov=scope==='pro'
-    ?(p.override_pro||p.override_pro_goalie)
-    :(p.override_havoc||p.override_havoc_goalie);
-  // v2 structure: seasons[] is frozen history, baseline_* is the career total
-  // entering 2026-27, and current_season is the live counter edited on game
-  // nights. Career = baseline + current — 2026-27 is Havoc SPHL hockey, so the
-  // live counters count in BOTH scopes. Milestones run off these live sums.
-  const base=scope==='pro'?p.baseline_pro:p.baseline_havoc;
-  if(base&&p.current_season){
-    const cur=p.current_season;
-    const vals={};
-    keys.forEach(k=>{vals[k]=(base[k]==null?0:base[k])+(cur[k]==null?0:cur[k]);});
-    return {vals,ov:!!ov,live:cur,base};
-  }
-  // v1 fallback: override beats a computed sum while season rows are incomplete
-  const rows=(p.seasons||[]).filter(r=>scope==='pro'?msIsPro(r):(msIsPro(r)&&msIsHavoc(r)));
-  const computed=msSum(rows,keys);
-  const incomplete=rows.some(r=>r.gp==null);
-  return {vals:ov?Object.assign({},computed,ov):computed,ov:!!ov,incomplete};
-}
+function msSum(rows,keys){return CareerMath.sum(rows,keys);}
+/* career = baseline_<scope> + current_season (the §4 model) — 2026-27 is Havoc
+   SPHL hockey, so the live counters count in BOTH scopes. Milestones, the
+   record watch and the franchise race all run off this one canonical result. */
+function msTotals(p,scope){return CareerMath.totals(p,scope,(MS_DATA||{}).meta);}
 /* the single shared milestone function from the brief */
 function msWithin(val,step,window){
   if(val==null)return null;
