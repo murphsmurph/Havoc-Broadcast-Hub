@@ -36,6 +36,10 @@ const ok = (n, c) => { console.log((c ? 'PASS' : 'FAIL') + ' — ' + n); if (!c)
 (async () => {
   const b = await chromium.launch(EXE ? { executablePath: EXE } : {});
   const pg = await b.newPage();
+  // hermetic: nothing but the local server. Page-init JSONP calls to the real
+  // league feed otherwise reach the internet from CI and their error bodies
+  // ("invalid access key…") land as script SyntaxErrors — noise, not findings.
+  await pg.route(/^https?:\/\/(?!localhost)/, r => r.abort());
   pg.on('pageerror', e => { console.log('PAGEERROR', String(e)); fails.push('pageerror'); });
   await pg.goto('http://localhost:' + PORT + '/index.html');
   await pg.waitForTimeout(2000);
