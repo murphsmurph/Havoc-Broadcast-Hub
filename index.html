@@ -2632,8 +2632,12 @@ function recBook(){
   if(L){
     const nm=v=>v==null?'—':(typeof v==='number'&&v>=1000?v.toLocaleString('en-US'):String(v));
     const pc=v=>(v!=null&&v<1)?('.'+String(Math.round(v*1000)).padStart(3,'0')):nm(v);
+    // [label, display string, {value, holder}] — the third element keeps the
+    // record STRUCTURED so the watch can join holders by full name, never by
+    // parsing the display string back apart
     const f=(o,lbl,fmt)=>o?[lbl,(fmt||nm)(o.value)+(o.holder?' — '+o.holder:'')
-      +(o.years?' ('+o.years+')':(o.year?' ('+o.year+')':(o.period?' ('+o.period+')':'')))]:null;
+      +(o.years?' ('+o.years+')':(o.year?' ('+o.year+')':(o.period?' ('+o.period+')':''))),
+      {value:o.value,holder:String(o.holder||'')}]:null;
     const c=L.havoc_career_leaders||{},s=L.single_season_skaters||{},g=L.single_season_goalies||{},t=L.team_records||{};
     R={
       career:[f(c.games,'Games'),f(c.goals,'Goals'),f(c.assists,'Assists'),f(c.points,'Points'),f(c.pim,'Penalty minutes'),
@@ -5714,9 +5718,13 @@ const REC_WATCH={
 function recParse(label,list){
   const hit=(list||[]).find(r=>r[0]===label);
   if(!hit)return null;
+  // structured record (the data-file path): value and holder come as data
+  if(hit[2]&&hit[2].value!=null)return {val:+hit[2].value,who:hit[2].holder||''};
+  // seeded-copy fallback only: recover the value from the display string; the
+  // holder stays UNKNOWN ('' ) so the watch can never claim it by guesswork
   const m=String(hit[1]).match(/-?[\d,]+(?:\.\d+)?/);
   if(!m)return null;
-  return {val:parseFloat(m[0].replace(/,/g,'')),who:String(hit[1]).replace(m[0],'').replace(/^[\s—-]+/,'').trim()};
+  return {val:parseFloat(m[0].replace(/,/g,'')),who:''};
 }
 function recWatchRows(){
   const R=recBook();
@@ -5750,7 +5758,13 @@ function renderRecordWatch(){
   const line=r=>{
     const last=r.p.name.split(' ').pop();
     const what=(r.scope==='season'?'the single-season record':'the franchise '+statName[r.k]+' record');
-    const mine=!!(r.rec.who&&r.rec.who.indexOf(last)>=0);   // the book's holder IS this player
+    // the book's holder IS this player — whole-name equality against his spine
+    // name and formal_name alias, never a last-name substring; a shared-holder
+    // card ("Mike Robinson / Matt Carmichael") splits into its names first
+    const holders=String(r.rec.who||'').split(/\s*[\/,&]\s*|\s+and\s+/i).map(norm).filter(Boolean);
+    const pb=biosFor(r.p)||{};
+    const names=[r.p.name,pb.formal_name].filter(Boolean).map(norm);
+    const mine=holders.length>0&&names.some(n=>holders.indexOf(n)>=0);
     if(r.away<=0&&mine){
       const one=statName[r.k].replace(/s$/,'');
       if(r.scope==='season')
