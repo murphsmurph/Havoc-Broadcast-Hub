@@ -2,6 +2,8 @@
 HAvoc Broadcasting Hub
 # Havoc Game Notes Hub
 
+> **[`HAVOC_HUB_MASTER_DOCUMENT.md`](HAVOC_HUB_MASTER_DOCUMENT.md) is the controlling document for all work in this repo. Where any other file or instruction disagrees with it, it wins.**
+
 A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No build, no server — one HTML file that runs in any browser.
 
 ## What's inside
