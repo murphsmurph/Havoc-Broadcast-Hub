@@ -1,5 +1,7 @@
 name: Update Elite Prospects data
 
+# Opens a PR with the diff — NEVER pushes to main (standing law #7 in
+# HAVOC_HUB_MASTER_DOCUMENT.md: automations open PRs; a human merges).
 on:
   schedule:
     - cron: '0 6 * * 1'   # Mondays 06:00 UTC
@@ -12,6 +14,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   build-ep-data:
@@ -30,15 +33,23 @@ jobs:
           MAX_EP_CALLS: ${{ inputs.max_calls }}
         run: node scripts/build-ep-data.mjs
 
-      - name: Commit updated data
+      - name: Open a PR with the diff
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
+          # only the two files this script writes — never the broadcast spine
+          git add data/ep-players.json data/ep-teams.json
+          if git diff --staged --quiet; then
+            echo "No data changes — no PR."
+            exit 0
+          fi
+          BRANCH="ep-data-$(date -u +%Y%m%d)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/*.json
-          if git diff --staged --quiet; then
-            echo "No data changes."
-          else
-            git commit -m "Update Elite Prospects data (scheduled)"
-            git pull --rebase origin "$GITHUB_REF_NAME" || true
-            git push
-          fi
+          git checkout -b "$BRANCH"
+          git commit -m "Update Elite Prospects data (scheduled)"
+          git push -u origin "$BRANCH" --force
+          gh pr create --base main --head "$BRANCH" \
+            --title "EP data refresh $(date -u +%Y-%m-%d)" \
+            --body "$(printf 'Automated weekly EP data build — ep-players.json / ep-teams.json only. Review before merging.\n\n```\n%s\n```' "$(git show --stat --format= HEAD)")" \
+            || echo "PR already open for $BRANCH"
