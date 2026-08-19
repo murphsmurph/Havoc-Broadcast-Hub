@@ -22,6 +22,7 @@ permissions:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,9 +30,13 @@ jobs:
           node-version: '22'
       - name: Tests 1-4 — career math against the anchors
         run: node tests/anchor_reconstruction.mjs
+      # headless shell only — no apt run (--with-deps hung a runner for 13+
+      # minutes on a lock; the ubuntu-latest image already carries the libs)
       - name: Install Playwright Chromium (test 5 drives the real roster sync headlessly)
+        timeout-minutes: 8
         run: |
           npm install --no-audit --no-fund playwright
-          npx playwright install --with-deps chromium
+          npx playwright install --only-shell chromium
       - name: Test 5 — roster precedence (stale feed must not displace the internal sheet)
+        timeout-minutes: 5
         run: node tests/roster_precedence.mjs
