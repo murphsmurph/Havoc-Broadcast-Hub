@@ -1,0 +1,42 @@
+name: Data integrity tests
+
+# The five P0A tests from HAVOC_HUB_MASTER_DOCUMENT.md Part 4 — plain node
+# scripts, no framework, on every PR and every push to main:
+#   1. PTS = G+A on every season row where all three exist
+#   2. Recomputed pro/Havoc totals match what the site displays
+#      (respecting documented tracker overrides)
+#   3. No junior/college row in any pro-universe sum
+#   4. Known-good career anchors (Alger, Fries, Wilson, Procopio —
+#      entering 2026-27; update the anchors at season rollover)
+#   5. Roster precedence: a synthetic stale-feed fixture must NOT
+#      displace an internal-sheet player
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Tests 1-4 — career math against the anchors
+        run: node tests/anchor_reconstruction.mjs
+      # headless shell only — no apt run (--with-deps hung a runner for 13+
+      # minutes on a lock; the ubuntu-latest image already carries the libs)
+      - name: Install Playwright Chromium (test 5 drives the real roster sync headlessly)
+        timeout-minutes: 8
+        run: |
+          npm install --no-audit --no-fund playwright
+          npx playwright install --only-shell chromium
+      - name: Test 5 — roster precedence (stale feed must not displace the internal sheet)
+        timeout-minutes: 5
+        run: node tests/roster_precedence.mjs
