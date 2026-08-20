@@ -426,6 +426,17 @@
   .gday-sec{font-size:calc(12px*var(--gs));font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:9px 0 3px;}
   .gday-line{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;border-bottom:1px solid var(--havoc-line);padding:3px 0;}
   .gday-lnum{font-size:calc(12px*var(--gs));font-weight:800;color:var(--ink-2);min-width:16px;}
+  /* Learn the Rosters — the jersey-first study card */
+  .learn-card{min-height:170px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:8px;
+    border:2px solid var(--line);border-radius:12px;margin:14px 0;padding:18px;text-align:center;}
+  .learn-front{font-size:72px;font-weight:900;color:var(--red-text);line-height:1;}
+  .learn-front.learn-namefront{font-size:34px;}
+  .learn-team{font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--ink-2);text-transform:uppercase;}
+  .learn-back{font-size:15px;line-height:1.5;}
+  .learn-back .nm{font-size:26px;font-weight:900;display:block;}
+  .learn-back .learn-pron{color:var(--red-text);font-weight:700;}
+  .learn-tags{font-size:12px;color:var(--ink-2);}
+  .learn-done{font-size:20px;font-weight:800;}
   .gday-p{display:inline-flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;padding:3px 0;}
   .gday-num{font-size:calc(15px*var(--gs));font-weight:900;color:var(--red-text);min-width:34px;}
   .gday-name{font-size:calc(18px*var(--gs));font-weight:800;}
@@ -995,12 +1006,41 @@
 
   <!-- OPPONENT ROSTER -->
 
-  <!-- ROSTERS: Havoc + Opponent + Learn the Roster -->
+  <!-- ROSTERS: Havoc + Opponent + Career & Milestones + Learn the Rosters -->
   <section class="panel hub-panel" id="panel-rosters">
     <div class="subnav no-print">
       <button class="subtab active" data-sub="roster">Havoc</button>
       <button class="subtab" data-sub="opproster">Opponent</button>
       <button class="subtab" data-sub="careers">Career &amp; Milestones</button>
+      <button class="subtab" data-sub="learn">Learn the Rosters</button>
+    </div>
+    <div class="subview" id="panel-learn">
+      <div class="card hub-card">
+        <h2>Learn the <span class="accent">Rosters</span></h2>
+        <p class="desc">The play-by-play recognition drill: see the number, know the player. Same canonical rosters and lines as every printed page — nothing separate to maintain. Space / Enter reveals, then advances.</p>
+        <div class="btn-row" style="flex-wrap:wrap;gap:8px;align-items:center">
+          <select id="learnTeam">
+            <option value="home">Huntsville</option>
+            <option value="opp">Opponent</option>
+            <option value="both">Both teams</option>
+          </select>
+          <select id="learnDir">
+            <option value="num">Number &rarr; player</option>
+            <option value="name">Player &rarr; number</option>
+          </select>
+          <label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" id="learnActive" checked> expected active only</label>
+          <button class="btn" onclick="learnStart()">Start / reshuffle</button>
+          <button class="btn secondary" onclick="learnCram()">Opponent cram</button>
+          <span id="learnOppName" class="pill"></span>
+        </div>
+        <div id="learnCard" class="learn-card"></div>
+        <div class="btn-row no-print" id="learnBtns" style="display:none">
+          <button class="btn" onclick="learnReveal()" id="learnRevealBtn">Reveal</button>
+          <button class="btn secondary" onclick="learnMark(1)" id="learnGotBtn" style="display:none">Got it</button>
+          <button class="btn secondary" onclick="learnMark(0)" id="learnMissBtn" style="display:none">Missed</button>
+        </div>
+        <div id="learnProg" class="desc"></div>
+      </div>
     </div>
     <div class="subview active" id="panel-roster">
 <div class="card hub-card">
@@ -1878,6 +1918,7 @@ const SUB_INIT={
   roster:()=>{renderRoster();loadHockeyOps();},
   opproster:()=>renderOppRoster(),
   careers:()=>msInit(),
+  learn:()=>learnInit(),
   packet:()=>{loadNotesExtra();pkRenderPicker();renderPacket();},
   chart:()=>renderChart(),
   lines:()=>linesInit(),
@@ -8703,6 +8744,118 @@ function gdayRender(){
   const gu=document.getElementById('gdayGuard');
   if(gu)gu.innerHTML=guardBannerHTML();
   renderSyncBadges();
+}
+/* ============ LEARN THE ROSTERS — slim study drill (bridge) ============
+   Jersey-first: see the number, know the player. Reads the same canonical
+   pools as the Game Day jersey lookup and the same DATA.lines the line card
+   prints — no separate study roster. No scoring, levels or gamification;
+   the optional missed-counter only biases repetition. */
+let LEARN={deck:[],i:0,revealed:false};
+function learnPools(){
+  const t=val('learnTeam')||'home';
+  const activeOnly=(document.getElementById('learnActive')||{}).checked!==false;
+  const opp=DATA.game.opp||'';
+  const pools=[];
+  if(t==='home'||t==='both')pools.push(['home','Huntsville',DATA.roster]);
+  if(t==='opp'||t==='both')pools.push(['opp',teamCity(opp)||'Opponent',(opp&&DATA.oppRosters[opp])||[]]);
+  const out=[];
+  pools.forEach(([side,lbl,list])=>(list||[]).forEach(p=>{
+    if(!p.name||!p.num)return;
+    if(activeOnly&&p.active==='0')return;
+    out.push({side,lbl,p});
+  }));
+  return out;
+}
+function learnShuffle(a){
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function learnStart(){
+  DATA.learn=DATA.learn||{miss:{}};
+  const cards=learnPools();
+  const deck=[];
+  cards.forEach(c=>{deck.push(c);if((DATA.learn.miss||{})[c.p.name])deck.push(c);}); // missed twice next run
+  LEARN={deck:learnShuffle(deck),i:0,revealed:false};
+  learnRender();
+}
+function learnCram(){
+  const sel=document.getElementById('learnTeam');if(sel)sel.value='opp';
+  learnStart();
+}
+function learnLineOf(p,side){
+  if(typeof ensureLines!=='function')return '';
+  ensureLines();
+  const L=DATA.lines[side==='home'?'home':'opp'];if(!L)return '';
+  const list=side==='home'?DATA.roster:((DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[]);
+  let hit='';
+  const chk=(v,tag)=>{const q=lineResolve(v,list);if(q&&q.id===p.id)hit=tag;};
+  L.f.forEach((ln,i)=>ln.forEach(v=>chk(v,'Line '+(i+1))));
+  L.d.forEach((pr,i)=>pr.forEach(v=>chk(v,'Pair '+(i+1))));
+  chk(L.g[0],'Starter');chk(L.g[1],'Backup');
+  return hit;
+}
+function learnCardHTML(c,revealed){
+  const dir=val('learnDir')||'num';
+  const p=c.p;
+  const numFront=`<div class="learn-front">#${esc(p.num)}</div>`;
+  const nameFront=`<div class="learn-front learn-namefront">${esc(dispName(p))}</div>`;
+  if(!revealed)return `<div class="learn-team">${esc(c.lbl)}</div>${dir==='num'?numFront:nameFront}`;
+  const pron=fdPron(p);
+  const line=learnLineOf(p,c.side);
+  const ret=c.side==='home'
+    ?(p.from?(/Huntsville/i.test(p.from)?'RETURNING':'NEW — from '+p.from):'')
+    :(p.rookie==='1'?'ROOKIE':'');
+  const tags=[p.pos||'',line,ret].filter(Boolean).map(esc).join(' · ');
+  return `<div class="learn-team">${esc(c.lbl)}</div>${numFront}
+    <div class="learn-back">${dir==='num'?`<span class="nm">${esc(dispName(p))}</span>`:''}
+      ${pron?`<span class="learn-pron">${esc(pron)}</span><br>`:''}
+      <span class="learn-tags">${tags}</span></div>`;
+}
+function learnProg(){
+  const el=document.getElementById('learnProg');if(!el)return;
+  el.textContent=LEARN.deck.length?('Card '+Math.min(LEARN.i+1,LEARN.deck.length)+' of '+LEARN.deck.length):'';
+}
+function learnRender(){
+  const el=document.getElementById('learnCard');if(!el)return;
+  const oppEl=document.getElementById('learnOppName');
+  if(oppEl)oppEl.textContent=DATA.game.opp?('Opponent: '+DATA.game.opp):'Set the opponent on This Game for opponent study';
+  const btns=document.getElementById('learnBtns');
+  if(!LEARN.deck.length||LEARN.i>=LEARN.deck.length){
+    el.innerHTML=LEARN.deck.length
+      ?'<div class="learn-done">Deck done — '+LEARN.deck.length+' cards. Reshuffle to run it again.</div>'
+      :'<div class="learn-tags">'+(learnPools().length
+        ?'Press Start / reshuffle.'
+        :'No players in that pool yet — opponents load from the committed roster file; a brand-new club appears once the league publishes its roster.')+'</div>';
+    if(btns)btns.style.display='none';
+    learnProg();return;
+  }
+  el.innerHTML=learnCardHTML(LEARN.deck[LEARN.i],LEARN.revealed);
+  if(btns)btns.style.display='';
+  document.getElementById('learnRevealBtn').style.display=LEARN.revealed?'none':'';
+  document.getElementById('learnGotBtn').style.display=LEARN.revealed?'':'none';
+  document.getElementById('learnMissBtn').style.display=LEARN.revealed?'':'none';
+  learnProg();
+}
+function learnReveal(){LEARN.revealed=true;learnRender();}
+function learnMark(got){
+  DATA.learn=DATA.learn||{miss:{}};
+  const c=LEARN.deck[LEARN.i];
+  if(c){if(got)delete DATA.learn.miss[c.p.name];else DATA.learn.miss[c.p.name]=1;save();}
+  LEARN.i++;LEARN.revealed=false;learnRender();
+}
+function learnInit(){
+  learnRender();
+  if(learnInit.wired)return;learnInit.wired=true;
+  document.addEventListener('keydown',e=>{
+    const sub=document.getElementById('panel-learn'),tab=document.getElementById('panel-rosters');
+    if(!sub||!tab||!sub.classList.contains('active')||!tab.classList.contains('active'))return;
+    if(e.key!==' '&&e.key!=='Enter')return;
+    const t=e.target;if(t&&/INPUT|SELECT|TEXTAREA|BUTTON/.test(t.tagName))return;
+    e.preventDefault();
+    if(!LEARN.deck.length||LEARN.i>=LEARN.deck.length)learnStart();
+    else if(!LEARN.revealed)learnReveal();
+    else learnMark(1);
+  });
 }
 async function gdayInit(){
   gdayWire();
