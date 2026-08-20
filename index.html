@@ -2399,6 +2399,9 @@ function gameNoAutofill(){
   const g=games[n-1];
   if(!g){toast('No game #'+n+' on the saved schedule');return;}
   setv('g_date',g.dateISO);
+  // a numbered game is regular season by definition — clear a leftover
+  // preseason flag from a previously loaded exhibition
+  const psEl=document.getElementById('g_ps');if(psEl)psEl.checked=false;
   if(g.time){
     const el=document.getElementById('g_time');
     const m=g.time.match(/(\d{1,2}):(\d{2})\s*([AP])/i);
