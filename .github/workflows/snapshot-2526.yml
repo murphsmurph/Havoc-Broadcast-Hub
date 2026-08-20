@@ -1,0 +1,29 @@
+# TEMPORARY branch-only workflow (bridge PR-F): generate the 2025-26 FINAL
+# snapshot from the official feed on a runner (feed hosts are egress-blocked
+# from the dev sandbox). Removed before the PR merges — the net diff to main
+# never contains this file.
+name: Build 2025-26 final snapshot (one-shot)
+
+on:
+  push:
+    paths:
+      - '.github/workflows/snapshot-2526.yml'
+      - 'scripts/build-final-snapshot.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HT_KEY: ${{ secrets.HT_KEY || vars.HT_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate the snapshot (prints JSON between markers)
+        run: node scripts/build-final-snapshot.mjs 44
