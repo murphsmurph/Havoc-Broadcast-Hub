@@ -860,7 +860,7 @@
       <div class="grid g2">
         <div class="field hub-field"><label>Game number</label><input type="text" id="g_gameno" onchange="gameNoAutofill()" placeholder="42"></div>
         <div class="field hub-field"><label>Promo / theme night</label><input type="text" id="g_promo"></div>
-        <div class="field hub-field"><label>Date</label><input type="date" id="g_date"></div>
+        <div class="field hub-field"><label>Date</label><input type="date" id="g_date" onchange="psFromDate()"></div>
         <div class="field hub-field"><label>Puck drop</label><input type="time" id="g_time"></div>
         <div class="field hub-field"><label>Venue</label><input type="text" id="g_venue"></div>
         <div class="field hub-field"><label>Opponent</label><select id="g_opp"><option value="">— select —</option></select></div>
@@ -868,6 +868,7 @@
         <div class="field hub-field"><label>Opponent record (W-L-OTL)</label><input type="text" id="g_opprec" placeholder="16-17-5"></div>
         <div class="field hub-field"><label>Home / Away</label><select id="g_homeaway" onchange="updatePromoField()"><option value="vs">Home (vs.)</option><option value="@">Away (@)</option></select></div>
         <div class="field hub-field"><label>Broadcast / stream</label><input type="text" id="g_broadcast"></div>
+        <div class="field hub-field"><label>Game type</label><label style="display:flex;gap:8px;align-items:center;font-weight:400;padding:6px 0"><input type="checkbox" id="g_ps"> Preseason (exhibition — no standings, no counters)</label></div>
       </div>
       <div class="section-label hub-sectionhead">Lines &amp; status (lineup chart)</div>
       <div class="field hub-field"><label>IR list (one per line)</label><textarea id="g_ir" rows="3" placeholder="15 Matt O'Dea (C) – 14-Day – 1/18"></textarea></div>
@@ -2375,10 +2376,21 @@ function loadGameForm(){
     if(g[k]!==undefined)setv(id,g[k]);
   }
   if(!g.venue)setv('g_venue',DATA.settings.venue);
+  const psEl=document.getElementById('g_ps');if(psEl)psEl.checked=!!g.ps;
   updatePromoField();
 }
+/* the schedule already knows which dates are exhibitions (the PS prefix) —
+   picking such a date checks the box; picking a listed regular-season date
+   unchecks it; an unlisted date leaves the hand-set value alone */
+function psFromDate(){
+  const d=val('g_date');if(!d)return;
+  const row=parseScheduleData().find(g=>g.dateISO===d);
+  if(!row)return;
+  const el=document.getElementById('g_ps');if(el)el.checked=!!row.ps;
+}
 function saveGame(){
-  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),susp:val('g_susp'),oppIr:val('g_oppIr'),oppEchl:val('g_oppEchl'),oppScratch:val('g_oppScratch'),oppSusp:val('g_oppSusp'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway')};
+  DATA.game={gameno:val('g_gameno'),promo:val('g_promo'),date:val('g_date'),time:val('g_time'),venue:val('g_venue'),opp:val('g_opp'),hsvrec:val('g_hsvrec'),opprec:val('g_opprec'),homeaway:val('g_homeaway'),broadcast:val('g_broadcast'),ir:val('g_ir'),echl:val('g_echl'),scratch:val('g_scratch'),susp:val('g_susp'),oppIr:val('g_oppIr'),oppEchl:val('g_oppEchl'),oppScratch:val('g_oppScratch'),oppSusp:val('g_oppSusp'),ref1:val('g_ref1'),ref2:val('g_ref2'),lin1:val('g_lin1'),lin2:val('g_lin2'),txhome:val('g_txhome'),txaway:val('g_txaway'),
+    ps:(document.getElementById('g_ps')||{}).checked?'1':''};
   save();toast("Game details saved");
   document.getElementById('gameSavedPill').innerHTML='<span class="pill ok">Saved</span>';
   setTimeout(()=>document.getElementById('gameSavedPill').innerHTML='',2000);
@@ -3991,7 +4003,7 @@ function fdPron(p){
 function fdGameLine(){
   const G=DATA.game,S=DATA.settings;
   const d=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
-  return [d,(S.city+' '+S.name)+' '+(G.homeaway==='@'?'@':'vs.')+' '+(G.opp||'Opponent'),G.venue||S.venue].filter(Boolean).join('  ·  ');
+  return [G.ps?sheetSeason()+' PRESEASON':'',d,(S.city+' '+S.name)+' '+(G.homeaway==='@'?'@':'vs.')+' '+(G.opp||'Opponent'),G.venue||S.venue].filter(Boolean).join('  ·  ');
 }
 function fdPlayerHTML(p,kw,side){
   const parts=(p.name||'').trim().split(/\s+/);
@@ -6067,7 +6079,8 @@ function renderPacket(){
   const oppStand=standingsFor(G.opp);const hsvStand=standingsFor('Huntsville');
   // a standings-derived record may only replace the typed one when the standings
   // are genuinely this season's — fallback or leftover last-season data never wins
-  const standsCurrent=(()=>{const su=(R.seasonUsed||{}).standings;
+  const standsCurrent=(()=>{if(G.ps)return false;   // exhibition: the typed records stand
+    const su=(R.seasonUsed||{}).standings;
     if(su)return su===activeSeasonId()&&!((R.seasonFallback||{}).standings);
     const d=Date.parse(String((R.daily||{}).date||''));return !!(d&&(Date.now()-d)<30*86400000);})();
   const stripRec=s=>(s&&standsCurrent)?`(${s.w}-${s.l}-${s.otl}${s.sol!=null?'-'+s.sol:''})`:'';
@@ -6080,13 +6093,13 @@ function renderPacket(){
         <div style="font-size:8px;margin-top:2px;letter-spacing:.03em">OFFICIALS &mdash; REFEREES: ${esc(G.ref1||'TBD')}, ${esc(G.ref2||'TBD')} &middot; LINESMEN: ${esc(G.lin1||'TBD')}, ${esc(G.lin2||'TBD')}</div></div>
       ${mediaBlockHTML('media-block')}</div>
     <div class="gn-matchup">
-      <div class="gn-game-meta"><div class="gname">GAME ${esc(G.gameno||'—')}</div><div class="promo">${G.homeaway==='@'?'N/A (ROAD GAME)':esc(G.promo||'')}</div><div>${dateStr}</div>
+      <div class="gn-game-meta"><div class="gname">${G.ps?esc(sheetSeason())+' PRESEASON':'GAME '+esc(G.gameno||'—')}</div><div class="promo">${G.homeaway==='@'?'N/A (ROAD GAME)':esc(G.promo||'')}</div><div>${dateStr}</div>
         ${(()=>{if(G.homeaway==='@'){const v=venueFor(G.opp);if(v){const dual=fmtDualTime(G.time,v.tz);return `<div>PUCK DROP: ${dual||timeStr}</div><div>${esc(v.arena)} · ${esc(v.city)}${v.cap?' · cap. '+esc(String(v.cap).replace(/\s*•/g,'')):''} · ${esc(v.tz)} time</div>`;}}return `<div>PUCK DROP: ${timeStr}</div><div>${esc(G.venue||S.venue)}</div>`;})()}
         <div>${esc(G.broadcast||'')}</div></div>
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
       <div class="gn-oppbox"><div class="gn-opp-logo">${logoHTML(G.opp,'',oppAbbr)}</div></div></div>
     <div class="gn-cols"><div><div class="box"><h3>Havoc News &amp; Notes</h3>${news}</div></div>
-      <div><div class="box"><h3>SPHL Standings${esc(scopeSuffixFor('standings'))}</h3><table class="standings"><thead><tr><th>Team</th><th class="r">W</th><th class="r">L</th><th class="r">OTL</th><th class="r">PTS</th></tr></thead><tbody>${standRows}</tbody></table></div></div></div>
+      <div><div class="box"><h3>SPHL Standings${esc(scopeSuffixFor('standings'))}</h3><table class="standings"><thead><tr><th>Team</th><th class="r">W</th><th class="r">L</th><th class="r">OTL</th><th class="r">PTS</th></tr></thead><tbody>${standRows}</tbody></table>${G.ps?'<div class="b" style="font-size:8px;color:var(--ink-2)">Exhibition — tonight carries no standings consequence.</div>':''}</div></div></div>
     <div class="box"><h3>Last 5 — Both Teams</h3>
       <div class="l10-row"><span class="tm">${esc(S.name)}</span>${last10Block('Huntsville')}</div>
       <div class="l10-row"><span class="tm">${esc(oppShort||'Opponent')}</span>${last10Block(G.opp)}</div></div>
@@ -6849,7 +6862,7 @@ function renderLinesDoc(){
   };
   const oppName=G.opp||'Opponent';
   const doc=`<div class="page" data-sec="lines" style="width:816px">
-    <div class="lnc-top"><span>LINE CARD</span><span>${esc(S.city)} ${esc(S.name)} ${G.homeaway==='@'?'@':'vs.'} ${esc(oppName)}</span><span>${dateStr}</span></div>
+    <div class="lnc-top"><span>LINE CARD${G.ps?' — '+esc(sheetSeason())+' PRESEASON':''}</span><span>${esc(S.city)} ${esc(S.name)} ${G.homeaway==='@'?'@':'vs.'} ${esc(oppName)}</span><span>${dateStr}</span></div>
     <div class="lnc-grid">
       ${teamBlock('home','Huntsville Havoc',(S.city+' '+S.name).trim(),teamTheme('Huntsville Havoc'))}
       ${teamBlock('opp',oppName,oppName,teamTheme(oppName))}
@@ -8344,7 +8357,7 @@ function gdayHeader(){
       [[G.ref1,G.ref2].filter(Boolean).length?'Referees: '+esc([G.ref1,G.ref2].filter(Boolean).join(' · ')):null],
       [[G.lin1,G.lin2].filter(Boolean).length?'Linesmen: '+esc([G.lin1,G.lin2].filter(Boolean).join(' · ')):null]
     ].map(x=>x[0]).filter(Boolean);
-    el.innerHTML=`<div class="gday-title">HAVOC ${esc(G.homeaway||'vs')} ${esc((G.opp||'—').toUpperCase())}</div>
+    el.innerHTML=`<div class="gday-title">HAVOC ${esc(G.homeaway||'vs')} ${esc((G.opp||'—').toUpperCase())}${G.ps?' <span class="pill warn" style="vertical-align:middle">PRESEASON</span>':''}</div>
       <div class="gday-sub">${bits.join(' &nbsp;·&nbsp; ')}</div>`;
   }
   const un=document.getElementById('gdayUpNext');if(un)un.innerHTML=upNextBox();
