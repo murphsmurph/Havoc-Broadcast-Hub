@@ -72,10 +72,13 @@ Every finding cites `file → function/section → logic` and is labeled **CONFI
 3. *Bios rendering:* `data/bios.json` (fields: joined_blurb, season_recap, career_highlights, broadcast_bio, pronunciation, footnotes, embargoed; staff: role, season_recap, coaching_career, playing_legacy) renders all 20 pages — 17 players + Stefan/Piacentini/Detulleo — using the Giovanni Procopio and Stuart Stefan reference pages as the visual template (vitals line, Joined line, season counters, prose sections, grouped career table with playoff columns and totals bar). Prose content is supplied complete in the delivered bios file; load verbatim; footnotes print as small italics. `embargoed: true` = renders nowhere, excluded from print and indexes. When `current_season.gp > 0`, auto-prepend "2026-27 to date: X GP, G-A-P" (goalie variant) above the recap.
 4. *Remaining cuts* (if not already done): Post-Game copy desk, EP widgets/iframes, embargo-mode machinery (replaced by the bios flag), club-bios import/signed-sheet reconcile UI (replaced by committed JSON + precedence rules), per-block hover nudge controls, page inspector outlines, folder layout editor, Compact preset. KEEP: Print Center sizing + Fit every page, and Learn the Rosters per Part 1.
 **Packet print-test after each item.**
+**STATUS: COMPLETE — reconciled against main 2026-08-19.** All four items verified shipped (rescue button live pending P3 removal; nightly roster Action gated by test #5; all 20 bio pages render with embargo + auto-prepend verified; every cut confirmed absent, KEEP items intact). Learn the Rosters = superseded-for-now, returns slim at P3.
 
 **P0C — BOOTH ENGINE.** The single Game Day view per Part 1, Pillar 2. Reuse existing components; no new data stores; readable at booth distance in dark mode.
+**STATUS: COMPLETE — PR #78; booth dry-run accepted 2026-08-20.** Polish #1 (a stale offseason daily report stomping fresher live stats) fixed in PR #81.
 
 **P1 — BROADCAST INTELLIGENCE.** Opponent matchup notes in the packet (series history, head-to-head, opponent storylines from committed JSON); milestone/franchise-race/record-watch lines surfaced on the packet cover and Game Day view. Mostly wiring of existing data — build nothing that duplicates it.
+**STATUS: COMPLETE — PRs #79 (storylines from `data/matchups.json` + series flags on the scouting report) and #80 (watch box on the packet cover); the Game Day view carries the same lines since PR #78.**
 
 **P2 — LIVE INTELLIGENCE.** In-game refresh polish; next-break surfacing; nothing that risks P0 stability.
 

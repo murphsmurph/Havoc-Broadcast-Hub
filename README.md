@@ -6,6 +6,13 @@ HAvoc Broadcasting Hub
 
 A single-file broadcast & media toolkit for the Huntsville Havoc (SPHL). No build, no server — one HTML file that runs in any browser.
 
+## Operating rhythm (P0 complete — master document Part 5)
+- **Nightly:** Actions refresh the daily report + every SPHL roster automatically, under the precedence rules (the roster commit is gated by the roster-precedence test; a daily report older than your live sync is held, never applied over it).
+- **Game week:** prose is authored in Claude sessions and committed as JSON (`data/bios.json`, `data/matchups.json`); the Hub renders it verbatim.
+- **Game night:** bump `current_season` player counters + the team record (~30 seconds, in `data/havoc_players.json`), fill the lines, run one Game Day Refresh, call the game from the **Game Day** tab.
+- **Weekly in-season:** the EP refresh Action opens a PR (~17 API calls of the 1,000/month plan); review the diff, merge.
+- **Season end:** rollover — fold `current_season` into `seasons[]`, recompute baselines, zero counters, **update the test anchors** in `tests/anchor_reconstruction.mjs`.
+
 ## What's inside
 - **Game packet generator** — pro media-notes standard: cover (news w/ auto-draft, standings, 4-column leaders, media contact), Meet the Team, Hockey Operations, Elite Prospects career-stat pages, scouting report (series history + league-ranked Match Up), quick facts, season splits + "last time it happened", game-by-game log, roster + pronunciation guide, franchise records, blank scoring worksheets, and the dense game sheet — with a section picker and Full/Booth presets. Derived pages compute from the per-game log (auto-filled from results + attendance; shots/PP/fights hand-entered on the Schedule tab)
 - **Game sheet, lineup chart & line card** — printable, per-team colors, all 12 team logos embedded
