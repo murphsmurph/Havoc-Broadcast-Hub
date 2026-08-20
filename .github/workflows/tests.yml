@@ -10,6 +10,9 @@ name: Data integrity tests
 #      entering 2026-27; update the anchors at season rollover)
 #   5. Roster precedence: a synthetic stale-feed fixture must NOT
 #      displace an internal-sheet player
+#   6. Opponent rosters from the committed file are additive only:
+#      hand edits and live-feed values outrank the file, nothing is
+#      deactivated or renamed, absent clubs stay empty
 on:
   pull_request:
   push:
@@ -40,3 +43,6 @@ jobs:
       - name: Test 5 — roster precedence (stale feed must not displace the internal sheet)
         timeout-minutes: 5
         run: node tests/roster_precedence.mjs
+      - name: Test 6 — opponent rosters from the committed file are additive only
+        timeout-minutes: 5
+        run: node tests/opponent_roster_file.mjs
