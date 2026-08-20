@@ -7289,15 +7289,36 @@ async function htDoStandings(){
 /* statviewfeed player stats. The parameter is season= (not season_id=), the
    body arrives wrapped in parentheses, and asking wrongly gets you the seasons
    list back with a 200 — htGuard turns that into a failure rather than a
-   silent empty table. */
-async function htPlayerRows(season,position){
-  const d=await htFetch({feed:'statviewfeed',view:'players',season:season,team:'all',
-    position:position,statsType:'standard',first:0,limit:500,
-    sort:position==='goalies'?'gaa':'points',division:-1,conference:-1});
+   silent empty table. HockeyTech configs differ on the required knobs, so this
+   tries three shapes in order (like the standings pull does): the league
+   site's own parameter set, the older minimal set, then the modulekit
+   top-scorers/top-goalies view — the same feed family every working pull uses. */
+function htPlayerParse(d){
   const secs=Array.isArray(d)?d:((d&&d.sections)||[]);
   const rows=[];
   secs.forEach(sec=>{(sec.data||[]).forEach(x=>rows.push(x.row||x));});
   return rows;
+}
+async function htPlayerRows(season,position){
+  const sort=position==='goalies'?'gaa':'points';
+  try{ // shape 1: what thesphl.com's stats page itself sends
+    const d=await htFetch({feed:'statviewfeed',view:'players',season:season,team:'all',
+      position:position,rookies:0,statsType:'standard',rowseq:0,league_id:1,qualified:'all',
+      first:0,limit:500,sort:sort});
+    const rows=htPlayerParse(d);if(rows.length)return rows;
+  }catch(e){}
+  try{ // shape 2: the older minimal form
+    const d=await htFetch({feed:'statviewfeed',view:'players',season:season,team:'all',
+      position:position,statsType:'standard',first:0,limit:500,
+      sort:sort,division:-1,conference:-1});
+    const rows=htPlayerParse(d);if(rows.length)return rows;
+  }catch(e){}
+  try{ // shape 3: modulekit stat views
+    const d=await htFetch({feed:'modulekit',view:'statviewtype',type:position==='goalies'?'topgoalies':'topscorers',
+      season_id:season,first:0,limit:500});
+    return (d&&d.SiteKit&&(d.SiteKit.Statviewtype||[]))||[];
+  }catch(e){}
+  return [];
 }
 async function htDoPlayers(){
   // preseason fallback: if the chosen season has no stat rows yet, load last
@@ -7309,14 +7330,17 @@ async function htDoPlayers(){
   });
   const skaters=got.skaters||[],goalies=got.goalies||[];
   DATA.report.seasonLabel=(DATA.report.seasonFallback||{}).players?fallbackNote(DATA.report.seasonUsed.players):'';
-  if(!skaters.length&&!goalies.length)throw new Error('Players: feed returned nothing readable for '+seasonLabelOf(activeSeasonId())+'.');
+  if(!skaters.length&&!goalies.length)throw new Error('Players: feed returned nothing readable for '+seasonLabelOf(activeSeasonId())+' — tried the league-site parameter shape, the legacy shape and the modulekit top-scorers view, for this season and the fallback season.');
   const ts={};
   const teamOf=r=>String(pick(r,['team_code','team','team_name'],'')).trim();
+  // modulekit rows may carry first/last name instead of one name field
+  const nameOf=r=>String(pick(r,['name','player_name'],'')).trim()
+    ||((String(pick(r,['first_name'],''))+' '+String(pick(r,['last_name'],''))).trim());
   skaters.forEach(r=>{
     const ab=teamOf(r);if(!ab)return;
     const city=Object.keys(TEAM_ABBR).find(c=>TEAM_ABBR[c]===ab)||ab;
     ts[city]=ts[city]||{players:[],goalies:[]};
-    ts[city].players.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),pos:String(pick(r,['position','pos'],'')),
+    ts[city].players.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:nameOf(r),pos:String(pick(r,['position','pos'],'')),
       gp:+pick(r,['games_played','gp'],0),g:+pick(r,['goals','g'],0),a:+pick(r,['assists','a'],0),pts:+pick(r,['points','pts'],0),
       pm:+pick(r,['plus_minus','pm'],0),pim:+pick(r,['penalty_minutes','pim'],0),pp:+pick(r,['power_play_goals','ppg'],0),
       shg:+pick(r,['short_handed_goals','shg'],0),gw:+pick(r,['game_winning_goals','gwg'],0),shots:+pick(r,['shots','sh'],0),shpct:String(pick(r,['shooting_percentage','shpct'],''))});
@@ -7325,7 +7349,7 @@ async function htDoPlayers(){
     const ab=teamOf(r);if(!ab)return;
     const city=Object.keys(TEAM_ABBR).find(c=>TEAM_ABBR[c]===ab)||ab;
     ts[city]=ts[city]||{players:[],goalies:[]};
-    ts[city].goalies.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:String(pick(r,['name','player_name'],'')).trim(),
+    ts[city].goalies.push({htId:String(pick(r,['player_id','playerId','id'],'')).trim(),num:String(pick(r,['jersey_number','tp_jersey_number','num'],'')),name:nameOf(r),
       gp:+pick(r,['games_played','gp'],0),w:+pick(r,['wins','w'],0),l:+pick(r,['losses','l'],0),otl:+pick(r,['ot_losses','otl'],0),
       so:+pick(r,['shutouts','so'],0),ga:+pick(r,['goals_against','ga'],0),gaa:String(pick(r,['goals_against_average','gaa'],'')),
       sa:+pick(r,['shots_against','sa'],0),svs:+pick(r,['saves','svs'],0),svpct:String(pick(r,['save_percentage','svpct'],''))});
