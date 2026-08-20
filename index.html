@@ -1751,6 +1751,10 @@ if(!Promise.any)Promise.any=ps=>new Promise((res,rej)=>{let n=ps.length;const er
 /* ============ DATA MODEL ============ */
 const TEAMS=["Athens Rock Lobsters","Birmingham Bulls","Evansville Thunderbolts","Fayetteville Marksmen","Huntsville Havoc","Knoxville Ice Bears","Macon Mayhem","Pee Dee IceCats","Pensacola Ice Flyers","Peoria Rivermen","Quad City Storm","Roanoke Rail Yard Dawgs"];
 const TEAM_ABBR={"Athens":"ATH","Birmingham":"BHM","Evansville":"EVV","Fayetteville":"FAY","Huntsville":"HSV","Knoxville":"KNX","Macon":"MAC","Pee Dee":"PD","Pensacola":"PEN","Peoria":"PEO","Quad City":"QC","Roanoke":"RNK"};
+/* city key for a full team name — two-word cities (Pee Dee, Quad City) stay whole,
+   so abbreviation and stat-table key lookups don't silently miss on "Pee"/"Quad" */
+function teamCity(t){t=String(t||'').trim();const w=t.split(' ');const two=w.slice(0,2).join(' ');return TEAM_ABBR[two]!==undefined?two:(w[0]||'');}
+function teamAbbrOf(t){return TEAM_ABBR[teamCity(t)]||'';}
 const KEY="havocHubData_v2";
 const DEFAULT_DATA={
   settings:{red:"#C8102E",city:"HUNTSVILLE",name:"HAVOC",venue:"Roto-Rooter Ice at Propst Arena | Huntsville, AL",footer:"2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM",social:"@HUNTSVILLEHAVOC",pronounce:"",
@@ -2704,7 +2708,7 @@ function bulkCommit(mode){
 function renderLogos(){
   const wrap=document.getElementById('logoList');
   wrap.innerHTML=TEAMS.map(t=>{
-    const abbr=TEAM_ABBR[t.split(' ')[0]]||'';const custom=DATA.logos[t];const def=(typeof DEFAULT_LOGOS!=='undefined')?DEFAULT_LOGOS[t]:null;const logo=custom||def;
+    const abbr=teamAbbrOf(t);const custom=DATA.logos[t];const def=(typeof DEFAULT_LOGOS!=='undefined')?DEFAULT_LOGOS[t]:null;const logo=custom||def;
     const tag=custom?'<span class="pill ok">custom</span>':(def?'<span class="pill grey">built-in</span>':'');
     return `<div class="logo-row">
       <div class="logo-thumb">${logo?`<img src="${logo}">`:abbr}</div>
@@ -2770,7 +2774,7 @@ function renderPalettes(){
     const p=teamPal(t),mine=!!((DATA.palettes||{})[t]);
     return `<div class="pal-row">
       <span class="pal-nm">${esc(t)}${p.ok?'':' <span class="unv" title="Not yet checked against the club&#39;s marks">&bull;</span>'}</span>
-      <span class="pal-chip" style="background:${p.primary};color:${p.textOn}">${esc(t.split(' ')[0].toUpperCase())}</span>
+      <span class="pal-chip" style="background:${p.primary};color:${p.textOn}">${esc(teamCity(t).toUpperCase())}</span>
       ${PAL_KEYS.map(k=>`<label class="pal-sw" title="${label[k]}"><input type="color" value="${esc(p[k])}" onchange="palSet('${esc(t).replace(/'/g,"\\'")}','${k}',this.value)"><span>${label[k]}</span></label>`).join('')}
       ${mine?`<button class="icon-btn" onclick="palReset('${esc(t).replace(/'/g,"\\'")}')">&#8635; restore</button>`:''}
     </div>`;
@@ -2940,7 +2944,7 @@ function loadNotesForm(){const n=DATA.notes;['h1','b1','h2','b2','h3','b3'].forE
 function renderNotes(){
   DATA.notes={h1:val('n_h1'),b1:val('n_b1'),h2:val('n_h2'),b2:val('n_b2'),h3:val('n_h3'),b3:val('n_b3')};save();
   const S=DATA.settings,G=DATA.game,R=DATA.report,red=S.red||'#C8102E';
-  const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
+  const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=teamCity(G.opp),oppAbbr=teamAbbrOf(G.opp)||'OPP';
   let standRows = R.standings.length ? R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join('') : emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
   const hsv=findTeamStats('Huntsville');
   const leadersHtml=leadersBlock(hsv);
@@ -3018,7 +3022,7 @@ function findTeamStats(cityKeyword){const ts=DATA.report.teamStats||{};for(const
    Skater: "12G 8A 20P" · Goalie: ".923 SV% 2.36 GAA 12W" · zeros when unsynced.
    A hand-entered p.statOverride wins over synced data and shows a * marker. */
 function statTeamKeyword(side){
-  if(side==='away'){const t=val('oppRosterTeam')||DATA.game.opp||'';return t.split(' ')[0]||'zzz-none';}
+  if(side==='away'){const t=val('oppRosterTeam')||DATA.game.opp||'';return teamCity(t)||'zzz-none';}
   return 'Huntsville';
 }
 function statLineFor(p,teamKeyword){
@@ -3075,7 +3079,7 @@ function renderChart(){
   const pages=[`<div class="page lc-page" data-sec="chart:hsv">${teamChartHTML("Huntsville Havoc",'Huntsville',DATA.roster,S.city+' '+S.name,G.hsvrec,{primary:red,secondary:hsvTheme.secondary},true,G)}</div>`];
   if(both&&G.opp){
     const list=DATA.oppRosters[G.opp]||[];
-    pages.push(`<div class="page lc-page" data-sec="chart:opp">${teamChartHTML(G.opp,G.opp.split(' ')[0],list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
+    pages.push(`<div class="page lc-page" data-sec="chart:opp">${teamChartHTML(G.opp,teamCity(G.opp),list,G.opp.toUpperCase(),G.opprec,teamTheme(G.opp),false,{})}</div>`);
   }
   const cstamp=dataStampHTML('chart');
   document.getElementById('chartDoc').innerHTML=pages.map(p=>p.replace(/<\/div>$/,cstamp+'</div>')).join('');
@@ -4010,7 +4014,7 @@ function fdTeamRec(team){
 }
 function fdPlace(team){
   const rows=(DATA.report.standings||[]).slice().sort((a,b)=>(b.pts||0)-(a.pts||0));
-  const k=String(team||'').split(' ')[0];
+  const k=teamCity(team);
   const i=rows.findIndex(r=>new RegExp(k,'i').test(r.team));
   return i>=0?ordinal(i+1).toUpperCase():'';
 }
@@ -4086,7 +4090,7 @@ function fdCard(p,side,pal,group){
   if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
   const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
   const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const ts=findTeamStats(side==='home'?'Huntsville':String(DATA.game.opp||'').split(' ')[0]);
+  const ts=findTeamStats(side==='home'?'Huntsville':teamCity(DATA.game.opp));
   const season=fdSeasonLine(p,ts),career=fdCareerLine(p);
   const notes=fdNotesText(p),personal=fdPersonalText(p);
   const ed=(k,cls,html)=>`<div class="${cls}">${html}</div>`;
@@ -4157,7 +4161,7 @@ function fdLineupPage(side){
   const S=DATA.settings,G=DATA.game;
   const isHome=side==='home';
   const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
-  const kw=isHome?'Huntsville':(G.opp||'').split(' ')[0]||'zzz';
+  const kw=isHome?'Huntsville':teamCity(G.opp)||'zzz';
   const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
   const list=isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
   const logo=teamLogoSrc(teamFull);
@@ -4206,8 +4210,8 @@ function fdDataPage(side){
   const isHome=side==='home';
   const isOpp=!isHome;
   const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
-  const kw=isHome?'Huntsville':(G.opp||'').split(' ')[0]||'zzz';
-  const oppKw=isHome?((G.opp||'').split(' ')[0]||'zzz'):'Huntsville';
+  const kw=isHome?'Huntsville':teamCity(G.opp)||'zzz';
+  const oppKw=isHome?(teamCity(G.opp)||'zzz'):'Huntsville';
   const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
   const logo=teamLogoSrc(teamFull);
   const st=standingsFor(kw);
@@ -4253,13 +4257,13 @@ function fdDataPage(side){
     ['outshoot','When outshooting',isHome?findSplit('When outshooting opponent'):null],
     ['outshot','When outshot',isHome?findSplit('When outshot'):null],
     ['onegoal','One-goal games',gs.length?fdRec(gs.filter(g=>Math.abs(g.gf-g.ga)===1)):null],
-    ['ppvs','PP vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),null],
-    ['pkvs','PK vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),null],
+    ['ppvs','PP vs '+(isHome?(teamCity(G.opp)||'opp'):'Havoc'),null],
+    ['pkvs','PK vs '+(isHome?(teamCity(G.opp)||'opp'):'Havoc'),null],
     ['ppsplit','PP home / away',null],
     ['pksplit','PK home / away',null],
     ['past10','Past 10',gs.length?fdRec(gs.slice(-10))+' ('+fdPtsOf(gs.slice(-10))+' pts)':null],
     ['streak','Streak',fdStreak(gs)],
-    ['h2h','H2H vs '+(isHome?(G.opp||'opp').split(' ')[0]:'Havoc'),h2hGs.length?fdRec(h2hGs):null]
+    ['h2h','H2H vs '+(isHome?(teamCity(G.opp)||'opp'):'Havoc'),h2hGs.length?fdRec(h2hGs):null]
   ];
   const dataRows=rows.map(r=>`<div class="fd-dr"><span class="fd-dl">${r[1]}</span>${C(r[0],r[2])}</div>`).join('')
     +`<div class="fd-dr"><span class="fd-dl">Streak note</span>${C('streaknote',null)}</div>`
@@ -4277,7 +4281,7 @@ function fdDataPage(side){
   // recent results (last 10) + next 5
   const recent=gs.slice(-10).map(g=>{
     const d=new Date(g.d+'T12:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'});
-    return `<div class="fd-res"><span>${d}</span><span>${esc(g.a.split(' ')[0])} ${g.ag} @ ${esc(g.h.split(' ')[0])} ${g.hg}${g.ot?' ('+g.ot+')':''}</span><b>${g.wl}</b></div>`;
+    return `<div class="fd-res"><span>${d}</span><span>${esc(teamCity(g.a))} ${g.ag} @ ${esc(teamCity(g.h))} ${g.hg}${g.ot?' ('+g.ot+')':''}</span><b>${g.wl}</b></div>`;
   }).join('')||'<div style="color:var(--ink-2);font-size:12px">No finals yet.</div>';
   let next='';
   if(isHome){
@@ -4860,7 +4864,7 @@ function sheetPageHTML(){
   // standings
   let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td>${s.w}-${s.l}-${s.otl}</td><td>${s.pts} pts</td></tr>`;}).join(''):'<tr><td colspan="3" style="color:var(--ink-2)">Import report</td></tr>';
   // special teams strip
-  const sp=R.special||{};const hs=sp['Huntsville']||{};const oppCity=(G.opp||'').split(' ')[0];const os=sp[oppCity]||{};
+  const sp=R.special||{};const hs=sp['Huntsville']||{};const oppCity=teamCity(G.opp);const os=sp[oppCity]||{};
   const oppShort=(G.opp||'').replace('Huntsville Havoc','');
 
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'';
@@ -6043,19 +6047,24 @@ function renderPacket(){
   // warm the committed sources once; re-render when they land
   if(!MX_TRIED)matchupsLoad().then(m=>{if(m)renderPacket();});
   if(!MS_DATA)msLoad().then(d=>{if(d)renderPacket();});
-  const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
+  const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=teamCity(G.opp),oppAbbr=teamAbbrOf(G.opp)||'OPP';
   const hsv=findTeamStats('Huntsville'),opp=oppCity?findTeamStats(oppCity):null;
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
   const pages=[];
 
   /* ---------- PAGE 1: COVER ---------- */
   let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
-  const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add news on the Game Notes tab.</div>';
+  const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add news on Print Center &rarr; Game Packet.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
   const cups=SPHL_REF.cups["Huntsville Havoc"]||[];
   const oppStand=standingsFor(G.opp);const hsvStand=standingsFor('Huntsville');
-  const stripRec=s=>s?`(${s.w}-${s.l}-${s.otl}${s.sol!=null?'-'+s.sol:''})`:'';
+  // a standings-derived record may only replace the typed one when the standings
+  // are genuinely this season's — fallback or leftover last-season data never wins
+  const standsCurrent=(()=>{const su=(R.seasonUsed||{}).standings;
+    if(su)return su===activeSeasonId()&&!((R.seasonFallback||{}).standings);
+    const d=Date.parse(String((R.daily||{}).date||''));return !!(d&&(Date.now()-d)<30*86400000);})();
+  const stripRec=s=>(s&&standsCurrent)?`(${s.w}-${s.l}-${s.otl}${s.sol!=null?'-'+s.sol:''})`:'';
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="mc-strip">${esc(S.city)} ${esc(S.name)} ${stripRec(hsvStand)||esc(G.hsvrec?'('+G.hsvrec+')':'')} ${G.homeaway==='@'?'at':'vs.'} ${esc(oppShort||'Opponent')} ${stripRec(oppStand)||esc(G.opprec?'('+G.opprec+')':'')} | ${esc(G.venue||S.venue)}</div>
     <div class="gn-top"><div class="gn-logo">${logoHTML("Huntsville Havoc",'','H')}</div>
@@ -6134,7 +6143,7 @@ function renderPacket(){
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">QUICK FACTS</div><div class="pg-num">__PGNO__</div></div>
     <div class="gn-cols">
-      <div class="box"><h3>2025-26 Schedule</h3><div style="font-size:8px;color:var(--ink-2)">Paste schedule on the Game Notes tab to populate.</div>${scheduleTable()}</div>
+      <div class="box"><h3>${esc(sheetSeason())} Schedule</h3><div style="font-size:8px;color:var(--ink-2)">Paste schedule on Live Data to populate.</div>${scheduleTable()}</div>
       <div>
         <div class="box"><h3>Havoc at a Glance</h3><table class="qf-list">${atGlance.map(r=>`<tr><td>${r[0]}</td><td>${ovCell(r[1],r[2])}</td></tr>`).join('')}</table></div>
         <div class="box"><h3>Special Teams</h3><table class="qf-list"><tr><td>Power play</td><td>${ovCell('qf_pp',hsvSp.pp||null)}</td></tr><tr><td>Penalty kill</td><td>${ovCell('qf_pk',hsvSp.pk||null)}</td></tr></table></div>
@@ -6260,7 +6269,7 @@ function syncRosterStats(){
   applyStatsTo(DATA.roster,hsv);
   // opponent rosters too
   Object.keys(DATA.oppRosters||{}).forEach(team=>{
-    const ts=findTeamStats(team.split(' ')[0]);
+    const ts=findTeamStats(teamCity(team));
     applyStatsTo(DATA.oppRosters[team],ts);
   });
 }
@@ -6317,7 +6326,7 @@ function cleanAutoBio(player, teamStats, allReport){
    ============================================================ */
 function matchupRows(){
   const G=DATA.game,R=DATA.report;
-  const hsvCity='Huntsville',oppCity=(G.opp||'').split(' ')[0];
+  const hsvCity='Huntsville',oppCity=teamCity(G.opp);
   const sH=standingsFor('Huntsville'),sO=standingsFor(G.opp);
   const spH=(R.special||{})['Huntsville']||{},spO=(R.special||{})[oppCity]||{};
   const recH=lastResults('Huntsville'),recO=lastResults(G.opp);
@@ -6343,23 +6352,23 @@ function matchupRows(){
 }
 function standingsFor(teamKeyword){
   if(!teamKeyword)return null;
-  const k=teamKeyword.split(' ')[0];
+  const k=teamCity(teamKeyword);
   return (DATA.report.standings||[]).find(s=>new RegExp(k,'i').test(s.team))||null;
 }
 function lastResults(teamKeyword){
   if(!teamKeyword)return [];
-  const k=teamKeyword.split(' ')[0];const rec=DATA.report.recent||{};
+  const k=teamCity(teamKeyword);const rec=DATA.report.recent||{};
   for(const t of Object.keys(rec))if(new RegExp(k,'i').test(t))return rec[t];
   return [];
 }
 function last10Block(teamKeyword){
   const rec=lastResults(teamKeyword).slice(-10);
   if(!rec.length)return '<span style="color:var(--ink-2)">No recent games in report</span>';
-  return rec.map(g=>`<span class="r10 ${g.wl==='W'?'w':(g.wl==='L'?'l':'t')}">${g.wl} ${g.gf}-${g.ga} ${g.home?'vs':'@'} ${esc(g.opp.split(' ')[0])}</span>`).join(' ');
+  return rec.map(g=>`<span class="r10 ${g.wl==='W'?'w':(g.wl==='L'?'l':'t')}">${g.wl} ${g.gf}-${g.ga} ${g.home?'vs':'@'} ${esc(teamCity(g.opp))}</span>`).join(' ');
 }
 function seasonH2HText(){
   const G=DATA.game;if(!G.opp)return null;
-  const hsv='HSV',oppAb=TEAM_ABBR[(G.opp||'').split(' ')[0]];
+  const hsv='HSV',oppAb=teamAbbrOf(G.opp);
   const h2h=DATA.report.seasonH2H||{};
   return h2h[hsv+'|'+oppAb]||h2h[oppAb+'|'+hsv]||null;
 }
@@ -6456,7 +6465,7 @@ function glLastTime(){
 /* series history vs tonight's opponent: all-time (reference) + this season (game log) */
 function seriesBoxHTML(red){
   const G=DATA.game;if(!G.opp)return '';
-  const oppCity=G.opp.split(' ')[0];
+  const oppCity=teamCity(G.opp);
   const ref=SPHL_REF.hsvVs[G.opp];
   const vs=glGames().filter(g=>g.opp&&g.opp.indexOf(oppCity)===0);
   const last=vs[vs.length-1];
@@ -6481,7 +6490,7 @@ function lgRank(arr,val,higherBetter){
 function rankedMatchupRows(){
   const G=DATA.game,R=DATA.report;
   const S=R.standings||[];
-  const oppCity=(G.opp||'').split(' ')[0];
+  const oppCity=teamCity(G.opp);
   const mk=city=>S.map(s=>({v:0,me:new RegExp('^'+city,'i').test(s.team),s}));
   const val=(city,f)=>{const s=S.find(x=>new RegExp('^'+city,'i').test(x.team));return s&&s.gp?f(s):null;};
   const rk=(city,f,hb)=>{
@@ -6817,7 +6826,7 @@ function renderLinesDoc(){
     const L=DATA.lines[side];const primary=theme.primary,secondary=theme.secondary||'#111';
     const logo=teamLogoSrc(teamFull);
     const list=side==='home'?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
-    const kw=side==='home'?'Huntsville':(G.opp||'').split(' ')[0]||'zzz-none';
+    const kw=side==='home'?'Huntsville':teamCity(G.opp)||'zzz-none';
     const resolve=v=>lineResolve(v,list);
     const cell=v=>{const p=resolve(v);return `<td>${esc(v||'')}${p?' '+statSpan(p,kw):''}</td>`;};
     const fRows=L.f.map((ln,i)=>`<tr><th>${i+1}</th>${cell(ln[0])}${cell(ln[1])}${cell(ln[2])}</tr>`).join('');
@@ -6857,7 +6866,7 @@ function renderStandings(){
       :'<div class="season-of">'+esc(seasonLabelOf(used))+'</div>';
   }
   const S=DATA.report.standings||[];
-  const cityOf=t=>t.split(' ')[0]==='Quad'?'Quad City':(t.split(' ')[0]==='Pee'?'Pee Dee':t.split(' ')[0]);
+  const cityOf=t=>teamCity(t);
   let rows;
   if(S.length){
     rows=S.map(s=>{
@@ -7942,7 +7951,12 @@ function dailyFilePick(e){
 function dailyStaleVsFeed(rep){
   const rd=Date.parse(String(rep.generatedDate||'')+'T12:00')||Date.parse(rep.fetchedAt||'')||0;
   const feed=Math.max(syncAt('players')||0,syncAt('standings')||0);
-  return !!(feed&&rd&&(feed-rd)>3*86400000);   // >3 days older than the live sync
+  if(feed&&rd&&(feed-rd)>3*86400000)return true;   // >3 days older than the live sync
+  // Fresh browser floor: with no live sync yet there is nothing to compare against,
+  // but in-season the report is daily — one more than 30 days old can only be last
+  // season's leftovers (the offseason playoff report), and must not present itself
+  // as current. Auto path only; a manual import always applies.
+  return !!(rd&&(Date.now()-rd)>30*86400000);
 }
 async function dailyAutoLoad(){
   try{
@@ -7952,7 +7966,9 @@ async function dailyAutoLoad(){
     if(!j||!j.parsed)return;
     if(dailyStaleVsFeed(j)){
       const el=document.getElementById('dailyBadge');
-      if(el)el.textContent='Daily report held — the league is still serving the '+(j.generatedDate||'?')+' report (last season’s playoffs); your live stats sync is newer and wins.';
+      const synced=Math.max(syncAt('players')||0,syncAt('standings')||0);
+      if(el)el.textContent='Daily report held — the league is still serving the '+(j.generatedDate||'?')+' report (last season’s); '
+        +(synced?'your live stats sync is newer and wins.':'it is more than 30 days old and would print old numbers as current. A manual import on Live Data still applies it.');
       return;   // no stamp — re-checked next load, applies again once a fresh report ships
     }
     const stamp=j.fetchedAt||j.generatedDate||'';
@@ -8254,7 +8270,7 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now(
    the other tabs already own — it computes nothing new.
    ============================================================ */
 function gdayOppList(){return (DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[];}
-function gdayOppKw(){return (DATA.game.opp||'').split(' ')[0]||'zzz-none';}
+function gdayOppKw(){return teamCity(DATA.game.opp)||'zzz-none';}
 /* P2 — the Havoc game itself, big: score, period and clock from the scorebar
    feed (same 60s poll, no new timers), the manual next-break line beside it,
    and a refresh nudge the moment the game goes final. */
@@ -8375,7 +8391,7 @@ function gdayStats(){
   const G=DATA.game;
   const keep=['Season Record','Last 10','Streak','Last Game','Goals For','Goals Against','Power Play','Penalty Kill'];
   const rows=matchupRows().filter(r=>keep.includes(r[0]));
-  const oppLbl=(G.opp||'Opponent').split(' ')[0];
+  const oppLbl=teamCity(G.opp)||'Opponent';
   const tbl=`<table class="gday-t"><tr><th></th><th class="r">HSV</th><th class="r">${esc(oppLbl)}</th></tr>
     ${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>`).join('')}</table>`;
   const gs=glGames();
@@ -8398,7 +8414,7 @@ function gdayLookup(){
   const q=inp.value.trim();
   if(!q){out.innerHTML='';return;}
   const G=DATA.game;
-  const pools=[['Havoc','Huntsville',DATA.roster],[(G.opp||'').split(' ')[0]||'Opponent',gdayOppKw(),gdayOppList()]];
+  const pools=[['Havoc','Huntsville',DATA.roster],[teamCity(G.opp)||'Opponent',gdayOppKw(),gdayOppList()]];
   const hits=[];
   pools.forEach(([tag,kw,list])=>{
     list.forEach(p=>{
