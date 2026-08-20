@@ -445,6 +445,14 @@
   #panel-gameday .ms-call{font-size:calc(16px*var(--gs));}
   #panel-gameday .rec-row{font-size:calc(14px*var(--gs));}
   textarea.gday-notes{width:100%;min-height:180px;font-size:calc(17px*var(--gs));line-height:1.5;}
+  /* P2: the Havoc game itself, glanceable from the far side of the booth */
+  .gday-livegame{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;padding:10px 12px;margin:8px 0;border:2px solid var(--havoc-line);border-radius:9px;background:var(--surface-2);}
+  .gday-livegame.is-live{border-color:var(--havoc-red);}
+  .gday-score{font-size:calc(30px*var(--gs));font-weight:900;letter-spacing:.01em;font-variant-numeric:tabular-nums;}
+  .gday-at{font-size:calc(16px*var(--gs));font-weight:700;color:var(--ink-2);}
+  .gday-clock{font-size:calc(22px*var(--gs));font-weight:800;color:var(--red-text);font-variant-numeric:tabular-nums;}
+  .gday-break{display:flex;align-items:baseline;gap:10px;padding:8px 12px;margin:6px 0;border-left:4px solid #b48a00;font-size:calc(19px*var(--gs));font-weight:700;}
+  .gday-break .lab{font-size:calc(11px*var(--gs));font-weight:900;letter-spacing:.06em;color:var(--ink-2);}
   .rawprint-note{display:none;}
   @media print{.rawprint-note{display:block;font-weight:700;font-size:14px;padding:24px;}}
   html[data-theme="dark"] .guard-banner{background:#3a3010;color:#ffd76a;border-color:#8a6a00;}
@@ -809,6 +817,7 @@
     </div>
     <div class="card hub-card gday-card">
       <div id="gdayHeader"></div>
+      <div id="gdayLive"></div>
       <div id="gdayScorebar" class="sb-strip"></div>
       <div id="gdayUpNext"></div>
     </div>
@@ -8158,7 +8167,10 @@ function sbTonightInto(id,games){
   el.innerHTML=sbGamesHTML(tonight);
 }
 function gmScorebar(games){sbTonightInto('gmScorebar',games);}
-function gdayScorebar(games){sbTonightInto('gdayScorebar',games);}
+function gdayScorebar(games){
+  sbTonightInto('gdayScorebar',games);
+  if(typeof gdayLiveBanner==='function')gdayLiveBanner(games);
+}
 function sbInterval(games){
   if(games.some(sbIsLive))return 60000;
   const now=Date.now();
@@ -8219,6 +8231,32 @@ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now(
    ============================================================ */
 function gdayOppList(){return (DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[];}
 function gdayOppKw(){return (DATA.game.opp||'').split(' ')[0]||'zzz-none';}
+/* P2 — the Havoc game itself, big: score, period and clock from the scorebar
+   feed (same 60s poll, no new timers), the manual next-break line beside it,
+   and a refresh nudge the moment the game goes final. */
+function gdayLiveBanner(games){
+  const el=document.getElementById('gdayLive');if(!el)return;
+  const src=(games&&games.length?games:sbCacheGames())||[];
+  const g=sbTonightOf(src).find(x=>{
+    const s=String(pick(x,['VisitorCode','visiting_team_code'],''))+String(pick(x,['VisitorCity'],''))
+           +String(pick(x,['HomeCode','home_team_code'],''))+String(pick(x,['HomeCity'],''));
+    return /HSV|Huntsville/i.test(s);
+  });
+  const brk=String(((DATA.gameday||{}).break)||'').trim();
+  const brkHTML=brk?`<div class="gday-break"><span class="lab">NEXT BREAK</span>${esc(brk)}</div>`:'';
+  if(!g){el.innerHTML=brkHTML;return;}
+  const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity'],'')).slice(0,3).toUpperCase();
+  const hc=String(pick(g,['HomeCode','home_team_code'],''))||String(pick(g,['HomeCity'],'')).slice(0,3).toUpperCase();
+  const vg=String(pick(g,['VisitorGoals','visiting_goal_count'],'')),hg=String(pick(g,['HomeGoals','home_goal_count'],''));
+  const live=sbIsLive(g);
+  const fin=/final/i.test(String(pick(g,['GameStatusString','GameStatusStringLong'],'')));
+  const started=live||fin;
+  el.innerHTML=`<div class="gday-livegame${live?' is-live':''}">
+    <span class="gday-score">${esc(vc)} ${started?esc(vg):''} <span class="gday-at">@</span> ${started?esc(hg):''} ${esc(hc)}</span>
+    <span class="gday-clock">${esc(sbStatusOf(g))}</span>
+    ${fin?`<button class="btn small no-print" onclick="gdaySync()">Final — refresh stats</button>`:''}
+  </div>`+brkHTML;
+}
 function gdayHeader(){
   const el=document.getElementById('gdayHeader');if(!el)return;
   const G=DATA.game;
@@ -8376,6 +8414,7 @@ function gdayWire(){
     DATA.gameday[e.target.id==='gdayBreak'?'break':'notes']=e.target.value;
     DATA.gameday.at=new Date().toISOString();
     save();
+    if(e.target.id==='gdayBreak')gdayLiveBanner();   // the banner echoes it live
     clearTimeout(box._nt);box._nt=setTimeout(gdayNotesStamp,400);
   });
 }
