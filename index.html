@@ -1529,7 +1529,11 @@ const SPHL_REF = {
     "Pensacola Ice Flyers":{rs:"123 GP · 72-37-14", po:"4 series (2-2) · 11 GP, 5-6"},
     "Peoria Rivermen":{rs:"59 GP · 23-32-4", po:"3 series (1-2) · 9 GP, 4-5"},
     "Quad City Storm":{rs:"20 GP · 15-3-2", po:"No playoff meetings"},
-    "Roanoke Rail Yard Dawgs":{rs:"46 GP · 23-16-7", po:"2 series (1-1) · 5 GP, 2-3"}
+    "Roanoke Rail Yard Dawgs":{rs:"46 GP · 23-16-7", po:"2 series (1-1) · 5 GP, 2-3"},
+    /* 2026-27 expansion clubs — no history exists; first:true renders as
+       "first meeting in franchise history", never as blank dashes */
+    "Athens Rock Lobsters":{first:true},
+    "Pee Dee IceCats":{first:true}
   },
   /* where two published books disagree, say so rather than picking one */
   hsvVsNote:{
@@ -2906,7 +2910,7 @@ function frH2HRows(team){
 function frH2HHTML(team){
   if(team==='Huntsville Havoc')return '';
   const base=SPHL_REF.hsvVs[team],t=frH2HRows(team);
-  const baseLine=base
+  const baseLine=(base&&!base.first)
     ?`<tr><td>Baseline — Havoc media guide</td><td class="r"><b>${esc(base.rs)}</b></td></tr><tr><td>Baseline — playoffs</td><td class="r"><b>${esc(base.po)}</b></td></tr>`
     :`<tr><td>Baseline</td><td class="r"><b>No meetings on file — first season in the league</b></td></tr>`;
   const conflict=SPHL_REF.hsvVsNote[team];
@@ -4080,6 +4084,51 @@ function fdCareerLine(p){
   if(p.pos==='G')return 'GP: '+t.gp+', W-L-OT: '+t.w+'-'+t.l+'-'+t.otl+', SO: '+t.so;
   return 'GP: '+t.gp+', G: '+t.g+', A: '+t.a+', P: '+t.p+'<br>PIM: '+t.pim;
 }
+/* ---- committed bridge context (preseason / opening week) ----
+   With no current-season stats published, the call sheet still shows real
+   numbers from the committed spine: last season's rows verbatim (league
+   labeled when not SPHL — college/junior numbers never masquerade as pro)
+   and entering-season career totals via CareerMath. Havoc players only —
+   the spine is Havoc-only; opponents keep their live/EP paths. */
+function msSpineFor(p){
+  if(!MS_DATA||!Array.isArray(MS_DATA.players))return null;
+  const k=norm(p.name);
+  return MS_DATA.players.find(x=>norm(x.name)===k)||null;
+}
+function spineLastRows(sp){
+  const rows=(sp.seasons||[]).filter(r=>r&&r.season&&r.gp!=null);
+  if(!rows.length)return [];
+  const last=rows.map(r=>r.season).sort().pop();
+  return rows.filter(r=>r.season===last);
+}
+function fmtSv(v){return '.'+String(Math.round(Number(v)*1000)).padStart(3,'0');}
+function fdLastYrLine(p){
+  const sp=msSpineFor(p);if(!sp)return null;
+  const rows=spineLastRows(sp);if(!rows.length)return null;
+  const isG=p.pos==='G'||sp.type==='goalie';
+  const one=r=>{
+    const tag=(r.league&&r.league!=='SPHL')?((r.team?r.team+' · ':'')+r.league):(rows.length>1?r.team:'');
+    const line=isG
+      ?[r.gp+' GP',(r.w!=null?r.w+'-'+(r.l||0)+'-'+(r.otl||0):''),(r.gaa!=null?Number(r.gaa).toFixed(2)+' GAA':''),(r.svpct!=null?fmtSv(r.svpct)+' SV%':''),(r.so?r.so+' SO':'')].filter(Boolean).join(' · ')
+      :r.gp+' GP · '+(r.g||0)+'-'+(r.a||0)+'&mdash;'+(r.pts||0)+(r.pim!=null?' · '+r.pim+' PIM':'');
+    return line+(tag?' <span class="cs-ph">('+esc(tag)+')</span>':'');
+  };
+  return {label:rows[0].season+' FINAL',html:rows.map(one).join('<br>')};
+}
+function fdEnteringLine(p){
+  const sp=msSpineFor(p);if(!sp||typeof msTotals!=='function')return '';
+  const isG=p.pos==='G'||sp.type==='goalie';
+  const seg=(nm,t)=>{
+    if(!t||!(+t.gp))return '';   // a rookie's zero pro career prints nothing, never zeros
+    return nm+': '+(isG
+      ?[t.gp+' GP',(t.w!=null?t.w+' W':''),(t.so!=null?t.so+' SO':'')].filter(Boolean).join(' · ')
+      :[t.gp+' GP',(t.pts!=null?t.pts+' PTS':''),(t.pim!=null?t.pim+' PIM':'')].filter(Boolean).join(' · '));
+  };
+  const hv=(msTotals(sp,'havoc')||{}).vals,pr=(msTotals(sp,'pro')||{}).vals;
+  const parts=[seg('HAVOC',hv)];
+  if(pr&&(+pr.gp)&&(!hv||pr.gp!==hv.gp||pr.pts!==hv.pts||pr.w!==hv.w))parts.push(seg('PRO',pr));
+  return parts.filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;');
+}
 /* the prose blurb — the club's broadcast notes, his to rewrite in place */
 function fdNotesText(p){
   const b=bioLine((biosFor(p)||{}).broadcast_bio);
@@ -4109,6 +4158,9 @@ function fdCard(p,side,pal,group){
   const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
   const ts=findTeamStats(side==='home'?'Huntsville':teamCity(DATA.game.opp));
   const season=fdSeasonLine(p,ts),career=fdCareerLine(p);
+  // committed bridge lines fill in only where live data is absent (Havoc only)
+  const lastYr=(!season&&side==='home')?fdLastYrLine(p):null;
+  const entering=(!career&&side==='home')?fdEnteringLine(p):'';
   const notes=fdNotesText(p),personal=fdPersonalText(p);
   const ed=(k,cls,html)=>`<div class="${cls}">${html}</div>`;
   return `<div class="cs-card" style="border-color:${edge}">
@@ -4118,8 +4170,10 @@ function fdCard(p,side,pal,group){
     </div>
     <div class="cs-vitals">${fdVitals(p)}</div>
     ${season?`<div class="cs-stat"><i>${esc((statsScopeLabel()||'SEASON').toUpperCase())} STATS:</i> ${season}</div>`
+            :lastYr?`<div class="cs-stat"><i>${esc(lastYr.label.toUpperCase())}:</i> ${lastYr.html}</div>`
             :`<div class="cs-stat"><i>SEASON STATS:</i> <span class="cs-ph">no ${esc(seasonNowShort())} stats published yet</span></div>`}
-    ${career?`<div class="cs-stat"><i>CAREER STATS (SPHL TOTALS):</i> ${career}</div>`:''}
+    ${career?`<div class="cs-stat"><i>CAREER STATS (SPHL TOTALS):</i> ${career}</div>`
+            :entering?`<div class="cs-stat"><i>ENTERING ${esc(sheetSeason())}:</i> ${entering}</div>`:''}
     <div class="cs-lab">SEASON/CAREER NOTES:</div>
     ${ed('note','cs-note',esc(notes)||'<span class="cs-ph">click to write</span>')}
     <div class="cs-lab">PERSONAL NOTES:</div>
@@ -5436,6 +5490,7 @@ function spineRosterApply(){
     p.sheet=sheetSeason();   // PROVENANCE: this player is on the internal signed sheet
     if(!p.num&&sp.num)p.num=String(sp.num);
     if(!p.pos&&sp.pos)p.pos=sp.pos;
+    if(!p.from&&sp.from)p.from=sp.from;   // previous club — "Huntsville Havoc" = returning
     const b=sp.bio||{};
     if(!p.ht&&b.height)p.ht=b.height;
     if(!p.wt&&b.weight)p.wt=String(b.weight);
@@ -6123,8 +6178,8 @@ function renderPacket(){
   const svNote=(SPHL_REF.hsvVsNote||{})[G.opp];
   const seasonH2H=seasonH2HText();
   const h2hBox=`<div class="box"><h3>Head-to-Head — Havoc vs. ${esc(oppShort||'Opp')}</h3>
-    <div class="h2h-line"><span>All-time regular season</span><span>${h2h?esc(h2h.rs):'—'}</span></div>
-    <div class="h2h-line"><span>All-time playoffs</span><span>${h2h?esc(h2h.po):'—'}</span></div>
+    <div class="h2h-line"><span>All-time regular season</span><span>${h2h?(h2h.first?'<b>First meeting in franchise history</b>':esc(h2h.rs)):'—'}</span></div>
+    <div class="h2h-line"><span>All-time playoffs</span><span>${(h2h&&!h2h.first)?esc(h2h.po):'—'}</span></div>
     <div class="h2h-line"><span>This season (W-L-OTL-SOL)</span><span>${seasonH2H?esc(seasonH2H):'—'}</span></div>
     ${svNote?`<div class="h2h-note">&#9432; ${esc(svNote)}</div>`:''}</div>`;
   // authored matchup notes from data/matchups.json — the committed source
@@ -6173,6 +6228,7 @@ function renderPacket(){
           <tr><td>Scratches</td><td>${esc((G.scratch||'').trim()||'None')}</td></tr>
         </table></div>
         <div class="box"><h3>Goals by Period</h3>${gpTable}</div>
+        ${goalieNotesBox()}
       </div>
     </div>
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
@@ -6229,6 +6285,35 @@ function pkRebuild(){
   pkLayout();
 }
 
+/* Goalie Notes — the tandem from the committed spine (works at GP=0), the
+   current-season line when stats are published (scope-labeled), and any
+   goalie milestone calls the shared helpers already computed. */
+function goalieNotesBox(){
+  if(!MS_DATA)return '';
+  const gs=(MS_DATA.players||[]).filter(sp=>sp.type==='goalie'||String(sp.pos||'').toUpperCase()==='G');
+  if(!gs.length)return '';
+  const ts=findTeamStats('Huntsville');
+  const scope=statsScopeLabel();
+  const rows=gs.map(sp=>{
+    const lastR=spineLastRows(sp).filter(r=>r.w!=null||r.gaa!=null||r.svs!=null);
+    const last=lastR.length?lastR[0].season+' FINAL: '+lastR.map(r=>
+      [r.gp+' GP',(r.w!=null?(r.w||0)+'-'+(r.l||0)+'-'+(r.otl||0):''),(r.gaa!=null?Number(r.gaa).toFixed(2)+' GAA':''),(r.svpct!=null?fmtSv(r.svpct)+' SV%':''),(r.so?r.so+' SO':'')].filter(Boolean).join(' · ')
+      +(r.league&&r.league!=='SPHL'?' ('+r.league+')':'')).join(' / '):'';
+    const g=ts?(ts.goalies||[]).find(x=>norm(x.name||'')===norm(sp.name)||(sp.num&&String(x.num)===String(sp.num))):null;
+    const cur=g?((scope||'SEASON')+': '+(g.svpct||'—')+' SV% · '+(g.gaa||'—')+' GAA · '+(g.w||0)+'-'+(g.l||0)+'-'+(g.otl||0)):'';
+    const hv=(msTotals(sp,'havoc')||{}).vals||{};
+    const ent=(+hv.gp)?('Entering '+sheetSeason()+' (Havoc): '+hv.gp+' GP · '+(hv.w||0)+' W · '+(hv.so||0)+' SO'):'';
+    const bits=[cur,last,ent].filter(Boolean);
+    if(!bits.length)return '';
+    return `<div class="news-item"><div class="h">${esc((sp.num?'#'+sp.num+' ':'')+sp.name)}</div><div class="b">${bits.map(esc).join('<br>')}</div></div>`;
+  }).filter(Boolean).join('');
+  if(!rows)return '';
+  const lastNames=gs.map(sp=>String(sp.name).split(' ').pop());
+  const ms=(typeof msWatchLines==='function'?msWatchLines('havoc',15):[])
+    .filter(l=>lastNames.some(n=>String(l.html||'').indexOf(n)>=0)).slice(0,2)
+    .map(l=>`<div class="pk-ms">${l.html}</div>`).join('');
+  return `<div class="box"><h3>Goalie Notes</h3>${rows}${ms}</div>`;
+}
 function upNextBox(){
   const sched=parseScheduleData();const G=DATA.game;
   // find games after current date
@@ -6491,8 +6576,8 @@ function seriesBoxHTML(red){
   const last=vs[vs.length-1];
   const line=(a,b)=>`<div class="h2h-line"><span>${a}</span><span>${b}</span></div>`;
   return `<div class="box"><h3>Series History — vs. ${esc(oppCity)}</h3>
-    ${line('All-time regular season',ref?esc(ref.rs):'—')}
-    ${line('All-time playoffs',ref?esc(ref.po):'—')}
+    ${line('All-time regular season',ref?(ref.first?'<b>First meeting in franchise history</b>':esc(ref.rs)):'—')}
+    ${line('All-time playoffs',(ref&&!ref.first)?esc(ref.po):'—')}
     ${line('This season',vs.length?glRec(vs):'no meetings yet')}
     ${line('This season at home',vs.length?glRec(vs.filter(g=>g.ha==='vs')):'—')}
     ${line('This season on the road',vs.length?glRec(vs.filter(g=>g.ha==='@')):'—')}
