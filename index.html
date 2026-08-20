@@ -7884,7 +7884,10 @@ function importDailyHTMLText(html,label){
   let rep;
   try{rep=SPHLDailyReport.parse(html);}catch(e){toast('Parse failed: '+e.message);return;}
   const ok=Object.values(rep.parsed).some(Boolean);
-  const summary=ok?applyDailyReport(rep,label):'nothing recognized in that content';
+  // a hand upload always wins (his action) — but say so when it's older than the live sync
+  const summary=ok?applyDailyReport(rep,label)
+    +(dailyStaleVsFeed(rep)?' · ⚠ this report ('+(rep.generatedDate||'date unknown')+') is OLDER than your live stats sync — a Game Day Refresh restores the newer numbers':'')
+    :'nothing recognized in that content';
   const pill=document.getElementById('parseResult');
   if(pill)pill.innerHTML=ok?'<span class="pill ok">Imported</span>':'<span class="pill warn">Nothing recognized</span>';
   const sum=document.getElementById('importSummary');
@@ -7898,12 +7901,27 @@ function dailyFilePick(e){
   rd.readAsText(f);
   e.target.value='';
 }
+/* The keyless daily report is the fallback FLOOR — it must never overwrite a
+   fresher keyed pull. Offseason the league keeps serving the FINAL report of
+   last season (the playoffs), so a report clearly older than the live stats
+   sync is held, not applied. Judged on the report's own generatedDate — the
+   nightly fetch stamp changes daily even when the content is months old. */
+function dailyStaleVsFeed(rep){
+  const rd=Date.parse(String(rep.generatedDate||'')+'T12:00')||Date.parse(rep.fetchedAt||'')||0;
+  const feed=Math.max(syncAt('players')||0,syncAt('standings')||0);
+  return !!(feed&&rd&&(feed-rd)>3*86400000);   // >3 days older than the live sync
+}
 async function dailyAutoLoad(){
   try{
     const res=await fetch('data/sphl-daily.json',{cache:'no-cache'});
     if(!res.ok)return;
     const j=await res.json();
     if(!j||!j.parsed)return;
+    if(dailyStaleVsFeed(j)){
+      const el=document.getElementById('dailyBadge');
+      if(el)el.textContent='Daily report held — the league is still serving the '+(j.generatedDate||'?')+' report (last season’s playoffs); your live stats sync is newer and wins.';
+      return;   // no stamp — re-checked next load, applies again once a fresh report ships
+    }
     const stamp=j.fetchedAt||j.generatedDate||'';
     if(DATA.report.dailyStamp===stamp){dailyBadge();return;}
     applyDailyReport(j,'auto (nightly GitHub Action)');
