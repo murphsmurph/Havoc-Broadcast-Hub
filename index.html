@@ -628,6 +628,12 @@
   .l10-row .tm{font-weight:800;text-transform:uppercase;font-size:8.5px;color:var(--havoc-grey);display:block;margin-top:4px;}
   .h2h-line{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;border-bottom:1px solid #eee;}
   .h2h-note{font-size:8.5px;font-style:italic;color:var(--ink-2);margin-top:4px;line-height:1.45;}
+  /* cover watch box: the screen pills flatten to print-safe accent lines */
+  .pk-ms{font-size:9.5px;padding:2px 0 2px 6px;border-left:3px solid var(--havoc-red);margin:2px 0;line-height:1.35;}
+  .page .rec-row{background:none;border:none;border-left:3px solid var(--havoc-grey);padding:2px 0 2px 6px;margin:2px 0;font-size:9px;font-weight:600;color:var(--ink);line-height:1.35;border-radius:0;}
+  .page .rec-row.rec-mine{border-left-color:#1a7f37;}
+  .page .rec-row.rec-holds{border-left-color:#b48a00;}
+  .page .rec-row.rec-soon{border-left-color:var(--havoc-red);}
   .leaders-named{font-size:9px;line-height:1.6;}
   .leaders-named .cat{font-weight:800;text-transform:uppercase;color:var(--red-text);font-size:8px;}
   /* import segments */
@@ -6008,11 +6014,26 @@ function pkPreset(name){
   toast(name==='booth'?'Booth packet preset applied':'Full packet preset applied');
 }
 
+/* the cover's watch box — the same milestone / franchise-race / record-watch
+   lines the board and the Game Day strip show, capped for one printed sheet.
+   Nothing in any window → no box (the cover never carries an empty frame). */
+function pkWatchBox(){
+  if(!MS_DATA)return '';
+  const lines=msWatchLines('havoc',15);
+  lines.push(...frBannerLines());
+  const seen=new Set();
+  const top=lines.sort((a,b)=>a.away-b.away).filter(x=>!seen.has(x.html)&&seen.add(x.html)).slice(0,4);
+  const recs=recWatchRows().slice(0,2).map(recRowHTML).join('');
+  if(!top.length&&!recs)return '';
+  return `<div class="box"><h3>Milestone &amp; Record Watch</h3>
+    ${top.map(x=>`<div class="pk-ms">${x.html}</div>`).join('')}${recs}</div>`;
+}
 function renderPacket(){
   const S=DATA.settings,G=DATA.game,R=DATA.report,N=DATA.notes||{};
   const red=S.red||'#C8102E';
-  // warm the committed matchup notes once; re-render when they land
+  // warm the committed sources once; re-render when they land
   if(!MX_TRIED)matchupsLoad().then(m=>{if(m)renderPacket();});
+  if(!MS_DATA)msLoad().then(d=>{if(d)renderPacket();});
   const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
   const hsv=findTeamStats('Huntsville'),opp=oppCity?findTeamStats(oppCity):null;
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
@@ -6048,6 +6069,7 @@ function renderPacket(){
       <div><div class="box"><h3>Havoc Statistical Leaders</h3>${leaders4Block(hsv)}</div></div>
       <div>${(()=>{const awayTeam=G.homeaway==='@'?(S.city+' '+S.name):(G.opp||'Visiting team');const awayList=G.homeaway==='@'?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);return pronBoxHTML('Pronunciation Guide — '+awayTeam,awayList,5);})()}</div>
     </div>
+    ${pkWatchBox()}
     ${upNextBox()}
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
 
