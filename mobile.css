@@ -360,6 +360,9 @@ input, select, textarea { font-size: 16px; }
   .icon-btn { min-height: 38px; padding: 4px 12px; }
   .sb-state .btn.small { min-height: 38px; }
 
+  /* Game Day booth view: one column, lookup stays big for gloved thumbs */
+  .gday-teams { grid-template-columns: 1fr; }
+  input.gday-find { font-size: 20px; }
 
 }
 
