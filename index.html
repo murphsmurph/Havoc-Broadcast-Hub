@@ -46,7 +46,9 @@
     html[data-theme="dark"] .page .pstat,html[data-theme="dark"] .page .pstat *{color:var(--havoc-red) !important;}
     html[data-theme="dark"] .page{color:#1a1a1a;background:#fff;--red-text:#C8102E;--ink:#1a1a1a;--ink-2:#666;--havoc-grey:#6b6b73;--havoc-line:#d8d8dd;--havoc-silver:#e9e9ed;--surface:#fff;--surface-2:#fafafb;--surface-3:#f4f5f7;}
     html[data-booth="1"] body{font-size:17px;}
-    html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td,html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th{padding-top:9px;padding-bottom:9px;}
+    /* roomier tables in booth mode — but never inside a printed sheet, where
+       padding changes the page count between screen modes */
+    html[data-booth="1"] table:not(.pk-t):not(.pk-ws) td:not(.page *),html[data-booth="1"] table:not(.pk-t):not(.pk-ws) th:not(.page *){padding-top:9px;padding-bottom:9px;}
     html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
     html[data-booth="1"] .tab{font-size:14.5px;}
     html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
@@ -625,6 +627,7 @@
   .l10-row{font-size:9px;line-height:1.7;}
   .l10-row .tm{font-weight:800;text-transform:uppercase;font-size:8.5px;color:var(--havoc-grey);display:block;margin-top:4px;}
   .h2h-line{display:flex;justify-content:space-between;font-size:10px;padding:2px 0;border-bottom:1px solid #eee;}
+  .h2h-note{font-size:8.5px;font-style:italic;color:var(--ink-2);margin-top:4px;line-height:1.45;}
   .leaders-named{font-size:9px;line-height:1.6;}
   .leaders-named .cat{font-weight:800;text-transform:uppercase;color:var(--red-text);font-size:8px;}
   /* import segments */
@@ -5348,6 +5351,20 @@ async function biosLoad(){
   }catch(e){}
   return BIOS_FILE;
 }
+/* data/matchups.json — authored opponent matchup notes for the packet's
+   scouting report (storylines + optional series caveat). Committed JSON is
+   the source; the Hub only renders it. */
+let MX_FILE=null,MX_TRIED=false;
+async function matchupsLoad(){
+  if(MX_FILE||MX_TRIED)return MX_FILE;
+  MX_TRIED=true;
+  try{
+    const r=await fetch('data/matchups.json',{cache:'no-cache'});
+    if(r.ok)MX_FILE=await r.json();
+  }catch(e){}
+  return MX_FILE;
+}
+function matchupsFor(team){return ((MX_FILE||{}).teams||{})[team]||null;}
 /* roster player -> his authored entry. The bios key is the spine name;
    formal_name is the alias the feed prints (Gio ↔ Giovanni Procopio).
    An embargoed entry answers null — the prose renders nowhere until flipped. */
@@ -5994,6 +6011,8 @@ function pkPreset(name){
 function renderPacket(){
   const S=DATA.settings,G=DATA.game,R=DATA.report,N=DATA.notes||{};
   const red=S.red||'#C8102E';
+  // warm the committed matchup notes once; re-render when they land
+  if(!MX_TRIED)matchupsLoad().then(m=>{if(m)renderPacket();});
   const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=(G.opp||'').split(' ')[0],oppAbbr=TEAM_ABBR[oppCity]||'OPP';
   const hsv=findTeamStats('Huntsville'),opp=oppCity?findTeamStats(oppCity):null;
   const sp=R.special||{},hsvSp=sp['Huntsville']||{},oppSp=sp[oppCity]||{};
@@ -6039,12 +6058,22 @@ function renderPacket(){
   const muRows=matchupRows().concat(rankedMatchupRows());
   const muTable=`<table class="matchup"><thead><tr><th></th><th>${esc(S.city)} ${esc(S.name)}</th><th>${esc(oppShort||'Opponent')}</th></tr></thead><tbody>
     ${muRows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('')}</tbody></table>`;
-  // head to head: all-time (from ref) + current season (from report)
+  // head to head: all-time (from ref) + current season (from report).
+  // A flagged series total carries its flag wherever it prints (standing law 1)
+  const svNote=(SPHL_REF.hsvVsNote||{})[G.opp];
   const seasonH2H=seasonH2HText();
   const h2hBox=`<div class="box"><h3>Head-to-Head — Havoc vs. ${esc(oppShort||'Opp')}</h3>
     <div class="h2h-line"><span>All-time regular season</span><span>${h2h?esc(h2h.rs):'—'}</span></div>
     <div class="h2h-line"><span>All-time playoffs</span><span>${h2h?esc(h2h.po):'—'}</span></div>
-    <div class="h2h-line"><span>This season (W-L-OTL-SOL)</span><span>${seasonH2H?esc(seasonH2H):'—'}</span></div></div>`;
+    <div class="h2h-line"><span>This season (W-L-OTL-SOL)</span><span>${seasonH2H?esc(seasonH2H):'—'}</span></div>
+    ${svNote?`<div class="h2h-note">&#9432; ${esc(svNote)}</div>`:''}</div>`;
+  // authored matchup notes from data/matchups.json — the committed source
+  const mx=matchupsFor(G.opp);
+  const stories=(((mx||{}).storylines)||[]).filter(x=>x&&(x.h||x.b));
+  const storyBox=`<div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} Storylines</h3>
+    ${stories.length?stories.map(x=>`<div class="news-item"><div class="h">${esc(x.h||'')}</div><div class="b">${esc(x.b||'')}</div></div>`).join('')
+     :`<div class="b" style="color:var(--ink-2)">&mdash; storylines to come &mdash; authored in data/matchups.json${G.opp?' ('+esc(G.opp)+')':''}.</div>`}
+    ${(mx&&mx.series_note)?`<div class="h2h-note">&#9432; ${esc(mx.series_note)}</div>`:''}</div>`;
   // last 10 for both
   const l10Box=`<div class="box"><h3>Last 10 — Both Teams</h3>
     <div class="l10-row"><span class="tm">${esc(S.name)}</span>${last10Block('Huntsville')}</div>
@@ -6055,6 +6084,7 @@ function renderPacket(){
     <div class="gn-cols">${seriesBoxHTML(red)||h2hBox}${l10Box}</div>
     <div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} News &amp; Notes</h3>${oppNews}
       ${(function(){const oc=getCoach(G.opp);return oc.name?`<div class="news-item"><div class="h">HEAD COACH — ${esc(oc.name)}</div><div class="b">${esc(oc.bio||'')}</div></div>`:'';})()}</div>
+    ${storyBox}
     <div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} Statistical Leaders</h3>${leadersBlock(opp)}</div>
     <div class="gn-foot"><span>${esc(S.social)}</span><span>${esc(S.footer)}</span><span>__PGNO__</span></div></div>`);
 
@@ -6408,6 +6438,7 @@ function seriesBoxHTML(red){
     ${line('This season on the road',vs.length?glRec(vs.filter(g=>g.ha==='@')):'—')}
     ${line('Current streak in series',vs.length?glStreak(vs):'—')}
     ${line('Last meeting',last?(fmtDateShort(last.d)+' — '+(last.wl==='W'?'W':'L')+' '+last.us+'-'+last.them+(last.otso?' ('+last.otso+')':'')):'—')}
+    ${(SPHL_REF.hsvVsNote||{})[G.opp]?`<div class="h2h-note">&#9432; ${esc(SPHL_REF.hsvVsNote[G.opp])}</div>`:''}
   </div>`;
 }
 /* league ranks for the Matching Up table */
@@ -8348,7 +8379,7 @@ setInterval(async()=>{
 },3600000);
 
 hubPageScale();themeApply();seedScheduleIfEmpty();initForms();renderRoster();updateAppMark();setTouchIcon();
-(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});Promise.all([msLoad(),biosLoad()]).then(([d])=>{if(d)spineRosterApply();});})();
+(function(){if(DATA.opening&&DATA.opening.archived){const b=document.getElementById('tab_opening');if(b)b.style.display='none';}const k=document.getElementById('ht_key');if(k&&DATA.settings.htKey)k.value=DATA.settings.htKey;renderSeasonBar();htShowLastSync();renderSyncBadges();feedAutoCheck();sbStart();loadHockeyOps();dailyBadge();dailyAutoLoad();setInterval(dailyAutoLoad,6*3600000);epLoadStatic().then(d=>{if(d)renderRoster();});Promise.all([msLoad(),biosLoad(),matchupsLoad()]).then(([d])=>{if(d)spineRosterApply();});})();
 
 (function(){const d=document.getElementById('g_date');if(d)d.addEventListener('change',()=>{const p=document.getElementById('g_promo');const pr=promoFor(d.value);if(pr&&p&&!p.value.trim()){p.value=pr;}});})();
 
