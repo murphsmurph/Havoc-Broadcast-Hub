@@ -50,6 +50,7 @@
     html[data-booth="1"] .roster td,html[data-booth="1"] .roster th{font-size:14.5px;}
     html[data-booth="1"] .tab{font-size:14.5px;}
     html[data-booth="1"] .page,html[data-booth="1"] .doc-scroll{font-size:initial;} /* never touch the printed sheet */
+    html[data-booth="1"] .gday-card{--gs:1.25;} /* Game Day scales further in booth mode */
   }
   *{box-sizing:border-box;}
   html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
@@ -410,6 +411,40 @@
   .feed-ages b{font-weight:800;color:var(--havoc-ink);}
   .unv{color:var(--red-text);font-weight:900;cursor:help;}
   .guard-banner{flex:1 0 100%;border:2px solid #b48a00;border-radius:7px;background:#ffefc0;color:#5c4a00;font-size:12px;font-weight:700;line-height:1.6;padding:8px 11px;margin-top:6px;}
+  /* GAME DAY — the booth view. Themed tokens only (dark mode is free), one
+     scale var so booth mode enlarges everything together. Screen-only. */
+  .gday-card{--gs:1;}
+  .gday-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:10px 14px;}
+  .gday-title{font-size:calc(24px*var(--gs));font-weight:900;letter-spacing:.02em;color:var(--red-text);}
+  .gday-sub{font-size:calc(15px*var(--gs));color:var(--ink-2);margin-top:4px;line-height:1.5;}
+  input.gday-find{font-size:calc(22px*var(--gs));padding:12px 14px;width:100%;border:2px solid var(--havoc-line);border-radius:8px;background:var(--surface-2);color:var(--ink);}
+  .gday-teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;margin-top:8px;}
+  .gday-team{background:var(--surface-2);border:1px solid var(--havoc-line);border-radius:8px;padding:10px 12px;}
+  .gday-teamhead{font-size:calc(16px*var(--gs));font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:var(--red-text);border-bottom:2px solid var(--havoc-line);padding-bottom:5px;margin-bottom:7px;}
+  .gday-sec{font-size:calc(12px*var(--gs));font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin:9px 0 3px;}
+  .gday-line{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;border-bottom:1px solid var(--havoc-line);padding:3px 0;}
+  .gday-lnum{font-size:calc(12px*var(--gs));font-weight:800;color:var(--ink-2);min-width:16px;}
+  .gday-p{display:inline-flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline;padding:3px 0;}
+  .gday-num{font-size:calc(15px*var(--gs));font-weight:900;color:var(--red-text);min-width:34px;}
+  .gday-name{font-size:calc(18px*var(--gs));font-weight:800;}
+  .gday-pos{font-size:calc(13px*var(--gs));font-weight:700;color:var(--ink-2);}
+  .gday-pron{font-size:calc(14px*var(--gs));font-style:italic;color:var(--ink-2);}
+  .gday-p .pstat{font-size:calc(14px*var(--gs));}
+  .gday-note{flex:1 0 100%;font-size:calc(14px*var(--gs));color:var(--ink-2);line-height:1.4;}
+  .gday-tag{font-size:calc(11px*var(--gs));font-weight:800;text-transform:uppercase;background:var(--surface-3);border:1px solid var(--havoc-line);border-radius:5px;padding:1px 6px;color:var(--ink-2);}
+  .gday-scr .gday-name{text-decoration:line-through;color:var(--ink-2);}
+  .gday-strips{margin-top:8px;}
+  .gday-strip{font-size:calc(14px*var(--gs));padding:3px 0;border-top:1px dashed var(--havoc-line);}
+  .gday-t{width:100%;border-collapse:collapse;font-size:calc(15px*var(--gs));}
+  .gday-t th,.gday-t td{border-bottom:1px solid var(--havoc-line);padding:5px 8px;text-align:left;}
+  .gday-t th.r,.gday-t td.r{text-align:right;font-variant-numeric:tabular-nums;}
+  .gday-t th{font-size:calc(12px*var(--gs));text-transform:uppercase;letter-spacing:.04em;color:var(--ink-2);}
+  .gday-recs{margin-top:8px;}
+  #panel-gameday .ms-call{font-size:calc(16px*var(--gs));}
+  #panel-gameday .rec-row{font-size:calc(14px*var(--gs));}
+  textarea.gday-notes{width:100%;min-height:180px;font-size:calc(17px*var(--gs));line-height:1.5;}
+  .rawprint-note{display:none;}
+  @media print{.rawprint-note{display:block;font-weight:700;font-size:14px;padding:24px;}}
   html[data-theme="dark"] .guard-banner{background:#3a3010;color:#ffd76a;border-color:#8a6a00;}
   .ref-ed{font-size:13px;}
   .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
@@ -607,6 +642,7 @@
     .app-header,.tabs,.doc-toolbar,.no-print{display:none !important;}
     .wrap{padding:0;max-width:none;}
     .panel:not(.printing){display:none !important;}
+    #panel-gameday{display:none !important;} /* the booth view is screen-only */
     .subview:not(.printing){display:none !important;}
     .subview.printing{display:block !important;}
     .doc-scroll{max-height:none;overflow:visible;padding:0;background:#fff;}
@@ -742,6 +778,7 @@
   <div class="header-status save-flash" id="saveStatus" title="Everything is stored in this browser — back it up from Settings"></div>
 </div>
 <div class="tabs hub-tabs" id="tabs">
+  <button class="tab" data-tab="gameday">Game Day</button>
   <button class="tab active" data-tab="game">This Game</button>
   <button class="tab" data-tab="import">Live Data</button>
   <button class="tab" data-tab="rosters">Rosters</button>
@@ -751,6 +788,47 @@
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 <div class="wrap hub-app">
+
+  <!-- GAME DAY — the booth view (Pillar 2): screen-only, big type, dark-mode
+       first. One column of cards, everything rendered from existing data. -->
+  <section class="panel hub-panel" id="panel-gameday">
+    <div class="card hub-card gday-bar no-print">
+      <button class="btn gameday" onclick="gdaySync()">&#10227; Game Day Refresh</button>
+      <span class="upd" data-sync="scorebar"></span><span class="upd" data-sync="players"></span>
+      <span class="upd" data-sync="standings"></span><span class="upd" data-sync="rosters"></span>
+      <div id="gdayGuard"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <div id="gdayHeader"></div>
+      <div id="gdayScorebar" class="sb-strip"></div>
+      <div id="gdayUpNext"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <h2>Jersey <span class="accent">Lookup</span></h2>
+      <input type="text" id="gdayFind" class="gday-find" placeholder="Number or name — both teams" autocomplete="off" inputmode="search">
+      <div id="gdayFindOut"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <h2>Milestone <span class="accent">Watch</span></h2>
+      <div id="gdayMs"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <h2 id="gdayLinesTitle">Lineups</h2>
+      <div id="gdayLines" class="gday-teams"></div>
+      <div id="gdayScratches"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <h2>Quick <span class="accent">Stats</span></h2>
+      <div id="gdayStats"></div>
+    </div>
+    <div class="card hub-card gday-card">
+      <h2>Break &amp; <span class="accent">Notes</span></h2>
+      <div class="field hub-field"><label>Next break</label><input type="text" id="gdayBreak" placeholder="e.g. media timeout after next whistle · promo read at 10:00 of the 2nd"></div>
+      <div class="field hub-field"><label>Live notes <span id="gdayNotesStamp" class="upd"></span></label>
+        <textarea id="gdayNotes" class="gday-notes" placeholder="Whatever the call needs tonight — saved in this browser as you type."></textarea></div>
+      <div class="btn-row"><button class="btn small secondary" onclick="gdayNotesClear()">Clear notes</button></div>
+    </div>
+  </section>
 
   <!-- THIS GAME -->
   <section class="panel hub-panel active" id="panel-game">
@@ -1679,7 +1757,8 @@ const DEFAULT_DATA={
   secBold:{},            // {sectionKey:1} — per-section bold body text
   sync:{},               // {feed:isoTime} — per-feed freshness (standings/players/schedule/rosters/careers/scorebar/daily)
   gamelog:{},            // {dateISO:{opp,ha,us,them,otso,att,sf,sa,ppg,ppa,pkk,pkt,fights}} — per-game store for derived packet sections
-  leagueLog:[]           // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
+  leagueLog:[],          // league-wide finals [{d,h,a,hg,ag,ot}] for opponent sections + head-to-head
+  gameday:{break:'',notes:'',at:''}  // booth view: next-break line + live notes (game-night ephemera)
 };
 const HAD_LOCAL=(()=>{try{return !!localStorage.getItem(KEY);}catch(e){return false;}})();
 let DATA=load();
@@ -1791,6 +1870,7 @@ function showTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t===btn));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById('panel-'+tab);if(el)el.classList.add('active');
+  if(tab==='gameday')gdayInit();
   if(tab==='import'){loadSchedule();renderGameLog();renderSyncBadges();}
   if(tab==='game'){gmScorebar();renderSyncBadges();}
   if(tab==='rosters')subShow('rosters',SUBTABS.rosters);
@@ -1822,6 +1902,14 @@ let RAWPRINT=[];
 window.addEventListener('beforeprint',()=>{
   if(document.querySelector('.printing'))return; // printDoc already handled it
   const panel=document.querySelector('.panel.active');if(!panel)return;
+  if(panel.id==='panel-gameday'){
+    // the booth view is screen-only — print a pointer, not a screen dump
+    const note=document.createElement('div');
+    note.className='rawprint-note';
+    note.textContent='The Game Day view is screen-only — print packets, folders and cards from the Print Center.';
+    document.body.appendChild(note);RAWPRINT=[note];
+    return;
+  }
   RAWPRINT=[panel];panel.classList.add('printing');
   const sv=panel.querySelector('.subview.active');
   if(sv){sv.classList.add('printing');RAWPRINT.push(sv);}
@@ -1832,7 +1920,7 @@ window.addEventListener('beforeprint',()=>{
   }
 });
 window.addEventListener('afterprint',()=>{
-  RAWPRINT.forEach(m=>m.classList.remove('printing'));RAWPRINT=[];
+  RAWPRINT.forEach(m=>{m.classList.remove('printing');if(m.classList.contains('rawprint-note'))m.remove();});RAWPRINT=[];
   const st=document.getElementById('rawPrintLand');if(st)st.remove();
 });
 /* Print Center shared toolbar — acts on the active sub-view */
@@ -5382,24 +5470,31 @@ function renderMilestones(){
   // the broadcast line that has to jump off the screen
   const watch=document.getElementById('msWatch');
   if(watch){
-    const urgent=[];
-    rows.forEach(r=>Object.keys(r.flags).forEach(k=>{
-      if(r.flags[k].away<=5)urgent.push({r,k,hit:r.flags[k]});
-    }));
     renderRecordWatch();
-    urgent.sort((a,b)=>a.hit.away-b.hit.away);
-    const lines=urgent.map(u=>{
-      const last=u.r.p.name.split(' ').pop();
-      const what=u.k==='gp'?(u.hit.away+' game'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
-        :(u.k==='w'?(u.hit.away+' win'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
-        :(u.hit.away+' '+({g:'goal',a:'assist',pts:'point'})[u.k]+(u.hit.away===1?'':'s')+' from '+u.hit.next));
-      return {away:u.hit.away,html:`<b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}`};
-    });
+    const lines=msWatchLines(scope,5);
     // the franchise-list races ride along on the Havoc board
     if(scope==='havoc')lines.push(...frBannerLines());
     lines.sort((a,b)=>a.away-b.away);
     watch.innerHTML=lines.length?`<div class="ms-urgent">${lines.map(x=>`<div class="ms-call">${x.html}</div>`).join('')}</div>`:'';
   }
+}
+/* per-player milestone proximity lines — [{away,html}], sorted nearest first.
+   The board keeps its ≤5 urgency window; the Game Day strip widens to 15. */
+function msWatchLines(scope,maxAway){
+  if(!MS_DATA)return [];
+  const urgent=[];
+  MS_DATA.players.forEach(p=>{
+    const t=msTotals(p,scope),flags=msFlags(p,t.vals);
+    Object.keys(flags).forEach(k=>{if(flags[k].away<=maxAway)urgent.push({p,k,hit:flags[k]});});
+  });
+  urgent.sort((a,b)=>a.hit.away-b.hit.away);
+  return urgent.map(u=>{
+    const last=u.p.name.split(' ').pop();
+    const what=u.k==='gp'?(u.hit.away+' game'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
+      :(u.k==='w'?(u.hit.away+' win'+(u.hit.away===1?'':'s')+' from '+u.hit.next)
+      :(u.hit.away+' '+({g:'goal',a:'assist',pts:'point'})[u.k]+(u.hit.away===1?'':'s')+' from '+u.hit.next));
+    return {away:u.hit.away,html:`<b>${esc(last)}</b> is ${esc(what)}${scope==='havoc'?' as a Havoc':' as a pro'}`};
+  });
 }
 /* ============================================================
    FRANCHISE RACE — the all-time Havoc scoring list from
@@ -5749,35 +5844,38 @@ function recWatchRows(){
   });
   return out.sort((a,b)=>a.away-b.away);
 }
+const REC_STATNAME={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts',svs:'saves'};
+/* one recWatchRows() row → its broadcast line — shared by the milestone board
+   and the Game Day strip so the holder-join logic lives in one place */
+function recRowHTML(r){
+  const statName=REC_STATNAME;
+  const last=r.p.name.split(' ').pop();
+  const what=(r.scope==='season'?'the single-season record':'the franchise '+statName[r.k]+' record');
+  // the book's holder IS this player — whole-name equality against his spine
+  // name and formal_name alias, never a last-name substring; a shared-holder
+  // card ("Mike Robinson / Matt Carmichael") splits into its names first
+  const holders=String(r.rec.who||'').split(/\s*[\/,&]\s*|\s+and\s+/i).map(norm).filter(Boolean);
+  const pb=biosFor(r.p)||{};
+  const names=[r.p.name,pb.formal_name].filter(Boolean).map(norm);
+  const mine=holders.length>0&&names.some(n=>holders.indexOf(n)>=0);
+  if(r.away<=0&&mine){
+    const one=statName[r.k].replace(/s$/,'');
+    if(r.scope==='season')
+      return `<div class="rec-row rec-mine"><b>${esc(last)}</b> has ${r.away<0?'broken':'matched'} the single-season ${esc(statName[r.k])} record (${r.rec.val}) — a record he already shares</div>`;
+    return `<div class="rec-row rec-mine"><b>${esc(last)}</b> holds the franchise ${esc(statName[r.k])} record — ${r.val} as a Havoc${r.val>r.rec.val?' (the book card still says '+r.rec.val+' — update it)':''}, and every ${esc(one)} extends it</div>`;
+  }
+  if(r.away<=0)
+    // ahead of the book — either the record is his now, or the seeded number is stale
+    return `<div class="rec-row rec-holds"><b>${esc(last)}</b> — ${r.val} ${esc(statName[r.k])} as a Havoc, ahead of ${esc(what)} in the book (${r.rec.val}${r.rec.who?', '+esc(r.rec.who):''}) — verify the record before air</div>`;
+  return `<div class="rec-row ${r.away<=5?'rec-soon':''}"><b>${esc(last)}</b> is <b>${r.away}</b> ${esc(statName[r.k])} from ${esc(what)} — ${r.rec.val}${r.rec.who?', held by '+esc(r.rec.who):''}</div>`;
+}
 function renderRecordWatch(){
   const el=document.getElementById('msRecords');if(!el)return;
   const R=recBook();
   if(!R||!MS_DATA){el.innerHTML='';return;}
   const rows=recWatchRows();
-  const statName={gp:'games',g:'goals',a:'assists',pts:'points',pim:'PIM',w:'wins',so:'shutouts',svs:'saves'};
-  const line=r=>{
-    const last=r.p.name.split(' ').pop();
-    const what=(r.scope==='season'?'the single-season record':'the franchise '+statName[r.k]+' record');
-    // the book's holder IS this player — whole-name equality against his spine
-    // name and formal_name alias, never a last-name substring; a shared-holder
-    // card ("Mike Robinson / Matt Carmichael") splits into its names first
-    const holders=String(r.rec.who||'').split(/\s*[\/,&]\s*|\s+and\s+/i).map(norm).filter(Boolean);
-    const pb=biosFor(r.p)||{};
-    const names=[r.p.name,pb.formal_name].filter(Boolean).map(norm);
-    const mine=holders.length>0&&names.some(n=>holders.indexOf(n)>=0);
-    if(r.away<=0&&mine){
-      const one=statName[r.k].replace(/s$/,'');
-      if(r.scope==='season')
-        return `<div class="rec-row rec-mine"><b>${esc(last)}</b> has ${r.away<0?'broken':'matched'} the single-season ${esc(statName[r.k])} record (${r.rec.val}) — a record he already shares</div>`;
-      return `<div class="rec-row rec-mine"><b>${esc(last)}</b> holds the franchise ${esc(statName[r.k])} record — ${r.val} as a Havoc${r.val>r.rec.val?' (the book card still says '+r.rec.val+' — update it)':''}, and every ${esc(one)} extends it</div>`;
-    }
-    if(r.away<=0)
-      // ahead of the book — either the record is his now, or the seeded number is stale
-      return `<div class="rec-row rec-holds"><b>${esc(last)}</b> — ${r.val} ${esc(statName[r.k])} as a Havoc, ahead of ${esc(what)} in the book (${r.rec.val}${r.rec.who?', '+esc(r.rec.who):''}) — verify the record before air</div>`;
-    return `<div class="rec-row ${r.away<=5?'rec-soon':''}"><b>${esc(last)}</b> is <b>${r.away}</b> ${esc(statName[r.k])} from ${esc(what)} — ${r.rec.val}${r.rec.who?', held by '+esc(r.rec.who):''}</div>`;
-  };
   el.innerHTML=`<div class="section-label hub-sectionhead">Franchise record watch — the club book vs. live Havoc careers</div>`
-    +(rows.length?rows.map(line).join('')
+    +(rows.length?rows.map(recRowHTML).join('')
       :`<div class="rec-none">Nobody is inside the watch window on any franchise record. Career records check against live Havoc careers (closest today: Wilson's ${(function(){const w=MS_DATA.players.find(x=>x.name==='Brian Wilson');const r=recParse('Wins (goalie)',R.career);return w&&r?msTotals(w,'havoc').vals.w+' wins vs '+r.val+' ('+r.who+')':'—';})()}); single-season records wake up once the 2026-27 counters start moving.</div>`)
     +`<div class="rec-src">Record book from League Reference → Franchise records — edit it there and this watch follows.</div>`;
 }
@@ -6590,6 +6688,15 @@ function renderSeries(){
 /* ============================================================
    GAME LINES — forward lines, D pairs, goalies for both teams
    ============================================================ */
+/* "12 Smith" / "Smith" → roster row, or null — the one resolver for every
+   view that reads the free-text lines (line card, Game Day lineup) */
+function lineResolve(v,list){
+  const t=String(v||'').trim();if(!t)return null;
+  const mnum=t.match(/^(\d+)/);
+  let p=mnum?list.find(x=>String(x.num)===mnum[1]&&x.name):null;
+  if(!p)p=list.find(x=>x.name&&t.toLowerCase().indexOf(x.name.toLowerCase())>=0);
+  return p||null;
+}
 function linesDefault(){return {f:[["","",""],["","",""],["","",""],["","",""]],d:[["",""],["",""],["",""],["",""]],g:["",""]};}
 function ensureLines(){
   DATA.lines=DATA.lines||{};
@@ -6649,13 +6756,7 @@ function renderLinesDoc(){
     const logo=teamLogoSrc(teamFull);
     const list=side==='home'?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[]);
     const kw=side==='home'?'Huntsville':(G.opp||'').split(' ')[0]||'zzz-none';
-    const resolve=v=>{
-      const t=String(v||'').trim();if(!t)return null;
-      const mnum=t.match(/^(\d+)/);
-      let p=mnum?list.find(x=>String(x.num)===mnum[1]&&x.name):null;
-      if(!p)p=list.find(x=>x.name&&t.toLowerCase().indexOf(x.name.toLowerCase())>=0);
-      return p||null;
-    };
+    const resolve=v=>lineResolve(v,list);
     const cell=v=>{const p=resolve(v);return `<td>${esc(v||'')}${p?' '+statSpan(p,kw):''}</td>`;};
     const fRows=L.f.map((ln,i)=>`<tr><th>${i+1}</th>${cell(ln[0])}${cell(ln[1])}${cell(ln[2])}</tr>`).join('');
     const dRows=L.d.map((pr,i)=>`<tr><th>${i+1}</th>${cell(pr[0])}${cell(pr[1])}<td class="void"></td></tr>`).join('');
@@ -7948,11 +8049,10 @@ function sbIsLive(g){
   if(/progress|live/i.test(s))return true;
   return String(pick(g,['GameStatus','game_status_code'],''))==='2';
 }
-function sbRender(games){
-  const el=document.getElementById('sbStrip');if(!el)return;
-  if(!games.length){sbMsg('No SPHL games scheduled in this window (2 days back → 7 days ahead).');SB_HASGAMES=false;return;}
-  SB_HASGAMES=true;
-  el.innerHTML=games.map(g=>{
+/* one formatter for every strip — Live Data, This Game and Game Day all show
+   the same cards, only their filters differ */
+function sbGamesHTML(games){
+  return games.map(g=>{
     const vc=String(pick(g,['VisitorCode','visiting_team_code'],''))||String(pick(g,['VisitorCity','visiting_team_city'],'')).slice(0,3).toUpperCase();
     const hc=String(pick(g,['HomeCode','home_team_code'],''))||String(pick(g,['HomeCity','home_team_city'],'')).slice(0,3).toUpperCase();
     const vg=String(pick(g,['VisitorGoals','visiting_goal_count'],'')),hg=String(pick(g,['HomeGoals','home_goal_count'],''));
@@ -7966,20 +8066,28 @@ function sbRender(games){
       '<div class="sb-status">'+esc(date)+' · '+esc(sbStatusOf(g))+'</div></div>';
   }).join('');
 }
-/* This Game carries a read-only strip: tonight's games only, no controls.
-   The full feed lives on Live Data — one place to pull, one place to view. */
-function gmScorebar(games){
-  const el=document.getElementById('gmScorebar');if(!el)return;
-  const src=(games&&games.length?games:sbCacheGames())||[];
+function sbTonightOf(games){
   const today=new Date().toISOString().slice(0,10);
-  const tonight=src.filter(g=>String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(0,10)===today);
-  if(!src.length){el.innerHTML='<div class="sb-msg">No scores yet — run a Game Day Refresh on Live Data.</div>';return;}
-  if(!tonight.length){el.innerHTML='<div class="sb-msg">No SPHL games today. The week ahead is on the Live Data tab.</div>';return;}
-  const old=document.getElementById('sbStrip').innerHTML;
-  sbRender(tonight);
-  el.innerHTML=document.getElementById('sbStrip').innerHTML;
-  document.getElementById('sbStrip').innerHTML=old;
+  return games.filter(g=>String(pick(g,['GameDateISO8601','date_played','Date'],'')).slice(0,10)===today);
 }
+function sbRender(games){
+  const el=document.getElementById('sbStrip');if(!el)return;
+  if(!games.length){sbMsg('No SPHL games scheduled in this window (2 days back → 7 days ahead).');SB_HASGAMES=false;return;}
+  SB_HASGAMES=true;
+  el.innerHTML=sbGamesHTML(games);
+}
+/* This Game and Game Day carry read-only strips: tonight's games only, no
+   controls. The full feed lives on Live Data — one place to pull. */
+function sbTonightInto(id,games){
+  const el=document.getElementById(id);if(!el)return;
+  const src=(games&&games.length?games:sbCacheGames())||[];
+  if(!src.length){el.innerHTML='<div class="sb-msg">No scores yet — run a Game Day Refresh on Live Data.</div>';return;}
+  const tonight=sbTonightOf(src);
+  if(!tonight.length){el.innerHTML='<div class="sb-msg">No SPHL games today. The week ahead is on the Live Data tab.</div>';return;}
+  el.innerHTML=sbGamesHTML(tonight);
+}
+function gmScorebar(games){sbTonightInto('gmScorebar',games);}
+function gdayScorebar(games){sbTonightInto('gdayScorebar',games);}
 function sbInterval(games){
   if(games.some(sbIsLive))return 60000;
   const now=Date.now();
@@ -8012,14 +8120,14 @@ async function sbTick(){
       new Promise((_,rej)=>setTimeout(()=>rej(new Error('the feed did not answer within 10 seconds')),10000))
     ]);
     games=(d&&d.SiteKit&&(d.SiteKit.Scorebar||d.SiteKit.Games))||[];
-    sbRender(games);sbCacheSave(games);gmScorebar(games);
+    sbRender(games);sbCacheSave(games);gmScorebar(games);gdayScorebar(games);
     SB_LAST=Date.now();syncMark('scorebar');
     sbState('loaded','League feed connected · '+syncLabel('scorebar').toLowerCase(),false);
     const st=document.getElementById('sbStamp');if(st)st.textContent='Last updated '+new Date().toLocaleTimeString();
   }catch(e){
     const cached=sbCacheGames();
     if(cached.length){sbRender(cached);SB_HASGAMES=true;}
-    gmScorebar(cached);
+    gmScorebar(cached);gdayScorebar(cached);
     const when=syncAt('scorebar');
     sbState('failed',
       'Live scores unavailable — '+e.message+'.'+(cached.length&&when?' Showing cached data from '+syncTimeStr(when)+'.':' No cached scores to fall back on yet.'),
@@ -8031,6 +8139,204 @@ async function sbTick(){
 }
 function sbStart(){clearTimeout(SB_TIMER);sbTick();}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&Date.now()-SB_LAST>55000)sbStart();});
+
+/* ============================================================
+   GAME DAY — the booth view (Pillar 2). One screen for the live
+   call: tonight's context, lineups, jersey lookup, the milestone
+   watch, quick stats and a notes pad. Strictly a view over data
+   the other tabs already own — it computes nothing new.
+   ============================================================ */
+function gdayOppList(){return (DATA.game.opp&&DATA.oppRosters[DATA.game.opp])||[];}
+function gdayOppKw(){return (DATA.game.opp||'').split(' ')[0]||'zzz-none';}
+function gdayHeader(){
+  const el=document.getElementById('gdayHeader');if(!el)return;
+  const G=DATA.game;
+  if(!G.opp&&!G.date){
+    el.innerHTML=`<div class="gday-title">Game Day</div><div class="gday-sub">Set tonight's opponent and date on <a href="javascript:void 0" onclick="showTab('game')">This Game</a> — everything here follows it.</div>`;
+  }else{
+    const dateStr=G.date?new Date(G.date+'T12:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}):'—';
+    const promo=promoFor(G.date)||G.promo||'';
+    const bits=[[dateStr+(G.time?' · '+esc(G.time):'')],
+      [G.venue?esc(G.venue):null],
+      [promo?'<b>'+esc(promo)+'</b>':null],
+      [G.broadcast?esc(G.broadcast):null],
+      [[G.ref1,G.ref2].filter(Boolean).length?'Referees: '+esc([G.ref1,G.ref2].filter(Boolean).join(' · ')):null],
+      [[G.lin1,G.lin2].filter(Boolean).length?'Linesmen: '+esc([G.lin1,G.lin2].filter(Boolean).join(' · ')):null]
+    ].map(x=>x[0]).filter(Boolean);
+    el.innerHTML=`<div class="gday-title">HAVOC ${esc(G.homeaway||'vs')} ${esc((G.opp||'—').toUpperCase())}</div>
+      <div class="gday-sub">${bits.join(' &nbsp;·&nbsp; ')}</div>`;
+  }
+  const un=document.getElementById('gdayUpNext');if(un)un.innerHTML=upNextBox();
+}
+/* one player, booth-sized: number, air name, pronunciation, red stat line */
+function gdayPlayerHTML(p,kw,tag){
+  const pron=fdPron(p);
+  return `<div class="gday-p${p.active==='0'?' gday-scr':''}">
+    <span class="gday-num">${p.num?'#'+esc(p.num):'—'}</span>
+    <span class="gday-name">${esc(dispName(p))}</span>
+    ${p.pos?`<span class="gday-pos">${esc(p.pos)}</span>`:''}
+    ${pron?`<span class="gday-pron">${esc(pron)}</span>`:''}
+    ${statSpan(p,kw)}
+    ${tag?`<span class="gday-tag">${esc(tag)}</span>`:''}
+    ${p.active==='0'?'<span class="gday-tag">not dressed</span>':''}
+    ${p.callNote?`<div class="gday-note">${esc(p.callNote)}</div>`:''}
+  </div>`;
+}
+function gdayLineup(side){
+  const G=DATA.game;
+  const list=side==='home'?DATA.roster:gdayOppList();
+  const kw=side==='home'?'Huntsville':gdayOppKw();
+  const title=side==='home'?'Huntsville Havoc':(G.opp||'Opponent');
+  const L=ensureLines()[side];
+  const used=L.f.some(ln=>ln.some(v=>String(v||'').trim()))||L.d.some(pr=>pr.some(v=>String(v||'').trim()))||L.g.some(v=>String(v||'').trim());
+  const cell=v=>{
+    const t=String(v||'').trim();if(!t)return '';
+    const p=lineResolve(v,list);
+    return p?gdayPlayerHTML(p,kw):`<div class="gday-p"><span class="gday-name">${esc(t)}</span></div>`;
+  };
+  let body='';
+  if(used){
+    const sec=(label,rows)=>{
+      const filled=rows.map(r=>r.map(cell).join('')).filter(Boolean);
+      const out=rows.map((r,i)=>{const c=r.map(cell).join('');return c?`<div class="gday-line"><span class="gday-lnum">${label==='G'?'G':(i+1)}</span>${c}</div>`:'';}).join('');
+      return out?`<div class="gday-sec">${label==='G'?'Goalies':label==='F'?'Forward lines':'Defense pairs'}</div>${out}`:'';
+    };
+    body=sec('F',L.f)+sec('D',L.d)+sec('G',[L.g]);
+    if(!body)body=`<div class="gday-sub">Lines are blank — fill them on Print Center → Lines.</div>`;
+  }else{
+    // no lines entered: roster-order groups, dressed players only (call-sheet rule)
+    const act=list.filter(p=>p.name&&p.active!=='0');
+    const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
+    const grp=(label,rows)=>rows.length?`<div class="gday-sec">${label}</div>`+rows.sort(byNum).map(p=>gdayPlayerHTML(p,kw)).join(''):'';
+    body=act.length
+      ?grp('Forwards',act.filter(p=>p.pos!=='D'&&p.pos!=='G'))+grp('Defense',act.filter(p=>p.pos==='D'))+grp('Goaltenders',act.filter(p=>p.pos==='G'))
+       +`<div class="gday-sub">Roster order — set tonight's lines on Print Center → Lines and they show here.</div>`
+      :`<div class="gday-sub">${side==='home'?'No roster loaded yet — run a Game Day Refresh.':'No opponent roster yet — set the opponent on This Game, then run a Game Day Refresh.'}</div>`;
+  }
+  return `<div class="gday-team"><div class="gday-teamhead">${esc(title)}</div>${body}</div>`;
+}
+function gdayScratchStrip(){
+  const G=DATA.game;
+  const inact=DATA.roster.filter(p=>p.name&&p.active==='0').map(p=>(p.num?'#'+p.num+' ':'')+p.name);
+  const rows=[
+    ['Havoc scratches',G.scratch],['Havoc IR',G.ir],['ECHL call-ups',G.echl],['Suspension',G.susp],
+    ['Marked not dressed',inact.join(', ')],
+    ['Opponent scratches',G.oppScratch],['Opponent IR',G.oppIr],['Opponent ECHL',G.oppEchl],['Opponent suspension',G.oppSusp]
+  ].filter(r=>String(r[1]||'').trim());
+  return rows.length?`<div class="gday-strips">${rows.map(r=>`<div class="gday-strip"><b>${r[0]}:</b> ${esc(String(r[1]).replace(/\n/g,' · '))}</div>`).join('')}</div>`:'';
+}
+function gdayMsStrip(){
+  const el=document.getElementById('gdayMs');if(!el)return;
+  if(!MS_DATA){el.innerHTML=`<div class="gday-sub">Career data loading…</div>`;return;}
+  const lines=msWatchLines('havoc',15);
+  lines.push(...frBannerLines());
+  const seen=new Set();
+  const pills=lines.sort((a,b)=>a.away-b.away).filter(x=>!seen.has(x.html)&&seen.add(x.html))
+    .map(x=>`<div class="ms-call">${x.html}</div>`).join('');
+  const recs=recWatchRows().map(recRowHTML).join('');
+  el.innerHTML=(pills?`<div class="ms-urgent">${pills}</div>`:`<div class="gday-sub">Nobody inside a milestone window tonight (50s/100s per the board's rules).</div>`)
+    +(recs?`<div class="gday-recs">${recs}</div>`:'');
+}
+function gdayStats(){
+  const el=document.getElementById('gdayStats');if(!el)return;
+  const G=DATA.game;
+  const keep=['Season Record','Last 10','Streak','Last Game','Goals For','Goals Against','Power Play','Penalty Kill'];
+  const rows=matchupRows().filter(r=>keep.includes(r[0]));
+  const oppLbl=(G.opp||'Opponent').split(' ')[0];
+  const tbl=`<table class="gday-t"><tr><th></th><th class="r">HSV</th><th class="r">${esc(oppLbl)}</th></tr>
+    ${rows.map(r=>`<tr><td>${esc(r[0])}</td><td class="r">${r[1]}</td><td class="r">${r[2]}</td></tr>`).join('')}</table>`;
+  const gs=glGames();
+  const logLine=gs.length?`<div class="gday-sub">Game log: ${glRec(gs)} · streak ${glStreak(gs)} · last 10: ${glRec(gs.slice(-10))}</div>`:'';
+  const leaders=(kw,label)=>{
+    const ts=findTeamStats(kw);
+    if(!ts)return `<div class="gday-team"><div class="gday-teamhead">${esc(label)}</div><div class="gday-sub">No 2026-27 stats yet — run a Game Day Refresh.</div></div>`;
+    const sk=(ts.players||[]).slice().sort((a,b)=>(b.pts||0)-(a.pts||0)).slice(0,3);
+    const gl=(ts.goalies||[]).slice().sort((a,b)=>(b.w||0)-(a.w||0))[0];
+    return `<div class="gday-team"><div class="gday-teamhead">${esc(label)} leaders</div>
+      ${sk.map(p=>`<div class="gday-p"><span class="gday-num">${p.num?'#'+esc(p.num):''}</span><span class="gday-name">${esc(p.name)}</span><span class="pstat">${p.g||0}G ${p.a||0}A ${p.pts||0}P</span></div>`).join('')||'<div class="gday-sub">—</div>'}
+      ${gl?`<div class="gday-p"><span class="gday-num">${gl.num?'#'+esc(gl.num):''}</span><span class="gday-name">${esc(gl.name)}</span><span class="pstat">${gl.w||0}W ${gl.svpct?esc(String(gl.svpct))+' SV%':''} ${gl.gaa?esc(String(gl.gaa))+' GAA':''}</span></div>`:''}
+    </div>`;
+  };
+  el.innerHTML=tbl+logLine+`<div class="gday-teams" style="margin-top:10px">${leaders('Huntsville','Havoc')}${G.opp?leaders(gdayOppKw(),G.opp):''}</div>`;
+}
+function gdayLookup(){
+  const inp=document.getElementById('gdayFind'),out=document.getElementById('gdayFindOut');
+  if(!inp||!out)return;
+  const q=inp.value.trim();
+  if(!q){out.innerHTML='';return;}
+  const G=DATA.game;
+  const pools=[['Havoc','Huntsville',DATA.roster],[(G.opp||'').split(' ')[0]||'Opponent',gdayOppKw(),gdayOppList()]];
+  const hits=[];
+  pools.forEach(([tag,kw,list])=>{
+    list.forEach(p=>{
+      if(!p.name)return;
+      const hit=/^\d+$/.test(q)?String(p.num)===q
+        :(p.name.toLowerCase().indexOf(q.toLowerCase())>=0||String(p.airName||'').toLowerCase().indexOf(q.toLowerCase())>=0);
+      if(hit)hits.push(gdayPlayerHTML(p,kw,tag));
+    });
+  });
+  out.innerHTML=hits.length?hits.slice(0,8).join(''):`<div class="gday-sub">No #${esc(q)} on either roster tonight.</div>`;
+}
+/* next-break line + live notes — game-night ephemera, autosaved in DATA */
+function gdayNotesLoad(){
+  const gd=DATA.gameday||{};
+  const b=document.getElementById('gdayBreak'),n=document.getElementById('gdayNotes');
+  if(b&&document.activeElement!==b)b.value=gd.break||'';
+  if(n&&document.activeElement!==n)n.value=gd.notes||'';
+  gdayNotesStamp();
+}
+function gdayNotesStamp(){
+  const el=document.getElementById('gdayNotesStamp');if(!el)return;
+  const at=(DATA.gameday||{}).at;
+  el.textContent=at?'saved '+new Date(at).toLocaleTimeString():'';
+}
+function gdayNotesClear(){
+  if(!confirm('Clear the next-break line and live notes?'))return;
+  DATA.gameday={break:'',notes:'',at:''};save();gdayNotesLoad();toast('Notes cleared');
+}
+function gdayWire(){
+  const box=document.getElementById('panel-gameday');
+  if(!box||box._wired)return;
+  box._wired=true;
+  box.addEventListener('input',e=>{
+    if(e.target.id==='gdayFind'){gdayLookup();return;}
+    if(e.target.id!=='gdayNotes'&&e.target.id!=='gdayBreak')return;
+    DATA.gameday=DATA.gameday||{break:'',notes:'',at:''};
+    DATA.gameday[e.target.id==='gdayBreak'?'break':'notes']=e.target.value;
+    DATA.gameday.at=new Date().toISOString();
+    save();
+    clearTimeout(box._nt);box._nt=setTimeout(gdayNotesStamp,400);
+  });
+}
+async function gdaySync(){
+  await htSyncAll();
+  gdayRender();
+}
+function gdayRender(){
+  gdayHeader();
+  gdayScorebar();
+  const lt=document.getElementById('gdayLinesTitle');
+  if(lt)lt.innerHTML=`Tonight's <span class="accent">Lineups</span>`;
+  const ln=document.getElementById('gdayLines');
+  if(ln)ln.innerHTML=gdayLineup('home')+gdayLineup('opp');
+  const sc=document.getElementById('gdayScratches');
+  if(sc)sc.innerHTML=gdayScratchStrip();
+  gdayStats();
+  gdayMsStrip();
+  gdayNotesLoad();
+  gdayLookup();
+  const gu=document.getElementById('gdayGuard');
+  if(gu)gu.innerHTML=guardBannerHTML();
+  renderSyncBadges();
+}
+async function gdayInit(){
+  gdayWire();
+  gdayRender();
+  // careers (milestones/records) and bios (pronunciations) load async — render
+  // once from what's here, then again when they land
+  await Promise.all([msLoad(),biosLoad()]).catch(()=>{});
+  gdayRender();
+}
 
 /* Hourly background refresh of standings + player stats (spec: hourly is plenty).
    Skips quietly when the tab is hidden or the feed isn't configured yet. */
