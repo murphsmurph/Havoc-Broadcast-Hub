@@ -26,12 +26,24 @@
       "series_note": ""
     },
     "Pee Dee IceCats": {
-      "storylines": [],
-      "series_note": ""
+      "storylines": [
+        {"h": "FIRST MEETING IN FRANCHISE HISTORY", "b": "Game 1 opens Pee Dee's SPHL era at the Florence Center — and the first Havoc–IceCats game ever played. Pro hockey returns to Florence, where the ECHL's Pee Dee Pride played 1997–2005."},
+        {"h": "THE CARDIAC CATS ARRIVE — 2025-26 WAS FPHL", "b": "Their only Florence season: 24-25-2-5, 4th in the FPHL's Continental Division — then a nine-game playoff run: swept top-seed Athens 2-0 despite going 3-11 against them, took Columbus in two overtime thrillers, and lost the Commissioner's Cup Final 3-1 to Binghamton. Every number from last year is FPHL, not SPHL."},
+        {"h": "THE BUILDING WILL BE LOUD", "b": "Pee Dee set the FPHL single-season attendance record (126,841 — 4,698 a night) and the single-game record (7,837 vs Athens, Jan 17, 2026). Home playoff White Outs became the identity."},
+        {"h": "A NEW ERA BEHIND THE BENCH", "b": "Chris Bernard takes his first professional head-coaching job for the SPHL debut; GM Tom Callahan doubles as the team's broadcaster. Coach Gary Graham retired after the Cup final."},
+        {"h": "WHO'S BACK FROM FLORENCE", "b": "Per Elite Prospects — confirm before air: goalie Parker Rutherford and defenseman Charlie Bedard return for the SPHL season; leading scorer Patriks Marcinkevics (42-48—90, FPHL) headlined the Florence year, and Houston Wilson (18-41—59) departed to Port Huron."}
+      ],
+      "series_note": "First SPHL meeting — no prior series between the clubs in any league. All 2025-26 Pee Dee figures in these notes are FPHL and never compare side-by-side with SPHL numbers."
     },
     "Pensacola Ice Flyers": {
-      "storylines": [],
-      "series_note": ""
+      "storylines": [
+        {"h": "ONE GAME. ONE DRESS REHEARSAL. THEN IT COUNTS.", "b": "The Oct 9 exhibition is the only preseason game either club plays — the single dress rehearsal before both open for real. Watch what each bench is trying to learn: new faces in top-six minutes, fresh defensive pairs, and how the goalie workload splits."},
+        {"h": "TWO FIRST-ROUND EXITS, ONE FRESH START", "b": "Both teams left last spring early: Huntsville finished 2nd (32-20-5-1, 70 points) and was upset in round 1 by #7 Knoxville; Pensacola finished 5th (28-21-6-3, 65) and fell 1-2 in round 1 to eventual champion Evansville. Both enter 2026-27 trying to move past an early postseason ending."},
+        {"h": "LAST YEAR'S SERIES BELONGED TO HUNTSVILLE — WITH ONE UGLY NIGHT", "b": "The Havoc took the 2025-26 season series 5-2-1 and outscored Pensacola 32-24, including 6-2, 7-1 and 7-3 statements at Propst — but Pensacola answered with an 8-1 hammering in Pensacola on Nov 26. The series swings hard both ways."},
+        {"h": "SCIARRINO SEES HIS OLD SWEATER", "b": "Dawson Sciarrino split 2025-26 between these clubs — 34 games for Pensacola (6-9—15), then 14 down the stretch for Huntsville (4-9—13). First look at the team that traded him away."},
+        {"h": "A FOUR-CUP FRANCHISE UNDER JEREMY GATES", "b": "Pensacola's four Presidents Cups are the measuring stick in this rivalry — Huntsville leads the all-time series 72-37-14 across 123 games, with the playoff ledger even at two series apiece."}
+      ],
+      "series_note": "2025-26 season series (from the committed league log): Huntsville 5-2-1 — 3-1-0 at home, 2-1-1 on the road, 32 GF / 24 GA across 8 meetings."
     },
     "Peoria Rivermen": {
       "storylines": [],
