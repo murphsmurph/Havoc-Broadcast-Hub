@@ -5456,6 +5456,66 @@ async function matchupsLoad(){
   return MX_FILE;
 }
 function matchupsFor(team){return ((MX_FILE||{}).teams||{})[team]||null;}
+/* the committed 2025-26 FINAL snapshot (official feed, validated) — the
+   packet's prior-season team comparison never needs a live fetch to print */
+let SN26=null,SN26_TRIED=false;
+async function snapLoad(){
+  if(SN26||SN26_TRIED)return SN26;
+  SN26_TRIED=true;
+  try{
+    const r=await fetch('data/season2526_final.json',{cache:'no-cache'});
+    if(r.ok)SN26=await r.json();
+  }catch(e){}
+  return SN26;
+}
+function snapStanding(team){
+  if(!SN26||!team)return null;
+  const k=teamCity(team);
+  return (SN26.standings||[]).find(s=>new RegExp(k,'i').test(s.team))||null;
+}
+/* 2025-26 FINAL REGULAR SEASON — team comparison from the committed snapshot.
+   A club that played last season outside the SPHL (Pee Dee, Athens — FPHL)
+   never compares side-by-side (§17): the box says so and points at their
+   league-labeled context instead. Per-game rates are display division only. */
+function finalCompBox(){
+  if(!SN26)return '';
+  const G=DATA.game;if(!G.opp)return '';
+  const h=snapStanding('Huntsville Havoc');if(!h)return '';
+  const o=snapStanding(G.opp);
+  const lm=String(SN26.season_label||'').match(/^(\d{4})-\d{2}(\d{2})/);
+  const short=lm?lm[1]+'-'+lm[2]:'last season';
+  const fmt=v=>v==null?'—':v;
+  const pg=(n,gp)=>(n!=null&&gp)?(n/gp).toFixed(2):'—';
+  const rec=s=>`${s.w}-${s.l}-${s.otl}${s.sol!=null?'-'+s.sol:''}`;
+  const rows=[
+    ['Record',rec(h),o?rec(o):null],
+    ['Points',fmt(h.pts),o?fmt(o.pts):null],
+    ['League finish',ordinal(h.finish),o?ordinal(o.finish):null],
+    ['Goals for',fmt(h.gf),o?fmt(o.gf):null],
+    ['Goals against',fmt(h.ga),o?fmt(o.ga):null],
+    ['GF / game',pg(h.gf,h.gp),o?pg(o.gf,o.gp):null],
+    ['GA / game',pg(h.ga,h.gp),o?pg(o.ga,o.gp):null],
+    ['PIM',fmt(h.pim),o?fmt(o.pim):null]
+  ];
+  const oppName=(G.opp||'').replace(/Huntsville Havoc/,'').trim();
+  const leadersOf=code=>{const t=((SN26.teams||{})[code]||{});
+    return (t.skaters||[]).slice().sort((a,b)=>(b.pts||0)-(a.pts||0)).slice(0,3)
+      .map(p=>`${esc(p.name)} ${p.g}-${p.a}&mdash;${p.pts}`).join(' &middot; ');};
+  const gOf=code=>{const t=((SN26.teams||{})[code]||{});
+    const g=(t.goalies||[]).slice().sort((a,b)=>(b.gp||0)-(a.gp||0))[0];
+    return g?`${esc(g.name)} ${g.gp} GP &middot; ${esc(g.gaa||'—')} GAA &middot; ${fmtSv(g.svpct)} SV%${g.so?' &middot; '+g.so+' SO':''}`:'';};
+  const oc=teamAbbrOf(G.opp);
+  const hl=leadersOf('HSV'),hg=gOf('HSV'),ol=o?leadersOf(oc):'',og=o?gOf(oc):'';
+  const note=o?'':`<div class="h2h-note">&#9432; ${esc(teamCity(G.opp))} played ${esc(short)} outside the SPHL — no side-by-side comparison. Their season, league-labeled, is in the Storylines box and the franchise file.</div>`;
+  return `<div class="box"><h3>${esc(short)} FINAL REGULAR SEASON</h3>
+    <table class="matchup"><thead><tr><th></th><th>Havoc</th>${o?`<th>${esc(oppName||'Opponent')}</th>`:''}</tr></thead><tbody>
+    ${rows.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td>${o?`<td>${r[2]}</td>`:''}</tr>`).join('')}</tbody></table>
+    ${hl?`<div class="b" style="font-size:9px"><b>HSV leaders:</b> ${hl}</div>`:''}
+    ${ol?`<div class="b" style="font-size:9px"><b>${esc(oc)} leaders:</b> ${ol}</div>`:''}
+    ${hg?`<div class="b" style="font-size:9px"><b>HSV goalie:</b> ${hg}</div>`:''}
+    ${og?`<div class="b" style="font-size:9px"><b>${esc(oc)} goalie:</b> ${og}</div>`:''}
+    ${note}</div>`;
+}
 /* roster player -> his authored entry. The bios key is the spine name;
    formal_name is the alias the feed prints (Gio ↔ Giovanni Procopio).
    An embargoed entry answers null — the prose renders nowhere until flipped. */
@@ -6119,6 +6179,7 @@ function renderPacket(){
   const red=S.red||'#C8102E';
   // warm the committed sources once; re-render when they land
   if(!MX_TRIED)matchupsLoad().then(m=>{if(m)renderPacket();});
+  if(!SN26_TRIED)snapLoad().then(s=>{if(s)renderPacket();});
   if(!MS_DATA)msLoad().then(d=>{if(d)renderPacket();});
   const oppShort=(G.opp||'').replace(/Huntsville Havoc/,''),oppCity=teamCity(G.opp),oppAbbr=teamAbbrOf(G.opp)||'OPP';
   const hsv=findTeamStats('Huntsville'),opp=oppCity?findTeamStats(oppCity):null;
@@ -6196,6 +6257,7 @@ function renderPacket(){
   pages.push(`<div class="page" style="--havoc-red:${red}">
     <div class="pg-head" style="border-color:${red}"><div class="pg-logo">${logoHTML("Huntsville Havoc",'','H')}</div><div class="pg-title" style="color:${red}">SCOUTING REPORT</div><div class="pg-num">__PGNO__</div></div>
     <div class="box"><h3>Match Up${esc(scopeSuffixFor('standings')||scopeSuffixFor('players'))}</h3>${muTable}</div>
+    ${finalCompBox()}
     <div class="gn-cols">${seriesBoxHTML(red)||h2hBox}${l10Box}</div>
     <div class="box"><h3>${esc((oppShort||'Opponent').toUpperCase())} News &amp; Notes</h3>${oppNews}
       ${(function(){const oc=getCoach(G.opp);return oc.name?`<div class="news-item"><div class="h">HEAD COACH — ${esc(oc.name)}</div><div class="b">${esc(oc.bio||'')}</div></div>`:'';})()}</div>
