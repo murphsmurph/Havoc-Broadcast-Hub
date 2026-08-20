@@ -7688,6 +7688,7 @@ function rosterFileStampHTML(){
 }
 function rosterFileApply(){
   if(!ROSTER_FILE||!Array.isArray(ROSTER_FILE.teams))return;
+  rosterFileApplyOpponents();
   const hav=ROSTER_FILE.teams.find(t=>/Huntsville/.test(t.name||''));
   if(!hav||!(hav.roster||[]).length)return;
   const fps=hav.roster.map(htRosterRow).filter(Boolean);
@@ -7711,6 +7712,38 @@ function rosterFileApply(){
     if(fp.pron){fset(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}
   });
   if(JSON.stringify(DATA.roster)!==before){save();if(document.getElementById('rosterTableWrap'))renderRoster();}
+}
+/* Opponent baselines from the same committed file — ADDITIVE ONLY.
+   Every field goes through staleSet (fill-empty) no matter which season the
+   file carries, players are added but never renamed, deactivated or
+   renumbered, so a fresher live sync and hand edits always outrank the file.
+   This is what puts an opponent roster on a fresh browser with no feed. */
+function rosterFileApplyOpponents(){
+  const teams=(ROSTER_FILE.teams||[]).filter(t=>!/Huntsville/.test(t.name||''));
+  if(!teams.length)return;
+  DATA.oppRosters=DATA.oppRosters||{};
+  const before=JSON.stringify(DATA.oppRosters);
+  teams.forEach(t=>{
+    const fps=(t.roster||[]).map(htRosterRow).filter(Boolean);
+    if(!fps.length)return;
+    const full=TEAMS.find(x=>x===t.name)||TEAMS.find(x=>String(t.name||'').indexOf(teamCity(x))===0)||String(t.name||'');
+    const list=DATA.oppRosters[full]=DATA.oppRosters[full]||[];
+    const rookieUsable=rookieVaries(fps);
+    fps.forEach(fp=>{
+      let p=rosterMatch(fp.name,list);
+      if(!p){p={id:uid(),name:fp.name,notes:'',active:'1'};list.push(p);}
+      if(!p.htId&&fp.htid)p.htId=fp.htid;
+      if(fp.img&&!p.img)p.img=fp.img;
+      if(fp.num&&!p.num)p.num=fp.num;
+      ['ht','wt','sh','dob','age','dobi','birth','bornIn','draft','pos'].forEach(k=>staleSet(p,k,fp[k]));
+      if(rookieUsable)staleSet(p,'rookie',fp.rookie);
+      if(fp.pron){staleSet(p,'pron',fp.pron);if(p.pron)delete p.pronAsk;}
+    });
+  });
+  if(JSON.stringify(DATA.oppRosters)!==before){
+    save();
+    if(document.getElementById('oppRosterTableWrap')&&typeof renderOppRoster==='function')renderOppRoster();
+  }
 }
 async function htVitalsBackfill(){
   // only reach back a season when the chosen one left something out
