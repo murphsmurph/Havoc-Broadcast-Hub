@@ -41,8 +41,28 @@ jobs:
           HT_KEY: ${{ secrets.HT_KEY }}
         run: node scripts/fetch-rosters.mjs
 
+      # Law §7 exception condition (master document, ruled 2026-08-19): the
+      # freshly fetched data must pass the roster-precedence test BEFORE it
+      # may be committed to main. A failure skips the commit with a warning —
+      # the last good files stay in place.
+      - name: Install Playwright Chromium (precedence gate)
+        timeout-minutes: 8
+        run: |
+          npm install --no-audit --no-fund playwright
+          npx playwright install --only-shell chromium
+      - name: Precedence gate — test 5 against the fresh fetch
+        id: gate
+        timeout-minutes: 5
+        run: |
+          if node tests/roster_precedence.mjs; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::roster-precedence test FAILED against the freshly fetched data — commit skipped (Law §7 exception condition). Last good files remain on main."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Commit updated data
-        if: github.ref == 'refs/heads/main'   # self-test runs on branches fetch but never push data
+        if: github.ref == 'refs/heads/main' && steps.gate.outputs.ok == 'true'   # self-test runs on branches fetch but never push data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
