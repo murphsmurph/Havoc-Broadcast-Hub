@@ -1,0 +1,49 @@
+{
+  "_readme": "Opponent matchup notes for the printable packet (scouting report page). Authored in Claude sessions and committed — the Hub only renders. Per team: storylines = [{h:'HEADLINE',b:'one- or two-sentence body'}] printed under '<OPP> Storylines'; series_note = optional caveat printed in small italics under the storylines (data flags, scheduling quirks). Empty entries render '— storylines to come —'. Never invent a number here; anything uncertain carries its flag in the text.",
+  "teams": {
+    "Athens Rock Lobsters": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Birmingham Bulls": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Evansville Thunderbolts": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Fayetteville Marksmen": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Knoxville Ice Bears": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Macon Mayhem": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Pee Dee IceCats": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Pensacola Ice Flyers": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Peoria Rivermen": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Quad City Storm": {
+      "storylines": [],
+      "series_note": ""
+    },
+    "Roanoke Rail Yard Dawgs": {
+      "storylines": [],
+      "series_note": ""
+    }
+  }
+}
