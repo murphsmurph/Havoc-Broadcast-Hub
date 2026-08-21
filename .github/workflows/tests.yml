@@ -13,6 +13,9 @@ name: Data integrity tests
 #   6. Opponent rosters from the committed file are additive only:
 #      hand edits and live-feed values outrank the file, nothing is
 #      deactivated or renamed, absent clubs stay empty
+#   7. The service worker actually installs against a deployed build
+#      (every precached path is a file git ships, and the worker reaches
+#      "activated") — offline booth use depends on it
 on:
   pull_request:
   push:
@@ -46,3 +49,6 @@ jobs:
       - name: Test 6 — opponent rosters from the committed file are additive only
         timeout-minutes: 5
         run: node tests/opponent_roster_file.mjs
+      - name: Test 7 — the service worker installs (precache must not be atomic)
+        timeout-minutes: 5
+        run: node tests/sw_install.mjs
