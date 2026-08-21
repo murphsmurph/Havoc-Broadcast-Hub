@@ -2612,7 +2612,7 @@ function renderRosterTable(side,wrapId){
 function renderRosterProgress(){
   const f=DATA.roster.filter(p=>['C','LW','RW'].includes(p.pos)),d=DATA.roster.filter(p=>p.pos==='D'),g=DATA.roster.filter(p=>p.pos==='G');
   const bio=a=>a.filter(p=>p.notes&&p.notes.trim()).length;
-  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goalies <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>${rosterFileStampHTML()}${guardBannerHTML()}`;
+  document.getElementById('rosterProgress').innerHTML=`<div class="chip">Forwards <b>${bio(f)}/${f.length}</b> bios</div><div class="chip">Defense <b>${bio(d)}/${d.length}</b> bios</div><div class="chip">Goaltenders <b>${bio(g)}/${g.length}</b> bios</div><div class="chip">Total <b>${DATA.roster.length}</b></div>${rosterFileStampHTML()}${guardBannerHTML()}`;
 }
 function openPlayer(side,id){
   document.getElementById('playerModalTitle').textContent=id?'Edit player':'Add player';
@@ -2828,7 +2828,7 @@ function recBook(){
 }
 function renderPalettes(){
   const el=document.getElementById('palList');if(!el)return;
-  const label={primary:'Primary',secondary:'Secondary',accent:'Accent (D)',goalie:'Goalies',textOn:'Text on primary'};
+  const label={primary:'Primary',secondary:'Secondary',accent:'Accent (D)',goalie:'Goaltenders',textOn:'Text on primary'};
   el.innerHTML=TEAMS.map(t=>{
     const p=teamPal(t),mine=!!((DATA.palettes||{})[t]);
     return `<div class="pal-row">
@@ -2861,7 +2861,7 @@ function renderReference(){renderMatrix();renderSeries();renderStandings();rende
   document.getElementById('ref_records').innerHTML=
     head('All-Time Career Leaders','career')+tbl('career',R.career)
     +head('Single-Season — Skaters','players')+tbl('players',R.players)
-    +head('Single-Season — Goalies','goalies')+tbl('goalies',R.goalies)
+    +head('Single-Season — Goaltenders','goalies')+tbl('goalies',R.goalies)
     +head('Team','team')+tbl('team',R.team)
     +`<div style="display:flex;gap:8px;align-items:center;margin-top:7px">
        <span style="font-size:10.5px;color:var(--ink-2)">${esc(R.src||'Seeded copy — loads from data/havoc_players.json when hosted.')}</span></div>`;
@@ -2971,7 +2971,7 @@ function renderFranchise(){
   if(!F){wrap.innerHTML='<div class="empty">No file on record for this club yet.</div>';return;}
   const basics=`<table>${F.basics.map(r=>`<tr><td>${esc(r[0])}</td><td><b>${frMarks(esc(r[1]))}</b></td></tr>`).join('')}</table>`;
   const seasonTbl=F.seasons.length
-    ?`<table><tr><th>Season</th><th>Record</th><th>Pts</th><th>Finish</th><th>Playoffs</th></tr>${F.seasons.map(r=>`<tr${/WON CUP|CHAMPION/.test(r[4])?' style="font-weight:800"':''}><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}</table>`
+    ?`<table><tr><th>Season</th><th>Record</th><th>PTS</th><th>Finish</th><th>Playoffs</th></tr>${F.seasons.map(r=>`<tr${/WON CUP|CHAMPION/.test(r[4])?' style="font-weight:800"':''}><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}</td><td>${esc(r[4])}</td></tr>`).join('')}</table>`
     :`<div>${frMarks(esc(F.keySeasons||'Not on file.'))}</div>`;
   const story=(DATA.franchiseStory||{})[team];
   wrap.innerHTML=
@@ -3073,7 +3073,7 @@ function leadersBlock(team){
   if(!team)return '<div class="empty-cell" style="font-size:10px">No 2026-27 stats published yet — leaders fill in after the first games. Run a Game Day Refresh on Live Data.</div>';
   const top=(key)=>[...team.players].sort((a,b)=>b[key]-a[key]).slice(0,5);
   const col=(title,arr,key)=>`<div class="lead-col"><h4>${title}</h4>`+arr.map(p=>`<div class="lr"><span class="nm">${esc(p.name)}</span><span class="vl">${p[key]}</span></div>`).join('')+`</div>`;
-  return `<div class="leaders-grid">${col('Goals',top('g'),'g')}${col('Assists',top('a'),'a')}${col('Points',top('pts'),'pts')}${col('Plus/Minus',top('pm'),'pm')}</div>`;
+  return `<div class="leaders-grid">${col('G',top('g'),'g')}${col('A',top('a'),'a')}${col('PTS',top('pts'),'pts')}${col('+/-',top('pm'),'pm')}</div>`;
 }
 function findTeamStats(cityKeyword){const ts=DATA.report.teamStats||{};for(const k of Object.keys(ts))if(new RegExp(cityKeyword,'i').test(k))return ts[k];return null;}
 
@@ -4264,7 +4264,7 @@ function fdCallSheet(side){
       <div class="cs-main">
         <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${fwd.length})</div>${grid(fwd,'F','f')}
         <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${def.length})</div>${grid(def,'D','d')}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goalies (${gls.length})</div>${grid(gls,'G','g')}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${gls.length})</div>${grid(gls,'G','g')}
       </div>
       ${sb}
     </div>
@@ -4313,7 +4313,7 @@ function fdLineupPage(side){
     <div class="fd-body">
       <div class="fd-sub" style="color:${primary};border-color:${primary}">Forwards</div>${fBlock}
       <div class="fd-sub" style="color:${primary};border-color:${primary}">Defense</div>${dBlock}
-      <div class="fd-sub" style="color:${primary};border-color:${primary}">Goalies</div>${gBlock}
+      <div class="fd-sub" style="color:${primary};border-color:${primary}">Goaltenders</div>${gBlock}
     </div>
     ${strip}
     <div class="fd-contact">${esc(DATA.settings.mediaName||'')} | ${esc(DATA.settings.mediaTitle||'')} · ${esc(DATA.settings.mediaPhone||'')} · ${esc(DATA.settings.mediaEmail||'')}</div>
@@ -4351,7 +4351,7 @@ function fdDataPage(side){
   const otso=gs.length?`OTW ${cnt('OTW')} · OTL ${cnt('OTL')} · SOW ${cnt('SOW')} · SOL ${cnt('SOL')} (${2*(cnt('OTW')+cnt('SOW'))+cnt('OTL')+cnt('SOL')} pts)`:null;
   const h2hGs=gs.filter(g=>new RegExp(oppKw,'i').test(g.h)||new RegExp(oppKw,'i').test(g.a));
   const splits=isHome?glSplits():null;
-  const findSplit=lbl=>{const r=(splits||[]).find(x=>x[0]===lbl);return r?r[1]:null;};
+  const findSplit=lbl=>{const r=(((splits||{}).rows)||[]).find(x=>x[0]===lbl);return r?r[1]:null;};
   const rows=[
     ['pp','Power play',pp],
     ['pk','Penalty kill',pk],
@@ -4964,9 +4964,8 @@ function sheetPageHTML(){
       <div class="gs-box">
         <h4>Team Comparison${esc(scopeSuffixFor('standings')||scopeSuffixFor('players'))}</h4>
         <table class="gs-cmp"><tr><td>${esc(S.name)}</td><td></td><td>${esc((oppShort||'OPP').toUpperCase())}</td></tr>
-        <tr><td>—</td><td class="s">PP%</td><td>${os.pp||'—'}</td></tr>
-        <tr><td>${hs.pp||'—'}</td><td class="s">our PP / their PK</td><td>${os.pk||'—'}</td></tr>
-        <tr><td>${hs.pk||'—'}</td><td class="s">our PK / their PP</td><td>${os.pp||'—'}</td></tr></table>
+        <tr><td>${hs.pp||'—'}</td><td class="s">PP% vs PK%</td><td>${os.pk||'—'}</td></tr>
+        <tr><td>${hs.pk||'—'}</td><td class="s">PK% vs PP%</td><td>${os.pp||'—'}</td></tr></table>
       </div>
       <div class="gs-box"><h4>SPHL Standings${esc(scopeSuffixFor('standings'))}</h4><table class="gs-stand">${standRows}</table></div>
     </div>
@@ -5072,7 +5071,7 @@ function leaders4Block(ts){
     const top=[...ts.players].sort((a,b)=>(b[key]||0)-(a[key]||0)).slice(0,5);
     return `<div><div class="ldr-h">${title}</div>${top.map(p=>`<div class="ldr-r"><span>${esc(p.name)}${star(p.name)}</span><span>${fmt?fmt(p):(p[key]||0)}</span></div>`).join('')}</div>`;
   };
-  return `<div class="ldr4">${col('GOALS','g')}${col('ASSISTS','a')}${col('POINTS','pts')}${col('PLUS-MINUS','pm',p=>((p.pm||0)>=0?'+':'')+(p.pm||0))}</div><div style="font-size:7px;color:var(--ink-2);margin-top:2px">* not on current active roster</div>`;
+  return `<div class="ldr4">${col('G','g')}${col('A','a')}${col('PTS','pts')}${col('+/-','pm',p=>((p.pm||0)>=0?'+':'')+(p.pm||0))}</div><div style="font-size:7px;color:var(--ink-2);margin-top:2px">* not on current active roster</div>`;
 }
 function splitsPage(red,S){
   const sp=glSplits();
@@ -5116,7 +5115,7 @@ function gameLogPage(red,S){
       <td class="r">${g.att?Number(g.att).toLocaleString():'—'}</td></tr>`;
   }).join('');
   return pgWrap(red,S,'GAME-BY-GAME',`<div class="box"><h3>Game-by-Game Log</h3>
-    <table class="pk-t"><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Record</th><th class="r">Pts</th><th class="r">Shots F-A</th><th class="r">PP</th><th class="r">Att.</th></tr>${rows}</table>
+    <table class="pk-t"><tr><th>Date</th><th>Opponent</th><th>Result</th><th class="r">Record</th><th class="r">PTS</th><th class="r">Shots F-A</th><th class="r">PP</th><th class="r">Att.</th></tr>${rows}</table>
     <div style="font-size:7px;color:var(--ink-2);margin-top:2px">Shots, PP and attendance come from the Game Log on the Schedule tab — fill as available.</div></div>`);
 }
 function rosterPronPage(red,S){
@@ -5146,7 +5145,7 @@ function recordsPage(red,S){
   return pgWrap(red,S,'FRANCHISE RECORDS',`
     <div class="gn-cols">
       <div>${tab('Career Leaders',R.career)}${tab('Team Records',R.team)}</div>
-      <div>${tab('Single-Season — Skaters',R.players)}${tab('Single-Season — Goalies',R.goalies)}</div>
+      <div>${tab('Single-Season — Skaters',R.players)}${tab('Single-Season — Goaltenders',R.goalies)}</div>
     </div>`);
 }
 function worksheetsPage(red,S){
@@ -5638,7 +5637,7 @@ function renderMilestones(){
   el.innerHTML=
     `<div class="section-label hub-sectionhead">Skaters — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
    +`<div class="hub-tablewrap" style="overflow-x:auto">${table(sk,['gp','g','a','pts','pim'],['GP','G','A','PTS','PIM'])}</div>`
-   +`<div class="section-label hub-sectionhead">Goalies — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
+   +`<div class="section-label hub-sectionhead">Goaltenders — ${scope==='pro'?'overall pro career':'with the Havoc'} (regular season)</div>`
    +`<div class="hub-tablewrap" style="overflow-x:auto">${table(gl,['gp','svs','w','so'],['GP','SVS','W','SO'])}</div>`
    +`<p class="desc" style="margin-top:6px">${esc(((MS_DATA.meta||{}).tracker_asof)||'')}</p>`;
   tsWire(el,'ms:'+scope);
@@ -6122,7 +6121,7 @@ function renderGameLog(){
   const wrap=document.getElementById('glTableWrap');if(!wrap)return;
   const gs=glGames();
   if(!gs.length){wrap.innerHTML=emptyState('No completed games yet','Final scores fill in from the schedule feed as they are played; shots, power plays and fights are yours to add.');return;}
-  wrap.innerHTML=`<table class="gl-edit"><tr><th>Date</th><th>Opp</th><th>Result</th><th>SF</th><th>SA</th><th>PPG</th><th>PP adv</th><th>Att.</th><th>Fights</th></tr>
+  wrap.innerHTML=`<table class="gl-edit"><tr><th>Date</th><th>Opponent</th><th>Result</th><th>SF</th><th>SA</th><th>PPG</th><th>PP adv</th><th>Att.</th><th>Fights</th></tr>
     ${gs.map(g=>`<tr><td>${fmtDateShort(g.d)}</td><td>${g.ha==='@'?'@ ':''}${esc(g.opp)}</td><td>${g.wl} ${g.us}-${g.them}${g.otso?' ('+g.otso+')':''}</td>
       ${['sf','sa','ppg','ppa','att','fights'].map(f=>`<td><input type="number" value="${g[f]!=null?g[f]:''}" onchange="glSet('${g.d}','${f}',this.value)"></td>`).join('')}</tr>`).join('')}
   </table>`;
@@ -6193,7 +6192,7 @@ function renderPacket(){
   const pages=[];
 
   /* ---------- PAGE 1: COVER ---------- */
-  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(5,'No standings yet','run a Game Day Refresh on Live Data');
+  let standRows=R.standings.length?R.standings.map(s=>{const me=/Huntsville/.test(s.team);return `<tr class="${me?'me':''}"><td>${s.team}</td><td class="r">${s.w}</td><td class="r">${s.l}</td><td class="r">${s.otl}</td><td class="r">${s.sol!=null?s.sol:'—'}</td><td class="r">${s.pts}</td></tr>`;}).join(''):emptyRow(6,'No standings yet','run a Game Day Refresh on Live Data');
   const news=[[N.h1,N.b1],[N.h2,N.b2],[N.h3,N.b3]].filter(x=>x[0]||x[1]).map(x=>`<div class="news-item"><div class="h">${esc(x[0]||'')}</div><div class="b">${esc(x[1]||'')}</div></div>`).join('')||'<div class="b" style="color:var(--ink-2)">Add news on Print Center &rarr; Game Packet.</div>';
   const dateStr=G.date?new Date(G.date+'T00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'DATE';
   const timeStr=G.time?formatTime(G.time):'7:05 P.M.';
@@ -6221,7 +6220,7 @@ function renderPacket(){
       <div class="gn-vs"><div class="tn" style="color:${red}">${esc(S.city)}<br>${esc(S.name)}</div><div class="rec">(${esc(G.hsvrec||'—')})</div><div class="versus">${G.homeaway==='@'?'@':'vs.'}</div><div class="tn">${esc((oppShort||'OPPONENT').toUpperCase())}</div><div class="rec">(${esc(G.opprec||'—')})</div></div>
       <div class="gn-oppbox"><div class="gn-opp-logo">${logoHTML(G.opp,'',oppAbbr)}</div></div></div>
     <div class="gn-cols"><div><div class="box"><h3>Havoc News &amp; Notes</h3>${news}</div></div>
-      <div><div class="box"><h3>SPHL Standings${esc(scopeSuffixFor('standings'))}</h3><table class="standings"><thead><tr><th>Team</th><th class="r">W</th><th class="r">L</th><th class="r">OTL</th><th class="r">PTS</th></tr></thead><tbody>${standRows}</tbody></table>${G.ps?'<div class="b" style="font-size:8px;color:var(--ink-2)">Exhibition — tonight carries no standings consequence.</div>':''}</div></div></div>
+      <div><div class="box"><h3>SPHL Standings${esc(scopeSuffixFor('standings'))}</h3><table class="standings"><thead><tr><th>Team</th><th class="r">W</th><th class="r">L</th><th class="r">OTL</th><th class="r">SOL</th><th class="r">PTS</th></tr></thead><tbody>${standRows}</tbody></table>${G.ps?'<div class="b" style="font-size:8px;color:var(--ink-2)">Exhibition — tonight carries no standings consequence.</div>':''}</div></div></div>
     <div class="box"><h3>Last 5 — Both Teams</h3>
       <div class="l10-row"><span class="tm">${esc(S.name)}</span>${last10Block('Huntsville')}</div>
       <div class="l10-row"><span class="tm">${esc(oppShort||'Opponent')}</span>${last10Block(G.opp)}</div></div>
@@ -6677,12 +6676,12 @@ function rankedMatchupRows(){
   const rows=[];
   if(S.length){
     const gpg=s=>s.gf/s.gp, gapg=s=>s.ga/s.gp;
-    rows.push(['Goals per game (rank)',fmt(val('Huntsville',gpg),rk('Huntsville',gpg,true)),fmt(val(oppCity,gpg),rk(oppCity,gpg,true))]);
-    rows.push(['Goals against per game (rank)',fmt(val('Huntsville',gapg),rk('Huntsville',gapg,false)),fmt(val(oppCity,gapg),rk(oppCity,gapg,false))]);
+    rows.push(['Goals Per Game (rank)',fmt(val('Huntsville',gpg),rk('Huntsville',gpg,true)),fmt(val(oppCity,gpg),rk(oppCity,gpg,true))]);
+    rows.push(['Goals Against Per Game (rank)',fmt(val('Huntsville',gapg),rk('Huntsville',gapg,false)),fmt(val(oppCity,gapg),rk(oppCity,gapg,false))]);
   }
   const pH=pct('Huntsville'),pO=pct(oppCity);
-  if(pH.pp||pO.pp)rows.push(['Power play %',pH.pp||'—',pO.pp||'—']);
-  if(pH.pk||pO.pk)rows.push(['Penalty kill %',pH.pk||'—',pO.pk||'—']);
+  if(pH.pp||pO.pp)rows.push(['Power Play %',pH.pp||'—',pO.pp||'—']);
+  if(pH.pk||pO.pk)rows.push(['Penalty Kill %',pH.pk||'—',pO.pk||'—']);
   return rows;
 }
 /* auto-draft the news blurbs from the latest result + top scorer (edit, don't retype) */
@@ -6969,7 +6968,7 @@ function buildLinesForm(side,containerId,dlId){
   for(let i=0;i<4;i++)h+=`<div class="ln-row f"><span class="ln-num">${i+1}</span>${inp('f',i,0,'LW')}${inp('f',i,1,'C')}${inp('f',i,2,'RW')}</div>`;
   h+='<div class="ln-sec">Defense pairs <span>LD · RD</span></div>';
   for(let i=0;i<4;i++)h+=`<div class="ln-row d"><span class="ln-num">${i+1}</span>${inp('d',i,0,'LD')}${inp('d',i,1,'RD')}</div>`;
-  h+='<div class="ln-sec">Goalies <span>starter · backup</span></div>';
+  h+='<div class="ln-sec">Goaltenders <span>starter · backup</span></div>';
   h+=`<div class="ln-row d"><span class="ln-num">G</span>${inp('g',0,0,'Starter')}${inp('g',1,0,'Backup')}</div>`;
   const box=document.getElementById(containerId);
   box.innerHTML=h;
@@ -7010,7 +7009,7 @@ function renderLinesDoc(){
       <table class="lnc-tbl" style="--acc:${primary}">
         <tr class="lnc-sub"><td colspan="4">FORWARDS <span>LW · C · RW</span></td></tr>${fRows}
         <tr class="lnc-sub"><td colspan="4">DEFENSE <span>LD · RD</span></td></tr>${dRows}
-        <tr class="lnc-sub"><td colspan="4">GOALIES</td></tr>${gRows}
+        <tr class="lnc-sub"><td colspan="4">GOALTENDERS</td></tr>${gRows}
       </table></div>`;
   };
   const oppName=G.opp||'Opponent';
@@ -8128,7 +8127,7 @@ function applyDailyReport(rep,label){
     gl++;
   });
   counts.push('Skaters '+(sk?'✓ ('+sk+')':'✗'));
-  counts.push('Goalies '+(gl?'✓ ('+gl+')':'✗'));
+  counts.push('Goaltenders '+(gl?'✓ ('+gl+')':'✗'));
   if(rep.parsed.specialTeams){
     r.special=r.special||{};
     (rep.specialTeams.pp||[]).forEach(x=>{const c=dailyCityOf(x.team);r.special[c]=r.special[c]||{};r.special[c].pp=x.pct;});
@@ -8579,7 +8578,7 @@ function gdayLineup(side){
     const sec=(label,rows)=>{
       const filled=rows.map(r=>r.map(cell).join('')).filter(Boolean);
       const out=rows.map((r,i)=>{const c=r.map(cell).join('');return c?`<div class="gday-line"><span class="gday-lnum">${label==='G'?'G':(i+1)}</span>${c}</div>`:'';}).join('');
-      return out?`<div class="gday-sec">${label==='G'?'Goalies':label==='F'?'Forward lines':'Defense pairs'}</div>${out}`:'';
+      return out?`<div class="gday-sec">${label==='G'?'Goaltenders':label==='F'?'Forward lines':'Defense pairs'}</div>${out}`:'';
     };
     body=sec('F',L.f)+sec('D',L.d)+sec('G',[L.g]);
     if(!body)body=`<div class="gday-sub">Lines are blank — fill them on Print Center → Lines.</div>`;
