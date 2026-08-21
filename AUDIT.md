@@ -185,7 +185,7 @@ WRITE PATHS INTO DATA.roster (order applied):        CALCULATION                
 
 **Architecture hot spots [CONFIRMED]:** one 6,350-line script; top functions `renderPacket` 141 / `fdDataPage` 115 / `rinkSVG` 88 / `sheetPageHTML` 75 / `renderReference` 74 / `careerPages` 72; ~25 module-level mutable globals with `DATA` as the god-object; `onclick="..."` string handlers require every callable global (plain `<script>` split per the master doc is the right call — ES modules would break every button silently); `sw.js` precache must be updated in lockstep with any split; two `typeof`-guard load-order hedges already in the code (`PACKET_SECTIONS`, `rosterMatch`).
 
-**Learn the Rosters [CONFIRMED]:** fully absent — zero code matches for quiz/flashcard/learn/drill/cram; one stale HTML comment (:899). The master document (Part 1) describes it as kept-slim; the code and README record it as removed in cleanup Phase 3. **Per the master document's supremacy it returns, slim, at P3** — recorded here as reconciliation, not a defect.
+**Learn the Rosters [SUPERSEDED — rebuilt at P3]:** this entry recorded the feature as fully absent after cleanup Phase 3. It returned, slim, in PR #91 (the bridge assignment): a jersey-first study drill in `js/booth.js` — number->player and player->number, pronunciation, position, line/pair, Havoc + opponent study, opponent cram, expected-active-only, no scoring or gamification. Verified 12/12 against master document Part 1 during P3 and marked complete rather than rebuilt.
 
 **Nomenclature (UI labels/headers only — identified, not rewritten) [CONFIRMED]:**
 - *Goalie vs Goaltender*: print is consistently "Goaltenders" (:4764, :4945, :3030), screen consistently "Goalie(s)" (:5390, :5491, :5596) — the two never agree.
