@@ -72,7 +72,7 @@ Every finding cites `file → function/section → logic` and is labeled **CONFI
 3. *Bios rendering:* `data/bios.json` (fields: joined_blurb, season_recap, career_highlights, broadcast_bio, pronunciation, footnotes, embargoed; staff: role, season_recap, coaching_career, playing_legacy) renders all 20 pages — 17 players + Stefan/Piacentini/Detulleo — using the Giovanni Procopio and Stuart Stefan reference pages as the visual template (vitals line, Joined line, season counters, prose sections, grouped career table with playoff columns and totals bar). Prose content is supplied complete in the delivered bios file; load verbatim; footnotes print as small italics. `embargoed: true` = renders nowhere, excluded from print and indexes. When `current_season.gp > 0`, auto-prepend "2026-27 to date: X GP, G-A-P" (goalie variant) above the recap.
 4. *Remaining cuts* (if not already done): Post-Game copy desk, EP widgets/iframes, embargo-mode machinery (replaced by the bios flag), club-bios import/signed-sheet reconcile UI (replaced by committed JSON + precedence rules), per-block hover nudge controls, page inspector outlines, folder layout editor, Compact preset. KEEP: Print Center sizing + Fit every page, and Learn the Rosters per Part 1.
 **Packet print-test after each item.**
-**STATUS: COMPLETE — reconciled against main 2026-08-19.** All four items verified shipped (rescue button live pending P3 removal; nightly roster Action gated by test #5; all 20 bio pages render with embargo + auto-prepend verified; every cut confirmed absent, KEEP items intact). Learn the Rosters = superseded-for-now, returns slim at P3.
+**STATUS: COMPLETE — reconciled against main 2026-08-19.** All four items verified shipped (rescue button since removed at P3, PR #95; nightly roster Action gated by test #5; all 20 bio pages render with embargo + auto-prepend verified; every cut confirmed absent, KEEP items intact). Learn the Rosters returned slim in PR #91 and was verified complete against Part 1 at P3.
 
 **P0C — BOOTH ENGINE.** The single Game Day view per Part 1, Pillar 2. Reuse existing components; no new data stores; readable at booth distance in dark mode.
 **STATUS: COMPLETE — PR #78; booth dry-run accepted 2026-08-20.** Polish #1 (a stale offseason daily report stomping fresher live stats) fixed in PR #81.
@@ -81,8 +81,37 @@ Every finding cites `file → function/section → logic` and is labeled **CONFI
 **STATUS: COMPLETE — PRs #79 (storylines from `data/matchups.json` + series flags on the scouting report) and #80 (watch box on the packet cover); the Game Day view carries the same lines since PR #78.**
 
 **P2 — LIVE INTELLIGENCE.** In-game refresh polish; next-break surfacing; nothing that risks P0 stability.
+**STATUS: COMPLETE — PR #83** (the Havoc game itself, big, on Game Day, with next-break surfacing).
+
+**BRIDGE — PRESEASON + GAME 1 (operational, assigned 2026-08-21).** Complete broadcast
+preparation for the Pensacola preseason game and Game 1 at Pee Dee before 2026-27 statistics
+exist: 2026-27 rosters + 2025-26 final context + entering-season career data, every prior-season
+number labelled, preseason counted nowhere.
+**STATUS: COMPLETE — approved 2026-08-21.** Shipped as PRs #85 (defects: 30-day daily-report
+hold, two-word city keys, cover-record guard), #86 (every stat surface says which season it is
+showing), #87 (preseason game type — labelled everywhere, counted nowhere), #88 (opponent
+rosters from the committed file, additive only; CI test 6), #89 (committed last-season and
+entering-career lines on the player surfaces, Goalie Notes, first-meeting series), #90 (the
+committed 2025-26 FINAL snapshot and the packet comparison box), #91 (Learn the Rosters — the
+slim jersey-first drill), #92 (authored Pensacola and Pee Dee storylines), #93 (autofill clears
+a leftover preseason flag).
 
 **P3 — SUPPORTING / ARCHITECTURE / POLISH.** Split index.html (shell + `css/hub.css` + `js/` modules: data, feeds, milestones, packet, print, ui — plain script tags, still works as file://, update service-worker cache list, zero behavior change). Slim Learn the Rosters per Part 1. Nomenclature pass (UI labels/headers only — prose is authored). Rewrite README under 1,000 words. Create `LATER.md`. Remove the temporary export button.
+**STATUS: COMPLETE — 2026-08-21.** Shipped as PRs #94 (the service worker had never
+installed in production — data/bios.json is gitignored by the embargo rule and cache.addAll is
+atomic, so the install always rejected; precache is now per-file and CI test 7 locks it), #95
+(the temporary export button removed), #96 (`LATER.md` created per Law §11), #97 (nomenclature
+pass — goaltender as the house word, OTL/SOL split on the cover, abbreviated leaders, PTS, no
+first person on a printed sheet; and a pre-existing crash it uncovered, where any home game with
+a logged result killed renderFolders), #98 (`css/hub.css`), #99 (`js/logos.js`,
+`js/reference.js`, and every side effect moved to `js/boot.js`), #100 (`js/feeds.js`,
+`js/booth.js`, `js/print.js`, `js/milestones.js`, `js/packet.js`, `js/data.js`, `js/ui.js`).
+index.html 8,889 -> 767 lines; zero behaviour change proven per step by a 17-surface render
+snapshot against pre-split main, a boot check driving real clicks and print events, a file://
+no-regression check, tests 1-7 and the packet print counts. Learn the Rosters was verified
+complete as shipped in #91 against Part 1 (12/12 checks), not rebuilt. Two nomenclature items
+in the audit were non-defects and left alone: printed group-row casing already renders in caps
+via CSS, and "Game Day Refresh" is one consistently named action with a button on both tabs.
 
 ---
 
