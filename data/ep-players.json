@@ -53,7 +53,7 @@
   "epUrl": "https://www.eliteprospects.com/player/119464",
   "name": "Cole Golka",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "35": {
   "epId": "120593",
@@ -102,7 +102,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "130": {
   "epId": "248616",
@@ -128,7 +128,7 @@
   "epUrl": "https://www.eliteprospects.com/player/220778",
   "name": "Joseph Drapluk",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "261": {
   "epId": "33267",
@@ -147,7 +147,7 @@
   "epUrl": "https://www.eliteprospects.com/player/215887",
   "name": "Connor Fries",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "304": {
   "epId": "97337",
@@ -216,7 +216,7 @@
   "epUrl": "https://www.eliteprospects.com/player/195639",
   "name": "Cole Reginato",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "2728": {
   "epId": "206312",
@@ -236,7 +236,7 @@
   "epUrl": "https://www.eliteprospects.com/player/285068",
   "name": "Cameron Cook",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "2761": {
   "epId": "298839",
@@ -270,7 +270,7 @@
   "epUrl": "https://www.eliteprospects.com/player/327463",
   "name": "Dominick Procopio",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "2787": {
   "epId": "241141",
@@ -402,7 +402,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "2985": {
   "epId": "288244",
@@ -514,7 +514,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3070": {
   "epId": "241362",
@@ -532,14 +532,14 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3089": {
   "epId": "248427",
   "epUrl": "https://www.eliteprospects.com/player/248427",
   "name": "Austin Alger",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3093": {
   "epId": "249620",
@@ -669,7 +669,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3215": {
   "epId": "279865",
@@ -722,7 +722,7 @@
   "epUrl": "https://www.eliteprospects.com/player/424163",
   "name": "Jack Jaunich",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3246": {
   "epId": "354857",
@@ -800,7 +800,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3292": {
   "epId": "504110",
@@ -886,7 +886,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3306": {
   "epId": "354666",
@@ -1040,7 +1040,7 @@
   "epUrl": "https://www.eliteprospects.com/player/349555",
   "name": "Craig McCabe",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3372": {
   "epId": "674687",
@@ -1115,7 +1115,7 @@
   "epUrl": "https://www.eliteprospects.com/player/565969",
   "name": "Dysen Skinner",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3403": {
   "epId": "199625",
@@ -1190,7 +1190,7 @@
   "epUrl": "https://www.eliteprospects.com/player/474455",
   "name": "Sam Anzai",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3418": {
   "epId": "386141",
@@ -1236,7 +1236,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3427": {
   "epId": "435401",
@@ -1295,7 +1295,7 @@
   "epUrl": "https://www.eliteprospects.com/player/285339",
   "name": "Giovanni Procopio",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3466": {
   "epId": "284080",
@@ -1309,21 +1309,21 @@
   "epUrl": "https://www.eliteprospects.com/player/370282",
   "name": "Matt Allen",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3468": {
   "epId": "350433",
   "epUrl": "https://www.eliteprospects.com/player/350433",
   "name": "Terry Ryder",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3469": {
   "epId": "282474",
   "epUrl": "https://www.eliteprospects.com/player/282474",
   "name": "Charlie Risk",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3470": {
   "epId": "325244",
@@ -1385,7 +1385,7 @@
   "epUrl": "https://www.eliteprospects.com/player/194820",
   "name": "Colby Muise",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3498": {
   "epId": "507580",
@@ -1501,7 +1501,7 @@
   "epUrl": "https://www.eliteprospects.com/player/502934",
   "name": "Cole Crowder",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3534": {
   "epId": "284025",
@@ -1912,7 +1912,7 @@
   "epUrl": "https://www.eliteprospects.com/player/317590",
   "name": "Nathan Berke",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3613": {
   "epId": "471365",
@@ -1948,7 +1948,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3619": {
   "epId": "497335",
@@ -2036,7 +2036,7 @@
   "epUrl": "https://www.eliteprospects.com/player/335887",
   "name": "Cooper Fensterstock",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3640": {
   "epId": "386409",
@@ -2054,7 +2054,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3643": {
   "epId": "222335",
@@ -2346,7 +2346,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3655": {
   "epId": "396681",
@@ -2605,7 +2605,7 @@
   "epUrl": "https://www.eliteprospects.com/player/313529",
   "name": "Billy Girard",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3666": {
   "epId": "335882",
@@ -2640,14 +2640,14 @@
   "epUrl": "https://www.eliteprospects.com/player/275796",
   "name": "Jacob Arsenault",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3668": {
   "epId": "621599",
   "epUrl": "https://www.eliteprospects.com/player/621599",
   "name": "David Novotny",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3669": {
   "epId": "582425",
@@ -2682,21 +2682,21 @@
   "epUrl": "https://www.eliteprospects.com/player/289316",
   "name": "Jaxon Camp",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3671": {
   "epId": "153872",
   "epUrl": "https://www.eliteprospects.com/player/153872",
   "name": "Josh Kestner",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3672": {
   "epId": "646980",
   "epUrl": "https://www.eliteprospects.com/player/646980",
   "name": "Ashton Paul",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3673": {
   "epId": "468111",
@@ -2891,7 +2891,7 @@
   "epUrl": "https://www.eliteprospects.com/player/376334",
   "name": "Caydon Meyer",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3698": {
   "epId": "732202",
@@ -2993,7 +2993,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3713": {
   "epId": "617497",
@@ -3237,7 +3237,7 @@
   "epUrl": "https://www.eliteprospects.com/player/562446",
   "name": "Connor Galloway",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3738": {
   "epId": "531598",
@@ -3277,7 +3277,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3740": {
   "epId": "334755",
@@ -3296,14 +3296,14 @@
   "epUrl": "https://www.eliteprospects.com/player/348961",
   "name": "Lincoln Erne",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3743": {
   "epId": "285264",
   "epUrl": "https://www.eliteprospects.com/player/285264",
   "name": "Drew Welsch",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3746": {
   "epId": "576286",
@@ -3321,7 +3321,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3748": {
   "epId": "505219",
@@ -3420,7 +3420,7 @@
   "epUrl": "https://www.eliteprospects.com/player/499157",
   "name": "Matt Sayles",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3757": {
   "epId": "294746",
@@ -3502,7 +3502,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3764": {
   "epId": "456539",
@@ -3555,7 +3555,7 @@
   "epUrl": "https://www.eliteprospects.com/player/439068",
   "name": "Cristian Wong-Ramos",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3771": {
   "epId": "599777",
@@ -3658,7 +3658,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3783": {
   "epId": "324973",
@@ -3720,7 +3720,7 @@
   "epUrl": "https://www.eliteprospects.com/player/441342",
   "name": "Chris Ishmael",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3792": {
   "epId": "492592",
@@ -3803,7 +3803,7 @@
   "epUrl": "https://www.eliteprospects.com/player/424271",
   "name": "Evan Pringle",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3801": {
   "epId": "482047",
@@ -3859,7 +3859,7 @@
   "epUrl": "https://www.eliteprospects.com/player/478825",
   "name": "Dylan Robbins",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3808": {
   "epId": "638100",
@@ -4100,21 +4100,21 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3831": {
   "epId": "451933",
   "epUrl": "https://www.eliteprospects.com/player/451933",
   "name": "William White",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3832": {
   "epId": "445318",
   "epUrl": "https://www.eliteprospects.com/player/445318",
   "name": "John Werber",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3834": {
   "epId": "557126",
@@ -4139,7 +4139,7 @@
   "epUrl": "https://www.eliteprospects.com/player/370024",
   "name": "Davis Goukler",
   "team": "Macon Mayhem",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3838": {
   "epId": "215491",
@@ -4182,7 +4182,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-24T06:33:41.075Z"
  },
  "3841": {
   "epId": "467974",
