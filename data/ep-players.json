@@ -102,7 +102,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "130": {
   "epId": "248616",
@@ -147,7 +147,7 @@
   "epUrl": "https://www.eliteprospects.com/player/215887",
   "name": "Connor Fries",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "304": {
   "epId": "97337",
@@ -402,7 +402,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "2985": {
   "epId": "288244",
@@ -514,7 +514,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3070": {
   "epId": "241362",
@@ -532,14 +532,14 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3089": {
   "epId": "248427",
   "epUrl": "https://www.eliteprospects.com/player/248427",
   "name": "Austin Alger",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3093": {
   "epId": "249620",
@@ -669,7 +669,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3215": {
   "epId": "279865",
@@ -800,7 +800,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3292": {
   "epId": "504110",
@@ -886,7 +886,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3306": {
   "epId": "354666",
@@ -1040,7 +1040,7 @@
   "epUrl": "https://www.eliteprospects.com/player/349555",
   "name": "Craig McCabe",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3372": {
   "epId": "674687",
@@ -1236,7 +1236,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3427": {
   "epId": "435401",
@@ -1295,7 +1295,7 @@
   "epUrl": "https://www.eliteprospects.com/player/285339",
   "name": "Giovanni Procopio",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3466": {
   "epId": "284080",
@@ -1948,7 +1948,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3619": {
   "epId": "497335",
@@ -2048,13 +2048,13 @@
   "epId": "264878",
   "epUrl": "https://www.eliteprospects.com/player/264878",
   "name": "Shane Murphy",
-  "team": "Fayetteville Marksmen",
+  "team": "Birmingham Bulls",
   "dob": "2000-04-03",
   "hometown": "",
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3643": {
   "epId": "222335",
@@ -2172,7 +2172,7 @@
   "epId": "313407",
   "epUrl": "https://www.eliteprospects.com/player/313407",
   "name": "Philippe Caron",
-  "team": "Fayetteville Marksmen",
+  "team": "Birmingham Bulls",
   "dob": "2000-07-23",
   "hometown": "",
   "careerStats": [
@@ -2284,7 +2284,7 @@
   "epId": "693174",
   "epUrl": "https://www.eliteprospects.com/player/693174",
   "name": "John Woernle",
-  "team": "Fayetteville Marksmen",
+  "team": "Evansville Thunderbolts",
   "dob": "2000-07-03",
   "hometown": "",
   "careerStats": [
@@ -2346,7 +2346,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3655": {
   "epId": "396681",
@@ -2993,7 +2993,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3713": {
   "epId": "617497",
@@ -3277,7 +3277,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3740": {
   "epId": "334755",
@@ -3321,7 +3321,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3748": {
   "epId": "505219",
@@ -3463,7 +3463,7 @@
   "epId": "355789",
   "epUrl": "https://www.eliteprospects.com/player/355789",
   "name": "Dash Quartarolo",
-  "team": "Fayetteville Marksmen",
+  "team": "Evansville Thunderbolts",
   "dob": "1999-11-11",
   "hometown": "",
   "careerStats": [
@@ -3502,7 +3502,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3764": {
   "epId": "456539",
@@ -3561,7 +3561,7 @@
   "epId": "599777",
   "epUrl": "https://www.eliteprospects.com/player/599777",
   "name": "Ethan Hawes",
-  "team": "Fayetteville Marksmen",
+  "team": "Evansville Thunderbolts",
   "dob": "2002-03-24",
   "hometown": "",
   "careerStats": [
@@ -3658,7 +3658,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-10T07:06:22.214Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3783": {
   "epId": "324973",
@@ -3803,7 +3803,7 @@
   "epUrl": "https://www.eliteprospects.com/player/424271",
   "name": "Evan Pringle",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3801": {
   "epId": "482047",
@@ -4100,14 +4100,14 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-04T22:31:11.858Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3831": {
   "epId": "451933",
   "epUrl": "https://www.eliteprospects.com/player/451933",
   "name": "William White",
   "team": "Fayetteville Marksmen",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3832": {
   "epId": "445318",
@@ -4139,7 +4139,7 @@
   "epUrl": "https://www.eliteprospects.com/player/370024",
   "name": "Davis Goukler",
   "team": "Macon Mayhem",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3838": {
   "epId": "215491",
@@ -4182,7 +4182,7 @@
   "careerStats": [],
   "bullets": [],
   "fetchedAt": "2026-08-05T02:54:50.932Z",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "statsFailAt": "2026-08-31T12:02:09.921Z"
  },
  "3841": {
   "epId": "467974",
