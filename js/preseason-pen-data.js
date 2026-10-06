@@ -120,7 +120,6 @@ const PRESEASON_PEN = {
   "meetings2026_27": [
     {"date": "2026-10-23", "site": "HSV", "note": "Havoc home opener"},
     {"date": "2026-10-24", "site": "PEN"},
-    {"date": "2026-10-30", "site": "PEN", "note": "In the hub's schedule, but the Ice Flyers' published schedule shows Macon at Pensacola that night. Confirm."},
     {"date": "2026-11-25", "site": "PEN"},
     {"date": "2026-11-27", "site": "HSV"},
     {"date": "2027-01-22", "site": "HSV"},
@@ -293,7 +292,7 @@ const PRESEASON_PEN = {
     "Re-check ECHL camp cuts on game day (Wilson, Schultheis, Stannard, Schmuck)",
     "2026-27 captains on both sides (Dom Procopio retired)",
     "Stuart Stefan: first year as head coach",
-    "Oct. 30 schedule conflict: hub says @ Pensacola, Ice Flyers' schedule shows Macon at Pensacola"
+    "Oct. 30 resolved: the final 2026-27 schedule has the Havoc at Evansville that night, not Pensacola (hub schedule updated Oct. 6)"
   ],
   "sources": [
     {"label": "Havoc 2025-26 stats (StatsCrew)", "url": "https://www.statscrew.com/minorhockey/stats/t-11290/y-2025"},
