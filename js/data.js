@@ -27,6 +27,7 @@ const DEFAULT_DATA={
   report:{parsedAt:null,standings:[],leaders:{},teamStats:{},goalieStats:{},special:{}},
   epCache:{},            // {normName:{at,ok,id,slug,bullets}} — Elite Prospects lookups
   hockeyOps:{hc:{name:"",bio:""},ac:{name:"",bio:""},gm:{name:"",bio:""},eq:{name:"",bio:""}}, // Meet the Hockey Operations Team (user-filled)
+  preseasonPen:{numbers:{},storyOv:{},pron:{},checks:{},venue:"",result:{}}, // Preseason vs PEN temp tab (Oct 9 2026) — jersey numbers, storyline edits, say-it column, checklists, venue, final result
   folderOv:{},           // {teamName:{key:value}} — hand overrides on broadcast-folder data pages
   statOv:{},             // {key:value} — hand overrides on packet/stat displays
   verbs:null,            // {p1,p2,p3} — #EmrickVerbs lists (null = built-in defaults)
@@ -114,6 +115,6 @@ function formatTime(t){const[h,m]=t.split(':').map(Number);const ap=h>=12?'P.M.'
 function openModal(id){if(id==='resetModal')resetRender();document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
 let toastTimer;function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2200);}
-function initForms(){fillOpponents();loadGameForm();loadNotesForm();loadSettings();}
+function initForms(){fillOpponents();loadGameForm();loadNotesForm();loadSettings();if(typeof ppLoad==='function')ppLoad();}
 
 /* boot */

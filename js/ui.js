@@ -60,6 +60,7 @@ function showTab(tab){
   if(tab==='reference'){renderReference();renderVenues();renderFranchise();}
   if(tab==='game')ivRender('pre');
   if(tab==='opening'){epLoadStatic().then(()=>{owLoad();owBuild();});}
+  if(tab==='preseason')ppRender();
   if(tab==='settings'){bkStatusRender();themeApply();}
 }
 /* Cmd/Ctrl+1..9 switches tabs (mac-first) */
