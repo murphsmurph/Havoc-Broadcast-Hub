@@ -29,6 +29,7 @@
   <button class="tab" data-tab="reference">League Reference</button>
   <button class="tab" data-tab="print">Print Center</button>
   <button class="tab" data-tab="opening" id="tab_opening" title="Temporary — archive it after Oct 17">Opening Weekend <span class="tab-temp">temp</span></button>
+  <button class="tab" data-tab="preseason" id="tab_preseason" title="Temporary — archive it after Oct 9">Preseason vs PEN <span class="tab-temp">temp</span></button>
   <button class="tab" data-tab="settings">Settings</button>
 </div>
 <div class="wrap hub-app">
@@ -592,6 +593,103 @@
     </div>
   </section>
 
+  <!-- PRESEASON vs PEN (temporary, archivable) — Fri Oct 9 2026 exhibition. Data: js/preseason-pen-data.js; logic: js/preseason-pen.js -->
+  <section class="panel hub-panel" id="panel-preseason">
+
+    <div class="card hub-card no-print">
+      <h2>Preseason vs <span class="accent">Pensacola</span></h2>
+      <p class="desc">The one exhibition before it counts. Everything researched renders from the committed data;
+        what you type here stays in this browser and rides along in every backup.</p>
+      <div id="ppGame"></div>
+      <div class="grid g2">
+        <div class="field hub-field"><label for="pp_venue">Venue</label>
+          <input type="text" id="pp_venue" placeholder="Confirm venue" onchange="ppVenueSave()"></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="ppSendGame()">Send to This Game</button>
+        <button class="btn dark" onclick="ppPrint()">Print / Save PDF</button>
+        <button class="btn secondary" onclick="ppArchiveStart()">Archive this tab</button>
+      </div>
+      <div class="note">Every bulk action on this tab shows you exactly what it will change before it changes anything,
+        and none of them overwrite a value that is already filled in.</div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Storylines</div>
+      <p class="desc">Ranked as researched. Edit any of them in place; a &#8635; appears to restore the original.</p>
+      <div id="ppStories"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Top 10 scorers: who's back</div>
+      <div class="grid g2" id="ppTop"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">ECHL camps right now</div>
+      <div id="ppEchl"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">2025-26 head-to-head</div>
+      <div id="ppH2h"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Rosters</div>
+      <p class="desc">Type jersey numbers as you learn them. They save here and print on the roster pages; nothing is guessed.</p>
+      <div class="btn-row">
+        <button class="btn secondary" onclick="ppCopyNumbers()">Copy numbers to rosters</button>
+        <button class="btn secondary" onclick="ppSeedOpp()">Seed Pensacola roster</button>
+        <button class="btn secondary" onclick="ppSeedOps()">Seed Havoc hockey ops</button>
+      </div>
+      <div class="grid g2" id="ppRosters"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Summer signings</div>
+      <div class="grid g2" id="ppSignings"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Pronunciation flags</div>
+      <div class="hub-tablewrap" id="ppPron"></div>
+      <div class="btn-row"><button class="btn secondary" onclick="ppAddPron()">Add to pronunciation guide</button></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Ask team PR / confirm before air</div>
+      <div id="ppChecks"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Sources</div>
+      <ul class="pp-list" id="ppSources"></ul>
+    </div>
+
+    <div class="card hub-card no-print" id="ppArchiveCard" style="display:none">
+      <div class="section-label hub-sectionhead">Archive</div>
+      <p class="desc">After the game: the final score and anything worth keeping, then archive. The record stays
+        saved and the tab leaves the nav for good.</p>
+      <div class="grid g2">
+        <div class="field hub-field"><label for="pp_result_score">Final score</label>
+          <input type="text" id="pp_result_score" placeholder="e.g. Havoc 4-2"></div>
+        <div class="field hub-field"><label for="pp_result_scorers">Havoc goal scorers</label>
+          <input type="text" id="pp_result_scorers" placeholder="e.g. Alger 2, Procopio, Fries"></div>
+      </div>
+      <div class="field hub-field"><label for="pp_result_notes">Notes</label>
+        <textarea id="pp_result_notes" rows="3" placeholder="What you want to remember from the dress rehearsal"></textarea></div>
+      <div class="btn-row">
+        <button class="btn secondary" style="color:var(--red-text)" onclick="ppArchive()">Archive now</button>
+      </div>
+    </div>
+
+    <div class="doc-frame">
+      <div class="doc-toolbar no-print"><span class="ttl">Preseason packet &mdash; preview</span><div class="spacer"></div><span id="ppFit"></span><span class="header-status">Letter &middot; 4 pages &middot; prints to PDF</span></div>
+      <div class="doc-scroll hub-preview" id="preseasonDoc"></div>
+    </div>
+  </section>
+
   <section class="panel hub-panel" id="panel-settings">
     <div class="card hub-card">
       <h2>Team <span class="accent">Settings</span></h2>
@@ -601,7 +699,7 @@
         <div class="field hub-field"><label>Team city line</label><input type="text" id="s_city" value="HUNTSVILLE"></div>
         <div class="field hub-field"><label>Team name line</label><input type="text" id="s_name" value="HAVOC"></div>
       </div>
-      <div class="field hub-field"><label>Default venue</label><input type="text" id="s_venue" value="Roto-Rooter Ice at Propst Arena | Huntsville, AL"></div>
+      <div class="field hub-field"><label>Default venue</label><input type="text" id="s_venue" value="Polaris Ice at Propst Arena | Huntsville, AL"></div>
       <div class="field hub-field"><label>Footer text</label><input type="text" id="s_footer" value="2026-2027 HUNTSVILLE HAVOC HOCKEY · HUNTSVILLEHAVOC.COM"></div>
       <div class="field hub-field"><label>Socials line</label><input type="text" id="s_social" value="@HUNTSVILLEHAVOC"></div>
       <div class="section-label hub-sectionhead">Official media contact (packet cover, folders, interview sheets)</div>
@@ -761,6 +859,8 @@
 <script src="js/packet.js"></script>
 <script src="js/print.js"></script>
 <script src="js/booth.js"></script>
+<script src="js/preseason-pen-data.js"></script>
+<script src="js/preseason-pen.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/boot.js"></script>
 </body>

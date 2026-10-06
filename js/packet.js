@@ -454,6 +454,7 @@ function stampEdited(scope){
   if(scope==='verbs')return !!DATA.verbs;
   if(scope==='lines')return false;
   if(scope==='opening')return false;
+  if(scope==='preseason')return false;
   return any((DATA.folderOv||{})[scope])||any(DATA.statOv);
 }
 /* packet/stat-display value cell — same rules as the folder cells, global keys */

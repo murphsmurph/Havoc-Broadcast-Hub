@@ -461,6 +461,49 @@
   .ref-ed{font-size:13px;}
   .ref-ed th{font-size:11px;font-weight:800;text-transform:uppercase;color:var(--havoc-grey);text-align:left;padding:3px 6px;border-bottom:2px solid var(--havoc-line);}
 
+  /* ---- Preseason vs PEN (temporary tab) ---- */
+  .pill.mute{background:var(--mute-bg);color:var(--mute-fg);}
+  .pp-teamhead{font-size:14px;font-weight:900;text-transform:uppercase;letter-spacing:.3px;color:var(--red-text);border-bottom:2px solid var(--havoc-silver);padding-bottom:3px;margin-bottom:8px;}
+  .pp-small{font-size:12px;color:var(--ink-2);margin-top:6px;}
+  .pp-row{display:flex;gap:9px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--havoc-line);}
+  .pp-rnum{flex:0 0 44px;}
+  input.pp-num{width:44px;padding:5px 4px;text-align:center;font-size:15px;font-weight:800;color:var(--red-text);}
+  input.pp-say{padding:5px 8px;font-size:14px;min-width:140px;}
+  .pp-rbody{min-width:0;flex:1;}
+  .pp-rname{font-size:13.5px;font-weight:700;}
+  .pp-rpos{font-weight:600;color:var(--ink-2);margin-left:5px;font-size:12px;}
+  .pp-rmeta{font-size:12px;color:var(--ink-2);margin-top:1px;}
+  .pp-rnotes{font-size:12px;margin-top:2px;}
+  .pp-tag{display:inline-block;font-size:9.5px;font-weight:900;text-transform:uppercase;letter-spacing:.03em;border-radius:5px;padding:1px 5px;margin-left:4px;vertical-align:middle;background:var(--mute-bg);color:var(--mute-fg);}
+  .pp-tag-new{background:var(--pill-ok-bg);color:var(--pill-ok-fg);}
+  .pp-tag-confirm{background:var(--pill-warn-bg);color:var(--pill-warn-fg);}
+  .pp-tag-ex-PEN{background:var(--tint-red);color:var(--red-text);}
+  .pp-note{color:var(--pill-warn-fg);font-weight:900;margin-left:3px;cursor:help;}
+  .pp-pm{font-weight:800;font-variant-numeric:tabular-nums;}
+  .pp-pos{color:var(--ok-fg);} .pp-neg{color:var(--red-text);} .pp-zero{color:var(--ink-2);}
+  .pp-scope{font-size:10px;color:var(--ink-2);margin-left:3px;}
+  .pp-story{font-size:13px;line-height:1.5;}
+  .pp-list{margin:0;padding-left:18px;font-size:12.5px;}
+  .pp-list li{margin-bottom:3px;}
+  table.pp-t td.r,table.pp-t th.r{text-align:right;}
+  table.pp-t .pill{font-size:10px;padding:1px 7px;white-space:nowrap;}
+  /* on paper: hard colors (the .page is always white), compact rows, two-up blocks */
+  .page .pp-fact{font-size:9px;margin-bottom:2px;line-height:1.35;}
+  .page .pp-sub{font-size:8.5px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin:4px 0 2px;color:var(--havoc-grey);}
+  .page .pp-list{font-size:8.5px;padding-left:14px;}
+  .page .pp-list li{margin-bottom:1px;}
+  .page .pp-cols2{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:start;}
+  .page .pp-cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:start;}
+  .page .pp-stories{columns:2;column-gap:12px;}
+  .page .pp-stories .news-item{break-inside:avoid;}
+  .page .pp-tag{background:#eee;color:#333;border:1px solid #ccc;font-size:7px;padding:0 3px;}
+  .page .pp-pos{color:#1d8a4e;} .page .pp-neg{color:#C8102E;} .page .pp-zero{color:#666;}
+  .page .pp-scope{font-size:7px;color:#666;}
+  .page .pp-st{font-weight:900;text-transform:uppercase;font-size:7.5px;letter-spacing:.03em;white-space:nowrap;}
+  .page .pp-st-ok{color:#1d8a4e;} .page .pp-st-warn{color:#8a6508;} .page .pp-st-mute{color:#666;}
+  .page table.pp-pt{font-size:8px;}
+  .page table.pp-pt td{line-height:1.3;vertical-align:top;padding:1px 4px;}
+  .page table.pp-pt tr.pp-grp td{background:var(--havoc-silver);font-weight:900;text-transform:uppercase;font-size:7.5px;letter-spacing:.06em;padding:2px 5px;}
   /* ---- print doc styles ---- */
   .doc-frame{background:var(--surface);border:1px solid var(--havoc-line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:18px;overflow:hidden;}
   .doc-toolbar{display:flex;gap:10px;align-items:center;padding:12px 16px;background:var(--havoc-silver);border-bottom:1px solid var(--havoc-line);flex-wrap:wrap;}

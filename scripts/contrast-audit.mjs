@@ -42,7 +42,7 @@ const AUDIT=`(()=>{
 })()`;
 (async()=>{
   const b=await chromium.launch({executablePath:'/opt/pw-browsers/chromium'});
-  const tabs=['game','import','rosters','reference','print','postgame','calllog','opening','settings'];
+  const tabs=['game','import','rosters','reference','print','postgame','calllog','opening','preseason','settings'];
   let bad=0,checked=0;
   for(const scheme of ['dark','light']){
     const page=await b.newPage({...devices['iPhone 13'],colorScheme:scheme});
