@@ -442,20 +442,27 @@ function ppCopyNumbers(){
   },'No empty jersey numbers to fill — type some numbers first');
 }
 
-/* camp roster -> the Pensacola opponent roster. Two things, one preview:
+/* camp roster -> a stored roster (the Pensacola opponent roster, or the Havoc roster for
+   the preseason game). Two things, one preview:
    1. add every camp player who is missing (never edits one who is there);
-   2. scratch every active player who is NOT at camp — the committed league
-      file is still last season's, so without this the opponent call sheet
-      prints 48 stale names around the 19 who will actually dress Friday.
-   A scratch is recorded exactly as the Rosters tab records one (active '0'
-   plus handEdit.active), so the next roster sync leaves it alone and Edit on
-   the Rosters tab reverses it. Nothing is deleted. A player whose active flag
-   Jacob already set by hand is left exactly as he set it. */
-function ppSeedOpp(){
-  DATA.oppRosters[PP_TEAM]=DATA.oppRosters[PP_TEAM]||[];
-  const list=DATA.oppRosters[PP_TEAM];
+   2. scratch every active player who is NOT on the camp list — the stored rosters are
+      last season's (the committed league file for Pensacola, the feed and spine for the
+      Havoc), so without this the call sheets print stale names around the ones who dress.
+   A scratch is recorded exactly as the Rosters tab records one (active '0' plus
+   handEdit.active), so the next roster sync or spine apply leaves it alone and Edit on the
+   Rosters tab reverses it. Nothing is deleted. A player whose active flag Jacob already set
+   by hand is left exactly as he set it. For the Havoc this is the one place the tab touches
+   DATA.roster beyond jersey numbers, at Jacob's request for the preseason game; his
+   opening-day upload (Set as opening-day roster) reconciles everything afterwards. */
+function ppHubPos(pos){           // the hub's call sheets group by C/LW/RW/D/G
+  const p=String(pos||'').toUpperCase();
+  if(p==='LD'||p==='RD')return 'D';
+  if(p.indexOf('/')>=0)return p.split('/')[0];
+  return p;
+}
+function ppSeedRoster(side,list,label){
   const add=[],scratch=[],lines=[],atCamp=new Set();
-  ppSkaters('pensacola').forEach(p=>{
+  ppSkaters(side).forEach(p=>{
     const hit=rosterMatch(p.name,list);
     if(hit){atCamp.add(hit.id);lines.push('  already on the roster: '+p.name);return;}
     add.push(p);lines.push('  add '+p.name+(p.pos?' ('+p.pos+')':''));
@@ -466,16 +473,15 @@ function ppSeedOpp(){
     if(handOwns(r,'active')){kept.push('  kept active (you set it by hand): '+r.name);return;}
     scratch.push(r);
   });
-  if(scratch.length)lines.push('','  Scratch — not on the camp roster (last season\'s file):',...scratch.map(r=>'    '+r.name+(r.pos?' ('+r.pos+')':'')));
+  if(scratch.length)lines.push('','  Scratch — not on the preseason roster:',...scratch.map(r=>'    '+r.name+(r.pos?' ('+r.pos+')':'')));
   if(kept.length)lines.push('',...kept);
   if(!add.length&&!scratch.length)lines.length=0;
-  ppPreview('Seed the Pensacola opponent roster — adds missing camp players, scratches everyone else:',lines,()=>{
+  ppPreview('Seed the '+label+' roster — adds missing camp players, scratches everyone else:',lines,()=>{
     add.forEach(p=>{
-      /* the call-sheet card reads callNote (its editable notes line), birth
-         and age — not bbio — so a newcomer gets those filled from the camp
-         research too, or his card would print "click to write" on Friday */
+      /* the call-sheet card reads callNote (its editable notes line), birth and age —
+         not bbio — so a newcomer gets those filled from the camp research too */
       const first=ppFirstSentence(p.notes);
-      const np={id:uid(),name:p.name,pos:p.pos||'',notes:'',active:'1',bbio:first,callNote:first};
+      const np={id:uid(),name:p.name,pos:ppHubPos(p.pos),notes:'',active:'1',bbio:first,callNote:first};
       if(p.hometown)np.birth=p.hometown;
       if(p.age!=null)np.age=String(p.age);
       const n=ppNum(p);
@@ -484,9 +490,20 @@ function ppSeedOpp(){
     });
     scratch.forEach(r=>{r.active='0';r.handEdit=Object.assign({},r.handEdit||{},{active:1});});
     save();
-    if(typeof renderOppRoster==='function')renderOppRoster();
-    toast(add.length+' added, '+scratch.length+' scratched — the opponent call sheet now prints the camp roster');
-  },'The Pensacola roster already matches the camp list — nothing to add or scratch');
+    /* refresh only the side touched: renderRoster() re-applies the Havoc baselines
+       (spine, league file), which has no business running after a Pensacola seed */
+    if(side==='havoc'){if(typeof renderRoster==='function')renderRoster();}
+    else if(typeof renderOppRoster==='function')renderOppRoster();
+    toast(add.length+' added, '+scratch.length+' scratched — the '+label+' call sheet now prints the preseason roster');
+  },'The '+label+' roster already matches the preseason list — nothing to add or scratch');
+}
+function ppSeedOpp(){
+  DATA.oppRosters[PP_TEAM]=DATA.oppRosters[PP_TEAM]||[];
+  ppSeedRoster('pensacola',DATA.oppRosters[PP_TEAM],'Pensacola');
+}
+function ppSeedHavoc(){
+  DATA.roster=DATA.roster||[];
+  ppSeedRoster('havoc',DATA.roster,'Havoc');
 }
 
 /* Havoc coaches -> Hockey Operations, empty roles only */
