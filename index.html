@@ -820,6 +820,7 @@
   <h3>Bulk import roster</h3>
   <input type="hidden" id="bulk_side">
   <p class="desc">Paste a whole roster at once. Works with the Elite Prospects roster-table copy-paste (tab or multi-space separated). Include the <b>Forwards</b> / <b>Defencemen</b> / <b>Goalies</b> header rows and the position is set automatically. Doubled names are fixed for you.</p>
+  <p class="desc"><b>Set as opening-day roster</b> matches each pasted name to the player already on the roster, keeps his bios, notes, photo and hand edits, takes the pasted number, adds the new names, and scratches everyone not on the list (never deletes). The preview shows exactly who falls in each group before you commit.</p>
   <div class="field hub-field"><label>Roster text</label><textarea id="bulk_text" rows="10" placeholder="Forwards&#10;9&#9;David Novotny&#9;LW&#9;5-11&#9;185&#9;&#9;Boca Raton, FL&#10;12&#9;Giovanni Procopio&#9;C&#9;5-11&#9;185&#9;&#9;Grosse Pointe, MI&#10;Defencemen&#10;2&#9;Dominick Procopio&#9;D&#9;6-2&#9;216&#9;&#9;Grosse Pointe, MI&#10;Goalies&#10;1&#9;Alex Proctor&#9;G&#9;6-2&#9;174&#9;&#9;Dallas, TX"></textarea></div>
   <div class="btn-row" style="margin-bottom:6px">
     <button class="btn" onclick="bulkPreview()">Preview</button>

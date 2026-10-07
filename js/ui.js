@@ -432,13 +432,75 @@ function bulkPreview(){
   BULK_PARSED.forEach(p=>{html+=`<tr><td class="num">${esc(p.num)}</td><td class="nm">${esc(p.name)}</td><td>${esc(p.pos)}</td><td>${esc(p.ht)}</td><td>${esc(p.wt)}</td><td>${esc(p.sh)}</td><td>${esc(p.birth)}</td></tr>`;});
   html+='</tbody></table></div>';
   html+='<div class="note" style="margin-top:10px">Position defaults to C for forwards if not specified — edit any player afterward to set LW/RW. Career notes, age, and DOB are added later per player.</div>';
-  html+='<div class="btn-row"><button class="btn" onclick="bulkCommit(\'add\')">Add to existing roster</button><button class="btn secondary" onclick="bulkCommit(\'replace\')">Replace whole roster</button></div>';
+  html+=bulkOpeningPreviewHTML(getRoster(val('bulk_side')));
+  html+='<div class="btn-row"><button class="btn" onclick="bulkCommit(\'opening\')">Set as opening-day roster</button><button class="btn secondary" onclick="bulkCommit(\'add\')">Add to existing roster</button><button class="btn secondary" onclick="bulkCommit(\'replace\')">Replace whole roster</button></div>';
   wrap.innerHTML=html;
+}
+/* ---- opening-day mode: the pasted list becomes the roster WITHOUT losing anyone's record ----
+   Match each pasted row to the man already on the roster (rosterMatch: exact name, then
+   bare name, then surname + first initial when that is unambiguous). A match keeps his
+   id, bios, call-sheet notes, photo and hand edits, comes back active, and takes the
+   pasted number — the sheet number is the opening-day truth. An unmatched row is a new
+   player. Anyone active who is not on the list is scratched the way the Rosters tab
+   scratches (active '0' + handEdit.active), never deleted. A flag Jacob set by hand
+   stays as he set it. Ambiguous names are reported and left alone. */
+function bulkOpeningPlan(list){
+  list=list||[];
+  const keep=[],add=[],amb=[],matched=new Set();
+  BULK_PARSED.forEach(p=>{
+    const hit=rosterMatch(p.name,list);
+    if(hit){
+      if(matched.has(hit.id)){amb.push(p.name+' — also matches '+hit.name+', already taken by another line');return;}
+      matched.add(hit.id);keep.push({p,hit});return;
+    }
+    const parts=String(p.name||'').trim().split(/\s+/);
+    if(parts.length>1){
+      const last=norm(parts[parts.length-1]),first=norm(parts[0]).charAt(0);
+      const near=list.filter(x=>{const xp=String(x.name||'').trim().split(/\s+/);return xp.length>1&&norm(xp[xp.length-1])===last&&norm(xp[0]).charAt(0)===first;});
+      if(near.length>1){amb.push(p.name+' — could be '+near.map(x=>x.name).join(' or '));return;}
+    }
+    add.push(p);
+  });
+  const rest=list.filter(r=>r.name&&r.active!=='0'&&!matched.has(r.id));
+  return {keep,add,amb,scratch:rest.filter(r=>!handOwns(r,'active')),held:rest.filter(r=>handOwns(r,'active'))};
+}
+function bulkOpeningPreviewHTML(list){
+  if(!(list||[]).length)return '';
+  const pl=bulkOpeningPlan(list);
+  const names=a=>a.length?esc(a.join(', ')):'—';
+  return `<div class="ref-box" style="margin-top:10px"><h4>Set as opening-day roster — what it would do</h4><table>
+    <tr><td>Keep (${pl.keep.length})</td><td>${names(pl.keep.map(k=>k.hit.name+(k.p.num&&String(k.hit.num||'')!==k.p.num?' → #'+k.p.num:'')))}</td></tr>
+    <tr><td>Add (${pl.add.length})</td><td>${names(pl.add.map(a=>a.name))}</td></tr>
+    <tr><td>Scratch (${pl.scratch.length})</td><td>${names(pl.scratch.map(r=>r.name))}</td></tr>
+    ${pl.held.length?`<tr><td>Kept active by your hand (${pl.held.length})</td><td>${names(pl.held.map(r=>r.name))}</td></tr>`:''}
+    ${pl.amb.length?`<tr><td style="color:var(--red-text)">Ambiguous, left alone (${pl.amb.length})</td><td>${names(pl.amb)}</td></tr>`:''}
+    </table><div class="desc" style="margin-top:6px">Kept players hold their bios, call-sheet notes, photos and hand edits. Scratched players stay on the roster as inactive; Edit any of them to bring him back.</div></div>`;
+}
+function bulkOpeningApply(list){
+  const pl=bulkOpeningPlan(list);
+  pl.keep.forEach(({p,hit})=>{
+    if(hit.active==='0'){hit.active='1';hit.handEdit=Object.assign({},hit.handEdit||{},{active:1});}
+    if(p.num&&String(hit.num||'')!==p.num&&!handOwns(hit,'num')){hit.num=p.num;hit.handEdit=Object.assign({},hit.handEdit||{},{num:1});}
+    ['pos','ht','wt','sh','birth'].forEach(k=>staleSet(hit,k,p[k]));
+  });
+  pl.add.forEach(p=>list.push(Object.assign({id:uid()},p)));
+  pl.scratch.forEach(r=>{r.active='0';r.handEdit=Object.assign({},r.handEdit||{},{active:1});});
+  return pl;
 }
 function bulkCommit(mode){
   const side=val('bulk_side');const list=getRoster(side);
   if(!BULK_PARSED.length){toast("Nothing to import");return;}
   if(mode==='replace'&&!confirm("Replace the entire current roster with these "+BULK_PARSED.length+" players?"))return;
+  if(mode==='opening'){
+    const pl=bulkOpeningPlan(list);
+    if(!confirm('Set this as the opening-day roster?\n\nKeep '+pl.keep.length+' · add '+pl.add.length+' · scratch '+pl.scratch.length+(pl.amb.length?' · '+pl.amb.length+' ambiguous left alone':'')+'\n\nNobody is deleted; scratched players can be brought back with Edit.'))return;
+    if(side==='home')DATA.roster=DATA.roster||[];else{const t=val('oppRosterTeam');DATA.oppRosters[t]=DATA.oppRosters[t]||[];}
+    const r=bulkOpeningApply(getRoster(side));
+    save();closeModal('bulkModal');
+    side==='home'?renderRoster():renderOppRoster();
+    toast('Opening-day roster set — '+r.keep.length+' kept, '+r.add.length+' added, '+r.scratch.length+' scratched');
+    return;
+  }
   const toAdd=BULK_PARSED.map(p=>Object.assign({id:uid()},p));
   if(side==='home'){DATA.roster=mode==='replace'?toAdd:DATA.roster.concat(toAdd);}
   else{const t=val('oppRosterTeam');DATA.oppRosters[t]=mode==='replace'?toAdd:(DATA.oppRosters[t]||[]).concat(toAdd);}
