@@ -37,6 +37,12 @@ function ppData(){
 }
 
 /* ---- small shared bits ---- */
+/* the jersey number for a player: what Jacob typed on this device wins; otherwise the
+   number seeded in the research (the Havoc camp numbers from the club); otherwise '' */
+function ppNum(p){
+  const typed=String(ppData().numbers[p.name]||'').trim();
+  return typed||String(p.number==null?'':p.number).trim();
+}
 function ppDash(v){return (v==null||String(v).trim()==='')?'—':esc(v);}
 function ppQ(s){return esc(s).replace(/'/g,'&#39;');}   // safe inside a single-quoted onclick arg
 /* +/- per GP: sign, two decimals, scope in small type. Missing is a dash, never 0. */
@@ -274,8 +280,8 @@ function ppNumSet(name,v){
   save();
   ppBuild();   // the printed pages carry the numbers too
 }
-function ppNumInput(name){
-  const v=ppData().numbers[name]||'';
+function ppNumInput(p){
+  const name=p.name,v=ppNum(p);
   return `<input class="pp-num" type="text" inputmode="numeric" maxlength="2" value="${esc(v)}"
     aria-label="Jersey number for ${esc(name)}" placeholder="—"
     onchange="ppNumSet('${ppQ(name)}',this.value)">`;
@@ -286,7 +292,7 @@ function ppRenderRosters(){
     const t=ppTeam(key);
     const grp=(label,list,isCoach)=>!list||!list.length?'':
       `<div class="section-label hub-sectionhead">${label}</div>`+list.map(p=>
-        `<div class="pp-row"><div class="pp-rnum">${ppNumInput(p.name)}</div>
+        `<div class="pp-row"><div class="pp-rnum">${ppNumInput(p)}</div>
           <div class="pp-rbody"><div class="pp-rname">${esc(p.name)} ${ppTags(p)}
             <span class="pp-rpos">${esc(isCoach?(p.role||''):(p.pos||''))}</span></div>
           ${isCoach?'':`<div class="pp-rmeta">${ppDash(p.hometown)} &middot; ${ppDash(p.stats)} &middot; ${ppPM(p)}</div>`}
@@ -410,7 +416,7 @@ function ppCopyNumbers(){
   const o=ppData(),plan=[],skip=[];
   const consider=(side,list,label)=>{
     ppSkaters(side).forEach(p=>{
-      const n=(o.numbers[p.name]||'').trim();
+      const n=ppNum(p);
       if(!n)return;
       const hit=rosterMatch(p.name,list);
       if(!hit){skip.push('  no match on '+label+': '+p.name);return;}
@@ -472,7 +478,7 @@ function ppSeedOpp(){
       const np={id:uid(),name:p.name,pos:p.pos||'',notes:'',active:'1',bbio:first,callNote:first};
       if(p.hometown)np.birth=p.hometown;
       if(p.age!=null)np.age=String(p.age);
-      const n=(ppData().numbers[p.name]||'').trim();
+      const n=ppNum(p);
       if(n)np.num=n;
       list.push(np);
     });
@@ -537,11 +543,11 @@ function ppAddPron(){
    THE PRINTED PAGES — four letter sheets
    ============================================================ */
 function ppPaperRoster(side){
-  const t=ppTeam(side),o=ppData();
+  const t=ppTeam(side);
   const grp=(label,list,isCoach)=>{
     if(!list||!list.length)return '';
     return `<tr class="pp-grp"><td colspan="7">${label}</td></tr>`+list.map(p=>{
-      const num=ppDash((o.numbers[p.name]||'').trim());
+      const num=ppDash(ppNum(p));
       const notes=esc(p.notes||'')+(p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:'');
       if(isCoach)return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${esc(p.role||'')}</td><td colspan="4">${notes}</td></tr>`;
       return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${ppDash(p.pos)}</td>
