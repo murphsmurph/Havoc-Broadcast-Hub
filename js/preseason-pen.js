@@ -292,7 +292,7 @@ function ppRenderRosters(){
     const t=ppTeam(key);
     const grp=(label,list,isCoach)=>!list||!list.length?'':
       `<div class="section-label hub-sectionhead">${label}</div>`+list.map(p=>
-        `<div class="pp-row"><div class="pp-rnum">${ppNumInput(p)}</div>
+        `<div class="pp-row"><div class="pp-rnum">${isCoach?'':ppNumInput(p)}</div>
           <div class="pp-rbody"><div class="pp-rname">${esc(p.name)} ${ppTags(p)}
             <span class="pp-rpos">${esc(isCoach?(p.role||''):(p.pos||''))}</span></div>
           ${isCoach?'':`<div class="pp-rmeta">${ppDash(p.hometown)} &middot; ${ppDash(p.stats)} &middot; ${ppPM(p)}</div>`}
@@ -566,7 +566,7 @@ function ppPaperRoster(side){
     return `<tr class="pp-grp"><td colspan="7">${label}</td></tr>`+list.map(p=>{
       const num=ppDash(ppNum(p));
       const notes=esc(p.notes||'')+(p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:'');
-      if(isCoach)return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${esc(p.role||'')}</td><td colspan="4">${notes}</td></tr>`;
+      if(isCoach)return `<tr><td class="r"></td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${esc(p.role||'')}</td><td colspan="4">${notes}</td></tr>`;
       return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${ppDash(p.pos)}</td>
         <td>${ppDash(p.hometown)}</td><td>${ppDash(p.stats)}</td><td class="r">${ppPM(p)}</td><td>${notes}</td></tr>`;
     }).join('');
