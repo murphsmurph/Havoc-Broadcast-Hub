@@ -297,8 +297,10 @@ function ppRenderRosters(){
             <span class="pp-rpos">${esc(isCoach?(p.role||''):(p.pos||''))}</span></div>
           ${isCoach?'':`<div class="pp-rmeta">${ppDash(p.hometown)} &middot; ${ppDash(p.stats)} &middot; ${ppPM(p)}</div>`}
           <div class="pp-rnotes">${esc(p.notes||'')}</div>${isCoach?'':ppStudyDetails(p,key)}</div></div>`).join('');
+    const G=ppStudy(),src=key==='pensacola'&&G&&G.players&&G.players.pensacolaSources;   // the guide's "Sources for these three" line
     return `<div><h3 class="pp-teamhead">${esc(name)}</h3>
-      ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}</div>`;
+      ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}
+      ${src?`<p class="pp-small pp-rsrc">${esc(String(src.text||'').split(':')[0])}: ${(src.links||[]).map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join(' &middot; ')}</p>`:''}</div>`;
   };
   el.innerHTML=side('Huntsville Havoc','havoc')+side(PP_TEAM,'pensacola');
 }
@@ -557,20 +559,26 @@ function ppAddPron(){
 }
 
 /* ============================================================
-   PLAYER STUDY GUIDE — Jacob's Oct 7 research, from js/preseason-pen-study.js
-   Matched to the camp roster by name. On screen it sits under each roster row
+   PLAYER STUDY GUIDE — Jacob's Oct 7 research, revised Oct 8, from js/preseason-pen-study.js
+   Matched to the camp roster by name (or by last name and number when the guide has only
+   a surname, as with #3 Jakovljevic). On screen it sits under each roster row
    and in three cards (signed-not-on-list, benches and ties, booth reference);
    on paper it is the back half of the packet and its own Study guide view.
    ============================================================ */
-const PP_STUDY_FIELDS=[['id','ID'],['path','Path'],['lastSeason','Last season'],['honors','Honors'],['talkingPoints','Talking points'],['ties','Ties'],['check','Check'],['numberCheck','Number check']];
+const PP_STUDY_FIELDS=[['matchCheck','Match check'],['id','ID'],['path','Path'],['lastSeason','Last season'],['honors','Honors'],['talkingPoints','Talking points'],['ties','Ties'],['check','Check'],['numberCheck','Number check']];
 function ppStudy(){return (typeof PRESEASON_STUDY!=='undefined'&&PRESEASON_STUDY)||null;}
 function ppStudyFor(p,side){
   const S=ppStudy();if(!S||!p)return null;
-  const k=norm(p.name);
-  return (((S.players||{})[side])||[]).find(e=>norm(e.name)===k)||null;
+  const k=norm(p.name),list=((S.players||{})[side])||[];
+  const hit=list.find(e=>norm(e.name)===k);if(hit)return hit;
+  /* a surname-only entry ("#3 Jakovljevic — D (new; confirm first name)") matches the roster
+     player with that last name, and the same number when both carry one */
+  const last=norm(String(p.name||'').trim().split(/\s+/).pop()||'');
+  return last&&list.find(e=>!/\s/.test(String(e.name).trim())&&norm(e.name)===last&&(!e.num||!p.number||String(e.num)===String(p.number)))||null;
 }
-/* the guide's ID line without the birthdate — "Shoots R · 6-0, 170 · 29 · Livonia, Mich." */
-function ppStudyVitals(e){return e&&e.id?String(e.id).replace(/\s*\(b\.[^)]*\)/,'').trim():'';}
+/* the guide's ID line without the birthdate or the "· Say:" pronunciation — "Shoots R · 6-0, 170 · 29 · Livonia, Mich."
+   (the call-sheet card is one line; the sheet's pronunciation box carries the sayings) */
+function ppStudyVitals(e){return e&&e.id?String(e.id).replace(/\s*\(b\.[^)]*\)/,'').replace(/\s*·\s*Say:.*$/,'').trim():'';}
 function ppStudyFieldsHTML(e,cls){
   return PP_STUDY_FIELDS.filter(([k])=>e[k]).map(([k,label])=>`<div class="${cls}"><b>${label}:</b> ${esc(e[k])}</div>`).join('');
 }
@@ -662,7 +670,8 @@ function ppStudyPages(red,S){
   if(N||W)pages.push(pgWrap(red,S,'NOT ON THE LIST &middot; WHO KNOWS WHOM',`
     ${N?`<div class="box"><h3>Signed by the Havoc, not on the preseason list</h3><div class="pp-fact">${esc(N.intro)}</div>${ppPaperRefTable(N)}</div>`:''}
     ${W?`<div class="box"><h3>Who knows whom</h3>${ppPaperRefTable(W)}</div>`:''}`));
-  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML)),'pp-flow',7));
+  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML))
+    .concat(P.pensacolaSources?[`<div class="pp-se pp-se-intro pp-se-src">${esc(P.pensacolaSources.text||'')}</div>`]:[]),'pp-flow',7));
   const ref=[];
   const R=G.rinkSpots,Y=G.synonyms,C=G.situational,U=G.ruleChanges,K=G.keyRules;
   if(R)ref.push(`<div class="box"><h3>Rink locations and shorthand</h3><div class="pp-fact">${esc(R.intro)}</div>${G.rinkMapNote?`<div class="pp-fact"><i>Rink map: ${esc(G.rinkMapNote)}</i></div>`:''}${ppPaperRefTable(R)}</div>`);
@@ -680,7 +689,7 @@ function ppStudyPages(red,S){
    CALL SHEETS — one portrait page per team, built from the camp data
    Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
    same team colours (teamPal), but every value comes from PRESEASON_PEN plus
-   what is typed on this tab: the 18 Havoc and 19 Pensacola players who dress
+   what is typed on this tab: the 18 Havoc and 22 Pensacola players who dress
    Friday, their numbers, positions, hometowns, stat lines and notes. The
    folders read the stored rosters and need the seed buttons first; these do not.
    ============================================================ */

@@ -1,7 +1,7 @@
 /* Havoc Broadcast Hub service worker — network-first with cache fallback so
    deploys always win online and the booth still works offline.
    Registered with a relative path, so scope follows the GitHub Pages subpath. */
-const CACHE='havoc-hub-v16';
+const CACHE='havoc-hub-v17';
 const HEADS='havoc-heads-v1'; // HockeyTech headshots — cache-first so packets build offline
 /* Precache is best-effort PER FILE, never atomic. cache.addAll rejects the whole
    install if a single entry 404s, which silently leaves the booth with no service

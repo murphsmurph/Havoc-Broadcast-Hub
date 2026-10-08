@@ -513,6 +513,7 @@
   .page .pp-refflow .box{break-inside:avoid;}
   .page .pp-se{break-inside:avoid;margin-bottom:7px;font-size:8px;line-height:1.3;}
   .page .pp-se-intro{font-style:italic;column-span:all;margin-bottom:5px;}
+  .page .pp-se-src{font-style:normal;font-size:8.5pt;color:#444;margin-top:6px;}
   .page .pp-se-h{font-size:9.5px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;padding-bottom:1px;}
   .page .pp-se-t{font-weight:700;text-transform:none;color:#555;}
   .page .pp-se-f{margin-bottom:1px;} .page .pp-se-f b{font-weight:900;}
