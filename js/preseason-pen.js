@@ -337,7 +337,7 @@ function ppRenderPron(){
   const list=ppSrc().pronunciations||[];
   if(!list.length){el.innerHTML='<div class="empty">No pronunciation flags in the research.</div>';return;}
   el.innerHTML=ppTable('roster pp-t',['Team','Name','Researched guess','Confidence','Say it'],list.map(p=>{
-    const conf=p.confidence==='ask'?'<span class="pill warn">ask</span>':`<span class="pill grey">${esc(p.confidence||'')}</span>`;
+    const conf=p.confidence==='ask'?'<span class="pill warn">ask</span>':(p.confidence==='team'?'<span class="pill ok" title="From Pensacola PR">team</span>':`<span class="pill grey">${esc(p.confidence||'')}</span>`);
     return `<tr><td>${ppDash(p.team)}</td><td class="nm">${esc(p.name)}</td><td>${ppDash(p.guess)}</td><td>${conf}</td>
       <td><input class="pp-say" type="text" value="${esc(ppSay(p))}" placeholder="—"
         aria-label="Pronunciation for ${esc(p.name)}" onchange="ppPronSet('${ppQ(p.name)}',this.value)"></td></tr>`;
@@ -750,7 +750,7 @@ function ppCallSheet(side){
     <div class="cs-body">
       <div class="cs-main">
         <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${F.length})</div>${grid(F,'F',4)}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',3)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',Dd.length>6?4:3)}
         <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${G.length})</div>${grid(G,'G',3)}
       </div>
       ${sb}
@@ -861,21 +861,22 @@ function ppBuild(){
     </div>
     <div class="box"><h3>Last three seasons</h3>${ppPaperTable(PP_SEASON_HEAD,ppSeasonRows())}</div>`));
 
-  /* page 3 — Havoc roster with coaches and numbers */
-  pages.push(pgWrap(red,S,'HAVOC CAMP ROSTER',`
-    <div class="box"><h3>Coaches and players</h3>${ppPaperRoster('havoc')}</div>`));
-
-  /* page 4 — Pensacola roster, then the pronunciation flags */
+  /* page 3 — Havoc roster with coaches and numbers, then the pronunciation flags for both
+     teams (the Havoc page has the room; Pensacola's 22-man list fills page 4 on its own) */
   const pron=(D.pronunciations||[]);
   const pronRows=list=>list.map(p=>{const say=ppSay(p);
     return `<tr><td>${ppDash(p.team)}</td><td><b>${esc(p.name)}</b></td><td>${say?esc(say):'<i>ask</i>'}</td></tr>`;}).join('');
   const third=Math.ceil(pron.length/3);   // three-up keeps the flags to a few lines under the roster
-  pages.push(pgWrap(red,S,'PENSACOLA CAMP ROSTER',`
-    <div class="box"><h3>Coaches and players</h3>${ppPaperRoster('pensacola')}</div>
-    <div class="box"><h3>Pronunciation flags</h3><div class="pp-cols3">
+  pages.push(pgWrap(red,S,'HAVOC CAMP ROSTER',`
+    <div class="box"><h3>Coaches and players</h3>${ppPaperRoster('havoc')}</div>
+    <div class="box"><h3>Pronunciation flags &mdash; both teams</h3><div class="pp-cols3">
       ${ppPaperTable(['Team','Name','Say it'],pronRows(pron.slice(0,third)))}
       ${ppPaperTable(['Team','Name','Say it'],pronRows(pron.slice(third,2*third)))}
       ${ppPaperTable(['Team','Name','Say it'],pronRows(pron.slice(2*third)))}</div></div>`));
+
+  /* page 4 — Pensacola roster */
+  pages.push(pgWrap(red,S,'PENSACOLA CAMP ROSTER',`
+    <div class="box"><h3>Coaches and players</h3>${ppPaperRoster('pensacola')}</div>`));
 
   pages.push(...ppStudyPages(red,S));   // the study guide is the back half of the packet
   if(st)st.textContent='Letter · '+pages.length+' pages · prints to PDF';
