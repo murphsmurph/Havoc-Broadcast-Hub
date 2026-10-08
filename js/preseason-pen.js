@@ -557,6 +557,92 @@ function ppAddPron(){
 }
 
 /* ============================================================
+   CALL SHEETS — one portrait page per team, built from the camp data
+   Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
+   same team colours (teamPal), but every value comes from PRESEASON_PEN plus
+   what is typed on this tab: the 18 Havoc and 19 Pensacola players who dress
+   Friday, their numbers, positions, hometowns, stat lines and notes. The
+   folders read the stored rosters and need the seed buttons first; these do not.
+   ============================================================ */
+let PP_VIEW='packet';   // 'packet' (four pages) | 'calls' (two call sheets)
+function ppView(v){
+  PP_VIEW=v==='calls'?'calls':'packet';
+  const a=document.getElementById('ppViewPacket'),b=document.getElementById('ppViewCalls');
+  if(a)a.classList.toggle('active',PP_VIEW==='packet');
+  if(b)b.classList.toggle('active',PP_VIEW==='calls');
+  ppBuild();
+}
+function ppCsCard(p,pal,group){
+  const parts=String(p.name||'').trim().split(/\s+/);
+  let first='',last='';
+  if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+  const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
+  const vitals=[p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—';
+  const num=ppNum(p);
+  return `<div class="cs-card" style="border-color:${edge}">
+    <div class="cs-top">
+      <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(num)}</span>
+      <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
+    </div>
+    <div class="cs-vitals">${vitals}${(p.tags||[]).length?' '+ppTags(p):''}</div>
+    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}</div>
+    ${p.plusMinusPerGP!=null?`<div class="cs-stat"><i>+/- PER GP:</i> ${ppPM(p)}</div>`:''}
+    ${p.echlLastSeason?`<div class="cs-stat"><i>ECHL LAST SEASON:</i> ${esc(p.echlLastSeason)}</div>`:''}
+    <div class="cs-lab">NOTES:</div>
+    <div class="cs-note">${esc(p.notes||'')||'<span class="cs-ph">—</span>'}${p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:''}</div>
+  </div>`;
+}
+function ppCsBox(title,rows){
+  return `<div class="cs-sb-box"><div class="cs-sb-h">${esc(title)}</div>`+
+    (rows.length?rows.map(r=>'<div class="cs-sb-row">'+esc(r)+'</div>').join(''):'<div class="cs-sb-row cs-dim">—</div>')+'</div>';
+}
+function ppCallSheet(side){
+  const D=ppSrc(),S=DATA.settings,m=D.meta||{},t=ppTeam(side),o=ppData();
+  const isHome=side==='havoc';
+  const team=t.name||(isHome?'Huntsville Havoc':PP_TEAM);
+  const pal=teamPal(team);
+  const primary=isHome?(S.red||pal.primary):pal.primary;
+  const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
+  const grid=(arr,group,cols)=>(arr||[]).length
+    ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group)).join('')}</div>`
+    :'<div class="cs-none">No players in this group.</div>';
+  const co=t.coaches||[];
+  const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
+  const coach=[hc?'HEAD COACH: '+hc.name:'',ac.length?'ASST. COACH'+(ac.length>1?'ES':'')+': '+ac.map(c=>c.name).join(', '):''].filter(Boolean).join('  /  ');
+  const d=m.date?new Date(m.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
+  const game=[(m.gameType||'Preseason').toUpperCase(),d,'Huntsville Havoc vs. '+(m.opponent||PP_TEAM),(o.venue||'').trim()||'Venue: confirm',m.puckDropCT?m.puckDropCT+' CT':''].filter(Boolean).join('  ·  ');
+  const abbr=isHome?'HSV':'PEN';
+  const pron=(D.pronunciations||[]).filter(x=>x.team===abbr).map(x=>{const say=ppSay(x);return x.name+': '+(say||'ask');});
+  const side1=isHome
+    ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
+    :ppCsBox('FORMER FLYERS AT ECHL CAMPS',D.formerFlyersAtEchl||[]);
+  const sb=`<aside class="cs-side" style="width:170px">
+    ${side1}
+    ${ppCsBox('PRONUNCIATION',pron)}
+    <div class="cs-sb-box"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
+    <div class="cs-sb-box cs-grow"><div class="cs-sb-h">NOTES</div><div class="cs-write cs-write-grow"></div></div>
+  </aside>`;
+  const F=t.forwards||[],Dd=t.defense||[],G=t.goalies||[];
+  return `<div class="page lc-page cs-page pp-cs">
+    <div class="cs-head" style="background:${primary};color:${pal.textOn}">
+      <div class="cs-h1">${esc(team.toUpperCase())} &mdash; PRESEASON ROSTER</div>
+      ${coach?`<div class="cs-h2">${esc(coach)}</div>`:''}
+    </div>
+    <div class="cs-game">${esc(game)}</div>
+    <div class="cs-body">
+      <div class="cs-main">
+        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${F.length})</div>${grid(F,'F',3)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',2)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${G.length})</div>${grid(G,'G',2)}
+      </div>
+      ${sb}
+    </div>
+    <div class="fd-contact">${esc(S.mediaName||'')} | ${esc(S.mediaTitle||'')} &middot; ${esc(S.mediaPhone||'')} &middot; ${esc(S.mediaEmail||'')}</div>
+    ${dataStampHTML('preseason')}
+  </div>`;
+}
+
+/* ============================================================
    THE PRINTED PAGES — four letter sheets
    ============================================================ */
 function ppPaperRoster(side){
@@ -583,6 +669,15 @@ function ppBuild(){
       '<div class="b" style="font-size:10px">js/preseason-pen-data.js did not load, so there is nothing to print.</div></div></div>';
     return;
   }
+  const st=document.getElementById('ppStatus');
+  if(PP_VIEW==='calls'){
+    doc.innerHTML=['havoc','pensacola'].map((side,i)=>ppCallSheet(side)
+      .replace('<div class="page','<div data-sec="pp:cs'+(i+1)+'" class="hub-preview__page page')).join('');
+    if(st)st.textContent='Letter · 2 call sheets · prints to PDF';
+    ppFitReport();
+    return;
+  }
+  if(st)st.textContent='Letter · 4 pages · prints to PDF';
   const m=D.meta||{},T=D.topScorers||{},tc=D.trophyCase||{};
   const pages=[],gameRows=ppGameRows();
 
@@ -645,8 +740,8 @@ function ppFitReport(){
     const pages=[...document.querySelectorAll('#preseasonDoc .page')];
     if(!pages.length||!pages[0].offsetHeight){el.textContent='';el.className='';return;}  // panel hidden: nothing to measure
     let worst=0,who=0;
-    pages.forEach((p,i)=>{const over=Math.max(p.offsetHeight,p.scrollHeight)-1056;if(over>worst){worst=over;who=i+1;}});
-    if(worst<=2){el.className='fd-fit ok';el.textContent='Fits on '+pages.length+' page'+(pages.length===1?'':'s')+' ✓';}
+    pages.forEach((p,i)=>{const over=Math.max(p.offsetHeight-1056,p.scrollHeight-p.clientHeight);if(over>worst){worst=over;who=i+1;}});
+    if(worst<=2){el.className='fd-fit ok';el.textContent='Fits on '+pages.length+(PP_VIEW==='calls'?' call sheet':' page')+(pages.length===1?'':'s')+' ✓';}
     else{el.className='fd-fit bad';el.textContent='Page '+who+' overflows by ~'+(worst/96).toFixed(1)+' in — it will be cut off in print';}
   };
   if(typeof requestAnimationFrame==='function')requestAnimationFrame(run); else run();
@@ -655,7 +750,11 @@ function ppPrint(){
   ppBuild();
   const panel=document.getElementById('panel-preseason');
   panel.classList.add('printing');
-  setTimeout(()=>{window.print();panel.classList.remove('printing');},150);
+  /* the call sheets are lc-pages, sized 7.95 x 10.45in for letter with 0.25in margins
+     (the rule printDoc('folders') uses); the packet pages are full-bleed 8.5 x 11 */
+  let st=null;
+  if(PP_VIEW==='calls'){st=document.createElement('style');st.id='ppPrintPage';st.textContent='@page{size:letter portrait;margin:0.25in;}';document.head.appendChild(st);}
+  setTimeout(()=>{window.print();panel.classList.remove('printing');if(st)st.remove();},150);
 }
 
 /* ============================================================
