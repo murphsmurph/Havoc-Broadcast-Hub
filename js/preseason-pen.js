@@ -705,9 +705,7 @@ function ppCsCard(p,pal,group,side){
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
     </div>
     <div class="cs-vitals">${vitals}${(p.tags||[]).length?' '+ppTags(p):''}</div>
-    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}</div>
-    ${p.plusMinusPerGP!=null?`<div class="cs-stat"><i>+/- PER GP:</i> ${ppPM(p)}</div>`:''}
-    ${p.echlLastSeason?`<div class="cs-stat"><i>ECHL LAST SEASON:</i> ${esc(p.echlLastSeason)}</div>`:''}
+    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${p.echlLastSeason?` &middot; <i>ECHL LAST SEASON:</i> ${esc(p.echlLastSeason)}`:''}</div>
     <div class="cs-lab">NOTES:</div>
     <div class="cs-note">${esc(p.notes||'')||'<span class="cs-ph">—</span>'}${p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:''}</div>
   </div>`;
@@ -736,11 +734,11 @@ function ppCallSheet(side){
   const side1=isHome
     ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
     :ppCsBox('FORMER FLYERS AT ECHL CAMPS',D.formerFlyersAtEchl||[]);
-  const sb=`<aside class="cs-side" style="width:170px">
+  const sb=`<aside class="cs-side" style="width:134px">
     ${side1}
     ${ppCsBox('PRONUNCIATION',pron)}
-    <div class="cs-sb-box"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
-    <div class="cs-sb-box cs-grow"><div class="cs-sb-h">NOTES</div><div class="cs-write cs-write-grow"></div></div>
+    <div class="cs-sb-box pp-lines"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
+    <div class="cs-sb-box pp-notes"><div class="cs-sb-h">NOTES</div><div class="cs-write"></div></div>
   </aside>`;
   const F=t.forwards||[],Dd=t.defense||[],G=t.goalies||[];
   return `<div class="page lc-page cs-page pp-cs">
@@ -751,15 +749,39 @@ function ppCallSheet(side){
     <div class="cs-game">${esc(game)}</div>
     <div class="cs-body">
       <div class="cs-main">
-        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${F.length})</div>${grid(F,'F',3)}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',2)}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${G.length})</div>${grid(G,'G',2)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${F.length})</div>${grid(F,'F',4)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',3)}
+        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${G.length})</div>${grid(G,'G',3)}
       </div>
       ${sb}
     </div>
-    <div class="fd-contact">${esc(S.mediaName||'')} | ${esc(S.mediaTitle||'')} &middot; ${esc(S.mediaPhone||'')} &middot; ${esc(S.mediaEmail||'')}</div>
-    ${dataStampHTML('preseason')}
   </div>`;
+}
+/* Type size per sheet: each call sheet steps its type up as far as it can while
+   still fitting, measured at PRINT size (7.95 x 10.45in, the folders' letter
+   page with 0.25in margins — narrower than the 816px preview, so text wraps
+   more on paper). --csf scales every font on the sheet, --csl is the notes
+   clamp. The Havoc sheet (18 cards) ends up larger than Pensacola's (19). */
+/* larger type first, then more note lines: a step is (font scale, note lines) */
+const PP_CS_STEPS=[[1.3,5],[1.25,5],[1.2,5],[1.2,4],[1.15,5],[1.15,4],[1.1,6],[1.1,5],[1.1,4],[1.05,6],[1.05,5],[1.05,4],[1,6],[1,5],[1,4],[1,3],[0.95,3]];
+function ppCsOverflow(pg){
+  const main=pg.querySelector('.cs-main'),aside=pg.querySelector('.cs-side');
+  return Math.max(pg.scrollHeight-pg.clientHeight,main?main.scrollHeight-main.clientHeight:0,aside?aside.scrollHeight-aside.clientHeight:0);
+}
+function ppCsFit(){
+  document.querySelectorAll('#preseasonDoc .page.pp-cs').forEach(pg=>{
+    if(!pg.offsetWidth)return;                       // hidden panel: leave the defaults
+    const keep=[pg.style.width,pg.style.height,pg.style.minHeight];
+    pg.style.width='7.95in';pg.style.height='10.45in';pg.style.minHeight='0';   // measure at print size (the screen rule's min-height would hold it at 1056)
+    let chosen=PP_CS_STEPS[PP_CS_STEPS.length-1];
+    for(const [f,l] of PP_CS_STEPS){
+      pg.style.setProperty('--csf',f);pg.style.setProperty('--csl',l);
+      if(ppCsOverflow(pg)<=0){chosen=[f,l];break;}
+    }
+    pg.style.setProperty('--csf',chosen[0]);pg.style.setProperty('--csl',chosen[1]);
+    pg.dataset.csf=chosen[0];pg.dataset.csl=chosen[1];
+    pg.style.width=keep[0];pg.style.height=keep[1];pg.style.minHeight=keep[2];
+  });
 }
 
 /* ============================================================
@@ -794,6 +816,7 @@ function ppBuild(){
     doc.innerHTML=['havoc','pensacola'].map((side,i)=>ppCallSheet(side)
       .replace('<div class="page','<div data-sec="pp:cs'+(i+1)+'" class="hub-preview__page page')).join('');
     if(st)st.textContent='Letter · 2 call sheets · prints to PDF';
+    ppCsFit();
     ppFitReport();
     return;
   }
@@ -873,7 +896,7 @@ function ppFitReport(){
     const pages=[...document.querySelectorAll('#preseasonDoc .page')];
     if(!pages.length||!pages[0].offsetHeight){el.textContent='';el.className='';return;}  // panel hidden: nothing to measure
     let worst=0,who=0;
-    pages.forEach((p,i)=>{const over=Math.max(p.offsetHeight-1056,p.scrollHeight-p.clientHeight);if(over>worst){worst=over;who=i+1;}});
+    pages.forEach((p,i)=>{const over=p.classList.contains('pp-cs')?ppCsOverflow(p):Math.max(p.offsetHeight-1056,p.scrollHeight-p.clientHeight);if(over>worst){worst=over;who=i+1;}});
     if(worst<=2){el.className='fd-fit ok';el.textContent='Fits on '+pages.length+(PP_VIEW==='calls'?' call sheet':' page')+(pages.length===1?'':'s')+' ✓';}
     else{el.className='fd-fit bad';el.textContent='Page '+who+' overflows by ~'+(worst/96).toFixed(1)+' in — it will be cut off in print';}
   };
