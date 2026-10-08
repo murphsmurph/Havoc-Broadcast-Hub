@@ -637,7 +637,7 @@
 
     <div class="card hub-card no-print">
       <div class="section-label hub-sectionhead">Rosters</div>
-      <p class="desc">Type jersey numbers as you learn them. They save here and print on the roster pages; nothing is guessed.</p>
+      <p class="desc">Type jersey numbers as you learn them. They save here and print on the roster pages; nothing is guessed. Each player's Study guide opens under his notes.</p>
       <div class="btn-row">
         <button class="btn secondary" onclick="ppCopyNumbers()">Copy numbers to rosters</button>
         <button class="btn secondary" onclick="ppSeedOpp()">Seed Pensacola roster</button>
@@ -648,8 +648,18 @@
     </div>
 
     <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Benches and who knows whom</div>
+      <div id="ppBench"></div>
+    </div>
+
+    <div class="card hub-card no-print">
       <div class="section-label hub-sectionhead">Summer signings</div>
       <div class="grid g2" id="ppSignings"></div>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Signed, not on the preseason list</div>
+      <div id="ppNotOnList"></div>
     </div>
 
     <div class="card hub-card no-print">
@@ -666,6 +676,12 @@
     <div class="card hub-card no-print">
       <div class="section-label hub-sectionhead">Sources</div>
       <ul class="pp-list" id="ppSources"></ul>
+    </div>
+
+    <div class="card hub-card no-print">
+      <div class="section-label hub-sectionhead">Booth reference</div>
+      <p class="desc">From the study guide: rink shorthand, synonyms, situational calls, this season's rule changes and the rules to know on air. Each one opens on a tap; all of it prints in the packet and the Study guide view.</p>
+      <div id="ppBooth"></div>
     </div>
 
     <div class="card hub-card no-print" id="ppArchiveCard" style="display:none">
@@ -686,7 +702,7 @@
     </div>
 
     <div class="doc-frame">
-      <div class="doc-toolbar no-print"><span class="ttl">Preseason &mdash; preview</span><button class="subtab active" id="ppViewPacket" onclick="ppView('packet')">Packet</button><button class="subtab" id="ppViewCalls" onclick="ppView('calls')">Call sheets</button><div class="spacer"></div><span id="ppFit"></span><span class="header-status" id="ppStatus">Letter &middot; 4 pages &middot; prints to PDF</span></div>
+      <div class="doc-toolbar no-print"><span class="ttl">Preseason &mdash; preview</span><button class="subtab active" id="ppViewPacket" onclick="ppView('packet')">Packet</button><button class="subtab" id="ppViewCalls" onclick="ppView('calls')">Call sheets</button><button class="subtab" id="ppViewStudy" onclick="ppView('study')">Study guide</button><div class="spacer"></div><span id="ppFit"></span><span class="header-status" id="ppStatus">Letter &middot; 4 pages &middot; prints to PDF</span></div>
       <div class="doc-scroll hub-preview" id="preseasonDoc"></div>
     </div>
   </section>
@@ -862,6 +878,7 @@
 <script src="js/print.js"></script>
 <script src="js/booth.js"></script>
 <script src="js/preseason-pen-data.js"></script>
+<script src="js/preseason-pen-study.js"></script>
 <script src="js/preseason-pen.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/boot.js"></script>

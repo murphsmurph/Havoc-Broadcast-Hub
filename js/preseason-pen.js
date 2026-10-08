@@ -296,7 +296,7 @@ function ppRenderRosters(){
           <div class="pp-rbody"><div class="pp-rname">${esc(p.name)} ${ppTags(p)}
             <span class="pp-rpos">${esc(isCoach?(p.role||''):(p.pos||''))}</span></div>
           ${isCoach?'':`<div class="pp-rmeta">${ppDash(p.hometown)} &middot; ${ppDash(p.stats)} &middot; ${ppPM(p)}</div>`}
-          <div class="pp-rnotes">${esc(p.notes||'')}</div></div></div>`).join('');
+          <div class="pp-rnotes">${esc(p.notes||'')}</div>${isCoach?'':ppStudyDetails(p,key)}</div></div>`).join('');
     return `<div><h3 class="pp-teamhead">${esc(name)}</h3>
       ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}</div>`;
   };
@@ -557,6 +557,126 @@ function ppAddPron(){
 }
 
 /* ============================================================
+   PLAYER STUDY GUIDE — Jacob's Oct 7 research, from js/preseason-pen-study.js
+   Matched to the camp roster by name. On screen it sits under each roster row
+   and in three cards (signed-not-on-list, benches and ties, booth reference);
+   on paper it is the back half of the packet and its own Study guide view.
+   ============================================================ */
+const PP_STUDY_FIELDS=[['id','ID'],['path','Path'],['lastSeason','Last season'],['honors','Honors'],['talkingPoints','Talking points'],['ties','Ties'],['check','Check'],['numberCheck','Number check']];
+function ppStudy(){return (typeof PRESEASON_STUDY!=='undefined'&&PRESEASON_STUDY)||null;}
+function ppStudyFor(p,side){
+  const S=ppStudy();if(!S||!p)return null;
+  const k=norm(p.name);
+  return (((S.players||{})[side])||[]).find(e=>norm(e.name)===k)||null;
+}
+/* the guide's ID line without the birthdate — "Shoots R · 6-0, 170 · 29 · Livonia, Mich." */
+function ppStudyVitals(e){return e&&e.id?String(e.id).replace(/\s*\(b\.[^)]*\)/,'').trim():'';}
+function ppStudyFieldsHTML(e,cls){
+  return PP_STUDY_FIELDS.filter(([k])=>e[k]).map(([k,label])=>`<div class="${cls}"><b>${label}:</b> ${esc(e[k])}</div>`).join('');
+}
+/* under a roster row on screen */
+function ppStudyDetails(p,side){
+  const e=ppStudyFor(p,side);if(!e)return '';
+  return `<details class="pp-study"><summary>Study guide</summary><div class="pp-study-b">${ppStudyFieldsHTML(e,'pp-study-f')}</div></details>`;
+}
+function ppStudyBullets(list){return (list||[]).map(b=>`<li>${b.label?'<b>'+esc(b.label)+':</b> ':''}${esc(b.text)}</li>`).join('');}
+function ppRenderNotOnList(){
+  const el=document.getElementById('ppNotOnList');if(!el)return;
+  const S=ppStudy();const N=S&&S.notOnList;
+  if(!N){el.innerHTML='<div class="empty">No study guide loaded.</div>';return;}
+  el.innerHTML=`<p class="desc">${esc(N.intro)}</p><div class="hub-tablewrap">${ppTable('roster pp-t',N.head,N.rows.map(r=>'<tr>'+N.head.map((h,i)=>`<td${i===0?' class="nm"':''}>${esc(r[h])}</td>`).join('')+'</tr>').join(''))}</div>`;
+}
+function ppRenderBench(){
+  const el=document.getElementById('ppBench');if(!el)return;
+  const S=ppStudy();const B=S&&S.benches,W=S&&S.whoKnowsWhom;
+  if(!B){el.innerHTML='<div class="empty">No study guide loaded.</div>';return;}
+  const bench=(name,list)=>`<div><h3 class="pp-teamhead">${esc(name)}</h3><ul class="pp-list">${(list||[]).map(b=>`<li><b>${esc(b.role)} ${esc(b.name)}:</b> ${esc(b.text)}</li>`).join('')}</ul></div>`;
+  el.innerHTML=`<p class="desc">${esc(B.intro||'')}</p><div class="grid g2">${bench('Huntsville bench',B.havoc)}${bench('Pensacola bench',B.pensacola)}</div>
+    ${W?`<div class="section-label hub-sectionhead">Who knows whom</div><div class="hub-tablewrap">${ppTable('roster pp-t',W.head,W.rows.map(r=>'<tr>'+W.head.map((h,i)=>`<td${i===0?' class="nm"':''}>${esc(r[h])}</td>`).join('')+'</tr>').join(''))}</div>`:''}`;
+}
+function ppRefTable(T){return ppTable('roster pp-t',T.head,T.rows.map(r=>'<tr>'+T.head.map((h,i)=>`<td${i===0?' class="nm"':''}>${esc(r[h])}</td>`).join('')+'</tr>').join(''));}
+function ppRenderBooth(){
+  const el=document.getElementById('ppBooth');if(!el)return;
+  const S=ppStudy();
+  if(!S){el.innerHTML='<div class="empty">No study guide loaded.</div>';return;}
+  const det=(title,html,open)=>`<details class="pp-ref"${open?' open':''}><summary>${esc(title)}</summary><div class="pp-ref-b">${html}</div></details>`;
+  const groups=(G)=>(G||[]).map(g=>`<h4>${esc(g.title)}</h4><ul class="pp-list">${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul>`).join('');
+  const R=S.rinkSpots,Y=S.synonyms,C=S.situational,U=S.ruleChanges,K=S.keyRules;
+  el.innerHTML=
+    (R?det('Rink locations and shorthand',`<p class="desc">${esc(R.intro)}</p>${S.rinkMapNote?`<p class="desc"><i>Rink map: ${esc(S.rinkMapNote)}</i></p>`:''}<div class="hub-tablewrap">${ppRefTable(R)}</div>`):'')+
+    (Y?det('Synonyms: say it a different way',`<p class="desc">${esc(Y.intro)}</p><div class="hub-tablewrap">${ppRefTable(Y)}</div>`):'')+
+    (C?det('Situational calls',`<p class="desc">${esc(C.intro)}</p>${groups(C.groups)}`):'')+
+    (U?det('Rule changes for 2026-27',`<p class="desc">${esc(U.intro)}</p><div class="hub-tablewrap">${ppRefTable(U)}</div><ul class="pp-list">${ppStudyBullets(U.notes)}</ul>
+      ${U.carriedOver?`<h4>Added last season and still in the book</h4><p class="desc">${esc(U.carriedOver.intro)}</p><ul class="pp-list">${ppStudyBullets(U.carriedOver.bullets)}</ul><p class="pp-small">Sources: ${(U.carriedOver.sources||[]).map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join(' · ')}</p>`:''}`):'')+
+    (K?det('Key rules to know on air',`<p class="desc">${esc(K.intro)}</p>${groups(K.groups)}`):'')+
+    (S.sources?det('Study guide sources',`<p class="desc">${esc(S.sources.intro)}</p>${(S.sources.groups||[]).map(g=>`<h4>${esc(g.group)}</h4><ul class="pp-list">${g.items.map(x=>`<li><a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a></li>`).join('')}</ul>`).join('')}`):'');
+}
+
+/* ---- paper: the study pages ----
+   Fixed pages where the content is known to fit; flowed pages for the player
+   entries and the booth reference, where blocks are laid onto a measuring page
+   one at a time and a new page starts when the next block would overflow. */
+function ppFlow(red,S,title,blocks,cls,perFallback){
+  const doc=document.getElementById('preseasonDoc');
+  const render=arr=>pgWrap(red,S,title,`<div class="${cls}">${arr.join('')}</div>`);
+  /* measure exactly what will be shown: the data stamp joins the footer box on the
+     real page (pgFooterFix moves it there), so it has to be on the probe page too */
+  const stamp=dataStampHTML('preseason');
+  if(!doc||!doc.offsetWidth){   // panel hidden: cannot measure, so a safe fixed count per page
+    const out=[];for(let i=0;i<blocks.length;i+=perFallback)out.push(render(blocks.slice(i,i+perFallback)));return out;
+  }
+  const probe=document.createElement('div');probe.className='pp-probe';probe.style.cssText='position:absolute;left:-9999px;top:0;width:816px;';
+  doc.appendChild(probe);
+  const fits=arr=>{probe.innerHTML=render(arr).replace('<div class="gn-foot"',stamp+'<div class="gn-foot"');const pg=probe.firstElementChild;if(typeof pgFooterFix==='function')pgFooterFix(probe);
+    /* a .page has min-height 1056 on screen, so its box never tells how much room is left;
+       drop the floor on the probe copy and its natural height (content + footer pad) is the
+       real measure. 6px of slack for print rounding. */
+    pg.style.minHeight='0';
+    return pg.offsetHeight<=1056-6;};
+  const pages=[];let cur=[];
+  blocks.forEach(b=>{
+    if(!cur.length||fits(cur.concat([b]))){cur.push(b);return;}
+    pages.push(render(cur));cur=[b];
+  });
+  if(cur.length)pages.push(render(cur));
+  probe.remove();
+  return pages;
+}
+function ppStudyEntryHTML(e){
+  return `<div class="pp-se"><div class="pp-se-h">${e.num?'#'+esc(e.num)+' ':''}${esc(e.name)} &mdash; ${esc(e.pos)}${(e.tags||[]).length?` <span class="pp-se-t">(${esc(e.tags.join(', '))})</span>`:''}</div>${ppStudyFieldsHTML(e,'pp-se-f')}</div>`;
+}
+function ppPaperRefTable(T){return ppPaperTable(T.head,T.rows.map(r=>'<tr>'+T.head.map(h=>`<td>${esc(r[h])}</td>`).join('')+'</tr>').join(''));}
+function ppStudyPages(red,S){
+  const G=ppStudy();if(!G)return [];
+  const pages=[];
+  const A=G.atAGlance||{},T=G.seriesTable,B=G.benches||{};
+  const bench=(name,list)=>`<div class="box"><h3>${name}</h3>${(list||[]).map(b=>`<div class="pp-fact"><b>${esc(b.role)} ${esc(b.name)}:</b> ${esc(b.text)}</div>`).join('')}</div>`;
+  pages.push(pgWrap(red,S,'STUDY GUIDE &middot; AT A GLANCE',`
+    <div class="box"><h3>At a glance</h3><div class="pp-fact">${esc(A.intro||'')}</div><ul class="pp-list">${ppStudyBullets(A.bullets)}</ul><div class="pp-fact"><i>${esc(A.entryNote||'')}</i></div></div>
+    ${T?`<div class="box"><h3>${esc(T.title)}</h3>${ppPaperRefTable(T)}</div>`:''}
+    <div class="pp-fact">${esc(B.intro||'')}</div>
+    <div class="pp-cols2">${bench('Huntsville bench',B.havoc)}${bench('Pensacola bench',B.pensacola)}</div>`));
+  const P=G.players||{};
+  if((P.havoc||[]).length)pages.push(...ppFlow(red,S,'HAVOC &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.havocIntro||'')}</div>`].concat(P.havoc.map(ppStudyEntryHTML)),'pp-flow',7));
+  const N=G.notOnList,W=G.whoKnowsWhom;
+  if(N||W)pages.push(pgWrap(red,S,'NOT ON THE LIST &middot; WHO KNOWS WHOM',`
+    ${N?`<div class="box"><h3>Signed by the Havoc, not on the preseason list</h3><div class="pp-fact">${esc(N.intro)}</div>${ppPaperRefTable(N)}</div>`:''}
+    ${W?`<div class="box"><h3>Who knows whom</h3>${ppPaperRefTable(W)}</div>`:''}`));
+  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML)),'pp-flow',7));
+  const ref=[];
+  const R=G.rinkSpots,Y=G.synonyms,C=G.situational,U=G.ruleChanges,K=G.keyRules;
+  if(R)ref.push(`<div class="box"><h3>Rink locations and shorthand</h3><div class="pp-fact">${esc(R.intro)}</div>${G.rinkMapNote?`<div class="pp-fact"><i>Rink map: ${esc(G.rinkMapNote)}</i></div>`:''}${ppPaperRefTable(R)}</div>`);
+  if(Y)ref.push(`<div class="box"><h3>Synonyms: say it a different way</h3><div class="pp-fact">${esc(Y.intro)}</div>${ppPaperRefTable(Y)}</div>`);
+  if(C){ref.push(`<div class="box"><h3>Situational calls</h3><div class="pp-fact">${esc(C.intro)}</div></div>`);(C.groups||[]).forEach(g=>ref.push(`<div class="box"><h3>${esc(g.title)}</h3><ul class="pp-list">${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`));}
+  if(U){ref.push(`<div class="box"><h3>Rule changes for 2026-27</h3><div class="pp-fact">${esc(U.intro)}</div>${ppPaperRefTable(U)}<ul class="pp-list">${ppStudyBullets(U.notes)}</ul></div>`);
+    if(U.carriedOver)ref.push(`<div class="box"><h3>Added last season and still in the book</h3><div class="pp-fact">${esc(U.carriedOver.intro)}</div><ul class="pp-list">${ppStudyBullets(U.carriedOver.bullets)}</ul></div>`);}
+  if(K){ref.push(`<div class="box"><h3>Key rules to know on air</h3><div class="pp-fact">${esc(K.intro)}</div></div>`);(K.groups||[]).forEach(g=>ref.push(`<div class="box"><h3>${esc(g.title)}</h3><ul class="pp-list">${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`));}
+  if(G.sources)ref.push(`<div class="box"><h3>Study guide sources</h3><div class="pp-fact">${esc(G.sources.intro)}</div>${(G.sources.groups||[]).map(g=>`<div class="pp-sub">${esc(g.group)}</div><ul class="pp-list">${g.items.map(x=>`<li>${esc(x.label)} &mdash; ${esc(x.url)}</li>`).join('')}</ul>`).join('')}</div>`);
+  if(ref.length)pages.push(...ppFlow(red,S,'BOOTH REFERENCE',ref,'pp-refflow',3));
+  return pages;
+}
+
+/* ============================================================
    CALL SHEETS — one portrait page per team, built from the camp data
    Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
    same team colours (teamPal), but every value comes from PRESEASON_PEN plus
@@ -564,20 +684,20 @@ function ppAddPron(){
    Friday, their numbers, positions, hometowns, stat lines and notes. The
    folders read the stored rosters and need the seed buttons first; these do not.
    ============================================================ */
-let PP_VIEW='packet';   // 'packet' (four pages) | 'calls' (two call sheets)
+let PP_VIEW='packet';   // 'packet' (four pages + the study guide) | 'calls' (two call sheets) | 'study' (the study guide alone)
 function ppView(v){
-  PP_VIEW=v==='calls'?'calls':'packet';
-  const a=document.getElementById('ppViewPacket'),b=document.getElementById('ppViewCalls');
-  if(a)a.classList.toggle('active',PP_VIEW==='packet');
-  if(b)b.classList.toggle('active',PP_VIEW==='calls');
+  PP_VIEW=(v==='calls'||v==='study')?v:'packet';
+  [['ppViewPacket','packet'],['ppViewCalls','calls'],['ppViewStudy','study']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',PP_VIEW===k);});
   ppBuild();
 }
-function ppCsCard(p,pal,group){
+function ppCsCard(p,pal,group,side){
   const parts=String(p.name||'').trim().split(/\s+/);
   let first='',last='';
   if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
   const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const vitals=[p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—';
+  const sv=ppStudyVitals(ppStudyFor(p,side));   // the study guide's ID line when there is one
+  const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
+    :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
   const num=ppNum(p);
   return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
@@ -604,7 +724,7 @@ function ppCallSheet(side){
   const primary=isHome?(S.red||pal.primary):pal.primary;
   const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
   const grid=(arr,group,cols)=>(arr||[]).length
-    ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group)).join('')}</div>`
+    ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side)).join('')}</div>`
     :'<div class="cs-none">No players in this group.</div>';
   const co=t.coaches||[];
   const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
@@ -677,7 +797,18 @@ function ppBuild(){
     ppFitReport();
     return;
   }
-  if(st)st.textContent='Letter · 4 pages · prints to PDF';
+  if(PP_VIEW==='study'){
+    const sp=ppStudyPages(red,S);
+    doc.innerHTML=sp.map((p,i)=>p
+      .replace('<div class="gn-foot"',dataStampHTML('preseason')+'<div class="gn-foot"')
+      .replace(/__PGNO__/g,'PAGE '+(i+1)+' of '+sp.length)
+      .replace('<div class="page','<div data-sec="pp:sg'+(i+1)+'" class="hub-preview__page page')).join('')
+      ||'<div class="page"><div class="box"><h3>Study guide</h3><div class="b" style="font-size:10px">js/preseason-pen-study.js did not load.</div></div></div>';
+    if(typeof pgFooterFix==='function')pgFooterFix(doc);
+    if(st)st.textContent='Letter · '+sp.length+' page'+(sp.length===1?'':'s')+' · study guide · prints to PDF';
+    ppFitReport();
+    return;
+  }
   const m=D.meta||{},T=D.topScorers||{},tc=D.trophyCase||{};
   const pages=[],gameRows=ppGameRows();
 
@@ -723,6 +854,8 @@ function ppBuild(){
       ${ppPaperTable(['Team','Name','Say it'],pronRows(pron.slice(third,2*third)))}
       ${ppPaperTable(['Team','Name','Say it'],pronRows(pron.slice(2*third)))}</div></div>`));
 
+  pages.push(...ppStudyPages(red,S));   // the study guide is the back half of the packet
+  if(st)st.textContent='Letter · '+pages.length+' pages · prints to PDF';
   const stamp=dataStampHTML('preseason');
   doc.innerHTML=pages.map((p,i)=>p
     .replace('<div class="gn-foot"',stamp+'<div class="gn-foot"')
@@ -765,6 +898,7 @@ function ppRender(){
   ppLoad();
   ppRenderGame();ppRenderStories();ppRenderTop();ppRenderEchl();ppRenderH2h();
   ppRenderRosters();ppRenderSignings();ppRenderPron();ppRenderChecks();ppRenderSources();
+  ppRenderNotOnList();ppRenderBench();ppRenderBooth();
   ppBuild();
 }
 /* form fields from the store — also runs from initForms(), so a Restore
