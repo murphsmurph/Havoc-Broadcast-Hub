@@ -1,5 +1,7 @@
 /* Preseason vs PEN — the Player Study Guide (Jacob Murphy, Oct 7, 2026), converted to
    data verbatim: nothing paraphrased, links reduced to their text except under sources.
+   One addition (Oct 8): a Marko Jakovljevic entry, researched after Pensacola's preseason
+   number sheet listed him; its check line says what is unverified.
    A classic script so it renders offline and from file://. Read by js/preseason-pen.js. */
 const PRESEASON_STUDY = {
  "title": "Havoc vs Ice Flyers — Player Study Guide",
@@ -585,6 +587,22 @@ const PRESEASON_STUDY = {
     "honors": "Brampton captain; 2022 NCDC champion; All-USCHO Rookie First Team; Empire 8 Second Team and UCHC Third Team 2025-26",
     "talkingPoints": "Power-play quarterback and pro rookie. Business major.",
     "ties": "lost the 2026 UCHC final to Goukler's Utica. Teammate of Alex Dameski (signed, not in camp) for five years."
+   },
+   {
+    "num": "3",
+    "name": "Marko Jakovljevic",
+    "pos": "D",
+    "tags": [
+     "new",
+     "confirm"
+    ],
+    "id": "6-4, 206 · 25 (b. Nov. 2000) · Brantford, Ont.",
+    "path": "Sarnia Sting (OHL) 2017-20 (2017 OHL U-18 second-round pick) → Trenton (OJHL) → Amherst (MHL) 2020-21 → Ontario Tech (U Sports) 2021-25, 97 GP → Bloomington (ECHL) Feb. 2025, 2 GP → Peoria (SPHL) March 2025, 8 GP plus playoffs → Nantes (France) 2025-26",
+    "lastSeason": "Nantes 30 GP, 2-4—6, 65 PIM, plus 5 relegation-round games (aggregator figure)",
+    "honors": "Ontario Tech 2021-25: 4-19—23, 100 PIM in 97 GP; his Amherst GM called him \"a natural leader on and off the ice\"",
+    "talkingPoints": "6-foot-4 stay-at-home defenseman. Not on the Oct. 2 camp roster; #3 on the team's preseason number sheet. Jacob hears the name as \"yakkov-la-vitch\"; the Serbian reading is YAH-kov-lye-vitch.",
+    "ties": "Ontario Tech with Sean Ross (the captain) and Braiden Koran; Nantes with Ross.",
+    "check": "Researched Oct. 8 from Elite Prospects, Inside The Rink, the Bloomington Bison and Ontario Tech announcements via search snippets only (the sites are blocked from the build sandbox). No Ice Flyers release found; shot side, exact age and the Nantes line are unconfirmed. Ask Pensacola PR."
    }
   ]
  },
