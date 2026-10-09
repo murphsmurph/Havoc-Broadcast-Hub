@@ -524,7 +524,7 @@
   .page.pp-cs .cs-h1{font-size:calc(19px*var(--csf));} .page.pp-cs .cs-h2{font-size:calc(9px*var(--csf));}
   .page.pp-cs .cs-game{font-size:calc(9.5px*var(--csf));}
   .page.pp-cs .cs-sub{font-size:calc(10px*var(--csf));}
-  /* the number: one colour everywhere (Havoc red, black digits — set inline), big and heavy */
+  /* the number: one colour per sheet on every position (Havoc red/black, Pensacola navy/white — set inline), big and heavy */
   .page.pp-cs .cs-num{font-size:calc(20px*var(--csf));font-weight:900;min-width:calc(29px*var(--csf));line-height:1.05;padding:1px 4px;border-radius:3px;letter-spacing:-.02em;}
   .page.pp-cs .cs-top{gap:5px;}
   .page.pp-cs .cs-name{font-size:calc(12px*var(--csf));white-space:normal;line-height:1.05;}   /* four-up cards: a long name wraps rather than clips */

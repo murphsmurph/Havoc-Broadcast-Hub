@@ -709,8 +709,9 @@ function ppCsCard(p,pal,group,side){
   const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
     :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
   const num=ppNum(p);
-  /* one badge colour on both sheets and every position: Havoc red, black digits */
-  const red=(DATA.settings&&DATA.settings.red)||'#C8102E';
+  /* one badge colour per sheet, the same on every position, in the team's own scheme:
+     Havoc red with black digits; Pensacola navy blue with white digits */
+  const badge=side==='havoc'?{bg:(DATA.settings&&DATA.settings.red)||'#C8102E',fg:'#000'}:{bg:pal.primary,fg:'#fff'};
   /* the note is the study-guide summary written for the call sheet; roster notes are the fallback */
   const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
   /* skip the ECHL segment when the stat line already carries it (Tanner Schachle, Helliwell) */
@@ -719,7 +720,7 @@ function ppCsCard(p,pal,group,side){
   const tags=(p.tags||[]).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('');
   return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
-      <span class="cs-num" style="background:${red};color:#000">${esc(num)}</span>
+      <span class="cs-num" style="background:${badge.bg};color:${badge.fg}">${esc(num)}</span>
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
     </div>
     <div class="cs-vitals">${vitals}${tags?' '+tags:''}</div>
