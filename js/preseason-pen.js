@@ -45,12 +45,12 @@ function ppNum(p){
 }
 function ppDash(v){return (v==null||String(v).trim()==='')?'—':esc(v);}
 function ppQ(s){return esc(s).replace(/'/g,'&#39;');}   // safe inside a single-quoted onclick arg
-/* +/- per GP: sign, two decimals, scope in small type. Missing is a dash, never 0. */
+/* season +/-: signed whole number, scope in small type. Missing is a dash, never 0. */
 function ppPM(p){
-  const v=p.plusMinusPerGP;
+  const v=p.plusMinus;
   if(v==null)return '<span class="pp-pm">—</span>';
   const cls=v>0?'pp-pos':(v<0?'pp-neg':'pp-zero');
-  const num=(v>=0?'+':'-')+Math.abs(v).toFixed(2);
+  const num=(v>0?'+':(v<0?'-':''))+Math.abs(v);
   return `<span class="pp-pm ${cls}">${num}</span>`+
     (p.plusMinusScope?`<span class="pp-scope">(${esc(p.plusMinusScope)})</span>`:'');
 }
@@ -64,6 +64,24 @@ function ppTags(p){
   return (p.tags||[]).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('')+
     (p.confirmNote?`<span class="pp-note" title="${esc(p.confirmNote)}">&#9432;</span>`:'');
 }
+/* ---- paper only (packet and call sheets): no "new"/"confirm" tags, no confirm notes,
+   no source hedges. The screen keeps all of it for research. ---- */
+function ppPaperTagList(tags){return (tags||[]).filter(t=>!/^new$|confirm/i.test(String(t)));}
+function ppPaperTags(p){return ppPaperTagList(p.tags).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('');}
+function ppClean(v){
+  return String(v==null?'':v)
+    .replace(/,?\s*\(?per Elite Prospects\)?( only)?(\s*\([^)]*\))?(;[^.;]*release[^.;]*)?/g,'')   // "per Elite Prospects (UAA listed L)", "…, per Elite Prospects only; no team release yet"
+    .replace(/;\s*an? [^;)]*\breleases? says?\b[^;)]*/g,'')          // "(b. Apr. 29, 2000; a Havoc release says 27)" keeps the birthdate
+    .replace(/;\s*the [^.;]*\brelease's\b[^.;]*/g,'')                // "; the Havoc release's 25 points matches …"
+    .replace(/\s*\([^)]*\b(lists|listed|releases? says?|sources vary|unverified|Elite Prospects)\b[^)]*\)/g,'')   // "(UW-Superior lists …)", "(sources vary)", "(overlap unverified)", "(team spelling; Elite Prospects has …)"
+    .replace(/;\s*[^.;)]*\bElite Prospects\b[^.;)]*/g,'')            // "; Elite Prospects' regular seasons add up to 157"
+    .replace(/(^|\.\s+)[^.]*\b(Elite Prospects|release says)\b[^.]*\./g,'$1')   // a whole sentence about what a source says
+    .replace(/\bLikely shoots\b/g,'Shoots')
+    .replace(/(\d-\d{1,2}) (?:or|to) \d-\d{1,2}/g,'$1')
+    .replace(/\babout (\d{3})\b/g,'$1')
+    .replace(/\s{2,}/g,' ').trim();
+}
+function ppVenue(){return (ppData().venue||'').trim()||((ppSrc().meta||{}).venue||'');}
 function ppTeam(side){return ((ppSrc().teams||{})[side])||{};}
 function ppSkaters(side){const t=ppTeam(side);return [].concat(t.forwards||[],t.defense||[],t.goalies||[]);}
 function ppPlayers(side){return [].concat(ppTeam(side).coaches||[],ppSkaters(side));}
@@ -99,7 +117,7 @@ function ppGameRows(){
     ['Game type',m.gameType||'Preseason'],
     ['Date',ppLongDate(m.date)],
     ['Puck drop',(m.puckDropCT||'—')+' CT'],
-    ['Venue',(o.venue||'').trim()||'Confirm venue'],
+    ['Venue',ppVenue()||'Confirm venue'],
     ['Stream',m.stream||'—']
   ];
 }
@@ -109,7 +127,7 @@ function ppRenderGame(){
   const rows=ppGameRows().map(r=>`<tr><td>${esc(r[0])}</td><td><b>${esc(r[1])}</b></td></tr>`).join('');
   el.innerHTML=`<div class="ref-box"><table>${rows}</table>
     ${m.ticketUrl?`<div class="pp-small"><a href="${esc(m.ticketUrl)}" target="_blank" rel="noopener">Ticket page</a>${m.asOf?' &middot; researched '+esc(m.asOf):''}</div>`:''}</div>
-    ${!(o.venue||'').trim()&&m.venueNote?`<div class="note">${esc(m.venueNote)}</div>`:''}
+    ${!ppVenue()&&m.venueNote?`<div class="note">${esc(m.venueNote)}</div>`:''}
     ${(ppSrc().quickFacts||[]).length?`<div class="section-label hub-sectionhead">Quick facts</div><ul class="pp-list">${ppSrc().quickFacts.map(f=>`<li>${esc(f)}</li>`).join('')}</ul>`:''}`;
 }
 function ppVenueSave(){
@@ -181,9 +199,9 @@ function ppTopRows(side,paper){
   return (t.rows||[]).map(r=>
     `<tr><td class="r">${esc(r.rank)}</td><td class="nm">${esc(r.name)}</td><td>${ppDash(r.pos)}</td><td class="r">${ppDash(r.gp)}</td>
       <td class="r">${r.g==null?'—':esc(r.g)+'-'+esc(r.a)+'-'+esc(r.pts)}</td><td class="r">${ppPM(r)}</td>
-      <td>${ppStatus(r.status,paper)}</td><td>${ppDash(r.where)}</td></tr>`).join('');
+      <td>${ppStatus(r.status,paper)}</td><td>${ppDash(paper?ppClean(r.where):r.where)}</td></tr>`).join('');
 }
-const PP_TOP_HEAD=['r:#','Player','Pos','r:GP','r:G-A-Pts','r:+/- per GP','Back Friday?','Where now'];
+const PP_TOP_HEAD=['r:#','Player','Pos','r:GP','r:G-A-Pts','r:+/-','Back Friday?','Where now'];
 function ppRenderTop(){
   const el=document.getElementById('ppTop');if(!el)return;
   const T=ppSrc().topScorers||{};
@@ -205,11 +223,11 @@ function ppEchlRows(){
     `<tr><td class="nm">${esc(c.name)}</td><td>${ppDash(c.sphlTeam)}</td><td>${ppDash(c.pos)}</td><td>${ppDash(c.echlTeam)}</td><td>${ppDash(c.type)}</td><td>${ppDash(c.note)}</td></tr>`).join('');
 }
 /* every roster player (both teams) with an echlLastSeason value */
-function ppEchlLastRows(){
+function ppEchlLastRows(paper){
   const rows=[];
   [['havoc','HSV'],['pensacola','PEN']].forEach(([side,abbr])=>{
     ppSkaters(side).forEach(p=>{if(p.echlLastSeason)rows.push(
-      `<tr><td class="nm">${esc(p.name)}</td><td>${abbr}</td><td>${ppDash(p.pos)}</td><td>${esc(p.echlLastSeason)}</td></tr>`);});
+      `<tr><td class="nm">${esc(p.name)}</td><td>${abbr}</td><td>${ppDash(p.pos)}</td><td>${esc(paper?ppClean(p.echlLastSeason):p.echlLastSeason)}</td></tr>`);});
   });
   return rows.join('');
 }
@@ -220,7 +238,7 @@ function ppRenderEchl(){
   const former=(ppSrc().formerFlyersAtEchl||[]).map(s=>`<li>${esc(s)}</li>`).join('');
   const last=ppEchlLastRows();
   el.innerHTML=`<div class="hub-tablewrap">${ppTable('roster pp-t',PP_ECHL_HEAD,ppEchlRows()||'<tr><td colspan="6">—</td></tr>')}</div>
-    ${former?`<div class="section-label hub-sectionhead">Former Ice Flyers at ECHL camps</div><ul class="pp-list">${former}</ul>`:''}
+    ${former?`<div class="section-label hub-sectionhead">Ice Flyers at ECHL camp</div><ul class="pp-list">${former}</ul>`:''}
     <div class="section-label hub-sectionhead">On Friday's ice with ECHL time last season</div>
     <div class="hub-tablewrap">${ppTable('roster pp-t',PP_ECHL_LAST_HEAD,last||'<tr><td colspan="4">—</td></tr>')}</div>`;
 }
@@ -384,7 +402,7 @@ function ppPreview(title,lines,applyFn,emptyMsg){
    transaction boxes the game notes read */
 function ppSendGame(){
   const D=ppSrc(),m=D.meta||{},o=ppData();
-  const venue=(o.venue||'').trim();
+  const venue=ppVenue();
   const echl=(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')+(c.type?' ('+c.type+')':'')).join('\n');
   const oppEchl=(D.echlCamps||[]).filter(c=>c.sphlTeam==='PEN').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')+(c.type?' ('+c.type+')':'')).join('\n');
   const tx=D.transactionsForGameNotes||{};
@@ -650,28 +668,30 @@ function ppFlow(red,S,title,blocks,cls,perFallback){
   probe.remove();
   return pages;
 }
+const PP_PAPER_STUDY_SKIP=['matchCheck','check','numberCheck'];   // research caveats stay on screen, off the packet
 function ppStudyEntryHTML(e){
-  return `<div class="pp-se"><div class="pp-se-h">${e.num?'#'+esc(e.num)+' ':''}${esc(e.name)} &mdash; ${esc(e.pos)}${(e.tags||[]).length?` <span class="pp-se-t">(${esc(e.tags.join(', '))})</span>`:''}</div>${ppStudyFieldsHTML(e,'pp-se-f')}</div>`;
+  const tags=ppPaperTagList(e.tags);
+  const fields=PP_STUDY_FIELDS.filter(([k])=>e[k]&&PP_PAPER_STUDY_SKIP.indexOf(k)<0).map(([k,label])=>`<div class="pp-se-f"><b>${label}:</b> ${esc(ppClean(e[k]))}</div>`).join('');
+  return `<div class="pp-se"><div class="pp-se-h">${e.num?'#'+esc(e.num)+' ':''}${esc(e.name)} &mdash; ${esc(e.pos)}${tags.length?` <span class="pp-se-t">(${esc(tags.join(', '))})</span>`:''}</div>${fields}</div>`;
 }
-function ppPaperRefTable(T){return ppPaperTable(T.head,T.rows.map(r=>'<tr>'+T.head.map(h=>`<td>${esc(r[h])}</td>`).join('')+'</tr>').join(''));}
+function ppPaperRefTable(T){return ppPaperTable(T.head,T.rows.map(r=>'<tr>'+T.head.map(h=>`<td>${esc(ppClean(r[h]))}</td>`).join('')+'</tr>').join(''));}
 function ppStudyPages(red,S){
   const G=ppStudy();if(!G)return [];
   const pages=[];
   const A=G.atAGlance||{},T=G.seriesTable,B=G.benches||{};
-  const bench=(name,list)=>`<div class="box"><h3>${name}</h3>${(list||[]).map(b=>`<div class="pp-fact"><b>${esc(b.role)} ${esc(b.name)}:</b> ${esc(b.text)}</div>`).join('')}</div>`;
+  const bench=(name,list)=>`<div class="box"><h3>${name}</h3>${(list||[]).map(b=>`<div class="pp-fact"><b>${esc(b.role)} ${esc(b.name)}:</b> ${esc(ppClean(b.text))}</div>`).join('')}</div>`;
   pages.push(pgWrap(red,S,'STUDY GUIDE &middot; AT A GLANCE',`
     <div class="box"><h3>At a glance</h3><div class="pp-fact">${esc(A.intro||'')}</div><ul class="pp-list">${ppStudyBullets(A.bullets)}</ul><div class="pp-fact"><i>${esc(A.entryNote||'')}</i></div></div>
     ${T?`<div class="box"><h3>${esc(T.title)}</h3>${ppPaperRefTable(T)}</div>`:''}
     <div class="pp-fact">${esc(B.intro||'')}</div>
     <div class="pp-cols2">${bench('Huntsville bench',B.havoc)}${bench('Pensacola bench',B.pensacola)}</div>`));
   const P=G.players||{};
-  if((P.havoc||[]).length)pages.push(...ppFlow(red,S,'HAVOC &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.havocIntro||'')}</div>`].concat(P.havoc.map(ppStudyEntryHTML)),'pp-flow',7));
+  if((P.havoc||[]).length)pages.push(...ppFlow(red,S,'HAVOC &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(ppClean(P.havocIntro||''))}</div>`].concat(P.havoc.map(ppStudyEntryHTML)),'pp-flow',7));
   const N=G.notOnList,W=G.whoKnowsWhom;
   if(N||W)pages.push(pgWrap(red,S,'NOT ON THE LIST &middot; WHO KNOWS WHOM',`
     ${N?`<div class="box"><h3>Signed by the Havoc, not on the preseason list</h3><div class="pp-fact">${esc(N.intro)}</div>${ppPaperRefTable(N)}</div>`:''}
     ${W?`<div class="box"><h3>Who knows whom</h3>${ppPaperRefTable(W)}</div>`:''}`));
-  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML))
-    .concat(P.pensacolaSources?[`<div class="pp-se pp-se-intro pp-se-src">${esc(P.pensacolaSources.text||'')}</div>`]:[]),'pp-flow',7));
+  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(ppClean(P.pensacolaIntro||''))}</div>`].concat(P.pensacola.map(ppStudyEntryHTML)),'pp-flow',7));   // the guide's source lines stay on screen
   const ref=[];
   const R=G.rinkSpots,Y=G.synonyms,C=G.situational,U=G.ruleChanges,K=G.keyRules;
   if(R)ref.push(`<div class="box"><h3>Rink locations and shorthand</h3><div class="pp-fact">${esc(R.intro)}</div>${G.rinkMapNote?`<div class="pp-fact"><i>Rink map: ${esc(G.rinkMapNote)}</i></div>`:''}${ppPaperRefTable(R)}</div>`);
@@ -680,7 +700,7 @@ function ppStudyPages(red,S){
   if(U){ref.push(`<div class="box"><h3>Rule changes for 2026-27</h3><div class="pp-fact">${esc(U.intro)}</div>${ppPaperRefTable(U)}<ul class="pp-list">${ppStudyBullets(U.notes)}</ul></div>`);
     if(U.carriedOver)ref.push(`<div class="box"><h3>Added last season and still in the book</h3><div class="pp-fact">${esc(U.carriedOver.intro)}</div><ul class="pp-list">${ppStudyBullets(U.carriedOver.bullets)}</ul></div>`);}
   if(K){ref.push(`<div class="box"><h3>Key rules to know on air</h3><div class="pp-fact">${esc(K.intro)}</div></div>`);(K.groups||[]).forEach(g=>ref.push(`<div class="box"><h3>${esc(g.title)}</h3><ul class="pp-list">${g.items.map(i=>`<li>${esc(i)}</li>`).join('')}</ul></div>`));}
-  if(G.sources)ref.push(`<div class="box"><h3>Study guide sources</h3><div class="pp-fact">${esc(G.sources.intro)}</div>${(G.sources.groups||[]).map(g=>`<div class="pp-sub">${esc(g.group)}</div><ul class="pp-list">${g.items.map(x=>`<li>${esc(x.label)} &mdash; ${esc(x.url)}</li>`).join('')}</ul>`).join('')}</div>`);
+  /* the guide's source list stays on screen (Booth reference card); the printed packet carries no source notes */
   if(ref.length)pages.push(...ppFlow(red,S,'BOOTH REFERENCE',ref,'pp-refflow',3));
   return pages;
 }
@@ -705,7 +725,7 @@ function ppCsCard(p,pal,group,side){
   let first='',last='';
   if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
   const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const sv=ppStudyVitals(ppStudyFor(p,side));   // the study guide's ID line when there is one
+  const sv=ppClean(ppStudyVitals(ppStudyFor(p,side)));   // the study guide's ID line when there is one, without source hedges
   const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
     :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
   const num=ppNum(p);
@@ -716,15 +736,17 @@ function ppCsCard(p,pal,group,side){
   const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
   /* skip the ECHL segment when the stat line already carries it (Tanner Schachle, Helliwell) */
   const flat=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-  const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?p.echlLastSeason:'';
-  const tags=(p.tags||[]).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('');
+  const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?ppClean(p.echlLastSeason):'';
+  const tags=ppPaperTags(p);
+  const career=(typeof PRESEASON_CAREER_PRO!=='undefined'&&PRESEASON_CAREER_PRO[p.name])||'';
   return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
       <span class="cs-num" style="background:${badge.bg};color:${badge.fg}">${esc(num)}</span>
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
     </div>
     <div class="cs-vitals">${vitals}${tags?' '+tags:''}</div>
-    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${echl?` &middot; <i>ECHL LAST SEASON:</i> ${esc(echl)}`:''}</div>
+    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(ppClean(p.stats)):'<span class="cs-ph">—</span>'}${p.plusMinus!=null?` &middot; <i>+/-:</i> ${ppPM(p)}`:''}${echl?` &middot; <i>ECHL LAST SEASON:</i> ${esc(echl)}`:''}</div>
+    ${career?`<div class="cs-stat cs-career"><i>PRO:</i> ${esc(career)}</div>`:''}
     <div class="cs-note">${esc(note)||'<span class="cs-ph">—</span>'}</div>
   </div>`;
 }
@@ -754,12 +776,12 @@ function ppCallSheet(side){
   const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
   const coach=[hc?'HEAD COACH: '+hc.name:'',ac.length?'ASST. COACH'+(ac.length>1?'ES':'')+': '+ac.map(c=>c.name).join(', '):''].filter(Boolean).join('  /  ');
   const d=m.date?new Date(m.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
-  const game=[(m.gameType||'Preseason').toUpperCase(),d,'Huntsville Havoc vs. '+(m.opponent||PP_TEAM),(o.venue||'').trim()||'Venue: confirm',m.puckDropCT?m.puckDropCT+' CT':''].filter(Boolean).join('  ·  ');
+  const game=[(m.gameType||'Preseason').toUpperCase(),d,'Huntsville Havoc vs. '+(m.opponent||PP_TEAM),ppVenue()||'Venue: confirm',m.puckDropCT?m.puckDropCT+' CT':''].filter(Boolean).join('  ·  ');
   const abbr=isHome?'HSV':'PEN';
   const pron=(D.pronunciations||[]).filter(x=>x.team===abbr).map(x=>{const say=ppSay(x);return x.name+': '+(say||'ask');});
   const side1=isHome
     ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
-    :ppCsBox('FORMER FLYERS AT ECHL CAMPS',D.formerFlyersAtEchl||[]);
+    :ppCsBox('AT ECHL CAMP',D.formerFlyersAtEchl||[]);
   const sb=`<aside class="cs-side" style="width:124px">
     ${side1}
     ${ppCsBox('PRONUNCIATION',pron)}
@@ -791,7 +813,7 @@ function ppCallSheet(side){
 /* larger type first, then more note lines: a step is (font scale, note lines) */
 /* scale steps with the notes unclamped (every note shows in full); the clamped pairs after them are
    a last resort if a sheet ever carries more than its page holds */
-const PP_CS_STEPS=[[1.4,99],[1.35,99],[1.3,99],[1.25,99],[1.2,99],[1.15,99],[1.1,99],[1.05,99],[1,99],[0.95,99],[0.9,99],[0.9,6],[0.9,5],[0.9,4],[0.85,4],[0.85,3]];
+const PP_CS_STEPS=Array.from({length:66},(_,i)=>[+(1.5-i*0.01).toFixed(2),99]).concat([[0.85,6],[0.85,5],[0.85,4],[0.8,4],[0.8,3]]);   // 1.50 down to 0.85 in 0.01 steps, unclamped; then clamped as a last resort
 function ppCsOverflow(pg){
   const main=pg.querySelector('.cs-main'),aside=pg.querySelector('.cs-side');
   return Math.max(pg.scrollHeight-pg.clientHeight,main?main.scrollHeight-main.clientHeight:0,aside?aside.scrollHeight-aside.clientHeight:0);
@@ -821,13 +843,14 @@ function ppPaperRoster(side){
     if(!list||!list.length)return '';
     return `<tr class="pp-grp"><td colspan="7">${label}</td></tr>`+list.map(p=>{
       const num=ppDash(ppNum(p));
-      const notes=esc(p.notes||'')+(p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:'');
-      if(isCoach)return `<tr><td class="r"></td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${esc(p.role||'')}</td><td colspan="4">${notes}</td></tr>`;
-      return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppTags(p)}</td><td>${ppDash(p.pos)}</td>
-        <td>${ppDash(p.hometown)}</td><td>${ppDash(p.stats)}</td><td class="r">${ppPM(p)}</td><td>${notes}</td></tr>`;
+      const notes=esc(ppClean(p.notes||''));
+      const career=(typeof PRESEASON_CAREER_PRO!=='undefined'&&PRESEASON_CAREER_PRO[p.name])||'';
+      if(isCoach)return `<tr><td class="r"></td><td><b>${esc(p.name)}</b> ${ppPaperTags(p)}</td><td>${esc(p.role||'')}</td><td colspan="4">${notes}</td></tr>`;
+      return `<tr><td class="r">${num}</td><td><b>${esc(p.name)}</b> ${ppPaperTags(p)}</td><td>${ppDash(p.pos)}</td>
+        <td>${ppDash(p.hometown)}</td><td>${p.stats?esc(ppClean(p.stats)):'—'}${career?`<div class="pp-car"><i>Pro career:</i> ${esc(career)}</div>`:''}</td><td class="r">${ppPM(p)}</td><td>${notes}</td></tr>`;
     }).join('');
   };
-  return `<table class="pk-t pp-pt"><tr><th class="r">#</th><th>Player</th><th>Pos</th><th>Hometown</th><th>2025-26</th><th class="r">+/- per GP</th><th>Notes</th></tr>
+  return `<table class="pk-t pp-pt"><tr><th class="r">#</th><th>Player</th><th>Pos</th><th>Hometown</th><th>2025-26</th><th class="r">+/-</th><th>Notes</th></tr>
     ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}</table>`;
 }
 function ppPaperTable(head,rows){return ppTable('pk-t pp-pt',head,rows||'<tr><td>—</td></tr>');}
@@ -879,8 +902,8 @@ function ppBuild(){
   const former=(D.formerFlyersAtEchl||[]).map(s=>`<li>${esc(s)}</li>`).join('');
   pages.push(pgWrap(red,S,'ECHL CAMPS &middot; HEAD-TO-HEAD',`
     <div class="box"><h3>ECHL camps right now</h3>${ppPaperTable(PP_ECHL_HEAD,ppEchlRows())}
-      ${former?`<div class="pp-sub">Former Ice Flyers at ECHL camps</div><ul class="pp-list">${former}</ul>`:''}</div>
-    <div class="box"><h3>On Friday's ice with ECHL time last season</h3>${ppPaperTable(PP_ECHL_LAST_HEAD,ppEchlLastRows())}</div>
+      ${former?`<div class="pp-sub">Ice Flyers at ECHL camp</div><ul class="pp-list">${former}</ul>`:''}</div>
+    <div class="box"><h3>On Friday's ice with ECHL time last season</h3>${ppPaperTable(PP_ECHL_LAST_HEAD,ppEchlLastRows(true))}</div>
     <div class="box"><h3>2025-26 head-to-head &mdash; ${ppH2hSummary()}</h3>${ppPaperTable(PP_H2H_HEAD,ppH2hRows())}</div>
     <div class="pp-cols2">
       <div class="box"><h3>Playoff history</h3>${ppPaperTable(PP_PO_HEAD,ppPlayoffRows())}
