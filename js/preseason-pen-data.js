@@ -9,7 +9,7 @@ const PRESEASON_PEN = {
     "asOf": "2026-10-05",
     "date": "2026-10-09",
     "puckDropCT": "7:00 PM",
-    "venue": null,
+    "venue": "Polaris Ice at Propst Arena",
     "venueNote": "Havoc ticket page lists '2026 Havoc Exhibition Game,' 10/9/26 at 7:00 PM, with no rink named. WKRG says the Ice Flyers play 'on Friday, Oct. 9, on the road against the Huntsville Havoc.' The Ice Flyers' Oct. 5 'Flight Prep' post says 'Friday, October 11' (Oct. 11 is a Sunday, so that is a typo).",
     "stream": "Radio & YouTube Live",
     "gameType": "Preseason",
@@ -74,7 +74,6 @@ const PRESEASON_PEN = {
   ],
   "formerFlyersAtEchl": [
     "Cooper Jones (D, last year's No. 3 PEN scorer): Tahoe Knight Monsters preseason roster.",
-    "Jonathan Ziskie (D): signed with Tahoe Sept. 22.",
     "Also on ECHL camp lists: Jordan Stock (Rapid City, PTO), Blake Wells (Reading), Christian Propp (Maine)."
   ],
   "transactionsForGameNotes": {
@@ -86,7 +85,7 @@ const PRESEASON_PEN = {
     ],
     "pensacola": [
       "No Ice Flyers signees at ECHL camps",
-      "Former D Cooper Jones at Tahoe (ECHL) camp"
+      "D Cooper Jones at Tahoe (ECHL) camp"
     ]
   },
   "h2h2025_26": {
@@ -169,27 +168,27 @@ const PRESEASON_PEN = {
         {"number": "6", "name": "Tyler Burnie", "pos": "RW", "age": null, "hometown": "Washago, ON", "stats": "PEN: 54 GP, 5-22-27. Playoffs: 3 GP, 2-1-3", "plusMinus": -2, "pmGP": 54, "plusMinusPerGP": -0.04, "plusMinusScope": null, "echlLastSeason": "South Carolina: 3 GP", "notes": "6-foot-5. Led Pensacola in assists. Opened the scoring in the Game 2 playoff win. OHL Kingston, then ECHL Allen, Rapid City and South Carolina.", "tags": []},
         {"number": "20", "name": "Andrew Kurapov", "pos": "F", "age": 27, "hometown": "Corvallis, OR", "stats": "PEN: 6 GP, 3-1-4. Knoxville: 27 GP, 7-7-14", "plusMinus": -2, "pmGP": 6, "plusMinusPerGP": -0.33, "plusMinusScope": "PEN only", "echlLastSeason": "Reading (games not listed)", "notes": "Acquired from Knoxville at the trade deadline. 118 points (51 G) in 113 games at Endicott College.", "tags": []},
         {"number": "21", "name": "Jack Suchy", "pos": "LW", "age": null, "hometown": "Medina, MN", "stats": "PEN: 11 GP, 4-3-7. Playoffs: 2 GP, 1-1-2", "plusMinus": -7, "pmGP": 11, "plusMinusPerGP": -0.64, "plusMinusScope": null, "echlLastSeason": null, "notes": "6-foot-3 winger. Came from Peoria in March and scored right away.", "tags": []},
-        {"number": "8", "name": "Porter Schachle", "pos": "F", "age": 25, "hometown": "Wasilla, AK", "stats": "PEN: 9 GP, 1-4-5", "plusMinus": -2, "pmGP": 9, "plusMinusPerGP": -0.22, "plusMinusScope": "PEN only", "echlLastSeason": "Worcester, then South Carolina", "notes": "6-foot-4 (team listing). NCAA D-I at Vermont and Alaska-Anchorage. Brother Tanner is also at camp.", "tags": []},
+        {"number": "8", "name": "Porter Schachle", "pos": "F", "age": 25, "hometown": "Wasilla, AK", "stats": "PEN: 9 GP, 1-4-5", "plusMinus": -2, "pmGP": 9, "plusMinusPerGP": -0.22, "plusMinusScope": "PEN only", "echlLastSeason": "Worcester, then South Carolina", "notes": "6-foot-4. NCAA D-I at Vermont and Alaska-Anchorage. Brother Tanner is also at camp.", "tags": []},
         {"number": "12", "name": "Tanner Schachle", "pos": "LW", "age": null, "hometown": "Wasilla, AK", "stats": "New. ECHL Worcester and Bloomington: 17 GP, 0-2-2", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": "Worcester and Bloomington: 17 GP, 0-2-2. 2023 ECHL All-Star; 163 career ECHL games", "notes": "Older brother of Porter. Alaska-Anchorage and LIU; 153 PIM in 74 college games.", "tags": ["new"]},
         {"number": "18", "name": "Tyler Carpenter", "pos": "C", "age": 26, "hometown": "Palatine, IL", "stats": "New. France D1 (Mont-Blanc): 10 GP, 1-4-5", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "Notre Dame: regular center and alternate captain as a senior, zero penalties in 38 games. USHL Omaha and Chicago Steel. Notre Dame teammate of Ryan Helliwell.", "tags": ["new"]},
         {"number": "9", "name": "Sean Ross", "pos": "C", "age": 28, "hometown": "Bracebridge, ON", "stats": "New. France D1 (Nantes): 27 GP, 9-11-20", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "Short earlier stint in Pensacola; also played for South Carolina (ECHL). Alternate captain in Nantes; playoff hat trick including the OT winner to keep Nantes in Division 1.", "tags": ["new"]},
         {"number": "55", "name": "Braiden Koran", "pos": "F", "age": 25, "hometown": "Kimberley, BC", "stats": "New. Ontario Tech (U Sports): 99 career GP, 14-19-33", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "6-foot, 201 lbs, left shot. 23 points in 44 college playoff games. Junior with the Humboldt Broncos.", "tags": ["new"]},
-        {"number": "7", "name": "Colin Roe", "pos": "RW", "age": 25, "hometown": "Hyde Park, MA", "stats": "New. Westfield State (D-III): 27 GP, 2-4-6", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "Signed with Blue Ridge (FPHL) Sept. 9; no Ice Flyers signing release, so likely a camp tryout.", "tags": ["new", "confirm"], "confirmNote": "Ask Pensacola PR: signed or tryout? Pronunciation?"},
+        {"number": "7", "name": "Colin Roe", "pos": "RW", "age": 25, "hometown": "Hyde Park, MA", "stats": "New. Westfield State (D-III): 27 GP, 2-4-6", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "Big right-shot winger from Boston. Signed with Blue Ridge (FPHL) Sept. 9 before Pensacola's camp.", "tags": ["new", "confirm"], "confirmNote": "Ask Pensacola PR: signed or tryout? Pronunciation?"},
         {"number": "24", "name": "Alex Dameski", "pos": "RW", "age": null, "hometown": "Oakville, ON", "stats": "New. SUNY Geneseo (D-III): 21-16-37", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "D-III All-American, 59 goals in 108 college games; Zarudny's teammate for five years.", "tags": ["new", "confirm"], "confirmNote": "Not on the Oct. 2 camp list; #24 on the sheet."}
       ],
       "defense": [
         {"number": "4", "name": "Nicholas Aromatario", "pos": "D", "age": null, "hometown": "Woodbridge, ON", "stats": "PEN: 58 GP, 6-12-18", "plusMinus": 4, "pmGP": 58, "plusMinusPerGP": 0.07, "plusMinusScope": null, "echlLastSeason": null, "notes": "Played every game. One of the few Pensacola regulars with a plus rating.", "tags": []},
         {"number": "44", "name": "Samson Mouland", "pos": "D", "age": null, "hometown": "Hay River, NWT", "stats": "PEN: 35 GP, 0-1-1, 44 PIM", "plusMinus": -5, "pmGP": 35, "plusMinusPerGP": -0.14, "plusMinusScope": null, "echlLastSeason": null, "notes": "Right shot. Stay-at-home, physical role.", "tags": []},
-        {"number": "17", "name": "Ryan Helliwell", "pos": "D", "age": 24, "hometown": "Burnaby, BC", "stats": "New. ECHL: Kalamazoo 5 GP, 0-2-2; Adirondack 20 GP, 1-2-3", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": "Kalamazoo: 5 GP, 0-2-2. Adirondack: 20 GP, 1-2-3", "notes": "6-foot, 192 lbs, left shot. Notre Dame (113 GP), teammate of Tyler Carpenter. No Ice Flyers signing release.", "tags": ["new", "confirm"], "confirmNote": "Signed or tryout?"},
+        {"number": "17", "name": "Ryan Helliwell", "pos": "D", "age": 24, "hometown": "Burnaby, BC", "stats": "New. ECHL: Kalamazoo 5 GP, 0-2-2; Adirondack 20 GP, 1-2-3", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": "Kalamazoo: 5 GP, 0-2-2. Adirondack: 20 GP, 1-2-3", "notes": "6-foot, 192 lbs, left shot. Notre Dame (113 GP), teammate of Tyler Carpenter.", "tags": ["new", "confirm"], "confirmNote": "Signed or tryout?"},
         {"number": "23", "name": "Yahor Ramanau", "pos": "D", "age": null, "hometown": "Minsk, Belarus", "stats": "New. Twin City (FPHL): 13 GP, 0-2-2. Also Biloxi", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "6-foot-1, left shot. Father Oleg played for the Belarus national team. Came to North America as a teen with Pennsylvania's Esmark Stars.", "tags": ["new"]},
-        {"number": "10", "name": "Dakota Zarudny", "pos": "D", "age": null, "hometown": "Orangeville, ON", "stats": "New. SUNY Geneseo (D-III): 27 GP, 5-15-20", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "5-foot-11, left shot. Two-way defenseman. Pro rookie. College teammate of Alex Dameski, who signed but isn't at camp.", "tags": ["new"]},
+        {"number": "10", "name": "Dakota Zarudny", "pos": "D", "age": null, "hometown": "Orangeville, ON", "stats": "New. SUNY Geneseo (D-III): 27 GP, 5-15-20", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "5-foot-11, left shot. Two-way defenseman. Pro rookie. College teammate of Alex Dameski (#24) for five years.", "tags": ["new"]},
         {"number": "15", "name": "Jonathan Ziskie", "pos": "D", "age": 25, "hometown": "Macomb, MI", "stats": "PEN: 4 GP, 0-2-2", "plusMinus": 1, "pmGP": 4, "plusMinusPerGP": 0.25, "plusMinusScope": null, "echlLastSeason": null, "notes": "6-foot-3 shot-blocker out of Niagara (D-I); wore #15 for the Ice Flyers last spring.", "tags": ["confirm"], "confirmNote": "Signed with Tahoe (ECHL) Sept. 22, yet #15 on the number sheet; ask if he is back."},
         {"number": "3", "name": "Marko Jakovljevic", "pos": "D", "age": 25, "hometown": "Brantford, ON", "stats": "New. Peoria (SPHL), spring 2025: 1 GP, 1-1-2, plus 1 playoff game; Nantes (France D1) 2025-26", "plusMinus": null, "pmGP": null, "plusMinusPerGP": null, "plusMinusScope": null, "echlLastSeason": null, "notes": "6-foot-4, 207. Ontario Tech with Sean Ross and Braiden Koran; Nantes with Ross last season; Sarnia (OHL) 143 GP.", "tags": ["new", "confirm"], "confirmNote": "The list says only 'Jakovljevic'; confirm the first name."}
       ],
       "goalies": [
         {"number": "35", "name": "Rico DiMatteo", "pos": "G", "age": null, "hometown": "Brasher Falls, NY", "stats": "PEN: 16 GP, 10-4-2, 2.84 GAA, .915 SV%, 1 SO", "echlLastSeason": "Rapid City: 12 GP, 3.96 GAA, .907", "notes": "Led Pensacola in wins as a pro rookie. SPHL Player of the Week after opening weekend. Calls himself calm, patient and athletic.", "tags": []},
         {"number": "1", "name": "Kilian Bernasconi", "pos": "G", "age": 23, "hometown": "Lugano, Switzerland", "stats": "New. Swiss system (HC Ajoie org; 2 GP in MyHL, 2.02 GAA)", "echlLastSeason": null, "notes": "6-foot-2, catches left. First season in North America.", "tags": ["new"]},
-        {"number": "30", "name": "Keenan Rancier", "pos": "G", "age": 26, "hometown": "Victoria, BC", "stats": "New. Clarkson grad year: 7 GP, 4.07 GAA, .841", "echlLastSeason": null, "notes": "6-foot-2. At Minnesota State went 19-10-1, 1.86 GAA, .914 as a sophomore. Also played at Vermont. No Ice Flyers signing release.", "tags": ["new", "confirm"], "confirmNote": "Signed or tryout?"}
+        {"number": "30", "name": "Keenan Rancier", "pos": "G", "age": 26, "hometown": "Victoria, BC", "stats": "New. Clarkson grad year: 7 GP, 4.07 GAA, .841", "echlLastSeason": null, "notes": "6-foot-2. At Minnesota State went 19-10-1, 1.86 GAA, .914 as a sophomore. Also played at Vermont.", "tags": ["new", "confirm"], "confirmNote": "Signed or tryout?"}
       ]
     }
   },
@@ -294,7 +293,7 @@ const PRESEASON_PEN = {
     ]
   },
   "checklist": [
-    "Venue: confirm VBC Propst Arena vs. a practice rink",
+    "Venue: Polaris Ice at Propst Arena",
     "Jersey numbers for both teams and coaches",
     "Starting goalies (HSV: Proctor or Ward; PEN: DiMatteo, Bernasconi or Rancier)",
     "Re-check ECHL camp cuts on game day (Wilson, Schultheis, Stannard, Schmuck)",
@@ -329,13 +328,13 @@ const PRESEASON_PEN = {
    what the card already shows (vitals line, 2025-26 stat line). Read by ppCsCard in
    js/preseason-pen.js; a player missing here falls back to his roster notes. */
 const PRESEASON_CALL_NOTES = {
- "Austin Alger": "Owned PEN last year: hat trick in the home opener, both goals in the 2-1 win at Pensacola. 53 G and 53 A in 96 Havoc games. All-SPHL Second Team twice; 2015 Michigan Mr. Hockey. Fayetteville teammate of Fries.",
- "Gio Procopio": "Three goals in his first three games vs PEN last year. Alternate captain; brother Dom, the ex-captain, retired in June. 2021 Robertson Cup with Sciarrino and Goukler (G+A in the final). Aurora with Jaunich. \"Mr. Consistency.\"",
+ "Austin Alger": "Owned PEN last year: hat trick in the home opener, both goals in the 2-1 win at Pensacola. All-SPHL Second Team twice; 2022-23 SPHL Rookie of the Year; 2015 Michigan Mr. Hockey. Fayetteville with Fries.",
+ "Gio Procopio": "Three goals in his first three games vs PEN last year. Alternate captain; brother Dom, the ex-captain, retired in June. 2021 Robertson Cup with Sciarrino and Goukler. Aurora with Jaunich.",
  "Dawson Sciarrino": "Ex-Ice Flyer: traded here Feb. 24 for Matt Allen, then nearly a point a game. Four game-winners in 2022-23, two in OT. UWSP with PEN's German, Poulias and Aromatario, and Proctor.",
  "Connor Fries": "225-plus SPHL games. 2021 FPHL champion (Columbus); Fayetteville captain 2023-24. Scored twice vs PEN last year, including the lone goal in the 8-1 loss. Stefan: \"a true pro.\" Fayetteville with Alger.",
  "Ethan Lindsay": "Three game-winners as a pro rookie. Tying goal in the Dec. 11 OT loss at PEN; only Havoc goal Dec. 26. 2022 OJHL champion; captained Pickering and Aurora; 2019 OHL pick (Owen Sound).",
- "Jack Jaunich": "Aurora's all-time goal leader; 2022-23 All-American; silver with Team USA at the 2023 World University Games. 80 points in his first 105 Havoc games. No re-signing release yet.",
- "Dallas Comeau": "Ex-Ice Flyer: 43 points in 60 PEN games (2022-24). Vermont (D-I) teammate of PEN's Porter Schachle. ECHL Savannah and Tulsa. Captain and MVP of a 2015 NAPHL title team. Business major.",
+ "Jack Jaunich": "Aurora's all-time goal leader; 2022-23 All-American; silver with Team USA at the 2023 World University Games. Shreveport with Goukler, Aurora with Procopio. One of seven kids; finance and actuarial science major.",
+ "Dallas Comeau": "Ex-Ice Flyer (2022-24). Vermont (D-I) teammate of PEN's Porter Schachle. Captain and MVP of a 2015 NAPHL title team. Business major at Vermont.",
  "Michael Hodge": "Nearly 3.5 points a game in Germany's fourth tier (27-26—53 in 15) before Solway. D-I at Union and Holy Cross; AJHL assist leader 2020-21. Grande Prairie (2017-18) with Comeau.",
  "Keighan Gerrie": "A shooter: 40 goals in 103 Lakehead regular-season games; a five-point night before 3,043. 2018-19 SIJHL champ, scoring leader (102 pts) and playoff MVP. Lakehead with Havoc D Troy Williams.",
  "James Eng": "Pro rookie. Three D-III schools (Finlandia closed in 2023); charter member of Misericordia's first team and an alternate captain. Late PP winner vs Neumann in January. 2022 GOJHL champion.",
@@ -350,23 +349,46 @@ const PRESEASON_CALL_NOTES = {
  "Tyler German": "Scored on HSV twice last year: opened the 8-1 game and had PEN's only goal Dec. 20. Played all 58. ECHL tryout with Kalamazoo last fall. UWSP with Sciarrino and Proctor. Gates: \"competes every shift.\"",
  "Andrew Poulias": "Power-play goal in the 8-1 win over HSV. 90 points in 117 UWSP games; All-WIAC First Team 2023. Gates: \"leadership, skill and creativity.\" UWSP with Sciarrino and Proctor. Finance major.",
  "Tyler Burnie": "Playmaker: 22 of his 27 points were assists, tops on PEN. Two assists in the 8-1 win over HSV; opened the scoring in the Game 2 playoff win. 34 goals in 37 junior games at Caledonia.",
- "Andrew Kurapov": "Deadline pickup from Knoxville; beat PEN in OT for KNX Nov. 8, batting a puck out of the air. Endicott records for games and game-winners; 118 college points; 2023 All-American. Knoxville with Havoc's Stannard.",
+ "Andrew Kurapov": "Deadline pickup from Knoxville; beat PEN in OT for KNX Nov. 8, batting a puck out of the air. Endicott records for games and game-winners; 2023 All-American. Knoxville with Havoc's Stannard.",
  "Jack Suchy": "Deadline add from Peoria; nearly a point a game for PEN. Had 9-12—21 in 11 games in France first. NAHL first-round pick; Gustavus Adolphus. Gates likes his \"size and goal-scoring ability.\"",
  "Porter Schachle": "Hockey family: dad Trent played six pro seasons; brother Tanner (#12) is here too. Vermont with Havoc's Comeau; Alaska-Anchorage with Goukler. NAHL PIM leader (260). On his size: \"God-given.\"",
- "Tanner Schachle": "Porter's older brother. 163 ECHL games and the 2023 ECHL All-Star Game. His first NCAA goal came against Alabama-Huntsville (Jan. 19, 2019). Okotoks teammate of Havoc signee Brian Wilson.",
+ "Tanner Schachle": "Porter's older brother. His first NCAA goal came against Alabama-Huntsville (Jan. 19, 2019). Alaska-Anchorage and LIU; 153 PIM in 74 college games. Okotoks teammate of Havoc signee Brian Wilson.",
  "Tyler Carpenter": "Notre Dame alternate captain; 2025 Big Ten Sportsmanship Award (zero penalties in 38 games). 107 ND games; first goal a winner vs Penn State. Gates: \"can really shoot the puck.\" ND with Helliwell.",
  "Sean Ross": "Second Ice Flyers stint (5 GP in 2023-24). Saved Nantes' D1 spot with a playoff hat trick, OT winner included. Ontario Tech captain 2022-24, over Koran and likely Jakovljevic. 2014 OHL pick.",
  "Braiden Koran": "Ontario Tech alternate captain under Ross; career-high seven goals last year. His Humboldt coach called him one of the SJHL's hardest hitters. 2018 KIJHL champion; Academic All-Canadian.",
- "Colin Roe": "Big right-shot winger from Boston (Catholic Memorial). EHL Premier First All-Star with the Worcester Jr. Railers. Signed with Blue Ridge (FPHL) Sept. 9, so likely a camp tryout here.",
+ "Colin Roe": "Big right-shot winger from Boston (Catholic Memorial). EHL Premier First All-Star with the Worcester Jr. Railers. Signed with Blue Ridge (FPHL) Sept. 9 before Pensacola's camp.",
  "Alex Dameski": "2025-26 UCHC and Empire 8 Player of the Year; Geneseo captain. 59 goals, 98 points in 108 college games. First pro deal, signed Aug. 14. Five seasons with Zarudny (#10). Gates: \"relentless\" to shoot.",
  "Nicholas Aromatario": "Played all 58; one of PEN's few plus players. G+A in the 8-1 win over HSV. 2024 President's Cup with Peoria; 2019 Dudley Hewitt Cup. UWSP with Sciarrino and Proctor. \"An absolute dog.\"",
  "Samson Mouland": "Pure stay-at-home defenseman from the Northwest Territories. Anna Maria (D-III) alternate captain. Dauphin Kings alum, like Havoc's Ilott. Gates: \"competes hard … fits our identity.\"",
- "Ryan Helliwell": "Shootout winner vs Penn State at Wrigley Field, Jan. 3, 2025. Smooth-skating puck mover; 113 Notre Dame games with Carpenter. Canada Black at the U17 World Challenge. No PEN signing release yet.",
+ "Ryan Helliwell": "Shootout winner vs Penn State at Wrigley Field, Jan. 3, 2025. Smooth-skating puck mover; 113 Notre Dame games with Carpenter. Canada Black at the U17 World Challenge; WHL Cup gold with Team BC.",
  "Yahor Ramanau": "Father Oleg played for and coached Belarus' national team. Came over as a teen (Esmark Stars, Pa.). Gates likes his mobility. Goal: \"win the President's Cup.\" Boston Advantage with Havoc's Helmer.",
  "Dakota Zarudny": "Power-play quarterback and pro rookie. Geneseo alternate captain; All-USCHO Rookie First Team; 2022 NCDC champion. Lost the 2026 UCHC final to Goukler's Utica. Five seasons with Dameski (#24).",
- "Jonathan Ziskie": "Signed with Tahoe (ECHL) Sept. 22 yet on PEN's sheet; confirm. Niagara shot-blocker (58 blocks in two seasons); career highs last year; GWG in the 2024 AHA quarterfinal. Niagara alum, like Havoc's Wilson.",
- "Marko Jakovljevic": "First name unconfirmed: likely Marko, Ross's Nantes teammate. Sarnia (OHL) 143 GP; 2017 second-round pick. Ontario Tech with Ross and Koran. G+A in his only SPHL game. Coach: \"size and mobility.\"",
+ "Jonathan Ziskie": "Signed with Tahoe (ECHL) Sept. 22, now on PEN's preseason roster. Niagara shot-blocker (58 blocks in two seasons); career highs last year; GWG in the 2024 AHA quarterfinal. Niagara alum, like Havoc's Wilson.",
+ "Marko Jakovljevic": "Listed by surname only; likely Marko, Ross's Nantes teammate. Sarnia (OHL) 143 GP; 2017 second-round pick. Ontario Tech with Ross and Koran. G+A in his only SPHL game. Coach: \"size and mobility.\"",
  "Rico DiMatteo": "Led PEN in wins as a rookie; Player of the Week after opening weekend. Stopped all six Macon shootout tries in Gates' debut; 55 saves in his ECHL debut. Gave up six here in last year's opener.",
  "Kilian Bernasconi": "First season in North America. Swiss: HC Lugano system, then HC Ajoie depth; two National League games in 2024-25 (.933). One game for Switzerland's U20 team.",
- "Keenan Rancier": "Minnesota State starter in 2022-23: 19-10-1, 1.86, .914. Made 69 saves in a 2021 NAHL playoff win; Estevan playoff MVP (.955). Vermont alum, like Havoc's Comeau. No PEN signing release."
+ "Keenan Rancier": "Minnesota State starter in 2022-23: 19-10-1, 1.86, .914. Made 69 saves in a 2021 NAHL playoff win; Estevan playoff MVP (.955). Vermont alum, like Havoc's Comeau. CCHA All-Academic."
+};
+
+/* Notable pro careers for the call sheets and the printed rosters, from the hub's career file
+   (data/havoc_players.json) and the Player Study Guide. Only players with pro time worth a line. */
+const PRESEASON_CAREER_PRO = {
+ "Austin Alger": "SPHL: 150 GP, 74-83—157. All pro: 200 GP, 97-105—202",
+ "Gio Procopio": "HSV: 110 GP, 25-40—65, 179 PIM",
+ "Dawson Sciarrino": "SPHL rookie year: 48 GP, 10-20—30",
+ "Connor Fries": "SPHL: 306 GP, 74-93—167; FPHL 21 GP; ECHL 2 GP",
+ "Jack Jaunich": "HSV: 80 points in his first 105 games",
+ "Dallas Comeau": "PEN: 60 GP, 43 pts (2022-24)",
+ "Craig McCabe": "HSV: 127 GP, 20-37—57",
+ "Terry Ryder": "SPHL: 92 GP, 0-24—24; 2026 Final with Peoria",
+ "Tyler Burnie": "ECHL: Rapid City, Allen, S. Carolina",
+ "Andrew Kurapov": "Rookie year: 49 GP, 11-10—21",
+ "Jack Suchy": "Rookie year: 36 GP, 14-17—31",
+ "Tanner Schachle": "ECHL: 163 GP; 2023 ECHL All-Star",
+ "Sean Ross": "PEN 2023-24: 5 GP, 1-3—4; ECHL S. Carolina",
+ "Nicholas Aromatario": "SPHL since 2023-24: PEO, MAC, PEN",
+ "Yahor Ramanau": "FPHL since 2024-25 (3 teams)",
+ "Marko Jakovljevic": "ECHL: Bloomington, 2 GP (2025)",
+ "Kilian Bernasconi": "Swiss NL: 2 GP, .933 (2024-25)",
+ "Jonathan Ziskie": "PEN: 4 GP + 3 playoff games"
 };

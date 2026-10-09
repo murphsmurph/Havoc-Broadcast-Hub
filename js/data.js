@@ -47,7 +47,9 @@ const HAD_LOCAL=(()=>{try{return !!localStorage.getItem(KEY);}catch(e){return fa
 let DATA=load();
 function load(){
   try{
-    const raw=localStorage.getItem(KEY);
+    /* the rink was renamed: Roto-Rooter Ice -> Polaris Ice at Propst Arena. Saved settings
+       (the default venue), game forms and packets that still carry the old name are updated */
+    const raw=(localStorage.getItem(KEY)||'').replace(/Roto-Rooter Ice at Propst Arena/g,'Polaris Ice at Propst Arena');
     if(raw){
       const parsed=JSON.parse(raw);
       const out=Object.assign(structuredClone(DEFAULT_DATA),parsed);

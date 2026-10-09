@@ -521,6 +521,8 @@
      size) and the notes clamp rides --csl; Lines gets most of the sidebar, Notes the rest */
   .page.pp-cs{--csf:1;--csl:5;padding:8px 10px;}   /* the printer's 0.25in margin is the white edge; the folders' 20px inner pad is room the cards need */
   .page.pp-cs .cs-grid-rest{margin-top:4px;}
+  .page.pp-cs .cs-career{color:#222;}
+  .page .pp-car{font-size:.92em;color:#333;margin-top:1px;}
   .page.pp-cs .cs-h1{font-size:calc(19px*var(--csf));} .page.pp-cs .cs-h2{font-size:calc(9px*var(--csf));}
   .page.pp-cs .cs-game{font-size:calc(9.5px*var(--csf));}
   .page.pp-cs .cs-sub{font-size:calc(10px*var(--csf));}
