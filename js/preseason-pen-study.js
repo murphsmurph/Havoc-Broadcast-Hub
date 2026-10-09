@@ -1,8 +1,8 @@
-/* Preseason vs PEN — the Player Study Guide (Jacob Murphy, Oct 7, 2026), converted to
-   data verbatim: nothing paraphrased, links reduced to their text except under sources.
-   One addition (Oct 8): a Marko Jakovljevic entry, researched after Pensacola's preseason
-   number sheet listed him; its check line says what is unverified.
-   A classic script so it renders offline and from file://. Read by js/preseason-pen.js. */
+/* Preseason vs PEN — the Player Study Guide (Jacob Murphy, Oct 7, 2026, revised Oct 8 with
+   Pensacola's preseason numbers, the five team pronunciations and three added Ice Flyers:
+   Jakovljevic, Ziskie, Dameski), converted to data verbatim: nothing paraphrased, links
+   reduced to their text except under sources. A classic script so it renders offline and
+   from file://. Read by js/preseason-pen.js. */
 const PRESEASON_STUDY = {
  "title": "Havoc vs Ice Flyers — Player Study Guide",
  "asOf": "Oct 7, 2026 · @Jacob  Murphy",
@@ -19,7 +19,7 @@ const PRESEASON_STUDY = {
    },
    {
     "label": "Storylines",
-    "text": "captain Dom Procopio retired; new Havoc majority owner Zawyer Sports & Entertainment; three ex-Ice Flyers on Huntsville's list (Sciarrino, Comeau, Tallman); four Havoc signees are at ECHL camps (Wilson, Schultheis, Stannard, Schmuck); Pensacola has 10 newcomers in a 19-man camp."
+    "text": "captain Dom Procopio retired; new Havoc majority owner Zawyer Sports & Entertainment; three ex-Ice Flyers on Huntsville's list (Sciarrino, Comeau, Tallman); four Havoc signees are at ECHL camps (Wilson, Schultheis, Stannard, Schmuck); Pensacola's 22-man preseason roster has 12 newcomers."
    },
    {
     "label": "Next meetings",
@@ -27,7 +27,7 @@ const PRESEASON_STUDY = {
    },
    {
     "label": "Pronunciations",
-    "text": "no written guide was found for any player. Keenan Rancier's Minnesota State bio has an audio clip."
+    "text": "Pensacola supplied five: Koran (Kor-an), Schachle (Shack-ul), Rancier (Ran-Sear), Ramanau (Raman-Ow), Helliwell (Hell-e-well). No Havoc guide yet."
    },
    {
     "label": "Date check",
@@ -335,7 +335,7 @@ const PRESEASON_STUDY = {
     "ties": "Fayetteville teammate of Alger."
    }
   ],
-  "pensacolaIntro": "Nine returners in number order, then ten newcomers alphabetically. No 2026-27 numbers have been published for the newcomers, and no captain has been named. The three UW-Stevens Point products (German, Poulias, Aromatario) are the core. Pensacola's release says eight returners, but nine names carry its returning-player asterisk. Last season's top three scorers are not in camp: Sam Rhodes (24-14—38), Shane Bull (30 pts) and Cooper Jones (30 pts, now in Tahoe's ECHL camp).",
+  "pensacolaIntro": "Pensacola sent its preseason numbers Oct. 8: 22 players (12 F, 7 D, 3 G). Returners come first in number order, then newcomers. Three names joined after the Oct. 5 camp list: Jakovljevic (#3), Ziskie (#15) and Dameski (#24); their entries close this section. No captain has been named. The three UW-Stevens Point products (German, Poulias, Aromatario) are the core. Pensacola's release says eight returners, but nine names carry its returning-player asterisk. Last season's top three scorers are not in camp: Sam Rhodes (24-14—38), Shane Bull (30 pts) and Cooper Jones (30 pts, now in Tahoe's ECHL camp).",
   "pensacola": [
    {
     "num": "4",
@@ -365,10 +365,8 @@ const PRESEASON_STUDY = {
     "num": "8",
     "name": "Porter Schachle",
     "pos": "LW/C",
-    "tags": [
-     "2025-26 number"
-    ],
-    "id": "Shoots L · 6-4, 194-205 · 25 (b. Nov. 22, 2000) · Wasilla, Alaska",
+    "tags": [],
+    "id": "Shoots L · 6-4, 194-205 · 25 (b. Nov. 22, 2000) · Wasilla, Alaska · Say: Shack-ul",
     "path": "Kenai River and Danbury (NAHL) 2018-21 → Vermont 2021-23 → Alaska-Anchorage 2023-25 → Worcester (ECHL), Pensacola and South Carolina (ECHL) 2025-26",
     "lastSeason": "PEN 9 GP, 1-4—5 after joining Jan. 26",
     "honors": "UAA alternate captain 2024-25; NAHL penalty-minute leader 2020-21 (260)",
@@ -403,9 +401,7 @@ const PRESEASON_STUDY = {
     "num": "20",
     "name": "Andrew Kurapov",
     "pos": "F",
-    "tags": [
-     "2025-26 number"
-    ],
+    "tags": [],
     "id": "Shoots R · 5-10, 170 · 27 (b. Sept. 9, 1999) · Corvallis, Ore.",
     "path": "Islanders HC and Twin City (NCDC) → Endicott College 2020-25 → Knoxville, Reading (ECHL) and Pensacola 2025-26",
     "lastSeason": "Knoxville 27 GP, 7-7—14; Reading 16 GP, 1-2—3; PEN 6 GP, 3-1—4; playoffs 1-1—2",
@@ -450,7 +446,7 @@ const PRESEASON_STUDY = {
     "ties": "Dauphin Kings alum, like Havoc's Ilott (different years)."
    },
    {
-    "num": null,
+    "num": "1",
     "name": "Kilian Bernasconi",
     "pos": "G",
     "tags": [
@@ -462,7 +458,7 @@ const PRESEASON_STUDY = {
     "talkingPoints": "First season in North America. Played two games in Switzerland's top league in 2024-25 (.933). One game for Switzerland's U20 team."
    },
    {
-    "num": null,
+    "num": "18",
     "name": "Tyler Carpenter",
     "pos": "F",
     "tags": [
@@ -476,14 +472,13 @@ const PRESEASON_STUDY = {
     "ties": "Notre Dame classmate of Helliwell."
    },
    {
-    "num": null,
+    "num": "17",
     "name": "Ryan Helliwell",
     "pos": "D",
     "tags": [
-     "new",
-     "camp invite"
+     "new"
     ],
-    "id": "Shoots L · 6-0, 192 · 24 (b. Aug. 5, 2002) · Burnaby, B.C.",
+    "id": "Shoots L · 6-0, 192 · 24 (b. Aug. 5, 2002) · Burnaby, B.C. · Say: Hell-e-well",
     "path": "Langley and Trail (BCHL) 2018-21 → Notre Dame 2021-25 → Kalamazoo and Adirondack (ECHL) 2025-26",
     "lastSeason": "25 ECHL GP, 1-4—5",
     "honors": "Canada Black at the U17 World Challenge; WHL Cup gold with Team BC",
@@ -491,13 +486,13 @@ const PRESEASON_STUDY = {
     "ties": "Notre Dame with Carpenter."
    },
    {
-    "num": null,
+    "num": "55",
     "name": "Braiden Koran",
     "pos": "F",
     "tags": [
      "new"
     ],
-    "id": "Shoots L · 6-0, 201 · 25 (b. Aug. 31, 2001) · Kimberley, B.C.",
+    "id": "Shoots L · 6-0, 201 · 25 (b. Aug. 31, 2001) · Kimberley, B.C. · Say: Kor-an",
     "path": "Kimberley (KIJHL) → Humboldt Broncos (SJHL) 2019-22 → Ontario Tech (U Sports) 2022-26",
     "lastSeason": "28 GP, 7-7—14 (career-high goals); alternate captain",
     "honors": "2018 KIJHL champion; U Sports Academic All-Canadian",
@@ -505,27 +500,26 @@ const PRESEASON_STUDY = {
     "ties": "played under captain Sean Ross at Ontario Tech."
    },
    {
-    "num": null,
+    "num": "23",
     "name": "Yahor Ramanau",
     "pos": "D",
     "tags": [
      "new"
     ],
-    "id": "Shoots L · 6-1, 174 · 23 (b. Feb. 28, 2003) · Minsk, Belarus",
+    "id": "Shoots L · 6-1, 174 · 23 (b. Feb. 28, 2003) · Minsk, Belarus · Say: Raman-Ow",
     "path": "Esmark Stars 18U (Pa.) → Boston Advantage and Jersey Hitmen (USPHL) → Blue Ridge (FPHL) 2024-26 → Twin City and Biloxi (FPHL) 2025-26",
     "lastSeason": "34 FPHL GP across three teams, 1-6—7",
     "talkingPoints": "Father Oleg played for Belarus' national team and coached him. Gates likes his mobility. His stated goal: \"win the President's Cup.\"",
     "ties": "Biloxi with Havoc signee Piekarczyk (briefly); Boston Advantage with Havoc signee Helmer (2021-22)."
    },
    {
-    "num": null,
+    "num": "30",
     "name": "Keenan Rancier",
     "pos": "G",
     "tags": [
-     "new",
-     "camp invite"
+     "new"
     ],
-    "id": "Catches L · 6-2 · 26 (b. June 21, 2000) · Victoria, B.C.",
+    "id": "Catches L · 6-2 · 26 (b. June 21, 2000) · Victoria, B.C. · Say: Ran-Sear",
     "path": "Estevan (SJHL) → Minot (NAHL) → Minnesota State 2021-24 → Vermont 2024-25 → Clarkson 2025-26",
     "lastSeason": "7 GP, 4.07, .841 as a backup",
     "honors": "CCHA Goaltender of the Week twice; CCHA All-Academic; Estevan playoff MVP (.955)",
@@ -533,12 +527,11 @@ const PRESEASON_STUDY = {
     "ties": "Vermont alum, like Havoc's Comeau (different years)."
    },
    {
-    "num": null,
+    "num": "7",
     "name": "Colin Roe",
     "pos": "RW",
     "tags": [
-     "new",
-     "camp invite"
+     "new"
     ],
     "id": "Shoots R · 6-1, 205 · 25 (b. Sept. 25, 2001) · Hyde Park, Mass.",
     "path": "Worcester Jr. Railers (EHL) 2019-22 → Westfield State (D-III) 2022-26",
@@ -547,7 +540,7 @@ const PRESEASON_STUDY = {
     "talkingPoints": "Big right-shot winger from Boston (Catholic Memorial). Signed with Blue Ridge (FPHL) Sept. 9, so likely a tryout."
    },
    {
-    "num": null,
+    "num": "9",
     "name": "Sean Ross",
     "pos": "C",
     "tags": [
@@ -561,13 +554,13 @@ const PRESEASON_STUDY = {
     "ties": "captained Koran at Ontario Tech."
    },
    {
-    "num": null,
+    "num": "12",
     "name": "Tanner Schachle",
     "pos": "LW",
     "tags": [
      "new"
     ],
-    "id": "Shoots L · 6-4, 218 · 29 (b. June 20, 1997) · Wasilla, Alaska",
+    "id": "Shoots L · 6-4, 218 · 29 (b. June 20, 1997) · Wasilla, Alaska · Say: Shack-ul",
     "path": "Fairbanks (NAHL) 2016-18 → Alaska-Anchorage 2018-20 → LIU 2020-22 → ECHL (Rapid City, Norfolk, Orlando, Worcester, Bloomington) 2021-26",
     "lastSeason": "Worcester and Bloomington 17 GP, 0-2—2",
     "honors": "2023 ECHL All-Star Game",
@@ -575,7 +568,7 @@ const PRESEASON_STUDY = {
     "ties": "Okotoks Oilers teammate of Havoc signee Brian Wilson (2015-16)."
    },
    {
-    "num": null,
+    "num": "10",
     "name": "Dakota Zarudny",
     "pos": "D",
     "tags": [
@@ -586,25 +579,75 @@ const PRESEASON_STUDY = {
     "lastSeason": "27 GP, 5-15—20; alternate captain",
     "honors": "Brampton captain; 2022 NCDC champion; All-USCHO Rookie First Team; Empire 8 Second Team and UCHC Third Team 2025-26",
     "talkingPoints": "Power-play quarterback and pro rookie. Business major.",
-    "ties": "lost the 2026 UCHC final to Goukler's Utica. Teammate of Alex Dameski (signed, not in camp) for five years."
+    "ties": "lost the 2026 UCHC final to Goukler's Utica. Teammate of Alex Dameski (#24) for five years, with the Jersey Hitmen and at Geneseo."
    },
    {
     "num": "3",
-    "name": "Marko Jakovljevic",
+    "name": "Jakovljevic",
     "pos": "D",
     "tags": [
      "new",
-     "confirm"
+     "confirm first name"
     ],
-    "id": "6-4, 206 · 25 (b. Nov. 2000) · Brantford, Ont.",
-    "path": "Sarnia Sting (OHL) 2017-20 (2017 OHL U-18 second-round pick) → Trenton (OJHL) → Amherst (MHL) 2020-21 → Ontario Tech (U Sports) 2021-25, 97 GP → Bloomington (ECHL) Feb. 2025, 2 GP → Peoria (SPHL) March 2025, 8 GP plus playoffs → Nantes (France) 2025-26",
-    "lastSeason": "Nantes 30 GP, 2-4—6, 65 PIM, plus 5 relegation-round games (aggregator figure)",
-    "honors": "Ontario Tech 2021-25: 4-19—23, 100 PIM in 97 GP; his Amherst GM called him \"a natural leader on and off the ice\"",
-    "talkingPoints": "6-foot-4 stay-at-home defenseman. Not on the Oct. 2 camp roster; #3 on the team's preseason number sheet. Jacob hears the name as \"yakkov-la-vitch\"; the Serbian reading is YAH-kov-lye-vitch.",
-    "ties": "Ontario Tech with Sean Ross (the captain) and Braiden Koran; Nantes with Ross.",
-    "check": "Researched Oct. 8 from Elite Prospects, Inside The Rink, the Bloomington Bison and Ontario Tech announcements via search snippets only (the sites are blocked from the build sandbox). No Ice Flyers release found; shot side, exact age and the Nantes line are unconfirmed. Ask Pensacola PR."
+    "matchCheck": "Pensacola's list says only \"Jakovljevic.\" The one pro defenseman by that name found is Marko Jakovljevic, a Nantes teammate of Sean Ross last season. Confirm with Pensacola before using the bio below.",
+    "id": "6-4, 207 · 25 (b. Nov. 24, 2000) · Brantford, Ont.",
+    "path": "Sarnia Sting (OHL), 3 seasons, 143 GP → Trenton (OJHL) and Amherst (MHL) → Ontario Tech (U Sports) from 2021 → Bloomington (ECHL), 2 GP, and Peoria, 1 GP plus 1 playoff game, spring 2025 → Nantes (France D1) 2025-26",
+    "honors": "2017 OHL draft, 2nd round",
+    "talkingPoints": "Ontario Tech's coach cited his \"size and mobility on the back end.\" Had a goal and an assist in his only SPHL regular-season game.",
+    "ties": "Ontario Tech and Nantes with Ross; Ontario Tech with Koran (overlap unverified)."
+   },
+   {
+    "num": "15",
+    "name": "Jonathan Ziskie",
+    "pos": "D",
+    "tags": [],
+    "id": "6-3, 187-190 · 25 (b. Mar. 19, 2001) · Macomb, Mich.",
+    "path": "Fargo (USHL) and Minnesota Magicians (NAHL) 2019-20 → Bismarck Bobcats (NAHL) → Niagara (D-I) 2022-26 → Pensacola, spring 2026",
+    "lastSeason": "Niagara 32 GP, 4-7—11, all career highs; PEN 4 GP, 0-2—2, plus 3 playoff games",
+    "honors": "Bismarck assistant captain 2021-22",
+    "talkingPoints": "Shot-blocker: 58 blocks in his first two college seasons. Scored a game-winner in Niagara's 2024 Atlantic Hockey quarterfinal vs Sacred Heart.",
+    "ties": "Niagara alum, like Havoc signee Brian Wilson (different years)."
+   },
+   {
+    "num": "24",
+    "name": "Alex Dameski",
+    "pos": "RW",
+    "tags": [
+     "new"
+    ],
+    "id": "Shoots R · 6-0, 187 · 25 · Oakville, Ont.",
+    "path": "Jersey Hitmen (NCDC) → SUNY Geneseo (D-III) 2022-26",
+    "lastSeason": "Geneseo captain; 26 GP, 21-16—37; among the national leaders in goals and game-winners",
+    "honors": "2025-26 UCHC Player of the Year and Empire 8 Player of the Year; all-conference and academic honors",
+    "talkingPoints": "59 goals and 98 points in 108 college games. Gates: \"relentless to get the opportunities to shoot.\" First pro contract, signed Aug. 14.",
+    "ties": "five seasons with Zarudny (#10), with the Jersey Hitmen and at Geneseo."
    }
-  ]
+  ],
+  "pensacolaSources": {
+   "text": "Sources for these three: Ice Flyers sign Dameski · Ziskie, Niagara bio · Ziskie 2025-26 PEN stats · Jakovljevic commits to Ontario Tech · Marko Jakovljevic stats (Flashscore)",
+   "links": [
+    {
+     "label": "Ice Flyers sign Dameski",
+     "url": "https://iceflyers.com/ice-flyers-sign-forward-alex-dameski-for-2026-27-season/"
+    },
+    {
+     "label": "Ziskie, Niagara bio",
+     "url": "https://purpleeagles.com/roster.aspx?rp_id=7930"
+    },
+    {
+     "label": "Ziskie 2025-26 PEN stats",
+     "url": "https://www.eliteprospects.com/team/4568/pensacola-ice-flyers/2025-2026?tab=stats"
+    },
+    {
+     "label": "Jakovljevic commits to Ontario Tech",
+     "url": "https://goridgebacks.com/news/2021/3/11/mens-hockey-jakovljevic-commits-to-mens-hockey-program.aspx"
+    },
+    {
+     "label": "Marko Jakovljevic stats (Flashscore)",
+     "url": "https://www.flashscore.com/player/jakovljevic-marko/QixoYVaI"
+    }
+   ]
+  }
  },
  "notOnList": {
   "intro": "Eight summer signees aren't on the preseason list. Four are on ECHL camp tryouts and could be back in Huntsville if they're cut.",
@@ -737,7 +780,7 @@ const PRESEASON_STUDY = {
    {
     "Link": "Ontario Tech",
     "Havoc": "—",
-    "Ice Flyers": "Ross (captain), Koran"
+    "Ice Flyers": "Ross (captain), Koran, likely Jakovljevic"
    },
    {
     "Link": "Shreveport Mudbugs (NAHL)",

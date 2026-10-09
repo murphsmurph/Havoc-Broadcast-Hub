@@ -297,8 +297,10 @@ function ppRenderRosters(){
             <span class="pp-rpos">${esc(isCoach?(p.role||''):(p.pos||''))}</span></div>
           ${isCoach?'':`<div class="pp-rmeta">${ppDash(p.hometown)} &middot; ${ppDash(p.stats)} &middot; ${ppPM(p)}</div>`}
           <div class="pp-rnotes">${esc(p.notes||'')}</div>${isCoach?'':ppStudyDetails(p,key)}</div></div>`).join('');
+    const G=ppStudy(),src=key==='pensacola'&&G&&G.players&&G.players.pensacolaSources;   // the guide's "Sources for these three" line
     return `<div><h3 class="pp-teamhead">${esc(name)}</h3>
-      ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}</div>`;
+      ${grp('Coaches',t.coaches,true)}${grp('Forwards',t.forwards)}${grp('Defense',t.defense)}${grp('Goalies',t.goalies)}
+      ${src?`<p class="pp-small pp-rsrc">${esc(String(src.text||'').split(':')[0])}: ${(src.links||[]).map(x=>`<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.label)}</a>`).join(' &middot; ')}</p>`:''}</div>`;
   };
   el.innerHTML=side('Huntsville Havoc','havoc')+side(PP_TEAM,'pensacola');
 }
@@ -557,20 +559,26 @@ function ppAddPron(){
 }
 
 /* ============================================================
-   PLAYER STUDY GUIDE — Jacob's Oct 7 research, from js/preseason-pen-study.js
-   Matched to the camp roster by name. On screen it sits under each roster row
+   PLAYER STUDY GUIDE — Jacob's Oct 7 research, revised Oct 8, from js/preseason-pen-study.js
+   Matched to the camp roster by name (or by last name and number when the guide has only
+   a surname, as with #3 Jakovljevic). On screen it sits under each roster row
    and in three cards (signed-not-on-list, benches and ties, booth reference);
    on paper it is the back half of the packet and its own Study guide view.
    ============================================================ */
-const PP_STUDY_FIELDS=[['id','ID'],['path','Path'],['lastSeason','Last season'],['honors','Honors'],['talkingPoints','Talking points'],['ties','Ties'],['check','Check'],['numberCheck','Number check']];
+const PP_STUDY_FIELDS=[['matchCheck','Match check'],['id','ID'],['path','Path'],['lastSeason','Last season'],['honors','Honors'],['talkingPoints','Talking points'],['ties','Ties'],['check','Check'],['numberCheck','Number check']];
 function ppStudy(){return (typeof PRESEASON_STUDY!=='undefined'&&PRESEASON_STUDY)||null;}
 function ppStudyFor(p,side){
   const S=ppStudy();if(!S||!p)return null;
-  const k=norm(p.name);
-  return (((S.players||{})[side])||[]).find(e=>norm(e.name)===k)||null;
+  const k=norm(p.name),list=((S.players||{})[side])||[];
+  const hit=list.find(e=>norm(e.name)===k);if(hit)return hit;
+  /* a surname-only entry ("#3 Jakovljevic — D (new; confirm first name)") matches the roster
+     player with that last name, and the same number when both carry one */
+  const last=norm(String(p.name||'').trim().split(/\s+/).pop()||'');
+  return last&&list.find(e=>!/\s/.test(String(e.name).trim())&&norm(e.name)===last&&(!e.num||!p.number||String(e.num)===String(p.number)))||null;
 }
-/* the guide's ID line without the birthdate — "Shoots R · 6-0, 170 · 29 · Livonia, Mich." */
-function ppStudyVitals(e){return e&&e.id?String(e.id).replace(/\s*\(b\.[^)]*\)/,'').trim():'';}
+/* the guide's ID line without the birthdate or the "· Say:" pronunciation — "Shoots R · 6-0, 170 · 29 · Livonia, Mich."
+   (the call-sheet card is one line; the sheet's pronunciation box carries the sayings) */
+function ppStudyVitals(e){return e&&e.id?String(e.id).replace(/\s*\(b\.[^)]*\)/,'').replace(/\s*·\s*Say:.*$/,'').trim():'';}
 function ppStudyFieldsHTML(e,cls){
   return PP_STUDY_FIELDS.filter(([k])=>e[k]).map(([k,label])=>`<div class="${cls}"><b>${label}:</b> ${esc(e[k])}</div>`).join('');
 }
@@ -662,7 +670,8 @@ function ppStudyPages(red,S){
   if(N||W)pages.push(pgWrap(red,S,'NOT ON THE LIST &middot; WHO KNOWS WHOM',`
     ${N?`<div class="box"><h3>Signed by the Havoc, not on the preseason list</h3><div class="pp-fact">${esc(N.intro)}</div>${ppPaperRefTable(N)}</div>`:''}
     ${W?`<div class="box"><h3>Who knows whom</h3>${ppPaperRefTable(W)}</div>`:''}`));
-  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML)),'pp-flow',7));
+  if((P.pensacola||[]).length)pages.push(...ppFlow(red,S,'PENSACOLA &mdash; STUDY GUIDE',[`<div class="pp-se pp-se-intro">${esc(P.pensacolaIntro||'')}</div>`].concat(P.pensacola.map(ppStudyEntryHTML))
+    .concat(P.pensacolaSources?[`<div class="pp-se pp-se-intro pp-se-src">${esc(P.pensacolaSources.text||'')}</div>`]:[]),'pp-flow',7));
   const ref=[];
   const R=G.rinkSpots,Y=G.synonyms,C=G.situational,U=G.ruleChanges,K=G.keyRules;
   if(R)ref.push(`<div class="box"><h3>Rink locations and shorthand</h3><div class="pp-fact">${esc(R.intro)}</div>${G.rinkMapNote?`<div class="pp-fact"><i>Rink map: ${esc(G.rinkMapNote)}</i></div>`:''}${ppPaperRefTable(R)}</div>`);
@@ -680,8 +689,9 @@ function ppStudyPages(red,S){
    CALL SHEETS — one portrait page per team, built from the camp data
    Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
    same team colours (teamPal), but every value comes from PRESEASON_PEN plus
-   what is typed on this tab: the 18 Havoc and 19 Pensacola players who dress
-   Friday, their numbers, positions, hometowns, stat lines and notes. The
+   what is typed on this tab: the 18 Havoc and 22 Pensacola players who dress
+   Friday, their numbers, positions, hometowns, stat lines and a note per player
+   summarised from the study guide (PRESEASON_CALL_NOTES). The
    folders read the stored rosters and need the seed buttons first; these do not.
    ============================================================ */
 let PP_VIEW='packet';   // 'packet' (four pages + the study guide) | 'calls' (two call sheets) | 'study' (the study guide alone)
@@ -699,15 +709,23 @@ function ppCsCard(p,pal,group,side){
   const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
     :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
   const num=ppNum(p);
+  /* one badge colour per sheet, the same on every position, in the team's own scheme:
+     Havoc red with black digits; Pensacola navy blue with white digits */
+  const badge=side==='havoc'?{bg:(DATA.settings&&DATA.settings.red)||'#C8102E',fg:'#000'}:{bg:pal.primary,fg:'#fff'};
+  /* the note is the study-guide summary written for the call sheet; roster notes are the fallback */
+  const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
+  /* skip the ECHL segment when the stat line already carries it (Tanner Schachle, Helliwell) */
+  const flat=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?p.echlLastSeason:'';
+  const tags=(p.tags||[]).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('');
   return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
-      <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(num)}</span>
+      <span class="cs-num" style="background:${badge.bg};color:${badge.fg}">${esc(num)}</span>
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
     </div>
-    <div class="cs-vitals">${vitals}${(p.tags||[]).length?' '+ppTags(p):''}</div>
-    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${p.echlLastSeason?` &middot; <i>ECHL LAST SEASON:</i> ${esc(p.echlLastSeason)}`:''}</div>
-    <div class="cs-lab">NOTES:</div>
-    <div class="cs-note">${esc(p.notes||'')||'<span class="cs-ph">—</span>'}${p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:''}</div>
+    <div class="cs-vitals">${vitals}${tags?' '+tags:''}</div>
+    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${echl?` &middot; <i>ECHL LAST SEASON:</i> ${esc(echl)}`:''}</div>
+    <div class="cs-note">${esc(note)||'<span class="cs-ph">—</span>'}</div>
   </div>`;
 }
 function ppCsBox(title,rows){
@@ -721,9 +739,17 @@ function ppCallSheet(side){
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
   const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
-  const grid=(arr,group,cols)=>(arr||[]).length
-    ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side)).join('')}</div>`
-    :'<div class="cs-none">No players in this group.</div>';
+  /* full rows at `cols` across; a part-filled last row spreads its cards across the width
+     (two forwards at double width, two goalies at half the row), so no space sits empty and
+     the wider cards are shorter */
+  const grid=(arr,group,cols)=>{
+    if(!(arr||[]).length)return '<div class="cs-none">No players in this group.</div>';
+    const cards=arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side));
+    const full=cards.length-cards.length%cols,rows=[];
+    if(full)rows.push(`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${cards.slice(0,full).join('')}</div>`);
+    if(full<cards.length)rows.push(`<div class="cs-grid${full?' cs-grid-rest':''}" style="grid-template-columns:repeat(${cards.length-full},minmax(0,1fr))">${cards.slice(full).join('')}</div>`);
+    return rows.join('');
+  };
   const co=t.coaches||[];
   const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
   const coach=[hc?'HEAD COACH: '+hc.name:'',ac.length?'ASST. COACH'+(ac.length>1?'ES':'')+': '+ac.map(c=>c.name).join(', '):''].filter(Boolean).join('  /  ');
@@ -734,7 +760,7 @@ function ppCallSheet(side){
   const side1=isHome
     ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
     :ppCsBox('FORMER FLYERS AT ECHL CAMPS',D.formerFlyersAtEchl||[]);
-  const sb=`<aside class="cs-side" style="width:134px">
+  const sb=`<aside class="cs-side" style="width:124px">
     ${side1}
     ${ppCsBox('PRONUNCIATION',pron)}
     <div class="cs-sb-box pp-lines"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
@@ -763,7 +789,9 @@ function ppCallSheet(side){
    more on paper). --csf scales every font on the sheet, --csl is the notes
    clamp. The Havoc sheet (18 cards) ends up larger than Pensacola's (19). */
 /* larger type first, then more note lines: a step is (font scale, note lines) */
-const PP_CS_STEPS=[[1.3,5],[1.25,5],[1.2,5],[1.2,4],[1.15,5],[1.15,4],[1.1,6],[1.1,5],[1.1,4],[1.05,6],[1.05,5],[1.05,4],[1,6],[1,5],[1,4],[1,3],[0.95,3]];
+/* scale steps with the notes unclamped (every note shows in full); the clamped pairs after them are
+   a last resort if a sheet ever carries more than its page holds */
+const PP_CS_STEPS=[[1.4,99],[1.35,99],[1.3,99],[1.25,99],[1.2,99],[1.15,99],[1.1,99],[1.05,99],[1,99],[0.95,99],[0.9,99],[0.9,6],[0.9,5],[0.9,4],[0.85,4],[0.85,3]];
 function ppCsOverflow(pg){
   const main=pg.querySelector('.cs-main'),aside=pg.querySelector('.cs-side');
   return Math.max(pg.scrollHeight-pg.clientHeight,main?main.scrollHeight-main.clientHeight:0,aside?aside.scrollHeight-aside.clientHeight:0);

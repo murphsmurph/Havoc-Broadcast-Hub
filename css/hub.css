@@ -513,17 +513,23 @@
   .page .pp-refflow .box{break-inside:avoid;}
   .page .pp-se{break-inside:avoid;margin-bottom:7px;font-size:8px;line-height:1.3;}
   .page .pp-se-intro{font-style:italic;column-span:all;margin-bottom:5px;}
+  .page .pp-se-src{font-style:normal;font-size:8.5pt;color:#444;margin-top:6px;}
   .page .pp-se-h{font-size:9.5px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;padding-bottom:1px;}
   .page .pp-se-t{font-weight:700;text-transform:none;color:#555;}
   .page .pp-se-f{margin-bottom:1px;} .page .pp-se-f b{font-weight:900;}
   /* call sheets: every size rides --csf (set per sheet by ppCsFit, as large as fits at print
      size) and the notes clamp rides --csl; Lines gets most of the sidebar, Notes the rest */
-  .page.pp-cs{--csf:1;--csl:5;}
+  .page.pp-cs{--csf:1;--csl:5;padding:8px 10px;}   /* the printer's 0.25in margin is the white edge; the folders' 20px inner pad is room the cards need */
+  .page.pp-cs .cs-grid-rest{margin-top:4px;}
   .page.pp-cs .cs-h1{font-size:calc(19px*var(--csf));} .page.pp-cs .cs-h2{font-size:calc(9px*var(--csf));}
   .page.pp-cs .cs-game{font-size:calc(9.5px*var(--csf));}
   .page.pp-cs .cs-sub{font-size:calc(10px*var(--csf));}
-  .page.pp-cs .cs-num{font-size:calc(12px*var(--csf));} .page.pp-cs .cs-name{font-size:calc(10.5px*var(--csf));white-space:normal;line-height:1.05;}   /* four-up cards: a long name wraps rather than clips */
-  .page.pp-cs .cs-vitals,.page.pp-cs .cs-stat,.page.pp-cs .cs-note{font-size:calc(7.4px*var(--csf));}
+  /* the number: one colour per sheet on every position (Havoc red/black, Pensacola navy/white — set inline), big and heavy */
+  .page.pp-cs .cs-num{font-size:calc(20px*var(--csf));font-weight:900;min-width:calc(29px*var(--csf));line-height:1.05;padding:1px 4px;border-radius:3px;letter-spacing:-.02em;}
+  .page.pp-cs .cs-top{gap:5px;}
+  .page.pp-cs .cs-name{font-size:calc(12px*var(--csf));white-space:normal;line-height:1.05;}   /* four-up cards: a long name wraps rather than clips */
+  .page.pp-cs .cs-vitals,.page.pp-cs .cs-stat{font-size:calc(8px*var(--csf));}
+  .page.pp-cs .cs-note{font-size:calc(8.4px*var(--csf));line-height:1.25;margin-top:2px;text-align:left;hyphens:manual;}
   .page.pp-cs .cs-lab{font-size:calc(6.8px*var(--csf));}
   .page.pp-cs .cs-note{-webkit-line-clamp:var(--csl);}
   .page.pp-cs .pp-tag{font-size:calc(7px*var(--csf));}
