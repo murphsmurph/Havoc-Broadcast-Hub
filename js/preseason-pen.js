@@ -690,7 +690,8 @@ function ppStudyPages(red,S){
    Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
    same team colours (teamPal), but every value comes from PRESEASON_PEN plus
    what is typed on this tab: the 18 Havoc and 22 Pensacola players who dress
-   Friday, their numbers, positions, hometowns, stat lines and notes. The
+   Friday, their numbers, positions, hometowns, stat lines and a note per player
+   summarised from the study guide (PRESEASON_CALL_NOTES). The
    folders read the stored rosters and need the seed buttons first; these do not.
    ============================================================ */
 let PP_VIEW='packet';   // 'packet' (four pages + the study guide) | 'calls' (two call sheets) | 'study' (the study guide alone)
@@ -708,15 +709,22 @@ function ppCsCard(p,pal,group,side){
   const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
     :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
   const num=ppNum(p);
+  /* one badge colour on both sheets and every position: Havoc red, black digits */
+  const red=(DATA.settings&&DATA.settings.red)||'#C8102E';
+  /* the note is the study-guide summary written for the call sheet; roster notes are the fallback */
+  const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
+  /* skip the ECHL segment when the stat line already carries it (Tanner Schachle, Helliwell) */
+  const flat=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?p.echlLastSeason:'';
+  const tags=(p.tags||[]).map(t=>`<span class="pp-tag pp-tag-${esc(t)}">${esc(t)}</span>`).join('');
   return `<div class="cs-card" style="border-color:${edge}">
     <div class="cs-top">
-      <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(num)}</span>
+      <span class="cs-num" style="background:${red};color:#000">${esc(num)}</span>
       <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
     </div>
-    <div class="cs-vitals">${vitals}${(p.tags||[]).length?' '+ppTags(p):''}</div>
-    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${p.echlLastSeason?` &middot; <i>ECHL LAST SEASON:</i> ${esc(p.echlLastSeason)}`:''}</div>
-    <div class="cs-lab">NOTES:</div>
-    <div class="cs-note">${esc(p.notes||'')||'<span class="cs-ph">—</span>'}${p.confirmNote?` <i>Confirm: ${esc(p.confirmNote)}</i>`:''}</div>
+    <div class="cs-vitals">${vitals}${tags?' '+tags:''}</div>
+    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(p.stats):'<span class="cs-ph">—</span>'}${p.plusMinusPerGP!=null?` &middot; <i>+/- PER GP:</i> ${ppPM(p)}`:''}${echl?` &middot; <i>ECHL LAST SEASON:</i> ${esc(echl)}`:''}</div>
+    <div class="cs-note">${esc(note)||'<span class="cs-ph">—</span>'}</div>
   </div>`;
 }
 function ppCsBox(title,rows){
@@ -730,9 +738,17 @@ function ppCallSheet(side){
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
   const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
-  const grid=(arr,group,cols)=>(arr||[]).length
-    ?`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side)).join('')}</div>`
-    :'<div class="cs-none">No players in this group.</div>';
+  /* full rows at `cols` across; a part-filled last row spreads its cards across the width
+     (two forwards at double width, two goalies at half the row), so no space sits empty and
+     the wider cards are shorter */
+  const grid=(arr,group,cols)=>{
+    if(!(arr||[]).length)return '<div class="cs-none">No players in this group.</div>';
+    const cards=arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side));
+    const full=cards.length-cards.length%cols,rows=[];
+    if(full)rows.push(`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${cards.slice(0,full).join('')}</div>`);
+    if(full<cards.length)rows.push(`<div class="cs-grid${full?' cs-grid-rest':''}" style="grid-template-columns:repeat(${cards.length-full},minmax(0,1fr))">${cards.slice(full).join('')}</div>`);
+    return rows.join('');
+  };
   const co=t.coaches||[];
   const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
   const coach=[hc?'HEAD COACH: '+hc.name:'',ac.length?'ASST. COACH'+(ac.length>1?'ES':'')+': '+ac.map(c=>c.name).join(', '):''].filter(Boolean).join('  /  ');
@@ -743,7 +759,7 @@ function ppCallSheet(side){
   const side1=isHome
     ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
     :ppCsBox('FORMER FLYERS AT ECHL CAMPS',D.formerFlyersAtEchl||[]);
-  const sb=`<aside class="cs-side" style="width:134px">
+  const sb=`<aside class="cs-side" style="width:124px">
     ${side1}
     ${ppCsBox('PRONUNCIATION',pron)}
     <div class="cs-sb-box pp-lines"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
@@ -772,7 +788,9 @@ function ppCallSheet(side){
    more on paper). --csf scales every font on the sheet, --csl is the notes
    clamp. The Havoc sheet (18 cards) ends up larger than Pensacola's (19). */
 /* larger type first, then more note lines: a step is (font scale, note lines) */
-const PP_CS_STEPS=[[1.3,5],[1.25,5],[1.2,5],[1.2,4],[1.15,5],[1.15,4],[1.1,6],[1.1,5],[1.1,4],[1.05,6],[1.05,5],[1.05,4],[1,6],[1,5],[1,4],[1,3],[0.95,3]];
+/* scale steps with the notes unclamped (every note shows in full); the clamped pairs after them are
+   a last resort if a sheet ever carries more than its page holds */
+const PP_CS_STEPS=[[1.4,99],[1.35,99],[1.3,99],[1.25,99],[1.2,99],[1.15,99],[1.1,99],[1.05,99],[1,99],[0.95,99],[0.9,99],[0.9,6],[0.9,5],[0.9,4],[0.85,4],[0.85,3]];
 function ppCsOverflow(pg){
   const main=pg.querySelector('.cs-main'),aside=pg.querySelector('.cs-side');
   return Math.max(pg.scrollHeight-pg.clientHeight,main?main.scrollHeight-main.clientHeight:0,aside?aside.scrollHeight-aside.clientHeight:0);
