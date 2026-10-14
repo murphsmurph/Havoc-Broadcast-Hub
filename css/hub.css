@@ -517,30 +517,68 @@
   .page .pp-se-h{font-size:9.5px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;padding-bottom:1px;}
   .page .pp-se-t{font-weight:700;text-transform:none;color:#555;}
   .page .pp-se-f{margin-bottom:1px;} .page .pp-se-f b{font-weight:900;}
-  /* call sheets: every size rides --csf (set per sheet by ppCsFit, as large as fits at print
-     size) and the notes clamp rides --csl; Lines gets most of the sidebar, Notes the rest */
-  .page.pp-cs{--csf:1;--csl:5;padding:8px 10px;}   /* the printer's 0.25in margin is the white edge; the folders' 20px inner pad is room the cards need */
-  .page.pp-cs .cs-grid-rest{margin-top:4px;}
-  .page.pp-cs .cs-career{color:#222;}
   .page .pp-car{font-size:.92em;color:#333;margin-top:1px;}
-  .page.pp-cs .cs-h1{font-size:calc(19px*var(--csf));} .page.pp-cs .cs-h2{font-size:calc(9px*var(--csf));}
-  .page.pp-cs .cs-game{font-size:calc(9.5px*var(--csf));}
-  .page.pp-cs .cs-sub{font-size:calc(10px*var(--csf));}
-  /* the number: one colour per sheet on every position (Havoc red/black, Pensacola navy/white — set inline), big and heavy */
-  .page.pp-cs .cs-num{font-size:calc(20px*var(--csf));font-weight:900;min-width:calc(29px*var(--csf));line-height:1.05;padding:1px 4px;border-radius:3px;letter-spacing:-.02em;}
-  .page.pp-cs .cs-top{gap:5px;}
-  .page.pp-cs .cs-name{font-size:calc(12px*var(--csf));white-space:normal;line-height:1.05;}   /* four-up cards: a long name wraps rather than clips */
-  .page.pp-cs .cs-vitals,.page.pp-cs .cs-stat{font-size:calc(8px*var(--csf));}
-  .page.pp-cs .cs-note{font-size:calc(8.4px*var(--csf));line-height:1.25;margin-top:2px;text-align:left;hyphens:manual;}
-  .page.pp-cs .cs-lab{font-size:calc(6.8px*var(--csf));}
-  .page.pp-cs .cs-note{-webkit-line-clamp:var(--csl);}
-  .page.pp-cs .pp-tag{font-size:calc(7px*var(--csf));}
-  .page.pp-cs .cs-sb-h{font-size:calc(8px*var(--csf));}
-  .page.pp-cs .cs-sb-row{font-size:calc(7.5px*var(--csf));overflow-wrap:anywhere;}
-  .page.pp-cs .pp-lines{flex:3 1 auto;display:flex;flex-direction:column;min-height:0;}
-  .page.pp-cs .pp-lines .cs-write{flex:1 1 auto;min-height:150px;}
-  .page.pp-cs .pp-notes{flex:2 1 auto;display:flex;flex-direction:column;min-height:0;}
-  .page.pp-cs .pp-notes .cs-write{flex:1 1 auto;min-height:60px;}
+  /* ---- legal call sheet (js/callsheet.js): one page per team, 8.5 x 14 in ----
+     every size rides --csf, set per sheet by csFit as large as fits at print size;
+     --pri / --on are the club's colour and its text colour, set inline per sheet */
+  .page.csl-page{--csf:1;--pri:#C8102E;--on:#fff;box-sizing:border-box;width:816px;height:1344px;min-height:1344px;padding:8px 10px;overflow:hidden;display:flex;flex-direction:column;gap:3px;font-size:calc(8.5px*var(--csf));line-height:1.3;color:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .csl-head{display:flex;align-items:center;gap:8px;background:var(--pri);color:var(--on);padding:4px 9px;border-radius:4px;flex:0 0 auto;}
+  .csl-logo{height:calc(40px*var(--csf));width:auto;max-width:calc(64px*var(--csf));background:#fff;border-radius:4px;padding:2px;object-fit:contain;flex:0 0 auto;}
+  .csl-title{min-width:0;flex:1 1 auto;}
+  .csl-h1{font-size:calc(15px*var(--csf));font-weight:900;text-transform:uppercase;letter-spacing:.01em;line-height:1.05;}
+  .csl-h2{font-size:calc(9.5px*var(--csf));font-weight:800;text-transform:uppercase;letter-spacing:.03em;margin-top:2px;opacity:.95;}
+  .csl-game{font-size:calc(8.5px*var(--csf));font-weight:800;color:#333;text-transform:uppercase;letter-spacing:.03em;flex:0 0 auto;}
+  .csl-susp{font-size:calc(9px*var(--csf));font-weight:900;text-transform:uppercase;text-align:center;color:#fff;background:#C8102E;border-radius:3px;padding:2px 4px;flex:0 0 auto;}
+  .csl-coaches{display:flex;flex-wrap:wrap;gap:2px 12px;border:1px solid #333;border-radius:3px;padding:2px 6px;font-size:calc(8.5px*var(--csf));flex:0 0 auto;}
+  .csl-co b{font-weight:900;} .csl-co i{color:#444;}
+  .csl-body{display:grid;grid-template-columns:192px minmax(0,1fr);gap:6px;flex:1 1 auto;min-height:0;}
+  .csl-left,.csl-players{min-height:0;overflow:hidden;display:flex;flex-direction:column;}
+  .csl-left{border:1px solid #555;border-radius:3px;padding:2px 4px;gap:1px;}
+  .csl-sec{font-size:calc(8px*var(--csf));font-weight:900;text-transform:uppercase;letter-spacing:.06em;border-bottom:1.5px solid var(--pri);color:var(--pri);margin:3px 0 1px;flex:0 0 auto;}
+  .csl-sec:first-child{margin-top:0;}
+  table.csl-res{border-collapse:collapse;width:100%;font-size:calc(7.8px*var(--csf));line-height:1.25;flex:0 0 auto;}
+  table.csl-res th{font-weight:900;text-align:left;border-bottom:1px solid #999;padding:0 2px;}
+  table.csl-res td{padding:0 2px;border-bottom:1px dotted #ddd;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:72px;}
+  table.csl-res td.csl-r{font-weight:800;text-align:right;}
+  .csl-w{background:#C6EFCE;} .csl-l{background:#FFC7CE;}
+  tr.csl-up td{color:#555;font-style:italic;}
+  .csl-tx{white-space:pre-wrap;font-size:calc(7.8px*var(--csf));line-height:1.3;min-height:calc(10px*var(--csf));flex:0 0 auto;}
+  .csl-st{display:flex;gap:4px;font-size:calc(8px*var(--csf));line-height:1.3;align-items:baseline;flex:0 0 auto;}
+  .csl-seed{font-weight:900;width:14px;flex:0 0 auto;} .csl-stt{font-weight:800;flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .csl-stv{flex:0 0 auto;white-space:nowrap;}
+  .csl-me{background:#f1f1f1;font-weight:900;}
+  .csl-po{color:#C8102E;font-weight:900;text-align:center;font-size:calc(7.5px*var(--csf));letter-spacing:.05em;border-top:1.5px solid #C8102E;margin:1px 0;flex:0 0 auto;}
+  .csl-dr{display:flex;gap:4px;font-size:calc(8px*var(--csf));line-height:1.3;align-items:baseline;border-bottom:1px dotted #ddd;flex:0 0 auto;}
+  .csl-dl{font-weight:800;flex:0 0 48%;} .csl-dv{flex:1 1 auto;min-width:0;}
+  table.csl-per{border-collapse:collapse;width:100%;margin-top:2px;font-size:calc(7.8px*var(--csf));flex:0 0 auto;}
+  table.csl-per th{font-weight:900;border:1px solid #999;padding:0 2px;background:#eee;} table.csl-per td{border:1px solid #999;padding:0 2px;text-align:center;}
+  .csl-br{font-size:calc(8px*var(--csf));line-height:1.3;flex:0 0 auto;}
+  .csl-dim{color:#888;font-style:italic;}
+  .csl-row{display:grid;grid-template-columns:232px minmax(0,1fr);gap:5px;border-bottom:1px solid #999;padding:1px 0 2px;break-inside:avoid;flex:0 0 auto;}
+  .csl-band{display:flex;gap:4px;background:var(--pri);color:var(--on);font-size:calc(9.5px*var(--csf));font-weight:800;padding:1px 4px;border-radius:2px 2px 0 0;white-space:nowrap;overflow:hidden;line-height:1.25;}
+  .csl-band span{flex:0 0 auto;} .csl-band span:first-child{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;} .csl-band .csl-sep{opacity:.7;flex:0 0 auto;}
+  .csl-pl2{display:flex;gap:5px;align-items:flex-start;margin-top:2px;}
+  .csl-badge{flex:0 0 auto;min-width:calc(44px*var(--csf));height:calc(30px*var(--csf));line-height:calc(30px*var(--csf));text-align:center;background:var(--pri);color:var(--num,var(--on));font-size:calc(26px*var(--csf));font-weight:900;border-radius:3px;padding:0 3px;letter-spacing:-.02em;}
+  .csl-id{min-width:0;flex:1 1 auto;}
+  .csl-last{font-size:calc(14px*var(--csf));font-weight:900;text-transform:uppercase;line-height:1.05;letter-spacing:-.01em;}
+  .csl-let{font-size:calc(10px*var(--csf));font-weight:800;}
+  .csl-pron{font-size:calc(9px*var(--csf));font-weight:700;color:#222;line-height:1.2;}
+  .csl-meta{font-size:calc(7.5px*var(--csf));color:#333;line-height:1.2;}
+  .csl-bul{font-size:calc(8px*var(--csf));line-height:1.25;min-width:0;}
+  .csl-bul > div{padding-left:7px;text-indent:-7px;} .csl-bul > div::before{content:"• ";}
+  .csl-bul:empty::before{content:"click to write";color:#999;font-style:italic;}
+  .csl-empty{font-size:calc(9px*var(--csf));color:#777;font-style:italic;padding:6px 2px;}
+  .csl-status{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:3px;flex:0 0 auto;}
+  .csl-sc{border:1px solid #bbb;border-radius:3px;padding:1px 4px;font-size:calc(7.8px*var(--csf));line-height:1.3;}
+  .csl-sh{font-weight:900;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid #ddd;font-size:calc(7.5px*var(--csf));}
+  .csl-write{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:3px;flex:1 1 auto;min-height:calc(90px*var(--csf));}
+  .csl-left .csl-write{grid-template-columns:1fr;}
+  .csl-wbox{border:1px solid #bbb;border-radius:3px;padding:1px 4px;display:flex;flex-direction:column;min-height:0;}
+  .csl-wh{font-size:calc(7.5px*var(--csf));font-weight:900;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid #ddd;flex:0 0 auto;}
+  .csl-rule{flex:1 1 auto;min-height:calc(60px*var(--csf));}
+  .csl-foot{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .csl-foot .fd-contact,.csl-foot .pg-stamp{font-size:calc(7px*var(--csf));margin:0;}
+  .csl-page .ov-mark{font-size:9px;} .csl-page .fv-rv{font-size:8px;padding:0 2px;}
+  .csl-page .fd-blank{min-width:40px;height:9px;}
   .page table.pp-pt{font-size:8px;}
   .page table.pp-pt td{line-height:1.3;vertical-align:top;padding:1px 4px;}
   .page table.pp-pt tr.pp-grp td{background:var(--havoc-silver);font-weight:900;text-transform:uppercase;font-size:7.5px;letter-spacing:.06em;padding:2px 5px;}
@@ -736,6 +774,7 @@
   .seg .btn.small{margin-top:6px;}
   @media (max-width:700px){.seg-grid{grid-template-columns:1fr;}}
   @page{size:letter portrait;margin:0;}
+  @page legal{size:legal portrait;margin:0.25in;}   /* the call sheets (page:legal) — 8.5 x 14 with the folders' margins */
   @media print{
     /* screen themes live in @media screen, so paper needs no reset — this only
        guards against a stray inline theme value reaching the sheet */
@@ -755,7 +794,9 @@
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;}
-    .hub-preview__page.pp-cs{width:7.95in !important;}   /* mobile.css forces .hub-preview__page to 816px in print; a call sheet must stay inside the 0.25in margins */ /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
+    .page.csl-page{width:7.95in !important;height:13.45in !important;min-height:0 !important;overflow:hidden;page:legal;page-break-inside:avoid;}   /* legal portrait with 0.25in margins — one page per team */
+    .hub-preview__page.csl-page{width:7.95in !important;}   /* mobile.css forces .hub-preview__page to 816px in print; a call sheet must stay inside the margins */
+    .csl-bul:empty::before{content:"";} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
     .ws-page{height:10.45in !important;overflow:hidden;}
     .fv{outline:none !important;}
     #panel-opening.printing .card{display:none !important;}

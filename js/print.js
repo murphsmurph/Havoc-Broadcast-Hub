@@ -68,6 +68,9 @@ function secToolsHTML(key){
     <button title="Back to the default" onclick="event.stopPropagation();secReset('${key}')">&#8635;</button>
   </div>`;
 }
+/* the legal call sheets size themselves (csFit, callsheet.js) — the section zoom
+   and its letter-height checks leave them alone */
+function secSkip(p){return !!(p&&p.classList&&p.classList.contains('csl-page'));}
 /* apply stored size/bold to every built page, and warn about anything that overflows */
 function secApplyAll(){
   const sv=SUBTABS.print;
@@ -75,7 +78,7 @@ function secApplyAll(){
   const pages=[...document.querySelectorAll('#panel-print .subview.active .page')];
   const over=[];
   pages.forEach((p,i)=>{
-    const key=p.dataset.sec;if(!key)return;
+    const key=p.dataset.sec;if(!key||secSkip(p))return;
     const pt=secPt(key);
     // scale the CONTENT, never the page box — the sheet stays one letter page,
     // so a size change can make content stop fitting but can never spill onto
@@ -98,7 +101,7 @@ function secApplyAll(){
   // measure after the zoom lands
   requestAnimationFrame(()=>{
     pages.forEach((p,i)=>{
-      const key=p.dataset.sec;if(!key)return;
+      const key=p.dataset.sec;if(!key||secSkip(p))return;
       // a page that grows past one letter sheet, or any block inside it that has
       // started clipping its own content — both read as "this no longer fits"
       const z=p.querySelector(':scope > .sec-zoom');
@@ -136,7 +139,7 @@ async function fitActiveAuto(){
     await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)));
     let moved=false;
     document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
-      const key=p.dataset.sec;if(!key)return;
+      const key=p.dataset.sec;if(!key||secSkip(p))return;
       if((DATA.secPt||{})[key])return;
       if(secPt(key)<=7)return;
       if(pkUsed(p)>pkRoom(p)+2){
@@ -156,7 +159,7 @@ async function secFitAll(){
     await new Promise(r=>requestAnimationFrame(()=>setTimeout(r,0)));
     const bad=[];
     document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
-      const key=p.dataset.sec;if(!key)return;
+      const key=p.dataset.sec;if(!key||secSkip(p))return;
       const z=p.querySelector(':scope > .sec-zoom');
       const scale=z?(+z.style.zoom||1):1;
       const tall=p.offsetHeight-1056>2||(z&&(z.scrollHeight*scale)-p.clientHeight>2);
@@ -174,7 +177,7 @@ function secRenderBar(over){
   const bar=document.getElementById('prSecBar');if(!bar)return;
   const keys=[];
   document.querySelectorAll('#panel-print .subview.active .page').forEach(p=>{
-    if(p.dataset.sec&&keys.indexOf(p.dataset.sec)<0)keys.push(p.dataset.sec);
+    if(p.dataset.sec&&!secSkip(p)&&keys.indexOf(p.dataset.sec)<0)keys.push(p.dataset.sec);
   });
   if(!keys.length){bar.innerHTML='';return;}
   bar.innerHTML=`<div class="sec-bar"><h4>Section size &amp; weight — 1 pt per click, saved with your layout</h4>`
@@ -408,9 +411,17 @@ function printDoc(which){
   if(host&&host!==panel)marks.push(host);
   marks.forEach(m=>m.classList.add('printing'));
   let st=null;
-  if(which==='chart'||which==='folders'){ // letter vertical (portrait), one page per side
+  if(which==='chart'||which==='folders'){ // portrait with the folders' 0.25in margins, one page per side
+    /* the call sheets are legal (8.5 x 14) and carry a named page (page:legal) so a mixed
+       job — call sheets plus letter data pages, or Print Tonight — prints each at its own
+       size on Chromium. A call-sheets-only job sets legal outright; a browser without named
+       pages prints a mixed job on legal so nothing is clipped. */
+    const pgs=[...panel.querySelectorAll('.page')];
+    const legalAll=pgs.length>0&&pgs.every(secSkip),mixed=!legalAll&&pgs.some(secSkip);
+    const named=!!(window.CSS&&CSS.supports&&CSS.supports('page','legal'));
+    const size=(legalAll||(mixed&&!named))?'legal':'letter';
     st=document.createElement('style');
-    st.textContent='@page{size:letter portrait;margin:0.25in;}';
+    st.textContent='@page{size:'+size+' portrait;margin:0.25in;}';
     document.head.appendChild(st);
   }
   // photos fully loaded (or collapsed to text-only) before the dialog opens

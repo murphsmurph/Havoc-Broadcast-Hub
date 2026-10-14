@@ -370,7 +370,7 @@ function renderVerbiage(){
 let FD_FILTER=null;
 function fdOv(team){DATA.folderOv=DATA.folderOv||{};return DATA.folderOv[team]=DATA.folderOv[team]||{};}
 /* value cell: hand override > computed > "—" (Havoc) / write-in line (opponent) */
-function fdCell(team,key,computed,isOpp){
+function fdCell(team,key,computed,isOpp,block){
   const ov=fdOv(team)[key];
   const hasOv=ov!=null&&String(ov).trim()!=='';
   const hasSrc=computed!=null&&computed!=='';
@@ -380,7 +380,8 @@ function fdCell(team,key,computed,isOpp){
   else inner=isOpp?'<span class="fd-blank"></span>':'—';
   // marker + revert only when a synced source exists — sourceless fields are plain manual entry
   const mark=hasOv&&hasSrc?`<b class="ov-mark" title="manual override — synced: ${esc(String(computed))}">•</b><button class="fv-rv no-print" title="Revert to synced" onclick="fdRevert('${esc(team)}','${esc(key)}')">↺</button>`:'';
-  return `<span class="fv" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</span>${mark}`;
+  const tag=block?'div':'span';
+  return `<${tag} class="fv${block?' fv-block':''}" contenteditable="true" spellcheck="false" data-t="${esc(team)}" data-k="${esc(key)}">${inner}</${tag}>${mark}`;
 }
 /* one line off the club's notes when you haven't written your own — the booth
    card is a fixed sheet, so it takes the headline note, not the whole file */
@@ -501,7 +502,7 @@ function fdRec(gs){
   const c=ks=>gs.filter(g=>ks.indexOf(g.wl)>=0).length;
   return c(['W','OTW','SOW'])+'-'+c(['L'])+'-'+c(['OTL'])+'-'+c(['SOL']);
 }
-function fdPtsOf(gs){return gs.reduce((s,g)=>s+(g.wl==='W'?3:(g.wl==='OTW'||g.wl==='SOW'?2:(g.wl==='OTL'||g.wl==='SOL'?1:0))),0);}
+function fdPtsOf(gs){return gs.reduce((s,g)=>s+(g.wl==='W'?2:(g.wl==='OTW'||g.wl==='SOW'?2:(g.wl==='OTL'||g.wl==='SOL'?1:0))),0);}
 function fdStreak(gs){
   if(!gs.length)return null;
   const w=g=>['W','OTW','SOW'].indexOf(g.wl)>=0;
@@ -650,105 +651,119 @@ function fdEnteringLine(p){
   if(pr&&(+pr.gp)&&(!hv||pr.gp!==hv.gp||pr.pts!==hv.pts||pr.w!==hv.w))parts.push(seg('PRO',pr));
   return parts.filter(Boolean).join('&nbsp;&nbsp;·&nbsp;&nbsp;');
 }
-/* the prose blurb — the club's broadcast notes, his to rewrite in place */
-function fdNotesText(p){
+/* the call-sheet bullets — his own edit first, then the club's broadcast notes,
+   then what the player editor saves (bbio / notes), then the bios file's notes */
+function fdNoteLines(p){
+  const clean=arr=>arr.map(x=>String(x==null?'':x).replace(/^[•\-\s]+/,'').trim()).filter(Boolean);
+  if(p.callNote!=null&&String(p.callNote).trim())return clean(String(p.callNote).split('\n'));
   const b=bioLine((biosFor(p)||{}).broadcast_bio);
-  if(b)return b.split('\n').map(s=>s.replace(/^[•\-\s]+/,'').trim()).filter(Boolean).join(' ');
-  if(p.callNote!=null&&String(p.callNote).trim())return String(p.callNote);
-  const n=(p.bioNotes||[]).slice(0,2).join(' ');
-  return n||'';
+  if(b)return clean(b.split('\n'));
+  if(p.bbio&&String(p.bbio).trim())return clean(String(p.bbio).split('\n'));
+  if(p.notes&&String(p.notes).trim())return clean(String(p.notes).split('\n'));
+  return clean((p.bioNotes||[]).slice(0,3));
 }
-function fdPersonalText(p){
-  if(p.callPersonal!=null&&String(p.callPersonal).trim())return String(p.callPersonal);
-  const bits=[];
-  if(p.dob||p.birth)bits.push('Born '+[p.dob,p.birth?'from '+p.birth:''].filter(Boolean).join(' '));
-  if(p.bornIn&&p.bornIn!==p.birth)bits.push('birthplace '+p.bornIn);
-  if(p.junior)bits.push(p.junior);
-  return bits.join(' … ');
+function fdNotesText(p){return fdNoteLines(p).join(' ');}
+/* the sample sheet's band stat: skaters "30G 23A 53P", goalies "10-4-2 2.84 .915";
+   from the synced team stats, else (Havoc) last season's final line marked with the year */
+function fdBandStat(p,ts){
+  const out={stat:'',gp:''};
+  if(ts){
+    if(p.pos==='G'){
+      const g=(ts.goalies||[]).find(x=>(x.htId&&p.htId&&x.htId===p.htId)||x.num===p.num||norm(x.name)===norm(p.name));
+      if(g){out.stat=[g.w+'-'+g.l+'-'+g.otl,g.gaa||'',g.svpct||''].filter(Boolean).join(' ');out.gp=(g.gp||0)+' GP';return out;}
+    }else{
+      const x=(ts.players||[]).find(y=>(y.htId&&p.htId&&y.htId===p.htId)||y.num===p.num||norm(y.name)===norm(p.name));
+      if(x){out.stat=x.g+'G '+x.a+'A '+x.pts+'P';out.gp=(x.gp||0)+' GP';return out;}
+    }
+  }
+  const sp=msSpineFor(p);if(!sp)return out;
+  const rows=spineLastRows(sp);if(!rows.length)return out;
+  const r=rows[rows.length-1],yr="'"+String(r.season||'').slice(2);
+  const isG=p.pos==='G'||sp.type==='goalie';
+  // the year rides on the GP ("54 GP '25-26"), so the band keeps its room for the name
+  out.stat=isG?[(r.w!=null?r.w+'-'+(r.l||0)+'-'+(r.otl||0):''),(r.gaa!=null?Number(r.gaa).toFixed(2):''),(r.svpct!=null?fmtSv(r.svpct):'')].filter(Boolean).join(' ')
+           :(r.g||0)+'G '+(r.a||0)+'A '+(r.pts||0)+'P';
+  out.gp=(r.gp!=null?r.gp+' GP ':'')+yr;
+  return out;
 }
-function fdVitals(p){
-  const g=p.pos==='G';
-  return 'Ht: '+(p.ht||'—')+'&nbsp; Wt: '+(p.wt||'—')+'&nbsp; '+(g?'Catches':'Shoots')+': '+(p.sh||'—')
-    +'&nbsp; Age: '+(p.age||'—');
+/* coaches for the box: (HC) name — tenure · (AC) … (EQ) … (T) … */
+function fdCoachList(team){
+  const {list,head,asst}=staffFor(team);
+  const ref=getCoach(team);
+  const out=[];
+  const hcName=(head&&head.name)||ref.name||'';
+  if(hcName){
+    const bio=String(ref.bio||'');
+    // a coaching record reads W-L-OTL; a bare year range in the bio is playing days, not a record
+    const career=(bio.match(/\b(\d{1,3}-\d{1,3}-\d{1,3}(?:-\d{1,3})?)\b/)||[])[1]||'';
+    let tenure=(bio.match(/(\d+(?:st|nd|rd|th)[^.;]*?(?:with|overall|as head coach)[^.;]*)/i)||[])[1]||'';
+    if(career)tenure=tenure.replace(new RegExp('\\(?\\s*'+career.replace(/-/g,'\\-')+'\\s*\\)?','g'),'').trim();
+    tenure=tenure.replace(/[\s(]+$/,'');
+    out.push({role:'HC',name:hcName,extra:[tenure,career?'('+career+')':''].filter(Boolean).join(' ')});
+  }
+  asst.forEach(a=>out.push({role:'AC',name:a.name}));
+  (list||[]).filter(x=>x!==head&&asst.indexOf(x)<0).forEach(x=>{
+    const r=String(x.role||'');
+    const role=/equip/i.test(r)?'EQ':(/train|therap/i.test(r)?'T':(/general manager|^gm$/i.test(r)?'GM':(/video/i.test(r)?'VID':'')));
+    if(role)out.push({role,name:x.name});
+  });
+  return out;
 }
-function fdCard(p,side,pal,group){
-  const parts=(p.name||'').trim().split(/\s+/);
-  let first='',last='';
-  if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
-  const letter=p.capt==='C'?' (C)':p.capt==='A'?' (A)':'';
-  const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const ts=findTeamStats(side==='home'?'Huntsville':teamCity(DATA.game.opp));
-  const season=fdSeasonLine(p,ts),career=fdCareerLine(p);
-  // committed bridge lines fill in only where live data is absent (Havoc only)
-  const lastYr=(!season&&side==='home')?fdLastYrLine(p):null;
-  const entering=(!career&&side==='home')?fdEnteringLine(p):'';
-  const notes=fdNotesText(p),personal=fdPersonalText(p);
-  const ed=(k,cls,html)=>`<div class="${cls}">${html}</div>`;
-  return `<div class="cs-card" style="border-color:${edge}">
-    <div class="cs-top">
-      <span class="cs-num" style="background:${edge};color:${pal.primary}">${esc(p.num||'')}</span>
-      <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}${letter}</span>
-    </div>
-    <div class="cs-vitals">${fdVitals(p)}</div>
-    ${season?`<div class="cs-stat"><i>${esc((statsScopeLabel()||'SEASON').toUpperCase())} STATS:</i> ${season}</div>`
-            :lastYr?`<div class="cs-stat"><i>${esc(lastYr.label.toUpperCase())}:</i> ${lastYr.html}</div>`
-            :`<div class="cs-stat"><i>SEASON STATS:</i> <span class="cs-ph">no ${esc(seasonNowShort())} stats published yet</span></div>`}
-    ${career?`<div class="cs-stat"><i>CAREER STATS (SPHL TOTALS):</i> ${career}</div>`
-            :entering?`<div class="cs-stat"><i>ENTERING ${esc(sheetSeason())}:</i> ${entering}</div>`:''}
-    <div class="cs-lab">SEASON/CAREER NOTES:</div>
-    ${ed('note','cs-note',esc(notes)||'<span class="cs-ph">click to write</span>')}
-    <div class="cs-lab">PERSONAL NOTES:</div>
-    ${ed('personal','cs-note cs-pers',esc(personal)||'<span class="cs-ph">click to write</span>')}
-  </div>`;
-}
-function fdSideList(title,text,cls){
-  const rows=String(text||'').split('\n').map(x=>x.trim()).filter(Boolean);
-  return `<div class="cs-sb-box ${cls||''}"><div class="cs-sb-h">${esc(title)}</div>`
-    +(rows.length?rows.map(r=>'<div class="cs-sb-row">'+esc(r)+'</div>').join(''):'<div class="cs-sb-row cs-dim">—</div>')
-    +`</div>`;
-}
-function fdCallSheet(side){
+function fdCallSheetModel(side){
   const S=DATA.settings,G=DATA.game;
   const isHome=side==='home';
   const team=isHome?'Huntsville Havoc':(G.opp||'Opponent');
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
+  const L=fdLeftModel(side);
+  const kw=L.kw,isOpp=L.isOpp;
+  const C=(key,computed)=>fdCell(team,key,computed,isOpp);
+  /* header: record, points and place as the sample has them, then the championships */
+  const st=L.st,rec=fdTeamRec(team),place=fdPlace(team);
+  const title=[team.toUpperCase(),rec,st&&st.pts!=null?'('+st.pts+' PTS)':'',place?'· '+place:''].filter(Boolean).join(' ');
+  const cups=((typeof SPHL_REF!=='undefined'&&SPHL_REF.cups)||{})[team]||[];
+  const sub=cups.length?cups.length+'-TIME PRESIDENT\'S CUP CHAMPION ('+cups.join(', ')+')':'';
+  /* the data column */
+  const city=g=>teamCity(g);
+  const results=L.recent.map(g=>({date:new Date(g.d+'T12:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'}),
+    away:city(g.a),home:city(g.h),result:g.wl+' '+g.gf+'-'+g.ga+(g.ot?' ('+g.ot+')':''),cls:/W$/.test(g.wl)?'w':(/L$/.test(g.wl)?'l':'')}));
+  const upcoming=L.upcoming.map(x=>({date:x.date||'',away:x.hv==='@'?'Huntsville':city(x.team||''),home:x.hv==='@'?city(x.team||''):'Huntsville',result:x.time||''}));
+  const standings=L.standings.map(t=>({seed:t.i+1,team:t.team,valueHTML:fdCell(team,'st'+t.i,t.line,false),isMe:t.isMe,poAfter:t.i===7}));
+  const data=L.rows.map(r=>({label:r[1],valueHTML:C(r[0],r[2])}));
+  ['streaknote','h2hnote'].forEach(k=>{const ov=fdOv(team)[k];if(ov!=null&&String(ov).trim())data.push({label:k==='streaknote'?'Streak note':'H2H note',valueHTML:C(k,null)});});
+  const gp=L.gp;
+  const periods=[['p1','1st'],['p2','2nd'],['p3','3rd'],['ot','OT']].map(([k,lbl])=>({label:lbl,cells:[C(k+'gf',gp?gp[k][0]:null),C(k+'ga',gp?gp[k][1]:null),C(k+'sf',null),C(k+'sa',null)]}));
+  const short=team.split(' ').pop().toUpperCase();
+  const left={resultsTitle:'Results · next up',results,upcoming,txHTML:fdCell(team,'tx',L.tx,isOpp,true),
+    standingsTitle:'SPHL standings'+scopeSuffixFor('standings'),standings,dataTitle:short+' data',data,periods};
+  /* players: by number, goalies last, no position groups */
   const list=(isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[])).filter(p=>p.active!=='0'&&p.name);
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
-  const fwd=(list.filter(p=>p.pos!=='D'&&p.pos!=='G')).sort(byNum);
-  const def=(list.filter(p=>p.pos==='D')).sort(byNum);
-  const gls=(list.filter(p=>p.pos==='G')).sort(byNum);
-  const grid=(arr,group,key)=>arr.length
-      ?`<div class="cs-grid" style="grid-template-columns:repeat(${({f:3,d:2,g:2})[key]},minmax(0,1fr))">${arr.map(p=>fdCard(p,side,pal,group)).join('')}</div>`
-      :'<div class="cs-none">No players in this group.</div>';
-  const rec=fdTeamRec(team),place=fdPlace(team);
-  const coach=fdCoachLine(team);
-  const susp=(isHome?(G.susp||''):(G.oppSusp||'')).trim();
-  const sb=`<aside class="cs-side" style="width:170px">
-    ${fdSideList('IR',isHome?G.ir:G.oppIr)}
-    ${fdSideList('ECHL',isHome?G.echl:G.oppEchl)}
-    ${susp?`<div class="cs-susp">*** ${esc(susp.toUpperCase())} ***</div>`:''}
-    ${fdSideList('SCRATCHES',isHome?G.scratch:G.oppScratch)}
-    <div class="cs-sb-box"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
-    <div class="cs-sb-box cs-grow"><div class="cs-sb-h">NOTES</div><div class="cs-write cs-write-grow"></div></div>
-  </aside>`;
-  return `<div class="page lc-page cs-page">
-    <div class="cs-head" style="background:${primary};color:${pal.textOn}">
-      <div class="cs-h1">${esc(team.toUpperCase())}${rec?' ('+esc(rec)+')':''}${place?' – '+esc(place):''}</div>
-      ${coach?`<div class="cs-h2">${esc(coach)}</div>`:''}
-    </div>
-    <div class="cs-game">${esc(fdGameLine())}</div>
-    <div class="cs-body">
-      <div class="cs-main">
-        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${fwd.length})</div>${grid(fwd,'F','f')}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${def.length})</div>${grid(def,'D','d')}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${gls.length})</div>${grid(gls,'G','g')}
-      </div>
-      ${sb}
-    </div>
-    <div class="fd-contact">${esc(S.mediaName||'')} | ${esc(S.mediaTitle||'')} · ${esc(S.mediaPhone||'')} · ${esc(S.mediaEmail||'')}</div>
-    ${dataStampHTML(team)}
-  </div>`;
+  const ordered=list.filter(p=>p.pos!=='G').sort(byNum).concat(list.filter(p=>p.pos==='G').sort(byNum));
+  const ts=findTeamStats(kw);
+  const players=ordered.map(p=>{
+    const parts=(p.name||'').trim().split(/\s+/);
+    let first='',last='';
+    if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+    const hw=[String(p.ht||'').replace(/^(\d)-(\d{1,2})$/,"$1'$2"),p.wt||''].filter(Boolean).join(' ');
+    const bs=fdBandStat(p,ts);
+    const key=p.id||p.htId||norm(p.name);
+    return {num:p.num||'',pos:p.pos==='G'?'G':(p.pos==='D'?'D':'F'),first,last,letter:p.capt==='C'?'C':(p.capt==='A'?'A':''),
+      hw,stat:bs.stat,gp:bs.gp,hometown:p.birth||p.bornIn||'',pron:fdPron(p),bullets:fdNoteLines(p),noteKey:'note:'+key,noteTeam:team};
+  });
+  const lines=v=>String(v||'').split('\n').map(x=>x.trim()).filter(Boolean);
+  return {side,team,primary,textOn:pal.textOn||'#fff',numText:isHome?'#000':(pal.textOn||'#fff'),logo:teamLogoSrc(team),title,sub,game:fdGameLine(),
+    susp:(isHome?(G.susp||''):(G.oppSusp||'')).trim(),coaches:fdCoachList(team),left,players,
+    emptyNote:isHome?'No active Havoc roster — Rosters tab.':'No '+team+' roster yet — pull rosters on Live Data or add players on Rosters → Opponent.',
+    status:{ir:lines(isHome?G.ir:G.oppIr),echl:lines(isHome?G.echl:G.oppEchl),scratch:lines(isHome?G.scratch:G.oppScratch)},writeIns:'players',
+    foot:{contact:[S.mediaName||'',S.mediaTitle||''].filter(Boolean).join(' | ')+' · '+[S.mediaPhone||'',S.mediaEmail||''].filter(Boolean).join(' · '),stampHTML:dataStampHTML(team)}};
+}
+/* a bullet edited on the sheet lives on the roster player, so it survives a
+   feed sync, a "clear hand overrides" and shows on the lineup page too */
+function fdNotePlayer(team,key){
+  const pk=String(key||'').replace(/^note:/,'');
+  const list=team==='Huntsville Havoc'?DATA.roster:((DATA.oppRosters||{})[team]||[]);
+  return list.find(p=>(p.id||p.htId||norm(p.name))===pk)||null;
 }
 function fdLineupPage(side){
   const S=DATA.settings,G=DATA.game;
@@ -798,19 +813,18 @@ function fdLineupPage(side){
     ${dataStampHTML(teamFull)}
   </div>`;
 }
-function fdDataPage(side){
+/* everything the data column is computed from — shared by the DATA page and the
+   call sheet, so both read the same numbers and the same hand overrides */
+function fdLeftModel(side){
   const S=DATA.settings,G=DATA.game;
   const isHome=side==='home';
   const isOpp=!isHome;
   const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
   const kw=isHome?'Huntsville':teamCity(G.opp)||'zzz';
   const oppKw=isHome?(teamCity(G.opp)||'zzz'):'Huntsville';
-  const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
-  const logo=teamLogoSrc(teamFull);
   const st=standingsFor(kw);
   const gs=fdGamesFor(kw);
   const ext=isHome?(DATA.report.ext||{}):{};
-  const C=(key,computed)=>fdCell(teamFull,key,computed,isOpp);
   // special teams + ranks
   const ppMap={},pkMap={};
   Object.keys(DATA.report.special||{}).forEach(t=>{const o=DATA.report.special[t];if(o.pp!=null)ppMap[t]=o.pp;if(o.pk!=null)pkMap[t]=o.pk;});
@@ -858,6 +872,23 @@ function fdDataPage(side){
     ['streak','Streak',fdStreak(gs)],
     ['h2h','H2H vs '+(isHome?(teamCity(G.opp)||'opp'):'Havoc'),h2hGs.length?fdRec(h2hGs):null]
   ];
+  const upcoming=isHome?parseScheduleData().filter(x=>!x.result).slice(0,5):[];
+  const tx=(isHome?G.txhome:G.txaway)||'';
+  const standings=(DATA.report.standings||[]).map((t,i)=>({i,team:t.team,line:`${t.w}-${t.l}-${t.otl}${t.sol!=null?'-'+t.sol:''} · ${t.pts} pts · GR ${t.gp!=null?Math.max(0,60-t.gp):'—'}`,isMe:new RegExp(kw,'i').test(t.team)}));
+  return {teamFull,kw,oppKw,isHome,isOpp,st,gs,ext,rows,recent:gs.slice(-10),upcoming,tx,standings,gp:isHome?ext.goalsByPeriod:null};
+}
+function fdDataPage(side){
+  const S=DATA.settings,G=DATA.game;
+  const isHome=side==='home';
+  const isOpp=!isHome;
+  const teamFull=isHome?'Huntsville Havoc':(G.opp||'Opponent');
+  const kw=isHome?'Huntsville':teamCity(G.opp)||'zzz';
+  const oppKw=isHome?(teamCity(G.opp)||'zzz'):'Huntsville';
+  const theme=teamTheme(teamFull);const primary=isHome?(S.red||theme.primary):theme.primary;
+  const logo=teamLogoSrc(teamFull);
+  const L=fdLeftModel(side);
+  const st=L.st,gs=L.gs,ext=L.ext,rows=L.rows;
+  const C=(key,computed)=>fdCell(teamFull,key,computed,isOpp);
   const dataRows=rows.map(r=>`<div class="fd-dr"><span class="fd-dl">${r[1]}</span>${C(r[0],r[2])}</div>`).join('')
     +`<div class="fd-dr"><span class="fd-dl">Streak note</span>${C('streaknote',null)}</div>`
     +`<div class="fd-dr"><span class="fd-dl">H2H note</span>${C('h2hnote',null)}</div>`;
@@ -917,10 +948,11 @@ function fdDataPage(side){
 function renderFolders(){
   const doc=document.getElementById('foldersDoc');if(!doc)return;
   const want=FD_FILTER&&FD_FILTER!=='all'?[FD_FILTER]:['hl','hd','ol','od'];
-  const mk={hl:()=>fdCallSheet('home'),hd:()=>fdDataPage('home'),ol:()=>fdCallSheet('opp'),od:()=>fdDataPage('opp')};
+  const mk={hl:()=>callSheetHTML(fdCallSheetModel('home')),hd:()=>fdDataPage('home'),ol:()=>callSheetHTML(fdCallSheetModel('opp')),od:()=>fdDataPage('opp')};
   doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
-  fdWireEdits();secApplyAll();fdViewSync();
-  imagesReady(doc,2500).then(()=>fitActiveAuto().then(fdFitReport));
+  fdWireEdits();secApplyAll();csFit(doc.querySelectorAll('.csl-page'));fdViewSync();
+  // the logo lands after the first pass and changes the header height, so the sheets fit again
+  imagesReady(doc,2500).then(()=>fitActiveAuto().then(()=>{csFit(doc.querySelectorAll('.csl-page'));fdFitReport();}));
 }
 function fdWireEdits(){
   const doc=document.getElementById('foldersDoc');if(!doc||doc._fdWired)return;
@@ -929,8 +961,19 @@ function fdWireEdits(){
     clearTimeout(doc._ft);
     doc._ft=setTimeout(()=>{
       const t=e.target.closest?e.target.closest('.fv'):null;if(!t)return;
+      if(/^note:/.test(t.dataset.k||'')){           // a call-sheet bullet: saved on the player
+        const p=fdNotePlayer(t.dataset.t,t.dataset.k);
+        if(p){p.callNote=t.innerText.split('\n').map(x=>x.trim()).filter(Boolean).join('\n');save();}
+        return;
+      }
       fdOv(t.dataset.t)[t.dataset.k]=t.innerText.trim();save();
     },600);
+  });
+  // a legal sheet refits its type once an edit is done, never under the caret
+  doc.addEventListener('focusout',e=>{
+    const t=e.target.closest?e.target.closest('.fv'):null;if(!t)return;
+    const pg=t.closest('.csl-page');if(!pg)return;
+    setTimeout(()=>{csFit([pg]);fdFitReport();},50);
   });
 }
 /* The four buttons switch the preview; printing is its own action, so he can
@@ -956,7 +999,7 @@ function fdFitReport(){
   pages.forEach(p=>{
     const z=p.querySelector(':scope > .sec-zoom');
     const scale=z?(+z.style.zoom||1):1;
-    const over=Math.max(p.offsetHeight-1056,z?(z.scrollHeight*scale)-p.clientHeight:0);
+    const over=p.classList.contains('csl-page')?(+p.dataset.csOver||0):Math.max(p.offsetHeight-1056,z?(z.scrollHeight*scale)-p.clientHeight:0);
     if(over>worst){worst=over;who=secLabel(p.dataset.sec||'');}
   });
   if(worst<=2){

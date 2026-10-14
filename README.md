@@ -53,6 +53,7 @@ Static HTML, CSS and plain classic scripts — no bundler, no npm, no framework.
 | `feeds.js` | HockeyTech transport, season resolution, stale-season guard, EP, daily report |
 | `milestones.js` | career totals, milestone boards, franchise race, record watch |
 | `packet.js` | everything that composes a printed page |
+| `callsheet.js` | the legal-size call sheet (8.5 × 14), shared by the folders and the preseason tab |
 | `print.js` | how pages fit on paper — sizing, block flow, auto-fit |
 | `booth.js` | scorebar, Game Day, Learn the Rosters |
 | `ui.js` | the remaining screen surfaces |

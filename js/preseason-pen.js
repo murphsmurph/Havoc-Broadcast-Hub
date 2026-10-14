@@ -706,8 +706,8 @@ function ppStudyPages(red,S){
 }
 
 /* ============================================================
-   CALL SHEETS — one portrait page per team, built from the camp data
-   Same shell and classes as the Broadcast Folders call sheet (lc-page / cs-*),
+   CALL SHEETS — one legal-portrait page per team, built from the camp data
+   The same sheet as the Broadcast Folders (callSheetHTML in js/callsheet.js),
    same team colours (teamPal), but every value comes from PRESEASON_PEN plus
    what is typed on this tab: the 18 Havoc and 22 Pensacola players who dress
    Friday, their numbers, positions, hometowns, stat lines and a note per player
@@ -720,119 +720,55 @@ function ppView(v){
   [['ppViewPacket','packet'],['ppViewCalls','calls'],['ppViewStudy','study']].forEach(([id,k])=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',PP_VIEW===k);});
   ppBuild();
 }
-function ppCsCard(p,pal,group,side){
-  const parts=String(p.name||'').trim().split(/\s+/);
-  let first='',last='';
-  if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
-  const edge=group==='D'?pal.accent:(group==='G'?pal.goalie:pal.secondary);
-  const sv=ppClean(ppStudyVitals(ppStudyFor(p,side)));   // the study guide's ID line when there is one, without source hedges
-  const vitals=sv?[p.pos?esc(p.pos):'',esc(sv)].filter(Boolean).join('&nbsp; &middot; &nbsp;')
-    :([p.pos?esc(p.pos):'',p.hometown?esc(p.hometown):'',p.age!=null?'Age '+esc(p.age):''].filter(Boolean).join('&nbsp; &middot; &nbsp;')||'—');
-  const num=ppNum(p);
-  /* one badge colour per sheet, the same on every position, in the team's own scheme:
-     Havoc red with black digits; Pensacola navy blue with white digits */
-  const badge=side==='havoc'?{bg:(DATA.settings&&DATA.settings.red)||'#C8102E',fg:'#000'}:{bg:pal.primary,fg:'#fff'};
-  /* the note is the study-guide summary written for the call sheet; roster notes are the fallback */
-  const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
-  /* skip the ECHL segment when the stat line already carries it (Tanner Schachle, Helliwell) */
-  const flat=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-  const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?ppClean(p.echlLastSeason):'';
-  const tags=ppPaperTags(p);
-  const career=(typeof PRESEASON_CAREER_PRO!=='undefined'&&PRESEASON_CAREER_PRO[p.name])||'';
-  return `<div class="cs-card" style="border-color:${edge}">
-    <div class="cs-top">
-      <span class="cs-num" style="background:${badge.bg};color:${badge.fg}">${esc(num)}</span>
-      <span class="cs-name">${esc(last.toUpperCase())}${first?', '+esc(first.toUpperCase()):''}</span>
-    </div>
-    <div class="cs-vitals">${vitals}${tags?' '+tags:''}</div>
-    <div class="cs-stat"><i>2025-26:</i> ${p.stats?esc(ppClean(p.stats)):'<span class="cs-ph">—</span>'}${p.plusMinus!=null?` &middot; <i>+/-:</i> ${ppPM(p)}`:''}${echl?` &middot; <i>ECHL LAST SEASON:</i> ${esc(echl)}`:''}</div>
-    ${career?`<div class="cs-stat cs-career"><i>PRO:</i> ${esc(career)}</div>`:''}
-    <div class="cs-note">${esc(note)||'<span class="cs-ph">—</span>'}</div>
-  </div>`;
-}
-function ppCsBox(title,rows){
-  return `<div class="cs-sb-box"><div class="cs-sb-h">${esc(title)}</div>`+
-    (rows.length?rows.map(r=>'<div class="cs-sb-row">'+esc(r)+'</div>').join(''):'<div class="cs-sb-row cs-dim">—</div>')+'</div>';
-}
-function ppCallSheet(side){
-  const D=ppSrc(),S=DATA.settings,m=D.meta||{},t=ppTeam(side),o=ppData();
+function ppCallSheetModel(side){
+  const D=ppSrc(),S=DATA.settings,m=D.meta||{},t=ppTeam(side);
   const isHome=side==='havoc';
   const team=t.name||(isHome?'Huntsville Havoc':PP_TEAM);
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
-  const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
-  /* full rows at `cols` across; a part-filled last row spreads its cards across the width
-     (two forwards at double width, two goalies at half the row), so no space sits empty and
-     the wider cards are shorter */
-  const grid=(arr,group,cols)=>{
-    if(!(arr||[]).length)return '<div class="cs-none">No players in this group.</div>';
-    const cards=arr.slice().sort(byNum).map(p=>ppCsCard(p,pal,group,side));
-    const full=cards.length-cards.length%cols,rows=[];
-    if(full)rows.push(`<div class="cs-grid" style="grid-template-columns:repeat(${cols},minmax(0,1fr))">${cards.slice(0,full).join('')}</div>`);
-    if(full<cards.length)rows.push(`<div class="cs-grid${full?' cs-grid-rest':''}" style="grid-template-columns:repeat(${cards.length-full},minmax(0,1fr))">${cards.slice(full).join('')}</div>`);
-    return rows.join('');
-  };
-  const co=t.coaches||[];
-  const hc=co.find(c=>/head/i.test(c.role||'')),ac=co.filter(c=>/assist/i.test(c.role||''));
-  const coach=[hc?'HEAD COACH: '+hc.name:'',ac.length?'ASST. COACH'+(ac.length>1?'ES':'')+': '+ac.map(c=>c.name).join(', '):''].filter(Boolean).join('  /  ');
   const d=m.date?new Date(m.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
   const game=[(m.gameType||'Preseason').toUpperCase(),d,'Huntsville Havoc vs. '+(m.opponent||PP_TEAM),ppVenue()||'Venue: confirm',m.puckDropCT?m.puckDropCT+' CT':''].filter(Boolean).join('  ·  ');
   const abbr=isHome?'HSV':'PEN';
-  const pron=(D.pronunciations||[]).filter(x=>x.team===abbr).map(x=>{const say=ppSay(x);return x.name+': '+(say||'ask');});
-  const side1=isHome
-    ?ppCsBox('ECHL CAMPS',(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||'')))
-    :ppCsBox('AT ECHL CAMP',D.formerFlyersAtEchl||[]);
-  const sb=`<aside class="cs-side" style="width:124px">
-    ${side1}
-    ${ppCsBox('PRONUNCIATION',pron)}
-    <div class="cs-sb-box pp-lines"><div class="cs-sb-h">LINES</div><div class="cs-write"></div></div>
-    <div class="cs-sb-box pp-notes"><div class="cs-sb-h">NOTES</div><div class="cs-write"></div></div>
-  </aside>`;
-  const F=t.forwards||[],Dd=t.defense||[],G=t.goalies||[];
-  return `<div class="page lc-page cs-page pp-cs">
-    <div class="cs-head" style="background:${primary};color:${pal.textOn}">
-      <div class="cs-h1">${esc(team.toUpperCase())} &mdash; PRESEASON ROSTER</div>
-      ${coach?`<div class="cs-h2">${esc(coach)}</div>`:''}
-    </div>
-    <div class="cs-game">${esc(game)}</div>
-    <div class="cs-body">
-      <div class="cs-main">
-        <div class="cs-sub" style="color:${primary};border-color:${pal.secondary}">Forwards (${F.length})</div>${grid(F,'F',4)}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.accent}">Defense (${Dd.length})</div>${grid(Dd,'D',Dd.length>6?4:3)}
-        <div class="cs-sub" style="color:${primary};border-color:${pal.goalie}">Goaltenders (${G.length})</div>${grid(G,'G',3)}
-      </div>
-      ${sb}
-    </div>
-  </div>`;
-}
-/* Type size per sheet: each call sheet steps its type up as far as it can while
-   still fitting, measured at PRINT size (7.95 x 10.45in, the folders' letter
-   page with 0.25in margins — narrower than the 816px preview, so text wraps
-   more on paper). --csf scales every font on the sheet, --csl is the notes
-   clamp. The Havoc sheet (18 cards) ends up larger than Pensacola's (19). */
-/* larger type first, then more note lines: a step is (font scale, note lines) */
-/* scale steps with the notes unclamped (every note shows in full); the clamped pairs after them are
-   a last resort if a sheet ever carries more than its page holds */
-const PP_CS_STEPS=Array.from({length:66},(_,i)=>[+(1.5-i*0.01).toFixed(2),99]).concat([[0.85,6],[0.85,5],[0.85,4],[0.8,4],[0.8,3]]);   // 1.50 down to 0.85 in 0.01 steps, unclamped; then clamped as a last resort
-function ppCsOverflow(pg){
-  const main=pg.querySelector('.cs-main'),aside=pg.querySelector('.cs-side');
-  return Math.max(pg.scrollHeight-pg.clientHeight,main?main.scrollHeight-main.clientHeight:0,aside?aside.scrollHeight-aside.clientHeight:0);
-}
-function ppCsFit(){
-  document.querySelectorAll('#preseasonDoc .page.pp-cs').forEach(pg=>{
-    if(!pg.offsetWidth)return;                       // hidden panel: leave the defaults
-    const keep=[pg.style.width,pg.style.height,pg.style.minHeight];
-    pg.style.width='7.95in';pg.style.height='10.45in';pg.style.minHeight='0';   // measure at print size (the screen rule's min-height would hold it at 1056)
-    let chosen=PP_CS_STEPS[PP_CS_STEPS.length-1];
-    for(const [f,l] of PP_CS_STEPS){
-      pg.style.setProperty('--csf',f);pg.style.setProperty('--csl',l);
-      if(ppCsOverflow(pg)<=0){chosen=[f,l];break;}
-    }
-    pg.style.setProperty('--csf',chosen[0]);pg.style.setProperty('--csl',chosen[1]);
-    pg.dataset.csf=chosen[0];pg.dataset.csl=chosen[1];
-    pg.style.width=keep[0];pg.style.height=keep[1];pg.style.minHeight=keep[2];
+  const pronAll=(D.pronunciations||[]).filter(x=>x.team===abbr);
+  const pronRows=pronAll.map(x=>{const say=ppSay(x);return x.name+': '+(say||'ask');});
+  const camps=isHome
+    ?(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||''))
+    :(D.formerFlyersAtEchl||[]);
+  const coaches=(t.coaches||[]).filter(c=>c&&c.name).map(c=>({role:/head/i.test(c.role||'')?'HC':(/assist/i.test(c.role||'')?'AC':String(c.role||'').toUpperCase().slice(0,3)),name:c.name}));
+  const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
+  const all=ppSkaters(side);
+  const ordered=all.filter(p=>p.pos!=='G').sort(byNum).concat(all.filter(p=>p.pos==='G').sort(byNum));
+  const flat=x=>String(x||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  const players=ordered.map(p=>{
+    const parts=String(p.name||'').trim().split(/\s+/);let first='',last='';
+    if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+    const isG=p.pos==='G';
+    const sv=ppClean(ppStudyVitals(ppStudyFor(p,side)));              // "Shoots R · 6-0, 170 · 29 · Livonia, Mich."
+    const hwm=sv.match(/(\d)-(\d{1,2})(?:,\s*(\d{3}(?:-\d{3})?))?/);
+    const hw=hwm?hwm[1]+"'"+hwm[2]+(hwm[3]?' '+hwm[3]:''):(p.age!=null?'Age '+p.age:'');
+    const st=ppClean(p.stats||'');
+    let stat='',gp='';
+    // only a 2025-26 SPHL line ("HSV: 54 GP, 30-23-53 …") goes on the band; a career or college line stays a bullet
+    const gm=isG?st.match(/^(?:HSV|PEN): (\d+) GP, (\d+)-(\d+)-(\d+), ([\d.]+) GAA, (\.\d+)/):null;
+    const sm=!isG?st.match(/^(?:HSV|PEN): (\d+) GP, (\d+)-(\d+)-(\d+)/):null;
+    if(gm){stat=gm[2]+'-'+gm[3]+'-'+gm[4]+' '+gm[5]+' '+gm[6];gp=gm[1]+' GP';}
+    else if(sm){stat=sm[2]+'G '+sm[3]+'A '+sm[4]+'P';gp=sm[1]+' GP';}
+    const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?ppClean(p.echlLastSeason):'';
+    const pm=p.plusMinus!=null?' · +/- '+(p.plusMinus>0?'+':'')+p.plusMinus+(p.plusMinusScope?' ('+p.plusMinusScope+')':''):'';
+    const note=(typeof PRESEASON_CALL_NOTES!=='undefined'&&PRESEASON_CALL_NOTES[p.name])||p.notes||'';
+    const career=(typeof PRESEASON_CAREER_PRO!=='undefined'&&PRESEASON_CAREER_PRO[p.name])||'';
+    const pr=pronAll.find(x=>norm(x.name)===norm(last)||norm(x.name)===norm(p.name));
+    const say=pr?ppSay(pr):'';
+    return {num:ppNum(p),pos:isG?'G':(p.pos==='D'?'D':'F'),first,last,letter:'',hw,stat,gp,hometown:p.hometown||'',pron:say||'',
+      bullets:[stat?[pm.replace(/^ · /,''),echl?'ECHL last season: '+echl:''].filter(Boolean).join(' · '):(st?'2025-26: '+st+pm+(echl?' · ECHL last season: '+echl:''):''),note,career?'PRO: '+career:''].filter(Boolean),noteKey:null};
   });
+  return {side:isHome?'home':'opp',team,primary,textOn:pal.textOn||'#fff',numText:isHome?'#000':(pal.textOn||'#fff'),logo:teamLogoSrc(team),
+    title:team.toUpperCase(),sub:'PRESEASON ROSTER',game,susp:'',coaches,
+    left:{blocks:[{title:isHome?'ECHL camps':'At ECHL camp',rows:camps},{title:'Pronunciation',rows:pronRows}]},
+    writeIns:'left',players,emptyNote:'No camp roster in the research.',status:null,foot:null};
 }
+/* the shared stepper, for this doc's two sheets */
+function ppCsFit(){csFit(document.querySelectorAll('#preseasonDoc .page.csl-page'));}
 
 /* ============================================================
    THE PRINTED PAGES — four letter sheets
@@ -864,9 +800,9 @@ function ppBuild(){
   }
   const st=document.getElementById('ppStatus');
   if(PP_VIEW==='calls'){
-    doc.innerHTML=['havoc','pensacola'].map((side,i)=>ppCallSheet(side)
+    doc.innerHTML=['havoc','pensacola'].map((side,i)=>callSheetHTML(ppCallSheetModel(side))
       .replace('<div class="page','<div data-sec="pp:cs'+(i+1)+'" class="hub-preview__page page')).join('');
-    if(st)st.textContent='Letter · 2 call sheets · prints to PDF';
+    if(st)st.textContent='Legal (8.5 × 14) · 2 call sheets · prints to PDF';
     ppCsFit();
     ppFitReport();
     return;
@@ -948,7 +884,7 @@ function ppFitReport(){
     const pages=[...document.querySelectorAll('#preseasonDoc .page')];
     if(!pages.length||!pages[0].offsetHeight){el.textContent='';el.className='';return;}  // panel hidden: nothing to measure
     let worst=0,who=0;
-    pages.forEach((p,i)=>{const over=p.classList.contains('pp-cs')?ppCsOverflow(p):Math.max(p.offsetHeight-1056,p.scrollHeight-p.clientHeight);if(over>worst){worst=over;who=i+1;}});
+    pages.forEach((p,i)=>{const over=p.classList.contains('csl-page')?(+p.dataset.csOver||0):Math.max(p.offsetHeight-1056,p.scrollHeight-p.clientHeight);if(over>worst){worst=over;who=i+1;}});
     if(worst<=2){el.className='fd-fit ok';el.textContent='Fits on '+pages.length+(PP_VIEW==='calls'?' call sheet':' page')+(pages.length===1?'':'s')+' ✓';}
     else{el.className='fd-fit bad';el.textContent='Page '+who+' overflows by ~'+(worst/96).toFixed(1)+' in — it will be cut off in print';}
   };
@@ -958,10 +894,10 @@ function ppPrint(){
   ppBuild();
   const panel=document.getElementById('panel-preseason');
   panel.classList.add('printing');
-  /* the call sheets are lc-pages, sized 7.95 x 10.45in for letter with 0.25in margins
+  /* the call sheets are legal pages, sized 7.95 x 13.45in for legal with 0.25in margins
      (the rule printDoc('folders') uses); the packet pages are full-bleed 8.5 x 11 */
   let st=null;
-  if(PP_VIEW==='calls'){st=document.createElement('style');st.id='ppPrintPage';st.textContent='@page{size:letter portrait;margin:0.25in;}';document.head.appendChild(st);}
+  if(PP_VIEW==='calls'){st=document.createElement('style');st.id='ppPrintPage';st.textContent='@page{size:legal portrait;margin:0.25in;}';document.head.appendChild(st);}
   setTimeout(()=>{window.print();panel.classList.remove('printing');if(st)st.remove();},150);
 }
 
