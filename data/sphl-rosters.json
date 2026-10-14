@@ -1,5 +1,5 @@
 {
- "fetchedAt": "2026-10-13T17:56:11.981Z",
+ "fetchedAt": "2026-10-14T15:41:58.875Z",
  "seasonId": "44",
  "seasonLabel": "2025-2026 Regular Season",
  "note": "2026-2027 Regular Season rosters not yet published — previous regular season used",
@@ -736,8 +736,6 @@
      "last_name": "Lotz",
      "position": "G",
      "birthdate": "1995-05-27",
-     "homeplace": "Winnipeg, MB",
-     "birthplace": "Winnipeg, MB",
      "rookie": "0",
      "veteran_status": "2",
      "player_id": "35",
@@ -746,7 +744,7 @@
      "height_hyphenated": "6-0",
      "height": "6-0",
      "weight": "190",
-     "player_image": "https://assets.leaguestat.com/sphl/120x160/35.jpg"
+     "player_image": "https://lscluster.hockeytech.com/img/nophoto.png"
     }
    ]
   },
