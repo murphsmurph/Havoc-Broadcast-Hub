@@ -517,30 +517,64 @@
   .page .pp-se-h{font-size:9.5px;font-weight:900;text-transform:uppercase;color:var(--red-text);border-bottom:1px solid var(--havoc-silver);margin-bottom:2px;padding-bottom:1px;}
   .page .pp-se-t{font-weight:700;text-transform:none;color:#555;}
   .page .pp-se-f{margin-bottom:1px;} .page .pp-se-f b{font-weight:900;}
-  /* call sheets: every size rides --csf (set per sheet by ppCsFit, as large as fits at print
-     size) and the notes clamp rides --csl; Lines gets most of the sidebar, Notes the rest */
-  .page.pp-cs{--csf:1;--csl:5;padding:8px 10px;}   /* the printer's 0.25in margin is the white edge; the folders' 20px inner pad is room the cards need */
-  .page.pp-cs .cs-grid-rest{margin-top:4px;}
-  .page.pp-cs .cs-career{color:#222;}
   .page .pp-car{font-size:.92em;color:#333;margin-top:1px;}
-  .page.pp-cs .cs-h1{font-size:calc(19px*var(--csf));} .page.pp-cs .cs-h2{font-size:calc(9px*var(--csf));}
-  .page.pp-cs .cs-game{font-size:calc(9.5px*var(--csf));}
-  .page.pp-cs .cs-sub{font-size:calc(10px*var(--csf));}
-  /* the number: one colour per sheet on every position (Havoc red/black, Pensacola navy/white — set inline), big and heavy */
-  .page.pp-cs .cs-num{font-size:calc(20px*var(--csf));font-weight:900;min-width:calc(29px*var(--csf));line-height:1.05;padding:1px 4px;border-radius:3px;letter-spacing:-.02em;}
-  .page.pp-cs .cs-top{gap:5px;}
-  .page.pp-cs .cs-name{font-size:calc(12px*var(--csf));white-space:normal;line-height:1.05;}   /* four-up cards: a long name wraps rather than clips */
-  .page.pp-cs .cs-vitals,.page.pp-cs .cs-stat{font-size:calc(8px*var(--csf));}
-  .page.pp-cs .cs-note{font-size:calc(8.4px*var(--csf));line-height:1.25;margin-top:2px;text-align:left;hyphens:manual;}
-  .page.pp-cs .cs-lab{font-size:calc(6.8px*var(--csf));}
-  .page.pp-cs .cs-note{-webkit-line-clamp:var(--csl);}
-  .page.pp-cs .pp-tag{font-size:calc(7px*var(--csf));}
-  .page.pp-cs .cs-sb-h{font-size:calc(8px*var(--csf));}
-  .page.pp-cs .cs-sb-row{font-size:calc(7.5px*var(--csf));overflow-wrap:anywhere;}
-  .page.pp-cs .pp-lines{flex:3 1 auto;display:flex;flex-direction:column;min-height:0;}
-  .page.pp-cs .pp-lines .cs-write{flex:1 1 auto;min-height:150px;}
-  .page.pp-cs .pp-notes{flex:2 1 auto;display:flex;flex-direction:column;min-height:0;}
-  .page.pp-cs .pp-notes .cs-write{flex:1 1 auto;min-height:60px;}
+  /* ---- legal call sheet (js/callsheet.js): one page per team, 8.5 x 14 in ----
+     every size rides --csf, set per sheet by csFit as large as fits at print size;
+     --pri / --on / --num are the club's colour, its band text and its badge digits, set inline */
+  .page.csl-page{--csf:1;--pri:#C8102E;--on:#fff;--num:#fff;box-sizing:border-box;width:816px;height:1344px;min-height:1344px;padding:8px 10px;overflow:hidden;display:flex;flex-direction:column;gap:4px;font-size:calc(8.5px*var(--csf));line-height:1.3;color:#111;print-color-adjust:exact;-webkit-print-color-adjust:exact;}
+  .csl-head{background:color-mix(in srgb,var(--pri) 26%,#fff);color:#111;padding:3px 8px;border-radius:3px;text-align:center;flex:0 0 auto;}
+  @supports not (background:color-mix(in srgb,red 26%,#fff)){.csl-head{background:#F2C4C9;}}
+  .csl-h1{font-size:calc(10px*var(--csf));font-weight:900;letter-spacing:0;line-height:1.15;}
+  .csl-h2{font-size:calc(8.4px*var(--csf));font-weight:800;line-height:1.2;margin-top:1px;}
+  .csl-susp{font-size:calc(9px*var(--csf));font-weight:900;text-transform:uppercase;text-align:center;color:#fff;background:#C8102E;border-radius:3px;padding:2px 4px;flex:0 0 auto;}
+  .csl-coaches{display:block;text-align:center;border:1px solid #333;border-radius:3px;padding:2px 5px;font-size:calc(8.5px*var(--csf));line-height:1.25;flex:0 0 auto;margin-bottom:4px;}
+  .csl-hc,.csl-ten,.csl-oth{display:block;}
+  .csl-hc{font-size:calc(10.5px*var(--csf));font-weight:900;} .csl-ten{color:#333;} .csl-oth b{font-weight:900;}
+  .csl-body{display:grid;grid-template-columns:30% minmax(0,1fr);gap:7px;flex:1 1 auto;min-height:0;}
+  .csl-left,.csl-players{min-height:0;overflow:hidden;display:flex;flex-direction:column;}
+  .csl-left{gap:2px;}
+  .csl-sec{font-size:calc(8.5px*var(--csf));font-weight:900;text-align:center;margin:4px 0 1px;flex:0 0 auto;}
+  table.csl-sch,table.csl-tx{border-collapse:collapse;width:100%;table-layout:fixed;font-size:calc(7.6px*var(--csf));line-height:1.3;flex:0 0 auto;border:1px solid #333;}
+  table.csl-sch th:first-child,table.csl-sch td:first-child{width:31%;} table.csl-sch th:last-child,table.csl-sch td:last-child{width:19%;}
+  table.csl-sch th{font-weight:800;border:1px solid #333;padding:0 3px;text-align:center;}
+  table.csl-sch td{border:1px solid #333;padding:0 3px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px;}
+  table.csl-sch td.csl-bold{font-weight:900;} table.csl-sch td.csl-r{font-weight:800;}
+  table.csl-sch tr.csl-hl td{background:#FFF2A8;}
+  table.csl-tx{margin-top:4px;}
+  table.csl-tx td{border:1px solid #333;padding:0 3px;vertical-align:top;}
+  table.csl-tx td.csl-txd{white-space:nowrap;} table.csl-tx td.csl-txw{font-weight:700;}
+  .csl-st{display:flex;gap:4px;font-size:calc(7.1px*var(--csf));line-height:1.35;align-items:baseline;flex:0 0 auto;padding:0 2px;white-space:nowrap;letter-spacing:-.01em;}
+  .csl-seed{flex:0 0 auto;min-width:12px;} .csl-stt{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;} .csl-rec{flex:0 0 auto;} .csl-pts{flex:0 0 auto;min-width:30px;text-align:right;}
+  .csl-me{font-weight:900;}
+  .csl-dr{display:flex;gap:4px;font-size:calc(8px*var(--csf));line-height:1.35;align-items:baseline;flex:0 0 auto;padding:0 2px;}
+  .csl-dl{font-weight:900;flex:0 0 auto;max-width:52%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;} .csl-dv{flex:1 1 auto;min-width:0;}
+  .csl-dv .fd-blank{display:block;min-width:0;width:100%;height:calc(9px*var(--csf));border-bottom:1px solid #777;}
+  .csl-br{font-size:calc(8px*var(--csf));line-height:1.3;flex:0 0 auto;}
+  .csl-dim{color:#888;font-style:italic;}
+  .csl-row{display:grid;grid-template-columns:216px minmax(0,1fr);gap:6px;border-bottom:1px solid #999;padding:1px 0;break-inside:avoid;flex:0 0 auto;}
+  .csl-band{display:flex;justify-content:space-between;gap:6px;background:var(--pri);color:var(--on);font-size:min(calc(9.2px*var(--csf)),10.8px);font-weight:800;padding:1px 5px;border-radius:2px 2px 0 0;white-space:nowrap;overflow:hidden;line-height:1.25;}
+  .csl-band span{flex:0 0 auto;} .csl-band .csl-b1{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left;} .csl-band .csl-b3{text-align:right;}
+  .csl-pl2{display:flex;gap:6px;align-items:center;margin-top:1px;}
+  .csl-badge{flex:0 0 auto;min-width:calc(46px*var(--csf));height:calc(29px*var(--csf));line-height:calc(29px*var(--csf));text-align:center;background:var(--pri);color:var(--num);font-size:calc(27px*var(--csf));font-weight:900;border-radius:3px;padding:0 3px;letter-spacing:-.02em;}
+  .csl-badge.csl-tbd{font-size:calc(13px*var(--csf));letter-spacing:0;}
+  .csl-id{min-width:0;flex:1 1 auto;}
+  .csl-last{font-size:min(calc(16px*var(--csf)),17.5px);font-weight:900;text-transform:uppercase;line-height:1.05;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .csl-let{font-size:calc(10px*var(--csf));font-weight:800;}
+  .csl-cells{display:flex;margin-top:1px;font-size:calc(7.6px*var(--csf));line-height:1.25;font-weight:700;border:1px solid #333;}
+  .csl-cells span{padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .csl-home{flex:1 1 auto;min-width:0;} .csl-gp{flex:0 0 auto;max-width:55%;border-left:1px solid #333;}
+  .csl-bul{font-size:calc(8px*var(--csf));line-height:1.25;min-width:0;}
+  .csl-bul > div{padding-left:7px;text-indent:-7px;} .csl-bul > div::before{content:"•";}
+  .csl-say{color:#C8102E;font-weight:900;}
+  .csl-bul:empty::before{content:"click to write";color:#999;font-style:italic;}
+  .csl-empty{font-size:calc(9px*var(--csf));color:#777;font-style:italic;padding:6px 2px;}
+  .csl-write{display:flex;flex-direction:column;gap:4px;margin-top:4px;flex:1 1 auto;min-height:calc(60px*var(--csf));}
+  .csl-wbox{border:1px solid #bbb;border-radius:3px;padding:1px 4px;display:flex;flex-direction:column;min-height:0;flex:1 1 auto;}
+  .csl-wh{font-size:calc(7.5px*var(--csf));font-weight:900;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid #ddd;flex:0 0 auto;}
+  .csl-rule{flex:1 1 auto;min-height:calc(26px*var(--csf));}
+  .csl-foot{flex:0 0 auto;display:flex;justify-content:space-between;align-items:baseline;gap:8px;}
+  .csl-foot .fd-contact,.csl-foot .pg-stamp{font-size:calc(7px*var(--csf));margin:0;}
+  .csl-page .ov-mark{font-size:9px;} .csl-page .fv-rv{font-size:8px;padding:0 2px;}
   .page table.pp-pt{font-size:8px;}
   .page table.pp-pt td{line-height:1.3;vertical-align:top;padding:1px 4px;}
   .page table.pp-pt tr.pp-grp td{background:var(--havoc-silver);font-weight:900;text-transform:uppercase;font-size:7.5px;letter-spacing:.06em;padding:2px 5px;}
@@ -736,6 +770,7 @@
   .seg .btn.small{margin-top:6px;}
   @media (max-width:700px){.seg-grid{grid-template-columns:1fr;}}
   @page{size:letter portrait;margin:0;}
+  @page legal{size:legal portrait;margin:0.25in;}   /* the call sheets (page:legal) — 8.5 x 14 with the folders' margins */
   @media print{
     /* screen themes live in @media screen, so paper needs no reset — this only
        guards against a stray inline theme value reaching the sheet */
@@ -755,7 +790,9 @@
     .page:last-child{page-break-after:auto;} /* no trailing blank page */
     .page tr{page-break-inside:avoid;} /* never split a table row across pages */
     .lc-page{width:7.95in !important;height:10.45in !important;min-height:0 !important;overflow:hidden;page-break-inside:avoid;}
-    .hub-preview__page.pp-cs{width:7.95in !important;}   /* mobile.css forces .hub-preview__page to 816px in print; a call sheet must stay inside the 0.25in margins */ /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
+    .page.csl-page{width:7.95in !important;height:13.45in !important;min-height:0 !important;overflow:hidden;page:legal;page-break-inside:avoid;}   /* legal portrait with 0.25in margins — one page per team */
+    .hub-preview__page.csl-page{width:7.95in !important;}   /* mobile.css forces .hub-preview__page to 816px in print; a call sheet must stay inside the margins */
+    .csl-bul:empty::before{content:"";} /* letter portrait w/ 0.25in margins — one page per team, cards fill to the bottom */
     .ws-page{height:10.45in !important;overflow:hidden;}
     .fv{outline:none !important;}
     #panel-opening.printing .card{display:none !important;}

@@ -325,7 +325,7 @@ const PRESEASON_PEN = {
 
 /* Call-sheet notes for the preseason game: one summary per player, written from the Player
    Study Guide (Oct 8 revision) — talking points, honors and ties to the other team, leaving out
-   what the card already shows (vitals line, 2025-26 stat line). Read by ppCsCard in
+   what the card already shows (vitals line, 2025-26 stat line). Read by ppCallSheetModel in
    js/preseason-pen.js; a player missing here falls back to his roster notes. */
 const PRESEASON_CALL_NOTES = {
  "Austin Alger": "Owned PEN last year: hat trick in the home opener, both goals in the 2-1 win at Pensacola. All-SPHL Second Team twice; 2022-23 SPHL Rookie of the Year; 2015 Michigan Mr. Hockey. Fayetteville with Fries.",

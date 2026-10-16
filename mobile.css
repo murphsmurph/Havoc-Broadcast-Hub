@@ -311,6 +311,10 @@ input, select, textarea { font-size: 16px; }
     width: 816px;
     margin-bottom: var(--hub-page-gap, 12px);
   }
+  /* a legal call sheet is 1344px tall, not 1056: pull the next page up by its own height */
+  .hub-preview__page.csl-page {
+    margin-bottom: calc(-1344px * (1 - var(--hub-page-scale, 1)) + 12px);
+  }
 
   /* ---------- 10. Forms: readable, thumb-sized, full width ---------- */
   .hub-field { display: block; margin: 0 0 10px; }
