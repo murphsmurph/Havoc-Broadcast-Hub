@@ -230,15 +230,19 @@ async function matchupsLoad(){
 function matchupsFor(team){return ((MX_FILE||{}).teams||{})[team]||null;}
 /* the committed 2025-26 FINAL snapshot (official feed, validated) — the
    packet's prior-season team comparison never needs a live fetch to print */
-let SN26=null,SN26_TRIED=false;
+let SN26=null,SN26_TRIED=false,SN26_P=null;
 async function snapLoad(){
-  if(SN26||SN26_TRIED)return SN26;
+  if(SN26)return SN26;
+  if(SN26_P)return SN26_P;          // one fetch; later callers wait on the same promise
   SN26_TRIED=true;
-  try{
-    const r=await fetch('data/season2526_final.json',{cache:'no-cache'});
-    if(r.ok)SN26=await r.json();
-  }catch(e){}
-  return SN26;
+  SN26_P=(async()=>{
+    try{
+      const r=await fetch('data/season2526_final.json',{cache:'no-cache'});
+      if(r.ok)SN26=await r.json();
+    }catch(e){}
+    return SN26;
+  })();
+  return SN26_P;
 }
 function snapStanding(team){
   if(!SN26||!team)return null;

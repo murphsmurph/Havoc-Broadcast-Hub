@@ -663,51 +663,116 @@ function fdNoteLines(p){
   return clean((p.bioNotes||[]).slice(0,3));
 }
 function fdNotesText(p){return fdNoteLines(p).join(' ');}
-/* the sample sheet's band stat: skaters "30G 23A 53P", goalies "10-4-2 2.84 .915";
-   from the synced team stats, else (Havoc) last season's final line marked with the year */
-function fdBandStat(p,ts){
+/* the band's season line and the GP cell: skaters "30G 23A 53P" / "54 GP", goalies
+   "2-0, 1.00, .967" / "2 GP · 1 SO". From the synced team stats when there are any;
+   otherwise (Havoc) last season from the spine — the SPHL rows summed when they
+   amount to a real stint, else the biggest other row tagged with its team ("27 GP (Utica)"). */
+function fdTeamShort(name){
+  const n=String(name||'').trim();
+  const u=n.match(/^(?:University|College) of (?:the )?(\S+(?: \S+)?)/i);if(u)return u[1].replace(/\s+(University|College)$/i,'');
+  const w=n.split(/\s+/);
+  if(!w.length)return '';
+  if(/-$/.test(w[0])||/^[A-Z]{1,3}-/.test(w[0]))return w.slice(0,2).join(' ');   // "UW-Stevens Point"
+  return (/^(Southern|Northern|Western|Eastern|North|South|West|East|New|St\.|Saint|Grant|Mount|Fort|Lake|Prince|Sioux|Rio|Salt|Las|Los|San|Green|Cape|Long|Grand)$/i.test(w[0])&&w[1])?w[0]+' '+w[1]:w[0];
+}
+function fdBandLine(p,ts){
   const out={stat:'',gp:''};
+  const isG=p.pos==='G';
   if(ts){
-    if(p.pos==='G'){
-      const g=(ts.goalies||[]).find(x=>(x.htId&&p.htId&&x.htId===p.htId)||x.num===p.num||norm(x.name)===norm(p.name));
-      if(g){out.stat=[g.w+'-'+g.l+'-'+g.otl,g.gaa||'',g.svpct||''].filter(Boolean).join(' ');out.gp=(g.gp||0)+' GP';return out;}
+    const hit=x=>(x.htId&&p.htId&&x.htId===p.htId)||(x.num&&p.num&&x.num===p.num)||norm(x.name)===norm(p.name);
+    if(isG){
+      const g=(ts.goalies||[]).find(hit);
+      if(g){out.stat=[g.w+'-'+g.l+(g.otl?'-'+g.otl:''),g.gaa||'',g.svpct||''].filter(Boolean).join(', ');out.gp=(g.gp||0)+' GP'+(g.so?' · '+g.so+' SO':'');return out;}
     }else{
-      const x=(ts.players||[]).find(y=>(y.htId&&p.htId&&y.htId===p.htId)||y.num===p.num||norm(y.name)===norm(p.name));
+      const x=(ts.players||[]).find(hit);
       if(x){out.stat=x.g+'G '+x.a+'A '+x.pts+'P';out.gp=(x.gp||0)+' GP';return out;}
     }
   }
   const sp=msSpineFor(p);if(!sp)return out;
   const rows=spineLastRows(sp);if(!rows.length)return out;
-  const r=rows[rows.length-1],yr="'"+String(r.season||'').slice(2);
-  const isG=p.pos==='G'||sp.type==='goalie';
-  // the year rides on the GP ("54 GP '25-26"), so the band keeps its room for the name
-  out.stat=isG?[(r.w!=null?r.w+'-'+(r.l||0)+'-'+(r.otl||0):''),(r.gaa!=null?Number(r.gaa).toFixed(2):''),(r.svpct!=null?fmtSv(r.svpct):'')].filter(Boolean).join(' ')
-           :(r.g||0)+'G '+(r.a||0)+'A '+(r.pts||0)+'P';
-  out.gp=(r.gp!=null?r.gp+' GP ':'')+yr;
+  const goalie=isG||sp.type==='goalie';
+  const sphl=rows.filter(r=>r.league==='SPHL');
+  const sum=(arr,k)=>arr.reduce((a,r)=>a+(+r[k]||0),0);
+  if(sum(sphl,'gp')>=10){
+    out.stat=goalie?[sum(sphl,'w')+'-'+sum(sphl,'l')+(sum(sphl,'otl')?'-'+sum(sphl,'otl'):''),(sphl[0].gaa!=null?Number(sphl[0].gaa).toFixed(2):''),(sphl[0].svpct!=null?fmtSv(sphl[0].svpct):'')].filter(Boolean).join(', ')
+             :sum(sphl,'g')+'G '+sum(sphl,'a')+'A '+sum(sphl,'pts')+'P';
+    out.gp=sum(sphl,'gp')+' GP'+(goalie&&sum(sphl,'so')?' · '+sum(sphl,'so')+' SO':'');
+    return out;
+  }
+  const r=rows.slice().sort((x,y)=>((+y.gp||0)-(+x.gp||0))||((+y.pts||0)-(+x.pts||0)))[0];
+  out.stat=goalie?[(r.w!=null?r.w+'-'+(r.l||0)+(r.otl?'-'+r.otl:''):''),(r.gaa!=null?Number(r.gaa).toFixed(2):''),(r.svpct!=null?fmtSv(r.svpct):'')].filter(Boolean).join(', ')
+          :(r.g||0)+'G '+(r.a||0)+'A '+(r.pts||0)+'P';
+  const tag=r.league==='SPHL'?'':fdTeamShort(r.team)||r.league||'';
+  out.gp=(r.gp!=null?r.gp+' GP':'')+(tag?' ('+tag+')':'')+(goalie&&r.so?' · '+r.so+' SO':'');
   return out;
 }
-/* coaches for the box: (HC) name — tenure · (AC) … (EQ) … (T) … */
+/* coaches for the box: the HC with his season count, then (AC) … (EQ) … (T) … */
 function fdCoachList(team){
   const {list,head,asst}=staffFor(team);
   const ref=getCoach(team);
-  const out=[];
   const hcName=(head&&head.name)||ref.name||'';
+  let extra='';
   if(hcName){
-    const bio=String(ref.bio||'');
-    // a coaching record reads W-L-OTL; a bare year range in the bio is playing days, not a record
-    const career=(bio.match(/\b(\d{1,3}-\d{1,3}-\d{1,3}(?:-\d{1,3})?)\b/)||[])[1]||'';
-    let tenure=(bio.match(/(\d+(?:st|nd|rd|th)[^.;]*?(?:with|overall|as head coach)[^.;]*)/i)||[])[1]||'';
-    if(career)tenure=tenure.replace(new RegExp('\\(?\\s*'+career.replace(/-/g,'\\-')+'\\s*\\)?','g'),'').trim();
-    tenure=tenure.replace(/[\s(]+$/,'');
-    out.push({role:'HC',name:hcName,extra:[tenure,career?'('+career+')':''].filter(Boolean).join(' ')});
+    const t=(typeof stTenure==='function'?stTenure():{})[hcName];
+    if(t&&t.hc_season_number)extra=stOrd(t.hc_season_number)+' Season';
+    else if(/\bfirst\b[^.]*head[- ]coach/i.test(String(ref.bio||'')))extra='1st Season';
   }
-  asst.forEach(a=>out.push({role:'AC',name:a.name}));
+  const others=[];
+  asst.forEach(a=>others.push({role:'AC',name:a.name}));
   (list||[]).filter(x=>x!==head&&asst.indexOf(x)<0).forEach(x=>{
     const r=String(x.role||'');
     const role=/equip/i.test(r)?'EQ':(/train|therap/i.test(r)?'T':(/general manager|^gm$/i.test(r)?'GM':(/video/i.test(r)?'VID':'')));
-    if(role)out.push({role,name:x.name});
+    if(role)others.push({role,name:x.name});
   });
-  return out;
+  return {hc:hcName?{name:hcName,extra}:null,others};
+}
+/* standings for the sheet: the synced table when it holds games, else last
+   season's committed final (so the opening-week sheet still shows a table) */
+/* "2025-2026 Regular Season" / "2025-26 final" → "2025-26" */
+function fdSeasonShort(label){
+  const m=String(label||'').match(/(\d{4})-(\d{2,4})/);
+  return m?m[1]+'-'+m[2].slice(-2):String(label||'').replace(/\s*(regular season|final).*$/i,'').trim();
+}
+function fdSheetStandings(){
+  const live=DATA.report.standings||[];
+  const played=live.some(t=>+t.gp>0);
+  const fell=!!((DATA.report.seasonFallback||{}).standings);
+  if(live.length&&(played||!(typeof SN26!=='undefined'&&SN26))){
+    const label=fdSeasonShort(fell?(tidySeasonShort((DATA.report.seasonFallback||{}).standings)||'last season'):seasonNowShort());
+    return {rows:live,label,final:fell};
+  }
+  if(typeof SN26!=='undefined'&&SN26&&(SN26.standings||[]).length)return {rows:SN26.standings,label:fdSeasonShort(SN26.season_label||'2025-26'),final:true};
+  return {rows:live,label:fdSeasonShort(seasonNowShort()),final:false};
+}
+/* this weekend's games against the opponent, from the schedule: "at Pee Dee, Oct 16-17, 7:15 ET" */
+function fdWeekendLine(forOpp){
+  const G=DATA.game,oppCity=teamCity(G.opp||'');
+  const day=G.date?Date.parse(G.date+'T12:00'):NaN;
+  const rows=(G.opp&&isFinite(day))?parseScheduleData().filter(r=>!r.ps&&new RegExp('^'+oppCity.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i').test(r.team)&&Math.abs(Date.parse(r.dateISO+'T12:00')-day)<=2*86400000):[];
+  const dates=rows.length?rows.map(r=>r.dateISO):(G.date?[G.date]:[]);
+  const fmt=iso=>new Date(iso+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  let when='';
+  if(dates.length){
+    const first=new Date(dates[0]+'T12:00'),last=new Date(dates[dates.length-1]+'T12:00');
+    when=dates.length===1?fmt(dates[0]):(first.getMonth()===last.getMonth()?fmt(dates[0])+'-'+last.getDate():fmt(dates[0])+'-'+fmt(dates[dates.length-1]));
+  }
+  const hostTeam=G.homeaway==='@'?G.opp:'Huntsville Havoc';
+  const tz=((typeof venueFor==='function'&&venueFor(hostTeam))||{}).tz==='Eastern'?'ET':'CT';
+  let time='';
+  const m=String(G.time||'').match(/^(\d{1,2}):(\d{2})/);
+  if(m)time=((+m[1]%12)||12)+':'+m[2];
+  else{const r=rows.find(x=>x.time);if(r)time=r.time.replace(/\s*[AP]\.?M\.?/i,'');}
+  const where=forOpp?(G.homeaway==='@'?'vs Huntsville':'at Huntsville'):(G.homeaway==='@'?'at '+oppCity:'vs '+oppCity);
+  return [where,when,time?time+' '+tz:''].filter(Boolean).join(', ');
+}
+/* transactions typed on This Game ("10/13/2026 Juliano Santalucia — Signed (D)") → date | who | what */
+function fdTxRows(text){
+  return String(text||'').split('\n').map(x=>x.trim()).filter(Boolean).map(l=>{
+    const dm=l.match(/^((?:\d{1,2}\/\d{1,2}(?:\/\d{2,4})?)|(?:[A-Z][a-z]{2,8}\.? \d{1,2},? \d{4})|(?:[A-Z][a-z]{2,8}\.? \d{4})|(?:[A-Z][a-z]{2,8}\.? \d{1,2}))\s*[—–:-]?\s*(.*)$/);
+    const date=dm?dm[1]:'',rest=dm?dm[2]:l;
+    const sm=rest.match(/^(.+?)\s+[—–]\s+(.+)$/)||rest.match(/^([^:]{3,40}):\s+(.+)$/);
+    return sm?{date,who:sm[1],what:sm[2]}:{date,who:rest,what:''};
+  });
 }
 function fdCallSheetModel(side){
   const S=DATA.settings,G=DATA.game;
@@ -716,46 +781,97 @@ function fdCallSheetModel(side){
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
   const L=fdLeftModel(side);
-  const kw=L.kw,isOpp=L.isOpp;
-  const C=(key,computed)=>fdCell(team,key,computed,isOpp);
-  /* header: record, points and place as the sample has them, then the championships */
-  const st=L.st,rec=fdTeamRec(team),place=fdPlace(team);
-  const title=[team.toUpperCase(),rec,st&&st.pts!=null?'('+st.pts+' PTS)':'',place?'· '+place:''].filter(Boolean).join(' ');
+  const kw=L.kw,isOpp=L.isOpp,oppCity=teamCity(G.opp||'');
+  const C=(key,computed,blank)=>fdCell(team,key,computed,blank==null?isOpp:blank);
+  const esc1=x=>x;
+  /* --- standings, record, place --- */
+  const ST=fdSheetStandings();
+  const sorted=ST.rows.slice().sort((a,b)=>(b.pts||0)-(a.pts||0));
+  const myRe=new RegExp(kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  const myI=sorted.findIndex(t=>myRe.test(t.team)),me=myI>=0?sorted[myI]:null;
+  const recOf=t=>[t.w,t.l,t.otl].concat(t.sol!=null?[t.sol]:[]).join('-');
+  const place=me?ordinal(myI+1)+' of '+sorted.length:'';
+  /* --- header --- */
+  const recPart=me?ST.label+': '+recOf(me)+' ('+me.pts+' POINTS) '+place:'';
+  const title=[team.toUpperCase(),recPart,fdWeekendLine(isOpp)].filter(Boolean).join(' · ');   // the sample keeps the record and game line in mixed case
   const cups=((typeof SPHL_REF!=='undefined'&&SPHL_REF.cups)||{})[team]||[];
-  const sub=cups.length?cups.length+'-TIME PRESIDENT\'S CUP CHAMPION ('+cups.join(', ')+')':'';
-  /* the data column */
-  const city=g=>teamCity(g);
-  const results=L.recent.map(g=>({date:new Date(g.d+'T12:00').toLocaleDateString('en-US',{month:'numeric',day:'numeric'}),
-    away:city(g.a),home:city(g.h),result:g.wl+' '+g.gf+'-'+g.ga+(g.ot?' ('+g.ot+')':''),cls:/W$/.test(g.wl)?'w':(/L$/.test(g.wl)?'l':'')}));
-  const upcoming=L.upcoming.map(x=>({date:x.date||'',away:x.hv==='@'?'Huntsville':city(x.team||''),home:x.hv==='@'?city(x.team||''):'Huntsville',result:x.time||''}));
-  const standings=L.standings.map(t=>({seed:t.i+1,team:t.team,valueHTML:fdCell(team,'st'+t.i,t.line,false),isMe:t.isMe,poAfter:t.i===7}));
-  const data=L.rows.map(r=>({label:r[1],valueHTML:C(r[0],r[2])}));
-  ['streaknote','h2hnote'].forEach(k=>{const ov=fdOv(team)[k];if(ov!=null&&String(ov).trim())data.push({label:k==='streaknote'?'Streak note':'H2H note',valueHTML:C(k,null)});});
-  const gp=L.gp;
-  const periods=[['p1','1st'],['p2','2nd'],['p3','3rd'],['ot','OT']].map(([k,lbl])=>({label:lbl,cells:[C(k+'gf',gp?gp[k][0]:null),C(k+'ga',gp?gp[k][1]:null),C(k+'sf',null),C(k+'sa',null)]}));
-  const short=team.split(' ').pop().toUpperCase();
-  const left={resultsTitle:'Results · next up',results,upcoming,txHTML:fdCell(team,'tx',L.tx,isOpp,true),
-    standingsTitle:'SPHL standings'+scopeSuffixFor('standings'),standings,dataTitle:short+' data',data,periods};
-  /* players: by number, goalies last, no position groups */
+  const first=!!(((typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvVs)||{})[isHome?(G.opp||''):team]||{}).first;
+  const frRows=(((typeof FRANCHISES!=='undefined'&&FRANCHISES)||{})[team]||{}).seasons||[];
+  const sphlSeasons=frRows.filter(r=>r&&!/FPHL/i.test(String(r[0]))&&/^\d+-\d+/.test(String(r[1]||''))).length;
+  const nth=(!isHome&&first)?'1st SPHL season':(sphlSeasons?ordinal(sphlSeasons+1)+' season':'');
+  /* --- players --- */
   const list=(isHome?DATA.roster:((G.opp&&DATA.oppRosters[G.opp])||[])).filter(p=>p.active!=='0'&&p.name);
   const byNum=(a,b)=>(+a.num||999)-(+b.num||999);
   const ordered=list.filter(p=>p.pos!=='G').sort(byNum).concat(list.filter(p=>p.pos==='G').sort(byNum));
   const ts=findTeamStats(kw);
   const players=ordered.map(p=>{
     const parts=(p.name||'').trim().split(/\s+/);
-    let first='',last='';
-    if(parts.length>1){last=parts.pop();first=parts.join(' ');}else last=parts[0]||'';
+    let fn='',ln='';
+    if(parts.length>1){ln=parts.pop();fn=parts.join(' ');}else ln=parts[0]||'';
     const hw=[String(p.ht||'').replace(/^(\d)-(\d{1,2})$/,"$1'$2"),p.wt||''].filter(Boolean).join(' ');
-    const bs=fdBandStat(p,ts);
+    const bl=fdBandLine(p,ts);
     const key=p.id||p.htId||norm(p.name);
-    return {num:p.num||'',pos:p.pos==='G'?'G':(p.pos==='D'?'D':'F'),first,last,letter:p.capt==='C'?'C':(p.capt==='A'?'A':''),
-      hw,stat:bs.stat,gp:bs.gp,hometown:p.birth||p.bornIn||'',pron:fdPron(p),bullets:fdNoteLines(p),noteKey:'note:'+key,noteTeam:team};
+    return {num:p.num||'',pos:p.pos==='G'?'G':(/^[LR]?D$/i.test(p.pos||'')?'D':'F'),first:fn,last:ln,letter:p.capt==='C'?'C':(p.capt==='A'?'A':''),
+      hw,stat:bl.stat,gp:bl.gp,hometown:p.birth||p.bornIn||'',pron:fdPron(p),bullets:fdNoteLines(p),noteKey:'note:'+key,noteTeam:team};
   });
+  const cnt=k=>players.filter(p=>p.pos===k).length;
+  const sub=[cups.length?cups.length+'-time Champion ('+cups.join(', ')+')':'',nth,players.length?players.length+' players: '+cnt('F')+' F, '+cnt('D')+' D, '+cnt('G')+' G':'','Phonetics per team sheet (CAPS = stress)'].filter(Boolean).join(' · ');
+  /* --- schedule --- */
+  const day=G.date?Date.parse(G.date+'T12:00'):NaN;
+  const oppRe=new RegExp('^'+oppCity.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+  const isWeekend=(iso,city)=>isFinite(day)&&oppRe.test(city||'')&&Math.abs(Date.parse(iso+'T12:00')-day)<=2*86400000;
+  const mdy=iso=>{const d=new Date(iso+'T12:00');return (d.getMonth()+1)+'/'+d.getDate()+'/'+d.getFullYear();};
+  let schedule=[];
+  if(isHome){
+    const all=parseScheduleData().filter(r=>!r.ps);
+    const played=all.filter(r=>r.result),up=all.filter(r=>!r.result);
+    const rows=played.slice(-4).concat(up);
+    schedule=rows.slice(0,16).map(r=>({date:mdy(r.dateISO),away:r.hv==='@'?'Huntsville':teamCity(r.team),home:r.hv==='@'?teamCity(r.team):'Huntsville',
+      homeSide:r.hv==='@'?'away':'home',result:r.result||'',hl:isWeekend(r.dateISO,r.team)}));
+  }else{
+    const finals=L.gs.slice(-4).map(g=>({date:mdy(g.d),away:teamCity(g.a),home:teamCity(g.h),homeSide:g.home?'home':'away',result:g.wl+' '+g.gf+'-'+g.ga+(g.ot?' ('+g.ot+')':''),hl:false}));
+    const meet=parseScheduleData().filter(r=>!r.ps&&!r.result&&oppRe.test(r.team)).map(r=>({date:mdy(r.dateISO),away:r.hv==='@'?'Huntsville':teamCity(r.team),home:r.hv==='@'?teamCity(r.team):'Huntsville',
+      homeSide:r.hv==='@'?'home':'away',result:'',hl:isWeekend(r.dateISO,r.team)}));
+    schedule=finals.concat(meet).slice(0,16);
+  }
+  /* --- transactions + status --- */
+  const txText=(fdOv(team).tx!=null&&String(fdOv(team).tx).trim())?fdOv(team).tx:L.tx;
+  const tx=fdTxRows(txText);
   const lines=v=>String(v||'').split('\n').map(x=>x.trim()).filter(Boolean);
-  return {side,team,primary,textOn:pal.textOn||'#fff',numText:isHome?'#000':(pal.textOn||'#fff'),logo:teamLogoSrc(team),title,sub,game:fdGameLine(),
-    susp:(isHome?(G.susp||''):(G.oppSusp||'')).trim(),coaches:fdCoachList(team),left,players,
+  lines(isHome?G.ir:G.oppIr).forEach(x=>tx.push({date:'IR',who:x,what:''}));
+  lines(isHome?G.echl:G.oppEchl).forEach(x=>tx.push({date:'ECHL',who:x,what:''}));
+  lines(isHome?G.scratch:G.oppScratch).forEach(x=>tx.push({date:'SCR',who:x,what:''}));
+  /* --- standings rows --- */
+  const standings=sorted.map((t,i)=>({seed:i+1,team:t.team,rec:recOf(t),pts:t.pts,isMe:myRe.test(t.team)}));
+  const standingsTitle=ST.final?ST.label+' Final Standings (top 8 made playoffs)':'SPHL Standings'+(ST.label?' ('+ST.label+')':'');
+  /* --- the Data: block --- */
+  const short=team.split(' ').pop();
+  const gfMap={};sorted.forEach(t=>{if(t.gf!=null)gfMap[t.team]=t.gf;});
+  const gfRank=me&&me.gf!=null?fdRankOf(gfMap,kw,1):null;
+  const lastRow=frRows.length?frRows[frRows.length-1]:null;
+  const playoffs=lastRow&&String(lastRow[0]).indexOf(ST.label)===0?String(lastRow[4]||''):'';
+  const meetings=parseScheduleData().filter(r=>!r.ps&&oppRe.test(r.team)).map(r=>r.date);
+  const vs=(((typeof SPHL_REF!=='undefined'&&SPHL_REF.hsvVs)||{})[isHome?(G.opp||''):team])||null;
+  const vsLine=first?'First meetings ever'+(meetings.length?' ('+meetings.length+' this year: '+meetings.join(', ')+')':'')
+               :(vs?[vs.rs,vs.po?'PO '+vs.po:''].filter(Boolean).join(' · ')+(meetings.length?' · this year: '+meetings.join(', '):''):'');
+  const ps=parseScheduleData().find(r=>r.ps);
+  const psRes=ps?(ps.result||((DATA.preseasonPen||{}).result||{}).score||''):'';
+  const byKey={};L.rows.forEach(r=>{byKey[r[0]]=r[2];});
+  const data=[];
+  if(me)data.push({label:ST.label+':',valueHTML:C('lastseason',recOf(me)+', '+me.pts+' pts, '+place)});
+  if(me&&me.gf!=null)data.push({label:'Goals For:',valueHTML:C('gf',me.gf+(gfRank?' ('+gfRank+' in SPHL)':'')+(me.ga!=null?' · Against: '+me.ga:''))});
+  if(me&&me.gf!=null&&me.ga)data.push({label:'GF/GA:',valueHTML:C('ratio',(me.gf/me.ga).toFixed(2))});
+  if(playoffs||isHome)data.push({label:'Playoffs:',valueHTML:C('playoffs',playoffs||null,true)});
+  data.push({label:'Champion:',valueHTML:C('champ',cups.length?cups.join(', ')+(nth?' · '+nth:''):(nth||null),true)});
+  data.push({label:(isHome?'vs '+oppCity:'vs Havoc')+':',valueHTML:C('vsopp',vsLine||null,true)});
+  if(isHome&&ps)data.push({label:'Preseason:',valueHTML:C('preseason','vs '+teamCity(ps.team)+' '+ps.date+' — result: '+(psRes||'______'),false)});
+  [['pp','Powerplay:'],['pk','Penalty Kill:'],['home','Home Record:'],['road','Road Record:'],['first','Scoring First:'],['lead1','Leading After 1:'],['lead2','Leading After 2:'],['trail2','Trailing After 2:'],['onegoal','1-Goal Games:'],['streak','Current Streak:']]
+    .forEach(([k,l])=>data.push({label:l,valueHTML:C(k,byKey[k]!=null?byKey[k]:null,true)}));
+  [['p1line','P1:'],['p2line','P2:'],['p3line','P3:']].forEach(([k,l])=>data.push({label:l,valueHTML:C(k,null,true)}));
+  const left={schedule,tx,standingsTitle,standings,dataTitle:short+' Data:',data};
+  return {side,team,primary,textOn:pal.textOn||'#fff',numText:pal.textOn||'#fff',title,sub,
+    susp:(isHome?(G.susp||''):(G.oppSusp||'')).trim(),coaches:fdCoachList(team),left,players,writeIns:'left',
     emptyNote:isHome?'No active Havoc roster — Rosters tab.':'No '+team+' roster yet — pull rosters on Live Data or add players on Rosters → Opponent.',
-    status:{ir:lines(isHome?G.ir:G.oppIr),echl:lines(isHome?G.echl:G.oppEchl),scratch:lines(isHome?G.scratch:G.oppScratch)},writeIns:'players',
     foot:{contact:[S.mediaName||'',S.mediaTitle||''].filter(Boolean).join(' | ')+' · '+[S.mediaPhone||'',S.mediaEmail||''].filter(Boolean).join(' · '),stampHTML:dataStampHTML(team)}};
 }
 /* a bullet edited on the sheet lives on the roster player, so it survives a
@@ -951,6 +1067,8 @@ function renderFolders(){
   const mk={hl:()=>callSheetHTML(fdCallSheetModel('home')),hd:()=>fdDataPage('home'),ol:()=>callSheetHTML(fdCallSheetModel('opp')),od:()=>fdDataPage('opp')};
   doc.innerHTML=want.map(k=>mk[k]().replace('<div class="page','<div data-sec="fd:'+k+'" class="page')).join('');
   fdWireEdits();secApplyAll();csFit(doc.querySelectorAll('.csl-page'));fdViewSync();
+  // the opening-week sheet shows last season's final standings until the live table holds games
+  if(typeof snapLoad==='function'&&typeof SN26!=='undefined'&&!SN26)snapLoad().then(s=>{if(s)renderFolders();});
   // the logo lands after the first pass and changes the header height, so the sheets fit again
   imagesReady(doc,2500).then(()=>fitActiveAuto().then(()=>{csFit(doc.querySelectorAll('.csl-page'));fdFitReport();}));
 }
@@ -963,7 +1081,7 @@ function fdWireEdits(){
       const t=e.target.closest?e.target.closest('.fv'):null;if(!t)return;
       if(/^note:/.test(t.dataset.k||'')){           // a call-sheet bullet: saved on the player
         const p=fdNotePlayer(t.dataset.t,t.dataset.k);
-        if(p){p.callNote=t.innerText.split('\n').map(x=>x.trim()).filter(Boolean).join('\n');save();}
+        if(p){p.callNote=cslStripSay(t.innerText);save();}
         return;
       }
       fdOv(t.dataset.t)[t.dataset.k]=t.innerText.trim();save();

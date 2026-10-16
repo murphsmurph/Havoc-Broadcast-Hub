@@ -726,15 +726,17 @@ function ppCallSheetModel(side){
   const team=t.name||(isHome?'Huntsville Havoc':PP_TEAM);
   const pal=teamPal(team);
   const primary=isHome?(S.red||pal.primary):pal.primary;
-  const d=m.date?new Date(m.date+'T00:00').toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric',year:'2-digit'}):'';
-  const game=[(m.gameType||'Preseason').toUpperCase(),d,'Huntsville Havoc vs. '+(m.opponent||PP_TEAM),ppVenue()||'Venue: confirm',m.puckDropCT?m.puckDropCT+' CT':''].filter(Boolean).join('  ·  ');
+  const d=m.date?new Date(m.date+'T12:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+  const game=[(m.gameType||'Preseason')+(isHome?' vs '+teamCity(m.opponent||PP_TEAM):' at Huntsville'),d,m.puckDropCT?m.puckDropCT.replace(/\s*[AP]M/i,'')+' CT':''].filter(Boolean).join(', ')+(ppVenue()?' · '+ppVenue():'');
   const abbr=isHome?'HSV':'PEN';
   const pronAll=(D.pronunciations||[]).filter(x=>x.team===abbr);
   const pronRows=pronAll.map(x=>{const say=ppSay(x);return x.name+': '+(say||'ask');});
   const camps=isHome
     ?(D.echlCamps||[]).filter(c=>c.sphlTeam==='HSV').map(c=>[c.pos,c.name].filter(Boolean).join(' ')+' — '+(c.echlTeam||''))
     :(D.formerFlyersAtEchl||[]);
-  const coaches=(t.coaches||[]).filter(c=>c&&c.name).map(c=>({role:/head/i.test(c.role||'')?'HC':(/assist/i.test(c.role||'')?'AC':String(c.role||'').toUpperCase().slice(0,3)),name:c.name}));
+  const co=(t.coaches||[]).filter(c=>c&&c.name);
+  const hc=co.find(c=>/head/i.test(c.role||''));
+  const coaches={hc:hc?{name:hc.name,extra:''}:null,others:co.filter(c=>c!==hc).map(c=>({role:/assist/i.test(c.role||'')?'AC':String(c.role||'').toUpperCase().slice(0,3),name:c.name}))};
   const byNum=(a,b)=>(+ppNum(a)||999)-(+ppNum(b)||999);
   const all=ppSkaters(side);
   const ordered=all.filter(p=>p.pos!=='G').sort(byNum).concat(all.filter(p=>p.pos==='G').sort(byNum));
@@ -749,9 +751,9 @@ function ppCallSheetModel(side){
     const st=ppClean(p.stats||'');
     let stat='',gp='';
     // only a 2025-26 SPHL line ("HSV: 54 GP, 30-23-53 …") goes on the band; a career or college line stays a bullet
-    const gm=isG?st.match(/^(?:HSV|PEN): (\d+) GP, (\d+)-(\d+)-(\d+), ([\d.]+) GAA, (\.\d+)/):null;
+    const gm=isG?st.match(/^(?:HSV|PEN): (\d+) GP, (\d+)-(\d+)-(\d+), ([\d.]+) GAA, (\.\d+)(?:[^,]*, (\d+) SO)?/):null;
     const sm=!isG?st.match(/^(?:HSV|PEN): (\d+) GP, (\d+)-(\d+)-(\d+)/):null;
-    if(gm){stat=gm[2]+'-'+gm[3]+'-'+gm[4]+' '+gm[5]+' '+gm[6];gp=gm[1]+' GP';}
+    if(gm){stat=gm[2]+'-'+gm[3]+(+gm[4]?'-'+gm[4]:'')+', '+gm[5]+', '+gm[6];gp=gm[1]+' GP'+(gm[7]?' · '+gm[7]+' SO':'');}
     else if(sm){stat=sm[2]+'G '+sm[3]+'A '+sm[4]+'P';gp=sm[1]+' GP';}
     const echl=p.echlLastSeason&&!flat(p.stats).includes(flat(String(p.echlLastSeason).split('.')[0]))?ppClean(p.echlLastSeason):'';
     const pm=p.plusMinus!=null?' · +/- '+(p.plusMinus>0?'+':'')+p.plusMinus+(p.plusMinusScope?' ('+p.plusMinusScope+')':''):'';
@@ -759,13 +761,16 @@ function ppCallSheetModel(side){
     const career=(typeof PRESEASON_CAREER_PRO!=='undefined'&&PRESEASON_CAREER_PRO[p.name])||'';
     const pr=pronAll.find(x=>norm(x.name)===norm(last)||norm(x.name)===norm(p.name));
     const say=pr?ppSay(pr):'';
-    return {num:ppNum(p),pos:isG?'G':(p.pos==='D'?'D':'F'),first,last,letter:'',hw,stat,gp,hometown:p.hometown||'',pron:say||'',
+    return {num:ppNum(p),pos:isG?'G':(/^[LR]?D$/i.test(p.pos||'')?'D':'F'),first,last,letter:'',hw,stat,gp,hometown:p.hometown||'',pron:say||'',
       bullets:[stat?[pm.replace(/^ · /,''),echl?'ECHL last season: '+echl:''].filter(Boolean).join(' · '):(st?'2025-26: '+st+pm+(echl?' · ECHL last season: '+echl:''):''),note,career?'PRO: '+career:''].filter(Boolean),noteKey:null};
   });
-  return {side:isHome?'home':'opp',team,primary,textOn:pal.textOn||'#fff',numText:isHome?'#000':(pal.textOn||'#fff'),logo:teamLogoSrc(team),
-    title:team.toUpperCase(),sub:'PRESEASON ROSTER',game,susp:'',coaches,
+  const cnt=k=>players.filter(p=>p.pos===k).length;
+  const cups=((typeof SPHL_REF!=='undefined'&&SPHL_REF.cups)||{})[team]||[];
+  const sub=[cups.length?cups.length+'-time Champion ('+cups.join(', ')+')':'',players.length?players.length+' players: '+cnt('F')+' F, '+cnt('D')+' D, '+cnt('G')+' G':'','Phonetics per team sheet (CAPS = stress)'].filter(Boolean).join(' · ');
+  return {side:isHome?'home':'opp',team,primary,textOn:pal.textOn||'#fff',numText:pal.textOn||'#fff',
+    title:team.toUpperCase()+' · '+game,sub,susp:'',coaches,
     left:{blocks:[{title:isHome?'ECHL camps':'At ECHL camp',rows:camps},{title:'Pronunciation',rows:pronRows}]},
-    writeIns:'left',players,emptyNote:'No camp roster in the research.',status:null,foot:null};
+    writeIns:'left',players,emptyNote:'No camp roster in the research.',foot:null};
 }
 /* the shared stepper, for this doc's two sheets */
 function ppCsFit(){csFit(document.querySelectorAll('#preseasonDoc .page.csl-page'));}
