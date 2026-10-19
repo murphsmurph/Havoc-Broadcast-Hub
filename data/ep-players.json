@@ -92,6 +92,31 @@
   "name": "Cooper Jones",
   "team": "Pensacola Ice Flyers"
  },
+ "88": {
+  "epId": "46453",
+  "epUrl": "https://www.eliteprospects.com/player/46453",
+  "name": "Carter Shinkaruk",
+  "team": "Athens Rock Lobsters",
+  "dob": "1991-11-11",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
  "107": {
   "epId": "269597",
   "epUrl": "https://www.eliteprospects.com/player/269597",
@@ -147,7 +172,27 @@
   "epUrl": "https://www.eliteprospects.com/player/215887",
   "name": "Connor Fries",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "dob": "1995-03-15",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 2 GP with Huntsville Havoc (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "304": {
   "epId": "97337",
@@ -225,6 +270,31 @@
   "team": "Knoxville Ice Bears",
   "statsFailAt": "2026-08-17T06:30:47.426Z"
  },
+ "2735": {
+  "epId": "186819",
+  "epUrl": "https://www.eliteprospects.com/player/186819",
+  "name": "Zach Yoder",
+  "team": "Athens Rock Lobsters",
+  "dob": "1994-08-14",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
  "2752": {
   "epId": "180771",
   "epUrl": "https://www.eliteprospects.com/player/180771",
@@ -298,6 +368,12 @@
    "Best season: .923 SV%, 2.11 GAA in 44 GP with Evansville Thunderbolts (2025-26)"
   ],
   "fetchedAt": "2026-08-10T07:06:22.214Z"
+ },
+ "2788": {
+  "epId": "386553",
+  "epUrl": "https://www.eliteprospects.com/player/386553",
+  "name": "Mike Mercurio",
+  "team": "Knoxville Ice Bears"
  },
  "2804": {
   "epId": "379526",
@@ -391,6 +467,12 @@
   "epUrl": "https://www.eliteprospects.com/player/306775",
   "name": "Jesse Anderson",
   "team": "Roanoke Rail Yard Dawgs"
+ },
+ "2958": {
+  "epId": "128244",
+  "epUrl": "https://www.eliteprospects.com/player/128244",
+  "name": "Malik Johnson",
+  "team": "Knoxville Ice Bears"
  },
  "2959": {
   "epId": "418814",
@@ -539,7 +621,27 @@
   "epUrl": "https://www.eliteprospects.com/player/248427",
   "name": "Austin Alger",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "dob": "1997-09-23",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 2,
+     "a": 0,
+     "p": 2,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 2G-0A-2P in 2 GP with Huntsville Havoc (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3093": {
   "epId": "249620",
@@ -618,28 +720,32 @@
   "epId": "199906",
   "epUrl": "https://www.eliteprospects.com/player/199906",
   "name": "Jordan Henderson",
-  "team": "Fayetteville Marksmen",
+  "team": "Athens Rock Lobsters",
   "dob": "1997-02-19",
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
-    "team": "Fayetteville Marksmen",
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
     "league": "SPHL",
     "stats": {
-     "gp": 8,
+     "gp": 1,
      "g": 0,
-     "a": 2,
-     "p": 2,
+     "a": 0,
+     "p": 0,
      "gaa": null,
      "svp": null
     }
    }
   ],
-  "bullets": [
-   "Best season: 0G-2A-2P in 8 GP with Fayetteville Marksmen (2025-26)"
-  ],
-  "fetchedAt": "2026-08-10T07:06:22.214Z"
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3119": {
+  "epId": "199661",
+  "epUrl": "https://www.eliteprospects.com/player/199661",
+  "name": "Dallas Comeau",
+  "team": "Huntsville Havoc"
  },
  "3125": {
   "epId": "201709",
@@ -765,6 +871,12 @@
   "name": "Matt Dorsey",
   "team": "Roanoke Rail Yard Dawgs"
  },
+ "3265": {
+  "epId": "392359",
+  "epUrl": "https://www.eliteprospects.com/player/392359",
+  "name": "Aiden Wagner",
+  "team": "Birmingham Bulls"
+ },
  "3269": {
   "epId": "381440",
   "epUrl": "https://www.eliteprospects.com/player/381440",
@@ -789,6 +901,12 @@
   "name": "Brendan Dowler",
   "team": "Knoxville Ice Bears",
   "statsFailAt": "2026-08-17T06:30:47.426Z"
+ },
+ "3289": {
+  "epId": "305640",
+  "epUrl": "https://www.eliteprospects.com/player/305640",
+  "name": "Jordan Popoff",
+  "team": "Pee Dee IceCats"
  },
  "3290": {
   "epId": "582240",
@@ -1040,7 +1158,27 @@
   "epUrl": "https://www.eliteprospects.com/player/349555",
   "name": "Craig McCabe",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "dob": "1998-03-09",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 2 GP with Huntsville Havoc (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3372": {
   "epId": "674687",
@@ -1069,6 +1207,12 @@
    "Best season: 0G-1A-1P in 8 GP with Huntsville Havoc (2025-26)"
   ],
   "fetchedAt": "2026-08-10T07:06:22.214Z"
+ },
+ "3377": {
+  "epId": "333516",
+  "epUrl": "https://www.eliteprospects.com/player/333516",
+  "name": "Brady Lynn",
+  "team": "Birmingham Bulls"
  },
  "3381": {
   "epId": "480498",
@@ -1116,6 +1260,12 @@
   "name": "Dysen Skinner",
   "team": "Huntsville Havoc",
   "statsFailAt": "2026-08-17T06:30:47.426Z"
+ },
+ "3399": {
+  "epId": "283723",
+  "epUrl": "https://www.eliteprospects.com/player/283723",
+  "name": "Logan vande Meerakker",
+  "team": "Evansville Thunderbolts"
  },
  "3403": {
   "epId": "199625",
@@ -1197,6 +1347,12 @@
   "epUrl": "https://www.eliteprospects.com/player/386141",
   "name": "Jake Maynard",
   "team": "Knoxville Ice Bears"
+ },
+ "3421": {
+  "epId": "268525",
+  "epUrl": "https://www.eliteprospects.com/player/268525",
+  "name": "Sean Ross",
+  "team": "Pensacola Ice Flyers"
  },
  "3422": {
   "epId": "269074",
@@ -1295,7 +1451,27 @@
   "epUrl": "https://www.eliteprospects.com/player/285339",
   "name": "Giovanni Procopio",
   "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "dob": "2000-04-29",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 2,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 2 GP with Huntsville Havoc (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3466": {
   "epId": "284080",
@@ -1447,6 +1623,12 @@
   "epUrl": "https://www.eliteprospects.com/player/320866",
   "name": "Johnny Witzke",
   "team": "Quad City Storm"
+ },
+ "3507": {
+  "epId": "560668",
+  "epUrl": "https://www.eliteprospects.com/player/560668",
+  "name": "Filip Hlavac",
+  "team": "Pee Dee IceCats"
  },
  "3508": {
   "epId": "287760",
@@ -2616,24 +2798,21 @@
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
+    "year": "2026-27",
     "team": "Huntsville Havoc",
     "league": "SPHL",
     "stats": {
-     "gp": 51,
-     "g": 5,
-     "a": 14,
-     "p": 19,
+     "gp": 2,
+     "g": 0,
+     "a": 0,
+     "p": 0,
      "gaa": null,
      "svp": null
     }
    }
   ],
-  "bullets": [
-   "19 points in 51 career pro games (SPHL)",
-   "Best season: 5G-14A-19P in 51 GP with Huntsville Havoc (2025-26)"
-  ],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3667": {
   "epId": "275796",
@@ -2658,24 +2837,23 @@
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
+    "year": "2026-27",
     "team": "Huntsville Havoc",
     "league": "SPHL",
     "stats": {
-     "gp": 53,
-     "g": 8,
-     "a": 9,
-     "p": 17,
+     "gp": 2,
+     "g": 0,
+     "a": 1,
+     "p": 1,
      "gaa": null,
      "svp": null
     }
    }
   ],
   "bullets": [
-   "17 points in 53 career pro games (SPHL)",
-   "Best season: 8G-9A-17P in 53 GP with Huntsville Havoc (2025-26)"
+   "Best season: 0G-1A-1P in 2 GP with Huntsville Havoc (2026-27)"
   ],
-  "fetchedAt": "2026-08-06T04:40:39.426Z"
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3670": {
   "epId": "289316",
@@ -2802,28 +2980,28 @@
   "epId": "370215",
   "epUrl": "https://www.eliteprospects.com/player/370215",
   "name": "Dawson Sciarrino",
-  "team": "Pensacola Ice Flyers",
+  "team": "Huntsville Havoc",
   "dob": "2000-06-06",
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
+    "year": "2026-27",
     "team": "Huntsville Havoc",
     "league": "SPHL",
     "stats": {
-     "gp": 14,
-     "g": 4,
-     "a": 9,
-     "p": 13,
+     "gp": 2,
+     "g": 1,
+     "a": 1,
+     "p": 2,
      "gaa": null,
      "svp": null
     }
    }
   ],
   "bullets": [
-   "Best season: 4G-9A-13P in 14 GP with Huntsville Havoc (2025-26)"
+   "Best season: 1G-1A-2P in 2 GP with Huntsville Havoc (2026-27)"
   ],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3687": {
   "epId": "403206",
@@ -3038,28 +3216,26 @@
   "epId": "602093",
   "epUrl": "https://www.eliteprospects.com/player/602093",
   "name": "Lazarus Kaebel",
-  "team": "Birmingham Bulls",
+  "team": "Athens Rock Lobsters",
   "dob": "2001-05-22",
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
-    "team": "Birmingham Bulls",
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
     "league": "SPHL",
     "stats": {
-     "gp": 5,
+     "gp": 1,
      "g": 0,
-     "a": 1,
-     "p": 1,
+     "a": 0,
+     "p": 0,
      "gaa": null,
      "svp": null
     }
    }
   ],
-  "bullets": [
-   "Best season: 0G-1A-1P in 5 GP with Birmingham Bulls (2025-26)"
-  ],
-  "fetchedAt": "2026-08-06T04:40:39.426Z"
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3717": {
   "epId": "386447",
@@ -3124,6 +3300,12 @@
   "epUrl": "https://www.eliteprospects.com/player/149124",
   "name": "Jacob Boll",
   "team": "Quad City Storm"
+ },
+ "3724": {
+  "epId": "388360",
+  "epUrl": "https://www.eliteprospects.com/player/388360",
+  "name": "Andrew Kurapov",
+  "team": "Pensacola Ice Flyers"
  },
  "3726": {
   "epId": "279770",
@@ -3236,8 +3418,28 @@
   "epId": "562446",
   "epUrl": "https://www.eliteprospects.com/player/562446",
   "name": "Connor Galloway",
-  "team": "Huntsville Havoc",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "team": "Athens Rock Lobsters",
+  "dob": "1999-09-08",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 1,
+     "a": 0,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 1G-0A-1P in 1 GP with Athens Rock Lobsters (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3738": {
   "epId": "531598",
@@ -3814,7 +4016,7 @@
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
+    "year": "2026-27",
     "team": "Huntsville Havoc",
     "league": "SPHL",
     "stats": {
@@ -3822,13 +4024,13 @@
      "g": null,
      "a": null,
      "p": null,
-     "gaa": 1,
-     "svp": 96.7
+     "gaa": 1.91,
+     "svp": 92.6
     }
    }
   ],
   "bullets": [],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3802": {
   "epId": "503026",
@@ -4138,8 +4340,26 @@
   "epId": "370024",
   "epUrl": "https://www.eliteprospects.com/player/370024",
   "name": "Davis Goukler",
-  "team": "Macon Mayhem",
-  "statsFailAt": "2026-08-17T06:30:47.426Z"
+  "team": "Huntsville Havoc",
+  "dob": "2001-04-22",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "3838": {
   "epId": "215491",
@@ -4202,6 +4422,606 @@
   "name": "Kullan Daikawa",
   "team": "Peoria Rivermen"
  },
+ "3846": {
+  "epId": "415681",
+  "epUrl": "https://www.eliteprospects.com/player/415681",
+  "name": "Luke Croucher",
+  "team": "Athens Rock Lobsters",
+  "dob": "2000-03-05",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3848": {
+  "epId": "439826",
+  "epUrl": "https://www.eliteprospects.com/player/439826",
+  "name": "Corey Cunningham",
+  "team": "Athens Rock Lobsters",
+  "dob": "2001-05-04",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3849": {
+  "epId": "398509",
+  "epUrl": "https://www.eliteprospects.com/player/398509",
+  "name": "Gleb Bandurkin",
+  "team": "Athens Rock Lobsters",
+  "dob": "2000-03-27",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 1 GP with Athens Rock Lobsters (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3851": {
+  "epId": "285320",
+  "epUrl": "https://www.eliteprospects.com/player/285320",
+  "name": "Jesse Lowell",
+  "team": "Athens Rock Lobsters",
+  "dob": "2000-01-28",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3852": {
+  "epId": "267680",
+  "epUrl": "https://www.eliteprospects.com/player/267680",
+  "name": "Devyn Mayea",
+  "team": "Athens Rock Lobsters",
+  "dob": "1998-09-21",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 1,
+     "p": 1,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [
+   "Best season: 0G-1A-1P in 1 GP with Athens Rock Lobsters (2026-27)"
+  ],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3853": {
+  "epId": "370029",
+  "epUrl": "https://www.eliteprospects.com/player/370029",
+  "name": "Logan Stein",
+  "team": "Athens Rock Lobsters",
+  "statsFailAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3854": {
+  "epId": "479528",
+  "epUrl": "https://www.eliteprospects.com/player/479528",
+  "name": "Carter McPhail",
+  "team": "Athens Rock Lobsters",
+  "dob": "1998-12-04",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": null,
+     "a": null,
+     "p": null,
+     "gaa": 0,
+     "svp": 100
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3855": {
+  "epId": "413323",
+  "epUrl": "https://www.eliteprospects.com/player/413323",
+  "name": "Hassan Akl",
+  "team": "Athens Rock Lobsters",
+  "dob": "2001-05-20",
+  "hometown": "",
+  "careerStats": [
+   {
+    "year": "2026-27",
+    "team": "Athens Rock Lobsters",
+    "league": "SPHL",
+    "stats": {
+     "gp": 1,
+     "g": 0,
+     "a": 0,
+     "p": 0,
+     "gaa": null,
+     "svp": null
+    }
+   }
+  ],
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
+ },
+ "3856": {
+  "epId": "613588",
+  "epUrl": "https://www.eliteprospects.com/player/613588",
+  "name": "Joe Mack",
+  "team": "Athens Rock Lobsters"
+ },
+ "3859": {
+  "epId": "476573",
+  "epUrl": "https://www.eliteprospects.com/player/476573",
+  "name": "Brad Fortin",
+  "team": "Birmingham Bulls"
+ },
+ "3860": {
+  "epId": "351226",
+  "epUrl": "https://www.eliteprospects.com/player/351226",
+  "name": "Logan Calder",
+  "team": "Birmingham Bulls"
+ },
+ "3861": {
+  "epId": "506314",
+  "epUrl": "https://www.eliteprospects.com/player/506314",
+  "name": "Kyle Young",
+  "team": "Birmingham Bulls"
+ },
+ "3862": {
+  "epId": "348718",
+  "epUrl": "https://www.eliteprospects.com/player/348718",
+  "name": "Andre Sutter",
+  "team": "Birmingham Bulls"
+ },
+ "3863": {
+  "epId": "754378",
+  "epUrl": "https://www.eliteprospects.com/player/754378",
+  "name": "Nolan Dion",
+  "team": "Evansville Thunderbolts"
+ },
+ "3864": {
+  "epId": "530167",
+  "epUrl": "https://www.eliteprospects.com/player/530167",
+  "name": "Dustin Hutton",
+  "team": "Evansville Thunderbolts"
+ },
+ "3865": {
+  "epId": "500455",
+  "epUrl": "https://www.eliteprospects.com/player/500455",
+  "name": "Shane Prifrel",
+  "team": "Evansville Thunderbolts"
+ },
+ "3866": {
+  "epId": "424524",
+  "epUrl": "https://www.eliteprospects.com/player/424524",
+  "name": "Blake Frost",
+  "team": "Evansville Thunderbolts"
+ },
+ "3867": {
+  "epId": "424412",
+  "epUrl": "https://www.eliteprospects.com/player/424412",
+  "name": "Devyn Orpana",
+  "team": "Evansville Thunderbolts"
+ },
+ "3868": {
+  "epId": "333815",
+  "epUrl": "https://www.eliteprospects.com/player/333815",
+  "name": "Trevor LeDonne",
+  "team": "Evansville Thunderbolts"
+ },
+ "3870": {
+  "epId": "339245",
+  "epUrl": "https://www.eliteprospects.com/player/339245",
+  "name": "Ethan McLaughlin",
+  "team": "Fayetteville Marksmen"
+ },
+ "3871": {
+  "epId": "465234",
+  "epUrl": "https://www.eliteprospects.com/player/465234",
+  "name": "Payton Schaly",
+  "team": "Fayetteville Marksmen"
+ },
+ "3874": {
+  "epId": "1286511",
+  "epUrl": "https://www.eliteprospects.com/player/1286511",
+  "name": "Will White",
+  "team": "Fayetteville Marksmen"
+ },
+ "3875": {
+  "epId": "397851",
+  "epUrl": "https://www.eliteprospects.com/player/397851",
+  "name": "Bryan Huggins",
+  "team": "Fayetteville Marksmen"
+ },
+ "3877": {
+  "epId": "418370",
+  "epUrl": "https://www.eliteprospects.com/player/418370",
+  "name": "Kyle Curtin",
+  "team": "Fayetteville Marksmen"
+ },
+ "3880": {
+  "epId": "326019",
+  "epUrl": "https://www.eliteprospects.com/player/326019",
+  "name": "Eric Ward",
+  "team": "Huntsville Havoc"
+ },
+ "3881": {
+  "epId": "412351",
+  "epUrl": "https://www.eliteprospects.com/player/412351",
+  "name": "Michael Hodge",
+  "team": "Huntsville Havoc"
+ },
+ "3882": {
+  "epId": "566770",
+  "epUrl": "https://www.eliteprospects.com/player/566770",
+  "name": "James Eng",
+  "team": "Huntsville Havoc"
+ },
+ "3883": {
+  "epId": "481390",
+  "epUrl": "https://www.eliteprospects.com/player/481390",
+  "name": "Keighan Gerrie",
+  "team": "Huntsville Havoc"
+ },
+ "3884": {
+  "epId": "290344",
+  "epUrl": "https://www.eliteprospects.com/player/290344",
+  "name": "Juliano Santalucia",
+  "team": "Huntsville Havoc"
+ },
+ "3885": {
+  "epId": "481397",
+  "epUrl": "https://www.eliteprospects.com/player/481397",
+  "name": "Kadin Ilott",
+  "team": "Huntsville Havoc"
+ },
+ "3887": {
+  "epId": "336987",
+  "epUrl": "https://www.eliteprospects.com/player/336987",
+  "name": "Spencer Bellina",
+  "team": "Knoxville Ice Bears"
+ },
+ "3888": {
+  "epId": "417585",
+  "epUrl": "https://www.eliteprospects.com/player/417585",
+  "name": "Blake Benson",
+  "team": "Knoxville Ice Bears"
+ },
+ "3890": {
+  "epId": "481759",
+  "epUrl": "https://www.eliteprospects.com/player/481759",
+  "name": "Ranon Joseph",
+  "team": "Knoxville Ice Bears"
+ },
+ "3893": {
+  "epId": "854679",
+  "epUrl": "https://www.eliteprospects.com/player/854679",
+  "name": "Nikola Murgic",
+  "team": "Macon Mayhem"
+ },
+ "3894": {
+  "epId": "504321",
+  "epUrl": "https://www.eliteprospects.com/player/504321",
+  "name": "Cory Liu",
+  "team": "Macon Mayhem"
+ },
+ "3895": {
+  "epId": "448696",
+  "epUrl": "https://www.eliteprospects.com/player/448696",
+  "name": "Chris Carroll",
+  "team": "Macon Mayhem"
+ },
+ "3896": {
+  "epId": "406421",
+  "epUrl": "https://www.eliteprospects.com/player/406421",
+  "name": "Steven Spetz",
+  "team": "Macon Mayhem"
+ },
+ "3897": {
+  "epId": "539499",
+  "epUrl": "https://www.eliteprospects.com/player/539499",
+  "name": "Mason Hoehn",
+  "team": "Macon Mayhem"
+ },
+ "3898": {
+  "epId": "290133",
+  "epUrl": "https://www.eliteprospects.com/player/290133",
+  "name": "Jayden Price",
+  "team": "Macon Mayhem"
+ },
+ "3899": {
+  "epId": "269036",
+  "epUrl": "https://www.eliteprospects.com/player/269036",
+  "name": "Grayden Gottschalk",
+  "team": "Macon Mayhem"
+ },
+ "3900": {
+  "epId": "493521",
+  "epUrl": "https://www.eliteprospects.com/player/493521",
+  "name": "Bohdan Zinchenko",
+  "team": "Macon Mayhem"
+ },
+ "3903": {
+  "epId": "415556",
+  "epUrl": "https://www.eliteprospects.com/player/415556",
+  "name": "Jonathan Hafsmoe",
+  "team": "Pee Dee IceCats"
+ },
+ "3905": {
+  "epId": "118138",
+  "epUrl": "https://www.eliteprospects.com/player/118138",
+  "name": "Joachim Engesveen",
+  "team": "Pee Dee IceCats"
+ },
+ "3906": {
+  "epId": "317527",
+  "epUrl": "https://www.eliteprospects.com/player/317527",
+  "name": "Brendan Lynch",
+  "team": "Pee Dee IceCats"
+ },
+ "3908": {
+  "epId": "396927",
+  "epUrl": "https://www.eliteprospects.com/player/396927",
+  "name": "German Shaporev",
+  "team": "Pee Dee IceCats"
+ },
+ "3909": {
+  "epId": "279194",
+  "epUrl": "https://www.eliteprospects.com/player/279194",
+  "name": "Rasmus Asp",
+  "team": "Pee Dee IceCats"
+ },
+ "3911": {
+  "epId": "424536",
+  "epUrl": "https://www.eliteprospects.com/player/424536",
+  "name": "Sebastian Woods",
+  "team": "Pee Dee IceCats"
+ },
+ "3912": {
+  "epId": "501296",
+  "epUrl": "https://www.eliteprospects.com/player/501296",
+  "name": "Dakota Zarudny",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3913": {
+  "epId": "269692",
+  "epUrl": "https://www.eliteprospects.com/player/269692",
+  "name": "Tanner Schachle",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3915": {
+  "epId": "283921",
+  "epUrl": "https://www.eliteprospects.com/player/283921",
+  "name": "Tyler Carpenter",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3918": {
+  "epId": "344049",
+  "epUrl": "https://www.eliteprospects.com/player/344049",
+  "name": "Keenan Rancier",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3919": {
+  "epId": "439828",
+  "epUrl": "https://www.eliteprospects.com/player/439828",
+  "name": "Braiden Koran",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3920": {
+  "epId": "685315",
+  "epUrl": "https://www.eliteprospects.com/player/685315",
+  "name": "Samuel Loiselle",
+  "team": "Pensacola Ice Flyers"
+ },
+ "3923": {
+  "epId": "502859",
+  "epUrl": "https://www.eliteprospects.com/player/502859",
+  "name": "Brendan Boyce",
+  "team": "Peoria Rivermen"
+ },
+ "3924": {
+  "epId": "464772",
+  "epUrl": "https://www.eliteprospects.com/player/464772",
+  "name": "Sam Holy",
+  "team": "Peoria Rivermen"
+ },
+ "3925": {
+  "epId": "483831",
+  "epUrl": "https://www.eliteprospects.com/player/483831",
+  "name": "Cooper Board",
+  "team": "Peoria Rivermen"
+ },
+ "3927": {
+  "epId": "439817",
+  "epUrl": "https://www.eliteprospects.com/player/439817",
+  "name": "Brandon Della Paolera",
+  "team": "Peoria Rivermen"
+ },
+ "3928": {
+  "epId": "732647",
+  "epUrl": "https://www.eliteprospects.com/player/732647",
+  "name": "Everett Pietila",
+  "team": "Peoria Rivermen"
+ },
+ "3929": {
+  "epId": "424257",
+  "epUrl": "https://www.eliteprospects.com/player/424257",
+  "name": "Will Redick",
+  "team": "Peoria Rivermen"
+ },
+ "3930": {
+  "epId": "617521",
+  "epUrl": "https://www.eliteprospects.com/player/617521",
+  "name": "Landyn Greatorex",
+  "team": "Quad City Storm"
+ },
+ "3931": {
+  "epId": "509202",
+  "epUrl": "https://www.eliteprospects.com/player/509202",
+  "name": "Charlie Belanger",
+  "team": "Quad City Storm"
+ },
+ "3932": {
+  "epId": "619515",
+  "epUrl": "https://www.eliteprospects.com/player/619515",
+  "name": "Iiro Karppinen",
+  "team": "Quad City Storm"
+ },
+ "3933": {
+  "epId": "346119",
+  "epUrl": "https://www.eliteprospects.com/player/346119",
+  "name": "Stefan Diezi",
+  "team": "Quad City Storm"
+ },
+ "3935": {
+  "epId": "159228",
+  "epUrl": "https://www.eliteprospects.com/player/159228",
+  "name": "Andrei Filonenko",
+  "team": "Quad City Storm"
+ },
+ "3936": {
+  "epId": "518580",
+  "epUrl": "https://www.eliteprospects.com/player/518580",
+  "name": "Sergei Safin-Tregubov",
+  "team": "Quad City Storm"
+ },
+ "3937": {
+  "epId": "520111",
+  "epUrl": "https://www.eliteprospects.com/player/520111",
+  "name": "Jay Buchholz",
+  "team": "Quad City Storm"
+ },
+ "3938": {
+  "epId": "409953",
+  "epUrl": "https://www.eliteprospects.com/player/409953",
+  "name": "Max Hartwell",
+  "team": "Quad City Storm"
+ },
+ "3940": {
+  "epId": "553786",
+  "epUrl": "https://www.eliteprospects.com/player/553786",
+  "name": "Cole Brennan",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3941": {
+  "epId": "566949",
+  "epUrl": "https://www.eliteprospects.com/player/566949",
+  "name": "Taurin Haddon-Harris",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3942": {
+  "epId": "467427",
+  "epUrl": "https://www.eliteprospects.com/player/467427",
+  "name": "John Gutt",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3943": {
+  "epId": "599446",
+  "epUrl": "https://www.eliteprospects.com/player/599446",
+  "name": "Caleb Lepitre",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3944": {
+  "epId": "505772",
+  "epUrl": "https://www.eliteprospects.com/player/505772",
+  "name": "Gage Alexander",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3945": {
+  "epId": "438090",
+  "epUrl": "https://www.eliteprospects.com/player/438090",
+  "name": "Brandon Milberg",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3947": {
+  "epId": "281770",
+  "epUrl": "https://www.eliteprospects.com/player/281770",
+  "name": "Zane Kindrachuk",
+  "team": "Roanoke Rail Yard Dawgs"
+ },
+ "3948": {
+  "epId": "651551",
+  "epUrl": "https://www.eliteprospects.com/player/651551",
+  "name": "Alfred Rotiroti",
+  "team": "Peoria Rivermen"
+ },
+ "3949": {
+  "epId": "400119",
+  "epUrl": "https://www.eliteprospects.com/player/400119",
+  "name": "Matt Koethe",
+  "team": "Evansville Thunderbolts"
+ },
+ "3950": {
+  "epId": "504258",
+  "epUrl": "https://www.eliteprospects.com/player/504258",
+  "name": "Austin D'Orazio",
+  "team": "Fayetteville Marksmen"
+ },
  "ep551018": {
   "epId": "551018",
   "epUrl": "https://www.eliteprospects.com/player/551018",
@@ -4211,24 +5031,21 @@
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
-    "team": "Aurora Univ.",
-    "league": "NCAA III",
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
     "stats": {
-     "gp": 28,
-     "g": 11,
-     "a": 18,
-     "p": 29,
+     "gp": 2,
+     "g": 0,
+     "a": 0,
+     "p": 0,
      "gaa": null,
      "svp": null
     }
    }
   ],
-  "bullets": [
-   "Played college hockey at Aurora Univ. (NCAA III)",
-   "Best season: 11G-18A-29P in 28 GP with Aurora Univ. (2025-26)"
-  ],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "bullets": [],
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  },
  "ep271639": {
   "epId": "271639",
@@ -4256,7 +5073,8 @@
    "Most recently with Heerenveen Flyers (CEHL) in 2025-26",
    "Best season: 7G-26A-33P in 32 GP with Heerenveen Flyers (2025-26)"
   ],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "fetchedAt": "2026-08-05T03:52:27.669Z",
+  "statsFailAt": "2026-10-19T11:27:18.151Z"
  },
  "ep412351": {
   "epId": "412351",
@@ -4267,23 +5085,22 @@
   "hometown": "",
   "careerStats": [
    {
-    "year": "2025-26",
-    "team": "Solway IHC",
-    "league": "NIHL",
+    "year": "2026-27",
+    "team": "Huntsville Havoc",
+    "league": "SPHL",
     "stats": {
-     "gp": 15,
-     "g": 9,
-     "a": 14,
-     "p": 23,
+     "gp": 2,
+     "g": 0,
+     "a": 2,
+     "p": 2,
      "gaa": null,
      "svp": null
     }
    }
   ],
   "bullets": [
-   "Most recently with Solway IHC (NIHL) in 2025-26",
-   "Best season: 9G-14A-23P in 15 GP with Solway IHC (2025-26)"
+   "Best season: 0G-2A-2P in 2 GP with Huntsville Havoc (2026-27)"
   ],
-  "fetchedAt": "2026-08-05T03:52:27.669Z"
+  "fetchedAt": "2026-10-19T11:27:18.151Z"
  }
 }
