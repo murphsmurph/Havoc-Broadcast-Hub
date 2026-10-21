@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-10-20T15:33:00.621Z",
+ "fetchedAt": "2026-10-21T15:49:37.226Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-10-20",
+ "generatedDate": "2026-10-21",
  "standings": [
   {
    "team": "Huntsville",
@@ -281,6 +281,45 @@
    "gw": 0
   },
   {
+   "name": "Cory Liu",
+   "team": "MAC",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Jayden Price",
+   "team": "MAC",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Philippe Caron",
+   "team": "MAC",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Trevor LeDonne",
    "team": "EVV",
    "gp": 2,
@@ -296,6 +335,32 @@
   {
    "name": "Konstantine Cherynuk",
    "team": "KNX",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Ryan Helliwell",
+   "team": "PEN",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "CJ Valerian",
+   "team": "RNK",
    "gp": 2,
    "g": 0,
    "a": 2,
@@ -1074,6 +1139,19 @@
    "gw": 1
   },
   {
+   "name": "Austin D'Orazio",
+   "team": "Fayetteville Marksmen",
+   "gp": 1,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Lucas Helland",
    "team": "Fayetteville Marksmen",
    "gp": 2,
@@ -1107,19 +1185,6 @@
    "a": 1,
    "pts": 1,
    "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Austin D'Orazio",
-   "team": "Fayetteville Marksmen",
-   "gp": 1,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": -1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -1750,6 +1815,19 @@
    "gw": 0
   },
   {
+   "name": "Philippe Caron",
+   "team": "Macon Mayhem",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 2,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Mason Hoehn",
    "team": "Macon Mayhem",
    "gp": 2,
@@ -1757,6 +1835,32 @@
    "a": 1,
    "pts": 2,
    "pm": 1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Cory Liu",
+   "team": "Macon Mayhem",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 1,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Jayden Price",
+   "team": "Macon Mayhem",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -1776,26 +1880,13 @@
    "gw": 1
   },
   {
-   "name": "Philippe Caron",
-   "team": "Macon Mayhem",
-   "gp": 2,
-   "g": 1,
-   "a": 0,
-   "pts": 1,
-   "pm": 2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Savva Smirnov",
    "team": "Macon Mayhem",
    "gp": 2,
    "g": 1,
    "a": 0,
    "pts": 1,
-   "pm": 0,
+   "pm": -1,
    "pim": 0,
    "pp": 1,
    "shg": 0,
@@ -1815,27 +1906,14 @@
    "gw": 0
   },
   {
-   "name": "Michael Krupinski",
+   "name": "Nikola Murgic",
    "team": "Macon Mayhem",
    "gp": 2,
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": 1,
-   "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Cory Liu",
-   "team": "Macon Mayhem",
-   "gp": 2,
-   "g": 0,
-   "a": 1,
-   "pts": 1,
-   "pm": 1,
-   "pim": 2,
+   "pm": -1,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -1899,7 +1977,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": 1,
+   "pm": 2,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -1912,7 +1990,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -2,
+   "pm": -3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -1925,19 +2003,6 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Nikola Murgic",
-   "team": "Macon Mayhem",
-   "gp": 2,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
    "pm": -1,
    "pim": 0,
    "pp": 0,
@@ -1945,14 +2010,14 @@
    "gw": 0
   },
   {
-   "name": "Jayden Price",
+   "name": "Michael Krupinski",
    "team": "Macon Mayhem",
    "gp": 2,
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -1,
-   "pim": 0,
+   "pm": 0,
+   "pim": 2,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -1977,7 +2042,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": 0,
+   "pm": 1,
    "pim": 5,
    "pp": 0,
    "shg": 0,
@@ -1990,21 +2055,21 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": 1,
+   "pm": 0,
    "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
   },
   {
-   "name": "Danil Federov",
+   "name": "Denis Zaichyk",
    "team": "Pee Dee IceCats",
    "gp": 2,
-   "g": 1,
-   "a": 1,
+   "g": 0,
+   "a": 2,
    "pts": 2,
-   "pm": -1,
-   "pim": 2,
+   "pm": 3,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2034,6 +2099,19 @@
    "pp": 0,
    "shg": 0,
    "gw": 1
+  },
+  {
+   "name": "Danil Federov",
+   "team": "Pee Dee IceCats",
+   "gp": 2,
+   "g": 1,
+   "a": 0,
+   "pts": 1,
+   "pm": -1,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
   },
   {
    "name": "Filip Hlavac",
@@ -2101,13 +2179,13 @@
    "gw": 0
   },
   {
-   "name": "Denis Zaichyk",
+   "name": "German Shaporev",
    "team": "Pee Dee IceCats",
    "gp": 2,
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": 2,
+   "pm": 1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2185,7 +2263,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -1,
+   "pm": -2,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2198,7 +2276,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": 0,
+   "pm": -1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2226,19 +2304,6 @@
    "pts": 0,
    "pm": -2,
    "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "German Shaporev",
-   "team": "Pee Dee IceCats",
-   "gp": 2,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": 0,
-   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2283,6 +2348,19 @@
    "gw": 0
   },
   {
+   "name": "Ryan Helliwell",
+   "team": "Pensacola Ice Flyers",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Tyler Carpenter",
    "team": "Pensacola Ice Flyers",
    "gp": 2,
@@ -2290,19 +2368,6 @@
    "a": 1,
    "pts": 1,
    "pm": -1,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Ryan Helliwell",
-   "team": "Pensacola Ice Flyers",
-   "gp": 2,
-   "g": 0,
-   "a": 1,
-   "pts": 1,
-   "pm": 1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2647,7 +2712,7 @@
    "gw": 0
   },
   {
-   "name": "Theodore Koufis",
+   "name": "TJ Koufis",
    "team": "Peoria Rivermen",
    "gp": 1,
    "g": 0,
@@ -2985,6 +3050,19 @@
    "gw": 0
   },
   {
+   "name": "CJ Valerian",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 2,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": -1,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Manny Cabral",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 1,
@@ -3005,19 +3083,6 @@
    "a": 1,
    "pts": 1,
    "pm": 0,
-   "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "CJ Valerian",
-   "team": "Roanoke Rail Yard Dawgs",
-   "gp": 2,
-   "g": 0,
-   "a": 1,
-   "pts": 1,
-   "pm": -1,
    "pim": 2,
    "pp": 0,
    "shg": 0,
@@ -3645,6 +3710,16 @@
     "val": "2"
    },
    {
+    "name": "Cory Liu",
+    "team": "MAC",
+    "val": "2"
+   },
+   {
+    "name": "Jayden Price",
+    "team": "MAC",
+    "val": "2"
+   },
+   {
     "name": "several tied at",
     "team": "",
     "val": "1"
@@ -3652,6 +3727,21 @@
    {
     "name": "Konstantine Cherynuk",
     "team": "KNX",
+    "val": "2"
+   },
+   {
+    "name": "Ryan Helliwell",
+    "team": "PEN",
+    "val": "2"
+   },
+   {
+    "name": "Cory Liu",
+    "team": "MAC",
+    "val": "2"
+   },
+   {
+    "name": "CJ Valerian",
+    "team": "RNK",
     "val": "2"
    },
    {
@@ -4024,7 +4114,7 @@
     "A",
     "PTS"
    ],
-   "rows": 8
+   "rows": 10
   },
   {
    "title": "Rookie Leaders",
@@ -4038,7 +4128,7 @@
    "rows": 3
   },
   {
-   "title": "Rookie Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "ASSISTS",
@@ -4046,7 +4136,7 @@
     "GP",
     "A"
    ],
-   "rows": 3
+   "rows": 5
   },
   {
    "title": "(untitled)",
@@ -4212,7 +4302,7 @@
     "A",
     "PTS"
    ],
-   "rows": 3
+   "rows": 7
   },
   {
    "title": "Defenseman Leaders",
@@ -4234,10 +4324,10 @@
     "GP",
     "A"
    ],
-   "rows": 2
+   "rows": 5
   },
   {
-   "title": "Defenseman Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "PENALTY MINUTES",
@@ -4248,7 +4338,7 @@
    "rows": 5
   },
   {
-   "title": "Defenseman Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "MINOR PENALTIES",
@@ -4752,7 +4842,7 @@
     "#",
     "DATES"
    ],
-   "rows": 3
+   "rows": 4
   },
   {
    "title": "Player Streaks",
@@ -4763,10 +4853,10 @@
     "#",
     "DATES"
    ],
-   "rows": 3
+   "rows": 4
   },
   {
-   "title": "Player Streaks",
+   "title": "(untitled)",
    "headers": [
     "POINTS",
     "TEAM",
@@ -5071,7 +5161,7 @@
     "DATE",
     "ASSISTS"
    ],
-   "rows": 5
+   "rows": 4
   },
   {
    "title": "Team Game Highs",
@@ -5080,7 +5170,7 @@
     "DATE",
     "POINTS"
    ],
-   "rows": 5
+   "rows": 4
   },
   {
    "title": "Team Game Highs",
@@ -5101,7 +5191,7 @@
    "rows": 5
   },
   {
-   "title": "(untitled)",
+   "title": "Team Game Highs",
    "headers": [
     "MAJORS",
     "DATE",
