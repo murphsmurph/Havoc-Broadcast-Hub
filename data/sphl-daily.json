@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-10-21T15:49:37.226Z",
+ "fetchedAt": "2026-10-22T15:47:07.764Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-10-21",
+ "generatedDate": "2026-10-22",
  "standings": [
   {
    "team": "Huntsville",
@@ -3011,6 +3011,32 @@
    "gw": 0
   },
   {
+   "name": "Nolan Dion",
+   "team": "Quad City Storm",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 3,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "EVV",
+   "team": "Quad City Storm",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 3,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Ryan Mahlmeister",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 2,
@@ -5788,7 +5814,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 20
+   "rows": 22
   },
   {
    "title": "(untitled)",
