@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-10-27T16:11:26.183Z",
+ "fetchedAt": "2026-10-28T16:59:24.776Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-10-27",
+ "generatedDate": "2026-10-28",
  "standings": [
   {
    "team": "Pensacola",
@@ -1198,7 +1198,7 @@
    "a": 1,
    "pts": 2,
    "pm": -1,
-   "pim": 5,
+   "pim": 15,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -4180,7 +4180,7 @@
     "GP",
     "PIM"
    ],
-   "rows": 5
+   "rows": 4
   },
   {
    "title": "(untitled)",
