@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-10-28T16:59:24.776Z",
+ "fetchedAt": "2026-10-29T17:18:02.602Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-10-28",
+ "generatedDate": "2026-10-29",
  "standings": [
   {
    "team": "Pensacola",
@@ -19,8 +19,8 @@
    "gp": 3,
    "w": 2,
    "l": 0,
-   "otl": 0,
-   "sol": 1,
+   "otl": 1,
+   "sol": 0,
    "pts": 7,
    "gf": 10,
    "ga": 6
@@ -50,7 +50,7 @@
   {
    "team": "Knoxville",
    "gp": 3,
-   "w": 2,
+   "w": 1,
    "l": 1,
    "otl": 0,
    "sol": 0,
@@ -61,7 +61,7 @@
   {
    "team": "Pee Dee",
    "gp": 4,
-   "w": 2,
+   "w": 1,
    "l": 2,
    "otl": 0,
    "sol": 0,
@@ -83,7 +83,7 @@
   {
    "team": "Roanoke",
    "gp": 3,
-   "w": 2,
+   "w": 0,
    "l": 1,
    "otl": 0,
    "sol": 0,
@@ -333,6 +333,19 @@
    "gw": 0
   },
   {
+   "name": "Brad Fortin",
+   "team": "BHM",
+   "gp": 3,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Dakota Zarudny",
    "team": "PEN",
    "gp": 4,
@@ -378,6 +391,201 @@
    "g": 0,
    "a": 3,
    "pts": 3,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Austin D'Orazio",
+   "team": "FAY",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Trevor LeDonne",
+   "team": "EVV",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Jordan Henderson",
+   "team": "ATH",
+   "gp": 3,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Filip Hlavac",
+   "team": "PD",
+   "gp": 4,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Michael Krupinski",
+   "team": "MAC",
+   "gp": 4,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Max Thiessen",
+   "team": "EVV",
+   "gp": 4,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Konstantine Cherynuk",
+   "team": "KNX",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "True Crowe",
+   "team": "RNK",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Devyn Mayea",
+   "team": "ATH",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Sergei Safin-Tregubov",
+   "team": "QC",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Colin Tracy",
+   "team": "BHM",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Ryan Helliwell",
+   "team": "PEN",
+   "gp": 4,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Caleb Huffman",
+   "team": "EVV",
+   "gp": 4,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Cory Liu",
+   "team": "MAC",
+   "gp": 4,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Nikola Murgic",
+   "team": "MAC",
+   "gp": 4,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -662,8 +870,8 @@
    "team": "Birmingham Bulls",
    "gp": 3,
    "g": 0,
-   "a": 2,
-   "pts": 2,
+   "a": 3,
+   "pts": 3,
    "pm": 0,
    "pim": 6,
    "pp": 0,
@@ -671,14 +879,27 @@
    "gw": 0
   },
   {
-   "name": "Jordan Gagnon",
+   "name": "Drake Glover",
    "team": "Birmingham Bulls",
    "gp": 3,
    "g": 0,
    "a": 2,
    "pts": 2,
-   "pm": 1,
-   "pim": 6,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Andre Sutter",
+   "team": "Birmingham Bulls",
+   "gp": 3,
+   "g": 0,
+   "a": 2,
+   "pts": 2,
+   "pm": 3,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -749,14 +970,14 @@
    "gw": 0
   },
   {
-   "name": "Drake Glover",
+   "name": "Jordan Gagnon",
    "team": "Birmingham Bulls",
    "gp": 3,
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": -1,
-   "pim": 0,
+   "pm": 1,
+   "pim": 6,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -769,19 +990,6 @@
    "a": 1,
    "pts": 1,
    "pm": 2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Andre Sutter",
-   "team": "Birmingham Bulls",
-   "gp": 3,
-   "g": 0,
-   "a": 1,
-   "pts": 1,
-   "pm": 3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2003,7 +2211,7 @@
    "g": 0,
    "a": 2,
    "pts": 2,
-   "pm": 0,
+   "pm": 1,
    "pim": 4,
    "pp": 0,
    "shg": 0,
@@ -2016,7 +2224,7 @@
    "g": 0,
    "a": 2,
    "pts": 2,
-   "pm": -2,
+   "pm": -3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2055,7 +2263,7 @@
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": 0,
+   "pm": -1,
    "pim": 2,
    "pp": 0,
    "shg": 0,
@@ -2159,7 +2367,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -3,
+   "pm": -2,
    "pim": 4,
    "pp": 0,
    "shg": 0,
@@ -4043,6 +4251,11 @@
     "val": "3"
    },
    {
+    "name": "Brad Fortin",
+    "team": "BHM",
+    "val": "3"
+   },
+   {
     "name": "Dakota Zarudny",
     "team": "PEN",
     "val": "3"
@@ -4079,11 +4292,21 @@
    "title": "Division Standings",
    "headers": [
     "SPHL",
-    "",
-    "",
-    ""
+    "GP",
+    "GR",
+    "W",
+    "OTW",
+    "L",
+    "OTL",
+    "PTS",
+    "PCT",
+    "GF",
+    "GA",
+    "PIM",
+    "RW",
+    "ROW"
    ],
-   "rows": 13
+   "rows": 12
   },
   {
    "title": "Attendance Report",
@@ -4230,7 +4453,7 @@
     "TEAM",
     "PPA"
    ],
-   "rows": 5
+   "rows": 2
   },
   {
    "title": "(untitled)",
@@ -4461,7 +4684,7 @@
     "A",
     "PTS"
    ],
-   "rows": 10
+   "rows": 11
   },
   {
    "title": "Rookie Leaders",
@@ -4483,7 +4706,7 @@
     "GP",
     "A"
    ],
-   "rows": 2
+   "rows": 3
   },
   {
    "title": "(untitled)",
@@ -4661,10 +4884,10 @@
     "A",
     "PTS"
    ],
-   "rows": 6
+   "rows": 20
   },
   {
-   "title": "Defenseman Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "GOALS",
@@ -4675,7 +4898,7 @@
    "rows": 2
   },
   {
-   "title": "Defenseman Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "ASSISTS",
@@ -4686,7 +4909,7 @@
    "rows": 4
   },
   {
-   "title": "Defenseman Leaders",
+   "title": "(untitled)",
    "headers": [
     "#",
     "PENALTY MINUTES",
@@ -5684,7 +5907,7 @@
     "DATE",
     "PPA"
    ],
-   "rows": 4
+   "rows": 5
   },
   {
    "title": "(untitled)",
