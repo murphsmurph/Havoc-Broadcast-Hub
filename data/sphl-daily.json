@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-02T20:37:55.789Z",
+ "fetchedAt": "2026-11-03T18:13:33.996Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-02",
+ "generatedDate": "2026-11-03",
  "standings": [
   {
    "team": "Pensacola",
@@ -164,6 +164,19 @@
    "gw": 0
   },
   {
+   "name": "Blake Humphrey",
+   "team": "FAY",
+   "gp": 5,
+   "g": 5,
+   "a": 1,
+   "pts": 6,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Davide Gaeta",
    "team": "KNX",
    "gp": 6,
@@ -179,19 +192,6 @@
   {
    "name": "Stefan Diezi",
    "team": "QC",
-   "gp": 5,
-   "g": 4,
-   "a": 2,
-   "pts": 6,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Blake Humphrey",
-   "team": "FAY",
    "gp": 5,
    "g": 4,
    "a": 2,
@@ -1467,8 +1467,8 @@
    "name": "Blake Humphrey",
    "team": "Fayetteville Marksmen",
    "gp": 5,
-   "g": 4,
-   "a": 2,
+   "g": 5,
+   "a": 1,
    "pts": 6,
    "pm": -2,
    "pim": 2,
@@ -1493,8 +1493,8 @@
    "name": "Shane Murphy",
    "team": "Fayetteville Marksmen",
    "gp": 5,
-   "g": 1,
-   "a": 2,
+   "g": 0,
+   "a": 3,
    "pts": 3,
    "pm": 0,
    "pim": 4,
@@ -4479,6 +4479,11 @@
     "val": "8"
    },
    {
+    "name": "Blake Humphrey",
+    "team": "FAY",
+    "val": "6"
+   },
+   {
     "name": "Davide Gaeta",
     "team": "KNX",
     "val": "6"
@@ -4486,11 +4491,6 @@
    {
     "name": "Stefan Diezi",
     "team": "QC",
-    "val": "6"
-   },
-   {
-    "name": "Blake Humphrey",
-    "team": "FAY",
     "val": "6"
    },
    {
@@ -4521,6 +4521,11 @@
   ],
   "goals": [
    {
+    "name": "Blake Humphrey",
+    "team": "FAY",
+    "val": "5"
+   },
+   {
     "name": "Davide Gaeta",
     "team": "KNX",
     "val": "5"
@@ -4528,11 +4533,6 @@
    {
     "name": "Stefan Diezi",
     "team": "QC",
-    "val": "4"
-   },
-   {
-    "name": "Blake Humphrey",
-    "team": "FAY",
     "val": "4"
    },
    {
@@ -5781,7 +5781,7 @@
     "#",
     "DATES"
    ],
-   "rows": 5
+   "rows": 3
   },
   {
    "title": "Player Streaks",
@@ -5869,7 +5869,7 @@
     "#",
     "DATES"
    ],
-   "rows": 5
+   "rows": 1
   },
   {
    "title": "Home Player Streaks",
@@ -5916,7 +5916,7 @@
    "rows": 3
   },
   {
-   "title": "(untitled)",
+   "title": "Home Player Streaks",
    "headers": [
     "POINTS",
     "TEAM",
