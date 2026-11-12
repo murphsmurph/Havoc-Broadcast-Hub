@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-11T18:22:49.517Z",
+ "fetchedAt": "2026-11-12T18:41:05.225Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-11",
+ "generatedDate": "2026-11-12",
  "standings": [
   {
    "team": "Pensacola",
@@ -2192,6 +2192,58 @@
    "gw": 0
   },
   {
+   "name": "Devyn Orpana",
+   "team": "Huntsville Havoc",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "EVV",
+   "team": "Huntsville Havoc",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Denis Radchenko",
+   "team": "Huntsville Havoc",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 0,
+   "pim": 4,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "BHM",
+   "team": "Huntsville Havoc",
+   "gp": 6,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 0,
+   "pim": 4,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Alex Proctor",
    "team": "Huntsville Havoc",
    "gp": 7,
@@ -2536,7 +2588,7 @@
    "g": 0,
    "a": 5,
    "pts": 5,
-   "pm": -2,
+   "pm": -1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2575,7 +2627,7 @@
    "g": 2,
    "a": 1,
    "pts": 3,
-   "pm": 2,
+   "pm": 3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2614,7 +2666,7 @@
    "g": 0,
    "a": 3,
    "pts": 3,
-   "pm": -3,
+   "pm": -2,
    "pim": 9,
    "pp": 0,
    "shg": 0,
@@ -2627,7 +2679,7 @@
    "g": 2,
    "a": 0,
    "pts": 2,
-   "pm": 0,
+   "pm": 1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2640,7 +2692,7 @@
    "g": 0,
    "a": 2,
    "pts": 2,
-   "pm": -2,
+   "pm": -3,
    "pim": 11,
    "pp": 0,
    "shg": 0,
@@ -2653,7 +2705,7 @@
    "g": 0,
    "a": 2,
    "pts": 2,
-   "pm": -1,
+   "pm": -2,
    "pim": 15,
    "pp": 0,
    "shg": 0,
@@ -2744,7 +2796,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -4,
+   "pm": -5,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2757,7 +2809,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -1,
+   "pm": -2,
    "pim": 4,
    "pp": 0,
    "shg": 0,
@@ -4189,6 +4241,32 @@
    "pts": 1,
    "pm": -7,
    "pim": 16,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Iiro Karppinen",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": -1,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "QC",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": -1,
+   "pim": 2,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -7266,7 +7344,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 25
+   "rows": 29
   },
   {
    "title": "(untitled)",
@@ -7546,7 +7624,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 32
+   "rows": 34
   },
   {
    "title": "(untitled)",
