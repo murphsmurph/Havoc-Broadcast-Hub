@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-16T20:47:42.592Z",
+ "fetchedAt": "2026-11-17T19:37:13.044Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-16",
+ "generatedDate": "2026-11-17",
  "standings": [
   {
    "team": "Knoxville",
@@ -307,6 +307,19 @@
    "gw": 0
   },
   {
+   "name": "Michael Herrera",
+   "team": "MAC",
+   "gp": 11,
+   "g": 1,
+   "a": 8,
+   "pts": 9,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Blake Tosto",
    "team": "KNX",
    "gp": 11,
@@ -541,11 +554,11 @@
    "gw": 0
   },
   {
-   "name": "Kylar Fenton",
-   "team": "PEO",
-   "gp": 7,
-   "g": 0,
-   "a": 6,
+   "name": "Philippe Caron",
+   "team": "MAC",
+   "gp": 11,
+   "g": 1,
+   "a": 5,
    "pts": 6,
    "pm": 0,
    "pim": 0,
@@ -554,9 +567,9 @@
    "gw": 0
   },
   {
-   "name": "Alexander Kovalev",
-   "team": "QC",
-   "gp": 9,
+   "name": "Kylar Fenton",
+   "team": "PEO",
+   "gp": 7,
    "g": 0,
    "a": 6,
    "pts": 6,
@@ -606,11 +619,11 @@
    "gw": 0
   },
   {
-   "name": "Philippe Caron",
-   "team": "MAC",
-   "gp": 11,
-   "g": 1,
-   "a": 4,
+   "name": "Alexander Kovalev",
+   "team": "QC",
+   "gp": 9,
+   "g": 0,
+   "a": 5,
    "pts": 5,
    "pm": 0,
    "pim": 0,
@@ -622,6 +635,19 @@
    "name": "Troy Williams",
    "team": "HSV",
    "gp": 9,
+   "g": 0,
+   "a": 5,
+   "pts": 5,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Cory Liu",
+   "team": "MAC",
+   "gp": 11,
    "g": 0,
    "a": 5,
    "pts": 5,
@@ -1186,6 +1212,32 @@
    "pts": 0,
    "pm": 0,
    "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Cole Bishop",
+   "team": "Birmingham Bulls",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -2,
+   "pim": 17,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "PD",
+   "team": "Birmingham Bulls",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -2,
+   "pim": 17,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2614,7 +2666,7 @@
    "g": 4,
    "a": 5,
    "pts": 9,
-   "pm": 3,
+   "pm": 1,
    "pim": 8,
    "pp": 1,
    "shg": 0,
@@ -2625,9 +2677,9 @@
    "team": "Macon Mayhem",
    "gp": 11,
    "g": 1,
-   "a": 7,
-   "pts": 8,
-   "pm": 3,
+   "a": 8,
+   "pts": 9,
+   "pm": 2,
    "pim": 9,
    "pp": 0,
    "shg": 0,
@@ -2643,6 +2695,19 @@
    "pm": 1,
    "pim": 11,
    "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Philippe Caron",
+   "team": "Macon Mayhem",
+   "gp": 11,
+   "g": 1,
+   "a": 5,
+   "pts": 6,
+   "pm": 1,
+   "pim": 8,
+   "pp": 0,
    "shg": 0,
    "gw": 0
   },
@@ -2673,14 +2738,14 @@
    "gw": 0
   },
   {
-   "name": "Philippe Caron",
+   "name": "Cory Liu",
    "team": "Macon Mayhem",
    "gp": 11,
-   "g": 1,
-   "a": 4,
+   "g": 0,
+   "a": 5,
    "pts": 5,
-   "pm": 1,
-   "pim": 8,
+   "pm": -2,
+   "pim": 13,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2692,7 +2757,7 @@
    "g": 0,
    "a": 5,
    "pts": 5,
-   "pm": 2,
+   "pm": 1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2705,7 +2770,7 @@
    "g": 2,
    "a": 2,
    "pts": 4,
-   "pm": -6,
+   "pm": -7,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -2718,21 +2783,8 @@
    "g": 1,
    "a": 3,
    "pts": 4,
-   "pm": -2,
+   "pm": -1,
    "pim": 17,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Cory Liu",
-   "team": "Macon Mayhem",
-   "gp": 11,
-   "g": 0,
-   "a": 4,
-   "pts": 4,
-   "pm": -2,
-   "pim": 13,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2744,11 +2796,24 @@
    "g": 2,
    "a": 1,
    "pts": 3,
-   "pm": 2,
+   "pm": 3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
+  },
+  {
+   "name": "Grayden Gottschalk",
+   "team": "Macon Mayhem",
+   "gp": 11,
+   "g": 2,
+   "a": 1,
+   "pts": 3,
+   "pm": 2,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 1
   },
   {
    "name": "Jayden Price",
@@ -2777,30 +2842,30 @@
    "gw": 1
   },
   {
-   "name": "Grayden Gottschalk",
-   "team": "Macon Mayhem",
-   "gp": 11,
-   "g": 2,
-   "a": 0,
-   "pts": 2,
-   "pm": 2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 1
-  },
-  {
    "name": "Domenic Della Civita",
    "team": "Macon Mayhem",
    "gp": 3,
    "g": 1,
    "a": 0,
    "pts": 1,
-   "pm": 2,
+   "pm": 3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 1
+  },
+  {
+   "name": "Dominic Basse",
+   "team": "Macon Mayhem",
+   "gp": 5,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": 0,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
   },
   {
    "name": "Parker Allison",
@@ -2855,19 +2920,6 @@
    "gw": 0
   },
   {
-   "name": "Dominic Basse",
-   "team": "Macon Mayhem",
-   "gp": 5,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": 0,
-   "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Josh Boyko",
    "team": "Macon Mayhem",
    "gp": 7,
@@ -2887,7 +2939,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -3,
+   "pm": -4,
    "pim": 4,
    "pp": 0,
    "shg": 0,
@@ -2900,7 +2952,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -3,
+   "pm": 0,
    "pim": 8,
    "pp": 0,
    "shg": 0,
@@ -3219,6 +3271,19 @@
    "gw": 0
   },
   {
+   "name": "Andrew Poulias",
+   "team": "Pensacola Ice Flyers",
+   "gp": 10,
+   "g": 4,
+   "a": 4,
+   "pts": 8,
+   "pm": -1,
+   "pim": 18,
+   "pp": 2,
+   "shg": 0,
+   "gw": 3
+  },
+  {
    "name": "Tyler Burnie",
    "team": "Pensacola Ice Flyers",
    "gp": 10,
@@ -3256,19 +3321,6 @@
    "pp": 3,
    "shg": 0,
    "gw": 1
-  },
-  {
-   "name": "Andrew Poulias",
-   "team": "Pensacola Ice Flyers",
-   "gp": 10,
-   "g": 4,
-   "a": 3,
-   "pts": 7,
-   "pm": -1,
-   "pim": 18,
-   "pp": 2,
-   "shg": 0,
-   "gw": 3
   },
   {
    "name": "Tyler Carpenter",
@@ -3336,6 +3388,19 @@
    "gw": 0
   },
   {
+   "name": "Yahor Ramanau",
+   "team": "Pensacola Ice Flyers",
+   "gp": 5,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pm": 3,
+   "pim": 4,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Tyler German",
    "team": "Pensacola Ice Flyers",
    "gp": 10,
@@ -3344,19 +3409,6 @@
    "pts": 3,
    "pm": 2,
    "pim": 20,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Yahor Ramanau",
-   "team": "Pensacola Ice Flyers",
-   "gp": 5,
-   "g": 0,
-   "a": 2,
-   "pts": 2,
-   "pm": 3,
-   "pim": 4,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -3882,19 +3934,6 @@
    "gw": 1
   },
   {
-   "name": "Alexander Kovalev",
-   "team": "Quad City Storm",
-   "gp": 9,
-   "g": 0,
-   "a": 6,
-   "pts": 6,
-   "pm": 3,
-   "pim": 8,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Jay Buchholz",
    "team": "Quad City Storm",
    "gp": 9,
@@ -3921,6 +3960,19 @@
    "gw": 0
   },
   {
+   "name": "Alexander Kovalev",
+   "team": "Quad City Storm",
+   "gp": 9,
+   "g": 0,
+   "a": 5,
+   "pts": 5,
+   "pm": 3,
+   "pim": 8,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Eelis Laaksonen",
    "team": "Quad City Storm",
    "gp": 9,
@@ -3934,25 +3986,12 @@
    "gw": 1
   },
   {
-   "name": "Sergei Safin-Tregubov",
-   "team": "Quad City Storm",
-   "gp": 8,
-   "g": 1,
-   "a": 2,
-   "pts": 3,
-   "pm": 7,
-   "pim": 17,
-   "pp": 1,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Nolan Dion",
    "team": "Quad City Storm",
    "gp": 10,
    "g": 1,
-   "a": 2,
-   "pts": 3,
+   "a": 3,
+   "pts": 4,
    "pm": 1,
    "pim": 2,
    "pp": 1,
@@ -3977,10 +4016,23 @@
    "team": "Quad City Storm",
    "gp": 8,
    "g": 1,
-   "a": 2,
-   "pts": 3,
+   "a": 3,
+   "pts": 4,
    "pm": -2,
    "pim": 2,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Sergei Safin-Tregubov",
+   "team": "Quad City Storm",
+   "gp": 8,
+   "g": 1,
+   "a": 2,
+   "pts": 3,
+   "pm": 7,
+   "pim": 17,
    "pp": 1,
    "shg": 0,
    "gw": 0
@@ -4220,25 +4272,12 @@
    "gw": 0
   },
   {
-   "name": "Connor Bertamini",
-   "team": "Roanoke Rail Yard Dawgs",
-   "gp": 10,
-   "g": 0,
-   "a": 4,
-   "pts": 4,
-   "pm": -3,
-   "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Gage Dill",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 8,
    "g": 2,
-   "a": 1,
-   "pts": 3,
+   "a": 2,
+   "pts": 4,
    "pm": -5,
    "pim": 0,
    "pp": 1,
@@ -4267,6 +4306,19 @@
    "pts": 3,
    "pm": -2,
    "pim": 41,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Connor Bertamini",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 10,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pm": -3,
+   "pim": 2,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -5176,6 +5228,11 @@
     "val": "9"
    },
    {
+    "name": "Michael Herrera",
+    "team": "MAC",
+    "val": "9"
+   },
+   {
     "name": "Blake Tosto",
     "team": "KNX",
     "val": "9"
@@ -5265,6 +5322,11 @@
     "val": "8"
    },
    {
+    "name": "Michael Herrera",
+    "team": "MAC",
+    "val": "8"
+   },
+   {
     "name": "Frankie Ireland",
     "team": "KNX",
     "val": "8"
@@ -5273,11 +5335,6 @@
     "name": "Blake Tosto",
     "team": "KNX",
     "val": "8"
-   },
-   {
-    "name": "several tied at",
-    "team": "",
-    "val": "7"
    },
    {
     "name": "Spencer Bellina",
@@ -5320,14 +5377,14 @@
     "val": "6"
    },
    {
-    "name": "Alexander Kovalev",
-    "team": "QC",
-    "val": "6"
-   },
-   {
     "name": "Colin Tracy",
     "team": "BHM",
     "val": "6"
+   },
+   {
+    "name": "several tied at",
+    "team": "",
+    "val": "5"
    }
   ]
  },
@@ -5414,7 +5471,7 @@
     "A",
     "PTS"
    ],
-   "rows": 15
+   "rows": 16
   },
   {
    "title": "(untitled)",
@@ -5811,7 +5868,7 @@
     "TEAM",
     "PPA"
    ],
-   "rows": 4
+   "rows": 3
   },
   {
    "title": "(untitled)",
@@ -5928,7 +5985,7 @@
     "A",
     "PTS"
    ],
-   "rows": 15
+   "rows": 16
   },
   {
    "title": "(untitled)",
@@ -6011,7 +6068,7 @@
     "TEAM",
     "PPA"
    ],
-   "rows": 5
+   "rows": 4
   },
   {
    "title": "(untitled)",
@@ -7032,7 +7089,7 @@
     "DATE",
     "PLUS/MINUS (+)"
    ],
-   "rows": 2
+   "rows": 5
   },
   {
    "title": "(untitled)",
@@ -7356,7 +7413,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 27
+   "rows": 29
   },
   {
    "title": "(untitled)",
