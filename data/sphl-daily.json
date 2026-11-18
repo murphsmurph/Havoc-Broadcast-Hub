@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-17T19:37:13.044Z",
+ "fetchedAt": "2026-11-18T19:14:22.328Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-17",
+ "generatedDate": "2026-11-18",
  "standings": [
   {
    "team": "Knoxville",
@@ -2010,15 +2010,15 @@
    "gw": 1
   },
   {
-   "name": "Austin Alger",
+   "name": "Giovanni Procopio",
    "team": "Huntsville Havoc",
-   "gp": 9,
+   "gp": 11,
    "g": 3,
    "a": 4,
    "pts": 7,
-   "pm": -3,
-   "pim": 0,
-   "pp": 0,
+   "pm": -8,
+   "pim": 6,
+   "pp": 1,
    "shg": 0,
    "gw": 0
   },
@@ -2049,15 +2049,15 @@
    "gw": 0
   },
   {
-   "name": "Giovanni Procopio",
+   "name": "Austin Alger",
    "team": "Huntsville Havoc",
-   "gp": 11,
+   "gp": 9,
    "g": 3,
    "a": 3,
    "pts": 6,
-   "pm": -8,
-   "pim": 6,
-   "pp": 1,
+   "pm": -3,
+   "pim": 0,
+   "pp": 0,
    "shg": 0,
    "gw": 0
   },
@@ -2166,38 +2166,12 @@
    "gw": 0
   },
   {
-   "name": "Keighan Gerrie",
-   "team": "Huntsville Havoc",
-   "gp": 11,
-   "g": 0,
-   "a": 3,
-   "pts": 3,
-   "pm": 2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Landry Schmuck",
-   "team": "Huntsville Havoc",
-   "gp": 11,
-   "g": 1,
-   "a": 1,
-   "pts": 2,
-   "pm": -7,
-   "pim": 12,
-   "pp": 1,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Denis Radchenko",
    "team": "Huntsville Havoc",
    "gp": 8,
    "g": 0,
-   "a": 2,
-   "pts": 2,
+   "a": 3,
+   "pts": 3,
    "pm": 2,
    "pim": 9,
    "pp": 0,
@@ -2222,11 +2196,37 @@
    "team": "Huntsville Havoc",
    "gp": 2,
    "g": 0,
-   "a": 2,
-   "pts": 2,
+   "a": 3,
+   "pts": 3,
    "pm": 2,
    "pim": 5,
    "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Keighan Gerrie",
+   "team": "Huntsville Havoc",
+   "gp": 11,
+   "g": 0,
+   "a": 3,
+   "pts": 3,
+   "pm": 2,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Landry Schmuck",
+   "team": "Huntsville Havoc",
+   "gp": 11,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": -7,
+   "pim": 12,
+   "pp": 1,
    "shg": 0,
    "gw": 0
   },
@@ -3149,6 +3149,32 @@
    "pts": 1,
    "pm": 0,
    "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Brandon Della Paolera",
+   "team": "Pee Dee IceCats",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "PEO",
+   "team": "Pee Dee IceCats",
+   "gp": 1,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -1,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -6640,7 +6666,7 @@
     "#",
     "DATES"
    ],
-   "rows": 1
+   "rows": 5
   },
   {
    "title": "Home Player Streaks",
@@ -6665,7 +6691,7 @@
    "rows": 1
   },
   {
-   "title": "Home Player Streaks",
+   "title": "(untitled)",
    "headers": [
     "POINTS",
     "TEAM",
@@ -6676,7 +6702,7 @@
    "rows": 1
   },
   {
-   "title": "Home Player Streaks",
+   "title": "(untitled)",
    "headers": [
     "PIM",
     "TEAM",
@@ -7653,7 +7679,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 23
+   "rows": 25
   },
   {
    "title": "(untitled)",
