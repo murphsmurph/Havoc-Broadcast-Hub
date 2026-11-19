@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-18T19:14:22.328Z",
+ "fetchedAt": "2026-11-19T19:20:42.753Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-18",
+ "generatedDate": "2026-11-19",
  "standings": [
   {
    "team": "Knoxville",
@@ -1952,6 +1952,32 @@
    "a": 0,
    "pts": 0,
    "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Noah Aboflan",
+   "team": "Fayetteville Marksmen",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "EVV",
+   "team": "Fayetteville Marksmen",
+   "gp": 3,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": -1,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -7519,7 +7545,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 25
+   "rows": 27
   },
   {
    "title": "(untitled)",
