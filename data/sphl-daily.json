@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-19T19:20:42.753Z",
+ "fetchedAt": "2026-11-20T18:57:17.672Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-19",
+ "generatedDate": "2026-11-20",
  "standings": [
   {
    "team": "Knoxville",
@@ -2478,6 +2478,19 @@
    "gw": 2
   },
   {
+   "name": "Kolten Olynek",
+   "team": "Knoxville Ice Bears",
+   "gp": 11,
+   "g": 2,
+   "a": 3,
+   "pts": 5,
+   "pm": -4,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Blake Benson",
    "team": "Knoxville Ice Bears",
    "gp": 11,
@@ -2489,19 +2502,6 @@
    "pp": 0,
    "shg": 0,
    "gw": 1
-  },
-  {
-   "name": "Kolten Olynek",
-   "team": "Knoxville Ice Bears",
-   "gp": 11,
-   "g": 2,
-   "a": 2,
-   "pts": 4,
-   "pm": -4,
-   "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
   },
   {
    "name": "Cam Tobey",
@@ -2582,19 +2582,6 @@
    "gw": 0
   },
   {
-   "name": "Ryan Lieth",
-   "team": "Knoxville Ice Bears",
-   "gp": 5,
-   "g": 0,
-   "a": 2,
-   "pts": 2,
-   "pm": 2,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Konstantine Cherynuk",
    "team": "Knoxville Ice Bears",
    "gp": 6,
@@ -2629,6 +2616,19 @@
    "pts": 1,
    "pm": 0,
    "pim": 24,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Ryan Lieth",
+   "team": "Knoxville Ice Bears",
+   "gp": 5,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": 2,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -3631,6 +3631,32 @@
    "pm": 2,
    "pim": 2,
    "pp": 2,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Hassan Akl",
+   "team": "Peoria Rivermen",
+   "gp": 9,
+   "g": 2,
+   "a": 2,
+   "pts": 4,
+   "pm": 2,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "ATH",
+   "team": "Peoria Rivermen",
+   "gp": 9,
+   "g": 2,
+   "a": 2,
+   "pts": 4,
+   "pm": 2,
+   "pim": 0,
+   "pp": 0,
    "shg": 0,
    "gw": 0
   },
@@ -7785,7 +7811,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 29
+   "rows": 31
   },
   {
    "title": "(untitled)",
