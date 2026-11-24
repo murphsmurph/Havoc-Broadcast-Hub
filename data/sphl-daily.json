@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-23T22:26:51.263Z",
+ "fetchedAt": "2026-11-24T20:59:06.286Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-23",
+ "generatedDate": "2026-11-24",
  "standings": [
   {
    "team": "Quad City",
@@ -359,6 +359,19 @@
    "gw": 0
   },
   {
+   "name": "Giovanni Procopio",
+   "team": "HSV",
+   "gp": 13,
+   "g": 5,
+   "a": 5,
+   "pts": 10,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Aiden Wagner",
    "team": "BHM",
    "gp": 13,
@@ -632,19 +645,6 @@
    "gw": 0
   },
   {
-   "name": "Troy Williams",
-   "team": "HSV",
-   "gp": 11,
-   "g": 0,
-   "a": 7,
-   "pts": 7,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Sergei Safin-Tregubov",
    "team": "QC",
    "gp": 11,
@@ -658,90 +658,12 @@
    "gw": 0
   },
   {
-   "name": "Michael Krupinski",
-   "team": "MAC",
-   "gp": 9,
-   "g": 2,
-   "a": 3,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Jonathan Ziskie",
-   "team": "PEN",
-   "gp": 8,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Gunner Moore",
-   "team": "PEO",
-   "gp": 9,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Ben Schultheis",
-   "team": "HSV",
-   "gp": 9,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Ryan Helliwell",
-   "team": "PEN",
-   "gp": 10,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Carter Shinkaruk",
-   "team": "ATH",
-   "gp": 12,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Terry Ryder",
    "team": "HSV",
    "gp": 13,
    "g": 1,
-   "a": 4,
-   "pts": 5,
+   "a": 5,
+   "pts": 6,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -749,12 +671,12 @@
    "gw": 0
   },
   {
-   "name": "Cory Liu",
-   "team": "MAC",
-   "gp": 14,
+   "name": "Troy Williams",
+   "team": "HSV",
+   "gp": 11,
    "g": 0,
-   "a": 5,
-   "pts": 5,
+   "a": 6,
+   "pts": 6,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -2198,7 +2120,7 @@
    "g": 7,
    "a": 3,
    "pts": 10,
-   "pm": -4,
+   "pm": -5,
    "pim": 15,
    "pp": 3,
    "shg": 0,
@@ -2209,13 +2131,26 @@
    "team": "Huntsville Havoc",
    "gp": 13,
    "g": 5,
-   "a": 4,
-   "pts": 9,
+   "a": 5,
+   "pts": 10,
    "pm": -5,
    "pim": 8,
    "pp": 1,
    "shg": 0,
    "gw": 1
+  },
+  {
+   "name": "Austin Alger",
+   "team": "Huntsville Havoc",
+   "gp": 11,
+   "g": 4,
+   "a": 4,
+   "pts": 8,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
   },
   {
    "name": "Dawson Sciarrino",
@@ -2231,40 +2166,14 @@
    "gw": 0
   },
   {
-   "name": "Austin Alger",
-   "team": "Huntsville Havoc",
-   "gp": 11,
-   "g": 4,
-   "a": 3,
-   "pts": 7,
-   "pm": -1,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Connor Fries",
    "team": "Huntsville Havoc",
    "gp": 13,
    "g": 2,
    "a": 5,
    "pts": 7,
-   "pm": 0,
+   "pm": 1,
    "pim": 16,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Troy Williams",
-   "team": "Huntsville Havoc",
-   "gp": 11,
-   "g": 0,
-   "a": 7,
-   "pts": 7,
-   "pm": -3,
-   "pim": 2,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2296,13 +2205,39 @@
    "gw": 0
   },
   {
+   "name": "Terry Ryder",
+   "team": "Huntsville Havoc",
+   "gp": 13,
+   "g": 1,
+   "a": 5,
+   "pts": 6,
+   "pm": 0,
+   "pim": 7,
+   "pp": 0,
+   "shg": 0,
+   "gw": 1
+  },
+  {
+   "name": "Troy Williams",
+   "team": "Huntsville Havoc",
+   "gp": 11,
+   "g": 0,
+   "a": 6,
+   "pts": 6,
+   "pm": -3,
+   "pim": 2,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Ethan Lindsay",
    "team": "Huntsville Havoc",
    "gp": 13,
    "g": 3,
    "a": 2,
    "pts": 5,
-   "pm": 0,
+   "pm": -1,
    "pim": 33,
    "pp": 2,
    "shg": 0,
@@ -2320,19 +2255,6 @@
    "pp": 0,
    "shg": 0,
    "gw": 0
-  },
-  {
-   "name": "Terry Ryder",
-   "team": "Huntsville Havoc",
-   "gp": 13,
-   "g": 1,
-   "a": 4,
-   "pts": 5,
-   "pm": 0,
-   "pim": 7,
-   "pp": 0,
-   "shg": 0,
-   "gw": 1
   },
   {
    "name": "Michael Abgrall",
@@ -2361,45 +2283,6 @@
    "gw": 0
   },
   {
-   "name": "Denis Radchenko",
-   "team": "Huntsville Havoc",
-   "gp": 10,
-   "g": 0,
-   "a": 4,
-   "pts": 4,
-   "pm": 3,
-   "pim": 9,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "BHM",
-   "team": "Huntsville Havoc",
-   "gp": 6,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": 0,
-   "pim": 4,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "HSV",
-   "team": "Huntsville Havoc",
-   "gp": 4,
-   "g": 0,
-   "a": 4,
-   "pts": 4,
-   "pm": 3,
-   "pim": 5,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Juliano Santalucia",
    "team": "Huntsville Havoc",
    "gp": 10,
@@ -2408,6 +2291,19 @@
    "pts": 4,
    "pm": -4,
    "pim": 4,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Keighan Gerrie",
+   "team": "Huntsville Havoc",
+   "gp": 13,
+   "g": 0,
+   "a": 4,
+   "pts": 4,
+   "pm": 1,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2426,14 +2322,40 @@
    "gw": 0
   },
   {
-   "name": "Keighan Gerrie",
+   "name": "BHM",
    "team": "Huntsville Havoc",
-   "gp": 13,
+   "gp": 11,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": -5,
+   "pim": 2,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "HSV",
+   "team": "Huntsville Havoc",
+   "gp": 2,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": -1,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Denis Radchenko",
+   "team": "Huntsville Havoc",
+   "gp": 10,
    "g": 0,
    "a": 3,
    "pts": 3,
-   "pm": 0,
-   "pim": 0,
+   "pm": 5,
+   "pim": 9,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -2484,7 +2406,7 @@
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": 1,
+   "pm": 0,
    "pim": 12,
    "pp": 0,
    "shg": 0,
@@ -2549,7 +2471,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -6,
+   "pm": -7,
    "pim": 12,
    "pp": 0,
    "shg": 0,
@@ -2673,12 +2595,25 @@
    "gw": 2
   },
   {
+   "name": "Malik Johnson",
+   "team": "Knoxville Ice Bears",
+   "gp": 11,
+   "g": 4,
+   "a": 1,
+   "pts": 5,
+   "pm": -1,
+   "pim": 46,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Kolten Olynek",
    "team": "Knoxville Ice Bears",
    "gp": 14,
    "g": 2,
-   "a": 4,
-   "pts": 6,
+   "a": 3,
+   "pts": 5,
    "pm": -4,
    "pim": 4,
    "pp": 0,
@@ -2695,19 +2630,6 @@
    "pm": -2,
    "pim": 0,
    "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Malik Johnson",
-   "team": "Knoxville Ice Bears",
-   "gp": 11,
-   "g": 4,
-   "a": 0,
-   "pts": 4,
-   "pm": -1,
-   "pim": 46,
-   "pp": 1,
    "shg": 0,
    "gw": 0
   },
@@ -3154,6 +3076,32 @@
    "gw": 0
   },
   {
+   "name": "Fabrice Bourgeois",
+   "team": "Macon Mayhem",
+   "gp": 8,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 5,
+   "pim": 25,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "QC",
+   "team": "Macon Mayhem",
+   "gp": 8,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 5,
+   "pim": 25,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Josh Boyko",
    "team": "Macon Mayhem",
    "gp": 9,
@@ -3282,6 +3230,45 @@
    "pp": 1,
    "shg": 0,
    "gw": 1
+  },
+  {
+   "name": "Nolan Dion",
+   "team": "Pee Dee IceCats",
+   "gp": 10,
+   "g": 1,
+   "a": 3,
+   "pts": 4,
+   "pm": 1,
+   "pim": 2,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "EVV",
+   "team": "Pee Dee IceCats",
+   "gp": 2,
+   "g": 0,
+   "a": 0,
+   "pts": 0,
+   "pm": 3,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "QC",
+   "team": "Pee Dee IceCats",
+   "gp": 8,
+   "g": 1,
+   "a": 3,
+   "pts": 4,
+   "pm": -2,
+   "pim": 2,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
   },
   {
    "name": "Vadim Frolov",
@@ -3895,19 +3882,6 @@
    "gw": 0
   },
   {
-   "name": "Connor Szmul",
-   "team": "Peoria Rivermen",
-   "gp": 9,
-   "g": 2,
-   "a": 3,
-   "pts": 5,
-   "pm": 3,
-   "pim": 2,
-   "pp": 2,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Carson Jones",
    "team": "Peoria Rivermen",
    "gp": 6,
@@ -3932,6 +3906,32 @@
    "pp": 0,
    "shg": 0,
    "gw": 1
+  },
+  {
+   "name": "Carson Riddle",
+   "team": "Peoria Rivermen",
+   "gp": 9,
+   "g": 3,
+   "a": 1,
+   "pts": 4,
+   "pm": 1,
+   "pim": 6,
+   "pp": 2,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Connor Szmul",
+   "team": "Peoria Rivermen",
+   "gp": 9,
+   "g": 2,
+   "a": 2,
+   "pts": 4,
+   "pm": 3,
+   "pim": 2,
+   "pp": 2,
+   "shg": 0,
+   "gw": 0
   },
   {
    "name": "Hassan Akl",
@@ -3995,19 +3995,6 @@
    "pm": 5,
    "pim": 0,
    "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Carson Riddle",
-   "team": "Peoria Rivermen",
-   "gp": 9,
-   "g": 3,
-   "a": 0,
-   "pts": 3,
-   "pm": 1,
-   "pim": 6,
-   "pp": 2,
    "shg": 0,
    "gw": 0
   },
@@ -4326,32 +4313,6 @@
   {
    "name": "Nolan Dion",
    "team": "Quad City Storm",
-   "gp": 10,
-   "g": 1,
-   "a": 3,
-   "pts": 4,
-   "pm": 1,
-   "pim": 2,
-   "pp": 1,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "EVV",
-   "team": "Quad City Storm",
-   "gp": 2,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": 3,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "QC",
-   "team": "Quad City Storm",
    "gp": 8,
    "g": 1,
    "a": 3,
@@ -4467,6 +4428,19 @@
    "gw": 0
   },
   {
+   "name": "QC",
+   "team": "Quad City Storm",
+   "gp": 6,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": 2,
+   "pim": 4,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Logan Flodell",
    "team": "Quad City Storm",
    "gp": 5,
@@ -4545,19 +4519,6 @@
    "gw": 2
   },
   {
-   "name": "David Novotny",
-   "team": "Roanoke Rail Yard Dawgs",
-   "gp": 12,
-   "g": 2,
-   "a": 6,
-   "pts": 8,
-   "pm": -6,
-   "pim": 31,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Manny Cabral",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 10,
@@ -4571,15 +4532,15 @@
    "gw": 1
   },
   {
-   "name": "Ryan Reifler",
+   "name": "David Novotny",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 12,
-   "g": 4,
-   "a": 2,
-   "pts": 6,
-   "pm": -3,
-   "pim": 4,
-   "pp": 2,
+   "g": 1,
+   "a": 6,
+   "pts": 7,
+   "pm": -6,
+   "pim": 31,
+   "pp": 0,
    "shg": 0,
    "gw": 0
   },
@@ -4587,12 +4548,25 @@
    "name": "Gage Dill",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 10,
-   "g": 2,
-   "a": 4,
+   "g": 3,
+   "a": 3,
    "pts": 6,
    "pm": -3,
    "pim": 0,
    "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Ryan Reifler",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 12,
+   "g": 4,
+   "a": 1,
+   "pts": 5,
+   "pm": -4,
+   "pim": 4,
+   "pp": 2,
    "shg": 0,
    "gw": 0
   },
@@ -4614,8 +4588,8 @@
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 11,
    "g": 2,
-   "a": 2,
-   "pts": 4,
+   "a": 3,
+   "pts": 5,
    "pm": -7,
    "pim": 20,
    "pp": 1,
@@ -4627,8 +4601,8 @@
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 12,
    "g": 0,
-   "a": 4,
-   "pts": 4,
+   "a": 5,
+   "pts": 5,
    "pm": -2,
    "pim": 16,
    "pp": 0,
@@ -4640,9 +4614,9 @@
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 6,
    "g": 3,
-   "a": 0,
-   "pts": 3,
-   "pm": -1,
+   "a": 1,
+   "pts": 4,
+   "pm": 0,
    "pim": 19,
    "pp": 1,
    "shg": 0,
@@ -4688,15 +4662,15 @@
    "gw": 0
   },
   {
-   "name": "Gustav Muller",
+   "name": "Thomas Lacombe",
    "team": "Roanoke Rail Yard Dawgs",
-   "gp": 2,
-   "g": 1,
-   "a": 2,
+   "gp": 4,
+   "g": 0,
+   "a": 3,
    "pts": 3,
-   "pm": 3,
+   "pm": 2,
    "pim": 0,
-   "pp": 1,
+   "pp": 0,
    "shg": 0,
    "gw": 0
   },
@@ -4740,6 +4714,19 @@
    "gw": 0
   },
   {
+   "name": "Gustav Muller",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 2,
+   "g": 1,
+   "a": 1,
+   "pts": 2,
+   "pm": 2,
+   "pim": 0,
+   "pp": 1,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "John Gutt",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 11,
@@ -4766,14 +4753,14 @@
    "gw": 0
   },
   {
-   "name": "Thomas Lacombe",
+   "name": "Andrew Stacey",
    "team": "Roanoke Rail Yard Dawgs",
    "gp": 4,
    "g": 0,
    "a": 2,
    "pts": 2,
    "pm": 2,
-   "pim": 0,
+   "pim": 20,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -4818,14 +4805,27 @@
    "gw": 0
   },
   {
-   "name": "Andrew Stacey",
+   "name": "John Aonso",
    "team": "Roanoke Rail Yard Dawgs",
-   "gp": 4,
+   "gp": 11,
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": 2,
-   "pim": 20,
+   "pm": -2,
+   "pim": 17,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Cole Brennan",
+   "team": "Roanoke Rail Yard Dawgs",
+   "gp": 11,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": -1,
+   "pim": 6,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -4943,32 +4943,6 @@
    "pts": 0,
    "pm": 0,
    "pim": 2,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "John Aonso",
-   "team": "Roanoke Rail Yard Dawgs",
-   "gp": 11,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": -2,
-   "pim": 17,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Cole Brennan",
-   "team": "Roanoke Rail Yard Dawgs",
-   "gp": 11,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": -2,
-   "pim": 6,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -5614,6 +5588,11 @@
     "val": "10"
    },
    {
+    "name": "Giovanni Procopio",
+    "team": "HSV",
+    "val": "10"
+   },
+   {
     "name": "Aiden Wagner",
     "team": "BHM",
     "val": "10"
@@ -5822,7 +5801,7 @@
     "A",
     "PTS"
    ],
-   "rows": 19
+   "rows": 20
   },
   {
    "title": "(untitled)",
@@ -6336,7 +6315,7 @@
     "A",
     "PTS"
    ],
-   "rows": 20
+   "rows": 14
   },
   {
    "title": "(untitled)",
@@ -6439,7 +6418,7 @@
     "TEAM",
     "PP PTS"
    ],
-   "rows": 4
+   "rows": 5
   },
   {
    "title": "(untitled)",
@@ -7024,7 +7003,7 @@
     "#",
     "DATES"
    ],
-   "rows": 2
+   "rows": 3
   },
   {
    "title": "(untitled)",
@@ -7079,7 +7058,7 @@
     "#",
     "DATES"
    ],
-   "rows": 4
+   "rows": 3
   },
   {
    "title": "Road Player Streaks",
@@ -7440,7 +7419,7 @@
     "DATE",
     "PLUS/MINUS (+)"
    ],
-   "rows": 5
+   "rows": 2
   },
   {
    "title": "(untitled)",
@@ -7964,7 +7943,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 27
+   "rows": 29
   },
   {
    "title": "(untitled)",
@@ -8004,7 +7983,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 27
+   "rows": 30
   },
   {
    "title": "(untitled)",
@@ -8124,7 +8103,7 @@
     "SHA",
     "GW"
    ],
-   "rows": 29
+   "rows": 27
   },
   {
    "title": "(untitled)",
