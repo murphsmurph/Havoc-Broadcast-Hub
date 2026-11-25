@@ -1,7 +1,7 @@
 {
- "fetchedAt": "2026-11-24T20:59:06.286Z",
+ "fetchedAt": "2026-11-25T20:22:04.685Z",
  "sourceUrl": "https://cluster.leaguestat.com/download.php?client_code=sphl&file_path=daily-report/daily-report.html",
- "generatedDate": "2026-11-24",
+ "generatedDate": "2026-11-25",
  "standings": [
   {
    "team": "Quad City",
@@ -203,12 +203,12 @@
    "gw": 0
   },
   {
-   "name": "Michael Herrera",
-   "team": "MAC",
-   "gp": 14,
-   "g": 1,
-   "a": 11,
-   "pts": 12,
+   "name": "Porter Schachle",
+   "team": "PEN",
+   "gp": 12,
+   "g": 7,
+   "a": 4,
+   "pts": 11,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -216,11 +216,11 @@
    "gw": 0
   },
   {
-   "name": "Porter Schachle",
+   "name": "Bradley Somers",
    "team": "PEN",
-   "gp": 12,
-   "g": 7,
-   "a": 4,
+   "gp": 10,
+   "g": 6,
+   "a": 5,
    "pts": 11,
    "pm": 0,
    "pim": 0,
@@ -268,6 +268,19 @@
    "gw": 0
   },
   {
+   "name": "Michael Herrera",
+   "team": "MAC",
+   "gp": 14,
+   "g": 1,
+   "a": 10,
+   "pts": 11,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Blake Humphrey",
    "team": "FAY",
    "gp": 8,
@@ -297,19 +310,6 @@
    "name": "Zack Jones",
    "team": "RNK",
    "gp": 9,
-   "g": 6,
-   "a": 4,
-   "pts": 10,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Bradley Somers",
-   "team": "PEN",
-   "gp": 10,
    "g": 6,
    "a": 4,
    "pts": 10,
@@ -385,12 +385,12 @@
    "gw": 0
   },
   {
-   "name": "several tied at",
-   "team": "",
-   "gp": 0,
-   "g": 0,
-   "a": 0,
-   "pts": 9,
+   "name": "Philippe Caron",
+   "team": "MAC",
+   "gp": 14,
+   "g": 2,
+   "a": 8,
+   "pts": 10,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -403,19 +403,6 @@
    "gp": 12,
    "g": 4,
    "a": 5,
-   "pts": 9,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Dakota Zarudny",
-   "team": "PEN",
-   "gp": 12,
-   "g": 2,
-   "a": 7,
    "pts": 9,
    "pm": 0,
    "pim": 0,
@@ -481,6 +468,19 @@
    "gp": 14,
    "g": 3,
    "a": 5,
+   "pts": 8,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Dakota Zarudny",
+   "team": "PEN",
+   "gp": 12,
+   "g": 2,
+   "a": 6,
    "pts": 8,
    "pm": 0,
    "pim": 0,
@@ -580,19 +580,6 @@
    "gw": 0
   },
   {
-   "name": "Philippe Caron",
-   "team": "MAC",
-   "gp": 14,
-   "g": 2,
-   "a": 7,
-   "pts": 9,
-   "pm": 0,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Trevor LeDonne",
    "team": "EVV",
    "gp": 10,
@@ -677,6 +664,19 @@
    "g": 0,
    "a": 6,
    "pts": 6,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "several tied at",
+   "team": "",
+   "gp": 0,
+   "g": 0,
+   "a": 0,
+   "pts": 5,
    "pm": 0,
    "pim": 0,
    "pp": 0,
@@ -2794,9 +2794,9 @@
    "team": "Macon Mayhem",
    "gp": 14,
    "g": 1,
-   "a": 11,
-   "pts": 12,
-   "pm": 2,
+   "a": 10,
+   "pts": 11,
+   "pm": 1,
    "pim": 11,
    "pp": 0,
    "shg": 0,
@@ -2809,9 +2809,22 @@
    "g": 6,
    "a": 4,
    "pts": 10,
-   "pm": -9,
+   "pm": -10,
    "pim": 0,
    "pp": 2,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Philippe Caron",
+   "team": "Macon Mayhem",
+   "gp": 14,
+   "g": 2,
+   "a": 8,
+   "pts": 10,
+   "pm": -1,
+   "pim": 10,
+   "pp": 1,
    "shg": 0,
    "gw": 0
   },
@@ -2824,19 +2837,6 @@
    "pts": 9,
    "pm": 1,
    "pim": 8,
-   "pp": 1,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Philippe Caron",
-   "team": "Macon Mayhem",
-   "gp": 14,
-   "g": 2,
-   "a": 7,
-   "pts": 9,
-   "pm": 0,
-   "pim": 10,
    "pp": 1,
    "shg": 0,
    "gw": 0
@@ -2874,7 +2874,7 @@
    "g": 2,
    "a": 6,
    "pts": 8,
-   "pm": -3,
+   "pm": -2,
    "pim": 19,
    "pp": 1,
    "shg": 0,
@@ -2887,7 +2887,7 @@
    "g": 1,
    "a": 6,
    "pts": 7,
-   "pm": -1,
+   "pm": 0,
    "pim": 0,
    "pp": 1,
    "shg": 0,
@@ -2926,7 +2926,7 @@
    "g": 0,
    "a": 5,
    "pts": 5,
-   "pm": -3,
+   "pm": -2,
    "pim": 13,
    "pp": 0,
    "shg": 0,
@@ -2998,13 +2998,26 @@
    "gw": 0
   },
   {
+   "name": "Josh Boyko",
+   "team": "Macon Mayhem",
+   "gp": 9,
+   "g": 0,
+   "a": 1,
+   "pts": 1,
+   "pm": 0,
+   "pim": 0,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
    "name": "Parker Allison",
    "team": "Macon Mayhem",
    "gp": 14,
    "g": 0,
    "a": 1,
    "pts": 1,
-   "pm": -4,
+   "pm": -3,
    "pim": 8,
    "pp": 0,
    "shg": 0,
@@ -3030,7 +3043,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -2,
+   "pm": -3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -3043,7 +3056,7 @@
    "g": 0,
    "a": 0,
    "pts": 0,
-   "pm": -2,
+   "pm": -3,
    "pim": 0,
    "pp": 0,
    "shg": 0,
@@ -3097,19 +3110,6 @@
    "pts": 0,
    "pm": 5,
    "pim": 25,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
-   "name": "Josh Boyko",
-   "team": "Macon Mayhem",
-   "gp": 9,
-   "g": 0,
-   "a": 0,
-   "pts": 0,
-   "pm": 0,
-   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -3518,6 +3518,19 @@
    "gw": 0
   },
   {
+   "name": "Bradley Somers",
+   "team": "Pensacola Ice Flyers",
+   "gp": 10,
+   "g": 6,
+   "a": 5,
+   "pts": 11,
+   "pm": 4,
+   "pim": 8,
+   "pp": 4,
+   "shg": 0,
+   "gw": 1
+  },
+  {
    "name": "Jack Suchy",
    "team": "Pensacola Ice Flyers",
    "gp": 12,
@@ -3529,19 +3542,6 @@
    "pp": 1,
    "shg": 0,
    "gw": 0
-  },
-  {
-   "name": "Bradley Somers",
-   "team": "Pensacola Ice Flyers",
-   "gp": 10,
-   "g": 6,
-   "a": 4,
-   "pts": 10,
-   "pm": 4,
-   "pim": 8,
-   "pp": 4,
-   "shg": 0,
-   "gw": 1
   },
   {
    "name": "Andrew Poulias",
@@ -3583,19 +3583,6 @@
    "gw": 0
   },
   {
-   "name": "Dakota Zarudny",
-   "team": "Pensacola Ice Flyers",
-   "gp": 12,
-   "g": 2,
-   "a": 7,
-   "pts": 9,
-   "pm": 1,
-   "pim": 0,
-   "pp": 0,
-   "shg": 0,
-   "gw": 0
-  },
-  {
    "name": "Alex Dameski",
    "team": "Pensacola Ice Flyers",
    "gp": 10,
@@ -3604,6 +3591,19 @@
    "pts": 8,
    "pm": 3,
    "pim": 7,
+   "pp": 0,
+   "shg": 0,
+   "gw": 0
+  },
+  {
+   "name": "Dakota Zarudny",
+   "team": "Pensacola Ice Flyers",
+   "gp": 12,
+   "g": 2,
+   "a": 6,
+   "pts": 8,
+   "pm": 1,
+   "pim": 0,
    "pp": 0,
    "shg": 0,
    "gw": 0
@@ -5528,12 +5528,12 @@
     "val": "12"
    },
    {
-    "name": "Michael Herrera",
-    "team": "MAC",
-    "val": "12"
+    "name": "Porter Schachle",
+    "team": "PEN",
+    "val": "11"
    },
    {
-    "name": "Porter Schachle",
+    "name": "Bradley Somers",
     "team": "PEN",
     "val": "11"
    },
@@ -5553,6 +5553,11 @@
     "val": "11"
    },
    {
+    "name": "Michael Herrera",
+    "team": "MAC",
+    "val": "11"
+   },
+   {
     "name": "Blake Humphrey",
     "team": "FAY",
     "val": "10"
@@ -5565,11 +5570,6 @@
    {
     "name": "Zack Jones",
     "team": "RNK",
-    "val": "10"
-   },
-   {
-    "name": "Bradley Somers",
-    "team": "PEN",
     "val": "10"
    },
    {
@@ -5598,9 +5598,9 @@
     "val": "10"
    },
    {
-    "name": "several tied at",
-    "team": "",
-    "val": "9"
+    "name": "Philippe Caron",
+    "team": "MAC",
+    "val": "10"
    }
   ],
   "goals": [
@@ -5664,7 +5664,7 @@
    {
     "name": "Michael Herrera",
     "team": "MAC",
-    "val": "11"
+    "val": "10"
    },
    {
     "name": "Frankie Ireland",
@@ -5697,9 +5697,9 @@
     "val": "8"
    },
    {
-    "name": "Dakota Zarudny",
-    "team": "PEN",
-    "val": "7"
+    "name": "several tied at",
+    "team": "",
+    "val": "6"
    },
    {
     "name": "Austin D'Orazio",
@@ -5709,6 +5709,11 @@
    {
     "name": "Spencer Bellina",
     "team": "KNX",
+    "val": "8"
+   },
+   {
+    "name": "Philippe Caron",
+    "team": "MAC",
     "val": "8"
    },
    {
@@ -6337,7 +6342,7 @@
     "GP",
     "A"
    ],
-   "rows": 3
+   "rows": 4
   },
   {
    "title": "(untitled)",
@@ -6882,7 +6887,7 @@
     "#",
     "DATES"
    ],
-   "rows": 3
+   "rows": 2
   },
   {
    "title": "Player Streaks",
@@ -6904,7 +6909,7 @@
     "#",
     "DATES"
    ],
-   "rows": 3
+   "rows": 2
   },
   {
    "title": "(untitled)",
@@ -6915,7 +6920,7 @@
     "#",
     "DATES"
    ],
-   "rows": 5
+   "rows": 4
   },
   {
    "title": "(untitled)",
@@ -7058,7 +7063,7 @@
     "#",
     "DATES"
    ],
-   "rows": 3
+   "rows": 4
   },
   {
    "title": "Road Player Streaks",
